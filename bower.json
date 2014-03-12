@@ -1,6 +1,6 @@
 {
   "name": "EncoreUI",
-  "main": "build/dist/**/*",
+  "main": ["./encore-ui-tpls.js"],
   "version": "0.2.1",
   "dependencies": {
     "angular": "~1.2.9",
