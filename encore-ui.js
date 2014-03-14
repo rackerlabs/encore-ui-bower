@@ -2,10 +2,10 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.2.1 - 2014-03-12
+ * Version: 0.3.0 - 2014-03-14
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxBreadcrumbs','encore.ui.rxCapitalize','encore.ui.rxDiskSize','encore.ui.rxDropdown','encore.ui.rxForm','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNav','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRelatedMenu','encore.ui.rxProductResources','encore.ui.rxSortableColumn','encore.ui.rxSpinner']);
+angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxDiskSize','encore.ui.rxDropdown','encore.ui.rxForm','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNav','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRelatedMenu','encore.ui.rxProductResources','encore.ui.rxSortableColumn','encore.ui.rxSpinner']);
 angular.module('encore.ui.configs', [])
 .constant('ROUTE_PATHS', {
     'login': '/login'
@@ -138,6 +138,32 @@ angular.module('encore.ui.rxBreadcrumbs', [])
         }
     };
 });
+angular.module('encore.ui.rxButton', [])
+    /**
+    * @ngdoc directive
+    * @name encore.ui.rxButton:rxButton
+    * @restrict E
+    *
+    * @description
+    * Renders a button which will disable when clicked and show a loading message
+    * and renable when operation is complete.
+    * @scope
+    * @param {String} loadingMsg - Text to be displayed when an operation is in progress.
+    * @param {String} defaultMsg - Text to be displayed by default an no operation is in progress.
+    * @param {Boolean} toggle - When true, the button will display the loading text.
+    */
+    .directive('rxButton', function () {
+        return {
+            templateUrl: 'templates/rxButton.html',
+            restrict: 'E',
+            scope: {
+                toggleMsg: '@',
+                defaultMsg: '@',
+                toggle: '='
+            }
+        };
+    });
+
 angular.module('encore.ui.rxCapitalize', [])
 .filter('rxCapitalize', function () {
     return function (input) {
@@ -1145,19 +1171,44 @@ angular.module('encore.ui.rxSortableColumn', [])
     util.sortCol = function ($scope, predicate) {
         var reverse = ($scope.sort.predicate === predicate) ? !$scope.sort.reverse : false;
         $scope.sort = { reverse: reverse, predicate: predicate };
-        $scope.pager.pageNumber = 0;
+
+        // This execution should be moved outside of the scope for rxSortUtil
+        // already rxSortUtil.sortCol has to be wrapped, and can be implemented there
+        // rather than have rxSortUtil.sortCol check/expect for a pager to be present.
+        if ($scope.pager) {
+            $scope.pager.pageNumber = 0;
+        }
     };
 
     return util;
 });
 angular.module('encore.ui.rxSpinner', [])
+/**
+* @ngdoc directive
+* @name encore.ui.rxSpinner:rxSpinner
+* @restrict A
+*
+* @description
+* Renders a spinner animation on the provided element given the 'toggle' attribute is truthy
+
+* @scope
+* @param {String} size - Controls the size of the spinner.  The options are default (no size specified),
+* mini, small, large and extra-large
+* @param {Boolean} toggle - When true, the spinner will display
+*/
 .directive('rxSpinner', function () {
     return {
         restrict: 'A',
+        scope: {
+            toggle: '=',
+            size: '@'
+        },
         link: function (scope, element) {
-            scope.$watch('loading', function (value) {
+            scope.$watch('toggle', function (value) {
+                var size = scope.size ? scope.size : '';
+
                 if (value) {
-                    element.prepend('<div class="rx-spinner"></div>');
+                    element.prepend('<div class="rx-spinner ' + size + '"></div> ');
                 } else {
                     element.find('div').remove();
                 }

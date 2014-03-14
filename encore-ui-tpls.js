@@ -2,11 +2,11 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.2.1 - 2014-03-12
+ * Version: 0.3.0 - 2014-03-14
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxBreadcrumbs','encore.ui.rxCapitalize','encore.ui.rxDiskSize','encore.ui.rxDropdown','encore.ui.rxForm','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNav','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRelatedMenu','encore.ui.rxProductResources','encore.ui.rxSortableColumn','encore.ui.rxSpinner']);
-angular.module('encore.ui.tpls', ['templates/rxActiveUrl.html','templates/rxBreadcrumbs.html','templates/rxDropdown.html','templates/rxFormInput.html','templates/rxFormItem.html','templates/rxFormOptionTable.html','templates/rxFormRadio.html','templates/rxFormSelect.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxNav.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxItemsPerPage.html','templates/rxPaginate.html','templates/rxRelatedMenu.html','templates/rxProductResources.html','templates/rxSortableColumn.html']);
+angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxDiskSize','encore.ui.rxDropdown','encore.ui.rxForm','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNav','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRelatedMenu','encore.ui.rxProductResources','encore.ui.rxSortableColumn','encore.ui.rxSpinner']);
+angular.module('encore.ui.tpls', ['templates/rxActiveUrl.html','templates/rxBreadcrumbs.html','templates/rxButton.html','templates/rxDropdown.html','templates/rxFormInput.html','templates/rxFormItem.html','templates/rxFormOptionTable.html','templates/rxFormRadio.html','templates/rxFormSelect.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxNav.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxItemsPerPage.html','templates/rxPaginate.html','templates/rxRelatedMenu.html','templates/rxProductResources.html','templates/rxSortableColumn.html']);
 angular.module('encore.ui.configs', [])
 .constant('ROUTE_PATHS', {
     'login': '/login'
@@ -139,6 +139,32 @@ angular.module('encore.ui.rxBreadcrumbs', [])
         }
     };
 });
+angular.module('encore.ui.rxButton', [])
+    /**
+    * @ngdoc directive
+    * @name encore.ui.rxButton:rxButton
+    * @restrict E
+    *
+    * @description
+    * Renders a button which will disable when clicked and show a loading message
+    * and renable when operation is complete.
+    * @scope
+    * @param {String} loadingMsg - Text to be displayed when an operation is in progress.
+    * @param {String} defaultMsg - Text to be displayed by default an no operation is in progress.
+    * @param {Boolean} toggle - When true, the button will display the loading text.
+    */
+    .directive('rxButton', function () {
+        return {
+            templateUrl: 'templates/rxButton.html',
+            restrict: 'E',
+            scope: {
+                toggleMsg: '@',
+                defaultMsg: '@',
+                toggle: '='
+            }
+        };
+    });
+
 angular.module('encore.ui.rxCapitalize', [])
 .filter('rxCapitalize', function () {
     return function (input) {
@@ -1146,19 +1172,44 @@ angular.module('encore.ui.rxSortableColumn', [])
     util.sortCol = function ($scope, predicate) {
         var reverse = ($scope.sort.predicate === predicate) ? !$scope.sort.reverse : false;
         $scope.sort = { reverse: reverse, predicate: predicate };
-        $scope.pager.pageNumber = 0;
+
+        // This execution should be moved outside of the scope for rxSortUtil
+        // already rxSortUtil.sortCol has to be wrapped, and can be implemented there
+        // rather than have rxSortUtil.sortCol check/expect for a pager to be present.
+        if ($scope.pager) {
+            $scope.pager.pageNumber = 0;
+        }
     };
 
     return util;
 });
 angular.module('encore.ui.rxSpinner', [])
+/**
+* @ngdoc directive
+* @name encore.ui.rxSpinner:rxSpinner
+* @restrict A
+*
+* @description
+* Renders a spinner animation on the provided element given the 'toggle' attribute is truthy
+
+* @scope
+* @param {String} size - Controls the size of the spinner.  The options are default (no size specified),
+* mini, small, large and extra-large
+* @param {Boolean} toggle - When true, the spinner will display
+*/
 .directive('rxSpinner', function () {
     return {
         restrict: 'A',
+        scope: {
+            toggle: '=',
+            size: '@'
+        },
         link: function (scope, element) {
-            scope.$watch('loading', function (value) {
+            scope.$watch('toggle', function (value) {
+                var size = scope.size ? scope.size : '';
+
                 if (value) {
-                    element.prepend('<div class="rx-spinner"></div>');
+                    element.prepend('<div class="rx-spinner ' + size + '"></div> ');
                 } else {
                     element.find('div').remove();
                 }
@@ -1166,6 +1217,7 @@ angular.module('encore.ui.rxSpinner', [])
         }
     };
 });
+
 angular.module("templates/rxActiveUrl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxActiveUrl.html",
     "<li ng-class=\"{ selected: navActive }\" ng-transclude=\"\"></li>");
@@ -1174,6 +1226,11 @@ angular.module("templates/rxActiveUrl.html", []).run(["$templateCache", function
 angular.module("templates/rxBreadcrumbs.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxBreadcrumbs.html",
     "<ol class=\"rx-breadcrumbs\"><li ng-repeat=\"breadcrumb in breadcrumbs.getAll()\" class=\"breadcrumb\"><ng-switch on=\"$last\"><span ng-switch-when=\"true\" class=\"breadcrumb-name last\" ng-bind=\"breadcrumb.name\"></span> <span ng-switch-default=\"\"><a href=\"/#/{{breadcrumb.path}}\" ng-class=\"{first: $first}\" class=\"breadcrumb-name\" ng-bind=\"breadcrumb.name\"></a></span> {{user}}</ng-switch></li></ol>");
+}]);
+
+angular.module("templates/rxButton.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/rxButton.html",
+    "<button type=\"submit\" class=\"button primary rx-button\" ng-disabled=\"toggle\">{{ toggle ? toggleMsg : defaultMsg }}<div class=\"spinner\" ng-show=\"toggle\"><i class=\"pos1\"></i> <i class=\"pos2\"></i> <i class=\"pos3\"></i></div></button>");
 }]);
 
 angular.module("templates/rxDropdown.html", []).run(["$templateCache", function($templateCache) {

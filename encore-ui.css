@@ -409,6 +409,57 @@ They show your position within the site heirarchy
   border-left-color: #fff;
 }
 
+/*
+ * rxButton
+ */
+button.rx-button .spinner {
+  display: inline-block;
+  position: relative;
+  left: 8px;
+}
+button.rx-button .spinner > i {
+  width: 5px;
+  height: 5px;
+  background-color: #ffffff;
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
+  animation: bouncedelay 1.4s infinite ease-in-out;
+  /* Prevent first frame from flickering when animation starts */
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+button.rx-button .spinner > i.pos1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+button.rx-button .spinner > i.pos2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+@-webkit-keyframes bouncedelay {
+  0%,
+  80%,
+  100% {
+    -webkit-transform: scale(0);
+  }
+  40% {
+    -webkit-transform: scale(1);
+  }
+}
+@keyframes bouncedelay {
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+    -webkit-transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+    -webkit-transform: scale(1);
+  }
+}
+
 ol.nav-dropdown.group::before {
   border-color: #343434 transparent;
   border-style: solid;
@@ -1313,71 +1364,90 @@ FlexBox Columns
   border-top-color: #4a4a4a;
 }
 
-/*
- * rx-Spinner
- */
+/*********************************************************
+ *  CSS3 Animation spinner
+ *
+ *  Based on: http://cssdeck.com/labs/css3-animation-spinner
+ *  Copyright 2013 - birkof.ro
+ *********************************************************/
 .rx-spinner {
-  height: 20px;
-  width: 20px;
-  float: left;
-  margin: -3px 10px 0 auto;
-  position: relative;
-  -webkit-animation: rotation .9s infinite linear;
-  -moz-animation: rotation .9s infinite linear;
-  -o-animation: rotation .9s infinite linear;
-  animation: rotation .9s infinite linear;
-  border: 3px solid rgba(255, 255, 255, 0.15);
-  border-radius: 100%;
+  background-color: transparent;
+  border: 2px solid white;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  border-radius: 150px;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-bottom: 3px;
+  vertical-align: middle;
+  -webkit-animation: spin .8s infinite linear;
+  -moz-animation: spin .8s infinite linear;
+  -ms-animation: spin .8s infinite linear;
+  -o-animation: spin .8s infinite linear;
+  animation: spin .8s infinite linear;
 }
-.rx-spinner.gray {
-  border: 3px solid rgba(128, 128, 128, 0.15);
+.rx-spinner.mini {
+  border-width: 2px;
+  width: 4px;
+  height: 4px;
 }
-.rx-spinner:before {
-  content: "";
-  display: block;
-  position: absolute;
-  left: -6px;
-  top: -6px;
-  height: 100%;
-  width: 100%;
-  border-top: 6px solid rgba(255, 255, 255, 0.8);
-  border-left: 2px solid transparent;
-  border-bottom: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-radius: 100%;
+.rx-spinner.small {
+  border-width: 2px;
+  width: 8px;
+  height: 8px;
 }
-.rx-spinner.gray:before {
-  border-top: 6px solid rgba(128, 128, 128, 0.8);
+.rx-spinner.large {
+  border-width: 3px;
+  width: 22px;
+  height: 22px;
 }
-@-webkit-keyframes rotation {
-  from {
+.rx-spinner.extra-large {
+  border-width: 4px;
+  width: 32px;
+  height: 32px;
+}
+@-webkit-keyframes spin {
+  /* Safari and Chrome */
+  0% {
     -webkit-transform: rotate(0deg);
   }
-  to {
-    -webkit-transform: rotate(359deg);
+  100% {
+    -webkit-transform: rotate(360deg);
   }
 }
-@-moz-keyframes rotation {
-  from {
+@-moz-keyframes spin {
+  /* Firefox */
+  0% {
     -moz-transform: rotate(0deg);
   }
-  to {
-    -moz-transform: rotate(359deg);
+  100% {
+    -moz-transform: rotate(360deg);
   }
 }
-@-o-keyframes rotation {
-  from {
+@-ms-keyframes spin {
+  /* IE */
+  0% {
+    -ms-transform: rotate(0deg);
+  }
+  100% {
+    -ms-transform: rotate(360deg);
+  }
+}
+@-o-keyframes spin {
+  /* Opera */
+  0% {
     -o-transform: rotate(0deg);
   }
-  to {
-    -o-transform: rotate(359deg);
+  100% {
+    -o-transform: rotate(360deg);
   }
 }
-@keyframes rotation {
-  from {
+@keyframes spin {
+  0% {
     transform: rotate(0deg);
   }
-  to {
-    transform: rotate(359deg);
+  100% {
+    transform: rotate(360deg);
   }
 }
