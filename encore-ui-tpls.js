@@ -2,10 +2,10 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.3.1 - 2014-03-18
+ * Version: 0.3.2 - 2014-03-19
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxDiskSize','encore.ui.rxDropdown','encore.ui.rxForm','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNav','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRelatedMenu','encore.ui.rxProductResources','encore.ui.rxSortableColumn','encore.ui.rxSpinner']);
+angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxDiskSize','encore.ui.rxDropdown','encore.ui.rxForm','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNav','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRelatedMenu','encore.ui.rxProductResources','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner']);
 angular.module('encore.ui.tpls', ['templates/rxActiveUrl.html','templates/rxBreadcrumbs.html','templates/rxButton.html','templates/rxDropdown.html','templates/rxFormInput.html','templates/rxFormItem.html','templates/rxFormOptionTable.html','templates/rxFormRadio.html','templates/rxFormSelect.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxNav.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxItemsPerPage.html','templates/rxPaginate.html','templates/rxRelatedMenu.html','templates/rxProductResources.html','templates/rxSortableColumn.html']);
 angular.module('encore.ui.configs', [])
 .constant('ROUTE_PATHS', {
@@ -497,7 +497,9 @@ angular.module('encore.ui.rxNav', ['encore.ui.rxDropdown'])
         restrict: 'E',
         scope: {
             'searchFunction': '&',
-            'placeholderText': '@'
+            'placeholderText': '@',
+            'links': '=?',
+            'logo': '=?'
         },
         controller: function ($scope) {
             $scope.bookmarks = {
@@ -1120,6 +1122,50 @@ angular.module('encore.ui.rxProductResources', ['encore.ui.rxActiveUrl', 'encore
         }
     };
 });
+/*jshint proto:true*/
+angular.module('encore.ui.rxSessionStorage', [])
+    /**
+    *
+    * @ngdoc service
+    * @name encore.ui.rxSessionStorage:SessionStorage
+    * @description
+    * A simple wrapper for injecting the global variable sessionStorage
+    * for storing values in session storage. This service is similar to angular's
+    * $window and $document services.  The API works the same as the W3C's
+    * specification provided at: http://dev.w3.org/html5/webstorage/#storage-0.
+    * Also includes to helper functions for getting and setting objects.
+    *
+    * @example
+    * <pre>
+    * SessionStorage.setItem('Batman', 'Robin'); // no return value
+    * SessionStorage.key(0); // returns 'Batman'
+    * SessionStorage.getItem('Batman'); // returns 'Robin'
+    * SessionStorage.removeItem('Batman'); // no return value
+    * SessionStorage.setObject('hero', {name:'Batman'}); // no return value
+    * SessionStorage.getObject('hero'); // returns { name: 'Batman'}
+    * SessionStorage.clear(); // no return value
+    * </pre>
+    */
+    .factory('SessionStorage', function ($window) {
+        $window.sessionStorage.__proto__.setObject = function (key, val) {
+            var value = _.isObject(val) || _.isArray(val) ? JSON.stringify(val) : val;
+            $window.sessionStorage.setItem(key, value);
+        };
+
+        $window.sessionStorage.__proto__.getObject = function (key) {
+            var item = $window.sessionStorage.getItem(key);
+            try {
+                item = JSON.parse(item);
+            } catch (variable) {
+                return item;
+            }
+
+            return item;
+        };
+
+        return $window.sessionStorage;
+    });
+
 angular.module('encore.ui.rxSortableColumn', [])
 /**
 * @ngdoc directive
@@ -1225,7 +1271,7 @@ angular.module("templates/rxActiveUrl.html", []).run(["$templateCache", function
 
 angular.module("templates/rxBreadcrumbs.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxBreadcrumbs.html",
-    "<ol class=\"rx-breadcrumbs\"><li ng-repeat=\"breadcrumb in breadcrumbs.getAll()\" class=\"breadcrumb\"><ng-switch on=\"$last\"><span ng-switch-when=\"true\" class=\"breadcrumb-name last\" ng-bind=\"breadcrumb.name\"></span> <span ng-switch-default=\"\"><a href=\"/#/{{breadcrumb.path}}\" ng-class=\"{first: $first}\" class=\"breadcrumb-name\" ng-bind=\"breadcrumb.name\"></a></span> {{user}}</ng-switch></li></ol>");
+    "<ol class=\"rx-breadcrumbs\"><li ng-repeat=\"breadcrumb in breadcrumbs.getAll()\" class=\"breadcrumb\"><ng-switch on=\"$last\"><span ng-switch-when=\"true\" class=\"breadcrumb-name last\" ng-bind=\"breadcrumb.name\"></span> <span ng-switch-default=\"\"><a href=\"{{breadcrumb.path}}\" ng-class=\"{first: $first}\" class=\"breadcrumb-name\" ng-bind=\"breadcrumb.name\"></a></span> {{user}}</ng-switch></li></ol>");
 }]);
 
 angular.module("templates/rxButton.html", []).run(["$templateCache", function($templateCache) {
@@ -1275,7 +1321,7 @@ angular.module("templates/rxModalActionForm.html", []).run(["$templateCache", fu
 
 angular.module("templates/rxNav.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxNav.html",
-    "<header class=\"site-header\"><h1 class=\"logo\"><a href=\"/\">Encore</a></h1><rx-global-search placeholder-text=\"{{ placeholderText }}\" search-function=\"searchFunction()\"></rx-global-search><nav class=\"main-nav\"><ul><li class=\"nav-item\"><rx-dropdown menu=\"bookmarks\"></rx-dropdown></li><li class=\"nav-item\"><rx-dropdown menu=\"internalTools\"></rx-dropdown></li></ul></nav><nav class=\"user-nav\"><ul><li class=\"nav-item\"><a href=\"/login\" rx-logout=\"\" class=\"nav-link\">Log out</a></li></ul></nav><div class=\"sub-header\"><nav class=\"site-breadcrumbs\"><rx-breadcrumbs></rx-breadcrumbs></nav><a class=\"bookmark\" href=\"#\"><i class=\"fa fa-bookmark\"></i> &nbsp;Bookmark this page</a></div></header>");
+    "<header class=\"site-header\"><h1 class=\"logo\" ng-hide=\"logo\"><a href=\"/\">Encore</a></h1><div ng-if=\"logo\" ng-bind-html=\"logo\"></div><rx-global-search placeholder-text=\"{{ placeholderText }}\" search-function=\"searchFunction()\"></rx-global-search><nav class=\"main-nav\"><ul><li class=\"nav-item\" ng-hide=\"links\"><rx-dropdown menu=\"bookmarks\"></rx-dropdown></li><li class=\"nav-item\" ng-hide=\"links\"><rx-dropdown menu=\"internalTools\"></rx-dropdown></li><li class=\"nav-item\" ng-show=\"links\" ng-repeat=\"link in links\"><rx-dropdown menu=\"link\"></rx-dropdown></li></ul></nav><nav class=\"user-nav\"><ul><li class=\"nav-item\"><a href=\"/login\" rx-logout=\"\" class=\"nav-link\">Log out</a></li></ul></nav><div class=\"sub-header\"><nav class=\"site-breadcrumbs\"><rx-breadcrumbs></rx-breadcrumbs></nav><a class=\"bookmark\" href=\"#\"><i class=\"fa fa-bookmark\"></i> &nbsp;Bookmark this page</a></div></header>");
 }]);
 
 angular.module("templates/rxNotification.html", []).run(["$templateCache", function($templateCache) {

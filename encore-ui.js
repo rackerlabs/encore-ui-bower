@@ -2,10 +2,10 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.3.1 - 2014-03-18
+ * Version: 0.3.2 - 2014-03-19
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxDiskSize','encore.ui.rxDropdown','encore.ui.rxForm','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNav','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRelatedMenu','encore.ui.rxProductResources','encore.ui.rxSortableColumn','encore.ui.rxSpinner']);
+angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxDiskSize','encore.ui.rxDropdown','encore.ui.rxForm','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNav','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRelatedMenu','encore.ui.rxProductResources','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner']);
 angular.module('encore.ui.configs', [])
 .constant('ROUTE_PATHS', {
     'login': '/login'
@@ -496,7 +496,9 @@ angular.module('encore.ui.rxNav', ['encore.ui.rxDropdown'])
         restrict: 'E',
         scope: {
             'searchFunction': '&',
-            'placeholderText': '@'
+            'placeholderText': '@',
+            'links': '=?',
+            'logo': '=?'
         },
         controller: function ($scope) {
             $scope.bookmarks = {
@@ -1119,6 +1121,50 @@ angular.module('encore.ui.rxProductResources', ['encore.ui.rxActiveUrl', 'encore
         }
     };
 });
+/*jshint proto:true*/
+angular.module('encore.ui.rxSessionStorage', [])
+    /**
+    *
+    * @ngdoc service
+    * @name encore.ui.rxSessionStorage:SessionStorage
+    * @description
+    * A simple wrapper for injecting the global variable sessionStorage
+    * for storing values in session storage. This service is similar to angular's
+    * $window and $document services.  The API works the same as the W3C's
+    * specification provided at: http://dev.w3.org/html5/webstorage/#storage-0.
+    * Also includes to helper functions for getting and setting objects.
+    *
+    * @example
+    * <pre>
+    * SessionStorage.setItem('Batman', 'Robin'); // no return value
+    * SessionStorage.key(0); // returns 'Batman'
+    * SessionStorage.getItem('Batman'); // returns 'Robin'
+    * SessionStorage.removeItem('Batman'); // no return value
+    * SessionStorage.setObject('hero', {name:'Batman'}); // no return value
+    * SessionStorage.getObject('hero'); // returns { name: 'Batman'}
+    * SessionStorage.clear(); // no return value
+    * </pre>
+    */
+    .factory('SessionStorage', function ($window) {
+        $window.sessionStorage.__proto__.setObject = function (key, val) {
+            var value = _.isObject(val) || _.isArray(val) ? JSON.stringify(val) : val;
+            $window.sessionStorage.setItem(key, value);
+        };
+
+        $window.sessionStorage.__proto__.getObject = function (key) {
+            var item = $window.sessionStorage.getItem(key);
+            try {
+                item = JSON.parse(item);
+            } catch (variable) {
+                return item;
+            }
+
+            return item;
+        };
+
+        return $window.sessionStorage;
+    });
+
 angular.module('encore.ui.rxSortableColumn', [])
 /**
 * @ngdoc directive
