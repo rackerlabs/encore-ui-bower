@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.3.3 - 2014-03-21
+ * Version: 0.3.4 - 2014-03-21
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -300,7 +300,45 @@ angular.module('encore.ui.rxForm', ['ngSanitize']).directive('rxFormItem', funct
       type: '@',
       model: '=',
       fieldId: '@'
-    }
+    },
+    controller: [
+      '$scope',
+      function ($scope) {
+        var determineMatch = function (val1, val2) {
+          if (_.isUndefined(val1) || _.isUndefined(val2)) {
+            return false;
+          }
+          return val1 == val2;
+        };
+        // Determines whether the row is the initial choice
+        $scope.isCurrent = function (val) {
+          return determineMatch(val, $scope.selected);
+        };
+        // Determines whether the row is selected
+        $scope.isSelected = function (val, idx) {
+          // row can only be 'selected' if it's not the default 'selected' value
+          if (!$scope.isCurrent(val)) {
+            if ($scope.type == 'radio') {
+              return val == $scope.model;
+            } else if ($scope.type == 'checkbox') {
+              if (_.isUndefined(val)) {
+                val = 'true';
+              }
+              return determineMatch(val, $scope.model[idx]);
+            }
+          }
+          return false;
+        };
+        /*
+             * Convenience method to set ng-true-value or ng-false-value with fallback
+             * @param {String} val Value that's passed in from data
+             * @param {Any} fallback Value to use if 'val' is undefiend
+             */
+        $scope.getCheckboxValue = function (val, fallback) {
+          return _.isUndefined(val) ? fallback : val;
+        };
+      }
+    ]
   };
 });
 angular.module('encore.ui.rxIdentity', ['ngResource']).factory('Identity', [

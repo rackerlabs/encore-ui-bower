@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.3.3 - 2014-03-21
+ * Version: 0.3.4 - 2014-03-21
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -322,7 +322,45 @@ angular.module('encore.ui.rxForm', ['ngSanitize']).directive('rxFormItem', funct
       type: '@',
       model: '=',
       fieldId: '@'
-    }
+    },
+    controller: [
+      '$scope',
+      function ($scope) {
+        var determineMatch = function (val1, val2) {
+          if (_.isUndefined(val1) || _.isUndefined(val2)) {
+            return false;
+          }
+          return val1 == val2;
+        };
+        // Determines whether the row is the initial choice
+        $scope.isCurrent = function (val) {
+          return determineMatch(val, $scope.selected);
+        };
+        // Determines whether the row is selected
+        $scope.isSelected = function (val, idx) {
+          // row can only be 'selected' if it's not the default 'selected' value
+          if (!$scope.isCurrent(val)) {
+            if ($scope.type == 'radio') {
+              return val == $scope.model;
+            } else if ($scope.type == 'checkbox') {
+              if (_.isUndefined(val)) {
+                val = 'true';
+              }
+              return determineMatch(val, $scope.model[idx]);
+            }
+          }
+          return false;
+        };
+        /*
+             * Convenience method to set ng-true-value or ng-false-value with fallback
+             * @param {String} val Value that's passed in from data
+             * @param {Any} fallback Value to use if 'val' is undefiend
+             */
+        $scope.getCheckboxValue = function (val, fallback) {
+          return _.isUndefined(val) ? fallback : val;
+        };
+      }
+    ]
   };
 });
 angular.module('encore.ui.rxIdentity', ['ngResource']).factory('Identity', [
@@ -1082,7 +1120,7 @@ angular.module('templates/rxFormItem.html', []).run([
 angular.module('templates/rxFormOptionTable.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxFormOptionTable.html', '<div class="form-item"><table class="table-striped option-table" ng-show="data.length > 0"><thead ng-hide="hideHeaders"><tr><th></th><th ng-repeat="column in columns" scope="col">{{column.label}}</th></tr></thead><tr ng-repeat="row in data" ng-class="{current: row.id === selected, selected: row.id == $parent.model}"><th scope="row" class="option-table-input"><input type="{{type}}" id="{{fieldId}}_{{row.id}}" ng-model="$parent.model" value="{{row.id}}" name="{{fieldId}}" ng-disabled="row.id === selected"></th><td ng-repeat="column in columns"><label for="{{fieldId}}_{{row.id}}">{{row[column.key]}} <span ng-show="row.id === selected">{{column.selectedLabel}}</span></label></td></tr></table></div>');
+    $templateCache.put('templates/rxFormOptionTable.html', '<div class="form-item"><table class="table-striped option-table" ng-show="data.length > 0"><thead><tr><th></th><th ng-repeat="column in columns" scope="col">{{column.label}}</th></tr></thead><tr ng-repeat="row in data" ng-class="{current: isCurrent(row.value), selected: isSelected(row.value, $index)}"><th scope="row" class="option-table-input" ng-switch="type"><input type="radio" ng-switch-when="radio" id="{{fieldId}}_{{$index}}" ng-model="$parent.$parent.model" value="{{row.value}}" name="{{fieldId}}" ng-disabled="isCurrent(row.value)"><input type="checkbox" ng-switch-when="checkbox" id="{{fieldId}}_{{$index}}" ng-model="$parent.model[$index]" ng-true-value="{{ getCheckboxValue(row.value, true) }}" ng-false-value="{{ getCheckboxValue(row.falseValue, false) }}"></th><td ng-repeat="column in columns"><label for="{{fieldId}}_{{$parent.$index}}">{{row[column.key]}} <span ng-show="isCurrent(row.value)">{{column.selectedLabel}}</span></label></td></tr></table></div>');
   }
 ]);
 angular.module('templates/rxFormRadio.html', []).run([
