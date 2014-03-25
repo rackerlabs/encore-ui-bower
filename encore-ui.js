@@ -2,13 +2,14 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.3.4 - 2014-03-21
+ * Version: 0.3.5 - 2014-03-25
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
   'encore.ui.configs',
   'encore.ui.rxActiveUrl',
   'encore.ui.rxAge',
+  'encore.ui.rxApp',
   'encore.ui.rxBreadcrumbs',
   'encore.ui.rxButton',
   'encore.ui.rxCapitalize',
@@ -25,6 +26,7 @@ angular.module('encore.ui', [
   'encore.ui.rxPaginate',
   'encore.ui.rxRelatedMenu',
   'encore.ui.rxProductResources',
+  'encore.ui.rxSession',
   'encore.ui.rxSessionStorage',
   'encore.ui.rxSortableColumn',
   'encore.ui.rxSpinner'
@@ -967,6 +969,35 @@ angular.module('encore.ui.rxProductResources', [
     scope: { user: '=' }
   };
 });
+angular.module('encore.ui.rxSession', ['encore.ui.rxLocalStorage']).factory('Session', [
+  'LocalStorage',
+  function (LocalStorage) {
+    var TOKEN_ID = 'encoreSessionToken';
+    var session = {};
+    session.getToken = function () {
+      return LocalStorage.getObject(TOKEN_ID);
+    };
+    session.storeToken = function (token) {
+      LocalStorage.setObject(TOKEN_ID, token);
+    };
+    session.logoff = function () {
+      LocalStorage.removeItem(TOKEN_ID);
+    };
+    session.isCurrent = function () {
+      var token = session.getToken();
+      //Conditional to prevent null exceptions when validating the token
+      if (token && token.access && token.access.token && token.access.token.expires) {
+        return new Date(token.access.token.expires) > _.now();
+      }
+      return false;
+    };
+    session.isAuthenticated = function () {
+      var token = session.getToken();
+      return _.isEmpty(token) ? false : session.isCurrent();
+    };
+    return session;
+  }
+]);
 /*jshint proto:true*/
 angular.module('encore.ui.rxSessionStorage', []).service('SessionStorage', [
   '$window',

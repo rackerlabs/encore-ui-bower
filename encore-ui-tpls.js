@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.3.4 - 2014-03-21
+ * Version: 0.3.5 - 2014-03-25
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -10,6 +10,7 @@ angular.module('encore.ui', [
   'encore.ui.configs',
   'encore.ui.rxActiveUrl',
   'encore.ui.rxAge',
+  'encore.ui.rxApp',
   'encore.ui.rxBreadcrumbs',
   'encore.ui.rxButton',
   'encore.ui.rxCapitalize',
@@ -26,12 +27,14 @@ angular.module('encore.ui', [
   'encore.ui.rxPaginate',
   'encore.ui.rxRelatedMenu',
   'encore.ui.rxProductResources',
+  'encore.ui.rxSession',
   'encore.ui.rxSessionStorage',
   'encore.ui.rxSortableColumn',
   'encore.ui.rxSpinner'
 ]);
 angular.module('encore.ui.tpls', [
   'templates/rxActiveUrl.html',
+  'templates/rxPage.html',
   'templates/rxBreadcrumbs.html',
   'templates/rxButton.html',
   'templates/rxDropdown.html',
@@ -989,6 +992,35 @@ angular.module('encore.ui.rxProductResources', [
     scope: { user: '=' }
   };
 });
+angular.module('encore.ui.rxSession', ['encore.ui.rxLocalStorage']).factory('Session', [
+  'LocalStorage',
+  function (LocalStorage) {
+    var TOKEN_ID = 'encoreSessionToken';
+    var session = {};
+    session.getToken = function () {
+      return LocalStorage.getObject(TOKEN_ID);
+    };
+    session.storeToken = function (token) {
+      LocalStorage.setObject(TOKEN_ID, token);
+    };
+    session.logoff = function () {
+      LocalStorage.removeItem(TOKEN_ID);
+    };
+    session.isCurrent = function () {
+      var token = session.getToken();
+      //Conditional to prevent null exceptions when validating the token
+      if (token && token.access && token.access.token && token.access.token.expires) {
+        return new Date(token.access.token.expires) > _.now();
+      }
+      return false;
+    };
+    session.isAuthenticated = function () {
+      var token = session.getToken();
+      return _.isEmpty(token) ? false : session.isCurrent();
+    };
+    return session;
+  }
+]);
 /*jshint proto:true*/
 angular.module('encore.ui.rxSessionStorage', []).service('SessionStorage', [
   '$window',
@@ -1085,6 +1117,12 @@ angular.module('templates/rxActiveUrl.html', []).run([
   '$templateCache',
   function ($templateCache) {
     $templateCache.put('templates/rxActiveUrl.html', '<li ng-class="{ selected: navActive }" ng-transclude=""></li>');
+  }
+]);
+angular.module('templates/rxPage.html', []).run([
+  '$templateCache',
+  function ($templateCache) {
+    $templateCache.put('templates/rxPage.html', '<div class="rx-app-page"><header class="page-header"><rx-breadcrumbs></rx-breadcrumbs></header><div class="page-body"><h2 class="page-title" ng-bind-html="title"></h2><h3 class="page-subtitle" ng-bind-html="subtitle"></h3><div class="page-content" ng-transclude="" ui-view="" ng-view=""></div></div></div>');
   }
 ]);
 angular.module('templates/rxBreadcrumbs.html', []).run([
@@ -1186,7 +1224,7 @@ angular.module('templates/rxRelatedMenu.html', []).run([
 angular.module('templates/rxProductResources.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxProductResources.html', '<h5>Available Product Resources</h5><ul class="product-resources"><rx-active-url url="/servers"><a href="#/{{user}}/servers/" class="ico-servers">Cloud Servers <span>OpenStack / Nova</span></a></rx-active-url><rx-active-url url="/cbs/"><a href="#/{{user}}/cbs/volumes/" class="ico-block-storage">Block Storage <span>OpenStack / Cinder</span></a><ul class="sub-products"><rx-active-url url="/cbs/volumes"><a href="#/{{user}}/cbs/volumes/">Volumes</a></rx-active-url><rx-active-url url="/cbs/snapshots"><a href="#/{{user}}/cbs/snapshots/">Snapshots</a></rx-active-url></ul></rx-active-url><rx-active-url url="/databases/instances"><a href="#/{{user}}/databases/instances/" class="ico-databases">Databases <span>OpenStack / Trove</span></a></rx-active-url></ul>');
+    $templateCache.put('templates/rxProductResources.html', '<h5>Available Product Resources</h5><ul class="product-resources"><rx-active-url url="/servers"><a href="#/{{user}}/servers/" class="ico-servers">Cloud Servers <span>OpenStack / Nova</span></a></rx-active-url><rx-active-url url="/cbs/"><a href="#/{{user}}/cbs/volumes/" class="ico-block-storage">Block Storage <span>OpenStack / Cinder</span></a><ul class="sub-products"><rx-active-url url="/cbs/volumes"><a href="#/{{user}}/cbs/volumes/">Volumes</a></rx-active-url><rx-active-url url="/cbs/snapshots"><a href="#/{{user}}/cbs/snapshots/">Snapshots</a></rx-active-url></ul></rx-active-url></ul>');
   }
 ]);
 angular.module('templates/rxSortableColumn.html', []).run([
