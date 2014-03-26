@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.3.6 - 2014-03-26
+ * Version: 0.3.7 - 2014-03-26
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -24,9 +24,10 @@ angular.module('encore.ui', [
   'encore.ui.rxNotify',
   'encore.ui.rxPageTitle',
   'encore.ui.rxPaginate',
+  'encore.ui.rxSession',
+  'encore.ui.rxPermission',
   'encore.ui.rxRelatedMenu',
   'encore.ui.rxProductResources',
-  'encore.ui.rxSession',
   'encore.ui.rxSessionStorage',
   'encore.ui.rxSortableColumn',
   'encore.ui.rxSpinner'
@@ -48,6 +49,7 @@ angular.module('encore.ui.tpls', [
   'templates/rxNotifications.html',
   'templates/rxItemsPerPage.html',
   'templates/rxPaginate.html',
+  'templates/rxPermission.html',
   'templates/rxRelatedMenu.html',
   'templates/rxProductResources.html',
   'templates/rxSortableColumn.html'
@@ -979,6 +981,67 @@ angular.module('encore.ui.rxPaginate', []).directive('rxPaginate', function () {
     };
   }
 ]);
+angular.module('encore.ui.rxSession', ['encore.ui.rxLocalStorage']).factory('Session', [
+  'LocalStorage',
+  function (LocalStorage) {
+    var TOKEN_ID = 'encoreSessionToken';
+    var session = {};
+    session.getToken = function () {
+      return LocalStorage.getObject(TOKEN_ID);
+    };
+    session.storeToken = function (token) {
+      LocalStorage.setObject(TOKEN_ID, token);
+    };
+    session.logoff = function () {
+      LocalStorage.removeItem(TOKEN_ID);
+    };
+    session.isCurrent = function () {
+      var token = session.getToken();
+      //Conditional to prevent null exceptions when validating the token
+      if (token && token.access && token.access.token && token.access.token.expires) {
+        return new Date(token.access.token.expires) > _.now();
+      }
+      return false;
+    };
+    session.isAuthenticated = function () {
+      var token = session.getToken();
+      return _.isEmpty(token) ? false : session.isCurrent();
+    };
+    return session;
+  }
+]);
+angular.module('encore.ui.rxPermission', ['encore.ui.rxSession']).factory('Permission', [
+  'Session',
+  function (Session) {
+    var permissionSvc = {};
+    permissionSvc.getRoles = function () {
+      var token = Session.getToken();
+      return token && token.access && token.access.user && token.access.user.roles ? token.access.user.roles : [];
+    };
+    permissionSvc.hasRole = function (role) {
+      return _.some(permissionSvc.getRoles(), function (item) {
+        return item.name === role;
+      });
+    };
+    return permissionSvc;
+  }
+]).directive('rxPermission', function () {
+  return {
+    restrict: 'E',
+    transclude: true,
+    scope: { role: '@' },
+    templateUrl: 'templates/rxPermission.html',
+    controller: [
+      '$scope',
+      'Permission',
+      function ($scope, Permission) {
+        $scope.hasRole = function () {
+          return Permission.hasRole($scope.role);
+        };
+      }
+    ]
+  };
+});
 angular.module('encore.ui.rxRelatedMenu', []).directive('rxRelatedMenu', function () {
   return {
     restrict: 'E',
@@ -1012,35 +1075,6 @@ angular.module('encore.ui.rxProductResources', [
     scope: { user: '=' }
   };
 });
-angular.module('encore.ui.rxSession', ['encore.ui.rxLocalStorage']).factory('Session', [
-  'LocalStorage',
-  function (LocalStorage) {
-    var TOKEN_ID = 'encoreSessionToken';
-    var session = {};
-    session.getToken = function () {
-      return LocalStorage.getObject(TOKEN_ID);
-    };
-    session.storeToken = function (token) {
-      LocalStorage.setObject(TOKEN_ID, token);
-    };
-    session.logoff = function () {
-      LocalStorage.removeItem(TOKEN_ID);
-    };
-    session.isCurrent = function () {
-      var token = session.getToken();
-      //Conditional to prevent null exceptions when validating the token
-      if (token && token.access && token.access.token && token.access.token.expires) {
-        return new Date(token.access.token.expires) > _.now();
-      }
-      return false;
-    };
-    session.isAuthenticated = function () {
-      var token = session.getToken();
-      return _.isEmpty(token) ? false : session.isCurrent();
-    };
-    return session;
-  }
-]);
 /*jshint proto:true*/
 angular.module('encore.ui.rxSessionStorage', []).service('SessionStorage', [
   '$window',
@@ -1229,6 +1263,12 @@ angular.module('templates/rxPaginate.html', []).run([
     $templateCache.put('templates/rxPaginate.html', '<div class="rx-paginate"><ul class="pagination"><li ng-class="{disabled: pageTracking.pageNumber == 0}" class="pagination-first"><a ng-click="pageTracking.pageNumber = 0" ng-hide="pageTracking.pageNumber == 0">First</a> <span ng-show="pageTracking.pageNumber == 0">First</span></li><li ng-class="{disabled: pageTracking.pageNumber == 0}" class="pagination-prev"><a ng-click="pageTracking.pageNumber = (pageTracking.pageNumber - 1)" ng-hide="pageTracking.pageNumber == 0">\xab Prev</a> <span ng-show="pageTracking.pageNumber == 0">\xab Prev</span></li><li ng-repeat="n in pageTracking | Page" ng-class="{active: n == pageTracking.pageNumber, \'page-number-last\': n == pageTracking.totalPages - 1}" class="pagination-page"><a ng-click="pageTracking.pageNumber = n">{{n + 1}}</a></li><li ng-class="{disabled: pageTracking.pageNumber == pageTracking.totalPages - 1 || pageTracking.total == 0}" class="pagination-next"><a ng-click="pageTracking.pageNumber = (pageTracking.pageNumber + 1)" ng-hide="pageTracking.pageNumber == pageTracking.totalPages - 1 || pageTracking.total == 0">Next \xbb</a> <span ng-show="pageTracking.pageNumber == pageTracking.totalPages - 1">Next \xbb</span></li><li ng-class="{disabled: pageTracking.pageNumber == pageTracking.totalPages - 1}" class="pagination-last"><a ng-click="pageTracking.pageNumber = pageTracking.totalPages - 1" ng-hide="pageTracking.pageNumber == pageTracking.totalPages - 1">Last</a> <span ng-show="pageTracking.pageNumber == pageTracking.totalPages - 1">Last</span></li></ul></div>');
   }
 ]);
+angular.module('templates/rxPermission.html', []).run([
+  '$templateCache',
+  function ($templateCache) {
+    $templateCache.put('templates/rxPermission.html', '<div class="rxPermission" ng-if="hasRole(role)" ng-transclude=""></div>');
+  }
+]);
 angular.module('templates/rxRelatedMenu.html', []).run([
   '$templateCache',
   function ($templateCache) {
@@ -1238,7 +1278,7 @@ angular.module('templates/rxRelatedMenu.html', []).run([
 angular.module('templates/rxProductResources.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxProductResources.html', '<h5>Available Product Resources</h5><ul class="product-resources"><rx-active-url url="/servers"><a href="#/{{user}}/servers/" class="ico-servers">Cloud Servers <span>OpenStack / Nova</span></a></rx-active-url><rx-active-url url="/cbs/"><a href="#/{{user}}/cbs/volumes/" class="ico-block-storage">Block Storage <span>OpenStack / Cinder</span></a><ul class="sub-products"><rx-active-url url="/cbs/volumes"><a href="#/{{user}}/cbs/volumes/">Volumes</a></rx-active-url><rx-active-url url="/cbs/snapshots"><a href="#/{{user}}/cbs/snapshots/">Snapshots</a></rx-active-url></ul></rx-active-url></ul>');
+    $templateCache.put('templates/rxProductResources.html', '<h5>Available Product Resources</h5><ul class="product-resources"><rx-active-url url="/servers"><a href="/{{user}}/servers/" class="ico-servers">Cloud Servers <span>OpenStack / Nova</span></a></rx-active-url><rx-active-url url="/cbs/"><a href="/{{user}}/cbs/volumes/" class="ico-block-storage">Block Storage <span>OpenStack / Cinder</span></a><ul class="sub-products"><rx-active-url url="/cbs/volumes"><a href="/{{user}}/cbs/volumes/">Volumes</a></rx-active-url><rx-active-url url="/cbs/snapshots"><a href="/{{user}}/cbs/snapshots/">Snapshots</a></rx-active-url></ul></rx-active-url></ul>');
   }
 ]);
 angular.module('templates/rxSortableColumn.html', []).run([

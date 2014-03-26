@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.3.6 - 2014-03-26
+ * Version: 0.3.7 - 2014-03-26
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -23,9 +23,10 @@ angular.module('encore.ui', [
   'encore.ui.rxNotify',
   'encore.ui.rxPageTitle',
   'encore.ui.rxPaginate',
+  'encore.ui.rxSession',
+  'encore.ui.rxPermission',
   'encore.ui.rxRelatedMenu',
   'encore.ui.rxProductResources',
-  'encore.ui.rxSession',
   'encore.ui.rxSessionStorage',
   'encore.ui.rxSortableColumn',
   'encore.ui.rxSpinner'
@@ -957,6 +958,67 @@ angular.module('encore.ui.rxPaginate', []).directive('rxPaginate', function () {
     };
   }
 ]);
+angular.module('encore.ui.rxSession', ['encore.ui.rxLocalStorage']).factory('Session', [
+  'LocalStorage',
+  function (LocalStorage) {
+    var TOKEN_ID = 'encoreSessionToken';
+    var session = {};
+    session.getToken = function () {
+      return LocalStorage.getObject(TOKEN_ID);
+    };
+    session.storeToken = function (token) {
+      LocalStorage.setObject(TOKEN_ID, token);
+    };
+    session.logoff = function () {
+      LocalStorage.removeItem(TOKEN_ID);
+    };
+    session.isCurrent = function () {
+      var token = session.getToken();
+      //Conditional to prevent null exceptions when validating the token
+      if (token && token.access && token.access.token && token.access.token.expires) {
+        return new Date(token.access.token.expires) > _.now();
+      }
+      return false;
+    };
+    session.isAuthenticated = function () {
+      var token = session.getToken();
+      return _.isEmpty(token) ? false : session.isCurrent();
+    };
+    return session;
+  }
+]);
+angular.module('encore.ui.rxPermission', ['encore.ui.rxSession']).factory('Permission', [
+  'Session',
+  function (Session) {
+    var permissionSvc = {};
+    permissionSvc.getRoles = function () {
+      var token = Session.getToken();
+      return token && token.access && token.access.user && token.access.user.roles ? token.access.user.roles : [];
+    };
+    permissionSvc.hasRole = function (role) {
+      return _.some(permissionSvc.getRoles(), function (item) {
+        return item.name === role;
+      });
+    };
+    return permissionSvc;
+  }
+]).directive('rxPermission', function () {
+  return {
+    restrict: 'E',
+    transclude: true,
+    scope: { role: '@' },
+    templateUrl: 'templates/rxPermission.html',
+    controller: [
+      '$scope',
+      'Permission',
+      function ($scope, Permission) {
+        $scope.hasRole = function () {
+          return Permission.hasRole($scope.role);
+        };
+      }
+    ]
+  };
+});
 angular.module('encore.ui.rxRelatedMenu', []).directive('rxRelatedMenu', function () {
   return {
     restrict: 'E',
@@ -990,35 +1052,6 @@ angular.module('encore.ui.rxProductResources', [
     scope: { user: '=' }
   };
 });
-angular.module('encore.ui.rxSession', ['encore.ui.rxLocalStorage']).factory('Session', [
-  'LocalStorage',
-  function (LocalStorage) {
-    var TOKEN_ID = 'encoreSessionToken';
-    var session = {};
-    session.getToken = function () {
-      return LocalStorage.getObject(TOKEN_ID);
-    };
-    session.storeToken = function (token) {
-      LocalStorage.setObject(TOKEN_ID, token);
-    };
-    session.logoff = function () {
-      LocalStorage.removeItem(TOKEN_ID);
-    };
-    session.isCurrent = function () {
-      var token = session.getToken();
-      //Conditional to prevent null exceptions when validating the token
-      if (token && token.access && token.access.token && token.access.token.expires) {
-        return new Date(token.access.token.expires) > _.now();
-      }
-      return false;
-    };
-    session.isAuthenticated = function () {
-      var token = session.getToken();
-      return _.isEmpty(token) ? false : session.isCurrent();
-    };
-    return session;
-  }
-]);
 /*jshint proto:true*/
 angular.module('encore.ui.rxSessionStorage', []).service('SessionStorage', [
   '$window',
