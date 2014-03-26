@@ -2,14 +2,13 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.3.5 - 2014-03-25
+ * Version: 0.3.6 - 2014-03-26
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
   'encore.ui.configs',
   'encore.ui.rxActiveUrl',
   'encore.ui.rxAge',
-  'encore.ui.rxApp',
   'encore.ui.rxBreadcrumbs',
   'encore.ui.rxButton',
   'encore.ui.rxCapitalize',
@@ -291,58 +290,80 @@ angular.module('encore.ui.rxForm', ['ngSanitize']).directive('rxFormItem', funct
       required: '@'
     }
   };
-}).directive('rxFormOptionTable', function () {
-  return {
-    restrict: 'E',
-    templateUrl: 'templates/rxFormOptionTable.html',
-    scope: {
-      data: '=',
-      columns: '=',
-      selected: '@',
-      type: '@',
-      model: '=',
-      fieldId: '@'
-    },
-    controller: [
-      '$scope',
-      function ($scope) {
-        var determineMatch = function (val1, val2) {
-          if (_.isUndefined(val1) || _.isUndefined(val2)) {
-            return false;
-          }
-          return val1 == val2;
-        };
-        // Determines whether the row is the initial choice
-        $scope.isCurrent = function (val) {
-          return determineMatch(val, $scope.selected);
-        };
-        // Determines whether the row is selected
-        $scope.isSelected = function (val, idx) {
-          // row can only be 'selected' if it's not the default 'selected' value
-          if (!$scope.isCurrent(val)) {
-            if ($scope.type == 'radio') {
-              return val == $scope.model;
-            } else if ($scope.type == 'checkbox') {
-              if (_.isUndefined(val)) {
-                val = 'true';
-              }
-              return determineMatch(val, $scope.model[idx]);
+}).directive('rxFormOptionTable', [
+  '$interpolate',
+  function ($interpolate) {
+    return {
+      restrict: 'E',
+      templateUrl: 'templates/rxFormOptionTable.html',
+      scope: {
+        data: '=',
+        columns: '=',
+        selected: '@',
+        type: '@',
+        model: '=',
+        fieldId: '@'
+      },
+      controller: [
+        '$scope',
+        function ($scope) {
+          var determineMatch = function (val1, val2) {
+            if (_.isUndefined(val1) || _.isUndefined(val2)) {
+              return false;
             }
-          }
-          return false;
-        };
-        /*
+            return val1 == val2;
+          };
+          // Determines whether the row is the initial choice
+          $scope.isCurrent = function (val) {
+            return determineMatch(val, $scope.selected);
+          };
+          // Determines whether the row is selected
+          $scope.isSelected = function (val, idx) {
+            // row can only be 'selected' if it's not the default 'selected' value
+            if (!$scope.isCurrent(val)) {
+              if ($scope.type == 'radio') {
+                return val == $scope.model;
+              } else if ($scope.type == 'checkbox') {
+                if (_.isUndefined(val)) {
+                  val = 'true';
+                }
+                return determineMatch(val, $scope.model[idx]);
+              }
+            }
+            return false;
+          };
+          /*
              * Convenience method to set ng-true-value or ng-false-value with fallback
              * @param {String} val Value that's passed in from data
              * @param {Any} fallback Value to use if 'val' is undefiend
              */
-        $scope.getCheckboxValue = function (val, fallback) {
-          return _.isUndefined(val) ? fallback : val;
-        };
-      }
-    ]
-  };
-});
+          $scope.getCheckboxValue = function (val, fallback) {
+            return _.isUndefined(val) ? fallback : val;
+          };
+          /*
+             * Get the value out of a key from the row, or parse an expression
+             * @param {String} expr - Key or Angular Expression (or static text) to be compiled
+             * @param {Object} row - Data object with data to be used against the expression
+             */
+          $scope.getContent = function (column, row) {
+            var expr = column.key;
+            // If no expression exit out;
+            if (!expr) {
+              return;
+            }
+            // if the expr is a property of row, then we expect the value of the key.
+            if (row.hasOwnProperty(expr)) {
+              return row[expr];
+            }
+            // Compile expression & Run output template
+            var outputHTML = $interpolate(expr)(row);
+            return outputHTML;
+          };
+        }
+      ]
+    };
+  }
+]);
 angular.module('encore.ui.rxIdentity', ['ngResource']).factory('Identity', [
   '$resource',
   function ($resource) {
