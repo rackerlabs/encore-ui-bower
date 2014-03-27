@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.3.7 - 2014-03-26
+ * Version: 0.3.8 - 2014-03-27
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -178,7 +178,7 @@ angular.module('encore.ui.rxAge', []).filter('rxAge', function () {
 angular.module('encore.ui.rxBreadcrumbs', []).factory('rxBreadcrumbsSvc', function () {
   // default will always be home
   var breadcrumbs = [{
-        path: '',
+        path: '/',
         name: 'Home'
       }];
   var breadcrumbsService = {};
