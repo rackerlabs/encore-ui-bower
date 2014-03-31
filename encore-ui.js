@@ -2,29 +2,31 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.3.8 - 2014-03-27
+ * Version: 0.4.0 - 2014-03-31
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
   'encore.ui.configs',
   'encore.ui.rxActiveUrl',
   'encore.ui.rxAge',
+  'encore.ui.rxAttributes',
+  'encore.ui.rxIdentity',
+  'encore.ui.rxLocalStorage',
+  'encore.ui.rxSession',
+  'encore.ui.rxPermission',
+  'encore.ui.rxAuth',
   'encore.ui.rxBreadcrumbs',
   'encore.ui.rxButton',
   'encore.ui.rxCapitalize',
   'encore.ui.rxDiskSize',
   'encore.ui.rxDropdown',
   'encore.ui.rxForm',
-  'encore.ui.rxIdentity',
-  'encore.ui.rxLocalStorage',
   'encore.ui.rxLogout',
   'encore.ui.rxModalAction',
   'encore.ui.rxNav',
   'encore.ui.rxNotify',
   'encore.ui.rxPageTitle',
   'encore.ui.rxPaginate',
-  'encore.ui.rxSession',
-  'encore.ui.rxPermission',
   'encore.ui.rxRelatedMenu',
   'encore.ui.rxProductResources',
   'encore.ui.rxSessionStorage',
@@ -152,6 +154,181 @@ angular.module('encore.ui.rxAge', []).filter('rxAge', function () {
     }).join(' ');
   };
 });
+angular.module('encore.ui.rxAttributes', []).directive('rxAttributes', [
+  '$parse',
+  '$compile',
+  function ($parse, $compile) {
+    // @see http://stackoverflow.com/questions/19224028/add-directives-from-directive-in-angularjs
+    return {
+      restrict: 'A',
+      terminal: true,
+      priority: 1000,
+      compile: function (el, attrs) {
+        return {
+          pre: function preLink(scope, element) {
+            // run the attributes against the scope
+            var attributes = $parse(attrs.rxAttributes)(scope);
+            _.forIn(attributes, function (val, attr) {
+              // if the value exists in the scope, add/set the attribute
+              // otherwise, the attribute isn't added to the element
+              if (!_.isUndefined(val)) {
+                element.attr(attr, val);
+              }
+            });
+            //remove the attribute to avoid an indefinite loop
+            element.removeAttr('rx-attributes');
+            element.removeAttr('data-rx-attributes');
+            // build the new element
+            $compile(element)(scope);
+          }
+        };
+      }
+    };
+  }
+]);
+angular.module('encore.ui.rxIdentity', ['ngResource']).factory('Identity', [
+  '$resource',
+  function ($resource) {
+    var authSvc = $resource('/identity/:action', {}, {
+        loginWithJSON: {
+          method: 'POST',
+          isArray: false,
+          params: { action: 'tokens' }
+        },
+        validate: {
+          method: 'GET',
+          url: '/identity/login/session/:id',
+          isArray: false
+        }
+      });
+    authSvc.login = function (credentials, success, error) {
+      var body = {
+          auth: {
+            passwordCredentials: {
+              username: credentials.username,
+              password: credentials.password
+            }
+          }
+        };
+      return authSvc.loginWithJSON(body, success, error);
+    };
+    return authSvc;
+  }
+]);
+/*jshint proto:true*/
+angular.module('encore.ui.rxLocalStorage', []).service('LocalStorage', [
+  '$window',
+  function ($window) {
+    this.setItem = function (key, value) {
+      $window.localStorage.setItem(key, value);
+    };
+    this.getItem = function (key) {
+      return $window.localStorage.getItem(key);
+    };
+    this.key = function (key) {
+      return $window.localStorage.key(key);
+    };
+    this.removeItem = function (key) {
+      $window.localStorage.removeItem(key);
+    };
+    this.clear = function () {
+      $window.localStorage.clear();
+    };
+    this.__defineGetter__('length', function () {
+      return $window.localStorage.length;
+    });
+    this.setObject = function (key, val) {
+      var value = _.isObject(val) || _.isArray(val) ? JSON.stringify(val) : val;
+      this.setItem(key, value);
+    };
+    this.getObject = function (key) {
+      var item = $window.localStorage.getItem(key);
+      try {
+        item = JSON.parse(item);
+      } catch (error) {
+        return item;
+      }
+      return item;
+    };
+  }
+]);
+angular.module('encore.ui.rxSession', ['encore.ui.rxLocalStorage']).factory('Session', [
+  'LocalStorage',
+  function (LocalStorage) {
+    var TOKEN_ID = 'encoreSessionToken';
+    var session = {};
+    session.getToken = function () {
+      return LocalStorage.getObject(TOKEN_ID);
+    };
+    session.storeToken = function (token) {
+      LocalStorage.setObject(TOKEN_ID, token);
+    };
+    session.logoff = function () {
+      LocalStorage.removeItem(TOKEN_ID);
+    };
+    session.isCurrent = function () {
+      var token = session.getToken();
+      //Conditional to prevent null exceptions when validating the token
+      if (token && token.access && token.access.token && token.access.token.expires) {
+        return new Date(token.access.token.expires) > _.now();
+      }
+      return false;
+    };
+    session.isAuthenticated = function () {
+      var token = session.getToken();
+      return _.isEmpty(token) ? false : session.isCurrent();
+    };
+    return session;
+  }
+]);
+angular.module('encore.ui.rxPermission', ['encore.ui.rxSession']).factory('Permission', [
+  'Session',
+  function (Session) {
+    var permissionSvc = {};
+    permissionSvc.getRoles = function () {
+      var token = Session.getToken();
+      return token && token.access && token.access.user && token.access.user.roles ? token.access.user.roles : [];
+    };
+    permissionSvc.hasRole = function (role) {
+      return _.some(permissionSvc.getRoles(), function (item) {
+        return item.name === role;
+      });
+    };
+    return permissionSvc;
+  }
+]).directive('rxPermission', function () {
+  return {
+    restrict: 'E',
+    transclude: true,
+    scope: { role: '@' },
+    templateUrl: 'templates/rxPermission.html',
+    controller: [
+      '$scope',
+      'Permission',
+      function ($scope, Permission) {
+        $scope.hasRole = function () {
+          return Permission.hasRole($scope.role);
+        };
+      }
+    ]
+  };
+});
+angular.module('encore.ui.rxAuth', [
+  'encore.ui.rxIdentity',
+  'encore.ui.rxSession',
+  'encore.ui.rxPermission'
+]).factory('Auth', [
+  'Identity',
+  'Session',
+  'Permission',
+  function (Identity, Session, Permission) {
+    var svc = {};
+    _.assign(svc, Identity);
+    _.assign(svc, Session);
+    _.assign(svc, Permission);
+    return svc;
+  }
+]);
 angular.module('encore.ui.rxBreadcrumbs', []).factory('rxBreadcrumbsSvc', function () {
   // default will always be home
   var breadcrumbs = [{
@@ -320,26 +497,21 @@ angular.module('encore.ui.rxForm', ['ngSanitize']).directive('rxFormItem', funct
           };
           // Determines whether the row is selected
           $scope.isSelected = function (val, idx) {
-            // row can only be 'selected' if it's not the default 'selected' value
+            // row can only be 'selected' if it's not the 'current'' value
             if (!$scope.isCurrent(val)) {
               if ($scope.type == 'radio') {
                 return val == $scope.model;
               } else if ($scope.type == 'checkbox') {
-                if (_.isUndefined(val)) {
-                  val = 'true';
+                if (!_.isUndefined(val)) {
+                  // if 'val' is defined, run it through our custom matcher
+                  return determineMatch(val, $scope.model[idx]);
+                } else {
+                  // otherwise, just return the value of the model and angular can decide
+                  return $scope.model[idx];
                 }
-                return determineMatch(val, $scope.model[idx]);
               }
             }
             return false;
-          };
-          /*
-             * Convenience method to set ng-true-value or ng-false-value with fallback
-             * @param {String} val Value that's passed in from data
-             * @param {Any} fallback Value to use if 'val' is undefiend
-             */
-          $scope.getCheckboxValue = function (val, fallback) {
-            return _.isUndefined(val) ? fallback : val;
           };
           /*
              * Get the value out of a key from the row, or parse an expression
@@ -362,72 +534,6 @@ angular.module('encore.ui.rxForm', ['ngSanitize']).directive('rxFormItem', funct
           };
         }
       ]
-    };
-  }
-]);
-angular.module('encore.ui.rxIdentity', ['ngResource']).factory('Identity', [
-  '$resource',
-  function ($resource) {
-    var authSvc = $resource('/identity/:action', {}, {
-        loginWithJSON: {
-          method: 'POST',
-          isArray: false,
-          params: { action: 'tokens' }
-        },
-        validate: {
-          method: 'GET',
-          url: '/identity/login/session/:id',
-          isArray: false
-        }
-      });
-    authSvc.login = function (credentials, success, error) {
-      var body = {
-          auth: {
-            passwordCredentials: {
-              username: credentials.username,
-              password: credentials.password
-            }
-          }
-        };
-      return authSvc.loginWithJSON(body, success, error);
-    };
-    return authSvc;
-  }
-]);
-/*jshint proto:true*/
-angular.module('encore.ui.rxLocalStorage', []).service('LocalStorage', [
-  '$window',
-  function ($window) {
-    this.setItem = function (key, value) {
-      $window.localStorage.setItem(key, value);
-    };
-    this.getItem = function (key) {
-      return $window.localStorage.getItem(key);
-    };
-    this.key = function (key) {
-      return $window.localStorage.key(key);
-    };
-    this.removeItem = function (key) {
-      $window.localStorage.removeItem(key);
-    };
-    this.clear = function () {
-      $window.localStorage.clear();
-    };
-    this.__defineGetter__('length', function () {
-      return $window.localStorage.length;
-    });
-    this.setObject = function (key, val) {
-      var value = _.isObject(val) || _.isArray(val) ? JSON.stringify(val) : val;
-      this.setItem(key, value);
-    };
-    this.getObject = function (key) {
-      var item = $window.localStorage.getItem(key);
-      try {
-        item = JSON.parse(item);
-      } catch (error) {
-        return item;
-      }
-      return item;
     };
   }
 ]);
@@ -958,67 +1064,6 @@ angular.module('encore.ui.rxPaginate', []).directive('rxPaginate', function () {
     };
   }
 ]);
-angular.module('encore.ui.rxSession', ['encore.ui.rxLocalStorage']).factory('Session', [
-  'LocalStorage',
-  function (LocalStorage) {
-    var TOKEN_ID = 'encoreSessionToken';
-    var session = {};
-    session.getToken = function () {
-      return LocalStorage.getObject(TOKEN_ID);
-    };
-    session.storeToken = function (token) {
-      LocalStorage.setObject(TOKEN_ID, token);
-    };
-    session.logoff = function () {
-      LocalStorage.removeItem(TOKEN_ID);
-    };
-    session.isCurrent = function () {
-      var token = session.getToken();
-      //Conditional to prevent null exceptions when validating the token
-      if (token && token.access && token.access.token && token.access.token.expires) {
-        return new Date(token.access.token.expires) > _.now();
-      }
-      return false;
-    };
-    session.isAuthenticated = function () {
-      var token = session.getToken();
-      return _.isEmpty(token) ? false : session.isCurrent();
-    };
-    return session;
-  }
-]);
-angular.module('encore.ui.rxPermission', ['encore.ui.rxSession']).factory('Permission', [
-  'Session',
-  function (Session) {
-    var permissionSvc = {};
-    permissionSvc.getRoles = function () {
-      var token = Session.getToken();
-      return token && token.access && token.access.user && token.access.user.roles ? token.access.user.roles : [];
-    };
-    permissionSvc.hasRole = function (role) {
-      return _.some(permissionSvc.getRoles(), function (item) {
-        return item.name === role;
-      });
-    };
-    return permissionSvc;
-  }
-]).directive('rxPermission', function () {
-  return {
-    restrict: 'E',
-    transclude: true,
-    scope: { role: '@' },
-    templateUrl: 'templates/rxPermission.html',
-    controller: [
-      '$scope',
-      'Permission',
-      function ($scope, Permission) {
-        $scope.hasRole = function () {
-          return Permission.hasRole($scope.role);
-        };
-      }
-    ]
-  };
-});
 angular.module('encore.ui.rxRelatedMenu', []).directive('rxRelatedMenu', function () {
   return {
     restrict: 'E',
