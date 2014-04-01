@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.4.0 - 2014-03-31
+ * Version: 0.4.1 - 2014-04-01
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -709,7 +709,14 @@ angular.module('encore.ui.rxNav', ['encore.ui.rxDropdown']).directive('rxNav', f
   };
 });
 /*jshint undef:false*/
-angular.module('encore.ui.rxNotify', ['ngSanitize']).directive('rxNotifications', [
+angular.module('encore.ui.rxNotify', ['ngSanitize']).directive('rxNotification', function () {
+  return {
+    scope: { type: '@' },
+    transclude: true,
+    restrict: 'E',
+    templateUrl: 'templates/rxNotification.html'
+  };
+}).directive('rxNotifications', [
   'rxNotify',
   function (rxNotify) {
     return {
@@ -1293,7 +1300,7 @@ angular.module('templates/rxNav.html', []).run([
 angular.module('templates/rxNotification.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxNotification.html', '<div class="rx-notification notification-{{message.type}}">{{message.text}} <button ng-click="dismiss()" class="notification-dismiss btn-link" ng-if="message.dismissable">&times; <span class="visually-hidden">Dismiss Message</span></button></div>');
+    $templateCache.put('templates/rxNotification.html', '<div class="rx-notifications"><div class="rx-notification notification-{{type}}"><span class="notification-text" ng-transclude=""></span></div></div>');
   }
 ]);
 angular.module('templates/rxNotifications.html', []).run([

@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.4.0 - 2014-03-31
+ * Version: 0.4.1 - 2014-04-01
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -686,7 +686,14 @@ angular.module('encore.ui.rxNav', ['encore.ui.rxDropdown']).directive('rxNav', f
   };
 });
 /*jshint undef:false*/
-angular.module('encore.ui.rxNotify', ['ngSanitize']).directive('rxNotifications', [
+angular.module('encore.ui.rxNotify', ['ngSanitize']).directive('rxNotification', function () {
+  return {
+    scope: { type: '@' },
+    transclude: true,
+    restrict: 'E',
+    templateUrl: 'templates/rxNotification.html'
+  };
+}).directive('rxNotifications', [
   'rxNotify',
   function (rxNotify) {
     return {
