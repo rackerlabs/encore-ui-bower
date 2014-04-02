@@ -1,32 +1,75 @@
-/*
-FlexBox Columns
-*/
-html {
-  line-height: 1;
+.rx-app {
+  /*
+     Global styling for links
+
+     ```
+     <a href="#">My Link</a>
+     <a href="#" class=":visited">Visited Link</a>
+     <a href="#" class=":hover">Hovered Link</a>
+     <a href="#" class=":focus">Focused Link</a>
+     <a href="#" class=":active">Active Link</a>
+     ```
+     */
+  /* Table Styles */
+  /*
+     Global styling for buttons
+
+     ```
+     <button class="button">My Button</button>
+     <button class="button button-small">My Button</button>
+     <button class="button button-large">My Button</button>
+     <button class="button button-green">My Button</button>
+     <button class="button button-blue">My Button</button>
+     <button class="button" disabled>My Button</button>
+     <a href="#" class="button">My Link Button</a>
+     ```
+     */
+  /* Style to make buttons look like plain links */
+  /*
+
+    Colors the text red to warn people that something important will/did happen (plus icons)
+
+    ```
+    <a href="#" class="msg-warn link-warn">Delete</a>
+    <span class="msg-warn">Something was deleted</span>
+    ```
+    */
+  /*
+    Basic color change to make text less prominant
+    <h1>My Items <span class="subdued">(10)</span></h1>
+     */
+  /*
+    This can be added to hide an element but not remove it from the spacing of the
+    page
+    */
+  /*
+     * Hide content visually but let them still be read by screen readers
+     * @see http://developer.yahoo.com/blogs/ydn/clip-hidden-content-better-accessibility-53456.html
+     */
+  /*
+     * Provide clearfix functionality
+     * @see http://nicolasgallagher.com/micro-clearfix-hack/
+     */
 }
-html,
-button,
-input,
-select,
-.pure-g [class*="pure-u"],
-.pure-g-r [class*="pure-u"] {
+.rx-app button,
+.rx-app input,
+.rx-app select,
+.rx-app .pure-g [class*="pure-u"],
+.rx-app .pure-g-r [class*="pure-u"] {
   font-family: "Roboto", sans-serif;
 }
-body {
-  font-size: 13px;
-}
-header,
-nav,
-ol,
-ul,
-li,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-fieldset {
+.rx-app header,
+.rx-app nav,
+.rx-app ol,
+.rx-app ul,
+.rx-app li,
+.rx-app h1,
+.rx-app h2,
+.rx-app h3,
+.rx-app h4,
+.rx-app h5,
+.rx-app h6,
+.rx-app fieldset {
   margin: 0;
   padding: 0;
   border: 0;
@@ -34,49 +77,356 @@ fieldset {
   font-size: 100%;
   vertical-align: baseline;
 }
-ol,
-ul,
-li {
+.rx-app ol,
+.rx-app ul,
+.rx-app li {
   list-style: none;
 }
-p {
+.rx-app p {
   line-height: 1.2;
 }
-/*
- Global styling for links
-
- ```
- <a href="#">My Link</a>
- <a href="#" class=":visited">Visited Link</a>
- <a href="#" class=":hover">Hovered Link</a>
- <a href="#" class=":focus">Focused Link</a>
- <a href="#" class=":active">Active Link</a>
- ```
- */
-a {
+.rx-app a {
   text-decoration: none;
   color: #4682c2;
 }
-a:hover,
-a:focus {
+.rx-app a:hover,
+.rx-app a:focus {
   text-decoration: underline;
   color: #3481d4;
 }
-/* Layout Styles */
-.container {
+.rx-app table {
+  clear: both;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border-collapse: collapse;
+}
+.rx-app table td,
+.rx-app table th {
+  border: 1px solid #eeeeee;
+  padding: 10px;
+  color: #555555;
+}
+.rx-app table thead th {
+  text-align: left;
+  background: #878787;
+  color: tableHeaderText;
+  border: 1px solid #6e6e6e;
+}
+.rx-app .table-striped tr:nth-child(even) {
+  background: #f6f6f6;
+}
+.rx-app .button {
+  display: inline-block;
+  background: #0950a3;
+  color: #ffffff;
+  border: 0;
+  font-size: 1.2em;
+  font-weight: 100;
+  padding: .7em 1.5em;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.rx-app .button:hover {
+  text-decoration: none;
+  color: #ffffff;
+  background: #00ac31;
+}
+.rx-app .button.button-small {
+  padding: 5px 10px;
+  margin-bottom: 10px;
+  font-size: .8em;
+}
+.rx-app .button.button-large {
+  font-size: 1.5em;
+}
+.rx-app .button.button-green {
+  background: #00ac31;
+}
+.rx-app .button.button-blue {
+  background: #0950a3;
+}
+.rx-app .button[disabled] {
+  cursor: default;
+  padding-left: 20px;
+  background: #999999;
+}
+.rx-app .btn-link {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: inherit;
+}
+.rx-app thead th .btn-link {
+  color: #ffffff;
+}
+.rx-app thead th .btn-link:hover,
+.rx-app thead th .btn-link:focus {
+  color: #ffffff;
+}
+.rx-app .link-action,
+.rx-app .link-action a,
+.rx-app .link-warn,
+.rx-app .link-warn a {
+  font-size: 1.2em;
+  cursor: pointer;
+}
+.rx-app .link-action:before,
+.rx-app .link-action a:before {
+  content: '+ ';
+}
+.rx-app .link-warn:before,
+.rx-app .link-warn a:before {
+  content: '- ';
+}
+.rx-app .msg-action,
+.rx-app .msg-action a {
+  color: #3ab661;
+}
+.rx-app .msg-action:hover,
+.rx-app .msg-action a:hover,
+.rx-app .msg-action:focus,
+.rx-app .msg-action a:focus {
+  color: #3ab661;
+}
+.rx-app .msg-warn,
+.rx-app .msg-warn a {
+  color: #eb2124;
+}
+.rx-app .msg-warn:hover,
+.rx-app .msg-warn a:hover,
+.rx-app .msg-warn:focus,
+.rx-app .msg-warn a:focus {
+  color: #fd0f12;
+}
+.rx-app .list-link,
+.rx-app .list-link a {
+  font-size: 1.2em;
+  padding-top: 10px;
+  display: block;
+}
+.rx-app .action-separator {
+  font-size: 1.1em;
+  color: #ccc;
+}
+.rx-app .subdued {
+  color: #bbbbbb;
+}
+.rx-app .hidden {
+  visibility: hidden;
+}
+.rx-app .visually-hidden {
+  position: absolute !important;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0 !important;
+  border: 0 !important;
+  height: 1px !important;
+  width: 1px !important;
+  overflow: hidden;
+}
+.rx-app body:hover .visually-hidden a,
+.rx-app body:hover .visually-hidden input,
+.rx-app body:hover .visually-hidden button {
+  display: none;
+}
+.rx-app .clearfix:before,
+.rx-app .clearfix:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+.rx-app .clearfix:after {
+  clear: both;
+}
+
+/*
+FlexBox Columns
+*/
+/*
+ * rxApp
+ */
+.rx-app {
   min-height: 100%;
   display: -webkit-box;
   display: -moz-box;
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
   background: #f5f5f5;
+  font-size: 13px;
+  color: #404040;
 }
-.page-content {
+.rx-app .rx-app-menu {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 200;
+  -webkit-box-flex: 0 0 300px;
+  -moz-box-flex: 0 0 300px;
+  -webkit-flex: 0 0 300px;
+  -ms-flex: 0 0 300px;
+  flex: 0 0 300px;
+  background: #1a1a1a;
+  line-height: 1.2;
+}
+.rx-app .rx-app-menu input {
+  color: #444444;
+}
+.rx-app .rx-app-content {
+  -webkit-box-flex: 1 1 0;
+  -moz-box-flex: 1 1 0;
+  -webkit-flex: 1 1 0;
+  -ms-flex: 1 1 0;
+  flex: 1 1 0;
+}
+.rx-app .site-branding {
+  border-top: 1px solid #074285;
+  border-bottom: 1px solid #052953;
+  padding: 5px 20px;
+  overflow: hidden;
+  background: #06356b;
+}
+.rx-app .site-branding .site-title {
+  float: left;
+  font-weight: 300;
+}
+.rx-app .site-branding .site-options {
+  float: right;
+  font-size: .8em;
+  margin-top: 1px;
+}
+.rx-app .site-branding .site-options a {
+  color: #97b1d0;
+  display: inline-block;
+  margin-left: 1em;
+}
+.rx-app .site-branding .site-options a:hover,
+.rx-app .site-branding .site-options a:focus {
+  color: #fff;
+}
+.rx-app .rx-app-nav {
+  clear: both;
+}
+.rx-app .rx-app-nav .nav-section {
+  padding-left: 5px;
+}
+.rx-app .rx-app-nav .nav-section .item-link {
+  background: #1a1a1a;
+  border-top: 1px solid #333333;
+  border-bottom: 1px solid #000000;
+  padding: 10px 15px;
+  display: block;
+  color: #fff;
+  text-decoration: none;
+}
+.rx-app .rx-app-nav .nav-section .item-link:hover,
+.rx-app .rx-app-nav .nav-section .item-link:focus {
+  background: #262626;
+  border-top: 1px solid #404040;
+  border-bottom: 1px solid #0d0d0d;
+}
+.rx-app .rx-app-nav .nav-section .item-link.active {
+  position: relative;
+  border-color: transparent !important;
+  background: #0E7FFF !important;
+  cursor: default;
+}
+.rx-app .rx-app-nav .nav-section .item-link.active:after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 100%;
+  top: 0;
+  border: transparent solid;
+  border-width: calc(5px + 1em) 6px;
+  border-left-color: #0E7FFF;
+}
+.rx-app .rx-app-nav .nav-section .item-content {
+  background: #333333;
+  padding: 10px;
+}
+.rx-app .rx-app-nav .nav-section-title {
+  padding: 5px 15px;
+  font-size: 13px;
+  font-weight: 300;
+}
+.rx-app .rx-app-nav .nav-section-all {
+  background: #407610;
+  border-top: 1px solid #568c26;
+}
+.rx-app .rx-app-nav .item-directive {
+  margin-bottom: 10px;
+}
+.rx-app .rx-app-nav .rx-app-nav-level-2 .item-link {
+  background: #4d4d4d;
+  border-top-color: #666666;
+  border-bottom-color: #333333;
+}
+.rx-app .rx-app-nav .rx-app-nav-level-2 .item-link:hover,
+.rx-app .rx-app-nav .rx-app-nav-level-2 .item-link:focus {
+  background: #595959;
+  border-top: 1px solid #737373;
+  border-bottom: 1px solid #404040;
+}
+.rx-app .rx-app-nav .rx-app-nav-level-2 .item-link.active {
+  margin-right: -10px;
+}
+.rx-app .rx-app-nav .rx-app-nav-level-2 .item-content {
+  background: #4d4d4d;
+  padding: 10px;
+}
+.rx-app .rx-app-nav .rx-app-nav-level-3 .item-link {
+  background: #666666;
+  border-top-color: #808080;
+  border-bottom-color: #4d4d4d;
+  padding: 5px 15px;
+  font-size: 13px;
+  font-weight: 300;
+}
+.rx-app .rx-app-nav .rx-app-nav-level-3 .item-link:hover,
+.rx-app .rx-app-nav .rx-app-nav-level-3 .item-link:focus {
+  background: #595959;
+  border-top: 1px solid #737373;
+  border-bottom: 1px solid #404040;
+}
+.rx-app .rx-app-nav .rx-app-nav-level-3 .item-link.active:after {
+  border-width: 1em 6px;
+}
+.rx-app .rx-app-nav .rx-app-nav-level-3 .item-content {
+  background: black;
+  padding: 0 0 5px 5px;
+}
+.rx-app .rx-app-nav .rx-app-nav-level-4 .rx-app-nav-item:first-child {
+  border-top: 3px solid #333;
+}
+.rx-app .rx-app-nav .rx-app-nav-level-4 .item-link {
+  background: #333;
+  border: none;
+}
+.rx-app .rx-app-nav .rx-app-nav-level-4 .item-link:hover,
+.rx-app .rx-app-nav .rx-app-nav-level-4 .item-link:focus {
+  background: #404040;
+  border: none;
+}
+.rx-app .rx-app-nav .rx-app-nav-level-4 .item-link.active {
+  margin-right: 0;
+}
+.rx-app .page-header {
+  background: linear-gradient(to bottom, #e7e7e7 0%, #d6d6d6 100%);
+  border-bottom: 1px solid #bbb;
+}
+.rx-app .page-body {
+  padding: 20px 30px 50px;
+  clear: both;
+}
+.rx-app .page-body .page-content {
   display: -webkit-box;
   display: -moz-box;
   display: -ms-flexbox;
@@ -87,240 +437,25 @@ a:focus {
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
 }
-.main-content {
-  -webkit-box-flex: 1 1 0;
-  -moz-box-flex: 1 1 0;
-  -webkit-flex: 1 1 0;
-  -ms-flex: 1 1 0;
-  flex: 1 1 0;
-  padding: 20px 30px 50px;
+.rx-app .page-body .page-title,
+.rx-app .page-body .section-title {
+  font-weight: 400;
+  font-size: 1.6em;
+  color: #727272;
 }
-/*
-
-# Common Styles
-These are common styles that will be re-used across the site
-
-*/
-/* Heading Styles */
-.section-title {
-  font-size: 2em;
-  font-weight: 100;
-  color: #666;
-  margin-top: 40px;
-  margin-bottom: 15px;
+.rx-app .page-body .page-title {
+  margin-top: 0;
 }
-/* Table Styles */
-table {
-  clear: both;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-  border-collapse: collapse;
-}
-table td,
-table th {
-  border: 1px solid #eee;
-  padding: 10px;
-  color: #555;
-}
-table thead th {
-  text-align: left;
-  background: #878787;
-  color: #fff;
-  border: 1px solid #6e6e6e;
-}
-.table-striped tr:nth-child(even) {
-  background: #f6f6f6;
-}
-/*
- Global styling for links
-
- ```
- <a href="#">My Link</a>
- <a href="#" class=":visited">Visited Link</a>
- <a href="#" class=":hover">Hovered Link</a>
- <a href="#" class=":focus">Focused Link</a>
- <a href="#" class=":active">Active Link</a>
- ```
- */
-a,
-.btn-link {
-  text-decoration: none;
-  color: #4682c2;
-}
-a:hover,
-a:focus,
-.btn-link:hover,
-.btn-link:focus {
-  text-decoration: underline;
-  color: #3481d4;
-}
-/*
- Global styling for buttons
-
- ```
- <button class="button">My Button</button>
- <button class="button button-small">My Button</button>
- <button class="button button-large">My Button</button>
- <button class="button button-green">My Button</button>
- <button class="button button-blue">My Button</button>
- <button class="button" disabled>My Button</button>
- <a href="#" class="button">My Link Button</a>
- ```
- */
-.button {
-  display: inline-block;
-  background: #0950a3;
-  color: #fff;
-  border: 0;
-  font-size: 1.2em;
-  font-weight: 100;
-  padding: .7em 1.5em;
-  margin-bottom: 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-.button:hover {
-  text-decoration: none;
-  color: #fff;
-  background: #00ac31;
-}
-.button.button-small {
-  padding: 5px 10px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  font-size: .8em;
-}
-.button.button-large {
-  font-size: 1.5em;
-}
-.button.button-green {
-  background: #00ac31;
-}
-.button.button-blue {
-  background: #0950a3;
-}
-.button[disabled] {
-  cursor: default;
-  padding-left: 20px;
-  background: #999;
-}
-/* Style to make buttons look like plain links */
-.btn-link {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  font-size: inherit;
-}
-thead th .btn-link {
-  color: #fff;
-}
-thead th .btn-link:hover,
-thead th .btn-link:focus {
-  color: #fff;
-}
-/*
-
-Colors the text red to warn people that something important will/did happen (plus icons)
-
-```
-<a href="#" class="msg-warn link-warn">Delete</a>
-<span class="msg-warn">Something was deleted</span>
-```
-*/
-.link-action,
-.link-action a,
-.link-warn,
-.link-warn a {
-  font-size: 1.2em;
-  cursor: pointer;
-}
-.link-action:before,
-.link-action a:before {
-  content: '+ ';
-}
-.link-warn:before,
-.link-warn a:before {
-  content: '- ';
-}
-.msg-action,
-.msg-action a {
-  color: #3ab661;
-}
-.msg-action:hover,
-.msg-action a:hover,
-.msg-action:focus,
-.msg-action a:focus {
-  color: #3ab661;
-}
-.msg-warn,
-.msg-warn a {
-  color: #eb2124;
-}
-.msg-warn:hover,
-.msg-warn a:hover,
-.msg-warn:focus,
-.msg-warn a:focus {
-  color: #fd0f12;
-}
-.list-link,
-.list-link a {
-  font-size: 1.2em;
-  padding-top: 10px;
-  display: block;
-}
-.action-separator {
-  font-size: 1.1em;
-  color: #ccc;
-}
-/*
-Basic color change to make text less prominant
-<h1>My Items <span class="subdued">(10)</span></h1>
- */
-.subdued {
-  color: #bbbbbb;
-}
-/*
-This can be added to hide an element but not remove it from the spacing of the
-page
-*/
-.hidden {
-  visibility: hidden;
-}
-/*
- * Hide content visually but let them still be read by screen readers
- * @see http://developer.yahoo.com/blogs/ydn/clip-hidden-content-better-accessibility-53456.html
- */
-.visually-hidden {
-  position: absolute !important;
-  clip: rect(1px, 1px, 1px, 1px);
-  padding: 0 !important;
-  border: 0 !important;
-  height: 1px !important;
-  width: 1px !important;
-  overflow: hidden;
-}
-body:hover .visually-hidden a,
-body:hover .visually-hidden input,
-body:hover .visually-hidden button {
-  display: none;
-}
-/*
- * Provide clearfix functionality
- * @see http://nicolasgallagher.com/micro-clearfix-hack/
- */
-.clearfix:before,
-.clearfix:after {
-  content: " ";
-  /* 1 */
-  display: table;
-  /* 2 */
-}
-.clearfix:after {
-  clear: both;
+.rx-app .page-body .page-subtitle {
+  font-weight: 500;
+  margin: 0 0 10px;
+  font-size: 1em;
+  color: #aaa;
 }
 
 /*
@@ -362,7 +497,7 @@ They show your position within the site heirarchy
   float: left;
 }
 .rx-breadcrumbs .breadcrumb .breadcrumb-name {
-  padding: .7em 1em .7em 2em;
+  padding: 0.6em 1em 0.6em 2em;
   font-size: 0.9em;
   display: block;
   color: #555;
@@ -379,11 +514,10 @@ They show your position within the site heirarchy
   content: "";
   position: absolute;
   top: 50%;
-  margin-top: -1.5em;
-  border-top: 1.5em solid transparent;
-  border-bottom: 1.5em solid transparent;
-  border-left: 13px solid;
-  right: -13px;
+  margin-top: -1.2em;
+  border: 0 solid transparent;
+  border-width: 1.2em 0 1.2em 9px;
+  right: -9px;
 }
 .rx-breadcrumbs .breadcrumb a::after {
   /* TODO add in border gradient to match nav background */
@@ -392,7 +526,7 @@ They show your position within the site heirarchy
 }
 .rx-breadcrumbs .breadcrumb a::before {
   border-left-color: #ccc;
-  right: -14px;
+  right: -10px;
   z-index: 1;
 }
 .rx-breadcrumbs .breadcrumb .first {
@@ -669,7 +803,7 @@ ol.nav-dropdown.group .dropdown-submenu > .dropdown-menu > li a:hover {
 }
 .field-input input,
 .field-input select {
-  color: #444;
+  color: #444444;
   background: transparent;
   font-size: 1.2em;
   border: 0;
