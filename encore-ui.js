@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.5.0 - 2014-04-02
+ * Version: 0.5.1 - 2014-04-04
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -691,30 +691,34 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize']).service('Environment',
   }
 ]).directive('rxIfEnvironment', [
   '$compile',
-  function ($compile) {
-    var convertToExpression = function (environment) {
+  'Environment',
+  function ($compile, Environment) {
+    var doesEnvironmentMatch = function (environment) {
       // check to see if first character is negation indicator
       var isNegated = environment[0] === '!';
-      // get name of environment
-      var name = isNegated ? environment.substr(1) : environment;
-      // determine how to match against environment
-      var comparison = isNegated ? '!==' : '===';
-      // build expression based on values
-      // e.g. 'environment.name === "staging"'
-      var expression = 'environment.name ' + comparison + ' "' + name + '"';
-      return expression;
+      // get name of environment to look for
+      var targetEnvironmentName = isNegated ? environment.substr(1) : environment;
+      // get name of current environment
+      var currentEnvironmentName = Environment.get().name;
+      if (isNegated) {
+        return currentEnvironmentName !== targetEnvironmentName;
+      } else {
+        return currentEnvironmentName === targetEnvironmentName;
+      }
     };
     return {
       restrict: 'A',
+      terminal: true,
+      priority: 1000,
       compile: function () {
         return {
           pre: function preLink(scope, element, attrs) {
-            var envExp = convertToExpression(attrs.rxIfEnvironment);
+            scope.doesEnvironmentMatch = doesEnvironmentMatch;
+            // add ng-show attr to element
+            element.attr('ng-show', 'doesEnvironmentMatch("' + attrs.rxIfEnvironment + '")');
             //remove the attribute to avoid an indefinite loop
             element.removeAttr('rx-if-environment');
             element.removeAttr('data-rx-if-environment');
-            // add ng-show attr to element
-            element.attr('ng-show', envExp);
             // build the new element
             $compile(element)(scope);
           }

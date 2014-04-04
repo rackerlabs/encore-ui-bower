@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.5.0 - 2014-04-02
+ * Version: 0.5.1 - 2014-04-04
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -718,30 +718,34 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize']).service('Environment',
   }
 ]).directive('rxIfEnvironment', [
   '$compile',
-  function ($compile) {
-    var convertToExpression = function (environment) {
+  'Environment',
+  function ($compile, Environment) {
+    var doesEnvironmentMatch = function (environment) {
       // check to see if first character is negation indicator
       var isNegated = environment[0] === '!';
-      // get name of environment
-      var name = isNegated ? environment.substr(1) : environment;
-      // determine how to match against environment
-      var comparison = isNegated ? '!==' : '===';
-      // build expression based on values
-      // e.g. 'environment.name === "staging"'
-      var expression = 'environment.name ' + comparison + ' "' + name + '"';
-      return expression;
+      // get name of environment to look for
+      var targetEnvironmentName = isNegated ? environment.substr(1) : environment;
+      // get name of current environment
+      var currentEnvironmentName = Environment.get().name;
+      if (isNegated) {
+        return currentEnvironmentName !== targetEnvironmentName;
+      } else {
+        return currentEnvironmentName === targetEnvironmentName;
+      }
     };
     return {
       restrict: 'A',
+      terminal: true,
+      priority: 1000,
       compile: function () {
         return {
           pre: function preLink(scope, element, attrs) {
-            var envExp = convertToExpression(attrs.rxIfEnvironment);
+            scope.doesEnvironmentMatch = doesEnvironmentMatch;
+            // add ng-show attr to element
+            element.attr('ng-show', 'doesEnvironmentMatch("' + attrs.rxIfEnvironment + '")');
             //remove the attribute to avoid an indefinite loop
             element.removeAttr('rx-if-environment');
             element.removeAttr('data-rx-if-environment');
-            // add ng-show attr to element
-            element.attr('ng-show', envExp);
             // build the new element
             $compile(element)(scope);
           }
@@ -1667,7 +1671,7 @@ angular.module('templates/rxRelatedMenu.html', []).run([
 angular.module('templates/rxProductResources.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxProductResources.html', '<h5>Available Product Resources</h5><ul class="product-resources"><rx-active-url url="/servers"><a href="/{{user}}/servers/" class="ico-servers">Cloud Servers <span>OpenStack / Nova</span></a></rx-active-url><rx-active-url url="/cbs/"><a href="/{{user}}/cbs/volumes/" class="ico-block-storage">Block Storage <span>OpenStack / Cinder</span></a><ul class="sub-products"><rx-active-url url="/cbs/volumes"><a href="/{{user}}/cbs/volumes/">Volumes</a></rx-active-url><rx-active-url url="/cbs/snapshots"><a href="/{{user}}/cbs/snapshots/">Snapshots</a></rx-active-url></ul></rx-active-url></ul>');
+    $templateCache.put('templates/rxProductResources.html', '<h5>Available Product Resources</h5><ul class="product-resources"><rx-active-url url="/servers"><a href="/{{user}}/servers/" class="ico-servers">Cloud Servers <span>OpenStack / Nova</span></a></rx-active-url><rx-active-url url="/cbs/"><a href="/{{user}}/cbs/volumes/" class="ico-block-storage">Block Storage <span>OpenStack / Cinder</span></a><ul class="sub-products"><rx-active-url url="/cbs/volumes"><a href="/{{user}}/cbs/volumes/">Volumes</a></rx-active-url><rx-active-url url="/cbs/snapshots"><a href="/{{user}}/cbs/snapshots/">Snapshots</a></rx-active-url></ul></rx-active-url><rx-active-url url="/databases/instances" rx-if-environment="!production"><a href="/{{user}}/databases/instances/" class="ico-databases">Databases <span>OpenStack / Trove</span></a></rx-active-url></ul>');
   }
 ]);
 angular.module('templates/rxSortableColumn.html', []).run([
