@@ -2,13 +2,14 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.5.1 - 2014-04-04
+ * Version: 0.5.2 - 2014-04-09
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
   'encore.ui.configs',
   'encore.ui.rxActiveUrl',
   'encore.ui.rxAge',
+  'encore.ui.rxEnvironment',
   'encore.ui.rxApp',
   'encore.ui.rxAttributes',
   'encore.ui.rxIdentity',
@@ -19,9 +20,9 @@ angular.module('encore.ui', [
   'encore.ui.rxBreadcrumbs',
   'encore.ui.rxButton',
   'encore.ui.rxCapitalize',
+  'encore.ui.rxCompile',
   'encore.ui.rxDiskSize',
   'encore.ui.rxDropdown',
-  'encore.ui.rxEnvironment',
   'encore.ui.rxForm',
   'encore.ui.rxLogout',
   'encore.ui.rxModalAction',
@@ -156,66 +157,219 @@ angular.module('encore.ui.rxAge', []).filter('rxAge', function () {
     }).join(' ');
   };
 });
-angular.module('encore.ui.rxApp', []).value('encoreNav', [{
+angular.module('encore.ui.rxEnvironment', ['ngSanitize']).service('Environment', [
+  '$location',
+  '$rootScope',
+  function ($location, $rootScope) {
+    var envSvc = {};
+    /*
+     * This array defined different environments to check against.
+     * It is prefilled with 'Encore' based environments
+     * It can be overwritten if necessary via the returned 'environments' property
+     *
+     * @property {string} name The 'friendly' name of the environment
+     * @property {string|RegEx} pattern The pattern to match the current path against
+     * @property {string} url The url pattern used to build out urls for that environment.
+     *                        See 'buildUrl' for more details
+     */
+    var environments = [
+        {
+          name: 'local',
+          pattern: 'localhost:9000',
+          url: '//localhost:9000/{{path}}'
+        },
+        {
+          name: 'staging',
+          pattern: /\/\/staging\.(?:.*\.)?com/,
+          url: '//staging.{{tld}}.encore.rackspace.com/{{path}}'
+        },
+        {
+          name: 'production',
+          pattern: /\/\/.*\.?encore.rackspace.com/,
+          url: '//{{tld}}.encore.rackspace.com/{{path}}'
+        }
+      ];
+    /*
+     * Checks if an environment has valid properties
+     * @private
+     * @param {object} environment The environment object to check
+     * @returns {boolean} true if valid, false otherwise
+     */
+    var isValidEnvironment = function (environment) {
+      var isValid = _.isString(environment.name) && (_.isString(environment.pattern) || _.isRegExp(environment.pattern)) && _.isString(environment.url);
+      return isValid;
+    };
+    /*
+     * Retrieves current environment, defaulting to first defined
+     * @public
+     * @param {string} [href] The path to check the environment on. Defaults to $location.path()
+     * @returns {object} The current environment
+     */
+    envSvc.get = function (href) {
+      // default to current location if href not provided
+      href = href || $location.absUrl();
+      var currentEnvironment = _.find(environments, function (environment) {
+          var pattern = environment.pattern;
+          if (_.isRegExp(pattern)) {
+            return pattern.test(href);
+          }
+          return _.contains(href, pattern);
+        });
+      return currentEnvironment || $rootScope.environment || environments[0];
+    };
+    /*
+     * Adds an environment to the stack
+     * @public
+     * @param {object} environment The environment to add. See 'environments' array for required properties
+     * @throws Environment must match pattern defined in isValidEnvironment function
+     */
+    envSvc.add = function (environment) {
+      // do some sanity checks here
+      if (isValidEnvironment(environment)) {
+        // add environment
+        environments.push(environment);
+        // reset current environment now that information has been added
+        envSvc.set();
+      } else {
+        throw new Error('Environment incorrectly defined');
+      }
+    };
+    /*
+     * Sets the current environment
+     * @public
+     * @param {string} [environmentName] Environment to set as current
+     */
+    envSvc.set = function (environmentName) {
+      var environment;
+      if (_.isString(environmentName)) {
+        environment = _.find(environments, { 'name': environmentName });
+      }
+      $rootScope.environment = environment || envSvc.get();
+    };
+    /*
+     * Replaces current environments array with new one
+     * @public
+     * @param {array} newEnvironments New environments to use
+     */
+    envSvc.setAll = function (newEnvironments) {
+      // validate that all new environments are valid
+      if (newEnvironments.length > 0 && _.every(environments, isValidEnvironment)) {
+        // overwrite old environemnts with new
+        environments = newEnvironments;
+        // zero out current environment
+        $rootScope.environment = null;
+        // get new environment
+        envSvc.set();
+      }
+    };
+    // set current environment
+    envSvc.set();
+    return envSvc;
+  }
+]).filter('rxEnvironmentUrl', [
+  'Environment',
+  '$interpolate',
+  function (Environment, $interpolate) {
+    return function (details) {
+      var environment = Environment.get();
+      // convert url template into full path based on details provided (if details is an object)
+      var url = _.isObject(details) ? $interpolate(environment.url)(details) : details;
+      return url;
+    };
+  }
+]).filter('rxEnvironmentMatch', [
+  'Environment',
+  function (Environment) {
+    return function (environment) {
+      // check to see if first character is negation indicator
+      var isNegated = environment[0] === '!';
+      // get name of environment to look for
+      var targetEnvironmentName = isNegated ? environment.substr(1) : environment;
+      // get name of current environment
+      var currentEnvironmentName = Environment.get().name;
+      if (isNegated) {
+        return currentEnvironmentName !== targetEnvironmentName;
+      } else {
+        return currentEnvironmentName === targetEnvironmentName;
+      }
+    };
+  }
+]).directive('rxIfEnvironment', [
+  '$compile',
+  function ($compile) {
+    return {
+      restrict: 'A',
+      terminal: true,
+      priority: 1000,
+      compile: function () {
+        return {
+          pre: function preLink(scope, element, attrs) {
+            // add ng-show attr to element
+            element.attr('ng-show', '\'' + attrs.rxIfEnvironment + '\'| rxEnvironmentMatch');
+            //remove the attribute to avoid an indefinite loop
+            element.removeAttr('rx-if-environment');
+            element.removeAttr('data-rx-if-environment');
+            // build the new element
+            $compile(element)(scope);
+          }
+        };
+      }
+    };
+  }
+]);
+angular.module('encore.ui.rxApp', [
+  'encore.ui.rxEnvironment',
+  'ngSanitize',
+  'ngRoute'
+]).value('encoreNav', [{
     title: 'All Tools',
     children: [
       {
-        href: '/',
+        href: {
+          tld: 'cloudatlas',
+          path: ''
+        },
         linkText: 'Account-level Tools',
-        directive: 'account-search',
+        directive: 'rx-global-search',
         children: [
           {
-            href: '/account-details',
-            linkText: 'Account Details'
-          },
-          {
-            href: '/billing',
-            linkText: 'Billing',
-            children: [
-              {
-                href: '/billing/overview',
-                linkText: 'Overview'
-              },
-              {
-                href: '/billing/discounts',
-                linkText: 'Discounts'
-              },
-              {
-                href: '/billing/payments',
-                linkText: 'Payment Options'
-              },
-              {
-                href: '/billing/taxation',
-                linkText: 'Taxation'
-              },
-              {
-                href: '/billing/options',
-                linkText: 'Additional Options'
-              }
-            ]
-          },
-          {
-            href: '/{{username}}/cbs/volumes',
+            href: '/{{user}}/cbs/volumes',
             linkText: 'Block Storage',
             children: [
               {
-                href: '/{{username}}/cbs/volumes',
-                linkText: 'Volumes'
+                href: '/{{user}}/cbs/volumes',
+                linkText: 'Volumes',
+                children: [{
+                    href: '/{{user}}/cbs/volumes/create',
+                    linkText: 'Create Volume'
+                  }]
               },
               {
-                href: '/{{username}}/cbs/snapshots',
+                href: '/{{user}}/cbs/snapshots',
                 linkText: 'Snapshots'
               }
             ]
           },
           {
-            href: '/{{username}}/servers',
-            linkText: 'Cloud Servers'
+            href: '/{{user}}/servers',
+            linkText: 'Cloud Servers',
+            children: [{
+                href: '/{{user}}/servers/create',
+                linkText: 'Create Server'
+              }]
+          },
+          {
+            href: '/{{user}}/databases/instances',
+            linkText: 'Databases',
+            visibility: '"!production" | rxEnvironmentMatch'
           }
         ]
       },
       {
-        href: '/ticketqueues',
+        href: {
+          tld: 'cloudatlas',
+          path: 'ticketqueues'
+        },
         linkText: 'Ticket Queues',
         children: [
           {
@@ -268,9 +422,30 @@ angular.module('encore.ui.rxApp', []).value('encoreNav', [{
 }).directive('rxAppNavItem', [
   '$compile',
   '$location',
-  function ($compile, $location) {
-    var isActive = function (pattern) {
-      return _.contains($location.path(), pattern);
+  '$route',
+  '$interpolate',
+  'rxEnvironmentUrlFilter',
+  function ($compile, $location, $route, $interpolate, rxEnvironmentUrlFilter) {
+    var isActive = function (url) {
+      return _.contains($location.absUrl(), url);
+    };
+    var hasActive = function (item) {
+      // check if current active
+      var pathMatches = isActive(item.href);
+      // if current item not active, check if any children are active
+      if (!pathMatches && item.children) {
+        pathMatches = _.any(item.children, hasActive);
+      }
+      return pathMatches;
+    };
+    var buildUrl = function (url) {
+      // run the href through rxEnvironmentUrl in case it's defined as such
+      url = rxEnvironmentUrlFilter(url);
+      if ($route.current) {
+        // convert any nested expressions to defined route params
+        url = $interpolate(url)($route.current.pathParams);
+      }
+      return url;
     };
     var linker = function (scope, element) {
       var injectContent = function (selector, content) {
@@ -280,15 +455,17 @@ angular.module('encore.ui.rxApp', []).value('encoreNav', [{
           el.append(compiledHtml);
         });
       };
+      scope.item.href = buildUrl(scope.item.href);
       scope.level = _.isNumber(scope.level) ? scope.level : 1;
       var childLevel = scope.level + 1;
       var rxNavTemplate = '<rx-app-nav items="item.children" level="' + childLevel + '">' + '</rx-app-nav>';
       var directiveHtml = '<directive></directive>';
-      // add active class if defined or matches current href
-      scope.item.active = scope.item.active || isActive(scope.item.href);
+      // add active class if matches current href
+      scope.item.active = hasActive(scope.item);
       // listen to location changes and update nav accordingly
       scope.$on('$locationChangeSuccess', function () {
-        scope.item.active = isActive(scope.item.href);
+        scope.item.href = buildUrl(scope.item.href);
+        scope.item.active = hasActive(scope.item);
       });
       // add navDirective if defined
       if (angular.isString(scope.item.directive)) {
@@ -307,7 +484,19 @@ angular.module('encore.ui.rxApp', []).value('encoreNav', [{
       restrict: 'E',
       replace: true,
       templateUrl: 'templates/rxAppNavItem.html',
-      link: linker
+      link: linker,
+      controller: [
+        '$scope',
+        function ($scope) {
+          $scope.isVisible = function (visibility) {
+            if (_.isUndefined(visibility)) {
+              // if undefined, default to true
+              return true;
+            }
+            return $scope.$eval(visibility);
+          };
+        }
+      ]
     };
   }
 ]);
@@ -534,6 +723,26 @@ angular.module('encore.ui.rxCapitalize', []).filter('rxCapitalize', function () 
     return input.charAt(0).toUpperCase() + input.slice(1);
   };
 });
+angular.module('encore.ui.rxCompile', []).directive('rxCompile', [
+  '$compile',
+  function ($compile) {
+    return function (scope, element, attrs) {
+      scope.$watch(function (scope) {
+        // watch the 'compile' expression for changes
+        return scope.$eval(attrs.rxCompile);
+      }, function (value) {
+        // when the 'compile' expression changes
+        // assign it into the current DOM
+        element.html(value);
+        // compile the new DOM and link it to the current
+        // scope.
+        // NOTE: we only compile .childNodes so that
+        // we don't get into infinite loop compiling ourselves
+        $compile(element.contents())(scope);
+      });
+    };
+  }
+]);
 angular.module('encore.ui.rxDiskSize', []).filter('rxDiskSize', function () {
   return function (size) {
     var units = [
@@ -567,162 +776,6 @@ angular.module('encore.ui.rxDropdown', []).directive('rxDropdown', [
       scope: {
         visible: '&',
         menu: '='
-      }
-    };
-  }
-]);
-angular.module('encore.ui.rxEnvironment', ['ngSanitize']).service('Environment', [
-  '$location',
-  '$rootScope',
-  function ($location, $rootScope) {
-    var envSvc = {};
-    /*
-     * This array defined different environments to check against.
-     * It is prefilled with 'Encore' based environments
-     * It can be overwritten if necessary via the returned 'environments' property
-     *
-     * @property {string} name The 'friendly' name of the environment
-     * @property {string|RegEx} pattern The pattern to match the current path against
-     * @property {string} url The url pattern used to build out urls for that environment.
-     *                        See 'buildUrl' for more details
-     */
-    var environments = [
-        {
-          name: 'local',
-          pattern: 'localhost',
-          url: '/{{path}}'
-        },
-        {
-          name: 'staging',
-          pattern: /\/\/staging\.(?:.*\.)?com/,
-          url: '//staging.{{tld}}.encore.rackspace.com/{{path}}'
-        },
-        {
-          name: 'production',
-          pattern: /\/\/.*\.?encore.rackspace.com/,
-          url: '//{{tld}}.encore.rackspace.com/{{path}}'
-        }
-      ];
-    /*
-     * Checks if an environment has valid properties
-     * @private
-     * @param {object} environment The environment object to check
-     * @returns {boolean} true if valid, false otherwise
-     */
-    var isValidEnvironment = function (environment) {
-      var isValid = _.isString(environment.name) && (_.isString(environment.pattern) || _.isRegExp(environment.pattern)) && _.isString(environment.url);
-      return isValid;
-    };
-    /*
-     * Retrieves current environment, defaulting to first defined
-     * @public
-     * @param {string} [href] The path to check the environment on. Defaults to $location.path()
-     * @returns {object} The current environment
-     */
-    envSvc.get = function (href) {
-      // default to current location if href not provided
-      href = href || $location.path();
-      var currentEnvironment = _.find(environments, function (environment) {
-          var pattern = environment.pattern;
-          if (_.isRegExp(pattern)) {
-            return pattern.test(href);
-          }
-          return _.contains(href, pattern);
-        });
-      return currentEnvironment || $rootScope.environment || environments[0];
-    };
-    /*
-     * Adds an environment to the stack
-     * @public
-     * @param {object} environment The environment to add. See 'environments' array for required properties
-     * @throws Environment must match pattern defined in isValidEnvironment function
-     */
-    envSvc.add = function (environment) {
-      // do some sanity checks here
-      if (isValidEnvironment(environment)) {
-        // add environment
-        environments.push(environment);
-      } else {
-        throw new Error('Environment incorrectly defined');
-      }
-    };
-    /*
-     * Sets the current environment
-     * @public
-     * @param {string} [environmentName] Environment to set as current
-     */
-    envSvc.set = function (environmentName) {
-      var environment;
-      if (_.isString(environmentName)) {
-        environment = _.find(environments, { 'name': environmentName });
-      }
-      $rootScope.environment = environment || envSvc.get();
-    };
-    /*
-     * Replaces current environments array with new one
-     * @public
-     * @param {array} newEnvironments New environments to use
-     */
-    envSvc.setAll = function (newEnvironments) {
-      // validate that all new environments are valid
-      if (newEnvironments.length > 0 && _.every(environments, isValidEnvironment)) {
-        // overwrite old environemnts with new
-        environments = newEnvironments;
-        // zero out current environment
-        $rootScope.environment = null;
-        // get new environment
-        envSvc.set();
-      }
-    };
-    // set current environment
-    envSvc.set();
-    return envSvc;
-  }
-]).filter('rxEnvironmentUrl', [
-  'Environment',
-  '$interpolate',
-  function (Environment, $interpolate) {
-    return function (details) {
-      var environment = Environment.get();
-      // convert url template into full path based on details provided
-      var url = $interpolate(environment.url)(details);
-      return url;
-    };
-  }
-]).directive('rxIfEnvironment', [
-  '$compile',
-  'Environment',
-  function ($compile, Environment) {
-    var doesEnvironmentMatch = function (environment) {
-      // check to see if first character is negation indicator
-      var isNegated = environment[0] === '!';
-      // get name of environment to look for
-      var targetEnvironmentName = isNegated ? environment.substr(1) : environment;
-      // get name of current environment
-      var currentEnvironmentName = Environment.get().name;
-      if (isNegated) {
-        return currentEnvironmentName !== targetEnvironmentName;
-      } else {
-        return currentEnvironmentName === targetEnvironmentName;
-      }
-    };
-    return {
-      restrict: 'A',
-      terminal: true,
-      priority: 1000,
-      compile: function () {
-        return {
-          pre: function preLink(scope, element, attrs) {
-            scope.doesEnvironmentMatch = doesEnvironmentMatch;
-            // add ng-show attr to element
-            element.attr('ng-show', 'doesEnvironmentMatch("' + attrs.rxIfEnvironment + '")');
-            //remove the attribute to avoid an indefinite loop
-            element.removeAttr('rx-if-environment');
-            element.removeAttr('data-rx-if-environment');
-            // build the new element
-            $compile(element)(scope);
-          }
-        };
       }
     };
   }
@@ -998,7 +1051,6 @@ angular.module('encore.ui.rxNav', ['encore.ui.rxDropdown']).directive('rxNav', f
     ]
   };
 });
-/*jshint undef:false*/
 angular.module('encore.ui.rxNotify', ['ngSanitize']).directive('rxNotification', function () {
   return {
     scope: { type: '@' },
