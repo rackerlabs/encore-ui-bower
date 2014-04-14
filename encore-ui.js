@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.5.2 - 2014-04-09
+ * Version: 0.5.3 - 2014-04-14
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -159,8 +159,7 @@ angular.module('encore.ui.rxAge', []).filter('rxAge', function () {
 });
 angular.module('encore.ui.rxEnvironment', ['ngSanitize']).service('Environment', [
   '$location',
-  '$rootScope',
-  function ($location, $rootScope) {
+  function ($location) {
     var envSvc = {};
     /*
      * This array defined different environments to check against.
@@ -175,17 +174,17 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize']).service('Environment',
     var environments = [
         {
           name: 'local',
-          pattern: 'localhost:9000',
-          url: '//localhost:9000/{{path}}'
+          pattern: /\/\/(localhost|server)(:\d{1,4})?/,
+          url: '//localhost:' + $location.port() + '/{{path}}'
         },
         {
           name: 'staging',
-          pattern: /\/\/staging\.(?:.*\.)?com/,
+          pattern: /\/\/staging\.(?:.*\.)?encore.rackspace.com/,
           url: '//staging.{{tld}}.encore.rackspace.com/{{path}}'
         },
         {
           name: 'production',
-          pattern: /\/\/.*\.?encore.rackspace.com/,
+          pattern: /\/\/(?!staging).*\.?encore.rackspace.com/,
           url: '//{{tld}}.encore.rackspace.com/{{path}}'
         }
       ];
@@ -200,10 +199,10 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize']).service('Environment',
       return isValid;
     };
     /*
-     * Retrieves current environment, defaulting to first defined
+     * Retrieves current environment
      * @public
-     * @param {string} [href] The path to check the environment on. Defaults to $location.path()
-     * @returns {object} The current environment
+     * @param {string} [href] The path to check the environment on. Defaults to $location.absUrl()
+     * @returns {*} The current environment (if found), else undefined.
      */
     envSvc.get = function (href) {
       // default to current location if href not provided
@@ -215,7 +214,7 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize']).service('Environment',
           }
           return _.contains(href, pattern);
         });
-      return currentEnvironment || $rootScope.environment || environments[0];
+      return currentEnvironment;
     };
     /*
      * Adds an environment to the stack
@@ -228,23 +227,9 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize']).service('Environment',
       if (isValidEnvironment(environment)) {
         // add environment
         environments.push(environment);
-        // reset current environment now that information has been added
-        envSvc.set();
       } else {
         throw new Error('Environment incorrectly defined');
       }
-    };
-    /*
-     * Sets the current environment
-     * @public
-     * @param {string} [environmentName] Environment to set as current
-     */
-    envSvc.set = function (environmentName) {
-      var environment;
-      if (_.isString(environmentName)) {
-        environment = _.find(environments, { 'name': environmentName });
-      }
-      $rootScope.environment = environment || envSvc.get();
     };
     /*
      * Replaces current environments array with new one
@@ -256,14 +241,8 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize']).service('Environment',
       if (newEnvironments.length > 0 && _.every(environments, isValidEnvironment)) {
         // overwrite old environemnts with new
         environments = newEnvironments;
-        // zero out current environment
-        $rootScope.environment = null;
-        // get new environment
-        envSvc.set();
       }
     };
-    // set current environment
-    envSvc.set();
     return envSvc;
   }
 ]).filter('rxEnvironmentUrl', [
@@ -373,12 +352,12 @@ angular.module('encore.ui.rxApp', [
         linkText: 'Ticket Queues',
         children: [
           {
-            href: '/ticketqueues/queues',
-            linkText: 'My Queues'
+            href: '/ticketqueues/my',
+            linkText: 'My Tickets'
           },
           {
-            href: '/ticketqueues/tickets',
-            linkText: 'My Tickets'
+            href: '/ticketqueues/queues',
+            linkText: 'Queue Admin'
           }
         ]
       }
