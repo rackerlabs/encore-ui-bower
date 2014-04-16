@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.5.4 - 2014-04-16
+ * Version: 0.6.0 - 2014-04-16
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -972,14 +972,12 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap']).directive('rxModalFo
           // Since we don't want to isolate the scope, we have to eval our attr instead of using `&`
           // The eval will execute function
           scope.$eval(attrs.postHook);
-          // once we're done with the scope, reset the fields
-          scope.fields = {};
         };
         scope.showModal = function (evt) {
           evt.preventDefault();
-          // TODO don't like having to create a 'fields' property in here,
+          // Note: don't like having to create a 'fields' object in here,
           // but we need it so that the child input fields can bind to the modalScope
-          scope.fields = scope.fields || {};
+          scope.fields = {};
           // Since we don't want to isolate the scope, we have to eval our attr instead of using `&`
           // The eval will execute function (if it exists)
           scope.$eval(attrs.preHook);
