@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.5.3 - 2014-04-14
+ * Version: 0.5.4 - 2014-04-16
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -310,6 +310,14 @@ angular.module('encore.ui.rxApp', [
         },
         linkText: 'Account-level Tools',
         directive: 'rx-global-search',
+        childVisibility: function (scope) {
+          // We only want to show this nav if user is already defined in the URL
+          // (otherwise a user hasn't been chosen yet, so nav won't work, so we hide it)
+          if (scope.route.current) {
+            return !_.isUndefined(scope.route.current.pathParams.user);
+          }
+          return false;
+        },
         children: [
           {
             href: '/{{user}}/cbs/volumes',
@@ -472,7 +480,8 @@ angular.module('encore.ui.rxApp', [
               // if undefined, default to true
               return true;
             }
-            return $scope.$eval(visibility);
+            $scope.route = $route;
+            return $scope.$eval(visibility, { location: $location });
           };
         }
       ]

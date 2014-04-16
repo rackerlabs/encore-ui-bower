@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.5.3 - 2014-04-14
+ * Version: 0.5.4 - 2014-04-16
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -337,6 +337,14 @@ angular.module('encore.ui.rxApp', [
         },
         linkText: 'Account-level Tools',
         directive: 'rx-global-search',
+        childVisibility: function (scope) {
+          // We only want to show this nav if user is already defined in the URL
+          // (otherwise a user hasn't been chosen yet, so nav won't work, so we hide it)
+          if (scope.route.current) {
+            return !_.isUndefined(scope.route.current.pathParams.user);
+          }
+          return false;
+        },
         children: [
           {
             href: '/{{user}}/cbs/volumes',
@@ -499,7 +507,8 @@ angular.module('encore.ui.rxApp', [
               // if undefined, default to true
               return true;
             }
-            return $scope.$eval(visibility);
+            $scope.route = $route;
+            return $scope.$eval(visibility, { location: $location });
           };
         }
       ]
@@ -1588,7 +1597,7 @@ angular.module('templates/rxAppNav.html', []).run([
 angular.module('templates/rxAppNavItem.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxAppNavItem.html', '<li class="rx-app-nav-item" ng-show="isVisible(item.visibility)"><a ng-href="{{ item.href }}" class="item-link" ng-class="{active: item.active}">{{item.linkText}}</a><div class="item-content" ng-show="item.active && (item.directive || item.children)"><div class="item-directive" ng-show="item.directive"></div><div class="item-children" ng-show="item.children"></div></div></li>');
+    $templateCache.put('templates/rxAppNavItem.html', '<li class="rx-app-nav-item" ng-show="isVisible(item.visibility)"><a ng-href="{{ item.href }}" class="item-link" ng-class="{active: item.active}">{{item.linkText}}</a><div class="item-content" ng-show="item.active && (item.directive || item.children)"><div class="item-directive" ng-show="item.directive"></div><div class="item-children" ng-show="item.children && isVisible(item.childVisibility)"></div></div></li>');
   }
 ]);
 angular.module('templates/rxPage.html', []).run([
