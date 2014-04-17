@@ -268,6 +268,30 @@ FlexBox Columns
   font-size: 13px;
   color: #404040;
 }
+.rx-app.collapsible.collapsed .rx-app-menu {
+  -webkit-box-flex: 0 0 0px;
+  -moz-box-flex: 0 0 0px;
+  -webkit-flex: 0 0 0px;
+  -ms-flex: 0 0 0px;
+  flex: 0 0 0px;
+}
+.rx-app.collapsible.collapsed .collapsible-toggle {
+  top: -3px;
+  left: 4px;
+}
+.rx-app.collapsible.collapsed .site-branding {
+  height: 15px;
+}
+.rx-app.collapsible.collapsed .site-branding .site-title,
+.rx-app.collapsible.collapsed .site-branding .site-options {
+  display: none;
+}
+.rx-app.collapsible.collapsed .rx-app-nav {
+  display: none;
+}
+.rx-app.collapsible.collapsed .rx-app-content .page-header {
+  margin-left: 25px;
+}
 .rx-app .rx-app-menu {
   color: #fff;
   font-size: 15px;
@@ -282,6 +306,39 @@ FlexBox Columns
 }
 .rx-app .rx-app-menu input {
   color: #444444;
+}
+.rx-app .rx-app-menu .collapsible-toggle {
+  position: relative;
+  left: 13px;
+  width: 25px;
+  float: right;
+  background: none;
+  border: 0px;
+  cursor: pointer;
+  text-align: center;
+  padding: 2px;
+}
+.rx-app .rx-app-menu .double-chevron {
+  width: 15px;
+  height: 10px;
+  margin: 0px 0px 2px 2px;
+  font-size: 20px;
+}
+.rx-app .rx-app-menu .double-chevron:hover::before {
+  color: #FFF;
+}
+.rx-app .rx-app-menu .double-chevron::before {
+  color: #666;
+  display: block;
+  content: "\00bb";
+  position: relative;
+  top: -6px;
+  left: 1px;
+}
+.rx-app .rx-app-menu .double-chevron.double-chevron-left::before {
+  content: "\00ab";
+  top: -7px;
+  left: 0px;
 }
 .rx-app .rx-app-content {
   -webkit-box-flex: 1 1 0;

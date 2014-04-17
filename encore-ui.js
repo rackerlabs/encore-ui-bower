@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.6.0 - 2014-04-16
+ * Version: 0.6.3 - 2014-04-17
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -371,18 +371,27 @@ angular.module('encore.ui.rxApp', [
       }
     ]
   }]).directive('rxApp', [
+  '$rootScope',
   'encoreNav',
-  function (encoreNav) {
+  function ($rootScope, encoreNav) {
     return {
       restrict: 'E',
       transclude: true,
       templateUrl: 'templates/rxApp.html',
       scope: {
         siteTitle: '@?',
-        menu: '=?'
+        menu: '=?',
+        collapsibleNav: '@',
+        collapsedNav: '=?'
       },
       link: function (scope) {
         scope.menu = scope.menu || encoreNav;
+        if (!_.isBoolean(scope.collapsedNav)) {
+          scope.collapsedNav = false;
+        }
+        scope.collapseMenu = function () {
+          scope.collapsedNav = !scope.collapsedNav;
+        };
       }
     };
   }

@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.6.0 - 2014-04-16
+ * Version: 0.6.3 - 2014-04-17
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -398,18 +398,27 @@ angular.module('encore.ui.rxApp', [
       }
     ]
   }]).directive('rxApp', [
+  '$rootScope',
   'encoreNav',
-  function (encoreNav) {
+  function ($rootScope, encoreNav) {
     return {
       restrict: 'E',
       transclude: true,
       templateUrl: 'templates/rxApp.html',
       scope: {
         siteTitle: '@?',
-        menu: '=?'
+        menu: '=?',
+        collapsibleNav: '@',
+        collapsedNav: '=?'
       },
       link: function (scope) {
         scope.menu = scope.menu || encoreNav;
+        if (!_.isBoolean(scope.collapsedNav)) {
+          scope.collapsedNav = false;
+        }
+        scope.collapseMenu = function () {
+          scope.collapsedNav = !scope.collapsedNav;
+        };
       }
     };
   }
@@ -1583,7 +1592,7 @@ angular.module('templates/rxActiveUrl.html', []).run([
 angular.module('templates/rxApp.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxApp.html', '<div class="rx-app"><nav class="rx-app-menu"><header class="site-branding"><h1 class="site-title">{{ siteTitle || \'Encore\' }}</h1><div class="site-options"><a href="#" rx-logout="" class="site-logout">Logout</a></div></header><nav class="rx-app-nav"><div ng-repeat="section in menu" class="nav-section nav-section-{{ section.type || \'all\' }}"><h2 class="nav-section-title">{{ section.title }}</h2><rx-app-nav items="section.children"></rx-app-nav></div></nav></nav><div class="rx-app-content" ng-transclude=""></div></div>');
+    $templateCache.put('templates/rxApp.html', '<div class="rx-app" ng-class="{collapsible: collapsibleNav === \'true\', collapsed: collapsedNav}"><nav class="rx-app-menu"><header class="site-branding"><h1 class="site-title">{{ siteTitle || \'Encore\' }}</h1><button class="collapsible-toggle" ng-if="collapsibleNav === \'true\'" ng-click="collapseMenu()"><span class="visually-hidden">{{ (collapsedNav) ? \'Show\' : \'Hide\' }} Main Menu</span><div class="double-chevron" ng-class="{\'double-chevron-left\': !collapsedNav}"></div></button><div class="site-options"><a href="#" rx-logout="" class="site-logout">Logout</a></div></header><nav class="rx-app-nav"><div ng-repeat="section in menu" class="nav-section nav-section-{{ section.type || \'all\' }}"><h2 class="nav-section-title">{{ section.title }}</h2><rx-app-nav items="section.children"></rx-app-nav></div></nav></nav><div class="rx-app-content" ng-transclude=""></div></div>');
   }
 ]);
 angular.module('templates/rxAppNav.html', []).run([
