@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.6.3 - 2014-04-17
+ * Version: 0.7.0 - 2014-04-21
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -331,10 +331,6 @@ angular.module('encore.ui.rxApp', [
     title: 'All Tools',
     children: [
       {
-        href: {
-          tld: 'cloudatlas',
-          path: ''
-        },
         linkText: 'Account-level Tools',
         directive: 'rx-global-search',
         childVisibility: function (scope) {
@@ -347,16 +343,22 @@ angular.module('encore.ui.rxApp', [
         },
         children: [
           {
-            href: '/{{user}}/cbs/volumes',
+            href: {
+              tld: 'cloudatlas',
+              path: '{{user}}/servers'
+            },
+            linkText: 'Cloud Servers'
+          },
+          {
+            href: {
+              tld: 'cloudatlas',
+              path: '{{user}}/cbs/volumes'
+            },
             linkText: 'Block Storage',
             children: [
               {
                 href: '/{{user}}/cbs/volumes',
-                linkText: 'Volumes',
-                children: [{
-                    href: '/{{user}}/cbs/volumes/create',
-                    linkText: 'Create Volume'
-                  }]
+                linkText: 'Volumes'
               },
               {
                 href: '/{{user}}/cbs/snapshots',
@@ -365,15 +367,10 @@ angular.module('encore.ui.rxApp', [
             ]
           },
           {
-            href: '/{{user}}/servers',
-            linkText: 'Cloud Servers',
-            children: [{
-                href: '/{{user}}/servers/create',
-                linkText: 'Create Server'
-              }]
-          },
-          {
-            href: '/{{user}}/databases/instances',
+            href: {
+              tld: 'cloudatlas',
+              path: '{{user}}/databases/instances'
+            },
             linkText: 'Databases',
             visibility: '"!production" | rxEnvironmentMatch'
           }
@@ -462,6 +459,10 @@ angular.module('encore.ui.rxApp', [
       return pathMatches;
     };
     var buildUrl = function (url) {
+      // sometimes links don't have URLs defined, so we need to exit before $interpolate throws an error
+      if (_.isUndefined(url)) {
+        return url;
+      }
       // run the href through rxEnvironmentUrl in case it's defined as such
       url = rxEnvironmentUrlFilter(url);
       if ($route.current) {
@@ -510,7 +511,8 @@ angular.module('encore.ui.rxApp', [
       link: linker,
       controller: [
         '$scope',
-        function ($scope) {
+        '$location',
+        function ($scope, $location) {
           $scope.isVisible = function (visibility) {
             if (_.isUndefined(visibility)) {
               // if undefined, default to true
@@ -518,6 +520,13 @@ angular.module('encore.ui.rxApp', [
             }
             $scope.route = $route;
             return $scope.$eval(visibility, { location: $location });
+          };
+          $scope.toggleNav = function (ev, href) {
+            // if no href present, simply toggle active state
+            if (_.isEmpty(href)) {
+              ev.preventDefault();
+              $scope.item.active = !$scope.item.active;
+            }  // otherwise, let the default nav do it's thing
           };
         }
       ]
@@ -974,12 +983,15 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap']).directive('rxModalFo
 }).controller('rxModalCtrl', [
   '$scope',
   '$modalInstance',
-  function ($scope, $modalInstance) {
+  '$rootScope',
+  function ($scope, $modalInstance, $rootScope) {
     // define a controller for the modal to use
     $scope.submit = function () {
       $modalInstance.close($scope);
     };
     $scope.cancel = $modalInstance.dismiss;
+    // cancel out of the modal if the route is changed
+    $rootScope.$on('$routeChangeSuccess', $modalInstance.dismiss);
   }
 ]).directive('rxModalAction', [
   '$modal',
@@ -1592,7 +1604,7 @@ angular.module('templates/rxActiveUrl.html', []).run([
 angular.module('templates/rxApp.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxApp.html', '<div class="rx-app" ng-class="{collapsible: collapsibleNav === \'true\', collapsed: collapsedNav}"><nav class="rx-app-menu"><header class="site-branding"><h1 class="site-title">{{ siteTitle || \'Encore\' }}</h1><button class="collapsible-toggle" ng-if="collapsibleNav === \'true\'" ng-click="collapseMenu()"><span class="visually-hidden">{{ (collapsedNav) ? \'Show\' : \'Hide\' }} Main Menu</span><div class="double-chevron" ng-class="{\'double-chevron-left\': !collapsedNav}"></div></button><div class="site-options"><a href="#" rx-logout="" class="site-logout">Logout</a></div></header><nav class="rx-app-nav"><div ng-repeat="section in menu" class="nav-section nav-section-{{ section.type || \'all\' }}"><h2 class="nav-section-title">{{ section.title }}</h2><rx-app-nav items="section.children"></rx-app-nav></div></nav></nav><div class="rx-app-content" ng-transclude=""></div></div>');
+    $templateCache.put('templates/rxApp.html', '<div class="rx-app" ng-class="{collapsible: collapsibleNav === \'true\', collapsed: collapsedNav}" ng-cloak=""><nav class="rx-app-menu"><header class="site-branding"><h1 class="site-title">{{ siteTitle || \'Encore\' }}</h1><button class="collapsible-toggle" ng-if="collapsibleNav === \'true\'" ng-click="collapseMenu()"><span class="visually-hidden">{{ (collapsedNav) ? \'Show\' : \'Hide\' }} Main Menu</span><div class="double-chevron" ng-class="{\'double-chevron-left\': !collapsedNav}"></div></button><div class="site-options"><a href="#" rx-logout="" class="site-logout">Logout</a></div></header><nav class="rx-app-nav"><div ng-repeat="section in menu" class="nav-section nav-section-{{ section.type || \'all\' }}"><h2 class="nav-section-title">{{ section.title }}</h2><rx-app-nav items="section.children"></rx-app-nav></div></nav></nav><div class="rx-app-content" ng-transclude=""></div></div>');
   }
 ]);
 angular.module('templates/rxAppNav.html', []).run([
@@ -1604,13 +1616,13 @@ angular.module('templates/rxAppNav.html', []).run([
 angular.module('templates/rxAppNavItem.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxAppNavItem.html', '<li class="rx-app-nav-item" ng-show="isVisible(item.visibility)"><a ng-href="{{ item.href }}" class="item-link" ng-class="{active: item.active}">{{item.linkText}}</a><div class="item-content" ng-show="item.active && (item.directive || item.children)"><div class="item-directive" ng-show="item.directive"></div><div class="item-children" ng-show="item.children && isVisible(item.childVisibility)"></div></div></li>');
+    $templateCache.put('templates/rxAppNavItem.html', '<li class="rx-app-nav-item" ng-show="isVisible(item.visibility)" ng-class="{\'has-children\': item.children.length > 0, active: item.active}"><a href="{{ item.href }}" class="item-link" ng-click="toggleNav($event, item.href)" tabindex="0">{{item.linkText}}</a><div class="item-content" ng-show="item.active && (item.directive || item.children)"><div class="item-directive" ng-show="item.directive"></div><div class="item-children" ng-show="item.children && isVisible(item.childVisibility)"></div></div></li>');
   }
 ]);
 angular.module('templates/rxPage.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxPage.html', '<div class="rx-page"><header class="page-header clearfix"><rx-breadcrumbs></rx-breadcrumbs></header><div class="page-body"><h2 class="page-title" ng-bind-html="title"></h2><h3 class="page-subtitle" ng-bind-html="subtitle"></h3><div class="page-content" ng-transclude=""></div></div></div>');
+    $templateCache.put('templates/rxPage.html', '<div class="rx-page"><header class="page-header clearfix"><rx-breadcrumbs></rx-breadcrumbs></header><div class="page-body"><rx-notifications></rx-notifications><div class="page-titles"><h2 class="page-title" ng-bind-html="title"></h2><h3 class="page-subtitle" ng-bind-html="subtitle"></h3></div><div class="page-content" ng-transclude=""></div></div></div>');
   }
 ]);
 angular.module('templates/rxPermission.html', []).run([

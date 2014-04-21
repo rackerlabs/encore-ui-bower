@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.6.3 - 2014-04-17
+ * Version: 0.7.0 - 2014-04-21
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -304,10 +304,6 @@ angular.module('encore.ui.rxApp', [
     title: 'All Tools',
     children: [
       {
-        href: {
-          tld: 'cloudatlas',
-          path: ''
-        },
         linkText: 'Account-level Tools',
         directive: 'rx-global-search',
         childVisibility: function (scope) {
@@ -320,16 +316,22 @@ angular.module('encore.ui.rxApp', [
         },
         children: [
           {
-            href: '/{{user}}/cbs/volumes',
+            href: {
+              tld: 'cloudatlas',
+              path: '{{user}}/servers'
+            },
+            linkText: 'Cloud Servers'
+          },
+          {
+            href: {
+              tld: 'cloudatlas',
+              path: '{{user}}/cbs/volumes'
+            },
             linkText: 'Block Storage',
             children: [
               {
                 href: '/{{user}}/cbs/volumes',
-                linkText: 'Volumes',
-                children: [{
-                    href: '/{{user}}/cbs/volumes/create',
-                    linkText: 'Create Volume'
-                  }]
+                linkText: 'Volumes'
               },
               {
                 href: '/{{user}}/cbs/snapshots',
@@ -338,15 +340,10 @@ angular.module('encore.ui.rxApp', [
             ]
           },
           {
-            href: '/{{user}}/servers',
-            linkText: 'Cloud Servers',
-            children: [{
-                href: '/{{user}}/servers/create',
-                linkText: 'Create Server'
-              }]
-          },
-          {
-            href: '/{{user}}/databases/instances',
+            href: {
+              tld: 'cloudatlas',
+              path: '{{user}}/databases/instances'
+            },
             linkText: 'Databases',
             visibility: '"!production" | rxEnvironmentMatch'
           }
@@ -435,6 +432,10 @@ angular.module('encore.ui.rxApp', [
       return pathMatches;
     };
     var buildUrl = function (url) {
+      // sometimes links don't have URLs defined, so we need to exit before $interpolate throws an error
+      if (_.isUndefined(url)) {
+        return url;
+      }
       // run the href through rxEnvironmentUrl in case it's defined as such
       url = rxEnvironmentUrlFilter(url);
       if ($route.current) {
@@ -483,7 +484,8 @@ angular.module('encore.ui.rxApp', [
       link: linker,
       controller: [
         '$scope',
-        function ($scope) {
+        '$location',
+        function ($scope, $location) {
           $scope.isVisible = function (visibility) {
             if (_.isUndefined(visibility)) {
               // if undefined, default to true
@@ -491,6 +493,13 @@ angular.module('encore.ui.rxApp', [
             }
             $scope.route = $route;
             return $scope.$eval(visibility, { location: $location });
+          };
+          $scope.toggleNav = function (ev, href) {
+            // if no href present, simply toggle active state
+            if (_.isEmpty(href)) {
+              ev.preventDefault();
+              $scope.item.active = !$scope.item.active;
+            }  // otherwise, let the default nav do it's thing
           };
         }
       ]
@@ -947,12 +956,15 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap']).directive('rxModalFo
 }).controller('rxModalCtrl', [
   '$scope',
   '$modalInstance',
-  function ($scope, $modalInstance) {
+  '$rootScope',
+  function ($scope, $modalInstance, $rootScope) {
     // define a controller for the modal to use
     $scope.submit = function () {
       $modalInstance.close($scope);
     };
     $scope.cancel = $modalInstance.dismiss;
+    // cancel out of the modal if the route is changed
+    $rootScope.$on('$routeChangeSuccess', $modalInstance.dismiss);
   }
 ]).directive('rxModalAction', [
   '$modal',
