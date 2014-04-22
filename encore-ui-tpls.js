@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.7.0 - 2014-04-21
+ * Version: 0.7.1 - 2014-04-22
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -1730,7 +1730,7 @@ angular.module('templates/rxRelatedMenu.html', []).run([
 angular.module('templates/rxProductResources.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxProductResources.html', '<h5>Available Product Resources</h5><ul class="product-resources"><rx-active-url url="/servers"><a href="/{{user}}/servers/" class="ico-servers">Cloud Servers <span>OpenStack / Nova</span></a></rx-active-url><rx-active-url url="/cbs/"><a href="/{{user}}/cbs/volumes/" class="ico-block-storage">Block Storage <span>OpenStack / Cinder</span></a><ul class="sub-products"><rx-active-url url="/cbs/volumes"><a href="/{{user}}/cbs/volumes/">Volumes</a></rx-active-url><rx-active-url url="/cbs/snapshots"><a href="/{{user}}/cbs/snapshots/">Snapshots</a></rx-active-url></ul></rx-active-url><rx-active-url url="/databases/instances" rx-if-environment="!production"><a href="/{{user}}/databases/instances/" class="ico-databases">Databases <span>OpenStack / Trove</span></a></rx-active-url></ul>');
+    $templateCache.put('templates/rxProductResources.html', '<h5>Available Product Resources</h5><ul class="product-resources"><rx-active-url url="/servers"><a href="/{{user}}/servers/" class="ico-servers">Cloud Servers <span>OpenStack / Nova</span></a></rx-active-url><rx-active-url url="/cbs/"><a href="/{{user}}/cbs/volumes/" class="ico-block-storage">Block Storage <span>OpenStack / Cinder</span></a><ul class="sub-products"><rx-active-url url="/cbs/volumes"><a href="/{{user}}/cbs/volumes/">Volumes</a></rx-active-url><rx-active-url url="/cbs/snapshots"><a href="/{{user}}/cbs/snapshots/">Snapshots</a></rx-active-url></ul></rx-active-url><rx-active-url url="/databases/instances" rx-if-environment="!production"><a href="/{{user}}/databases/instances/" class="ico-databases">Databases <span>OpenStack / Trove</span></a></rx-active-url><rx-active-url url="/loadbalancers" rx-if-environment="!production"><a href="/{{user}}/loadbalancers/" class="ico-servers">Load Balancers <span>OpenStack / Neutron</span></a></rx-active-url></ul>');
   }
 ]);
 angular.module('templates/rxSortableColumn.html', []).run([
