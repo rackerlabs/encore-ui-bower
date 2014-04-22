@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.7.1 - 2014-04-22
+ * Version: 0.7.2 - 2014-04-22
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -314,6 +314,7 @@ angular.module('encore.ui.rxApp', [
           }
           return false;
         },
+        childHeader: '<strong class="current-search">Current User:</strong>' + '<span class="current-result">{{route.current.pathParams.user}}</span>',
         children: [
           {
             href: {
@@ -1050,7 +1051,7 @@ angular.module('encore.ui.rxNav', ['encore.ui.rxDropdown']).directive('rxNav', f
           linkText: 'Internal Tools',
           items: [{
               title: 'Ticket Queues',
-              path: '/#/ticketqueues/',
+              path: '/ticketqueues/',
               className: ''
             }]
         };

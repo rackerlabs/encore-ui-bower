@@ -894,6 +894,20 @@ FlexBox Columns
   padding: 10px;
   background: #4d4d4c;
 }
+.rx-app .rx-app-nav-item .child-header {
+  margin-bottom: 1em;
+}
+.rx-app .rx-app-nav-item .current-search {
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #9c9c9c;
+  font-size: 10px;
+  display: block;
+}
+.rx-app .rx-app-nav-item .current-result {
+  color: #d5d5d3;
+  font-size: 18px;
+}
 .rx-app .rx-app-nav-level-2 .item-link {
   background: #666766;
   border-top-color: #787878;
