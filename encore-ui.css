@@ -533,10 +533,18 @@ table thead th {
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-.button:hover {
+.button:hover,
+.button:focus {
   text-decoration: none;
   color: #ffffff;
   background: #00ac31;
+  cursor: pointer;
+}
+.button.button-tiny {
+  padding: 3px 7px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  font-size: .7em;
 }
 .button.button-small {
   padding: 5px 10px;
@@ -616,6 +624,26 @@ Colors the text red to warn people that something important will/did happen (plu
 .msg-warn a:focus {
   color: #fd0f12;
 }
+.msg-info,
+.msg-info a {
+  color: #dd7800;
+}
+.msg-info:hover,
+.msg-info a:hover,
+.msg-info:focus,
+.msg-info a:focus {
+  color: #dd7800;
+}
+.msg-info-blue,
+.msg-info-blue a {
+  color: #4580c2;
+}
+.msg-info-blue:hover,
+.msg-info-blue a:hover,
+.msg-info-blue:focus,
+.msg-info-blue a:focus {
+  color: #327fd5;
+}
 .list-link,
 .list-link a {
   font-size: 1.2em;
@@ -671,6 +699,17 @@ body:hover .visually-hidden button {
 }
 .clearfix:after {
   clear: both;
+}
+/*
+ * Creates a 'well' effect (box with light gray background)
+ */
+.well {
+  background-color: #eee;
+  padding: 40px 50px;
+}
+.well p {
+  line-height: 1.5em;
+  color: #727272;
 }
 
 /*
