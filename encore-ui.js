@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.7.3 - 2014-04-23
+ * Version: 0.7.4 - 2014-04-23
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -368,10 +368,68 @@ angular.module('encore.ui.rxApp', [
         ]
       }
     ]
-  }]).directive('rxApp', [
+  }]).factory('rxAppRoutes', [
   '$rootScope',
+  '$location',
+  '$route',
+  '$interpolate',
+  'rxEnvironmentUrlFilter',
+  function ($rootScope, $location, $route, $interpolate, rxEnvironmentUrlFilter) {
+    return function (routes) {
+      var isActive = function (item) {
+        // check if url matches absUrl
+        var pathMatches = _.contains($location.absUrl(), item.url);
+        // if current item not active, check if any children are active
+        if (!pathMatches && item.children) {
+          pathMatches = _.any(item.children, isActive);
+        }
+        return pathMatches;
+      };
+      var buildUrl = function (url) {
+        // sometimes links don't have URLs defined, so we need to exit before $interpolate throws an error
+        if (_.isUndefined(url)) {
+          return url;
+        }
+        // run the href through rxEnvironmentUrl in case it's defined as such
+        url = rxEnvironmentUrlFilter(url);
+        if ($route.current) {
+          // convert any nested expressions to defined route params
+          url = $interpolate(url)($route.current.pathParams);
+        }
+        return url;
+      };
+      var setDynamicProperties = function (routes) {
+        _.each(routes, function (route) {
+          // build out url for current route
+          route.url = buildUrl(route.href);
+          // check if any children exist, if so, build their URLs as well
+          if (route.children) {
+            route.children = setDynamicProperties(route.children);
+          }
+          // set active state (this needs to go after the recursion,
+          // so that the URL is built for all the children)
+          route.active = isActive(route);
+        });
+        return routes;
+      };
+      $rootScope.$on('$locationChangeSuccess', function () {
+        routes = setDynamicProperties(routes);
+      });
+      routes = setDynamicProperties(routes);
+      return {
+        getAll: function () {
+          return routes;
+        },
+        setAll: function (newRoutes) {
+          routes = setDynamicProperties(newRoutes);
+        }
+      };
+    };
+  }
+]).directive('rxApp', [
+  'rxAppRoutes',
   'encoreNav',
-  function ($rootScope, encoreNav) {
+  function (rxAppRoutes, encoreNav) {
     return {
       restrict: 'E',
       transclude: true,
@@ -383,7 +441,8 @@ angular.module('encore.ui.rxApp', [
         collapsedNav: '=?'
       },
       link: function (scope) {
-        scope.menu = scope.menu || encoreNav;
+        var menu = scope.menu || encoreNav;
+        scope.appRoutes = new rxAppRoutes(menu);
         if (!_.isBoolean(scope.collapsedNav)) {
           scope.collapsedNav = false;
         }
@@ -417,34 +476,7 @@ angular.module('encore.ui.rxApp', [
   '$compile',
   '$location',
   '$route',
-  '$interpolate',
-  'rxEnvironmentUrlFilter',
-  function ($compile, $location, $route, $interpolate, rxEnvironmentUrlFilter) {
-    var isActive = function (url) {
-      return _.contains($location.absUrl(), url);
-    };
-    var hasActive = function (item) {
-      // check if current active
-      var pathMatches = isActive(item.href);
-      // if current item not active, check if any children are active
-      if (!pathMatches && item.children) {
-        pathMatches = _.any(item.children, hasActive);
-      }
-      return pathMatches;
-    };
-    var buildUrl = function (url) {
-      // sometimes links don't have URLs defined, so we need to exit before $interpolate throws an error
-      if (_.isUndefined(url)) {
-        return url;
-      }
-      // run the href through rxEnvironmentUrl in case it's defined as such
-      url = rxEnvironmentUrlFilter(url);
-      if ($route.current) {
-        // convert any nested expressions to defined route params
-        url = $interpolate(url)($route.current.pathParams);
-      }
-      return url;
-    };
+  function ($compile, $location, $route) {
     var linker = function (scope, element) {
       var injectContent = function (selector, content) {
         var el = element[0].querySelector(selector);
@@ -453,18 +485,7 @@ angular.module('encore.ui.rxApp', [
           el.append(compiledHtml);
         });
       };
-      scope.item.href = buildUrl(scope.item.href);
-      scope.level = _.isNumber(scope.level) ? scope.level : 1;
-      var childLevel = scope.level + 1;
-      var rxNavTemplate = '<rx-app-nav items="item.children" level="' + childLevel + '">' + '</rx-app-nav>';
       var directiveHtml = '<directive></directive>';
-      // add active class if matches current href
-      scope.item.active = hasActive(scope.item);
-      // listen to location changes and update nav accordingly
-      scope.$on('$locationChangeSuccess', function () {
-        scope.item.href = buildUrl(scope.item.href);
-        scope.item.active = hasActive(scope.item);
-      });
       // add navDirective if defined
       if (angular.isString(scope.item.directive)) {
         // convert directive string to HTML
@@ -472,8 +493,15 @@ angular.module('encore.ui.rxApp', [
         directiveHtml = directiveHtml.replace('directive', scope.item.directive);
         injectContent('.item-directive', directiveHtml);
       }
+      // increment nesting level for child items
+      var childLevel = scope.$parent.level + 1;
+      // safety check that child level is a number
+      if (isNaN(childLevel)) {
+        childLevel = 2;
+      }
       // add children if present
       // Note: this can't be added in the HTML due to angular recursion issues
+      var rxNavTemplate = '<rx-app-nav items="item.children" level="' + childLevel + '">' + '</rx-app-nav>';
       if (angular.isArray(scope.item.children)) {
         injectContent('.item-children', rxNavTemplate);
       }
@@ -483,16 +511,18 @@ angular.module('encore.ui.rxApp', [
       replace: true,
       templateUrl: 'templates/rxAppNavItem.html',
       link: linker,
+      scope: { item: '=' },
       controller: [
         '$scope',
         '$location',
         function ($scope, $location) {
+          // provide `route` as a scope property so that links can tie into them
+          $scope.route = $route;
           $scope.isVisible = function (visibility) {
             if (_.isUndefined(visibility)) {
               // if undefined, default to true
               return true;
             }
-            $scope.route = $route;
             return $scope.$eval(visibility, { location: $location });
           };
           $scope.toggleNav = function (ev, href) {
@@ -1098,7 +1128,7 @@ angular.module('encore.ui.rxNotify', ['ngSanitize']).directive('rxNotification',
       }
     };
   }
-]).factory('rxNotify', [
+]).service('rxNotify', [
   '$timeout',
   '$rootScope',
   function ($timeout, $rootScope) {
