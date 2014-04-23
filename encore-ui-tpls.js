@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.7.2 - 2014-04-22
+ * Version: 0.7.3 - 2014-04-23
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -42,6 +42,7 @@ angular.module('encore.ui.tpls', [
   'templates/rxApp.html',
   'templates/rxAppNav.html',
   'templates/rxAppNavItem.html',
+  'templates/rxAppSearch.html',
   'templates/rxPage.html',
   'templates/rxPermission.html',
   'templates/rxBreadcrumbs.html',
@@ -1618,6 +1619,12 @@ angular.module('templates/rxAppNavItem.html', []).run([
   '$templateCache',
   function ($templateCache) {
     $templateCache.put('templates/rxAppNavItem.html', '<li class="rx-app-nav-item" ng-show="isVisible(item.visibility)" ng-class="{\'has-children\': item.children.length > 0, active: item.active}"><a href="{{ item.href }}" class="item-link" ng-click="toggleNav($event, item.href)" tabindex="0">{{item.linkText}}</a><div class="item-content" ng-show="item.active && (item.directive || item.children)"><div class="item-directive" ng-show="item.directive"></div><div class="item-children" ng-show="item.children && isVisible(item.childVisibility)"><div class="child-header" ng-if="item.childHeader" rx-compile="item.childHeader"></div></div></div></li>');
+  }
+]);
+angular.module('templates/rxAppSearch.html', []).run([
+  '$templateCache',
+  function ($templateCache) {
+    $templateCache.put('templates/rxAppSearch.html', '<div class="rx-app-search"><input type="text" placeholder="Enter User" ng-model="$root.user"></div>');
   }
 ]);
 angular.module('templates/rxPage.html', []).run([
