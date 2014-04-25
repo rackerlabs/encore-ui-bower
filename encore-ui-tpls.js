@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.7.5 - 2014-04-23
+ * Version: 0.7.6 - 2014-04-25
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -42,6 +42,7 @@ angular.module('encore.ui.tpls', [
   'templates/rxApp.html',
   'templates/rxAppNav.html',
   'templates/rxAppNavItem.html',
+  'templates/rxAppSearch.html',
   'templates/rxPage.html',
   'templates/rxPermission.html',
   'templates/rxBreadcrumbs.html',
@@ -332,7 +333,7 @@ angular.module('encore.ui.rxApp', [
     children: [
       {
         linkText: 'Account-level Tools',
-        directive: 'rx-global-search',
+        directive: 'rx-atlas-search',
         childVisibility: function (scope) {
           // We only want to show this nav if user is already defined in the URL
           // (otherwise a user hasn't been chosen yet, so nav won't work, so we hide it)
@@ -341,7 +342,7 @@ angular.module('encore.ui.rxApp', [
           }
           return false;
         },
-        childHeader: '<strong class="current-search">Current User:</strong>' + '<span class="current-result">{{route.current.pathParams.user}}</span>',
+        childHeader: '<strong class="current-search">Current Account:</strong>' + '<span class="current-result">{{route.current.pathParams.user}}</span>',
         children: [
           {
             href: {
@@ -561,6 +562,30 @@ angular.module('encore.ui.rxApp', [
           };
         }
       ]
+    };
+  }
+]).directive('rxAppSearch', function () {
+  return {
+    restrict: 'E',
+    replace: true,
+    templateUrl: 'templates/rxAppSearch.html',
+    scope: {
+      placeholder: '@?',
+      model: '=?',
+      submit: '=?'
+    }
+  };
+}).directive('rxAtlasSearch', [
+  '$location',
+  function ($location) {
+    return {
+      template: '<rx-app-search placeholder="Search for user..." submit="searchAccounts"></rx-app-search>',
+      restrict: 'E',
+      link: function (scope) {
+        scope.searchAccounts = function (searchValue) {
+          $location.path(searchValue + '/servers/');
+        };
+      }
     };
   }
 ]);
@@ -1648,6 +1673,12 @@ angular.module('templates/rxAppNavItem.html', []).run([
   '$templateCache',
   function ($templateCache) {
     $templateCache.put('templates/rxAppNavItem.html', '<li class="rx-app-nav-item" ng-show="isVisible(item.visibility)" ng-class="{\'has-children\': item.children.length > 0, active: item.active }"><a href="{{ item.url }}" class="item-link" ng-click="toggleNav($event, item.href)">{{item.linkText}}</a><div class="item-content" ng-show="item.active && (item.directive || item.children)"><div class="item-directive" ng-show="item.directive"></div><div class="item-children" ng-show="item.children && isVisible(item.childVisibility)"><div class="child-header" ng-if="item.childHeader" rx-compile="item.childHeader"></div></div></div></li>');
+  }
+]);
+angular.module('templates/rxAppSearch.html', []).run([
+  '$templateCache',
+  function ($templateCache) {
+    $templateCache.put('templates/rxAppSearch.html', '<div class="rx-app-search"><form role="search" ng-submit="submit(model)"><input type="text" placeholder="{{ placeholder }}" ng-model="model" class="form-item search-input" ng-required=""><button type="submit" class="search-action"><span class="visually-hidden">Search</span></button></form></div>');
   }
 ]);
 angular.module('templates/rxPage.html', []).run([

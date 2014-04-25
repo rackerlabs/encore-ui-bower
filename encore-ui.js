@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.7.5 - 2014-04-23
+ * Version: 0.7.6 - 2014-04-25
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -305,7 +305,7 @@ angular.module('encore.ui.rxApp', [
     children: [
       {
         linkText: 'Account-level Tools',
-        directive: 'rx-global-search',
+        directive: 'rx-atlas-search',
         childVisibility: function (scope) {
           // We only want to show this nav if user is already defined in the URL
           // (otherwise a user hasn't been chosen yet, so nav won't work, so we hide it)
@@ -314,7 +314,7 @@ angular.module('encore.ui.rxApp', [
           }
           return false;
         },
-        childHeader: '<strong class="current-search">Current User:</strong>' + '<span class="current-result">{{route.current.pathParams.user}}</span>',
+        childHeader: '<strong class="current-search">Current Account:</strong>' + '<span class="current-result">{{route.current.pathParams.user}}</span>',
         children: [
           {
             href: {
@@ -534,6 +534,30 @@ angular.module('encore.ui.rxApp', [
           };
         }
       ]
+    };
+  }
+]).directive('rxAppSearch', function () {
+  return {
+    restrict: 'E',
+    replace: true,
+    templateUrl: 'templates/rxAppSearch.html',
+    scope: {
+      placeholder: '@?',
+      model: '=?',
+      submit: '=?'
+    }
+  };
+}).directive('rxAtlasSearch', [
+  '$location',
+  function ($location) {
+    return {
+      template: '<rx-app-search placeholder="Search for user..." submit="searchAccounts"></rx-app-search>',
+      restrict: 'E',
+      link: function (scope) {
+        scope.searchAccounts = function (searchValue) {
+          $location.path(searchValue + '/servers/');
+        };
+      }
     };
   }
 ]);

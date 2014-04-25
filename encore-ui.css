@@ -767,9 +767,6 @@ FlexBox Columns
   background: #1a1a1a;
   line-height: 1.2;
 }
-.rx-app .rx-app-menu input {
-  color: #444444;
-}
 .rx-app .rx-app-menu .collapsible-toggle {
   position: relative;
   left: 13px;
@@ -989,6 +986,47 @@ FlexBox Columns
 .rx-app .rx-app-nav-level-3 .rx-app-nav-item .item-link:after {
   border-top-width: 1em;
   border-bottom-width: 1em;
+}
+.rx-app .rx-app-search {
+  position: relative;
+  font-size: 14px;
+  color: #babab9;
+}
+.rx-app .rx-app-search ::-webkit-input-placeholder {
+  font-style: italic;
+  text-overflow: ellipsis;
+}
+.rx-app .rx-app-search ::-moz-placeholder {
+  font-style: italic;
+  text-overflow: ellipsis;
+}
+.rx-app .rx-app-search :-ms-input-placeholder {
+  font-style: italic;
+  text-overflow: ellipsis;
+}
+.rx-app .rx-app-search .search-input {
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+  background: #4d4d4c;
+  border: 0;
+  width: 100%;
+  padding: 9px;
+  padding-right: 30px;
+  margin: 0;
+}
+.rx-app .rx-app-search .search-action {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 100%;
+  background: url(images/magnifying-glass.png) no-repeat 50% 50%;
+  border: 0;
+  opacity: 0.2;
 }
 .rx-app .page-header {
   background: linear-gradient(to bottom, #e7e7e7 0%, #d6d6d6 100%);
