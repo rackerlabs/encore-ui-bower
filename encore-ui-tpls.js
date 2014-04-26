@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.7.6 - 2014-04-25
+ * Version: 0.7.7 - 2014-04-25
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -35,7 +35,9 @@ angular.module('encore.ui', [
   'encore.ui.rxProductResources',
   'encore.ui.rxSessionStorage',
   'encore.ui.rxSortableColumn',
-  'encore.ui.rxSpinner'
+  'encore.ui.rxSpinner',
+  'encore.ui.rxTokenInterceptor',
+  'encore.ui.rxUnauthorizedInterceptor'
 ]);
 angular.module('encore.ui.tpls', [
   'templates/rxActiveUrl.html',
@@ -375,22 +377,39 @@ angular.module('encore.ui.rxApp', [
             },
             linkText: 'Databases',
             visibility: '"!production" | rxEnvironmentMatch'
+          },
+          {
+            href: {
+              tld: 'cloudatlas',
+              path: '{{user}}/loadbalancers'
+            },
+            linkText: 'Load Balancers',
+            visibility: '"!production" | rxEnvironmentMatch'
           }
         ]
       },
       {
-        href: {
-          tld: 'cloudatlas',
-          path: 'ticketqueues'
-        },
         linkText: 'Ticket Queues',
         children: [
           {
-            href: '/ticketqueues/my',
+            href: {
+              tld: 'cloudatlas',
+              path: 'ticketqueues/list'
+            },
+            linkText: 'My Selected Queues'
+          },
+          {
+            href: {
+              tld: 'cloudatlas',
+              path: 'ticketqueues/my'
+            },
             linkText: 'My Tickets'
           },
           {
-            href: '/ticketqueues/queues',
+            href: {
+              tld: 'cloudatlas',
+              path: 'ticketqueues/queues'
+            },
             linkText: 'Queue Admin'
           }
         ]
@@ -588,7 +607,17 @@ angular.module('encore.ui.rxApp', [
       }
     };
   }
-]);
+]).directive('rxTicketSearch', function () {
+  return {
+    template: '<rx-app-search placeholder="Search for a Ticket..." submit="searchTickets"></rx-app-search>',
+    restrict: 'E',
+    link: function (scope) {
+      // TQTicketSelection.loadTicket.bind(TQTicketSelection)
+      scope.searchTickets = function () {
+      };
+    }
+  };
+});
 angular.module('encore.ui.rxAttributes', []).directive('rxAttributes', [
   '$parse',
   '$compile',
@@ -694,6 +723,10 @@ angular.module('encore.ui.rxSession', ['encore.ui.rxLocalStorage']).factory('Ses
     var session = {};
     session.getToken = function () {
       return LocalStorage.getObject(TOKEN_ID);
+    };
+    session.getTokenId = function () {
+      var token = session.getToken();
+      return token && token.access && token.access.token ? token.access.token.id : undefined;
     };
     session.storeToken = function (token) {
       LocalStorage.setObject(TOKEN_ID, token);
@@ -1651,6 +1684,30 @@ angular.module('encore.ui.rxSpinner', []).directive('rxSpinner', function () {
     }
   };
 });
+angular.module('encore.ui.rxTokenInterceptor', ['encore.ui.rxSession']).factory('TokenInterceptor', [
+  'Session',
+  function (Session) {
+    return {
+      request: function (config) {
+        config.headers['X-Auth-Token'] = Session.getTokenId();
+      }
+    };
+  }
+]);
+angular.module('encore.ui.rxUnauthorizedInterceptor', []).factory('UnauthorizedInterceptor', [
+  '$q',
+  '$window',
+  function ($q, $window) {
+    return {
+      responseError: function (response) {
+        if (response.status === 401) {
+          $window.location = '/login';
+        }
+        return $q.reject(response);
+      }
+    };
+  }
+]);
 angular.module('templates/rxActiveUrl.html', []).run([
   '$templateCache',
   function ($templateCache) {
