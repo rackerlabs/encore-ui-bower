@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.7.7 - 2014-04-25
+ * Version: 0.7.8 - 2014-04-28
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -390,6 +390,10 @@ angular.module('encore.ui.rxApp', [
       },
       {
         linkText: 'Ticket Queues',
+        href: {
+          tld: 'cloudatlas',
+          path: 'ticketqueues'
+        },
         children: [
           {
             href: {
@@ -425,7 +429,10 @@ angular.module('encore.ui.rxApp', [
     return function (routes) {
       var isActive = function (item) {
         // check if url matches absUrl
-        var pathMatches = _.contains($location.absUrl(), item.url);
+        // TODO: Add Unit Tests for URLs with Query Strings in them.
+        var baseUrl = $location.absUrl().split('?')[0];
+        var itemUrl = _.isString(item.url) ? item.url.split('?')[0] : undefined;
+        var pathMatches = _.contains(baseUrl, itemUrl);
         // if current item not active, check if any children are active
         if (!pathMatches && item.children) {
           pathMatches = _.any(item.children, isActive);
