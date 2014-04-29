@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.7.8 - 2014-04-28
+ * Version: 0.8.0 - 2014-04-29
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -188,6 +188,11 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize']).service('Environment',
           name: 'production',
           pattern: /\/\/(?!staging).*\.?encore.rackspace.com/,
           url: '//{{tld}}.encore.rackspace.com/{{path}}'
+        },
+        {
+          name: 'unified',
+          pattern: 'en.core.rackspace.com',
+          url: '{{path}}'
         }
       ];
     /*
@@ -308,6 +313,7 @@ angular.module('encore.ui.rxApp', [
       {
         linkText: 'Account-level Tools',
         directive: 'rx-atlas-search',
+        visibility: '"!unified" | rxEnvironmentMatch',
         childVisibility: function (scope) {
           // We only want to show this nav if user is already defined in the URL
           // (otherwise a user hasn't been chosen yet, so nav won't work, so we hide it)
@@ -361,11 +367,81 @@ angular.module('encore.ui.rxApp', [
         ]
       },
       {
-        linkText: 'Ticket Queues',
+        href: '/billing',
+        linkText: 'Billing',
+        visibility: '("unified" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)',
+        children: [
+          {
+            href: '/billing/overview/{{accountNumber}}',
+            linkText: 'Overview'
+          },
+          {
+            href: '/billing/transactions/{{accountNumber}}',
+            linkText: 'Transactions'
+          },
+          {
+            href: '/billing/usage/{{accountNumber}}',
+            linkText: 'Current Usage'
+          },
+          {
+            href: '/billing/discounts/{{accountNumber}}',
+            linkText: 'Discounts'
+          },
+          {
+            href: '/billing/payment/{{accountNumber}}/options',
+            linkText: 'Payment Options'
+          },
+          {
+            href: '/billing/preferences/{{accountNumber}}',
+            linkText: 'Preferences'
+          }
+        ]
+      },
+      {
+        href: '/supportservice',
+        linkText: 'Support Service',
+        visibility: '("unified" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)',
+        children: [
+          {
+            href: '/supportservice/browse',
+            linkText: 'Browse Accounts'
+          },
+          {
+            href: '/supportservice/admin',
+            linkText: 'Admin'
+          }
+        ]
+      },
+      {
+        href: '/virt',
+        linkText: 'Virtualization Admin',
+        visibility: '("unified" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)',
+        children: [
+          {
+            href: '/virt/vcenters',
+            linkText: 'vCenters'
+          },
+          {
+            href: '/virt/hypervisor-clusters',
+            linkText: 'Hypervisor Clusters'
+          },
+          {
+            href: '/virt/hypervisors',
+            linkText: 'Hypervisors'
+          },
+          {
+            href: '/virt/vms',
+            linkText: 'VMs'
+          }
+        ]
+      },
+      {
         href: {
           tld: 'cloudatlas',
           path: 'ticketqueues'
         },
+        linkText: 'Ticket Queues',
+        visibility: '"!unified" | rxEnvironmentMatch',
         children: [
           {
             href: {
@@ -632,7 +708,7 @@ angular.module('encore.ui.rxAttributes', []).directive('rxAttributes', [
 angular.module('encore.ui.rxIdentity', ['ngResource']).factory('Identity', [
   '$resource',
   function ($resource) {
-    var authSvc = $resource('/identity/:action', {}, {
+    var authSvc = $resource('/api/identity/:action', {}, {
         loginWithJSON: {
           method: 'POST',
           isArray: false,
@@ -640,7 +716,7 @@ angular.module('encore.ui.rxIdentity', ['ngResource']).factory('Identity', [
         },
         validate: {
           method: 'GET',
-          url: '/identity/login/session/:id',
+          url: '/api/identity/login/session/:id',
           isArray: false
         }
       });
@@ -710,7 +786,7 @@ angular.module('encore.ui.rxSession', ['encore.ui.rxLocalStorage']).factory('Ses
     session.storeToken = function (token) {
       LocalStorage.setObject(TOKEN_ID, token);
     };
-    session.logoff = function () {
+    session.logout = function () {
       LocalStorage.removeItem(TOKEN_ID);
     };
     session.isCurrent = function () {
@@ -1669,6 +1745,7 @@ angular.module('encore.ui.rxTokenInterceptor', ['encore.ui.rxSession']).factory(
     return {
       request: function (config) {
         config.headers['X-Auth-Token'] = Session.getTokenId();
+        return config;
       }
     };
   }
