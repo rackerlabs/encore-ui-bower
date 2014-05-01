@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.8.0 - 2014-04-29
+ * Version: 0.8.1 - 2014-05-01
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -189,7 +189,9 @@ angular.module('encore.ui.rxAge', []).filter('rxAge', function () {
 });
 angular.module('encore.ui.rxEnvironment', ['ngSanitize']).service('Environment', [
   '$location',
-  function ($location) {
+  '$rootScope',
+  '$log',
+  function ($location, $rootScope, $log) {
     var envSvc = {};
     /*
      * This array defined different environments to check against.
@@ -237,7 +239,7 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize']).service('Environment',
      * Retrieves current environment
      * @public
      * @param {string} [href] The path to check the environment on. Defaults to $location.absUrl()
-     * @returns {*} The current environment (if found), else undefined.
+     * @returns {Object} The current environment (if found), else 'localhost' environment.
      */
     envSvc.get = function (href) {
       // default to current location if href not provided
@@ -249,13 +251,17 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize']).service('Environment',
           }
           return _.contains(href, pattern);
         });
+      if (_.isUndefined(currentEnvironment)) {
+        $log.warn('No environments match URL: ' + $location.absUrl());
+        // set to default/first environment to avoid errors
+        currentEnvironment = environments[0];
+      }
       return currentEnvironment;
     };
     /*
      * Adds an environment to the stack
      * @public
      * @param {object} environment The environment to add. See 'environments' array for required properties
-     * @throws Environment must match pattern defined in isValidEnvironment function
      */
     envSvc.add = function (environment) {
       // do some sanity checks here
@@ -263,7 +269,7 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize']).service('Environment',
         // add environment
         environments.push(environment);
       } else {
-        throw new Error('Environment incorrectly defined');
+        $log.error('Unable to add Environment: defined incorrectly');
       }
     };
     /*
