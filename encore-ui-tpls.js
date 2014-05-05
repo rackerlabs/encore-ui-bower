@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.8.2 - 2014-05-02
+ * Version: 0.8.3 - 2014-05-05
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -507,7 +507,8 @@ angular.module('encore.ui.rxApp', [
   '$route',
   '$interpolate',
   'rxEnvironmentUrlFilter',
-  function ($rootScope, $location, $route, $interpolate, rxEnvironmentUrlFilter) {
+  '$log',
+  function ($rootScope, $location, $route, $interpolate, rxEnvironmentUrlFilter, $log) {
     return function (routes) {
       var isActive = function (item) {
         // check if url matches absUrl
@@ -548,11 +549,61 @@ angular.module('encore.ui.rxApp', [
         });
         return routes;
       };
+      var getRouteIndex = function (key, routes) {
+        var routeIndex;
+        var routeFound = false;
+        _.forEach(routes, function (route, index) {
+          if (route.key === key) {
+            routeIndex = [index];
+          } else if ('children' in route) {
+            // if there are children in the route, we need to search through them as well
+            var childIndex = getRouteIndex(key, route.children);
+            if (childIndex) {
+              routeIndex = [index].concat(childIndex);
+            }
+          }
+          if (routeIndex && !routeFound) {
+            routeFound = true;
+          } else {
+            $log.warn('Duplicate routes found for key: ' + key);
+          }
+        });
+        return routeIndex;
+      };
+      var updateRouteByIndex = function (indexes, routeInfo, routes, level) {
+        var route = routes[indexes[0]];
+        if (level < indexes.length - 1) {
+          // if there's more than one index, we need to recurse down a level
+          route.children = updateRouteByIndex(indexes.slice(1), routeInfo, route.children, level + 1);
+        } else {
+          _.assign(route, routeInfo);
+        }
+        return routes;
+      };
       $rootScope.$on('$locationChangeSuccess', function () {
         routes = setDynamicProperties(routes);
       });
       routes = setDynamicProperties(routes);
       return {
+        getIndexByKey: function (key) {
+          var routeIndex = getRouteIndex(key, routes);
+          if (_.isUndefined(routeIndex)) {
+            $log.debug('Could not find route by key: ', key);
+          }
+          return routeIndex;
+        },
+        setRouteByKey: function (key, routeInfo) {
+          var routeIndex = this.getIndexByKey(key);
+          // make sure the key was found
+          if (routeIndex) {
+            routes = updateRouteByIndex(routeIndex, routeInfo, routes, 0);
+            // now that we've updated the route info, we need to reset the dynamic properties
+            routes = setDynamicProperties(routes);
+            return true;
+          } else {
+            return false;
+          }
+        },
         getAll: function () {
           return routes;
         },
@@ -1057,7 +1108,8 @@ angular.module('encore.ui.rxForm', ['ngSanitize']).directive('rxFormItem', funct
         selected: '@',
         type: '@',
         model: '=',
-        fieldId: '@'
+        fieldId: '@',
+        required: '@'
       },
       controller: [
         '$scope',
@@ -1122,14 +1174,15 @@ angular.module('encore.ui.rxLogout', []).directive('rxLogout', [
       restrict: 'A',
       controller: [
         '$scope',
-        function ($scope) {
+        '$window',
+        function ($scope, $window) {
           var success = function () {
             // fire event to notify auth service about logout
             $rootScope.$broadcast('event:auth-loginRequired');
           };
-          // TODO: Handle failure
           $scope.logout = function () {
             Auth.logout(success);
+            $window.location = '/login';
           };
         }
       ],
@@ -1873,7 +1926,7 @@ angular.module('templates/rxFormItem.html', []).run([
 angular.module('templates/rxFormOptionTable.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxFormOptionTable.html', '<div class="form-item"><table class="table-striped option-table" ng-show="data.length > 0"><thead><tr><th></th><th ng-repeat="column in columns" scope="col">{{column.label}}</th></tr></thead><tr ng-repeat="row in data" ng-class="{current: isCurrent(row.value), selected: isSelected(row.value, $index)}"><th scope="row" class="option-table-input" ng-switch="type"><input type="radio" ng-switch-when="radio" id="{{fieldId}}_{{$index}}" ng-model="$parent.$parent.model" value="{{row.value}}" name="{{fieldId}}" ng-disabled="isCurrent(row.value)"><input type="checkbox" ng-switch-when="checkbox" id="{{fieldId}}_{{$index}}" ng-model="$parent.model[$index]" rx-attributes="{\'ng-true-value\': row.value, \'ng-false-value\': row.falseValue}"></th><td ng-repeat="column in columns"><label for="{{fieldId}}_{{$parent.$index}}"><span ng-bind-html="getContent(column, row)"></span> <span ng-show="isCurrent(row.value)">{{column.selectedLabel}}</span></label></td></tr></table></div>');
+    $templateCache.put('templates/rxFormOptionTable.html', '<div class="form-item"><table class="table-striped option-table" ng-show="data.length > 0"><thead><tr><th></th><th ng-repeat="column in columns" scope="col">{{column.label}}</th></tr></thead><tr ng-repeat="row in data" ng-class="{current: isCurrent(row.value), selected: isSelected(row.value, $index)}"><th scope="row" class="option-table-input" ng-switch="type"><input type="radio" ng-switch-when="radio" id="{{fieldId}}_{{$index}}" ng-model="$parent.$parent.model" value="{{row.value}}" name="{{fieldId}}" ng-disabled="isCurrent(row.value)" ng-required="{{required}}"><input type="checkbox" ng-switch-when="checkbox" id="{{fieldId}}_{{$index}}" ng-model="$parent.model[$index]" rx-attributes="{\'ng-true-value\': row.value, \'ng-false-value\': row.falseValue}" ng-required="{{required}}"></th><td ng-repeat="column in columns"><label for="{{fieldId}}_{{$parent.$index}}"><span ng-bind-html="getContent(column, row)"></span> <span ng-show="isCurrent(row.value)">{{column.selectedLabel}}</span></label></td></tr></table></div>');
   }
 ]);
 angular.module('templates/rxFormRadio.html', []).run([
