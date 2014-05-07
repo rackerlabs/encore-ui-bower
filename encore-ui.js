@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.8.3 - 2014-05-05
+ * Version: 0.8.4 - 2014-05-07
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -833,12 +833,31 @@ angular.module('encore.ui.rxSession', ['encore.ui.rxLocalStorage']).factory('Ses
   function (LocalStorage) {
     var TOKEN_ID = 'encoreSessionToken';
     var session = {};
+    /**
+        * Dot walks the token without throwing an error.
+        * If key exists, returns value otherwise returns undefined.
+        */
+    session.getByKey = function (key) {
+      var tokenValue, token = session.getToken(), keys = key ? key.split('.') : undefined;
+      if (_.isEmpty(token) || !keys) {
+        return;
+      }
+      tokenValue = _.reduce(keys, function (val, key) {
+        return val ? val[key] : undefined;
+      }, token);
+      return tokenValue;
+    };
     session.getToken = function () {
       return LocalStorage.getObject(TOKEN_ID);
     };
     session.getTokenId = function () {
-      var token = session.getToken();
-      return token && token.access && token.access.token ? token.access.token.id : undefined;
+      return session.getByKey('access.token.id');
+    };
+    session.getUserId = function () {
+      return session.getByKey('access.user.id');
+    };
+    session.getUserName = function () {
+      return session.getByKey('access.user.name');
     };
     session.storeToken = function (token) {
       LocalStorage.setObject(TOKEN_ID, token);
@@ -847,10 +866,9 @@ angular.module('encore.ui.rxSession', ['encore.ui.rxLocalStorage']).factory('Ses
       LocalStorage.removeItem(TOKEN_ID);
     };
     session.isCurrent = function () {
-      var token = session.getToken();
-      //Conditional to prevent null exceptions when validating the token
-      if (token && token.access && token.access.token && token.access.token.expires) {
-        return new Date(token.access.token.expires) > _.now();
+      var expireDate = session.getByKey('access.token.expires');
+      if (expireDate) {
+        return new Date(expireDate) > _.now();
       }
       return false;
     };

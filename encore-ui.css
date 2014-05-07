@@ -779,6 +779,7 @@ FlexBox Columns
   flex: 0 0 300px;
   background: #1a1a1a;
   line-height: 1.2;
+  padding-bottom: 10em;
 }
 .rx-app .rx-app-menu .collapsible-toggle {
   position: relative;
@@ -859,6 +860,10 @@ FlexBox Columns
 .rx-app .rx-app-nav .nav-section-all {
   background: #407610;
   border-top: 1px solid #568c26;
+}
+.rx-app .rx-app-nav .nav-section-highlight {
+  background: #0951a3;
+  border-top: 1px solid #00408f;
 }
 .rx-app .rx-app-nav-item {
   clear: both;
