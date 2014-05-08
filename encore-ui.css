@@ -1776,7 +1776,7 @@ Styles for header navigation used globally across Encore
   padding: 10px 50px;
   margin-bottom: 2px;
   position: relative;
-  background: no-repeat 20px 8px;
+  background: no-repeat 18px 50%;
 }
 .rx-notifications .rx-notification.notification-success {
   background-color: #ddffd3;
@@ -1791,19 +1791,21 @@ Styles for header navigation used globally across Encore
 .rx-notifications .rx-notification.notification-warning {
   background-color: #ffa61b;
   background-image: url('images/warning-triangle.png');
-  color: #ffffff;
+  color: #fff;
 }
 .rx-notifications .rx-notification.notification-error {
   background-color: #f21a1a;
   background-image: url('images/error-stop.png');
-  color: #ffffff;
+  color: #fff;
 }
 .rx-notifications .rx-notification.notification-loading {
   background-image: none;
 }
 .rx-notifications .rx-notification.notification-loading .rx-spinner {
   position: absolute;
-  left: 22px;
+  left: 19px;
+  top: 50%;
+  margin-top: -9px;
 }
 .rx-notifications .notification-dismiss {
   position: absolute;

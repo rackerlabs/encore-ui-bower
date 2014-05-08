@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.8.4 - 2014-05-07
+ * Version: 0.9.0 - 2014-05-08
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -346,6 +346,7 @@ angular.module('encore.ui.rxApp', [
     children: [
       {
         linkText: 'Account-level Tools',
+        key: 'acctLvlTools',
         directive: 'rx-atlas-search',
         visibility: '"!unified" | rxEnvironmentMatch',
         childVisibility: function (scope) {
@@ -501,7 +502,7 @@ angular.module('encore.ui.rxApp', [
         ]
       }
     ]
-  }]).factory('rxAppRoutes', [
+  }]).service('rxAppRoutes', [
   '$rootScope',
   '$location',
   '$route',
@@ -509,7 +510,8 @@ angular.module('encore.ui.rxApp', [
   'rxEnvironmentUrlFilter',
   '$log',
   function ($rootScope, $location, $route, $interpolate, rxEnvironmentUrlFilter, $log) {
-    return function (routes) {
+    var AppRoutes = function () {
+      var routes = [];
       var isActive = function (item) {
         // check if url matches absUrl
         // TODO: Add Unit Tests for URLs with Query Strings in them.
@@ -551,21 +553,26 @@ angular.module('encore.ui.rxApp', [
       };
       var getRouteIndex = function (key, routes) {
         var routeIndex;
-        var routeFound = false;
+        var routeAlreadyFound = false;
         _.forEach(routes, function (route, index) {
+          var foundThisTime = false;
           if (route.key === key) {
             routeIndex = [index];
+            foundThisTime = true;
           } else if ('children' in route) {
             // if there are children in the route, we need to search through them as well
             var childIndex = getRouteIndex(key, route.children);
             if (childIndex) {
               routeIndex = [index].concat(childIndex);
+              foundThisTime = true;
             }
           }
-          if (routeIndex && !routeFound) {
-            routeFound = true;
-          } else {
-            $log.warn('Duplicate routes found for key: ' + key);
+          if (foundThisTime) {
+            if (routeAlreadyFound) {
+              $log.warn('Duplicate routes found for key: ' + key);
+            } else {
+              routeAlreadyFound = true;
+            }
           }
         });
         return routeIndex;
@@ -583,7 +590,6 @@ angular.module('encore.ui.rxApp', [
       $rootScope.$on('$locationChangeSuccess', function () {
         routes = setDynamicProperties(routes);
       });
-      routes = setDynamicProperties(routes);
       return {
         getIndexByKey: function (key) {
           var routeIndex = getRouteIndex(key, routes);
@@ -612,6 +618,11 @@ angular.module('encore.ui.rxApp', [
         }
       };
     };
+    var appRoutesInstance = new AppRoutes();
+    appRoutesInstance.createInstance = function () {
+      return new AppRoutes();
+    };
+    return appRoutesInstance;
   }
 ]).directive('rxApp', [
   'rxAppRoutes',
@@ -625,11 +636,13 @@ angular.module('encore.ui.rxApp', [
         siteTitle: '@?',
         menu: '=?',
         collapsibleNav: '@',
-        collapsedNav: '=?'
+        collapsedNav: '=?',
+        newInstance: '@?'
       },
       link: function (scope) {
-        var menu = scope.menu || encoreNav;
-        scope.appRoutes = new rxAppRoutes(menu);
+        scope.appRoutes = scope.newInstance ? rxAppRoutes.createInstance() : rxAppRoutes;
+        scope.menu = scope.menu || encoreNav;
+        scope.appRoutes.setAll(scope.menu);
         if (!_.isBoolean(scope.collapsedNav)) {
           scope.collapsedNav = false;
         }
@@ -1858,11 +1871,22 @@ angular.module('encore.ui.rxTokenInterceptor', ['encore.ui.rxSession']).factory(
 angular.module('encore.ui.rxUnauthorizedInterceptor', []).factory('UnauthorizedInterceptor', [
   '$q',
   '$window',
-  function ($q, $window) {
+  '$location',
+  function ($q, $window, $location) {
     return {
       responseError: function (response) {
+        // If one uses the <base /> tag, $location's API is unable to
+        // give us a proper path(). Therefore, we have to grab the current
+        // browser URL and fetch the proper portion to return to after login.
+        //
+        // For Example:
+        // <base href="/app"></base>
+        // current URL: /app/path
+        // $location.path(): /path
+        // $location.absUrl(): https://localhost:9000/app/path
+        var returnPath = '/' + $location.absUrl().split('/').splice(3).join('/');
         if (response.status === 401) {
-          $window.location = '/login';
+          $window.location = '/login?redirect=' + returnPath;
         }
         return $q.reject(response);
       }
