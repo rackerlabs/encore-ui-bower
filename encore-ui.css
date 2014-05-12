@@ -1839,6 +1839,10 @@ Styles for header navigation used globally across Encore
 .paginate-area {
   text-align: center;
 }
+.paginate-area td {
+  padding: 0;
+  background: #fff;
+}
 .rx-paginate .pagination {
   display: inline-block;
   padding-left: 0;
