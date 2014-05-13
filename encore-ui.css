@@ -1036,6 +1036,9 @@ FlexBox Columns
   padding-right: 30px;
   margin: 0;
 }
+.rx-app .rx-app-search .search-input.ng-invalid:focus {
+  outline-color: #f37a7c;
+}
 .rx-app .rx-app-search .search-action {
   position: absolute;
   top: 0;

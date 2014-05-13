@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.9.1 - 2014-05-12
+ * Version: 0.9.2 - 2014-05-13
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -41,6 +41,7 @@ angular.module('encore.ui', [
 ]);
 angular.module('encore.ui.tpls', [
   'templates/rxActiveUrl.html',
+  'templates/rxAccountSearch.html',
   'templates/rxApp.html',
   'templates/rxAppNav.html',
   'templates/rxAppNavItem.html',
@@ -372,8 +373,56 @@ angular.module('encore.ui.rxApp', [
     title: 'All Tools',
     children: [
       {
-        linkText: 'Account-level Tools',
-        key: 'acctLvlTools',
+        linkText: 'Account',
+        key: 'accountLvlTools',
+        directive: 'rx-account-search',
+        visibility: '("unified" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)',
+        childVisibility: function (scope) {
+          if (scope.route.current) {
+            return !_.isUndefined(scope.route.current.pathParams.accountNumber);
+          }
+          return false;
+        },
+        children: [{
+            href: '/accounts/{{accountNumber}}',
+            linkText: 'Overview'
+          }]
+      },
+      {
+        href: '/billing',
+        linkText: 'Billing',
+        key: 'billing',
+        visibility: '("unified" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)',
+        children: [
+          {
+            href: '/billing/overview/{{accountNumber}}',
+            linkText: 'Overview'
+          },
+          {
+            href: '/billing/transactions/{{accountNumber}}',
+            linkText: 'Transactions'
+          },
+          {
+            href: '/billing/usage/{{accountNumber}}',
+            linkText: 'Current Usage'
+          },
+          {
+            href: '/billing/discounts/{{accountNumber}}',
+            linkText: 'Discounts'
+          },
+          {
+            href: '/billing/payment/{{accountNumber}}/options',
+            linkText: 'Payment Options'
+          },
+          {
+            href: '/billing/preferences/{{accountNumber}}',
+            linkText: 'Preferences'
+          }
+        ]
+      },
+      {
+        linkText: 'Cloud',
+        key: 'cloud',
         directive: 'rx-atlas-search',
         visibility: '"!unified" | rxEnvironmentMatch',
         childVisibility: function (scope) {
@@ -429,39 +478,9 @@ angular.module('encore.ui.rxApp', [
         ]
       },
       {
-        href: '/billing',
-        linkText: 'Billing',
-        visibility: '("unified" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)',
-        children: [
-          {
-            href: '/billing/overview/{{accountNumber}}',
-            linkText: 'Overview'
-          },
-          {
-            href: '/billing/transactions/{{accountNumber}}',
-            linkText: 'Transactions'
-          },
-          {
-            href: '/billing/usage/{{accountNumber}}',
-            linkText: 'Current Usage'
-          },
-          {
-            href: '/billing/discounts/{{accountNumber}}',
-            linkText: 'Discounts'
-          },
-          {
-            href: '/billing/payment/{{accountNumber}}/options',
-            linkText: 'Payment Options'
-          },
-          {
-            href: '/billing/preferences/{{accountNumber}}',
-            linkText: 'Preferences'
-          }
-        ]
-      },
-      {
         href: '/supportservice',
         linkText: 'Support Service',
+        key: 'supportService',
         visibility: '("unified" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)',
         children: [
           {
@@ -475,34 +494,12 @@ angular.module('encore.ui.rxApp', [
         ]
       },
       {
-        href: '/virt',
-        linkText: 'Virtualization Admin',
-        visibility: '("unified" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)',
-        children: [
-          {
-            href: '/virt/vcenters',
-            linkText: 'vCenters'
-          },
-          {
-            href: '/virt/hypervisor-clusters',
-            linkText: 'Hypervisor Clusters'
-          },
-          {
-            href: '/virt/hypervisors',
-            linkText: 'Hypervisors'
-          },
-          {
-            href: '/virt/vms',
-            linkText: 'VMs'
-          }
-        ]
-      },
-      {
         href: {
           tld: 'cloudatlas',
           path: 'ticketqueues'
         },
         linkText: 'Ticket Queues',
+        key: 'ticketQueues',
         visibility: '"!unified" | rxEnvironmentMatch',
         children: [
           {
@@ -525,6 +522,30 @@ angular.module('encore.ui.rxApp', [
               path: 'ticketqueues/queues'
             },
             linkText: 'Queue Admin'
+          }
+        ]
+      },
+      {
+        href: '/virt',
+        linkText: 'Virtualization Admin',
+        key: 'virtualization',
+        visibility: '("unified" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)',
+        children: [
+          {
+            href: '/virt/vcenters',
+            linkText: 'vCenters'
+          },
+          {
+            href: '/virt/hypervisor-clusters',
+            linkText: 'Hypervisor Clusters'
+          },
+          {
+            href: '/virt/hypervisors',
+            linkText: 'Hypervisors'
+          },
+          {
+            href: '/virt/vms',
+            linkText: 'VMs'
           }
         ]
       }
@@ -783,6 +804,21 @@ angular.module('encore.ui.rxApp', [
       link: function (scope) {
         scope.searchAccounts = function (searchValue) {
           $location.path(searchValue + '/servers/');
+        };
+      }
+    };
+  }
+]).directive('rxAccountSearch', [
+  '$location',
+  function ($location) {
+    return {
+      templateUrl: 'templates/rxAccountSearch.html',
+      restrict: 'E',
+      link: function (scope) {
+        scope.fetchAccount = function (accountNumber) {
+          if (accountNumber) {
+            $location.path('/accounts/' + accountNumber);
+          }
         };
       }
     };
@@ -1926,6 +1962,12 @@ angular.module('templates/rxActiveUrl.html', []).run([
     $templateCache.put('templates/rxActiveUrl.html', '<li ng-class="{ selected: navActive }" ng-transclude=""></li>');
   }
 ]);
+angular.module('templates/rxAccountSearch.html', []).run([
+  '$templateCache',
+  function ($templateCache) {
+    $templateCache.put('templates/rxAccountSearch.html', '<div class="rx-app-search"><form name="search" role="search" ng-submit="fetchAccount(model)"><input type="text" placeholder="Search by Account Number..." ng-model="model" class="form-item search-input" ng-required="" ng-pattern="/(^\\d{1,9}$|^$)/"><button type="submit" class="search-action" ng-disabled="!search.$valid"><span class="visually-hidden">Search</span></button></form></div>');
+  }
+]);
 angular.module('templates/rxApp.html', []).run([
   '$templateCache',
   function ($templateCache) {
@@ -2067,6 +2109,6 @@ angular.module('templates/rxProductResources.html', []).run([
 angular.module('templates/rxSortableColumn.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxSortableColumn.html', '<div class="rx-sortable-column"><button class="sort-action btn-link" ng-click="sortMethod(sortProperty)"><span class="visually-hidden">Sort by&nbsp;</span> <span ng-transclude=""></span></button> <i class="sort-icon" ng-style="{visibility: predicate === \'{{sortProperty}}\' && \'visibile\' || \'hidden\'}" ng-class="{\'desc\': !reverse, \'asc\': reverse}"><span class="visually-hidden">Sorted {{reverse ? \'ascending\' : \'descending\'}}</span></i></div>');
+    $templateCache.put('templates/rxSortableColumn.html', '<div class="rx-sortable-column"><button class="sort-action btn-link" ng-click="sortMethod(sortProperty)"><span class="visually-hidden">Sort by&nbsp;</span> <span ng-transclude=""></span></button> <i class="sort-icon" ng-style="{visibility: predicate === \'{{sortProperty}}\' && \'visible\' || \'hidden\'}" ng-class="{\'desc\': !reverse, \'asc\': reverse}"><span class="visually-hidden">Sorted {{reverse ? \'ascending\' : \'descending\'}}</span></i></div>');
   }
 ]);
