@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.9.2 - 2014-05-13
+ * Version: 0.10.0 - 2014-05-14
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -445,6 +445,14 @@ angular.module('encore.ui.rxApp', [
             },
             linkText: 'Load Balancers',
             visibility: '"!production" | rxEnvironmentMatch'
+          },
+          {
+            href: {
+              tld: 'cloudatlas',
+              path: '{{user}}/networks'
+            },
+            linkText: 'Networks',
+            visibility: '"!production" | rxEnvironmentMatch'
           }
         ]
       },
@@ -679,6 +687,11 @@ angular.module('encore.ui.rxApp', [
     scope: {
       title: '=',
       subtitle: '='
+    },
+    link: function (scope, element) {
+      // Remove the title attribute, as it will cause a popup to appear when hovering over page content
+      // @see https://github.com/rackerlabs/encore-ui/issues/251
+      element.removeAttr('title');
     }
   };
 }).directive('rxAppNav', function () {
@@ -1119,6 +1132,16 @@ angular.module('encore.ui.rxForm', ['ngSanitize']).directive('rxFormItem', funct
       description: '@'
     }
   };
+}).directive('rxFormFieldset', function () {
+  return {
+    restrict: 'E',
+    templateUrl: 'templates/rxFormFieldset.html',
+    transclude: true,
+    scope: {
+      legend: '@',
+      description: '@'
+    }
+  };
 }).directive('rxFormInput', function () {
   return {
     restrict: 'E',
@@ -1274,6 +1297,11 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap']).directive('rxModalFo
       isLoading: '=',
       submitText: '@',
       cancelText: '@'
+    },
+    link: function (scope, element) {
+      // Remove the title attribute, as it will cause a popup to appear when hovering over page content
+      // @see https://github.com/rackerlabs/encore-ui/issues/256
+      element.removeAttr('title');
     }
   };
 }).controller('rxModalCtrl', [
@@ -1842,7 +1870,7 @@ angular.module('encore.ui.rxSortableColumn', []).directive('rxSortableColumn', f
     templateUrl: 'templates/rxSortableColumn.html',
     transclude: true,
     scope: {
-      sortMethod: '=',
+      sortMethod: '&',
       sortProperty: '@',
       predicate: '=',
       reverse: '='

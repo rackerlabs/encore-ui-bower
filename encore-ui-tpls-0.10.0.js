@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.9.2 - 2014-05-13
+ * Version: 0.10.0 - 2014-05-14
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -51,6 +51,7 @@ angular.module('encore.ui.tpls', [
   'templates/rxBreadcrumbs.html',
   'templates/rxButton.html',
   'templates/rxDropdown.html',
+  'templates/rxFormFieldset.html',
   'templates/rxFormInput.html',
   'templates/rxFormItem.html',
   'templates/rxFormOptionTable.html',
@@ -474,6 +475,14 @@ angular.module('encore.ui.rxApp', [
             },
             linkText: 'Load Balancers',
             visibility: '"!production" | rxEnvironmentMatch'
+          },
+          {
+            href: {
+              tld: 'cloudatlas',
+              path: '{{user}}/networks'
+            },
+            linkText: 'Networks',
+            visibility: '"!production" | rxEnvironmentMatch'
           }
         ]
       },
@@ -708,6 +717,11 @@ angular.module('encore.ui.rxApp', [
     scope: {
       title: '=',
       subtitle: '='
+    },
+    link: function (scope, element) {
+      // Remove the title attribute, as it will cause a popup to appear when hovering over page content
+      // @see https://github.com/rackerlabs/encore-ui/issues/251
+      element.removeAttr('title');
     }
   };
 }).directive('rxAppNav', function () {
@@ -1148,6 +1162,16 @@ angular.module('encore.ui.rxForm', ['ngSanitize']).directive('rxFormItem', funct
       description: '@'
     }
   };
+}).directive('rxFormFieldset', function () {
+  return {
+    restrict: 'E',
+    templateUrl: 'templates/rxFormFieldset.html',
+    transclude: true,
+    scope: {
+      legend: '@',
+      description: '@'
+    }
+  };
 }).directive('rxFormInput', function () {
   return {
     restrict: 'E',
@@ -1303,6 +1327,11 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap']).directive('rxModalFo
       isLoading: '=',
       submitText: '@',
       cancelText: '@'
+    },
+    link: function (scope, element) {
+      // Remove the title attribute, as it will cause a popup to appear when hovering over page content
+      // @see https://github.com/rackerlabs/encore-ui/issues/256
+      element.removeAttr('title');
     }
   };
 }).controller('rxModalCtrl', [
@@ -1871,7 +1900,7 @@ angular.module('encore.ui.rxSortableColumn', []).directive('rxSortableColumn', f
     templateUrl: 'templates/rxSortableColumn.html',
     transclude: true,
     scope: {
-      sortMethod: '=',
+      sortMethod: '&',
       sortProperty: '@',
       predicate: '=',
       reverse: '='
@@ -1971,7 +2000,7 @@ angular.module('templates/rxAccountSearch.html', []).run([
 angular.module('templates/rxApp.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxApp.html', '<div class="rx-app" ng-class="{collapsible: collapsibleNav === \'true\', collapsed: collapsedNav}" ng-cloak=""><nav class="rx-app-menu"><header class="site-branding"><h1 class="site-title">{{ siteTitle || \'Encore\' }}</h1><button class="collapsible-toggle" ng-if="collapsibleNav === \'true\'" ng-click="collapseMenu()"><span class="visually-hidden">{{ (collapsedNav) ? \'Show\' : \'Hide\' }} Main Menu</span><div class="double-chevron" ng-class="{\'double-chevron-left\': !collapsedNav}"></div></button><div class="site-options"><a href="#" rx-logout="" class="site-logout">Logout</a></div></header><nav class="rx-app-nav"><div ng-repeat="section in appRoutes.getAll()" class="nav-section nav-section-{{ section.type || \'all\' }}"><h2 class="nav-section-title">{{ section.title }}</h2><rx-app-nav items="section.children" level="1"></rx-app-nav></div></nav></nav><div class="rx-app-content" ng-transclude=""></div></div>');
+    $templateCache.put('templates/rxApp.html', '<div class="rx-app" ng-class="{collapsible: collapsibleNav === \'true\', collapsed: collapsedNav}" ng-cloak=""><nav class="rx-app-menu"><header class="site-branding"><h1 class="site-title">{{ siteTitle || \'Encore\' }}</h1><button class="collapsible-toggle btn-link" ng-if="collapsibleNav === \'true\'" ng-click="collapseMenu()" title="{{ (collapsedNav) ? \'Show\' : \'Hide\' }} Main Menu"><span class="visually-hidden">{{ (collapsedNav) ? \'Show\' : \'Hide\' }} Main Menu</span><div class="double-chevron" ng-class="{\'double-chevron-left\': !collapsedNav}"></div></button><div class="site-options"><a href="#" rx-logout="" class="site-logout">Logout</a></div></header><nav class="rx-app-nav"><div ng-repeat="section in appRoutes.getAll()" class="nav-section nav-section-{{ section.type || \'all\' }}"><h2 class="nav-section-title">{{ section.title }}</h2><rx-app-nav items="section.children" level="1"></rx-app-nav></div></nav></nav><div class="rx-app-content" ng-transclude=""></div></div>');
   }
 ]);
 angular.module('templates/rxAppNav.html', []).run([
@@ -2022,6 +2051,12 @@ angular.module('templates/rxDropdown.html', []).run([
     $templateCache.put('templates/rxDropdown.html', '<div class="dropdown"><a href="#" ng-click="toggle($event)" class="nav-link">{{menu.linkText}} <b class="caret"></b></a><ol class="nav-dropdown group" ng-show="visible"><li ng-repeat="item in menu.items" class="item {{item.className}}"><a href="{{item.path}}" class="item-target">{{item.title}}</a><ul class="dropdown-menu" ng-show="item.sub"><li ng-repeat="subItem in item.sub"><a href="{{subItem.path}}">{{subItem.title}}</a></li></ul></li></ol></div>');
   }
 ]);
+angular.module('templates/rxFormFieldset.html', []).run([
+  '$templateCache',
+  function ($templateCache) {
+    $templateCache.put('templates/rxFormFieldset.html', '<div class="form-item rx-form-fieldset"><fieldset><legend class="field-legend">{{legend}}:</legend><div class="field-input" ng-transclude=""></div><span ng-if="description" class="field-description" ng-bind-html="description"></span></fieldset></div>');
+  }
+]);
 angular.module('templates/rxFormInput.html', []).run([
   '$templateCache',
   function ($templateCache) {
@@ -2037,7 +2072,7 @@ angular.module('templates/rxFormItem.html', []).run([
 angular.module('templates/rxFormOptionTable.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxFormOptionTable.html', '<div class="form-item"><table class="table-striped option-table" ng-show="data.length > 0"><thead><tr><th></th><th ng-repeat="column in columns" scope="col">{{column.label}}</th></tr></thead><tr ng-repeat="row in data" ng-class="{current: isCurrent(row.value), selected: isSelected(row.value, $index)}"><th scope="row" class="option-table-input" ng-switch="type"><input type="radio" ng-switch-when="radio" id="{{fieldId}}_{{$index}}" ng-model="$parent.$parent.model" value="{{row.value}}" name="{{fieldId}}" ng-disabled="isCurrent(row.value)" ng-required="{{required}}"><input type="checkbox" ng-switch-when="checkbox" id="{{fieldId}}_{{$index}}" ng-model="$parent.model[$index]" rx-attributes="{\'ng-true-value\': row.value, \'ng-false-value\': row.falseValue}" ng-required="{{required}}"></th><td ng-repeat="column in columns"><label for="{{fieldId}}_{{$parent.$index}}"><span ng-bind-html="getContent(column, row)"></span> <span ng-show="isCurrent(row.value)">{{column.selectedLabel}}</span></label></td></tr></table></div>');
+    $templateCache.put('templates/rxFormOptionTable.html', '<div class="form-item"><table class="table-striped option-table" ng-show="data.length > 0"><thead><tr><th></th><th ng-repeat="column in columns" scope="col">{{column.label}}</th></tr></thead><tr ng-repeat="row in data" ng-class="{current: isCurrent(row.value), selected: isSelected(row.value, $index)}"><td class="option-table-input" ng-switch="type"><label><input type="radio" ng-switch-when="radio" id="{{fieldId}}_{{$index}}" ng-model="$parent.$parent.model" value="{{row.value}}" name="{{fieldId}}" ng-disabled="isCurrent(row.value)" ng-attributes="{\'ng-required\': required}"><input type="checkbox" ng-switch-when="checkbox" id="{{fieldId}}_{{$index}}" ng-model="$parent.model[$index]" rx-attributes="{\'ng-true-value\': row.value, \'ng-false-value\': row.falseValue}"></label></td><td ng-repeat="column in columns"><label for="{{fieldId}}_{{$parent.$index}}"><span ng-bind-html="getContent(column, row)"></span> <span ng-show="isCurrent(row.value)">{{column.selectedLabel}}</span></label></td></tr></table></div>');
   }
 ]);
 angular.module('templates/rxFormRadio.html', []).run([
@@ -2109,6 +2144,6 @@ angular.module('templates/rxProductResources.html', []).run([
 angular.module('templates/rxSortableColumn.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxSortableColumn.html', '<div class="rx-sortable-column"><button class="sort-action btn-link" ng-click="sortMethod(sortProperty)"><span class="visually-hidden">Sort by&nbsp;</span> <span ng-transclude=""></span></button> <i class="sort-icon" ng-style="{visibility: predicate === \'{{sortProperty}}\' && \'visible\' || \'hidden\'}" ng-class="{\'desc\': !reverse, \'asc\': reverse}"><span class="visually-hidden">Sorted {{reverse ? \'ascending\' : \'descending\'}}</span></i></div>');
+    $templateCache.put('templates/rxSortableColumn.html', '<div class="rx-sortable-column"><button class="sort-action btn-link" ng-click="sortMethod({property:sortProperty})"><span class="visually-hidden">Sort by&nbsp;</span> <span ng-transclude=""></span></button> <i class="sort-icon" ng-style="{visibility: predicate === \'{{sortProperty}}\' && \'visible\' || \'hidden\'}" ng-class="{\'desc\': !reverse, \'asc\': reverse}"><span class="visually-hidden">Sorted {{reverse ? \'ascending\' : \'descending\'}}</span></i></div>');
   }
 ]);
