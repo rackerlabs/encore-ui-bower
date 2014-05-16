@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.10.1 - 2014-05-16
+ * Version: 0.10.2 - 2014-05-16
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -837,9 +837,10 @@ angular.module('encore.ui.rxApp', [
       templateUrl: 'templates/rxAccountSearch.html',
       restrict: 'E',
       link: function (scope) {
-        scope.fetchAccount = function (accountNumber) {
-          if (accountNumber) {
-            $location.path('/accounts/' + accountNumber);
+        scope.fetchAccount = function (query) {
+          if (query) {
+            $location.path('search');
+            $location.search('term=' + query);
           }
         };
       }
@@ -2002,7 +2003,7 @@ angular.module('templates/rxActiveUrl.html', []).run([
 angular.module('templates/rxAccountSearch.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxAccountSearch.html', '<div class="rx-app-search"><form name="search" role="search" ng-submit="fetchAccount(model)"><input type="text" placeholder="Search by Account Number..." ng-model="model" class="form-item search-input" ng-required="" ng-pattern="/(^\\d{1,9}$|^$)/"><button type="submit" class="search-action" ng-disabled="!search.$valid"><span class="visually-hidden">Search</span></button></form></div>');
+    $templateCache.put('templates/rxAccountSearch.html', '<div class="rx-app-search"><form name="search" role="search" ng-submit="fetchAccount(model)"><input type="text" placeholder="Search by Account Number or Name..." ng-model="model" class="form-item search-input" ng-required="" ng-pattern="/^([0-9a-zA-Z._ -]{2,})$/"><button type="submit" class="search-action" ng-disabled="!search.$valid"><span class="visually-hidden">Search</span></button></form></div>');
   }
 ]);
 angular.module('templates/rxApp.html', []).run([
