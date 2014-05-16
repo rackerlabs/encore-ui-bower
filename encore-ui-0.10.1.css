@@ -495,7 +495,7 @@ table {
 }
 table td,
 table th {
-  border: 1px solid #eeeeee;
+  border: 1px solid #e6e6e5;
   padding: 10px;
   color: #555555;
 }
@@ -1430,7 +1430,7 @@ ol.nav-dropdown.group .dropdown-submenu > .dropdown-menu > li a:hover {
   background: transparent;
   font-size: 1.2em;
   border: 0;
-  border-bottom: 1px solid #e4e4e4;
+  border-bottom: 1px solid #e6e6e5;
   padding: 3px 5px;
   margin: 0;
   max-width: 65%;
@@ -1462,7 +1462,7 @@ ol.nav-dropdown.group .dropdown-submenu > .dropdown-menu > li a:hover {
   display: block;
   position: absolute;
   border: 7px solid transparent;
-  border-top-color: #e4e4e4;
+  border-top-color: #e6e6e5;
   border-bottom: none;
   top: 50%;
   margin-top: -4px;
@@ -1546,39 +1546,34 @@ ol.nav-dropdown.group .dropdown-submenu > .dropdown-menu > li a:hover {
 }
 .form-action.submit:hover,
 .form-action.submit:focus {
-  color: #6cd08c;
+  color: #28c85a;
 }
 .form-action.submit[disabled="disabled"] {
-  color: #b8b8b8;
+  color: #bbbbbb;
   cursor: not-allowed;
 }
 .form-action.cancel {
-  color: #b8b8b8;
+  color: #bbbbbb;
 }
 .form-action.cancel:hover,
 .form-action.cancel:focus {
-  color: #929292;
+  color: #959595;
 }
 
 /**
- * modal-bootstrap.less
+ * rxModalAction.less
  *
  * Stylesheet for modals, repurposed from the modal component of http://angular-ui.github.io/bootstrap
  *
- * @project encore
  * @version 1.0
  * @author Ernie Hsiung
  */
+.modal,
 .modal-backdrop {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1040;
-  background-color: #000;
-}
-.modal-backdrop.fade {
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
   -moz-opacity: 0;
   -khtml-opacity: 0;
   -webkit-opacity: 0;
@@ -1586,7 +1581,24 @@ ol.nav-dropdown.group .dropdown-submenu > .dropdown-menu > li a:hover {
   -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
   filter: alpha(opacity=0);
 }
-.modal-backdrop,
+.modal.fade.in,
+.modal-backdrop.fade.in {
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  -webkit-opacity: 1;
+  opacity: 1;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=100);
+  filter: alpha(opacity=100);
+}
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  background: #000;
+}
 .modal-backdrop.fade.in {
   -moz-opacity: 0.4;
   -khtml-opacity: 0.4;
@@ -1603,7 +1615,7 @@ ol.nav-dropdown.group .dropdown-submenu > .dropdown-menu > li a:hover {
   width: 560px;
   margin-left: -295px;
   padding-right: 30px;
-  background: #fff;
+  background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
@@ -1614,18 +1626,11 @@ ol.nav-dropdown.group .dropdown-submenu > .dropdown-menu > li a:hover {
   background-clip: padding-box;
   outline: none;
 }
-.modal.fade {
-  -webkit-transition: all 0.3s ease-out;
-  -moz-transition: all 0.3s ease-out;
-  -o-transition: all 0.3s ease-out;
-  transition: all 0.3s ease-out;
-}
 .modal-header {
-  padding: 20px 25px;
-  border-bottom: 1px solid #eee;
-}
-.modal-header .close {
-  margin-top: 2px;
+  padding: 30px;
+  padding-right: 0;
+  border-bottom: 1px solid #e6e6e5;
+  position: relative;
 }
 .modal-header .modal-title {
   line-height: 1;
@@ -1639,14 +1644,32 @@ ol.nav-dropdown.group .dropdown-submenu > .dropdown-menu > li a:hover {
   color: #727272;
   margin: 0;
 }
-.form-radio {
-  border: 0;
+.modal-header .modal-close {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  font-size: 2em;
+  width: 1em;
+  height: 1em;
+  text-align: center;
+  color: #e5e5e5;
+}
+.modal-header .modal-close:hover,
+.modal-header .modal-close:focus {
+  color: #cccccc;
+}
+.modal-header .modal-close:before {
+  content: '\00D7';
+  position: absolute;
+  line-height: 0;
+  right: 0;
+  width: 1em;
 }
 .modal-body {
   position: relative;
   overflow-y: auto;
   max-height: 400px;
-  padding: 20px;
+  padding: 30px;
 }
 .modal-body .loading {
   margin: 0 auto;
@@ -1654,13 +1677,17 @@ ol.nav-dropdown.group .dropdown-submenu > .dropdown-menu > li a:hover {
 }
 .modal-body ol li {
   list-style: decimal;
-  margin: 5px 0 0 20px;
+  margin: 5px 0 0 30px;
+}
+.modal-body .form-radio {
+  border: 0;
+}
+.modal-body .rx-form.modal-form {
+  margin: 0;
 }
 .modal-footer {
-  padding: 40px 25px 20px;
-  margin-bottom: 0;
-  border-top: 1px solid #ddd;
-  box-shadow: inset 0 1px 0 #fff;
+  padding: 30px;
+  border-top: 1px solid #e6e6e5;
 }
 @media (max-width: 480px) {
   .modal {
