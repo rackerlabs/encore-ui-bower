@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.10.3 - 2014-05-19
+ * Version: 0.10.4 - 2014-05-20
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -1631,7 +1631,9 @@ angular.module('encore.ui.rxNotify', ['ngSanitize']).directive('rxNotification',
      * @this Scope used for storing messages data
      */
     var dismissLoading = function () {
-      rxNotify.dismiss(this.loadingMsg);
+      if (this.loadingMsg) {
+        rxNotify.dismiss(this.loadingMsg);
+      }
     };
     /*
      * shows either a success or error message
@@ -1685,7 +1687,9 @@ angular.module('encore.ui.rxNotify', ['ngSanitize']).directive('rxNotification',
       if (stack) {
         loadingOpts.stack = stack;
       }
-      scope[uid].loadingMsg = rxNotify.add(msgs.loading, loadingOpts);
+      if (msgs.loading) {
+        scope[uid].loadingMsg = rxNotify.add(msgs.loading, loadingOpts);
+      }
       // bind promise to show message actions
       deferred.promise.then(showMessage.bind(scope[uid], 'success'), showMessage.bind(scope[uid], 'error')).finally(dismissLoading.bind(scope[uid]));
       // react based on promise passed in

@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.10.3 - 2014-05-19
+ * Version: 0.10.4 - 2014-05-20
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -1661,7 +1661,9 @@ angular.module('encore.ui.rxNotify', ['ngSanitize']).directive('rxNotification',
      * @this Scope used for storing messages data
      */
     var dismissLoading = function () {
-      rxNotify.dismiss(this.loadingMsg);
+      if (this.loadingMsg) {
+        rxNotify.dismiss(this.loadingMsg);
+      }
     };
     /*
      * shows either a success or error message
@@ -1715,7 +1717,9 @@ angular.module('encore.ui.rxNotify', ['ngSanitize']).directive('rxNotification',
       if (stack) {
         loadingOpts.stack = stack;
       }
-      scope[uid].loadingMsg = rxNotify.add(msgs.loading, loadingOpts);
+      if (msgs.loading) {
+        scope[uid].loadingMsg = rxNotify.add(msgs.loading, loadingOpts);
+      }
       // bind promise to show message actions
       deferred.promise.then(showMessage.bind(scope[uid], 'success'), showMessage.bind(scope[uid], 'error')).finally(dismissLoading.bind(scope[uid]));
       // react based on promise passed in
@@ -1997,19 +2001,19 @@ angular.module('encore.ui.rxUnauthorizedInterceptor', []).factory('UnauthorizedI
 angular.module('templates/rxActiveUrl.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxActiveUrl.html', '<li ng-class="{ selected: navActive }" ng-transclude=""></li>');
+    $templateCache.put('templates/rxActiveUrl.html', '<li ng-class="{ selected: navActive }" ng-transclude></li>');
   }
 ]);
 angular.module('templates/rxAccountSearch.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxAccountSearch.html', '<div class="rx-app-search"><form name="search" role="search" ng-submit="fetchAccount(model)"><input type="text" placeholder="Search by Account Number or Name..." ng-model="model" class="form-item search-input" ng-required="" ng-pattern="/^([0-9a-zA-Z._ -]{2,})$/"><button type="submit" class="search-action" ng-disabled="!search.$valid"><span class="visually-hidden">Search</span></button></form></div>');
+    $templateCache.put('templates/rxAccountSearch.html', '<div class="rx-app-search"><form name="search" role="search" ng-submit="fetchAccount(model)"><input type="text" placeholder="Search by Account Number or Name..." ng-model="model" class="form-item search-input" ng-required ng-pattern="/^([0-9a-zA-Z._ -]{2,})$/"> <button type="submit" class="search-action" ng-disabled="!search.$valid"><span class="visually-hidden">Search</span></button></form></div>');
   }
 ]);
 angular.module('templates/rxApp.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxApp.html', '<div class="rx-app" ng-class="{collapsible: collapsibleNav === \'true\', collapsed: collapsedNav}" ng-cloak=""><nav class="rx-app-menu"><header class="site-branding"><h1 class="site-title">{{ siteTitle || \'Encore\' }}</h1><button class="collapsible-toggle btn-link" ng-if="collapsibleNav === \'true\'" ng-click="collapseMenu()" title="{{ (collapsedNav) ? \'Show\' : \'Hide\' }} Main Menu"><span class="visually-hidden">{{ (collapsedNav) ? \'Show\' : \'Hide\' }} Main Menu</span><div class="double-chevron" ng-class="{\'double-chevron-left\': !collapsedNav}"></div></button><div class="site-options"><a href="#" rx-logout="" class="site-logout">Logout</a></div></header><nav class="rx-app-nav"><div ng-repeat="section in appRoutes.getAll()" class="nav-section nav-section-{{ section.type || \'all\' }}"><h2 class="nav-section-title">{{ section.title }}</h2><rx-app-nav items="section.children" level="1"></rx-app-nav></div></nav></nav><div class="rx-app-content" ng-transclude=""></div></div>');
+    $templateCache.put('templates/rxApp.html', '<div class="rx-app" ng-class="{collapsible: collapsibleNav === \'true\', collapsed: collapsedNav}" ng-cloak><nav class="rx-app-menu"><header class="site-branding"><h1 class="site-title">{{ siteTitle || \'Encore\' }}</h1><button class="collapsible-toggle btn-link" ng-if="collapsibleNav === \'true\'" ng-click="collapseMenu()" title="{{ (collapsedNav) ? \'Show\' : \'Hide\' }} Main Menu"><span class="visually-hidden">{{ (collapsedNav) ? \'Show\' : \'Hide\' }} Main Menu</span><div class="double-chevron" ng-class="{\'double-chevron-left\': !collapsedNav}"></div></button><div class="site-options"><a href="#" rx-logout class="site-logout">Logout</a></div></header><nav class="rx-app-nav"><div ng-repeat="section in appRoutes.getAll()" class="nav-section nav-section-{{ section.type || \'all\' }}"><h2 class="nav-section-title">{{ section.title }}</h2><rx-app-nav items="section.children" level="1"></rx-app-nav></div></nav></nav><div class="rx-app-content" ng-transclude></div></div>');
   }
 ]);
 angular.module('templates/rxAppNav.html', []).run([
@@ -2027,25 +2031,25 @@ angular.module('templates/rxAppNavItem.html', []).run([
 angular.module('templates/rxAppSearch.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxAppSearch.html', '<div class="rx-app-search"><form role="search" ng-submit="submit(model)"><input type="text" placeholder="{{ placeholder }}" ng-model="model" class="form-item search-input" ng-required=""><button type="submit" class="search-action"><span class="visually-hidden">Search</span></button></form></div>');
+    $templateCache.put('templates/rxAppSearch.html', '<div class="rx-app-search"><form role="search" ng-submit="submit(model)"><input type="text" placeholder="{{ placeholder }}" ng-model="model" class="form-item search-input" ng-required> <button type="submit" class="search-action"><span class="visually-hidden">Search</span></button></form></div>');
   }
 ]);
 angular.module('templates/rxPage.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxPage.html', '<div class="rx-page"><header class="page-header clearfix"><rx-breadcrumbs></rx-breadcrumbs></header><div class="page-body"><rx-notifications></rx-notifications><div class="page-titles"><h2 class="page-title" ng-bind-html="title"></h2><h3 class="page-subtitle" ng-bind-html="subtitle"></h3></div><div class="page-content" ng-transclude=""></div></div></div>');
+    $templateCache.put('templates/rxPage.html', '<div class="rx-page"><header class="page-header clearfix"><rx-breadcrumbs></rx-breadcrumbs></header><div class="page-body"><rx-notifications></rx-notifications><div class="page-titles"><h2 class="page-title" ng-bind-html="title"></h2><h3 class="page-subtitle" ng-bind-html="subtitle"></h3></div><div class="page-content" ng-transclude></div></div></div>');
   }
 ]);
 angular.module('templates/rxPermission.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxPermission.html', '<div class="rxPermission" ng-if="hasRole(role)" ng-transclude=""></div>');
+    $templateCache.put('templates/rxPermission.html', '<div class="rxPermission" ng-if="hasRole(role)" ng-transclude></div>');
   }
 ]);
 angular.module('templates/rxBreadcrumbs.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxBreadcrumbs.html', '<ol class="rx-breadcrumbs"><li ng-repeat="breadcrumb in breadcrumbs.getAll()" class="breadcrumb"><ng-switch on="$last"><span ng-switch-when="true" class="breadcrumb-name last" ng-bind="breadcrumb.name"></span> <span ng-switch-default=""><a href="{{breadcrumb.path}}" ng-class="{first: $first}" class="breadcrumb-name" ng-bind="breadcrumb.name"></a></span> {{user}}</ng-switch></li></ol>');
+    $templateCache.put('templates/rxBreadcrumbs.html', '<ol class="rx-breadcrumbs"><li ng-repeat="breadcrumb in breadcrumbs.getAll()" class="breadcrumb"><ng-switch on="$last"><span ng-switch-when="true" class="breadcrumb-name last" ng-bind="breadcrumb.name"></span> <span ng-switch-default><a href="{{breadcrumb.path}}" ng-class="{first: $first}" class="breadcrumb-name" ng-bind="breadcrumb.name"></a></span> {{user}}</ng-switch></li></ol>');
   }
 ]);
 angular.module('templates/rxButton.html', []).run([
@@ -2063,25 +2067,25 @@ angular.module('templates/rxDropdown.html', []).run([
 angular.module('templates/rxFormFieldset.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxFormFieldset.html', '<div class="form-item rx-form-fieldset"><fieldset><legend class="field-legend">{{legend}}:</legend><div class="field-input" ng-transclude=""></div><span ng-if="description" class="field-description" ng-bind-html="description"></span></fieldset></div>');
+    $templateCache.put('templates/rxFormFieldset.html', '<div class="form-item rx-form-fieldset"><fieldset><legend class="field-legend">{{legend}}:</legend><div class="field-input" ng-transclude></div><span ng-if="description" class="field-description" ng-bind-html="description"></span></fieldset></div>');
   }
 ]);
 angular.module('templates/rxFormInput.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxFormInput.html', '<div class="form-item"><label for="{{fieldId}}" class="field-label">{{label}}:</label><div><input type="{{type}}" ng-required="{{required}}" id="{{fieldId}}" ng-min-length="{{minLength}}" ng-max-length="{{maxLength}}" max="{{max}}" min="{{min}}" name="{{name}}" ng-model="model" value="{{value}}" class="field-input"><span class="field-suffix" ng-if="suffix">{{suffix}}</span></div><label ng-if="description" class="field-description" for="{{fieldId}}">{{description}}</label></div>');
+    $templateCache.put('templates/rxFormInput.html', '<div class="form-item"><label for="{{fieldId}}" class="field-label">{{label}}:</label><div><input type="{{type}}" ng-required="{{required}}" id="{{fieldId}}" ng-min-length="{{minLength}}" ng-max-length="{{maxLength}}" max="{{max}}" min="{{min}}" name="{{name}}" ng-model="model" value="{{value}}" class="field-input"> <span class="field-suffix" ng-if="suffix">{{suffix}}</span></div><label ng-if="description" class="field-description" for="{{fieldId}}">{{description}}</label></div>');
   }
 ]);
 angular.module('templates/rxFormItem.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxFormItem.html', '<div class="form-item"><label><span class="field-label">{{label}}:</span> <span class="field-prefix" ng-if="prefix">{{prefix}}</span>  <span class="field-input" ng-transclude=""></span> <span class="field-suffix" ng-if="suffix">{{suffix}}</span> <span ng-if="description" class="field-description" ng-bind-html="description"></span></label></div>');
+    $templateCache.put('templates/rxFormItem.html', '<div class="form-item"><label><span class="field-label">{{label}}:</span> <span class="field-prefix" ng-if="prefix">{{prefix}}</span>  <span class="field-input" ng-transclude></span> <span class="field-suffix" ng-if="suffix">{{suffix}}</span> <span ng-if="description" class="field-description" ng-bind-html="description"></span></label></div>');
   }
 ]);
 angular.module('templates/rxFormOptionTable.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxFormOptionTable.html', '<div class="form-item"><table class="table-striped option-table" ng-show="data.length > 0"><thead><tr><th></th><th ng-repeat="column in columns" scope="col">{{column.label}}</th></tr></thead><tr ng-repeat="row in data" ng-class="{current: isCurrent(row.value), selected: isSelected(row.value, $index)}"><td class="option-table-input" ng-switch="type"><label><input type="radio" ng-switch-when="radio" id="{{fieldId}}_{{$index}}" ng-model="$parent.$parent.model" value="{{row.value}}" name="{{fieldId}}" ng-disabled="isCurrent(row.value)" ng-attributes="{\'ng-required\': required}"><input type="checkbox" ng-switch-when="checkbox" id="{{fieldId}}_{{$index}}" ng-model="$parent.model[$index]" rx-attributes="{\'ng-true-value\': row.value, \'ng-false-value\': row.falseValue}"></label></td><td ng-repeat="column in columns"><label for="{{fieldId}}_{{$parent.$index}}"><span ng-bind-html="getContent(column, row)"></span> <span ng-show="isCurrent(row.value)">{{column.selectedLabel}}</span></label></td></tr></table></div>');
+    $templateCache.put('templates/rxFormOptionTable.html', '<div class="form-item"><table class="table-striped option-table" ng-show="data.length > 0"><thead><tr><th></th><th ng-repeat="column in columns" scope="col">{{column.label}}</th></tr></thead><tr ng-repeat="row in data" ng-class="{current: isCurrent(row.value), selected: isSelected(row.value, $index)}"><td class="option-table-input" ng-switch="type"><label><input type="radio" ng-switch-when="radio" id="{{fieldId}}_{{$index}}" ng-model="$parent.$parent.model" value="{{row.value}}" name="{{fieldId}}" ng-disabled="isCurrent(row.value)" ng-attributes="{\'ng-required\': required}"> <input type="checkbox" ng-switch-when="checkbox" id="{{fieldId}}_{{$index}}" ng-model="$parent.model[$index]" rx-attributes="{\'ng-true-value\': row.value, \'ng-false-value\': row.falseValue}"></label></td><td ng-repeat="column in columns"><label for="{{fieldId}}_{{$parent.$index}}"><span ng-bind-html="getContent(column, row)"></span> <span ng-show="isCurrent(row.value)">{{column.selectedLabel}}</span></label></td></tr></table></div>');
   }
 ]);
 angular.module('templates/rxFormRadio.html', []).run([
@@ -2099,31 +2103,31 @@ angular.module('templates/rxFormSelect.html', []).run([
 angular.module('templates/rxModalAction.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxModalAction.html', '<span class="modal-link-container rx-modal-action"><a href="#" class="modal-link {{classes}}" ng-click="showModal($event)" ng-transclude=""></a></span>');
+    $templateCache.put('templates/rxModalAction.html', '<span class="modal-link-container rx-modal-action"><a href="#" class="modal-link {{classes}}" ng-click="showModal($event)" ng-transclude></a></span>');
   }
 ]);
 angular.module('templates/rxModalActionForm.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxModalActionForm.html', '<div class="modal-header"><h3 class="modal-title">{{title}}</h3><h4 class="modal-subtitle" ng-if="subtitle">{{subtitle}}</h4><button class="modal-close btn-link" ng-click="$parent.cancel()"><span class="visually-hidden">Close Window</span></button></div><div class="modal-body"><div ng-show="$parent.isLoading" class="loading"><i class="spinner gray"></i></div><form ng-hide="$parent.isLoading" name="modalActionForm" class="modal-form rx-form" ng-transclude=""></form></div><div class="modal-footer"><button class="submit form-action" ng-click="$parent.submit()" type="submit" ng-disabled="modalActionForm.$invalid">{{submitText || "Submit"}}</button> <button class="cancel form-action" ng-click="$parent.cancel()">{{cancelText || "Cancel"}}</button></div>');
+    $templateCache.put('templates/rxModalActionForm.html', '<div class="modal-header"><h3 class="modal-title">{{title}}</h3><h4 class="modal-subtitle" ng-if="subtitle">{{subtitle}}</h4><button class="modal-close btn-link" ng-click="$parent.cancel()"><span class="visually-hidden">Close Window</span></button></div><div class="modal-body"><div ng-show="$parent.isLoading" class="loading"><i class="spinner gray"></i></div><form ng-hide="$parent.isLoading" name="modalActionForm" class="modal-form rx-form" ng-transclude></form></div><div class="modal-footer"><button class="submit form-action" ng-click="$parent.submit()" type="submit" ng-disabled="modalActionForm.$invalid">{{submitText || "Submit"}}</button> <button class="cancel form-action" ng-click="$parent.cancel()">{{cancelText || "Cancel"}}</button></div>');
   }
 ]);
 angular.module('templates/rxNav.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxNav.html', '<header class="site-header"><h1 class="logo" ng-hide="logo"><a href="/">Encore</a></h1><div ng-if="logo" ng-bind-html="logo"></div><rx-global-search placeholder-text="{{ placeholderText }}" search-function="searchFunction()"></rx-global-search><nav class="main-nav"><ul><li class="nav-item" ng-hide="links"><rx-dropdown menu="bookmarks"></rx-dropdown></li><li class="nav-item" ng-hide="links"><rx-dropdown menu="internalTools"></rx-dropdown></li><li class="nav-item" ng-show="links" ng-repeat="link in links"><rx-dropdown menu="link"></rx-dropdown></li></ul></nav><nav class="user-nav"><ul><li class="nav-item"><a href="/login" rx-logout="" class="nav-link">Log out</a></li></ul></nav><div class="sub-header"><nav class="site-breadcrumbs"><rx-breadcrumbs></rx-breadcrumbs></nav><a class="bookmark" href="#"><i class="fa fa-bookmark"></i> &nbsp;Bookmark this page</a></div></header>');
+    $templateCache.put('templates/rxNav.html', '<header class="site-header"><h1 class="logo" ng-hide="logo"><a href="/">Encore</a></h1><div ng-if="logo" ng-bind-html="logo"></div><rx-global-search placeholder-text="{{ placeholderText }}" search-function="searchFunction()"></rx-global-search><nav class="main-nav"><ul><li class="nav-item" ng-hide="links"><rx-dropdown menu="bookmarks"></rx-dropdown></li><li class="nav-item" ng-hide="links"><rx-dropdown menu="internalTools"></rx-dropdown></li><li class="nav-item" ng-show="links" ng-repeat="link in links"><rx-dropdown menu="link"></rx-dropdown></li></ul></nav><nav class="user-nav"><ul><li class="nav-item"><a href="/login" rx-logout class="nav-link">Log out</a></li></ul></nav><div class="sub-header"><nav class="site-breadcrumbs"><rx-breadcrumbs></rx-breadcrumbs></nav><a class="bookmark" href="#"><i class="fa fa-bookmark"></i> &nbsp;Bookmark this page</a></div></header>');
   }
 ]);
 angular.module('templates/rxNotification.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxNotification.html', '<div class="rx-notifications"><div class="rx-notification notification-{{type}}"><span class="notification-text" ng-transclude=""></span></div></div>');
+    $templateCache.put('templates/rxNotification.html', '<div class="rx-notifications"><div class="rx-notification notification-{{type}}"><span class="notification-text" ng-transclude></span></div></div>');
   }
 ]);
 angular.module('templates/rxNotifications.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxNotifications.html', '<div class="rx-notifications" ng-show="messages.length > 0"><div ng-repeat="message in messages" class="rx-notification notification-{{message.type}}" ng-class="{\'notification-loading\': message.loading}" rx-spinner="" toggle="message.loading" ng-init="loading = message.loading"><span class="notification-text" ng-bind-html="message.text"></span> <button ng-click="dismiss(message)" class="notification-dismiss btn-link" ng-if="message.dismissable && !message.loading">&times; <span class="visually-hidden">Dismiss Message</span></button></div></div>');
+    $templateCache.put('templates/rxNotifications.html', '<div class="rx-notifications" ng-show="messages.length > 0"><div ng-repeat="message in messages" class="rx-notification notification-{{message.type}}" ng-class="{\'notification-loading\': message.loading}" rx-spinner toggle="message.loading" ng-init="loading = message.loading"><span class="notification-text" ng-bind-html="message.text"></span> <button ng-click="dismiss(message)" class="notification-dismiss btn-link" ng-if="message.dismissable && !message.loading">&times; <span class="visually-hidden">Dismiss Message</span></button></div></div>');
   }
 ]);
 angular.module('templates/rxItemsPerPage.html', []).run([
@@ -2141,7 +2145,7 @@ angular.module('templates/rxPaginate.html', []).run([
 angular.module('templates/rxRelatedMenu.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxRelatedMenu.html', '<div class="related-menu" ng-class="{\'menu-left\': menuPosition == \'left\', \'menu-right\': menuPosition == \'right\', \'collapsable\': isCollapsable, \'menu-shown\': state}"><div ng-if="isCollapsable" class="menu-toggle" ng-click="toggleRelatedMenu()"><i class="fa" ng-class="{\'fa-angle-double-left\': (state&&(menuPosition == \'left\'))||(!state&&(menuPosition == \'right\')), \'fa-angle-double-right\': (!state&&(menuPosition == \'left\'))||(state&&(menuPosition == \'right\'))} "></i></div><div class="menu-content" ng-transclude=""></div></div>');
+    $templateCache.put('templates/rxRelatedMenu.html', '<div class="related-menu" ng-class="{\'menu-left\': menuPosition == \'left\', \'menu-right\': menuPosition == \'right\', \'collapsable\': isCollapsable, \'menu-shown\': state}"><div ng-if="isCollapsable" class="menu-toggle" ng-click="toggleRelatedMenu()"><i class="fa" ng-class="{\'fa-angle-double-left\': (state&&(menuPosition == \'left\'))||(!state&&(menuPosition == \'right\')), \'fa-angle-double-right\': (!state&&(menuPosition == \'left\'))||(state&&(menuPosition == \'right\'))} "></i></div><div class="menu-content" ng-transclude></div></div>');
   }
 ]);
 angular.module('templates/rxProductResources.html', []).run([
@@ -2153,6 +2157,6 @@ angular.module('templates/rxProductResources.html', []).run([
 angular.module('templates/rxSortableColumn.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxSortableColumn.html', '<div class="rx-sortable-column"><button class="sort-action btn-link" ng-click="sortMethod({property:sortProperty})"><span class="visually-hidden">Sort by&nbsp;</span> <span ng-transclude=""></span></button> <i class="sort-icon" ng-style="{visibility: predicate === \'{{sortProperty}}\' && \'visible\' || \'hidden\'}" ng-class="{\'desc\': !reverse, \'asc\': reverse}"><span class="visually-hidden">Sorted {{reverse ? \'ascending\' : \'descending\'}}</span></i></div>');
+    $templateCache.put('templates/rxSortableColumn.html', '<div class="rx-sortable-column"><button class="sort-action btn-link" ng-click="sortMethod({property:sortProperty})"><span class="visually-hidden">Sort by&nbsp;</span> <span ng-transclude></span></button> <i class="sort-icon" ng-style="{visibility: predicate === \'{{sortProperty}}\' && \'visible\' || \'hidden\'}" ng-class="{\'desc\': !reverse, \'asc\': reverse}"><span class="visually-hidden">Sorted {{reverse ? \'ascending\' : \'descending\'}}</span></i></div>');
   }
 ]);

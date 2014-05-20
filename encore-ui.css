@@ -1269,7 +1269,10 @@ ol.nav-dropdown.group li a .caret:before {
 ol.nav-dropdown.group li a:hover .caret:before {
   border-left-color: #9c9b9a;
 }
-.dropdown-menu {
+.nav-dropdown {
+  /* Dropdown arrow */
+}
+.nav-dropdown .dropdown-menu {
   position: absolute;
   top: 100%;
   left: 0;
@@ -1293,11 +1296,11 @@ ol.nav-dropdown.group li a:hover .caret:before {
   -moz-background-clip: padding;
   background-clip: padding-box;
 }
-.dropdown-menu.pull-right {
+.nav-dropdown .dropdown-menu.pull-right {
   right: 0;
   left: auto;
 }
-.dropdown-menu .divider {
+.nav-dropdown .dropdown-menu .divider {
   *width: 100%;
   height: 1px;
   margin: 9px 1px;
@@ -1306,7 +1309,7 @@ ol.nav-dropdown.group li a:hover .caret:before {
   background-color: #e5e5e5;
   border-bottom: 1px solid #ffffff;
 }
-.dropdown-menu > li > a {
+.nav-dropdown .dropdown-menu > li > a {
   display: block;
   padding: 3px 20px;
   clear: both;
@@ -1315,39 +1318,39 @@ ol.nav-dropdown.group li a:hover .caret:before {
   color: #333333;
   white-space: nowrap;
 }
-.dropdown-menu > li > a:hover,
-.dropdown-menu > li > a:focus,
-.dropdown-submenu:hover > a,
-.dropdown-submenu:focus > a {
+.nav-dropdown .dropdown-menu > li > a:hover,
+.nav-dropdown .dropdown-menu > li > a:focus,
+.nav-dropdown .dropdown-submenu:hover > a,
+.nav-dropdown .dropdown-submenu:focus > a {
   text-decoration: none;
   color: #ffffff;
   background-color: #484748;
 }
-.dropdown-menu > .active > a,
-.dropdown-menu > .active > a:hover,
-.dropdown-menu > .active > a:focus {
+.nav-dropdown .dropdown-menu > .active > a,
+.nav-dropdown .dropdown-menu > .active > a:hover,
+.nav-dropdown .dropdown-menu > .active > a:focus {
   color: #ffffff;
   text-decoration: none;
   outline: 0;
   background-color: #484748;
 }
-.dropdown-menu > .disabled > a,
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
+.nav-dropdown .dropdown-menu > .disabled > a,
+.nav-dropdown .dropdown-menu > .disabled > a:hover,
+.nav-dropdown .dropdown-menu > .disabled > a:focus {
   color: #999999;
 }
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
+.nav-dropdown .dropdown-menu > .disabled > a:hover,
+.nav-dropdown .dropdown-menu > .disabled > a:focus {
   text-decoration: none;
   background-color: transparent;
   background-image: none;
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
   cursor: default;
 }
-.dropdown-submenu {
+.nav-dropdown .dropdown-submenu {
   position: relative;
 }
-.dropdown-submenu > .dropdown-menu {
+.nav-dropdown .dropdown-submenu > .dropdown-menu {
   top: 0;
   left: 100%;
   margin-top: -6px;
@@ -1356,10 +1359,10 @@ ol.nav-dropdown.group li a:hover .caret:before {
   -moz-border-radius: 0 6px 6px 6px;
   border-radius: 0 6px 6px 6px;
 }
-.dropdown-submenu:hover > .dropdown-menu {
+.nav-dropdown .dropdown-submenu:hover > .dropdown-menu {
   display: block;
 }
-.dropup .dropdown-submenu > .dropdown-menu {
+.nav-dropdown .dropup .dropdown-submenu > .dropdown-menu {
   top: auto;
   bottom: 0;
   margin-top: 0;
@@ -1368,8 +1371,7 @@ ol.nav-dropdown.group li a:hover .caret:before {
   -moz-border-radius: 5px 5px 5px 0;
   border-radius: 5px 5px 5px 0;
 }
-/* Dropdown arrow */
-.dropdown-submenu > a:after {
+.nav-dropdown .dropdown-submenu > a:after {
   display: block;
   content: " ";
   float: right;
@@ -1382,20 +1384,20 @@ ol.nav-dropdown.group li a:hover .caret:before {
   margin-top: 2px;
   margin-right: 0px;
 }
-.dropdown-submenu:hover > a:after {
+.nav-dropdown .dropdown-submenu:hover > a:after {
   border-left-color: #9c9b9a;
 }
-.dropdown-submenu.pull-left {
+.nav-dropdown .dropdown-submenu.pull-left {
   float: none;
 }
-.dropdown-submenu.pull-left > .dropdown-menu {
+.nav-dropdown .dropdown-submenu.pull-left > .dropdown-menu {
   left: -100%;
   margin-left: 10px;
   -webkit-border-radius: 6px 0 6px 6px;
   -moz-border-radius: 6px 0 6px 6px;
   border-radius: 6px 0 6px 6px;
 }
-.dropdown-submenu > .dropdown-menu > li > a {
+.nav-dropdown .dropdown-submenu > .dropdown-menu > li > a {
   background-color: #484848;
 }
 ol.nav-dropdown.group .dropdown-submenu > .dropdown-menu > li a:hover {
@@ -2246,4 +2248,26 @@ FlexBox Columns
   100% {
     transform: rotate(360deg);
   }
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: -1px;
+  display: none;
+  list-style: none;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  padding: 6px 0;
+}
+.dropdown-menu a {
+  display: block;
+  margin: 0;
+  padding: 5px 10px;
+  color: #444444;
+}
+.dropdown-menu .active a {
+  background: #007bff;
+  color: #ffffff;
 }
