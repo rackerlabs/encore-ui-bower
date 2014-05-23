@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.10.4 - 2014-05-20
+ * Version: 0.10.5 - 2014-05-23
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -36,6 +36,7 @@ angular.module('encore.ui', [
   'encore.ui.rxSessionStorage',
   'encore.ui.rxSortableColumn',
   'encore.ui.rxSpinner',
+  'encore.ui.rxToggle',
   'encore.ui.rxTokenInterceptor',
   'encore.ui.rxUnauthorizedInterceptor'
 ]);
@@ -708,12 +709,6 @@ angular.module('encore.ui.rxApp', [
         if (scope.newInstance || scope.menu) {
           scope.appRoutes.setAll(scope.menu);
         }
-        if (!_.isBoolean(scope.collapsedNav)) {
-          scope.collapsedNav = false;
-        }
-        scope.collapseMenu = function () {
-          scope.collapsedNav = !scope.collapsedNav;
-        };
       }
     };
   }
@@ -1360,11 +1355,12 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap']).directive('rxModalFo
   '$modal',
   function ($modal) {
     var createModal = function (config, scope) {
-      var modal = $modal.open({
-          templateUrl: config.templateUrl,
-          controller: 'rxModalCtrl',
-          scope: scope
-        });
+      config = _.defaults(config, {
+        templateUrl: config.templateUrl,
+        controller: 'rxModalCtrl',
+        scope: scope
+      });
+      var modal = $modal.open(config);
       return modal;
     };
     return {
@@ -1962,6 +1958,22 @@ angular.module('encore.ui.rxSpinner', []).directive('rxSpinner', function () {
     }
   };
 });
+angular.module('encore.ui.rxToggle', []).directive('rxToggle', function () {
+  return {
+    restrict: 'A',
+    link: function ($scope, el, attrs) {
+      var propToToggle = attrs.rxToggle;
+      el.on('click', function () {
+        $scope.$apply(function () {
+          // we use $scope.$eval to allow for nested properties
+          // e.g. '$parent.propertyName'
+          // this allows us to switch back between true/false for any value
+          $scope.$eval(propToToggle + ' = !' + propToToggle);
+        });
+      });
+    }
+  };
+});
 angular.module('encore.ui.rxTokenInterceptor', ['encore.ui.rxSession']).factory('TokenInterceptor', [
   'Session',
   function (Session) {
@@ -1973,11 +1985,12 @@ angular.module('encore.ui.rxTokenInterceptor', ['encore.ui.rxSession']).factory(
     };
   }
 ]);
-angular.module('encore.ui.rxUnauthorizedInterceptor', []).factory('UnauthorizedInterceptor', [
+angular.module('encore.ui.rxUnauthorizedInterceptor', ['encore.ui.rxSession']).factory('UnauthorizedInterceptor', [
   '$q',
   '$window',
   '$location',
-  function ($q, $window, $location) {
+  'Session',
+  function ($q, $window, $location, Session) {
     return {
       responseError: function (response) {
         // If one uses the <base /> tag, $location's API is unable to
@@ -1991,6 +2004,8 @@ angular.module('encore.ui.rxUnauthorizedInterceptor', []).factory('UnauthorizedI
         // $location.absUrl(): https://localhost:9000/app/path
         var returnPath = '/' + $location.absUrl().split('/').splice(3).join('/');
         if (response.status === 401) {
+          Session.logout();
+          //Logs out user by removing token
           $window.location = '/login?redirect=' + returnPath;
         }
         return $q.reject(response);
@@ -2013,7 +2028,7 @@ angular.module('templates/rxAccountSearch.html', []).run([
 angular.module('templates/rxApp.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxApp.html', '<div class="rx-app" ng-class="{collapsible: collapsibleNav === \'true\', collapsed: collapsedNav}" ng-cloak><nav class="rx-app-menu"><header class="site-branding"><h1 class="site-title">{{ siteTitle || \'Encore\' }}</h1><button class="collapsible-toggle btn-link" ng-if="collapsibleNav === \'true\'" ng-click="collapseMenu()" title="{{ (collapsedNav) ? \'Show\' : \'Hide\' }} Main Menu"><span class="visually-hidden">{{ (collapsedNav) ? \'Show\' : \'Hide\' }} Main Menu</span><div class="double-chevron" ng-class="{\'double-chevron-left\': !collapsedNav}"></div></button><div class="site-options"><a href="#" rx-logout class="site-logout">Logout</a></div></header><nav class="rx-app-nav"><div ng-repeat="section in appRoutes.getAll()" class="nav-section nav-section-{{ section.type || \'all\' }}"><h2 class="nav-section-title">{{ section.title }}</h2><rx-app-nav items="section.children" level="1"></rx-app-nav></div></nav></nav><div class="rx-app-content" ng-transclude></div></div>');
+    $templateCache.put('templates/rxApp.html', '<div class="rx-app" ng-class="{collapsible: collapsibleNav === \'true\', collapsed: collapsedNav}" ng-cloak><nav class="rx-app-menu"><header class="site-branding"><h1 class="site-title">{{ siteTitle || \'Encore\' }}</h1><button class="collapsible-toggle btn-link" ng-if="collapsibleNav === \'true\'" rx-toggle="$parent.collapsedNav" title="{{ (collapsedNav) ? \'Show\' : \'Hide\' }} Main Menu"><span class="visually-hidden">{{ (collapsedNav) ? \'Show\' : \'Hide\' }} Main Menu</span><div class="double-chevron" ng-class="{\'double-chevron-left\': !collapsedNav}"></div></button><div class="site-options"><a href="#" rx-logout class="site-logout">Logout</a></div></header><nav class="rx-app-nav"><div ng-repeat="section in appRoutes.getAll()" class="nav-section nav-section-{{ section.type || \'all\' }}"><h2 class="nav-section-title">{{ section.title }}</h2><rx-app-nav items="section.children" level="1"></rx-app-nav></div></nav></nav><div class="rx-app-content" ng-transclude></div></div>');
   }
 ]);
 angular.module('templates/rxAppNav.html', []).run([
