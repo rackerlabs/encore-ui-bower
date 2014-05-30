@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.10.5 - 2014-05-23
+ * Version: 0.10.6 - 2014-05-30
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -220,8 +220,18 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize']).service('Environment',
           url: '//{{tld}}.encore.rackspace.com/{{path}}'
         },
         {
+          name: 'unified-preprod',
+          pattern: /\/\/(\w+\.)en.core.rackspace.com/,
+          url: '{{path}}'
+        },
+        {
           name: 'unified',
           pattern: 'en.core.rackspace.com',
+          url: '{{path}}'
+        },
+        {
+          name: 'unified-prod',
+          pattern: /\/\/(?=[\w.]+)en.core.rackspace.com/,
           url: '{{path}}'
         }
       ];
@@ -364,33 +374,7 @@ angular.module('encore.ui.rxApp', [
         href: '/billing',
         linkText: 'Billing',
         key: 'billing',
-        visibility: '("unified" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)',
-        children: [
-          {
-            href: '/billing/overview/{{accountNumber}}',
-            linkText: 'Overview'
-          },
-          {
-            href: '/billing/transactions/{{accountNumber}}',
-            linkText: 'Transactions'
-          },
-          {
-            href: '/billing/usage/{{accountNumber}}',
-            linkText: 'Current Usage'
-          },
-          {
-            href: '/billing/discounts/{{accountNumber}}',
-            linkText: 'Discounts'
-          },
-          {
-            href: '/billing/payment/{{accountNumber}}/options',
-            linkText: 'Payment Options'
-          },
-          {
-            href: '/billing/preferences/{{accountNumber}}',
-            linkText: 'Preferences'
-          }
-        ]
+        visibility: '("unified-preprod" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)'
       },
       {
         linkText: 'Cloud',
@@ -458,49 +442,28 @@ angular.module('encore.ui.rxApp', [
         ]
       },
       {
-        href: '/supportservice',
+        href: '/support',
         linkText: 'Support Service',
         key: 'supportService',
         visibility: '("unified" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)',
-        children: [
-          {
-            href: '/supportservice/browse',
-            linkText: 'Browse Accounts'
-          },
-          {
-            href: '/supportservice/admin',
-            linkText: 'Admin'
-          }
-        ]
+        directive: 'rx-support-service-search'
       },
       {
-        href: {
-          tld: 'cloudatlas',
-          path: 'ticketqueues'
-        },
-        linkText: 'Ticket Queues',
-        key: 'ticketQueues',
+        href: 'ticketing',
+        linkText: 'Ticketing',
+        key: 'ticketing',
         visibility: '"!unified" | rxEnvironmentMatch',
         children: [
           {
-            href: {
-              tld: 'cloudatlas',
-              path: 'ticketqueues/list'
-            },
+            href: 'ticketing/list',
             linkText: 'My Selected Queues'
           },
           {
-            href: {
-              tld: 'cloudatlas',
-              path: 'ticketqueues/my'
-            },
+            href: 'ticketing/my',
             linkText: 'My Tickets'
           },
           {
-            href: {
-              tld: 'cloudatlas',
-              path: 'ticketqueues/queues'
-            },
+            href: 'ticketing/queues',
             linkText: 'Queue Admin'
           }
         ]
@@ -509,25 +472,8 @@ angular.module('encore.ui.rxApp', [
         href: '/virt',
         linkText: 'Virtualization Admin',
         key: 'virtualization',
-        visibility: '("unified" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)',
-        children: [
-          {
-            href: '/virt/vcenters',
-            linkText: 'vCenters'
-          },
-          {
-            href: '/virt/hypervisor-clusters',
-            linkText: 'Hypervisor Clusters'
-          },
-          {
-            href: '/virt/hypervisors',
-            linkText: 'Hypervisors'
-          },
-          {
-            href: '/virt/vms',
-            linkText: 'VMs'
-          }
-        ]
+        visibility: '("unified-preprod" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)',
+        directive: 'rx-virt-search'
       }
     ]
   }]).service('rxAppRoutes', [
@@ -796,16 +742,15 @@ angular.module('encore.ui.rxApp', [
     };
   }
 ]).directive('rxAccountSearch', [
-  '$location',
-  function ($location) {
+  '$window',
+  function ($window) {
     return {
       templateUrl: 'templates/rxAccountSearch.html',
       restrict: 'E',
       link: function (scope) {
         scope.fetchAccount = function (query) {
           if (query) {
-            $location.path('search');
-            $location.search('term=' + query);
+            $window.location = _.template('/search?term=${query}', query);
           }
         };
       }
