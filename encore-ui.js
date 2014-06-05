@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.10.6 - 2014-05-30
+ * Version: 0.10.7 - 2014-06-05
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -23,6 +23,7 @@ angular.module('encore.ui', [
   'encore.ui.rxCompile',
   'encore.ui.rxDiskSize',
   'encore.ui.rxDropdown',
+  'encore.ui.rxFeedback',
   'encore.ui.rxForm',
   'encore.ui.rxLogout',
   'encore.ui.rxModalAction',
@@ -92,7 +93,7 @@ angular.module('encore.ui.configs', []).value('devicePaths', [
     value: '/dev/xvdp',
     label: '/dev/xvdp'
   }
-]);
+]).constant('feedbackApi', '/api/feedback');
 angular.module('encore.ui.rxActiveUrl', []).directive('rxActiveUrl', [
   '$location',
   function ($location) {
@@ -452,7 +453,6 @@ angular.module('encore.ui.rxApp', [
         href: 'ticketing',
         linkText: 'Ticketing',
         key: 'ticketing',
-        visibility: '"!unified" | rxEnvironmentMatch',
         children: [
           {
             href: 'ticketing/list',
@@ -616,10 +616,13 @@ angular.module('encore.ui.rxApp', [
         menu: '=?',
         collapsibleNav: '@',
         collapsedNav: '=?',
-        newInstance: '@?'
+        newInstance: '@?',
+        hideFeedback: '@?'
       },
       link: function (scope) {
         scope.appRoutes = scope.newInstance ? rxAppRoutes.createInstance() : rxAppRoutes;
+        // default hideFeedback to false
+        scope.hideFeedback = scope.hideFeedback ? true : false;
         // we only want to set new menu data if a new instance of rxAppRoutes was created
         // or if scope.menu was defined
         if (scope.newInstance || scope.menu) {
@@ -1033,14 +1036,17 @@ angular.module('encore.ui.rxCompile', []).directive('rxCompile', [
   }
 ]);
 angular.module('encore.ui.rxDiskSize', []).filter('rxDiskSize', function () {
-  return function (size) {
+  return function (size, unit) {
     var units = [
         'GB',
         'TB',
         'PB'
       ];
-    var unit = Math.floor(Math.log(size) / Math.log(1000));
-    return size / Math.pow(1000, Math.floor(unit)).toFixed(1) + ' ' + units[unit];
+    var index = _.indexOf(units, unit);
+    if (index === -1) {
+      index = Math.floor(Math.log(size) / Math.log(1000));
+    }
+    return size / Math.pow(1000, Math.floor(index)).toFixed(1) + ' ' + units[index];
   };
 });
 angular.module('encore.ui.rxDropdown', []).directive('rxDropdown', [
@@ -1065,6 +1071,131 @@ angular.module('encore.ui.rxDropdown', []).directive('rxDropdown', [
       scope: {
         visible: '&',
         menu: '='
+      }
+    };
+  }
+]);
+angular.module('encore.ui.rxFeedback', ['ngResource']).value('feedbackTypes', [
+  {
+    label: 'Software Bug',
+    prompt: 'Bug Description',
+    placeholder: 'Please be as descriptive as possible so we can track it down for you.'
+  },
+  {
+    label: 'Incorrect Data',
+    prompt: 'Problem Description',
+    placeholder: 'Please be as descriptive as possible so we can figure it out for you.'
+  },
+  {
+    label: 'Feature Request',
+    prompt: 'Feature Description',
+    placeholder: 'Please be as descriptive as possible so we can make your feature awesome.'
+  },
+  {
+    label: 'Kudos',
+    prompt: 'What made you happy?',
+    placeholder: 'We love to hear that you\'re enjoying Encore! Tell us what you like, and what we can do ' + 'to make it even better'
+  }
+]).service('rxScreenshotSvc', [
+  '$log',
+  '$q',
+  function ($log, $q) {
+    // double check that html2canvas is loaded
+    var hasDependencies = function () {
+      var hasHtml2Canvas = typeof html2canvas == 'function';
+      return hasHtml2Canvas;
+    };
+    return {
+      capture: function (target) {
+        var deferred = $q.defer();
+        if (!hasDependencies()) {
+          $log.warn('rxScreenshotSvc: no screenshot captured, missing html2canvas dependency');
+          deferred.reject('html2canvas not loaded');
+        } else {
+          html2canvas(target, {
+            onrendered: function (canvas) {
+              var imgData = canvas.toDataURL('image/png');
+              deferred.resolve(imgData);
+            }
+          });
+        }
+        return deferred.promise;
+      }
+    };
+  }
+]).service('rxFeedbackSvc', [
+  '$resource',
+  'feedbackApi',
+  '$location',
+  '$window',
+  function ($resource, feedbackApi, $location, $window) {
+    var apiEndpoint;
+    var setEndpoint = function (url) {
+      apiEndpoint = $resource(url);
+    };
+    // set a default endpoint
+    setEndpoint(feedbackApi);
+    var emailFeedback = function (feedback) {
+      var subject = 'Encore Feedback: ' + feedback.type.label;
+      var body = [
+          'Current Page: ' + $location.absUrl(),
+          'Browser User Agent: ' + navigator.userAgent,
+          'Comments: ' + feedback.description
+        ];
+      body = body.join('\n\n');
+      // if the feedback service fails, this fallback function can be run as a last ditch effort
+      $window.location.href = encodeURI('mailto:encoreui@lists.rackspace.com?subject=' + subject + '&body=' + body);
+    };
+    return {
+      api: apiEndpoint,
+      setEndpoint: setEndpoint,
+      fallback: emailFeedback
+    };
+  }
+]).directive('rxFeedback', [
+  'feedbackTypes',
+  '$location',
+  'rxFeedbackSvc',
+  'rxScreenshotSvc',
+  'rxNotify',
+  function (feedbackTypes, $location, rxFeedbackSvc, rxScreenshotSvc, rxNotify) {
+    return {
+      restrict: 'E',
+      templateUrl: 'templates/rxFeedback.html',
+      link: function (scope) {
+        scope.currentUrl = $location.url();
+        scope.feedbackTypes = feedbackTypes;
+        var showSuccessMessage = function (response) {
+          var message = _.isString(response.message) ? response.message : 'Thanks for your feedback!';
+          rxNotify.add(message, { type: 'success' });
+        };
+        var showFailureMessage = function (httpResponse) {
+          var errorMessage = 'An error occurred submitting your feedback';
+          if (httpResponse.data && _.isString(httpResponse.data.message)) {
+            errorMessage += ': ' + httpResponse.data.message;
+          }
+          rxNotify.add(errorMessage, { type: 'error' });
+        };
+        var makeApiCall = function (feedback, screenshot) {
+          rxFeedbackSvc.api.save({
+            type: feedback.type.label,
+            description: feedback.description,
+            screenshot: screenshot
+          }, showSuccessMessage, function (httpResponse) {
+            showFailureMessage(httpResponse);
+            rxFeedbackSvc.fallback(feedback);
+          });
+        };
+        scope.sendFeedback = function (feedback) {
+          var root = document.querySelector('.rx-app');
+          // capture screenshot
+          var screenshot = rxScreenshotSvc.capture(root);
+          screenshot.then(function (dataUrl) {
+            makeApiCall(feedback, dataUrl);
+          }, function (reason) {
+            makeApiCall(feedback, reason);
+          });
+        };
       }
     };
   }
