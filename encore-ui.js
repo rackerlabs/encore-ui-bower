@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.10.7 - 2014-06-05
+ * Version: 0.11.0 - 2014-06-09
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -211,28 +211,18 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize']).service('Environment',
           url: '//localhost:' + $location.port() + '/{{path}}'
         },
         {
-          name: 'staging',
-          pattern: /\/\/staging\.(?:.*\.)?encore.rackspace.com/,
-          url: '//staging.{{tld}}.encore.rackspace.com/{{path}}'
-        },
-        {
-          name: 'production',
-          pattern: /\/\/(?!staging).*\.?encore.rackspace.com/,
-          url: '//{{tld}}.encore.rackspace.com/{{path}}'
-        },
-        {
           name: 'unified-preprod',
-          pattern: /\/\/(\w+\.)en.core.rackspace.com/,
+          pattern: /\/\/(\w+\.)encore.rackspace.com/,
           url: '{{path}}'
         },
         {
           name: 'unified',
-          pattern: 'en.core.rackspace.com',
+          pattern: 'encore.rackspace.com',
           url: '{{path}}'
         },
         {
           name: 'unified-prod',
-          pattern: /\/\/(?=[\w.]+)en.core.rackspace.com/,
+          pattern: /\/\/(?=[\w.]+)encore.rackspace.com/,
           url: '{{path}}'
         }
       ];
@@ -359,7 +349,6 @@ angular.module('encore.ui.rxApp', [
         linkText: 'Account',
         key: 'accountLvlTools',
         directive: 'rx-account-search',
-        visibility: '("unified" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)',
         childVisibility: function (scope) {
           if (scope.route.current) {
             return !_.isUndefined(scope.route.current.pathParams.accountNumber);
@@ -381,7 +370,7 @@ angular.module('encore.ui.rxApp', [
         linkText: 'Cloud',
         key: 'cloud',
         directive: 'rx-atlas-search',
-        visibility: '"!unified" | rxEnvironmentMatch',
+        visibility: '("unified-preprod" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)',
         childVisibility: function (scope) {
           // We only want to show this nav if user is already defined in the URL
           // (otherwise a user hasn't been chosen yet, so nav won't work, so we hide it)
@@ -393,52 +382,37 @@ angular.module('encore.ui.rxApp', [
         childHeader: '<strong class="current-search">Current Account:</strong>' + '<span class="current-result">{{route.current.pathParams.user}}</span>',
         children: [
           {
-            href: {
-              tld: 'cloudatlas',
-              path: '{{user}}/servers'
-            },
+            href: '/cloud/{{user}}/servers',
             linkText: 'Cloud Servers'
           },
           {
-            href: {
-              tld: 'cloudatlas',
-              path: '{{user}}/cbs/volumes'
-            },
+            href: '/cloud/{{user}}/cbs/volumes',
             linkText: 'Block Storage',
             children: [
               {
-                href: '/{{user}}/cbs/volumes',
+                href: '/cloud/{{user}}/cbs/volumes',
                 linkText: 'Volumes'
               },
               {
-                href: '/{{user}}/cbs/snapshots',
+                href: '/cloud/{{user}}/cbs/snapshots',
                 linkText: 'Snapshots'
               }
             ]
           },
           {
-            href: {
-              tld: 'cloudatlas',
-              path: '{{user}}/databases/instances'
-            },
+            href: '/cloud/{{user}}/databases/instances',
             linkText: 'Databases',
-            visibility: '"!production" | rxEnvironmentMatch'
+            visibility: '"unified-preprod" | rxEnvironmentMatch'
           },
           {
-            href: {
-              tld: 'cloudatlas',
-              path: '{{user}}/loadbalancers'
-            },
+            href: '/cloud/{{user}}/loadbalancers',
             linkText: 'Load Balancers',
-            visibility: '"!production" | rxEnvironmentMatch'
+            visibility: '"unified-preprod" | rxEnvironmentMatch'
           },
           {
-            href: {
-              tld: 'cloudatlas',
-              path: '{{user}}/networks'
-            },
+            href: '/cloud/{{user}}/networks',
             linkText: 'Networks',
-            visibility: '"!production" | rxEnvironmentMatch'
+            visibility: '"unified-preprod" | rxEnvironmentMatch'
           }
         ]
       },
@@ -728,7 +702,8 @@ angular.module('encore.ui.rxApp', [
     scope: {
       placeholder: '@?',
       model: '=?',
-      submit: '=?'
+      submit: '=?',
+      pattern: '@?'
     }
   };
 }).directive('rxAtlasSearch', [
