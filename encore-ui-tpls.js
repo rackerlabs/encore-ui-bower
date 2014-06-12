@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.11.2 - 2014-06-10
+ * Version: 0.11.3 - 2014-06-12
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -24,6 +24,7 @@ angular.module('encore.ui', [
   'encore.ui.rxCompile',
   'encore.ui.rxDiskSize',
   'encore.ui.rxDropdown',
+  'encore.ui.rxFavicon',
   'encore.ui.rxFeedback',
   'encore.ui.rxForm',
   'encore.ui.rxLogout',
@@ -313,7 +314,7 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize']).service('Environment',
     envSvc.setAll = function (newEnvironments) {
       // validate that all new environments are valid
       if (newEnvironments.length > 0 && _.every(environments, isValidEnvironment)) {
-        // overwrite old environemnts with new
+        // overwrite old environments with new
         environments = newEnvironments;
       }
     };
@@ -1081,6 +1082,45 @@ angular.module('encore.ui.rxDropdown', []).directive('rxDropdown', [
     };
   }
 ]);
+angular.module('encore.ui.rxFavicon', ['encore.ui.rxEnvironment']).directive('rxFavicon', [
+  'Environment',
+  '$parse',
+  '$log',
+  function (Environment, $parse, $log) {
+    return {
+      restrict: 'A',
+      replace: true,
+      link: function (scope, el, attrs) {
+        // parse out the object inside of the rx-favicon attribute
+        var favicons = $parse(attrs.rxFavicon)(scope);
+        // if favicons isn't properly defined, report a warning and exit
+        if (!_.isObject(favicons)) {
+          $log.warn('rxFavicon: An object must be passed in to this attribute');
+          // exit out of the function
+          return false;
+        }
+        // fallbacks in case staging/local isn't defined
+        favicons.prod = el.attr('href');
+        favicons.staging = favicons.staging || favicons.prod;
+        favicons.local = favicons.local || favicons.staging;
+        // convert environment name to match scope variables
+        var environmentMap = {
+            'local': 'local',
+            'unified-preprod': 'staging',
+            'ghPages': 'prod',
+            'unified-prod': 'prod'
+          };
+        scope.$watch(function () {
+          return Environment.get();
+        }, function (environment) {
+          var currentEnv = environmentMap[environment.name];
+          // update href to use new path
+          el.attr('href', favicons[currentEnv]);
+        });
+      }
+    };
+  }
+]);
 angular.module('encore.ui.rxFeedback', ['ngResource']).value('feedbackTypes', [
   {
     label: 'Software Bug',
@@ -1228,48 +1268,6 @@ angular.module('encore.ui.rxForm', ['ngSanitize']).directive('rxFormItem', funct
       description: '@'
     }
   };
-}).directive('rxFormInput', function () {
-  return {
-    restrict: 'E',
-    templateUrl: 'templates/rxFormInput.html',
-    scope: {
-      type: '@',
-      required: '@',
-      fieldId: '@',
-      model: '=',
-      minLength: '@',
-      maxLength: '@',
-      max: '@',
-      min: '@',
-      name: '@',
-      value: '@',
-      label: '@',
-      suffix: '@',
-      description: '@'
-    }
-  };
-}).directive('rxFormRadio', function () {
-  return {
-    restrict: 'E',
-    templateUrl: 'templates/rxFormRadio.html',
-    scope: {
-      options: '=',
-      fieldId: '@',
-      model: '='
-    }
-  };
-}).directive('rxFormSelect', function () {
-  return {
-    restrict: 'E',
-    templateUrl: 'templates/rxFormSelect.html',
-    scope: {
-      options: '=',
-      fieldId: '@',
-      label: '@',
-      model: '=',
-      required: '@'
-    }
-  };
 }).directive('rxFormOptionTable', [
   '$interpolate',
   function ($interpolate) {
@@ -1339,7 +1337,49 @@ angular.module('encore.ui.rxForm', ['ngSanitize']).directive('rxFormItem', funct
       ]
     };
   }
-]);
+]).directive('rxFormInput', function () {
+  return {
+    restrict: 'E',
+    templateUrl: 'templates/rxFormInput.html',
+    scope: {
+      type: '@',
+      required: '@',
+      fieldId: '@',
+      model: '=',
+      minLength: '@',
+      maxLength: '@',
+      max: '@',
+      min: '@',
+      name: '@',
+      value: '@',
+      label: '@',
+      suffix: '@',
+      description: '@'
+    }
+  };
+}).directive('rxFormRadio', function () {
+  return {
+    restrict: 'E',
+    templateUrl: 'templates/rxFormRadio.html',
+    scope: {
+      options: '=',
+      fieldId: '@',
+      model: '='
+    }
+  };
+}).directive('rxFormSelect', function () {
+  return {
+    restrict: 'E',
+    templateUrl: 'templates/rxFormSelect.html',
+    scope: {
+      options: '=',
+      fieldId: '@',
+      label: '@',
+      model: '=',
+      required: '@'
+    }
+  };
+});
 angular.module('encore.ui.rxLogout', []).directive('rxLogout', [
   '$rootScope',
   '$location',
