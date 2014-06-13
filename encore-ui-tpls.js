@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.11.3 - 2014-06-12
+ * Version: 0.11.4 - 2014-06-13
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -1190,7 +1190,11 @@ angular.module('encore.ui.rxFeedback', ['ngResource']).value('feedbackTypes', [
         ];
       body = body.join('\n\n');
       // if the feedback service fails, this fallback function can be run as a last ditch effort
-      $window.location.href = encodeURI('mailto:encoreui@lists.rackspace.com?subject=' + subject + '&body=' + body);
+      var uri = encodeURI('mailto:encoreui@lists.rackspace.com?subject=' + subject + '&body=' + body);
+      var windowOpen = $window.open(uri, '_blank');
+      if (!windowOpen) {
+        $window.location.href = uri;
+      }
     };
     return {
       api: apiEndpoint,
