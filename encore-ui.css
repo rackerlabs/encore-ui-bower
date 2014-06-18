@@ -424,6 +424,9 @@ th {
   padding: 0;
 }
 
+/*
+ # Common CSS modules
+ */
 html,
 body {
   height: 100%;
@@ -583,6 +586,8 @@ thead th .btn-link:focus {
 }
 /*
 
+## Link statuses
+
 Colors the text red to warn people that something important will/did happen (plus icons)
 
 ```
@@ -657,14 +662,15 @@ Colors the text red to warn people that something important will/did happen (plu
 }
 /*
 Basic color change to make text less prominant
+```
 <h1>My Items <span class="subdued">(10)</span></h1>
+```
  */
 .subdued {
   color: #bbbbbb;
 }
 /*
-This can be added to hide an element but not remove it from the spacing of the
-page
+This can be added to hide an element but not remove it from the spacing of the page
 */
 .hidden {
   visibility: hidden;
@@ -714,7 +720,15 @@ body:hover .visually-hidden button {
   clear: right;
 }
 /*
- * Creates a 'well' effect (box with light gray background)
+
+## Wells
+
+Creates a 'well' effect (box with light gray background)
+```
+<div class="well">
+<p>Well, here you go.</p>
+</div>
+```
  */
 .well {
   background-color: #eee;
@@ -729,7 +743,101 @@ body:hover .visually-hidden button {
 FlexBox Columns
 */
 /*
- * rxApp
+
+ # rxApp
+
+This component is responsible for creating the HTML necessary for a common Encore layout. It builds out the main navigation, plus breadcrumbs and page titles.
+
+## Usage
+
+For apps that want to use the default Encore navigation, use the following HTML class structures placed inside your index.html file:
+
+```
+    <body>
+        <div class="rx-app">
+            <nav class="rx-app-menu">
+                <header class="site-branding">
+                    <h1 class="site-title">Encore</h1>
+                    <button class="collapsible-toggle btn-link">
+                        <div class="double-chevron"></div>
+                    </button>
+                    <div class="site-options">
+                        <a href="settings" class="site-settings">Settings</a>
+                        <a href="#" class="site-logout">Logout</a>
+                    </div>
+                </header>
+                <nav class="rx-app-nav">
+                    <div class="nav-section nav-section-1">
+                        <h2 class="nav-section-title">Section One</h2>
+                        <div class="rx-app-nav rx-app-nav-level-1">
+                            <ul class="rx-app-nav-group">
+                                <li class="rx-app-nav-item active">
+                                    <a href="#" class="item-link">Link one</a>
+                                </li>
+                                <li class="rx-app-nav-item">
+                                    <a href="#" class="item-link">Link two</a>
+                                </li>
+                                <li class="rx-app-nav-item has-children">
+                                    <a href="#" class="item-link">Link three</a>
+                                    <div class="item-content">
+                                        <div class="item-directive">[Things like a search go here]</div>
+                                        <div class="item-children">
+                                            <div class="child-header">Subgroup Header</div>
+                                            <div class="rx-app-nav rx-app-nav-level-2">
+                                                <ul class="rx-app-nav-group">
+                                                    <li class="rx-app-nav-item active">
+                                                        <a href="#" class="item-link">Sub link 1</a>
+                                                    </li>
+                                                    <li class="rx-app-nav-item">
+                                                        <a href="#" class="item-link">Sub link 2</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <h2 class="nav-section-title">Section Two</h2>
+                        <div class="rx-app-nav rx-app-nav-level-2">
+                            <ul class="rx-app-nav-group">
+                                <rx-app-nav-item ng-repeat="item in items" item="item"></rx-app-nav-item>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </nav>
+            <div class="rx-app-content">
+                <div class="rx-page">
+                    <header class="page-header clearfix">
+                        <!--
+                            This uses the rxBreadcrumbs angular.js directive. For non-angular
+                            implementations, please see the rxBreadcrumbs template section in
+                            the CSS documentation.
+                        -->
+                        <rx-breadcrumbs></rx-breadcrumbs>
+                    </header>
+                    <div class="page-body">
+                        <!--
+                            This uses the rxNotifications angular.js directive. For non-angular
+                            implementations, please see the rxNotifications template section in
+                            the CSS documentation.
+                        -->
+                        <rx-notifications></rx-notifications>
+                        <div class="page-titles">
+                            <h2 class="page-title">Lorem Ipsum</h2>
+                            <h3 class="page-subtitle">Dolor Sit Amet</h3>
+                        </div>
+                        <div class="page-content clear">
+                            <p>Lorem ipsum dolor sit amet.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+```
+
  */
 .rx-app {
   min-height: 100%;
@@ -759,7 +867,7 @@ FlexBox Columns
   flex: 0 0 300px;
   color: #fff;
   font-size: 15px;
-  font-weight: 200;
+  font-weight: 300;
   background: #1a1a1a;
   line-height: 1.2;
   padding-bottom: 10em;
@@ -775,7 +883,6 @@ FlexBox Columns
 }
 .rx-app .site-branding .site-title {
   float: left;
-  font-weight: 300;
 }
 .rx-app .site-branding .site-options {
   float: right;
@@ -857,7 +964,6 @@ FlexBox Columns
 .rx-app .rx-app-nav .nav-section-title {
   padding: 5px 15px;
   font-size: 13px;
-  font-weight: 300;
 }
 .rx-app .rx-app-nav .nav-section-all {
   background: #407610;
@@ -1102,13 +1208,12 @@ FlexBox Columns
 }
 
 /*
-# Breadcrumbs
-**Author:** Kevin Lamping
+# rxBreadcrumbs
 
-They show your position within the site heirarchy
+They show your position within the site heirarchy.
 
 ```
-<ol class="breadcrumbs">
+<ol class="rx-breadcrumbs">
     <li class="breadcrumb">
         <span>
             <a href="#" class="breadcrumb-name first">First Breadcrumb</a>

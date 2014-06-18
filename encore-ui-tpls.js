@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.11.4 - 2014-06-13
+ * Version: 0.12.0 - 2014-06-18
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -40,7 +40,9 @@ angular.module('encore.ui', [
   'encore.ui.rxSpinner',
   'encore.ui.rxToggle',
   'encore.ui.rxTokenInterceptor',
-  'encore.ui.rxUnauthorizedInterceptor'
+  'encore.ui.rxUnauthorizedInterceptor',
+  'cfp.hotkeys',
+  'ui.bootstrap'
 ]);
 angular.module('encore.ui.tpls', [
   'templates/rxActiveUrl.html',
@@ -374,7 +376,8 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize']).service('Environment',
 angular.module('encore.ui.rxApp', [
   'encore.ui.rxEnvironment',
   'ngSanitize',
-  'ngRoute'
+  'ngRoute',
+  'cfp.hotkeys'
 ]).value('encoreNav', [{
     title: 'All Tools',
     children: [
@@ -435,17 +438,17 @@ angular.module('encore.ui.rxApp', [
           {
             href: '/cloud/{{user}}/databases/instances',
             linkText: 'Databases',
-            visibility: '"unified-preprod" | rxEnvironmentMatch'
+            visibility: '("unified-preprod" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)'
           },
           {
             href: '/cloud/{{user}}/loadbalancers',
             linkText: 'Load Balancers',
-            visibility: '"unified-preprod" | rxEnvironmentMatch'
+            visibility: '("unified-preprod" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)'
           },
           {
             href: '/cloud/{{user}}/networks',
             linkText: 'Networks',
-            visibility: '"unified-preprod" | rxEnvironmentMatch'
+            visibility: '("unified-preprod" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)'
           }
         ]
       },
@@ -612,7 +615,8 @@ angular.module('encore.ui.rxApp', [
   }
 ]).directive('rxApp', [
   'rxAppRoutes',
-  function (rxAppRoutes) {
+  'hotkeys',
+  function (rxAppRoutes, hotkeys) {
     return {
       restrict: 'E',
       transclude: true,
@@ -633,6 +637,15 @@ angular.module('encore.ui.rxApp', [
         // or if scope.menu was defined
         if (scope.newInstance || scope.menu) {
           scope.appRoutes.setAll(scope.menu);
+        }
+        if (scope.collapsibleNav) {
+          hotkeys.add({
+            combo: 'ctrl+h',
+            description: 'Show/hide the main menu',
+            callback: function () {
+              scope.collapsedNav = !scope.collapsedNav;
+            }
+          });
         }
       }
     };
