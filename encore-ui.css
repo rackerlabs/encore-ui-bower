@@ -1292,8 +1292,24 @@ They show your position within the site heirarchy.
 }
 
 /*
- * rxButton
- */
+# rxButton
+
+```
+<button type="submit" class="button primary rx-button">
+    I'm a button!
+</button>
+
+<button type="submit" class="button primary rx-button">
+    With a spinner!
+    <div class="spinner">
+        <i class="pos1"></i>
+        <i class="pos2"></i>
+        <i class="pos3"></i>
+    </div>
+</button>
+
+```
+*/
 button.rx-button .spinner {
   display: inline-block;
   position: relative;
@@ -1549,6 +1565,9 @@ ol.nav-dropdown.group .dropdown-submenu > .dropdown-menu > li a:hover {
   height: 10em;
 }
 
+/*
+ # rxForm
+ */
 .rx-form {
   margin: 15px 0 0;
 }
@@ -1566,6 +1585,74 @@ ol.nav-dropdown.group .dropdown-submenu > .dropdown-menu > li a:hover {
   float: left;
   color: #727272;
 }
+/*
+## Input fields
+
+field-prefix, field-suffix and field-description are optional.
+
+```
+<div class="form-item">
+    <label>
+        <span class="field-label">
+            Display Name:
+        </span>
+
+        <span class="field-prefix">$</span>
+
+        <!-- Form input will be added here -->
+        <span class="field-input">
+            <input type="text"/>
+        </span>
+
+        <span class="field-suffix">GB</span>
+
+        <span class="field-description">Any description goes here</span>
+    </label>
+</div>
+```
+
+## Dropdowns
+
+```
+<div class="form-item">
+    <label>
+        <span class="field-label">
+            Type:
+        </span>
+
+        <span class="field-prefix">$</span>
+
+        <!-- Form input will be added here -->
+        <span class="field-input">
+            <span class="field-select">
+                <select>
+                    <option value="1">Option #1</option>
+                    <option value="2">Option #2</option>
+                    <option value="3">Option #3</option>
+                    <option value="4">Option #4</option>
+                </select>
+            </span>
+        </span>
+
+        <span class="field-description">Any description goes here</span>
+    </label>
+</div>
+```
+
+## Submit buttons
+
+```
+<button class="submit form-action" type="submit" disabled="disabled">
+    Submit Form (Disabled)
+</button>
+
+<button class="submit form-action" type="submit">
+    Submit Form
+</button>
+
+```
+
+ */
 .field-input {
   position: relative;
   top: -5px;
@@ -1859,7 +1946,6 @@ Styles for header navigation used globally across Encore
 ```
 <header class="site-header">
   <h1 class="logo">Encore</h1>
-
 </header>
 ```
 */

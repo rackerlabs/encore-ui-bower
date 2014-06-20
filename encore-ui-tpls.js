@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.12.0 - 2014-06-18
+ * Version: 0.12.1 - 2014-06-20
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -397,10 +397,44 @@ angular.module('encore.ui.rxApp', [
           }]
       },
       {
-        href: '/billing',
         linkText: 'Billing',
         key: 'billing',
-        visibility: '("unified-preprod" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)'
+        directive: 'rx-billing-search',
+        visibility: '("unified-preprod" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)',
+        childVisibility: function (scope) {
+          // We only want to show this nav if accountNumber is already defined in the URL
+          // (otherwise a accountNumber hasn't been chosen yet, so nav won't work, so we hide it)
+          if (scope.route.current) {
+            return !_.isUndefined(scope.route.current.pathParams.accountNumber);
+          }
+          return false;
+        },
+        children: [
+          {
+            href: '/billing/overview/{{accountNumber}}',
+            linkText: 'Overview'
+          },
+          {
+            href: '/billing/transactions/{{accountNumber}}',
+            linkText: 'Transactions'
+          },
+          {
+            href: '/billing/usage/{{accountNumber}}',
+            linkText: 'Current Usage'
+          },
+          {
+            href: '/billing/payment/{{accountNumber}}/options',
+            linkText: 'Payment Options'
+          },
+          {
+            href: '/billing/purchase-orders/{{accountNumber}}',
+            linkText: 'Purchase Orders'
+          },
+          {
+            href: '/billing/preferences/{{accountNumber}}',
+            linkText: 'Preferences'
+          }
+        ]
       },
       {
         linkText: 'Cloud',
@@ -775,6 +809,19 @@ angular.module('encore.ui.rxApp', [
           if (query) {
             $window.location = '/search?term=' + query;
           }
+        };
+      }
+    };
+  }
+]).directive('rxBillingSearch', [
+  '$location',
+  function ($location) {
+    return {
+      template: '<rx-app-search placeholder="Fetch account by number..." submit="fetchAccounts"></rx-app-search>',
+      restrict: 'E',
+      link: function (scope) {
+        scope.fetchAccounts = function (searchValue) {
+          $location.path('/billing/overview/' + searchValue);
         };
       }
     };
