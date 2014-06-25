@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.12.1 - 2014-06-20
+ * Version: 0.12.2 - 2014-06-25
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -754,14 +754,16 @@ angular.module('encore.ui.rxApp', [
     }
   };
 }).directive('rxAtlasSearch', [
-  '$location',
-  function ($location) {
+  '$window',
+  function ($window) {
     return {
       template: '<rx-app-search placeholder="Search for user..." submit="searchAccounts"></rx-app-search>',
       restrict: 'E',
       link: function (scope) {
         scope.searchAccounts = function (searchValue) {
-          $location.path(searchValue + '/servers/');
+          if (!_.isEmpty(searchValue)) {
+            $window.location = '/cloud/' + searchValue + '/servers/';
+          }
         };
       }
     };
@@ -773,23 +775,25 @@ angular.module('encore.ui.rxApp', [
       templateUrl: 'templates/rxAccountSearch.html',
       restrict: 'E',
       link: function (scope) {
-        scope.fetchAccount = function (query) {
-          if (query) {
-            $window.location = '/search?term=' + query;
+        scope.fetchAccount = function (searchValue) {
+          if (!_.isEmpty(searchValue)) {
+            $window.location = '/search?term=' + searchValue;
           }
         };
       }
     };
   }
 ]).directive('rxBillingSearch', [
-  '$location',
-  function ($location) {
+  '$window',
+  function ($window) {
     return {
       template: '<rx-app-search placeholder="Fetch account by number..." submit="fetchAccounts"></rx-app-search>',
       restrict: 'E',
       link: function (scope) {
         scope.fetchAccounts = function (searchValue) {
-          $location.path('/billing/overview/' + searchValue);
+          if (!_.isEmpty(searchValue)) {
+            $window.location = '/billing/overview/' + searchValue;
+          }
         };
       }
     };

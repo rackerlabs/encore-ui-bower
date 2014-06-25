@@ -2038,6 +2038,43 @@ Styles for header navigation used globally across Encore
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
+/*
+# rxNotify
+
+Note: **Styledocco will not display the images associated with the notification bars.** Please reference the main Encore demo to view this. The class `rx-notifications` is a container div, and is required.
+
+In the second example we added `<button class="notification-dismiss btn-link">&times;</button>` to add a dismiss marker. If you are not using Encore UI's angular.js directives, it's up to you to flesh out this functionality.
+
+```
+<div class="rx-notifications">
+    <div class="rx-notification notification-error">
+        Error Message
+    </div>
+
+    <div class="rx-notification notification-error">
+        Error Message
+        <button class="notification-dismiss btn-link">&times;</button>
+    </div>
+
+    <div class="rx-notification notification-info">
+        Informational Message
+    </div>    
+
+    <div class="rx-notification notification-info notification-loading">
+        <div class="rx-spinner"></div>
+        Loading
+    </div>
+
+    <div class="rx-notification notification-success">
+        Success Message
+    </div>
+
+    <div class="rx-notification notification-warning">
+        Warning Message
+    </div>
+</div>
+```
+*/
 .rx-notifications {
   margin-bottom: 1.5em;
 }
@@ -2106,7 +2143,68 @@ Styles for header navigation used globally across Encore
 }
 
 /*
- * rxPaginate
+ # rxPaginate
+
+Add the class `disabled` to classes `pagination-first`, `pagination-prev`, `pagination-next` and `pagination-last` to disable navigation links.
+
+```
+<table class="table-striped">
+    <thead>
+        <tr>
+            <th class="column-title" style="width:10em;">Name</th>
+            <th class="column-title">OS</a>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Server 1</td>
+            <td>Red Hat Enterprise Linux 6.4</td>
+        </tr>
+        <tr>
+            <td>Server 2</td>
+            <td>CentOS 6.4</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr class="paginate-area">
+            <td colspan="12">
+                <div class="rx-paginate">
+                    <ul class="pagination">
+                        <li class="pagination-first disabled">
+                            <a class="ng-hide">First</a>
+                        </li>
+                        <li class="pagination-prev disabled">
+                            <a>« Prev</a>
+                        </li>
+                        <li class="pagination-page">
+                            <a>1</a>
+                        </li>
+                        <li class="pagination-page">
+                            <a>2</a>
+                        </li>
+                        <li class="pagination-page">
+                            <a>3</a>
+                        </li>
+                        <li class="pagination-page active">
+                            <a>4</a>
+                        </li>
+                        <li class="pagination-page page-number-last">
+                            <a>5</a>
+                        </li>
+                        <li class="pagination-next">
+                            <a>Next »</a>
+                        </li>
+                        <li class="pagination-last">
+                            <a>Last</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+```
+
  */
 .paginate-area {
   text-align: center;
