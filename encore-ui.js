@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.12.2 - 2014-06-25
+ * Version: 0.12.3 - 2014-07-01
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -1317,7 +1317,8 @@ angular.module('encore.ui.rxForm', ['ngSanitize']).directive('rxFormItem', funct
         type: '@',
         model: '=',
         fieldId: '@',
-        required: '@'
+        required: '@',
+        emptyMessage: '@'
       },
       controller: [
         '$scope',
@@ -1716,8 +1717,10 @@ angular.module('encore.ui.rxNotify', ['ngSanitize']).directive('rxNotification',
      * @param {string} stack The name of the stack to clear
      */
     var clear = function (stack) {
-      // @see http://davidwalsh.name/empty-array
-      stacks[stack].length = 0;
+      if (stacks.hasOwnProperty(stack)) {
+        // @see http://davidwalsh.name/empty-array
+        stacks[stack].length = 0;
+      }
     };
     /*
      * removes a specific message from a stack

@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.12.2 - 2014-06-25
+ * Version: 0.12.3 - 2014-07-01
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -1349,7 +1349,8 @@ angular.module('encore.ui.rxForm', ['ngSanitize']).directive('rxFormItem', funct
         type: '@',
         model: '=',
         fieldId: '@',
-        required: '@'
+        required: '@',
+        emptyMessage: '@'
       },
       controller: [
         '$scope',
@@ -1748,8 +1749,10 @@ angular.module('encore.ui.rxNotify', ['ngSanitize']).directive('rxNotification',
      * @param {string} stack The name of the stack to clear
      */
     var clear = function (stack) {
-      // @see http://davidwalsh.name/empty-array
-      stacks[stack].length = 0;
+      if (stacks.hasOwnProperty(stack)) {
+        // @see http://davidwalsh.name/empty-array
+        stacks[stack].length = 0;
+      }
     };
     /*
      * removes a specific message from a stack
@@ -2277,7 +2280,7 @@ angular.module('templates/rxFormItem.html', []).run([
 angular.module('templates/rxFormOptionTable.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxFormOptionTable.html', '<div class="form-item"><table class="table-striped option-table" ng-show="data.length > 0"><thead><tr><th></th><th ng-repeat="column in columns" scope="col">{{column.label}}</th></tr></thead><tr ng-repeat="row in data" ng-class="{current: isCurrent(row.value), selected: isSelected(row.value, $index)}"><td class="option-table-input" ng-switch="type"><label><input type="radio" ng-switch-when="radio" id="{{fieldId}}_{{$index}}" ng-model="$parent.$parent.model" value="{{row.value}}" name="{{fieldId}}" ng-disabled="isCurrent(row.value)" ng-attributes="{\'ng-required\': required}"> <input type="checkbox" ng-switch-when="checkbox" id="{{fieldId}}_{{$index}}" ng-model="$parent.model[$index]" rx-attributes="{\'ng-true-value\': row.value, \'ng-false-value\': row.falseValue}"></label></td><td ng-repeat="column in columns"><label for="{{fieldId}}_{{$parent.$index}}"><span ng-bind-html="getContent(column, row)"></span> <span ng-show="isCurrent(row.value)">{{column.selectedLabel}}</span></label></td></tr></table></div>');
+    $templateCache.put('templates/rxFormOptionTable.html', '<div class="form-item"><table class="table-striped option-table" ng-show="data.length > 0 || emptyMessage "><thead><tr><th></th><th ng-repeat="column in columns" scope="col">{{column.label}}</th></tr></thead><tr ng-repeat="row in data" ng-class="{current: isCurrent(row.value), selected: isSelected(row.value, $index)}"><td class="option-table-input" ng-switch="type"><label><input type="radio" ng-switch-when="radio" id="{{fieldId}}_{{$index}}" ng-model="$parent.$parent.model" value="{{row.value}}" name="{{fieldId}}" ng-disabled="isCurrent(row.value)" ng-attributes="{\'ng-required\': required}"> <input type="checkbox" ng-switch-when="checkbox" id="{{fieldId}}_{{$index}}" ng-model="$parent.model[$index]" rx-attributes="{\'ng-true-value\': row.value, \'ng-false-value\': row.falseValue}"></label></td><td ng-repeat="column in columns"><label for="{{fieldId}}_{{$parent.$index}}"><span ng-bind-html="getContent(column, row)"></span> <span ng-show="isCurrent(row.value)">{{column.selectedLabel}}</span></label></td></tr><tr ng-if="data.length === 0 && emptyMessage"><td colspan="{{columns.length + 1}}"><span class="msg-warn">{{emptyMessage}}</span></td></tr></table></div>');
   }
 ]);
 angular.module('templates/rxFormRadio.html', []).run([
