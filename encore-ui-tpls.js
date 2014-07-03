@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.12.3 - 2014-07-01
+ * Version: 0.12.4 - 2014-07-03
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -1666,7 +1666,8 @@ angular.module('encore.ui.rxNotify', ['ngSanitize']).directive('rxNotification',
         loading: false,
         show: 'immediate',
         dismiss: 'next',
-        stack: 'page'
+        stack: 'page',
+        repeat: true
       };
     /*
      * Adds a message to a stack
@@ -1674,6 +1675,15 @@ angular.module('encore.ui.rxNotify', ['ngSanitize']).directive('rxNotification',
      * @param {object} message The message object to add.
      */
     var addToStack = function (message) {
+      // if repeat is false, check to see if the message is already in the stack
+      if (!message.repeat) {
+        if (_.find(stacks[message.stack], {
+            text: message.text,
+            type: message.type
+          })) {
+          return;
+        }
+      }
       // if timeout is set, we should remove message after time expires
       if (message.timeout > -1) {
         dismissAfterTimeout(message);
