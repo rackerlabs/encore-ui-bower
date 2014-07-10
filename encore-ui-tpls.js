@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.12.4 - 2014-07-03
+ * Version: 0.12.5 - 2014-07-10
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -998,10 +998,17 @@ angular.module('encore.ui.rxPermission', ['encore.ui.rxSession']).factory('Permi
       var token = Session.getToken();
       return token && token.access && token.access.user && token.access.user.roles ? token.access.user.roles : [];
     };
-    permissionSvc.hasRole = function (role) {
-      return _.some(permissionSvc.getRoles(), function (item) {
-        return item.name === role;
+    permissionSvc.hasRole = function (roles) {
+      // Replace any spaces surrounded the comma delimeter
+      roles = roles.split(',').map(function (r) {
+        return r.trim();
       });
+      // Get all the role names from the session and retrieve their names
+      var userRoles = _.pluck(this.getRoles(), 'name');
+      // Find the common roles between what's been passed in, and the session
+      var commonRoles = _.intersection(userRoles, roles);
+      // if the common roles list is not empty, then we have the expected roles
+      return !_.isEmpty(commonRoles);
     };
     return permissionSvc;
   }
@@ -1015,8 +1022,8 @@ angular.module('encore.ui.rxPermission', ['encore.ui.rxSession']).factory('Permi
       '$scope',
       'Permission',
       function ($scope, Permission) {
-        $scope.hasRole = function () {
-          return Permission.hasRole($scope.role);
+        $scope.hasRole = function (roles) {
+          return Permission.hasRole(roles);
         };
       }
     ]
@@ -2290,7 +2297,7 @@ angular.module('templates/rxFormItem.html', []).run([
 angular.module('templates/rxFormOptionTable.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxFormOptionTable.html', '<div class="form-item"><table class="table-striped option-table" ng-show="data.length > 0 || emptyMessage "><thead><tr><th></th><th ng-repeat="column in columns" scope="col">{{column.label}}</th></tr></thead><tr ng-repeat="row in data" ng-class="{current: isCurrent(row.value), selected: isSelected(row.value, $index)}"><td class="option-table-input" ng-switch="type"><label><input type="radio" ng-switch-when="radio" id="{{fieldId}}_{{$index}}" ng-model="$parent.$parent.model" value="{{row.value}}" name="{{fieldId}}" ng-disabled="isCurrent(row.value)" ng-attributes="{\'ng-required\': required}"> <input type="checkbox" ng-switch-when="checkbox" id="{{fieldId}}_{{$index}}" ng-model="$parent.model[$index]" rx-attributes="{\'ng-true-value\': row.value, \'ng-false-value\': row.falseValue}"></label></td><td ng-repeat="column in columns"><label for="{{fieldId}}_{{$parent.$index}}"><span ng-bind-html="getContent(column, row)"></span> <span ng-show="isCurrent(row.value)">{{column.selectedLabel}}</span></label></td></tr><tr ng-if="data.length === 0 && emptyMessage"><td colspan="{{columns.length + 1}}"><span class="msg-warn">{{emptyMessage}}</span></td></tr></table></div>');
+    $templateCache.put('templates/rxFormOptionTable.html', '<div class="form-item"><table class="table-striped option-table" ng-show="data.length > 0 || emptyMessage "><thead><tr><th></th><th ng-repeat="column in columns" scope="col">{{column.label}}</th></tr></thead><tr ng-repeat="row in data" ng-class="{current: isCurrent(row.value), selected: isSelected(row.value, $index)}"><td class="option-table-input" ng-switch="type"><label><input type="radio" ng-switch-when="radio" id="{{fieldId}}_{{$index}}" ng-model="$parent.$parent.model" value="{{row.value}}" name="{{fieldId}}" ng-disabled="isCurrent(row.value)" rx-attributes="{\'ng-required\': required}"> <input type="checkbox" ng-switch-when="checkbox" id="{{fieldId}}_{{$index}}" ng-model="$parent.model[$index]" rx-attributes="{\'ng-true-value\': row.value, \'ng-false-value\': row.falseValue}"></label></td><td ng-repeat="column in columns"><label for="{{fieldId}}_{{$parent.$index}}"><span ng-bind-html="getContent(column, row)"></span> <span ng-show="isCurrent(row.value)">{{column.selectedLabel}}</span></label></td></tr><tr ng-if="data.length === 0 && emptyMessage"><td colspan="{{columns.length + 1}}"><span class="msg-warn">{{emptyMessage}}</span></td></tr></table></div>');
   }
 ]);
 angular.module('templates/rxFormRadio.html', []).run([

@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.12.4 - 2014-07-03
+ * Version: 0.12.5 - 2014-07-10
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -966,10 +966,17 @@ angular.module('encore.ui.rxPermission', ['encore.ui.rxSession']).factory('Permi
       var token = Session.getToken();
       return token && token.access && token.access.user && token.access.user.roles ? token.access.user.roles : [];
     };
-    permissionSvc.hasRole = function (role) {
-      return _.some(permissionSvc.getRoles(), function (item) {
-        return item.name === role;
+    permissionSvc.hasRole = function (roles) {
+      // Replace any spaces surrounded the comma delimeter
+      roles = roles.split(',').map(function (r) {
+        return r.trim();
       });
+      // Get all the role names from the session and retrieve their names
+      var userRoles = _.pluck(this.getRoles(), 'name');
+      // Find the common roles between what's been passed in, and the session
+      var commonRoles = _.intersection(userRoles, roles);
+      // if the common roles list is not empty, then we have the expected roles
+      return !_.isEmpty(commonRoles);
     };
     return permissionSvc;
   }
@@ -983,8 +990,8 @@ angular.module('encore.ui.rxPermission', ['encore.ui.rxSession']).factory('Permi
       '$scope',
       'Permission',
       function ($scope, Permission) {
-        $scope.hasRole = function () {
-          return Permission.hasRole($scope.role);
+        $scope.hasRole = function (roles) {
+          return Permission.hasRole(roles);
         };
       }
     ]
