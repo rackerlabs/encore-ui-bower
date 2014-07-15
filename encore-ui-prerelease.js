@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.12.5 - 2014-07-10
+ * Version: 1.0.0-prerelease - 2014-07-15
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -22,18 +22,13 @@ angular.module('encore.ui', [
   'encore.ui.rxCapitalize',
   'encore.ui.rxCompile',
   'encore.ui.rxDiskSize',
-  'encore.ui.rxDropdown',
   'encore.ui.rxFavicon',
   'encore.ui.rxFeedback',
   'encore.ui.rxForm',
-  'encore.ui.rxLogout',
   'encore.ui.rxModalAction',
-  'encore.ui.rxNav',
   'encore.ui.rxNotify',
   'encore.ui.rxPageTitle',
   'encore.ui.rxPaginate',
-  'encore.ui.rxRelatedMenu',
-  'encore.ui.rxProductResources',
   'encore.ui.rxSessionStorage',
   'encore.ui.rxSortableColumn',
   'encore.ui.rxSpinner',
@@ -665,7 +660,14 @@ angular.module('encore.ui.rxApp', [
       // Remove the title attribute, as it will cause a popup to appear when hovering over page content
       // @see https://github.com/rackerlabs/encore-ui/issues/251
       element.removeAttr('title');
-    }
+    },
+    controller: [
+      '$scope',
+      'rxPageTitle',
+      function ($scope, rxPageTitle) {
+        rxPageTitle.setTitle($scope.title);
+      }
+    ]
   };
 }).directive('rxAppNav', function () {
   return {
@@ -1095,32 +1097,6 @@ angular.module('encore.ui.rxDiskSize', []).filter('rxDiskSize', function () {
     return size / Math.pow(1000, Math.floor(index)).toFixed(1) + ' ' + units[index];
   };
 });
-angular.module('encore.ui.rxDropdown', []).directive('rxDropdown', [
-  '$rootScope',
-  function ($rootScope) {
-    return {
-      restrict: 'E',
-      templateUrl: 'templates/rxDropdown.html',
-      link: function (scope, element) {
-        scope.visible = false;
-        scope.toggle = function ($event) {
-          $event.preventDefault();
-          scope.visible = !scope.visible;
-          $rootScope.$broadcast('dropdownShow', element);
-        };
-        scope.$on('dropdownShow', function (ev, el) {
-          if (el[0] !== element[0]) {
-            scope.visible = false;
-          }
-        });
-      },
-      scope: {
-        visible: '&',
-        menu: '='
-      }
-    };
-  }
-]);
 angular.module('encore.ui.rxFavicon', ['encore.ui.rxEnvironment']).directive('rxFavicon', [
   'Environment',
   '$parse',
@@ -1299,6 +1275,30 @@ angular.module('encore.ui.rxForm', ['ngSanitize']).directive('rxFormItem', funct
       suffix: '@',
       prefix: '@',
       description: '@'
+    },
+    link: function (scope, el) {
+      var inputSelectors = '.field-input input, .field-input select, .field-input texarea';
+      // For accessibility reasons, we need to link the <label> to the <input>
+      // To do this, we use the 'for' and 'id' attributes on the <label> and <input> tags, respectively
+      // Since the field input is dynamically inserted, we don't know its ID (or if it has one)
+      // This code takes care of linking the two
+      var setFieldId = function () {
+        // default to scope's id
+        var fieldId = 'field-' + scope.$id;
+        var inputField = el[0].querySelector(inputSelectors);
+        // make sure an input field is found
+        if (!_.isObject(inputField)) {
+          return;
+        }
+        var inputId = inputField.getAttribute('id');
+        if (_.isString(inputId)) {
+          fieldId = inputId;
+        } else {
+          inputField.setAttribute('id', fieldId);
+        }
+        el[0].querySelector('.field-label').setAttribute('for', fieldId);
+      };
+      setFieldId();
     }
   };
 }).directive('rxFormFieldset', function () {
@@ -1324,7 +1324,7 @@ angular.module('encore.ui.rxForm', ['ngSanitize']).directive('rxFormItem', funct
         type: '@',
         model: '=',
         fieldId: '@',
-        required: '@',
+        required: '=',
         emptyMessage: '@'
       },
       controller: [
@@ -1359,6 +1359,39 @@ angular.module('encore.ui.rxForm', ['ngSanitize']).directive('rxFormItem', funct
             return false;
           };
           /*
+             * checkRequired: Returns true/false to the ng-required attribute for checkboxes.
+             * Returns a true value if required="true" and there is at least one checkbox
+             * checked (based on $scope.values).
+             */
+          $scope.checkRequired = function () {
+            if (_.isBoolean($scope.required)) {
+              return $scope.required && boxesChecked === 0;
+            } else {
+              return false;
+            }
+          };
+          // If we are using checkboxes and the required attribute is set, then we
+          // need an array to store the indexes of checked boxes. ng-required is
+          // specifically set if required is true and the array is empty. 
+          var boxesChecked = 0;
+          _.forEach($scope.model, function (el, index) {
+            if (el === true || $scope.data[index] == el) {
+              boxesChecked += 1;
+            }
+          });
+          /*
+             * Updates $scope.values when a checkbox is clicked.
+             * @param {String|boolean} val - The checkbox value (Boolean, ng-true-value or ng-false-value per row)
+             * @param {Integer} index - Array index of the checkbox element marked true
+             */
+          $scope.updateCheckboxes = function (val, index) {
+            if (val === true || $scope.data[index].value == val) {
+              boxesChecked -= 1;
+            } else {
+              boxesChecked += 1;
+            }
+          };
+          /*
              * Get the value out of a key from the row, or parse an expression
              * @param {String} expr - Key or Angular Expression (or static text) to be compiled
              * @param {Object} row - Data object with data to be used against the expression
@@ -1381,105 +1414,45 @@ angular.module('encore.ui.rxForm', ['ngSanitize']).directive('rxFormItem', funct
       ]
     };
   }
-]).directive('rxFormInput', function () {
-  return {
-    restrict: 'E',
-    templateUrl: 'templates/rxFormInput.html',
-    scope: {
-      type: '@',
-      required: '@',
-      fieldId: '@',
-      model: '=',
-      minLength: '@',
-      maxLength: '@',
-      max: '@',
-      min: '@',
-      name: '@',
-      value: '@',
-      label: '@',
-      suffix: '@',
-      description: '@'
-    }
-  };
-}).directive('rxFormRadio', function () {
-  return {
-    restrict: 'E',
-    templateUrl: 'templates/rxFormRadio.html',
-    scope: {
-      options: '=',
-      fieldId: '@',
-      model: '='
-    }
-  };
-}).directive('rxFormSelect', function () {
-  return {
-    restrict: 'E',
-    templateUrl: 'templates/rxFormSelect.html',
-    scope: {
-      options: '=',
-      fieldId: '@',
-      label: '@',
-      model: '=',
-      required: '@'
-    }
-  };
-});
-angular.module('encore.ui.rxLogout', []).directive('rxLogout', [
-  '$rootScope',
-  '$location',
-  'Auth',
-  function ($rootScope, $location, Auth) {
+]);
+angular.module('encore.ui.rxModalAction', ['ui.bootstrap']).directive('rxModalForm', [
+  '$timeout',
+  function ($timeout) {
     return {
-      restrict: 'A',
-      controller: [
-        '$scope',
-        '$window',
-        function ($scope, $window) {
-          var success = function () {
-            // fire event to notify auth service about logout
-            $rootScope.$broadcast('event:auth-loginRequired');
-          };
-          $scope.logout = function () {
-            Auth.logout(success);
-            if ($location.$$html5) {
-              $window.location = '/login';
-            } else {
-              $window.location = '#/login';
-            }
-          };
-        }
-      ],
+      transclude: true,
+      templateUrl: 'templates/rxModalActionForm.html',
+      restrict: 'E',
+      scope: {
+        title: '@',
+        subtitle: '@',
+        isLoading: '=',
+        submitText: '@',
+        cancelText: '@'
+      },
       link: function (scope, element) {
-        var handleClick = function (ev) {
-          if (ev && ev.preventDefault) {
-            ev.preventDefault();
+        // this function will focus on the first tabbable element inside the form
+        var focusOnFirstTabbable = function () {
+          var autofocusElements = '[autofocus]';
+          var tabbableElements = 'input:not([type="hidden"]), textarea, select';
+          var modalForm = element[0].querySelector('.modal-form');
+          // first check for an element with an autofocus attribute
+          var firstTabbable = modalForm.querySelector(autofocusElements);
+          if (!firstTabbable) {
+            firstTabbable = modalForm.querySelector(tabbableElements);
           }
-          scope.logout();
+          // we need to wait for $modalWindow to run so it doesn't steal focus
+          $timeout(function () {
+            firstTabbable.focus();
+          }, 10);
         };
-        element.bind('click', handleClick);
+        focusOnFirstTabbable();
+        // Remove the title attribute, as it will cause a popup to appear when hovering over page content
+        // @see https://github.com/rackerlabs/encore-ui/issues/256
+        element.removeAttr('title');
       }
     };
   }
-]);
-angular.module('encore.ui.rxModalAction', ['ui.bootstrap']).directive('rxModalForm', function () {
-  return {
-    transclude: true,
-    templateUrl: 'templates/rxModalActionForm.html',
-    restrict: 'E',
-    scope: {
-      title: '@',
-      subtitle: '@',
-      isLoading: '=',
-      submitText: '@',
-      cancelText: '@'
-    },
-    link: function (scope, element) {
-      // Remove the title attribute, as it will cause a popup to appear when hovering over page content
-      // @see https://github.com/rackerlabs/encore-ui/issues/256
-      element.removeAttr('title');
-    }
-  };
-}).controller('rxModalCtrl', [
+]).controller('rxModalCtrl', [
   '$scope',
   '$modalInstance',
   '$rootScope',
@@ -1501,6 +1474,7 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap']).directive('rxModalFo
         controller: 'rxModalCtrl',
         scope: scope
       });
+      config.windowClass = 'rxModal';
       var modal = $modal.open(config);
       return modal;
     };
@@ -1536,55 +1510,6 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap']).directive('rxModalFo
     };
   }
 ]);
-angular.module('encore.ui.rxNav', ['encore.ui.rxDropdown']).directive('rxNav', function () {
-  return {
-    templateUrl: 'templates/rxNav.html',
-    restrict: 'E',
-    scope: {
-      'searchFunction': '&',
-      'placeholderText': '@',
-      'links': '=?',
-      'logo': '=?'
-    },
-    controller: [
-      '$scope',
-      function ($scope) {
-        $scope.bookmarks = {
-          linkText: 'Bookmarks',
-          items: [{
-              title: 'Bookmarks go here!',
-              path: '/'
-            }]
-        };
-        $scope.dashboards = {
-          linkText: 'Dashboards',
-          items: [
-            {
-              title: 'Link 1',
-              path: '/path'
-            },
-            {
-              title: 'Link 2',
-              path: '/path2'
-            },
-            {
-              title: 'Link 3',
-              path: '/path3'
-            }
-          ]
-        };
-        $scope.internalTools = {
-          linkText: 'Internal Tools',
-          items: [{
-              title: 'Ticket Queues',
-              path: '/ticketqueues/',
-              className: ''
-            }]
-        };
-      }
-    ]
-  };
-});
 angular.module('encore.ui.rxNotify', ['ngSanitize']).directive('rxNotification', function () {
   return {
     scope: { type: '@' },
@@ -1986,39 +1911,6 @@ angular.module('encore.ui.rxPaginate', []).directive('rxPaginate', function () {
     };
   }
 ]);
-angular.module('encore.ui.rxRelatedMenu', []).directive('rxRelatedMenu', function () {
-  return {
-    restrict: 'E',
-    replace: true,
-    transclude: true,
-    templateUrl: 'templates/rxRelatedMenu.html',
-    scope: {
-      collapsable: '&',
-      defaultState: '@',
-      trigger: '@',
-      state: '=',
-      position: '@'
-    },
-    link: function (scope) {
-      scope.menuPosition = _.isEmpty(scope.position) ? 'left' : scope.position;
-      scope.state = _.isEmpty(scope.defaultState) ? 'open' : scope.defaultState == 'open';
-      scope.isCollapsable = scope.collapsable();
-      scope.toggleRelatedMenu = function () {
-        scope.state = !scope.state;
-      };
-    }
-  };
-});
-angular.module('encore.ui.rxProductResources', [
-  'encore.ui.rxActiveUrl',
-  'encore.ui.rxRelatedMenu'
-]).directive('rxProductResources', function () {
-  return {
-    restrict: 'E',
-    templateUrl: 'templates/rxProductResources.html',
-    scope: { user: '=' }
-  };
-});
 /*jshint proto:true*/
 angular.module('encore.ui.rxSessionStorage', []).service('SessionStorage', [
   '$window',
