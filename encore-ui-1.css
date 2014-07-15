@@ -425,8 +425,8 @@ th {
 }
 
 /*
- # Common CSS modules
- */
+# Resets for HTML elements
+*/
 html,
 body {
   height: 100%;
@@ -469,16 +469,16 @@ p {
   line-height: 1.2;
 }
 /*
- Global styling for links
+# Link Styles
 
- ```
- <a href="#">My Link</a>
- <a href="#" class=":visited">Visited Link</a>
- <a href="#" class=":hover">Hovered Link</a>
- <a href="#" class=":focus">Focused Link</a>
- <a href="#" class=":active">Active Link</a>
- ```
- */
+```
+<a href="#">My Link</a>
+<a href="#" class=":visited">Visited Link</a>
+<a href="#" class=":hover">Hovered Link</a>
+<a href="#" class=":focus">Focused Link</a>
+<a href="#" class=":active">Active Link</a>
+```
+*/
 a {
   text-decoration: none;
   color: #4682c2;
@@ -488,7 +488,30 @@ a:focus {
   text-decoration: underline;
   color: #3481d4;
 }
-/* Table Styles */
+/*
+# Table Styles
+
+```
+<table class="table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Occupation</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Patrick Deuley</td>
+            <td>Design Chaplain</td>
+        </tr>
+        <tr>
+            <td>Hussam Dawood</td>
+            <td>Evangelist of Roger Enriquez</td>
+        </tr>
+    </tbody>
+</table>
+```
+*/
 table {
   clear: both;
   width: 100%;
@@ -498,8 +521,8 @@ table {
 }
 table td,
 table th {
-  border: 1px solid #e6e6e5;
-  padding: 10px;
+  border: 1px solid #e1e0df;
+  padding: 5px 10px;
   color: #555555;
 }
 table thead th {
@@ -508,91 +531,75 @@ table thead th {
   color: #ffffff;
   border: 1px solid #6e6e6e;
 }
-.table-striped tr:nth-child(even) {
-  background: #f6f6f6;
-}
-/*
- Global styling for buttons
-
- ```
- <button class="button">My Button</button>
- <button class="button button-small">My Button</button>
- <button class="button button-large">My Button</button>
- <button class="button button-green">My Button</button>
- <button class="button button-blue">My Button</button>
- <button class="button" disabled>My Button</button>
- <a href="#" class="button">My Link Button</a>
- ```
- */
-.button {
-  display: inline-block;
-  background: #0950a3;
-  color: #ffffff;
-  border: 0;
-  font-size: 1.2em;
-  font-weight: 100;
-  padding: .7em 1.5em;
-  margin-bottom: 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-.button:hover,
-.button:focus {
-  text-decoration: none;
-  color: #ffffff;
-  background: #00ac31;
-  cursor: pointer;
-}
-.button.button-tiny {
-  padding: 3px 7px;
-  margin-bottom: 5px;
-  cursor: pointer;
-  font-size: .7em;
-}
-.button.button-small {
-  padding: 5px 10px;
-  margin-bottom: 10px;
-  font-size: .8em;
-}
-.button.button-large {
-  font-size: 1.5em;
-}
-.button.button-green {
-  background: #00ac31;
-}
-.button.button-blue {
-  background: #0950a3;
-}
-.button[disabled] {
-  cursor: default;
-  padding-left: 20px;
-  background: #999999;
-}
-/* Style to make buttons look like plain links */
-.btn-link {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  font-size: inherit;
-}
-thead th .btn-link {
-  color: #ffffff;
-}
-thead th .btn-link:hover,
-thead th .btn-link:focus {
-  color: #ffffff;
+table.table-striped tr:nth-child(even) {
+  background: #f2f2f2;
 }
 /*
 
-## Link statuses
+# Heading/Title Styles
 
-Colors the text red to warn people that something important will/did happen (plus icons)
+Headings are sized using 'xl', 'lg', 'sm' and 'xs'
+
+The size of the heading is not impacted by the heading level used (e.g. `<h1>`, `<h2>`).
+This is done to ensure that the heading levels are sequential.
+
+See https://github.com/rackerlabs/encore-ui/blob/master/guides/css-styleguide.md#basic-rules for further reasoning
 
 ```
-<a href="#" class="msg-warn link-warn">Delete</a>
-<span class="msg-warn">Something was deleted</span>
+<h1 class="xl title">Huge Header</h1>
+
+<h1 class="lg title">Large Header</h1>
+<h2 class="lg title subdued">Large Gray Header</h2>
+
+<h1 class="title">Regular Header</h1>
+
+<h2 class="sm title">Small Header</h2>
+<h3 class="sm title subdued">Small Gray Header</h3>
+
+<div class="xs title">Tiny Header</div>
+```
+ */
+.title {
+  font-size: 18px;
+  margin: 1em 0;
+}
+.title + .title {
+  margin-top: 0;
+}
+.title.xl {
+  font-size: 28px;
+}
+.title.lg {
+  font-size: 22px;
+}
+.title.sm {
+  font-size: 16px;
+}
+.title.xs {
+  font-size: 13px;
+}
+.title.subdued {
+  color: #989998;
+}
+/*
+
+# Statuses
+
+Styles text to provide a clearer status regarding a simple message.
+
+```
+<h1 class="title">Action Links (Horizontal)</h1>
+<p>
+    <a href="#" class="msg-action link-action">Create</a>
+    <span class="action-separator">\</span>
+    <a href="#" class="msg-warn link-warn">Delete</a>
+</p>
+
+<h1 class="title">Messages</h1>
+<p class="msg-action">Something was created</p>
+<p class="msg-warn">Something was deleted</p>
+<p class="msg-info">Informational Message</p>
+<p class="msg-info-blue">Blue Informational Message</p>
 ```
 */
 .link-action,
@@ -609,6 +616,10 @@ Colors the text red to warn people that something important will/did happen (plu
 .link-warn:before,
 .link-warn a:before {
   content: '- ';
+}
+.action-separator {
+  font-size: 1.1em;
+  color: #bbbbbb;
 }
 .msg-action,
 .msg-action a {
@@ -650,35 +661,111 @@ Colors the text red to warn people that something important will/did happen (plu
 .msg-info-blue a:focus {
   color: #327fd5;
 }
-.list-link,
-.list-link a {
-  font-size: 1.2em;
-  padding-top: 10px;
-  display: block;
+/*
+# Lists
+
+Add bullets/decimals to lists with the 'list' class
+
+### Decimals
+```
+<ol class="list">
+    <li>Item 1</li>
+    <li>Item 2</li>
+    <li>Item 3</li>
+</ol>
+```
+
+### Bullets
+```
+<ul class="list">
+    <li>Item 1</li>
+    <li>Item 2</li>
+    <li>Item 3</li>
+</ul>
+```
+
+### Non-semantic lists
+```
+<div class="list bulleted">
+    <p class="item">Item 1</p>
+    <p class="item">Item 2</p>
+    <p class="item">Item 3</p>
+</div>
+
+<div class="list decimal">
+    <p class="item">Item 1</p>
+    <p class="item">Item 2</p>
+    <p class="item">Item 3</p>
+</div>
+```
+ */
+.list li,
+.list .item {
+  display: list-item;
+  margin: 5px 0 0 30px;
 }
-.action-separator {
-  font-size: 1.1em;
-  color: #ccc;
+ul.list li,
+.list.bulleted li,
+ul.list .item,
+.list.bulleted .item {
+  list-style: disc;
+}
+ol.list li,
+.list.decimal li,
+ol.list .item,
+.list.decimal .item {
+  list-style: decimal;
 }
 /*
+# Wells
+
+Creates a 'well' effect (box with light gray background)
+```
+<div class="well">
+    <p>Well, here you go.</p>
+</div>
+```
+*/
+.well {
+  background: #eee;
+  padding: 40px 50px;
+}
+.well p {
+  line-height: 1.5em;
+  color: #727272;
+}
+/*
+## Subdued Text
 Basic color change to make text less prominant
+
 ```
 <h1>My Items <span class="subdued">(10)</span></h1>
+<h1><a href="#">My Items <span class="subdued">(10)</span></a></h1>
 ```
  */
 .subdued {
   color: #bbbbbb;
 }
+a.subdued:hover,
+a.subdued:focus,
+a:hover .subdued,
+a:focus .subdued {
+  color: #959595;
+}
 /*
-This can be added to hide an element but not remove it from the spacing of the page
+## Hidden content
+
+### .hidden
+Add to hide an element but not remove it from the spacing of the page
 */
 .hidden {
   visibility: hidden;
 }
 /*
- * Hide content visually but let them still be read by screen readers
- * @see http://developer.yahoo.com/blogs/ydn/clip-hidden-content-better-accessibility-53456.html
- */
+### .visually-hidden
+Used to hide content visually but let them still be read by screen readers (removed from the page spacing)
+See http://developer.yahoo.com/blogs/ydn/clip-hidden-content-better-accessibility-53456.html
+*/
 .visually-hidden {
   position: absolute !important;
   clip: rect(1px, 1px, 1px, 1px);
@@ -694,9 +781,24 @@ body:hover .visually-hidden button {
   display: none;
 }
 /*
- * Provide clearfix functionality
- * @see http://nicolasgallagher.com/micro-clearfix-hack/
- */
+## Clearing Floats
+
+### Clearfix
+Provide clearfix functionality
+See http://nicolasgallagher.com/micro-clearfix-hack/
+
+```
+<h1 class="title lg">No Clearfix</h1>
+<div style="background: #ddd; padding: 1em;">
+    <div style="float: left; background: #eee; padding: 1em;">Floated Content</div>
+</div>
+
+<h1 class="title lg clear">With Clearfix</h1>
+<div class="clearfix" style="background: #ddd; padding: 1em;">
+    <div style="float: left; background: #eee; padding: 1em;">Floated Content</div>
+</div>
+```
+*/
 .clearfix:before,
 .clearfix:after {
   content: " ";
@@ -708,8 +810,31 @@ body:hover .visually-hidden button {
   clear: both;
 }
 /*
- * Simple non-semantic classes to help with clearing previous sibling floats
- */
+### Clearing siblings
+
+Simple classes to help with clearing previous sibling floats
+
+```
+
+<div class="clearfix padding: 1em;">
+    <div style="float: left;">Floated</div>
+    <div class="clear-right">Uncleared (wrong side)</div>
+    <div class="clear-left">Cleared</div>
+
+    <hr>
+
+    <div style="float: right;">Floated</div>
+    <div class="clear-left">Uncleared (wrong side)</div>
+    <div class="clear-right">Cleared</div>
+
+    <hr>
+
+    <div style="float: right;">Floated</div>
+    <div style="float: left;">Floated</div>
+    <div class="clear">Both cleared</div>
+</div>
+```
+*/
 .clear {
   clear: both;
 }
@@ -718,25 +843,6 @@ body:hover .visually-hidden button {
 }
 .clear-right {
   clear: right;
-}
-/*
-
-## Wells
-
-Creates a 'well' effect (box with light gray background)
-```
-<div class="well">
-<p>Well, here you go.</p>
-</div>
-```
- */
-.well {
-  background-color: #eee;
-  padding: 40px 50px;
-}
-.well p {
-  line-height: 1.5em;
-  color: #727272;
 }
 
 /*
@@ -1187,20 +1293,11 @@ For apps that want to use the default Encore navigation, use the following HTML 
 .rx-app .page-body .page-titles {
   float: left;
 }
-.rx-app .page-body .page-title,
-.rx-app .page-body .section-title {
-  font-weight: 400;
-  font-size: 1.6em;
-  color: #727272;
+.rx-app .page-body .page-titles .page-title {
+  margin: 0;
 }
-.rx-app .page-body .section-title {
-  margin: 1em 0 .25em;
-}
-.rx-app .page-body .page-subtitle {
-  font-weight: 500;
-  margin: 0 0 10px;
-  font-size: 1em;
-  color: #aaa;
+.rx-app .page-body .page-titles .page-subtitle {
+  margin-top: 0;
 }
 .rx-app .page-body .page-actions {
   float: right;
@@ -1292,33 +1389,99 @@ They show your position within the site heirarchy.
 }
 
 /*
-# rxButton
+# Common button styles
+
+Buttons are sized using 'xl', 'lg', 'sm' and 'xs'
+
+ ```
+ <button class="button xl">Extra-large Button</button>
+ <button class="button lg">Large Button</button>
+ <button class="button">Default Button</button>
+ <button class="button sm">Small Button</button>
+ <button class="button xs">Tiny Button</button>
+ <button class="button positive">"Positive" Button</button>
+ <button class="button negative">"Negative" Button</button>
+ <button class="button" disabled>Disabled Button</button>
+ <a href="#" class="button">My Link Button</a>
+ ```
+ */
+.button {
+  display: inline-block;
+  background: #427fc4;
+  color: #ffffff;
+  border: 0;
+  font-size: 1.1em;
+  font-weight: 200;
+  padding: 7px 13px;
+  margin-bottom: 10px;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  /*
+# Spinner styles
 
 ```
-<button type="submit" class="button primary rx-button">
-    I'm a button!
-</button>
-
-<button type="submit" class="button primary rx-button">
-    With a spinner!
+<button class="button">
+    I have a spinner
     <div class="spinner">
         <i class="pos1"></i>
         <i class="pos2"></i>
         <i class="pos3"></i>
     </div>
 </button>
-
 ```
 */
-button.rx-button .spinner {
+}
+.button:hover,
+.button:focus {
+  background: #6999d0;
+  cursor: pointer;
+  color: #ffffff;
+  text-decoration: none;
+}
+.button.xl {
+  font-size: 1.25em;
+  padding: 20px 30px;
+}
+.button.lg {
+  font-size: 1.15em;
+  padding: 15px 26px;
+}
+.button.sm {
+  padding: 5px 10px;
+  font-size: 1em;
+}
+.button.xs {
+  padding: 3px 7px;
+  margin-bottom: 5px;
+  font-size: .9em;
+}
+.button[disabled] {
+  cursor: not-allowed;
+  color: #f0efef;
+  background: #cfd2d4;
+}
+.button.positive {
+  background: #16b667;
+}
+.button.positive:hover,
+.button.positive:focus {
+  background: #19d176;
+}
+.button.negative {
+  background: #cc0000;
+}
+.button.negative:hover,
+.button.negative:focus {
+  background: #ff0000;
+}
+.button .spinner {
   display: inline-block;
   position: relative;
-  left: 8px;
+  left: 3px;
 }
-button.rx-button .spinner > i {
+.button .spinner i {
   width: 5px;
   height: 5px;
-  background-color: #ffffff;
+  background: #ffffff;
   border-radius: 100%;
   display: inline-block;
   -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
@@ -1327,11 +1490,11 @@ button.rx-button .spinner > i {
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
 }
-button.rx-button .spinner > i.pos1 {
+.button .spinner i.pos1 {
   -webkit-animation-delay: -0.32s;
   animation-delay: -0.32s;
 }
-button.rx-button .spinner > i.pos2 {
+.button .spinner i.pos2 {
   -webkit-animation-delay: -0.16s;
   animation-delay: -0.16s;
 }
@@ -1357,194 +1520,31 @@ button.rx-button .spinner > i.pos2 {
     -webkit-transform: scale(1);
   }
 }
+/*
+# Make buttons look like plain links
 
-ol.nav-dropdown.group::before {
-  border-color: #343434 transparent;
-  border-style: solid;
-  border-width: 0 10px 10px;
-  content: "";
-  display: block;
-  left: 65px;
-  position: absolute;
-  top: -9px;
-  width: 0;
-  z-index: 1;
+```
+<button class="btn-link">Link</button>
+```
+*/
+.btn-link {
+  color: #4682c2;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: inherit;
 }
-ol.nav-dropdown.group {
-  position: relative;
-  border-radius: 5px;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+.btn-link:hover,
+.btn-link:focus {
+  text-decoration: underline;
 }
-ol.nav-dropdown.group li {
-  background-color: #343434;
-  border-top: 1px solid #464646;
-  border-bottom: 1px solid #282828;
-  width: 150px;
-}
-ol.nav-dropdown.group > li:first-child,
-ol.nav-dropdown.group > li:first-child a:hover {
-  border-radius: 4px 4px 0 0;
-}
-ol.nav-dropdown.group > li:last-child,
-ol.nav-dropdown.group > li:last-child a:hover {
-  border-radius: 0px 0px 4px 4px;
-}
-ol.nav-dropdown.group li a {
-  color: #acacac;
-  padding: 10px;
-  display: block;
-  text-decoration: none;
-}
-ol.nav-dropdown.group li a:hover {
-  background-color: #484848;
-  color: #fff;
-}
-ol.nav-dropdown.group li a .caret:before {
-  content: ' ';
-  height: 0;
-  position: absolute;
-  width: 0;
-  right: 5px;
-  border: 6px solid transparent;
-  border-left-color: #5f5f5f;
-}
-ol.nav-dropdown.group li a:hover .caret:before {
-  border-left-color: #9c9b9a;
-}
-.nav-dropdown {
-  /* Dropdown arrow */
-}
-.nav-dropdown .dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 20000;
-  display: none;
-  float: left;
-  margin: 2px 0 0;
-  list-style: none;
-  background-color: #ffffff;
-  border: 1px solid #ccc;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  *border-right-width: 2px;
-  *border-bottom-width: 2px;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  -webkit-background-clip: padding-box;
-  -moz-background-clip: padding;
-  background-clip: padding-box;
-}
-.nav-dropdown .dropdown-menu.pull-right {
-  right: 0;
-  left: auto;
-}
-.nav-dropdown .dropdown-menu .divider {
-  *width: 100%;
-  height: 1px;
-  margin: 9px 1px;
-  *margin: -5px 0 5px;
-  overflow: hidden;
-  background-color: #e5e5e5;
-  border-bottom: 1px solid #ffffff;
-}
-.nav-dropdown .dropdown-menu > li > a {
-  display: block;
-  padding: 3px 20px;
-  clear: both;
-  font-weight: normal;
-  line-height: 20px;
-  color: #333333;
-  white-space: nowrap;
-}
-.nav-dropdown .dropdown-menu > li > a:hover,
-.nav-dropdown .dropdown-menu > li > a:focus,
-.nav-dropdown .dropdown-submenu:hover > a,
-.nav-dropdown .dropdown-submenu:focus > a {
-  text-decoration: none;
+thead th .btn-link {
   color: #ffffff;
-  background-color: #484748;
 }
-.nav-dropdown .dropdown-menu > .active > a,
-.nav-dropdown .dropdown-menu > .active > a:hover,
-.nav-dropdown .dropdown-menu > .active > a:focus {
+thead th .btn-link:hover,
+thead th .btn-link:focus {
   color: #ffffff;
-  text-decoration: none;
-  outline: 0;
-  background-color: #484748;
-}
-.nav-dropdown .dropdown-menu > .disabled > a,
-.nav-dropdown .dropdown-menu > .disabled > a:hover,
-.nav-dropdown .dropdown-menu > .disabled > a:focus {
-  color: #999999;
-}
-.nav-dropdown .dropdown-menu > .disabled > a:hover,
-.nav-dropdown .dropdown-menu > .disabled > a:focus {
-  text-decoration: none;
-  background-color: transparent;
-  background-image: none;
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-  cursor: default;
-}
-.nav-dropdown .dropdown-submenu {
-  position: relative;
-}
-.nav-dropdown .dropdown-submenu > .dropdown-menu {
-  top: 0;
-  left: 100%;
-  margin-top: -6px;
-  margin-left: -1px;
-  -webkit-border-radius: 0 6px 6px 6px;
-  -moz-border-radius: 0 6px 6px 6px;
-  border-radius: 0 6px 6px 6px;
-}
-.nav-dropdown .dropdown-submenu:hover > .dropdown-menu {
-  display: block;
-}
-.nav-dropdown .dropup .dropdown-submenu > .dropdown-menu {
-  top: auto;
-  bottom: 0;
-  margin-top: 0;
-  margin-bottom: -2px;
-  -webkit-border-radius: 5px 5px 5px 0;
-  -moz-border-radius: 5px 5px 5px 0;
-  border-radius: 5px 5px 5px 0;
-}
-.nav-dropdown .dropdown-submenu > a:after {
-  display: block;
-  content: " ";
-  float: right;
-  width: 0;
-  height: 0;
-  border-color: transparent;
-  border-style: solid;
-  border-width: 5px 0 5px 5px;
-  border-left-color: #5f5f60;
-  margin-top: 2px;
-  margin-right: 0px;
-}
-.nav-dropdown .dropdown-submenu:hover > a:after {
-  border-left-color: #9c9b9a;
-}
-.nav-dropdown .dropdown-submenu.pull-left {
-  float: none;
-}
-.nav-dropdown .dropdown-submenu.pull-left > .dropdown-menu {
-  left: -100%;
-  margin-left: 10px;
-  -webkit-border-radius: 6px 0 6px 6px;
-  -moz-border-radius: 6px 0 6px 6px;
-  border-radius: 6px 0 6px 6px;
-}
-.nav-dropdown .dropdown-submenu > .dropdown-menu > li > a {
-  background-color: #484848;
-}
-ol.nav-dropdown.group .dropdown-submenu > .dropdown-menu > li a:hover {
-  background-color: #5d5d5d;
-  color: #fff;
 }
 
 /*
@@ -1568,11 +1568,39 @@ ol.nav-dropdown.group .dropdown-submenu > .dropdown-menu > li a:hover {
 /*
  # rxForm
  */
+/*
+## Form Fields
+
+field-prefix, field-suffix and field-description are all optional.
+
+```
+<div class="form-item">
+    <label>
+        <span class="field-label">
+            Monthly Cost:
+        </span>
+
+        <span class="field-prefix">$</span>
+
+        <span class="field-input">
+            <!-- Form input will be added here -->
+        </span>
+
+        <span class="field-suffix">Million</span>
+
+        <span class="field-description">Any description goes here</span>
+    </label>
+</div>
+```
+ */
 .rx-form {
   margin: 15px 0 0;
 }
 .form-item {
   margin-top: 5px;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: baseline;
 }
 .form-description,
 .form-item {
@@ -1580,38 +1608,55 @@ ol.nav-dropdown.group .dropdown-submenu > .dropdown-menu > li a:hover {
 }
 .field-label,
 .field-legend {
-  width: 100px;
-  text-align: left;
-  float: left;
-  color: #727272;
+  color: #989998;
+  font-size: 1.1em;
+  flex: 0 0 100px;
+}
+.field-content {
+  display: flex;
+  flex: 1 auto;
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+.field-content .field-prefix,
+.field-content .field-suffix {
+  font-size: 1.2em;
+}
+.field-content .field-prefix {
+  margin-right: 5px;
+}
+.field-content .field-suffix {
+  margin-left: 5px;
+}
+.field-content .field-description {
+  flex: 1 100%;
+  font-size: 0.8em;
+  font-style: italic;
+  margin-top: 5px;
 }
 /*
 ## Input fields
 
-field-prefix, field-suffix and field-description are optional.
+Any input field can be placed inside an element with a class of 'field-input'.
 
 ```
-<div class="form-item">
-    <label>
-        <span class="field-label">
-            Display Name:
-        </span>
-
-        <span class="field-prefix">$</span>
-
-        <!-- Form input will be added here -->
-        <span class="field-input">
-            <input type="text"/>
-        </span>
-
-        <span class="field-suffix">GB</span>
-
-        <span class="field-description">Any description goes here</span>
-    </label>
-</div>
+<span class="field-input">
+    <input type="text"/>
+</span>
 ```
 
+```
+<span class="field-input">
+    <input type="checkbox"/>
+</span>
+```
+ */
+.field-input {
+  /*
 ## Dropdowns
+Replace default UI of select fields and adds custom border/arrow
 
 ```
 <div class="form-item">
@@ -1638,38 +1683,32 @@ field-prefix, field-suffix and field-description are optional.
     </label>
 </div>
 ```
-
-## Submit buttons
-
-```
-<button class="submit form-action" type="submit" disabled="disabled">
-    Submit Form (Disabled)
-</button>
-
-<button class="submit form-action" type="submit">
-    Submit Form
-</button>
-
-```
-
- */
-.field-input {
-  position: relative;
-  top: -5px;
+*/
 }
 .field-input input,
 .field-input select {
-  color: #444444;
-  background: transparent;
+  color: #404040;
   font-size: 1.2em;
-  border: 0;
-  border-bottom: 1px solid #e6e6e5;
-  padding: 3px 5px;
-  margin: 0;
-  max-width: 65%;
+  border-radius: 0;
+}
+.field-input input.ng-valid.ng-dirty,
+.field-input select.ng-valid.ng-dirty {
+  border-color: #00afec;
+}
+.field-input input.ng-invalid.ng-dirty,
+.field-input select.ng-invalid.ng-dirty {
+  border-color: #ff2400;
+}
+.field-input input,
+.field-input .field-select {
+  background: #ffffff;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 .field-input input {
-  width: 394px;
+  width: 250px;
+  border: 1px solid #cccccc;
+  padding: 3px 5px;
 }
 .field-input input[type="number"] {
   width: 150px;
@@ -1677,15 +1716,24 @@ field-prefix, field-suffix and field-description are optional.
 .field-input input[type="radio"],
 .field-input input[type="checkbox"] {
   width: auto;
+  max-width: none;
+  font-size: 1em;
   vertical-align: middle;
 }
 .field-input .field-select {
-  width: 221px;
+  display: inline-block;
   position: relative;
+  width: 250px;
 }
 .field-input .field-select select {
-  width: 221px;
+  width: 100%;
+  background: transparent;
   -webkit-appearance: none;
+  -moz-appearance: window;
+  position: relative;
+  z-index: 2;
+  border: 1px solid #cccccc;
+  padding: 3px 5px;
 }
 .field-input .field-select:before {
   content: ".";
@@ -1695,11 +1743,22 @@ field-prefix, field-suffix and field-description are optional.
   display: block;
   position: absolute;
   border: 7px solid transparent;
-  border-top-color: #e6e6e5;
+  border-top-color: #cccccc;
   border-bottom: none;
   top: 50%;
   margin-top: -4px;
   right: 9px;
+}
+/*
+ * @bugfix Because of '-moz-appearance: window', the border/padding is removed from the select box.
+ * This adds it back
+ * @see http://stackoverflow.com/questions/5912791/how-to-remove-the-arrow-from-a-select-tag-in-firefox
+ */
+@-moz-document url-prefix() {
+  .field-select {
+    border: 1px solid #cccccc;
+    padding: 3px 5px;
+  }
 }
 /*
  * @bugfix Input field is marked as invalid before a user has done anything on form
@@ -1708,25 +1767,6 @@ field-prefix, field-suffix and field-description are optional.
  */
 .ng-pristine .field-input .ng-invalid-required {
   box-shadow: none;
-}
-.field-prefix,
-.field-suffix {
-  font-size: 1.2em;
-  color: #727272;
-}
-.field-prefix {
-  margin: -5px 5px 0 0;
-}
-.field-suffix {
-  margin-left: 5px;
-}
-.field-description {
-  color: #727272;
-  font-size: 0.8em;
-  font-style: italic;
-  display: block;
-  color: #444;
-  margin: 5px 0 0 100px;
 }
 .option-table {
   width: auto;
@@ -1737,7 +1777,7 @@ field-prefix, field-suffix and field-description are optional.
 }
 .option-table label {
   display: block;
-  padding: 10px;
+  padding: 5px 10px;
   cursor: pointer;
 }
 .option-table .option-table-input {
@@ -1748,19 +1788,29 @@ field-prefix, field-suffix and field-description are optional.
   color: #3AB661;
 }
 .option-table .selected td {
-  background: #c5e3c7;
+  background: #c6e4c8;
   border-color: #bad4bb;
   border-style: double;
-}
-.rx-form-fieldset .field-input {
-  top: 0;
 }
 .rx-form-fieldset .option-table {
   min-width: 100%;
 }
-.rx-form-fieldset .form-item {
-  margin-top: 0;
-}
+/*
+## Submit buttons
+
+```
+<div class="form-actions">
+    <button class="submit form-action" type="submit" disabled="disabled">
+        Submit Form (Disabled)
+    </button>
+
+    <button class="submit form-action" type="submit">
+        Submit Form
+    </button>
+</div>
+
+```
+*/
 .form-actions {
   padding: 20px 0;
 }
@@ -1769,7 +1819,6 @@ field-prefix, field-suffix and field-description are optional.
   margin: 0;
   padding: 0;
   border: 0;
-  font-size: inherit;
   cursor: pointer;
   font-size: 1.2em;
 }
@@ -1874,7 +1923,7 @@ field-prefix, field-suffix and field-description are optional.
   line-height: 1.5;
   font-size: 1em;
   font-wieght: bold;
-  color: #727272;
+  color: #989998;
   margin: 0;
 }
 .modal-header .modal-close {
@@ -1902,15 +1951,11 @@ field-prefix, field-suffix and field-description are optional.
   position: relative;
   overflow-y: auto;
   max-height: 400px;
-  padding: 30px;
+  padding: 50px 30px;
 }
 .modal-body .loading {
   margin: 0 auto;
   width: 1em;
-}
-.modal-body ol li {
-  list-style: decimal;
-  margin: 5px 0 0 30px;
 }
 .modal-body .form-radio {
   border: 0;
@@ -1933,109 +1978,6 @@ field-prefix, field-suffix and field-description are optional.
     padding: 10px;
     margin: -10px;
   }
-}
-
-/*
-FlexBox Columns
-*/
-/*
-Navigation
-
-Styles for header navigation used globally across Encore
-
-```
-<header class="site-header">
-  <h1 class="logo">Encore</h1>
-</header>
-```
-*/
-.site-header {
-  background-color: #0950a3;
-  min-height: 62px;
-  position: relative;
-  z-index: 5;
-  -webkit-box-flex: 0 1 auto;
-  -moz-box-flex: 0 1 auto;
-  -webkit-flex: 0 1 auto;
-  -ms-flex: 0 1 auto;
-  flex: 0 1 auto;
-}
-.site-header .logo {
-  font-family: Roboto;
-  font-size: 1.15em;
-  font-weight: 600;
-  line-height: 4em;
-  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.25);
-  float: left;
-  padding-left: 1em;
-  padding-right: 1em;
-  margin: 0;
-  text-indent: 25px;
-  background: url('images/encore-rocket-16x16.png') no-repeat 1em 50%;
-}
-.site-header .logo a {
-  color: #fff;
-}
-.site-header .nav-item {
-  float: left;
-}
-.site-header .nav-link {
-  line-height: 4em;
-  padding: 1em 0.75em;
-  color: #8bb9e3;
-  text-decoration: none;
-  font-family: Roboto;
-  font-size: 1.15em;
-  font-weight: 300;
-  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.25);
-}
-.site-header .nav-link:hover {
-  color: #fff;
-}
-.site-header .main-nav {
-  float: left;
-}
-.main-nav .nav-link .caret {
-  margin-top: 29px;
-  display: inline-block;
-  width: 0;
-  height: 0;
-  vertical-align: top;
-  border-top: 4px solid #5083c4;
-  border-right: 4px solid transparent;
-  border-left: 4px solid transparent;
-  content: "";
-}
-.main-nav .nav-link:hover .caret {
-  border-top: 4px solid #fff;
-}
-.main-nav .nav-item .nav-dropdown {
-  position: absolute;
-  z-index: 3;
-  background: #fff;
-}
-.site-header .user-nav {
-  float: right;
-  padding: 0.5em 0.75em;
-  font-size: 0.8em;
-}
-.sub-header {
-  clear: both;
-  min-height: 29px;
-  background: -webkit-linear-gradient(top, #e7e7e6 0%, #d6d6d6 100%);
-  background: -moz-linear-gradient(top, #e7e7e7 0%, #d6d6d6 100%);
-  /* FF3.6+ */
-  background: linear-gradient(to bottom, #e7e7e7 0%, #d6d6d6 100%);
-  /* W3C */
-}
-.sub-header .bookmark {
-  color: #555555;
-  display: block;
-  float: right;
-  font-size: 0.9em;
-  padding: 0.5em 1.5em 0.7em 2em;
-  text-decoration: none;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 /*
@@ -2277,185 +2219,6 @@ Add the class `disabled` to classes `pagination-first`, `pagination-prev`, `pagi
   font-size: 12px;
 }
 
-.product-resources > li {
-  border-top: 1px solid #727272;
-}
-.product-resources > li:first-child {
-  border-top: 0;
-}
-.product-resources > li.selected {
-  background-color: #393939;
-  position: relative;
-  /*
-         'Right' pointing arrow next to product
-         */
-}
-.product-resources > li.selected::after {
-  content: "";
-  position: absolute;
-  top: 2em;
-  right: -0.7em;
-  margin-top: -1.95em;
-  border: 1.95em solid transparent;
-  border-left: 0.7em solid #393939;
-  border-right: none;
-  z-index: 2;
-}
-.product-resources > li.selected .sub-products {
-  display: block;
-}
-.product-resources > li a {
-  display: block;
-  background: no-repeat 20px center;
-  padding: 10px 0 10px 60px;
-  color: #ffffff;
-  font-weight: 300;
-  font-size: 1.25em;
-  text-decoration: none;
-}
-.product-resources > li a.ico-servers {
-  display: block;
-  background-image: url('images/icon-servers.png');
-  min-height: 30px;
-}
-.product-resources > li a.ico-block-storage {
-  display: block;
-  background-image: url('images/icon-block-storage.png');
-  min-height: 30px;
-}
-.product-resources > li a.ico-databases {
-  display: block;
-  background-image: url('images/icon-databases.png');
-  min-height: 30px;
-}
-.product-resources > li a > span {
-  display: block;
-  color: #bebebe;
-  font-size: 0.65em;
-  margin: 2px 0;
-}
-.product-resources > li .sub-products {
-  display: none;
-}
-.product-resources > li .sub-products li {
-  background: #2c2c2c;
-}
-.product-resources > li .sub-products li.selected a {
-  color: #ffffff;
-  background: #343434;
-}
-.product-resources > li .sub-products a {
-  font-size: 1em;
-  color: #bebebe;
-  padding-left: 80px;
-}
-.product-resources > li .sub-products a:hover,
-.product-resources > li .sub-products a:focus {
-  color: #ffffff;
-}
-
-/*
-FlexBox Columns
-*/
-.related-menu {
-  -webkit-transition: width 0.5s ease-in;
-  -moz-transition: width 0.5s ease-in;
-  -o-transition: width 0.5s ease-in;
-  transition: width 0.5s ease-in;
-  width: 0px;
-  overflow: visible;
-  background: #4d4d4d;
-  z-index: 0;
-}
-.related-menu.menu-shown {
-  width: 266px;
-  -webkit-box-flex: 0 1 auto;
-  -moz-box-flex: 0 1 auto;
-  -webkit-flex: 0 1 auto;
-  -ms-flex: 0 1 auto;
-  flex: 0 1 auto;
-}
-.related-menu .menu-content {
-  visibility: hidden;
-  -webkit-transition: visibility 0.25s 0.25s ease-in;
-  -moz-transition: visibility 0.25s 0.25s ease-in;
-  -o-transition: visibility 0.25s 0.25s ease-in;
-  transition: visibility 0.25s 0.25s ease-in;
-  overflow: hidden;
-}
-.related-menu.collapsable .menu-content {
-  margin-top: -27px;
-}
-.related-menu.menu-shown .menu-content {
-  display: block;
-  visibility: visible;
-  overflow: visible;
-  width: 100%;
-}
-.related-menu.menu-right {
-  -webkit-box-order: 1;
-  -mox-box-order: 1;
-  -webkit-flex-order: 1;
-  order: 1;
-}
-.related-menu h5,
-.related-menu .small-header {
-  background: #000;
-  color: #fff;
-  font-size: 90%;
-  padding: 8px 20px;
-  font-weight: 400;
-}
-.related-menu h4,
-.related-menu .large-header {
-  color: #fff;
-  font-weight: 100;
-  font-size: 1.8em;
-  padding: 20px 0;
-  margin: 0 20px 0 20px;
-}
-.related-menu .menu-toggle {
-  position: relative;
-  display: inline-block;
-  top: 10px;
-  height: 25px;
-  width: 25px;
-  z-index: 10px;
-  border: 1px solid #4d4d4d;
-  background-color: #4d4d4d;
-  line-height: 24px;
-  text-align: center;
-  font-size: 12pt;
-  color: #FFF;
-  cursor: pointer;
-}
-.related-menu.menu-left .menu-toggle {
-  left: 0px;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-  -webkit-transition: left 0.5s ease-in;
-  -moz-transition: left 0.5s ease-in;
-  -o-transition: left 0.5s ease-in;
-  transition: left 0.5s ease-in;
-}
-.related-menu.menu-right .menu-toggle {
-  right: 27px;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-  -webkit-transition: right 0.5s ease-in;
-  -moz-transition: right 0.5s ease-in;
-  -o-transition: right 0.5s ease-in;
-  transition: right 0.5s ease-in;
-}
-.related-menu.menu-shown.menu-left .menu-toggle {
-  left: 266px;
-  border-left: 0px;
-}
-.related-menu.menu-shown.menu-right .menu-toggle {
-  right: 26px;
-  border-right: 0px;
-}
-
 /*
  * rxSortableColumn
  */
@@ -2578,6 +2341,86 @@ FlexBox Columns
   }
 }
 
+/*
+
+# Angular-UI Tabs
+
+Provides styling for the Angular-UI tab HTML
+
+```
+<div class="tabbable">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a>Bacon Ipsum</a>
+        </li>
+        <li>
+            <a>Veggie Ipsum</a>
+        </li>
+        <li>
+            <a>Cat Ipsum</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active">
+            <p>First Tab Content. Bacon ipsum dolor sit amet salami jowl corned beef, andouille flank tongue ball tip kielbasa pastrami tri-tip meatloaf short loin beef biltong. Cow bresaola ground round strip steak fatback meatball shoulder leberkas pastrami sausage corned beef t-bone pork belly drumstick.</p>
+        </div>
+        <div class="tab-pane">
+            <p>Second tab content. Veggies sunt bona vobis, proinde vos postulo esse magis grape pea sprouts horseradish courgette maize spinach prairie turnip jícama coriander quandong gourd broccoli seakale gumbo. Parsley corn lentil zucchini radicchio maize burdock avocado sea lettuce. Garbanzo tigernut earthnut pea fennel.</p>
+        </div>
+        <div class="tab-pane">
+            <p>Cat ipsum dolor sit amet, hunt anything that moves or hopped up on goofballs hide when guests come over. Hide when guests come over intrigued by the shower, or stare at ceiling climb leg for stretch and use lap as chair. Hunt anything that moves flop over, leave dead animals as gifts for chase imaginary bugs, chase mice for stare at ceiling yet hopped up on goofballs.</p>
+        </div>
+    </div>
+</div>
+```
+*/
+.nav-tabs {
+  display: flex;
+  border-bottom: 9px solid #4480c1;
+}
+.nav-tabs li {
+  flex: 0 0 auto;
+  font-size: 14px;
+}
+.nav-tabs a {
+  display: block;
+  background: #3f6085;
+  color: #ccc;
+  padding: 10px 20px;
+}
+.nav-tabs a .subdued {
+  color: #959595;
+}
+.nav-tabs a:hover:not(.active),
+.nav-tabs a:focus:not(.active) {
+  cursor: pointer;
+  color: #ffffff;
+  text-decoration: none;
+}
+.nav-tabs a:hover:not(.active) .subdued,
+.nav-tabs a:focus:not(.active) .subdued {
+  color: #bbbbbb;
+}
+.nav-tabs .active a {
+  background: #4480c1;
+  color: #ffffff;
+}
+.nav-tabs .active a .subdued {
+  color: #bbbbbb;
+}
+.tab-pane {
+  clear: both;
+  display: none;
+  background: #ffffff;
+  padding: 10px;
+}
+.tab-pane.active {
+  display: block;
+}
+.tab-pane .title:first-child {
+  margin-top: 0;
+}
+
 .dropdown-menu {
   position: absolute;
   top: 100%;
@@ -2593,7 +2436,7 @@ FlexBox Columns
   display: block;
   margin: 0;
   padding: 5px 10px;
-  color: #444444;
+  color: #404040;
 }
 .dropdown-menu .active a {
   background: #007bff;
