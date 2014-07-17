@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.0.0-1 - 2014-07-15
+ * Version: 0.13.1 - 2014-07-17
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -22,13 +22,18 @@ angular.module('encore.ui', [
   'encore.ui.rxCapitalize',
   'encore.ui.rxCompile',
   'encore.ui.rxDiskSize',
+  'encore.ui.rxDropdown',
   'encore.ui.rxFavicon',
   'encore.ui.rxFeedback',
   'encore.ui.rxForm',
+  'encore.ui.rxLogout',
   'encore.ui.rxModalAction',
+  'encore.ui.rxNav',
   'encore.ui.rxNotify',
   'encore.ui.rxPageTitle',
   'encore.ui.rxPaginate',
+  'encore.ui.rxRelatedMenu',
+  'encore.ui.rxProductResources',
   'encore.ui.rxSessionStorage',
   'encore.ui.rxSortableColumn',
   'encore.ui.rxSpinner',
@@ -416,7 +421,17 @@ angular.module('encore.ui.rxApp', [
         children: [
           {
             href: '/cloud/{{user}}/servers',
-            linkText: 'Cloud Servers'
+            linkText: 'Cloud Servers',
+            children: [
+              {
+                href: '/cloud/{{user}}/servers',
+                linkText: 'Servers'
+              },
+              {
+                href: '/cloud/{{user}}/images',
+                linkText: 'Images'
+              }
+            ]
           },
           {
             href: '/cloud/{{user}}/cbs/volumes',
@@ -480,6 +495,14 @@ angular.module('encore.ui.rxApp', [
         key: 'virtualization',
         visibility: '("unified-preprod" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)',
         directive: 'rx-virt-search'
+      },
+      {
+        linkText: 'Support Automation',
+        key: 'supportAutomation',
+        children: [{
+            href: '/dcx/windows-cluster-build/validate',
+            linkText: 'Windows Cluster Build'
+          }]
       }
     ]
   }]).service('rxAppRoutes', [
@@ -789,12 +812,12 @@ angular.module('encore.ui.rxApp', [
   '$window',
   function ($window) {
     return {
-      template: '<rx-app-search placeholder="Fetch account by number..." submit="fetchAccounts"></rx-app-search>',
+      template: '<rx-app-search placeholder="Fetch account by transaction or auth ID..." submit="fetchAccounts">' + '</rx-app-search>',
       restrict: 'E',
       link: function (scope) {
         scope.fetchAccounts = function (searchValue) {
           if (!_.isEmpty(searchValue)) {
-            $window.location = '/billing/overview/' + searchValue;
+            $window.location = '/billing/search/' + searchValue;
           }
         };
       }
@@ -1097,6 +1120,32 @@ angular.module('encore.ui.rxDiskSize', []).filter('rxDiskSize', function () {
     return size / Math.pow(1000, Math.floor(index)).toFixed(1) + ' ' + units[index];
   };
 });
+angular.module('encore.ui.rxDropdown', []).directive('rxDropdown', [
+  '$rootScope',
+  function ($rootScope) {
+    return {
+      restrict: 'E',
+      templateUrl: 'templates/rxDropdown.html',
+      link: function (scope, element) {
+        scope.visible = false;
+        scope.toggle = function ($event) {
+          $event.preventDefault();
+          scope.visible = !scope.visible;
+          $rootScope.$broadcast('dropdownShow', element);
+        };
+        scope.$on('dropdownShow', function (ev, el) {
+          if (el[0] !== element[0]) {
+            scope.visible = false;
+          }
+        });
+      },
+      scope: {
+        visible: '&',
+        menu: '='
+      }
+    };
+  }
+]);
 angular.module('encore.ui.rxFavicon', ['encore.ui.rxEnvironment']).directive('rxFavicon', [
   'Environment',
   '$parse',
@@ -1275,30 +1324,6 @@ angular.module('encore.ui.rxForm', ['ngSanitize']).directive('rxFormItem', funct
       suffix: '@',
       prefix: '@',
       description: '@'
-    },
-    link: function (scope, el) {
-      var inputSelectors = '.field-input input, .field-input select, .field-input texarea';
-      // For accessibility reasons, we need to link the <label> to the <input>
-      // To do this, we use the 'for' and 'id' attributes on the <label> and <input> tags, respectively
-      // Since the field input is dynamically inserted, we don't know its ID (or if it has one)
-      // This code takes care of linking the two
-      var setFieldId = function () {
-        // default to scope's id
-        var fieldId = 'field-' + scope.$id;
-        var inputField = el[0].querySelector(inputSelectors);
-        // make sure an input field is found
-        if (!_.isObject(inputField)) {
-          return;
-        }
-        var inputId = inputField.getAttribute('id');
-        if (_.isString(inputId)) {
-          fieldId = inputId;
-        } else {
-          inputField.setAttribute('id', fieldId);
-        }
-        el[0].querySelector('.field-label').setAttribute('for', fieldId);
-      };
-      setFieldId();
     }
   };
 }).directive('rxFormFieldset', function () {
@@ -1414,6 +1439,85 @@ angular.module('encore.ui.rxForm', ['ngSanitize']).directive('rxFormItem', funct
       ]
     };
   }
+]).directive('rxFormInput', function () {
+  return {
+    restrict: 'E',
+    templateUrl: 'templates/rxFormInput.html',
+    scope: {
+      type: '@',
+      required: '@',
+      fieldId: '@',
+      model: '=',
+      minLength: '@',
+      maxLength: '@',
+      max: '@',
+      min: '@',
+      name: '@',
+      value: '@',
+      label: '@',
+      suffix: '@',
+      description: '@'
+    }
+  };
+}).directive('rxFormRadio', function () {
+  return {
+    restrict: 'E',
+    templateUrl: 'templates/rxFormRadio.html',
+    scope: {
+      options: '=',
+      fieldId: '@',
+      model: '='
+    }
+  };
+}).directive('rxFormSelect', function () {
+  return {
+    restrict: 'E',
+    templateUrl: 'templates/rxFormSelect.html',
+    scope: {
+      options: '=',
+      fieldId: '@',
+      label: '@',
+      model: '=',
+      required: '@'
+    }
+  };
+});
+angular.module('encore.ui.rxLogout', []).directive('rxLogout', [
+  '$rootScope',
+  '$location',
+  'Auth',
+  function ($rootScope, $location, Auth) {
+    return {
+      restrict: 'A',
+      controller: [
+        '$scope',
+        '$window',
+        function ($scope, $window) {
+          var success = function () {
+            // fire event to notify auth service about logout
+            $rootScope.$broadcast('event:auth-loginRequired');
+          };
+          $scope.logout = function () {
+            Auth.logout(success);
+            if ($location.$$html5) {
+              $window.location = '/login';
+            } else {
+              $window.location = '#/login';
+            }
+          };
+        }
+      ],
+      link: function (scope, element) {
+        var handleClick = function (ev) {
+          if (ev && ev.preventDefault) {
+            ev.preventDefault();
+          }
+          scope.logout();
+        };
+        element.bind('click', handleClick);
+      }
+    };
+  }
 ]);
 angular.module('encore.ui.rxModalAction', ['ui.bootstrap']).directive('rxModalForm', [
   '$timeout',
@@ -1510,6 +1614,55 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap']).directive('rxModalFo
     };
   }
 ]);
+angular.module('encore.ui.rxNav', ['encore.ui.rxDropdown']).directive('rxNav', function () {
+  return {
+    templateUrl: 'templates/rxNav.html',
+    restrict: 'E',
+    scope: {
+      'searchFunction': '&',
+      'placeholderText': '@',
+      'links': '=?',
+      'logo': '=?'
+    },
+    controller: [
+      '$scope',
+      function ($scope) {
+        $scope.bookmarks = {
+          linkText: 'Bookmarks',
+          items: [{
+              title: 'Bookmarks go here!',
+              path: '/'
+            }]
+        };
+        $scope.dashboards = {
+          linkText: 'Dashboards',
+          items: [
+            {
+              title: 'Link 1',
+              path: '/path'
+            },
+            {
+              title: 'Link 2',
+              path: '/path2'
+            },
+            {
+              title: 'Link 3',
+              path: '/path3'
+            }
+          ]
+        };
+        $scope.internalTools = {
+          linkText: 'Internal Tools',
+          items: [{
+              title: 'Ticket Queues',
+              path: '/ticketqueues/',
+              className: ''
+            }]
+        };
+      }
+    ]
+  };
+});
 angular.module('encore.ui.rxNotify', ['ngSanitize']).directive('rxNotification', function () {
   return {
     scope: { type: '@' },
@@ -1911,6 +2064,39 @@ angular.module('encore.ui.rxPaginate', []).directive('rxPaginate', function () {
     };
   }
 ]);
+angular.module('encore.ui.rxRelatedMenu', []).directive('rxRelatedMenu', function () {
+  return {
+    restrict: 'E',
+    replace: true,
+    transclude: true,
+    templateUrl: 'templates/rxRelatedMenu.html',
+    scope: {
+      collapsable: '&',
+      defaultState: '@',
+      trigger: '@',
+      state: '=',
+      position: '@'
+    },
+    link: function (scope) {
+      scope.menuPosition = _.isEmpty(scope.position) ? 'left' : scope.position;
+      scope.state = _.isEmpty(scope.defaultState) ? 'open' : scope.defaultState == 'open';
+      scope.isCollapsable = scope.collapsable();
+      scope.toggleRelatedMenu = function () {
+        scope.state = !scope.state;
+      };
+    }
+  };
+});
+angular.module('encore.ui.rxProductResources', [
+  'encore.ui.rxActiveUrl',
+  'encore.ui.rxRelatedMenu'
+]).directive('rxProductResources', function () {
+  return {
+    restrict: 'E',
+    templateUrl: 'templates/rxProductResources.html',
+    scope: { user: '=' }
+  };
+});
 /*jshint proto:true*/
 angular.module('encore.ui.rxSessionStorage', []).service('SessionStorage', [
   '$window',
