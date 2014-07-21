@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 0.13.1 - 2014-07-17
+ * Version: 0.13.2 - 2014-07-21
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -391,50 +391,62 @@ angular.module('encore.ui.rxApp', [
           }
           return false;
         },
-        children: [{
+        children: [
+          {
             href: '/accounts/{{accountNumber}}',
             linkText: 'Overview'
-          }]
+          },
+          {
+            linkText: 'Billing',
+            visibility: '("unified-preprod" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)',
+            childVisibility: function (scope) {
+              // We only want to show this nav if accountNumber is already defined in the URL
+              // (otherwise a accountNumber hasn't been chosen yet, so nav won't work, so we hide it)
+              if (scope.route.current) {
+                return !_.isUndefined(scope.route.current.pathParams.accountNumber);
+              }
+              return false;
+            },
+            children: [
+              {
+                href: '/billing/overview/{{accountNumber}}',
+                linkText: 'Overview'
+              },
+              {
+                href: '/billing/transactions/{{accountNumber}}',
+                linkText: 'Transactions'
+              },
+              {
+                href: '/billing/usage/{{accountNumber}}',
+                linkText: 'Current Usage'
+              },
+              {
+                href: '/billing/payment/{{accountNumber}}/options',
+                linkText: 'Payment Options'
+              },
+              {
+                href: '/billing/purchase-orders/{{accountNumber}}',
+                linkText: 'Purchase Orders'
+              },
+              {
+                href: '/billing/preferences/{{accountNumber}}',
+                linkText: 'Preferences'
+              }
+            ]
+          },
+          {
+            href: '/support/accounts/{{accountNumber}}',
+            linkText: 'Support Details',
+            key: 'supportService',
+            directive: 'rx-support-service-search'
+          }
+        ]
       },
       {
         linkText: 'Billing',
         key: 'billing',
         directive: 'rx-billing-search',
-        visibility: '("unified-preprod" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)',
-        childVisibility: function (scope) {
-          // We only want to show this nav if accountNumber is already defined in the URL
-          // (otherwise a accountNumber hasn't been chosen yet, so nav won't work, so we hide it)
-          if (scope.route.current) {
-            return !_.isUndefined(scope.route.current.pathParams.accountNumber);
-          }
-          return false;
-        },
-        children: [
-          {
-            href: '/billing/overview/{{accountNumber}}',
-            linkText: 'Overview'
-          },
-          {
-            href: '/billing/transactions/{{accountNumber}}',
-            linkText: 'Transactions'
-          },
-          {
-            href: '/billing/usage/{{accountNumber}}',
-            linkText: 'Current Usage'
-          },
-          {
-            href: '/billing/payment/{{accountNumber}}/options',
-            linkText: 'Payment Options'
-          },
-          {
-            href: '/billing/purchase-orders/{{accountNumber}}',
-            linkText: 'Purchase Orders'
-          },
-          {
-            href: '/billing/preferences/{{accountNumber}}',
-            linkText: 'Preferences'
-          }
-        ]
+        visibility: '("unified-preprod" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)'
       },
       {
         linkText: 'Cloud',
@@ -531,6 +543,7 @@ angular.module('encore.ui.rxApp', [
       {
         linkText: 'Support Automation',
         key: 'supportAutomation',
+        visibility: '("unified-preprod" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)',
         children: [{
             href: '/dcx/windows-cluster-build/validate',
             linkText: 'Windows Cluster Build'
@@ -2251,29 +2264,31 @@ angular.module('encore.ui.rxTokenInterceptor', ['encore.ui.rxSession']).factory(
 angular.module('encore.ui.rxUnauthorizedInterceptor', ['encore.ui.rxSession']).factory('UnauthorizedInterceptor', [
   '$q',
   '$window',
-  '$location',
   'Session',
-  function ($q, $window, $location, Session) {
-    return {
-      responseError: function (response) {
-        // If one uses the <base /> tag, $location's API is unable to
-        // give us a proper path(). Therefore, we have to grab the current
-        // browser URL and fetch the proper portion to return to after login.
-        //
-        // For Example:
-        // <base href="/app"></base>
-        // current URL: /app/path
-        // $location.path(): /path
-        // $location.absUrl(): https://localhost:9000/app/path
-        var returnPath = '/' + $location.absUrl().split('/').splice(3).join('/');
-        if (response.status === 401) {
-          Session.logout();
-          //Logs out user by removing token
-          $window.location = '/login?redirect=' + returnPath;
+  function ($q, $window, Session) {
+    var svc = {
+        redirectPath: function () {
+          // This brings in the entire relative URI (including the path
+          // specified in a <base /> tag), along with query params as a
+          // string.
+          // e.g https://www.google.com/search?q=woody+wood+pecker
+          // window.location.pathname = /search?q=woody+wood+pecker
+          return $window.location.pathname;
+        },
+        redirect: function (loginPath) {
+          loginPath = loginPath ? loginPath : '/login?redirect=';
+          $window.location = loginPath + encodeURIComponent(svc.redirectPath());
+        },
+        responseError: function (response) {
+          if (response.status === 401) {
+            Session.logout();
+            // Logs out user by removing token
+            svc.redirect();
+          }
+          return $q.reject(response);
         }
-        return $q.reject(response);
-      }
-    };
+      };
+    return svc;
   }
 ]);
 angular.module('templates/rxActiveUrl.html', []).run([
