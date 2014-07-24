@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.0.0 - 2014-07-21
+ * Version: 1.0.1 - 2014-07-24
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -33,6 +33,7 @@ angular.module('encore.ui', [
   'encore.ui.rxSessionStorage',
   'encore.ui.rxSortableColumn',
   'encore.ui.rxSpinner',
+  'encore.ui.rxStatus',
   'encore.ui.rxToggle',
   'encore.ui.rxTokenInterceptor',
   'encore.ui.rxUnauthorizedInterceptor',
@@ -382,10 +383,12 @@ angular.module('encore.ui.rxApp', [
         children: [
           {
             href: '/accounts/{{accountNumber}}',
+            key: 'accountOverview',
             linkText: 'Overview'
           },
           {
             linkText: 'Billing',
+            key: 'accountBilling',
             visibility: '("unified-preprod" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)',
             childVisibility: function (scope) {
               // We only want to show this nav if accountNumber is already defined in the URL
@@ -398,26 +401,32 @@ angular.module('encore.ui.rxApp', [
             children: [
               {
                 href: '/billing/overview/{{accountNumber}}',
+                key: 'accountBillingOverview',
                 linkText: 'Overview'
               },
               {
                 href: '/billing/transactions/{{accountNumber}}',
+                key: 'accountBillingTransactions',
                 linkText: 'Transactions'
               },
               {
                 href: '/billing/usage/{{accountNumber}}',
+                key: 'accountBillingCurrentUsage',
                 linkText: 'Current Usage'
               },
               {
                 href: '/billing/payment/{{accountNumber}}/options',
+                key: 'accountBillingPaymentOptions',
                 linkText: 'Payment Options'
               },
               {
                 href: '/billing/purchase-orders/{{accountNumber}}',
+                key: 'accountBillingPurchaseOrders',
                 linkText: 'Purchase Orders'
               },
               {
                 href: '/billing/preferences/{{accountNumber}}',
+                key: 'accountBillingPreferences',
                 linkText: 'Preferences'
               }
             ]
@@ -425,7 +434,7 @@ angular.module('encore.ui.rxApp', [
           {
             href: '/support/accounts/{{accountNumber}}',
             linkText: 'Support Details',
-            key: 'supportService',
+            key: 'accountSupport',
             directive: 'rx-support-service-search'
           }
         ]
@@ -1408,7 +1417,7 @@ angular.module('encore.ui.rxForm', ['ngSanitize']).directive('rxFormItem', funct
                   return determineMatch(val, $scope.model[idx]);
                 } else {
                   // otherwise, just return the value of the model and angular can decide
-                  return $scope.model[idx];
+                  return $scope.modelProxy[idx];
                 }
               }
             }
@@ -1426,12 +1435,24 @@ angular.module('encore.ui.rxForm', ['ngSanitize']).directive('rxFormItem', funct
               return false;
             }
           };
+          // Because of a bug in Angular 1.2.x, we can't use `required` and
+          // ngTrueValue/ngFalseValue simultaneously. We don't want to affect
+          // people that were already using rxFormOptionTable, so instead we'll
+          // build a `modelProxy` which is simply a mapping of $scope.model to 
+          // an array of `true` / `false` values. We then have to take care
+          // of updating the actual $scope.model ourselves in `updateCheckboxes`
+          // with the correct ngTrueValue/ngFalseValue values
+          $scope.modelProxy = _.map($scope.model, function (val, index) {
+            var data = $scope.data[index];
+            var trueValue = _.has(data, 'value') ? data.value : true;
+            return val === trueValue;
+          });
           // If we are using checkboxes and the required attribute is set, then we
           // need an array to store the indexes of checked boxes. ng-required is
           // specifically set if required is true and the array is empty. 
           var boxesChecked = 0;
-          _.forEach($scope.model, function (el, index) {
-            if (el === true || $scope.data[index] == el) {
+          _.forEach($scope.modelProxy, function (el) {
+            if (el) {
               boxesChecked += 1;
             }
           });
@@ -1441,10 +1462,14 @@ angular.module('encore.ui.rxForm', ['ngSanitize']).directive('rxFormItem', funct
              * @param {Integer} index - Array index of the checkbox element marked true
              */
           $scope.updateCheckboxes = function (val, index) {
-            if (val === true || $scope.data[index].value == val) {
-              boxesChecked -= 1;
-            } else {
+            var data = $scope.data[index];
+            var trueValue = _.has(data, 'value') ? data.value : true;
+            var falseValue = _.has(data, 'falseValue') ? data.falseValue : false;
+            $scope.model[index] = val ? trueValue : falseValue;
+            if (val) {
               boxesChecked += 1;
+            } else {
+              boxesChecked -= 1;
             }
           };
           /*
@@ -2059,6 +2084,192 @@ angular.module('encore.ui.rxSpinner', []).directive('rxSpinner', function () {
     }
   };
 });
+angular.module('encore.ui.rxStatus', ['encore.ui.rxNotify']).service('StatusUtil', [
+  '$route',
+  '$rootScope',
+  'Status',
+  function ($route, $rootScope, Status) {
+    return {
+      setupScope: function (scope) {
+        Status.setScope(scope || $rootScope);
+      }
+    };
+  }
+]).service('Status', [
+  '$rootScope',
+  'rxNotify',
+  'ErrorFormatter',
+  function ($rootScope, rxNotify, ErrorFormatter) {
+    var stack = 'page';
+    var scope;
+    var status = {
+        LOADING: function () {
+          return {
+            loaded: false,
+            loading: true,
+            prop: 'loaded'
+          };
+        },
+        SUCCESS: function () {
+          return {
+            loaded: true,
+            loading: false,
+            success: true,
+            type: 'success',
+            prop: 'loaded'
+          };
+        },
+        ERROR: function () {
+          return {
+            loaded: true,
+            loading: false,
+            success: false,
+            type: 'error',
+            prop: 'loaded'
+          };
+        },
+        WARNING: function () {
+          return {
+            loaded: true,
+            loading: false,
+            success: true,
+            type: 'warning',
+            prop: 'loaded'
+          };
+        },
+        INFO: function () {
+          return {
+            loaded: true,
+            loading: false,
+            success: true,
+            type: 'info',
+            prop: 'loaded'
+          };
+        },
+        CLEAR: function () {
+          return {
+            loading: false,
+            prop: 'loaded'
+          };
+        }
+      };
+    // States that specify a type cannot be dismissed (have to be approved by user)
+    var isDismissable = function (state) {
+      return _.has(state, 'loading') && !_.has(state, 'type');
+    };
+    // Given an options object, check if scope[options.prop] exists,
+    // and set it to `val` if so. `val` defaults to true if not
+    // supplied
+    var setDoneLoadingProp = function (options, val) {
+      val = _.isUndefined(val) ? true : val;
+      if (_.has(options, 'prop') && _.has(scope, options.prop)) {
+        scope[options.prop] = val;
+      }
+    };
+    // If the stack is overridden in a given controller, it needs to be refreshed
+    // for any subsequent controllers since a Service is loaded by Angular only once
+    $rootScope.$on('$routeChangeStart', function () {
+      status.setStack('page');
+    });
+    status.setStack = function (s) {
+      stack = s;
+    };
+    status.setScope = function ($scope) {
+      scope = $scope;
+      scope.loaded = false;
+    };
+    status.setStatus = function (msg, state) {
+      state.stack = stack;
+      if (!_.has(state, 'dismiss') && isDismissable(state)) {
+        // state.prop defaults to 'loaded', per status.LOADING
+        // However, if a promise is passed in, we use the $resolved
+        // property instead of the default loaded or passed in value
+        if (_.has(scope[state.prop], '$resolved')) {
+          state.prop = state.prop + '.$resolved';
+        }
+        state.dismiss = [
+          scope,
+          state.prop
+        ];
+      }
+      if (state.type === 'success') {
+        state.show = state.show || 'next';
+      }
+      setDoneLoadingProp(state, _.has(state, 'loading') ? !state.loading : true);
+      scope.status = state;
+      return rxNotify.add(msg, state);
+    };
+    status.setLoading = function (msg, options) {
+      options = _.defaults(options ? options : {}, status.LOADING());
+      // prop is the variable on scope that stores whether this loading is complete
+      // By default is uses $scope.loaded, but individual messages should be able to
+      // use their own property
+      var prop = options.prop;
+      if (!_.has(scope, prop)) {
+        scope[prop] = false;
+      }
+      return status.setStatus(msg || '', options);
+    };
+    status.setSuccess = function (msg, options) {
+      options = _.defaults(options ? options : {}, status.SUCCESS());
+      return status.setStatus(msg || '', options);
+    };
+    status.setSuccessNext = function (msg, options) {
+      var next = { 'show': 'next' };
+      options = _.defaults(options ? options : {}, next);
+      return status.setSuccess(msg, options);
+    };
+    status.setSuccessImmediate = function (msg, options) {
+      var immediate = { 'show': 'immediate' };
+      options = _.defaults(options ? options : {}, immediate);
+      return status.setSuccess(msg, options);
+    };
+    status.setWarning = function (msg, options) {
+      options = _.defaults(options ? options : {}, status.WARNING());
+      return status.setStatus(msg, options);
+    };
+    status.setInfo = function (msg, options) {
+      options = _.merge(options ? options : {}, status.INFO());
+      return status.setStatus(msg, options);
+    };
+    /*
+         * `msg` - can be a plain string, or it can be a string template with ${message} in it
+         * `error` - An optional error object. Should have a `message` or `statusText` property
+         * `options` - A usual options object
+         */
+    status.setError = function (msg, error, options) {
+      options = _.defaults(options ? options : {}, status.ERROR());
+      msg = ErrorFormatter.buildErrorMsg(msg || '', error);
+      return status.setStatus(msg, options);
+    };
+    status.complete = function (options) {
+      return status.setSuccessImmediate('', _.defaults(options ? options : {}, status.SUCCESS()));
+    };
+    status.dismiss = function (obj) {
+      scope.status = status.CLEAR();
+      return rxNotify.dismiss(obj);
+    };
+    status.clear = function (st) {
+      scope.status = status.CLEAR();
+      return rxNotify.clear(st || stack);
+    };
+    return status;
+  }
+]).factory('ErrorFormatter', function () {
+  /*
+         * formatString is a string with ${message} in it somewhere, where ${message}
+         * will come from the `error` object. The `error` object either needs to have
+         * a `message` property, or a `statusText` property.
+         */
+  var buildErrorMsg = function (formatString, error) {
+    error = error || {};
+    if (!_.has(error, 'message')) {
+      error.message = _.has(error, 'statusText') ? error.statusText : 'Unknown error';
+    }
+    return _.template(formatString, error);
+  };
+  return { buildErrorMsg: buildErrorMsg };
+});
 angular.module('encore.ui.rxToggle', []).directive('rxToggle', function () {
   return {
     restrict: 'A',
@@ -2203,7 +2414,7 @@ angular.module('templates/rxFormItem.html', []).run([
 angular.module('templates/rxFormOptionTable.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxFormOptionTable.html', '<div class="form-item"><table class="table-striped option-table" ng-show="data.length > 0 || emptyMessage "><thead><tr><th></th><th ng-repeat="column in columns" scope="col">{{column.label}}</th></tr></thead><tr ng-repeat="row in data" ng-class="{current: isCurrent(row.value), selected: isSelected(row.value, $index)}"><td class="option-table-input" ng-switch="type"><label><input type="radio" ng-switch-when="radio" id="{{fieldId}}_{{$index}}" ng-model="$parent.$parent.model" value="{{row.value}}" name="{{fieldId}}" ng-disabled="isCurrent(row.value)" rx-attributes="{\'ng-required\': required}"> <input type="checkbox" ng-switch-when="checkbox" id="{{fieldId}}_{{$index}}" ng-model="$parent.model[$index]" ng-click="updateCheckboxes($parent.model[$index], $index)" ng-required="checkRequired()" rx-attributes="{\'ng-true-value\': row.value, \'ng-false-value\': row.falseValue}"></label></td><td ng-repeat="column in columns"><label for="{{fieldId}}_{{$parent.$index}}"><span ng-bind-html="getContent(column, row)"></span> <span ng-show="isCurrent(row.value)">{{column.selectedLabel}}</span></label></td></tr><tr ng-if="data.length === 0 && emptyMessage"><td colspan="{{columns.length + 1}}"><span class="msg-warn">{{emptyMessage}}</span></td></tr></table></div>');
+    $templateCache.put('templates/rxFormOptionTable.html', '<div class="form-item"><table class="table-striped option-table" ng-show="data.length > 0 || emptyMessage "><thead><tr><th></th><th ng-repeat="column in columns" scope="col">{{column.label}}</th></tr></thead><tr ng-repeat="row in data" ng-class="{current: isCurrent(row.value), selected: isSelected(row.value, $index)}"><td class="option-table-input" ng-switch="type"><label><input type="radio" ng-switch-when="radio" id="{{fieldId}}_{{$index}}" ng-model="$parent.$parent.model" value="{{row.value}}" name="{{fieldId}}" ng-disabled="isCurrent(row.value)" rx-attributes="{\'ng-required\': required}"> <input type="checkbox" ng-switch-when="checkbox" id="{{fieldId}}_{{$index}}" ng-model="$parent.modelProxy[$index]" ng-change="updateCheckboxes($parent.modelProxy[$index], $index)" ng-required="checkRequired()"></label></td><td ng-repeat="column in columns"><label for="{{fieldId}}_{{$parent.$index}}"><span ng-bind-html="getContent(column, row)"></span> <span ng-show="isCurrent(row.value)">{{column.selectedLabel}}</span></label></td></tr><tr ng-if="data.length === 0 && emptyMessage"><td colspan="{{columns.length + 1}}"><span class="msg-warn">{{emptyMessage}}</span></td></tr></table></div>');
   }
 ]);
 angular.module('templates/rxModalAction.html', []).run([
