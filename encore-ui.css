@@ -2276,6 +2276,10 @@ Add the class `disabled` to classes `pagination-first`, `pagination-prev`, `pagi
   -o-animation: spin .8s infinite linear;
   animation: spin .8s infinite linear;
 }
+.rx-spinner.dark {
+  border-bottom-color: #404040;
+  border-right-color: #404040;
+}
 .rx-spinner.mini {
   border-width: 2px;
   width: 4px;

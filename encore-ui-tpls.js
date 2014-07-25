@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.0.1 - 2014-07-24
+ * Version: 1.0.2 - 2014-07-25
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', [
@@ -1631,9 +1631,9 @@ angular.module('encore.ui.rxNotify', ['ngSanitize']).directive('rxNotification',
     };
   }
 ]).service('rxNotify', [
-  '$timeout',
+  '$interval',
   '$rootScope',
-  function ($timeout, $rootScope) {
+  function ($interval, $rootScope) {
     var defaultStack = 'page';
     var stacks = {};
     // initialize a default stack
@@ -1682,9 +1682,9 @@ angular.module('encore.ui.rxNotify', ['ngSanitize']).directive('rxNotification',
     var dismissAfterTimeout = function (message) {
       // convert seconds to milliseconds
       var timeoutMs = message.timeout * 1000;
-      $timeout(function () {
+      $interval(function () {
         dismiss(message);
-      }, timeoutMs);
+      }, timeoutMs, 1);
     };
     /*
      * Shows/dismisses message after scope.prop change to true
@@ -2070,13 +2070,15 @@ angular.module('encore.ui.rxSpinner', []).directive('rxSpinner', function () {
     restrict: 'A',
     scope: {
       toggle: '=',
+      rxSpinner: '@',
       size: '@'
     },
     link: function (scope, element) {
       scope.$watch('toggle', function (value) {
         var size = scope.size ? scope.size : '';
+        var type = scope.rxSpinner ? scope.rxSpinner : '';
         if (value) {
-          element.prepend('<div class="rx-spinner ' + size + '"></div> ');
+          element.prepend('<div class="rx-spinner ' + type + ' ' + size + '"></div> ');
         } else {
           element.find('div').remove();
         }
@@ -2426,7 +2428,7 @@ angular.module('templates/rxModalAction.html', []).run([
 angular.module('templates/rxModalActionForm.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('templates/rxModalActionForm.html', '<div class="modal-header"><h3 class="modal-title">{{title}}</h3><h4 class="modal-subtitle" ng-if="subtitle">{{subtitle}}</h4><button class="modal-close btn-link" ng-click="$parent.cancel()"><span class="visually-hidden">Close Window</span></button></div><div class="modal-body"><div ng-show="$parent.isLoading" class="loading"><i class="spinner gray"></i></div><form ng-hide="$parent.isLoading" name="modalActionForm" class="modal-form rx-form" ng-transclude></form></div><div class="modal-footer"><button class="submit form-action" ng-click="$parent.submit()" type="submit" ng-disabled="modalActionForm.$invalid">{{submitText || "Submit"}}</button> <button class="cancel form-action" ng-click="$parent.cancel()">{{cancelText || "Cancel"}}</button></div>');
+    $templateCache.put('templates/rxModalActionForm.html', '<div class="modal-header"><h3 class="modal-title">{{title}}</h3><h4 class="modal-subtitle" ng-if="subtitle">{{subtitle}}</h4><button class="modal-close btn-link" ng-click="$parent.cancel()"><span class="visually-hidden">Close Window</span></button></div><div class="modal-body"><div ng-show="$parent.isLoading" class="loading" rx-spinner="dark" toggle="$parent.isLoading"></div><form ng-hide="$parent.isLoading" name="modalActionForm" class="modal-form rx-form" ng-transclude></form></div><div class="modal-footer"><button class="submit form-action" ng-click="$parent.submit()" type="submit" ng-disabled="modalActionForm.$invalid">{{submitText || "Submit"}}</button> <button class="cancel form-action" ng-click="$parent.cancel()">{{cancelText || "Cancel"}}</button></div>');
   }
 ]);
 angular.module('templates/rxNotification.html', []).run([
