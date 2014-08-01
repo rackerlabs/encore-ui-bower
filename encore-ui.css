@@ -844,6 +844,22 @@ Simple classes to help with clearing previous sibling floats
 .clear-right {
   clear: right;
 }
+/*
+### Full Width
+
+Class that marks content as full width (e.g. to give a button full width).
+
+Requires 'display' to be defined as `inline-block` or `block`
+
+```
+<button class="button sm negative">I'm just a sad regular button</button>
+<button class="button xl positive full-width">Not me, I'm a happy wide button</button>
+```
+
+*/
+.full-width {
+  width: 100%;
+}
 
 /*
 FlexBox Columns
@@ -1566,24 +1582,22 @@ thead th .btn-link:focus {
 }
 
 /*
- # rxForm
- */
-/*
 ## Form Fields
 
 field-prefix, field-suffix and field-description are all optional.
 
 ```
 <div class="form-item">
-    <label>
-        <span class="field-label">
-            Monthly Cost:
-        </span>
+    <label class="field-label">
+        Monthly Cost:
+    </label>
 
+    <div class="field-content">
         <span class="field-prefix">$</span>
 
         <span class="field-input">
-            <!-- Form input will be added here -->
+            <!-- Replace with desired form field -->
+            <input type="text">
         </span>
 
         <span class="field-suffix">Million</span>
@@ -1592,6 +1606,25 @@ field-prefix, field-suffix and field-description are all optional.
     </label>
 </div>
 ```
+
+### Fieldsets
+a
+```
+<div class="form-item rx-form-fieldset">
+    <fieldset>
+        <legend class="field-legend">
+            Field Legend:
+        </legend>
+
+        <div class="field-input">
+            <!-- Add form inputs here -->
+        </div>
+
+        <span class="field-description">Description of Fields</span>
+    </fieldset>
+</div>
+```
+
  */
 .rx-form {
   margin: 15px 0 0;
@@ -1601,6 +1634,12 @@ field-prefix, field-suffix and field-description are all optional.
   display: flex;
   flex-wrap: nowrap;
   align-items: baseline;
+}
+.rx-form-fieldset > fieldset {
+  width: 100%;
+}
+.rx-form-fieldset > fieldset .full-width .option-table {
+  width: 100%;
 }
 .form-description,
 .form-item {
@@ -1643,48 +1682,16 @@ Any input field can be placed inside an element with a class of 'field-input'.
 
 ```
 <span class="field-input">
-    <input type="text"/>
+    <input type="text">
 </span>
 ```
 
 ```
 <span class="field-input">
-    <input type="checkbox"/>
+    <input type="checkbox">
 </span>
 ```
  */
-.field-input {
-  /*
-## Dropdowns
-Replace default UI of select fields and adds custom border/arrow
-
-```
-<div class="form-item">
-    <label>
-        <span class="field-label">
-            Type:
-        </span>
-
-        <span class="field-prefix">$</span>
-
-        <!-- Form input will be added here -->
-        <span class="field-input">
-            <span class="field-select">
-                <select>
-                    <option value="1">Option #1</option>
-                    <option value="2">Option #2</option>
-                    <option value="3">Option #3</option>
-                    <option value="4">Option #4</option>
-                </select>
-            </span>
-        </span>
-
-        <span class="field-description">Any description goes here</span>
-    </label>
-</div>
-```
-*/
-}
 .field-input input,
 .field-input select {
   color: #404040;
@@ -1720,12 +1727,35 @@ Replace default UI of select fields and adds custom border/arrow
   font-size: 1em;
   vertical-align: middle;
 }
-.field-input .field-select {
+/*
+ * @bugfix Input field is marked as invalid before a user has done anything on form
+ * @browsers FF
+ * @see http://stackoverflow.com/questions/17209057/firefox-draws-red-border-on-required-select-box
+ */
+.ng-pristine .field-input .ng-invalid-required {
+  box-shadow: none;
+}
+/*
+## Dropdowns
+Replace default UI of select fields and adds custom border/arrow
+
+```
+<span class="field-select">
+    <select>
+        <option value="1">Option #1</option>
+        <option value="2">Option #2</option>
+        <option value="3">Option #3</option>
+        <option value="4">Option #4</option>
+    </select>
+</span>
+```
+*/
+.field-select {
   display: inline-block;
   position: relative;
   width: 250px;
 }
-.field-input .field-select select {
+.field-select select {
   width: 100%;
   background: transparent;
   -webkit-appearance: none;
@@ -1735,7 +1765,7 @@ Replace default UI of select fields and adds custom border/arrow
   border: 1px solid #cccccc;
   padding: 3px 5px;
 }
-.field-input .field-select:before {
+.field-select:before {
   content: ".";
   width: 0;
   height: 0;
@@ -1760,19 +1790,11 @@ Replace default UI of select fields and adds custom border/arrow
     padding: 3px 5px;
   }
 }
-/*
- * @bugfix Input field is marked as invalid before a user has done anything on form
- * @browsers FF
- * @see http://stackoverflow.com/questions/17209057/firefox-draws-red-border-on-required-select-box
- */
-.ng-pristine .field-input .ng-invalid-required {
-  box-shadow: none;
-}
 .option-table {
   width: auto;
   min-width: 40em;
 }
-.option-table td {
+.option-table td:not(.empty-data) {
   padding: 0;
 }
 .option-table label {
@@ -1791,9 +1813,6 @@ Replace default UI of select fields and adds custom border/arrow
   background: #c6e4c8;
   border-color: #bad4bb;
   border-style: double;
-}
-.rx-form-fieldset .option-table {
-  min-width: 100%;
 }
 /*
 ## Submit buttons
