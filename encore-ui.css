@@ -884,8 +884,7 @@ For apps that want to use the default Encore navigation, use the following HTML 
                         <div class="double-chevron"></div>
                     </button>
                     <div class="site-options">
-                        <a href="settings" class="site-settings">Settings</a>
-                        <a href="#" class="site-logout">Logout</a>
+                        <a href="#" class="site-option">Logout</a>
                     </div>
                 </header>
                 <nav class="rx-app-nav">
@@ -1011,13 +1010,13 @@ For apps that want to use the default Encore navigation, use the following HTML 
   font-size: .8em;
   margin-top: 1px;
 }
-.rx-app .site-branding .site-options a {
+.rx-app .site-branding .site-options .site-option {
   color: #97b1d0;
   display: inline-block;
   margin-left: 1em;
 }
-.rx-app .site-branding .site-options a:hover,
-.rx-app .site-branding .site-options a:focus {
+.rx-app .site-branding .site-options .site-option:hover,
+.rx-app .site-branding .site-options .site-option:focus {
   color: #ffffff;
 }
 .rx-app .site-branding .collapsible-toggle {

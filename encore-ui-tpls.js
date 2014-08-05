@@ -2,10 +2,10 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.0.3 - 2014-08-01
+ * Version: 1.0.4 - 2014-08-05
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxForm','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxForm','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
 angular.module('encore.ui.tpls', ['templates/rxActiveUrl.html','templates/rxAccountSearch.html','templates/rxApp.html','templates/rxAppNav.html','templates/rxAppNavItem.html','templates/rxAppSearch.html','templates/rxPage.html','templates/rxPermission.html','templates/rxBreadcrumbs.html','templates/rxButton.html','templates/feedbackForm.html','templates/rxFeedback.html','templates/rxFormFieldset.html','templates/rxFormItem.html','templates/rxFormOptionTable.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxItemsPerPage.html','templates/rxPaginate.html','templates/rxSortableColumn.html']);
 angular.module('encore.ui.configs', [])
 .value('devicePaths', [
@@ -706,6 +706,8 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxEnvironment', 'ngSanitize', 'ngR
 * @param {string} [collapsibleNav] Set to 'true' if the navigation menu should be collapsible
 * @param {string} [collapsedNav] Binding for the collapsed state of the menu.
 * @param {boolean} [newInstance] Whether the menu items should be a new instance of rxAppRoutes
+* @param {boolean} [hideFeeback] Whether to hide the 'feedback' link or not (defaults to show it)
+* @param {string} [logoutUrl] URL to pass to rx-logout
 *
 * @example
 * <pre>
@@ -723,7 +725,8 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxEnvironment', 'ngSanitize', 'ngR
             collapsibleNav: '@',
             collapsedNav: '=?',
             newInstance: '@?',
-            hideFeedback: '@?'
+            hideFeedback: '@?',
+            logoutUrl: '@?'
         },
         link: function (scope) {
             scope.appRoutes = scope.newInstance ? rxAppRoutes.createInstance() : rxAppRoutes;
@@ -1138,11 +1141,11 @@ angular.module('encore.ui.rxSession', ['encore.ui.rxLocalStorage'])
     *
     * @example
     * <pre>
-    * Session.getToken(); //Returns the stored token
-    * Session.storeToken(token); //Stores token
-    * Session.logoff(); //Logs user off
-    * Session.isCurrent(); //Returns true/false if the token has expired.
-    * Session.isAuthenticated(); //Returns true/false if the user token is valid.
+    * Session.getToken(); // Returns the stored token
+    * Session.storeToken(token); // Stores token
+    * Session.logout(); // Logs user off
+    * Session.isCurrent(); // Returns true/false if the token has expired.
+    * Session.isAuthenticated(); // Returns true/false if the user token is valid.
     * </pre>
     */
     .factory('Session', ["LocalStorage", function (LocalStorage) {
@@ -1288,7 +1291,7 @@ angular.module('encore.ui.rxAuth',
     * Service which provides an entire solution for authenticating, user session management
     * and permissions in the UI.  The Auth service is a wrapper for the Identity, Session and
     * Permission services.  These services were broken into smaller components to facilitate
-    * customization and re-use. 
+    * customization and re-use.
     *
     * @requires encore.ui.rxIdentity:Identity
     * @requires encore.ui.rxSession:Session
@@ -1296,15 +1299,15 @@ angular.module('encore.ui.rxAuth',
     *
     * @example
     * <pre>
-    * Auth.loginWithJSON(json); //Returns a promise
-    * Auth.login({username: '', password: '', successCallback, errorCallback}); // returns a promise
-    * Auth.getToken(); //Returns the stored token
-    * Auth.storeToken(token); //Stores token
-    * Auth.logoff(); //Logs user off
-    * Auth.isCurrent(); //Returns true/false if the token has expired.
-    * Auth.isAuthenticated(); //Returns true/false if the user token is valid.
-    * Auth.getRoles() //returns an array of roles for a user
-    * Auth.hasRole(role) //returns true/false if user has specified role
+    * Auth.loginWithJSON(json); // Returns a promise
+    * Auth.login({username: '', password: '', successCallback, errorCallback}); // Returns a promise
+    * Auth.getToken(); // Returns the stored token
+    * Auth.storeToken(token); // Stores token
+    * Auth.logout(); // Logs user off
+    * Auth.isCurrent(); // Returns true/false if the token has expired.
+    * Auth.isAuthenticated(); // Returns true/false if the user token is valid.
+    * Auth.getRoles() // Returns an array of roles for a user
+    * Auth.hasRole(role) // Returns true/false if user has specified role
     * </pre>
     */
     .factory('Auth', ["Identity", "Session", "Permission", function (Identity, Session, Permission) {
@@ -1871,6 +1874,45 @@ angular.module('encore.ui.rxForm', ['ngSanitize'])
     };
 }]);
 
+angular.module('encore.ui.rxLogout', ['encore.ui.rxAuth'])
+/**
+* @ngdoc directive
+* @name encore.ui.rxLogout:rxLogout
+* @restrict A
+* @scope
+* @description
+* Adds logout functionality to an element
+*
+* @param {string} [rxLogout] URL to redirect to after logging out
+*
+* @example
+* <button rx-logout>Logout</button>
+* <button rx-logout="/custom">Logout (w/ custom location)</button>
+*/
+.directive ('rxLogout', ["Auth", "$window", "$location", function (Auth, $window, $location) {
+    return {
+        restrict: 'A',
+        scope: {
+            rxLogout: '@'
+        },
+        link: function (scope, element) {
+            // if URL not provided to redirect to, use default location
+            scope.logoutUrl = (_.isString(scope.rxLogout) && scope.rxLogout.length > 0) ? scope.rxLogout : '/login';
+
+            element.on('click', function () {
+                Auth.logout();
+
+                // check if in HTML5 Mode or not (if not, add hashbang)
+                // @see http://stackoverflow.com/a/23624785
+                if (!$location.$$html5) {
+                    scope.logoutUrl = '#' + scope.logoutUrl;
+                }
+
+                $window.location = scope.logoutUrl;
+            });
+        }
+    };
+}]);
 angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
 .directive('rxModalForm', ["$timeout", function ($timeout) {
     return {
@@ -3036,7 +3078,7 @@ angular.module("templates/rxAccountSearch.html", []).run(["$templateCache", func
 
 angular.module("templates/rxApp.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxApp.html",
-    "<div class=\"rx-app\" ng-class=\"{collapsible: collapsibleNav === 'true', collapsed: collapsedNav}\" ng-cloak><nav class=\"rx-app-menu\"><header class=\"site-branding\"><h1 class=\"site-title\">{{ siteTitle || 'Encore' }}</h1><button class=\"collapsible-toggle btn-link\" ng-if=\"collapsibleNav === 'true'\" rx-toggle=\"$parent.collapsedNav\" title=\"{{ (collapsedNav) ? 'Show' : 'Hide' }} Main Menu\"><span class=\"visually-hidden\">{{ (collapsedNav) ? 'Show' : 'Hide' }} Main Menu</span><div class=\"double-chevron\" ng-class=\"{'double-chevron-left': !collapsedNav}\"></div></button><div class=\"site-options\"><a href=\"#/login\" rx-logout class=\"site-logout\">Logout</a></div></header><nav class=\"rx-app-nav\"><div ng-repeat=\"section in appRoutes.getAll()\" class=\"nav-section nav-section-{{ section.type || 'all' }}\"><h2 class=\"nav-section-title\">{{ section.title }}</h2><rx-app-nav items=\"section.children\" level=\"1\"></rx-app-nav></div></nav><div class=\"rx-app-help clearfix\"><rx-feedback ng-if=\"!hideFeedback\"></rx-feedback></div></nav><div class=\"rx-app-content\" ng-transclude></div></div>");
+    "<div class=\"rx-app\" ng-class=\"{collapsible: collapsibleNav === 'true', collapsed: collapsedNav}\" ng-cloak><nav class=\"rx-app-menu\"><header class=\"site-branding\"><h1 class=\"site-title\">{{ siteTitle || 'Encore' }}</h1><button class=\"collapsible-toggle btn-link\" ng-if=\"collapsibleNav === 'true'\" rx-toggle=\"$parent.collapsedNav\" title=\"{{ (collapsedNav) ? 'Show' : 'Hide' }} Main Menu\"><span class=\"visually-hidden\">{{ (collapsedNav) ? 'Show' : 'Hide' }} Main Menu</span><div class=\"double-chevron\" ng-class=\"{'double-chevron-left': !collapsedNav}\"></div></button><div class=\"site-options\"><button class=\"btn-link site-option site-logout\" rx-logout=\"{{logoutUrl}}\">Logout</button></div></header><nav class=\"rx-app-nav\"><div ng-repeat=\"section in appRoutes.getAll()\" class=\"nav-section nav-section-{{ section.type || 'all' }}\"><h2 class=\"nav-section-title\">{{ section.title }}</h2><rx-app-nav items=\"section.children\" level=\"1\"></rx-app-nav></div></nav><div class=\"rx-app-help clearfix\"><rx-feedback ng-if=\"!hideFeedback\"></rx-feedback></div></nav><div class=\"rx-app-content\" ng-transclude></div></div>");
 }]);
 
 angular.module("templates/rxAppNav.html", []).run(["$templateCache", function($templateCache) {
