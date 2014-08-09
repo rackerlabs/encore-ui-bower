@@ -2,10 +2,10 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.0.4 - 2014-08-05
+ * Version: 1.0.5 - 2014-08-08
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxForm','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxForm','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
 angular.module('encore.ui.configs', [])
 .value('devicePaths', [
     { value: '/dev/xvdb', label: '/dev/xvdb' },
@@ -23,6 +23,58 @@ angular.module('encore.ui.configs', [])
     { value: '/dev/xvdp', label: '/dev/xvdp' }
 ])
 .constant('feedbackApi', '/api/feedback');
+angular.module('encore.ui.rxActionMenu', [])
+.directive('rxActionMenu', ["$rootScope", "$document", function ($rootScope, $document) {
+    return {
+        restrict: 'E',
+        transclude: true,
+        templateUrl: 'templates/rxActionMenu.html',
+        scope: {
+            globalDismiss: '=?'
+        },
+        link: function ($scope, element) {
+            if (!_.isBoolean($scope.globalDismiss)) {
+                $scope.globalDismiss = true;
+            }
+            $scope.displayed = false;
+
+            $scope.toggle = function () {
+                $scope.displayed = !$scope.displayed;
+                $rootScope.$broadcast('actionMenuShow', element);
+            };
+
+            $scope.modalToggle = function () {
+                if ($scope.globalDismiss) {
+                    $scope.toggle();
+                }
+            };
+
+            $scope.$on('actionMenuShow', function (ev, el) {
+                if ($scope.globalDismiss && el[0] !== element[0]) {
+                    $scope.displayed = false;
+                }
+            });
+            
+            $document.on('click', function (clickEvent) {
+                if ($scope.globalDismiss && $scope.displayed && !element[0].contains(clickEvent.target)) {
+                    $scope.$apply(function () { $scope.displayed = false;});
+                }
+            });
+
+            // TODO: Center the Action Menu box so it 
+            // takes the height of the translucded content
+            // and then centers it with CSS. 
+            // I spent an afternoon trying to see if I could
+            // repurpose angularjs' bootstrap popover library
+            // and their position.js file, but I spent too
+            // much time and had to table this.  -Ernie
+            
+            // https://github.com/angular-ui/bootstrap/blob/master/src/position/position.js
+            // https://github.com/angular-ui/bootstrap/blob/master/src/tooltip/tooltip.js
+        }
+    };
+}]);
+
 angular.module('encore.ui.rxActiveUrl', [])
 /**
  *
@@ -1913,6 +1965,23 @@ angular.module('encore.ui.rxLogout', ['encore.ui.rxAuth'])
     };
 }]);
 angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
+/**
+* @ngdoc directive
+* @name encore.ui.rxModalAction:rxModalForm
+* @restrict E
+* @scope
+* @description
+* Responsible for creating the HTML necessary for modal form
+*
+* @param {string} title Title of modal window
+* @param {string} [subtitle] Subtitle of modal window
+* @param {boolean} [isLoading] True to show a spinner by default
+* @param {string} [submitText] 'Submit' button text to use. Defaults to 'Submit'
+* @param {string} [cancelText] 'Cancel' button text to use. Defaults to 'Cancel'
+*
+* @example
+* <rx-modal-form title="My Form" is-loading="true" submit-text="Yes!"></rx-modal-form>
+*/
 .directive('rxModalForm', ["$timeout", function ($timeout) {
     return {
         transclude: true,
@@ -1963,6 +2032,26 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
     // cancel out of the modal if the route is changed
     $rootScope.$on('$routeChangeSuccess', $modalInstance.dismiss);
 }])
+/**
+* @ngdoc directive
+* @name encore.ui.rxModalAction:rxModalAction
+* @restrict E
+* @scope
+* @description
+* Link which will show a modal window on click, and handle callbacks for pre/post modal actions
+*
+* @param {function} [preHook] Function to call when a modal is opened
+* @param {function} [postHook] Function to call when a modal is submitted (not called when cancelled out of)
+* @param {string} [templateUrl] URL of template to use for modal content
+*
+* @example
+* <rx-modal-action
+*     pre-hook="myPreHook(this)"
+*     post-hook="myPostHook(fields)"
+*     template-url="modalContent.html">
+*         My Link Text
+*  </rx-modal-action>
+*/
 .directive('rxModalAction', ["$modal", function ($modal) {
     var createModal = function (config, scope) {
         config = _.defaults(config, {
@@ -2798,22 +2887,56 @@ angular.module('encore.ui.rxStatus', ['encore.ui.rxNotify'])
         var scope;
         var status = {
             LOADING: function () {
-                return { loaded: false, loading: true, prop: 'loaded' };
+                return { 
+                    loaded: false,
+                    loading: true,
+                    prop: 'loaded'
+                };
             },
             SUCCESS: function () {
-                return { loaded: true, loading: false, success: true, type: 'success', prop: 'loaded' };
+                return { 
+                    loaded: true,
+                    loading: false,
+                    success: true,
+                    type: 'success',
+                    prop: 'loaded',
+                    repeat: false,
+                    timeout: 5
+                };
             },
             ERROR: function () {
-                return { loaded: true, loading: false, success: false, type: 'error', prop: 'loaded' };
+                return { 
+                    loaded: true,
+                    loading: false,
+                    success: false,
+                    type: 'error',
+                    prop: 'loaded',
+                    repeat: false
+                };
             },
             WARNING: function () {
-                return { loaded: true, loading: false, success: true, type: 'warning', prop: 'loaded' };
+                return { 
+                    loaded: true,
+                    loading: false,
+                    success: true,
+                    type: 'warning',
+                    prop: 'loaded'
+                };
             },
             INFO: function () {
-                return { loaded: true, loading: false, success: true, type: 'info', prop: 'loaded' };
+                return { 
+                    loaded: true,
+                    loading: false,
+                    success: true,
+                    type: 'info',
+                    prop: 'loaded'
+                };
             },
             CLEAR: function () {
-                return { loading: false, prop: 'loaded' };
+                return {
+                    loading: false,
+                    prop: 'loaded'
+                };
             },
         };
 
