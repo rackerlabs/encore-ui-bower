@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.0.5 - 2014-08-08
+ * Version: 1.0.6 - 2014-08-12
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxForm','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
@@ -491,6 +491,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxEnvironment', 'ngSanitize', 'ngR
         linkText: 'Cloud',
         key: 'cloud',
         directive: 'rx-atlas-search',
+        visibility: '("unified-preprod" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)',
         childVisibility: function (scope) {
             // We only want to show this nav if user is already defined in the URL
             // (otherwise a user hasn't been chosen yet, so nav won't work, so we hide it)
@@ -563,8 +564,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxEnvironment', 'ngSanitize', 'ngR
     }, {
         href: '/virt',
         linkText: 'Virtualization Admin',
-        key: 'virtualization',
-        visibility: '("unified-preprod" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)',
+        key: 'virt',
         directive: 'rx-virt-search'
     }, {
         linkText: 'Support Automation',
@@ -588,12 +588,47 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxEnvironment', 'ngSanitize', 'ngR
     var AppRoutes = function () {
         var routes = [];
 
+        var stripLeadingChars = function (str) {
+            _.forEach(['#', '/'], function (chr) {
+                if (str.substring(0, 1) === chr) {
+                    str = stripLeadingChars(str.substring(1));
+                }
+            });
+
+            return str;
+        };
+
+        var getBaseUrl = function () {
+            // remove query string
+            var baseUrl = $location.absUrl().split('?')[0];
+
+            // remove protocol and domain
+            baseUrl = baseUrl.split('/').splice(3).join('/');
+            baseUrl = stripLeadingChars(baseUrl);
+
+            return baseUrl;
+        };
+
+        var getItemUrl = function (item) {
+            if (!_.isString(item.url)) {
+                return undefined;
+            }
+
+            // remove query string
+            var itemUrl = item.url.split('?')[0];
+            itemUrl = stripLeadingChars(itemUrl);
+
+            return itemUrl;
+        };
+
         var isActive = function (item) {
             // check if url matches absUrl
             // TODO: Add Unit Tests for URLs with Query Strings in them.
-            var baseUrl = $location.absUrl().split('?')[0];
-            var itemUrl = (_.isString(item.url)) ? item.url.split('?')[0] : undefined;
-            var pathMatches = _.contains(baseUrl, itemUrl);
+            var baseUrl = getBaseUrl();
+            var itemUrl = getItemUrl(item);
+            var pathMatches = itemUrl &&
+                (baseUrl.substring(0, itemUrl.length) === itemUrl ||
+                 baseUrl.substring(1).substring(0, itemUrl.length) === itemUrl);
 
             // if current item not active, check if any children are active
             if (!pathMatches && item.children) {
