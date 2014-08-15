@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.0.6 - 2014-08-12
+ * Version: 1.0.7 - 2014-08-15
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxForm','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
@@ -490,7 +490,6 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxEnvironment', 'ngSanitize', 'ngR
         linkText: 'Cloud',
         key: 'cloud',
         directive: 'rx-atlas-search',
-        visibility: '("unified-preprod" | rxEnvironmentMatch) || ("local" | rxEnvironmentMatch)',
         childVisibility: function (scope) {
             // We only want to show this nav if user is already defined in the URL
             // (otherwise a user hasn't been chosen yet, so nav won't work, so we hide it)
@@ -869,7 +868,9 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxEnvironment', 'ngSanitize', 'ngR
             element.removeAttr('title');
         },
         controller: ["$scope", "rxPageTitle", function ($scope, rxPageTitle) {
-            rxPageTitle.setTitle($scope.title);
+            $scope.$watch('title', function () {
+                rxPageTitle.setTitle($scope.title);
+            });
         }]
     };
 })
@@ -1470,9 +1471,13 @@ angular.module('encore.ui.rxButton', [])
 angular.module('encore.ui.rxCapitalize', [])
 .filter('rxCapitalize', function () {
     return function (input) {
+        if (!_.isString(input)) {
+            return '';
+        }
         return input.charAt(0).toUpperCase() + input.slice(1);
     };
 });
+
 angular.module('encore.ui.rxCompile', [])
 /*
  * @ngdoc directive
@@ -1621,16 +1626,18 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
     };
 }])
 .service('rxFeedbackSvc', ["$resource", "feedbackApi", "$location", "$window", function ($resource, feedbackApi, $location, $window) {
-    var apiEndpoint;
-
-    var setEndpoint = function (url) {
-        apiEndpoint = $resource(url);
+    var container = {
+        api: undefined,
     };
 
+    container.setEndpoint = function (url) {
+        container.api = $resource(url);
+    };
+    
     // set a default endpoint
-    setEndpoint(feedbackApi);
+    container.setEndpoint(feedbackApi);
 
-    var emailFeedback = function (feedback) {
+    container.fallback = function (feedback) {
         var subject = 'Encore Feedback: ' + feedback.type.label;
         var body = [
             'Current Page: ' + $location.absUrl(),
@@ -1649,11 +1656,7 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
         }
     };
 
-    return {
-        api: apiEndpoint,
-        setEndpoint: setEndpoint,
-        fallback: emailFeedback
-    };
+    return container;
 }])
 .directive('rxFeedback', ["feedbackTypes", "$location", "rxFeedbackSvc", "rxScreenshotSvc", "rxNotify", function (feedbackTypes, $location, rxFeedbackSvc, rxScreenshotSvc, rxNotify) {
     return {
@@ -1710,6 +1713,7 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
         }
     };
 }]);
+
 angular.module('encore.ui.rxForm', ['ngSanitize'])
 /**
  *
@@ -1943,12 +1947,12 @@ angular.module('encore.ui.rxForm', ['ngSanitize'])
                 var expr = column.key;
                 // If no expression exit out;
                 if (!expr) {
-                    return;
+                    return '';
                 }
 
                 // if the expr is a property of row, then we expect the value of the key.
                 if (row.hasOwnProperty(expr)) {
-                    return row[expr];
+                    return String(row[expr]);
                 }
 
                 // Compile expression & Run output template

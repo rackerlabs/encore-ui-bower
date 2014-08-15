@@ -47,7 +47,6 @@
 .action-list {
   float: right;
 }
-
 /*!
  *  Font Awesome 4.1.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
@@ -2476,7 +2475,6 @@ Requires 'display' to be defined as `inline-block` or `block`
 .full-width {
   width: 100%;
 }
-
 /*
 FlexBox Columns
 */
@@ -2934,7 +2932,6 @@ For apps that want to use the default Encore navigation, use the following HTML 
   float: right;
   margin: 0 0 2em 2em;
 }
-
 /*
 # rxBreadcrumbs
 
@@ -3018,7 +3015,6 @@ They show your position within the site heirarchy.
 .rx-breadcrumbs .breadcrumb a:hover::after {
   border-left-color: #fff;
 }
-
 /*
 # Common button styles
 
@@ -3177,7 +3173,6 @@ thead th .btn-link:hover,
 thead th .btn-link:focus {
   color: #ffffff;
 }
-
 /*
  * rxFeedback
  */
@@ -3195,7 +3190,6 @@ thead th .btn-link:focus {
 .rx-feedback-form .feedback-description .feedback-textarea {
   height: 10em;
 }
-
 /*
 ## Form Fields
 
@@ -3475,7 +3469,6 @@ Replace default UI of select fields and adds custom border/arrow
 .form-action.cancel:focus {
   color: #959595;
 }
-
 /**
  * rxModalAction.less
  *
@@ -3613,7 +3606,6 @@ Replace default UI of select fields and adds custom border/arrow
     margin: -10px;
   }
 }
-
 /*
 # rxNotify
 
@@ -3717,7 +3709,6 @@ In the second example we added `<button class="notification-dismiss btn-link">&t
   filter: alpha(opacity=50);
   text-decoration: none;
 }
-
 /*
  # rxPaginate
 
@@ -3852,7 +3843,6 @@ Add the class `disabled` to classes `pagination-first`, `pagination-prev`, `pagi
   padding: 5px 10px;
   font-size: 12px;
 }
-
 /*
  * rxSortableColumn
  */
@@ -3886,7 +3876,6 @@ Add the class `disabled` to classes `pagination-first`, `pagination-prev`, `pagi
   margin-top: -3px;
   border-top-color: #4a4a4a;
 }
-
 /*********************************************************
  *  CSS3 Animation spinner
  *
@@ -3978,7 +3967,6 @@ Add the class `disabled` to classes `pagination-first`, `pagination-prev`, `pagi
     transform: rotate(360deg);
   }
 }
-
 /*
 
 # Angular-UI Tabs
@@ -4058,7 +4046,6 @@ Provides styling for the Angular-UI tab HTML
 .tab-pane .title:first-child {
   margin-top: 0;
 }
-
 .dropdown-menu {
   position: absolute;
   top: 100%;
@@ -4080,3 +4067,4 @@ Provides styling for the Angular-UI tab HTML
   background: #007bff;
   color: #ffffff;
 }
+/*# sourceMappingURL=encore-ui-1.0.7.css.map */
