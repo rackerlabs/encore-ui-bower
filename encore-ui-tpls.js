@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.0.8 - 2014-08-18
+ * Version: 1.1.0 - 2014-08-25
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxForm','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
@@ -429,6 +429,8 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxEnvironment', 'ngSanitize', 'ngR
 
             return false;
         },
+        childHeader: '<strong class="current-search">Current Account:</strong>' +
+            '<span class="current-result">#{{route.current.pathParams.accountNumber}}</span>',
         children: [
             {
                 href: '/accounts/{{accountNumber}}',
@@ -827,7 +829,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxEnvironment', 'ngSanitize', 'ngR
 
             if (scope.collapsibleNav) {
                 hotkeys.add({
-                    combo: 'ctrl+h',
+                    combo: 'h',
                     description: 'Show/hide the main menu',
                     callback: function () {
                         scope.collapsedNav = !scope.collapsedNav;
@@ -1019,7 +1021,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxEnvironment', 'ngSanitize', 'ngR
 */
 .directive('rxAtlasSearch', ["$window", function ($window) {
     return {
-        template: '<rx-app-search placeholder="Search for user..." submit="searchAccounts"></rx-app-search>',
+        template: '<rx-app-search placeholder="Search by username..." submit="searchAccounts"></rx-app-search>',
         restrict: 'E',
         link: function (scope) {
             scope.searchAccounts = function (searchValue) {
@@ -1455,6 +1457,7 @@ angular.module('encore.ui.rxButton', [])
     * @param {String} loadingMsg - Text to be displayed when an operation is in progress.
     * @param {String} defaultMsg - Text to be displayed by default an no operation is in progress.
     * @param {Boolean} toggle - When true, the button will display the loading text.
+    * @param {Boolean} disable - When true, the button will be disabled.
     */
     .directive('rxButton', function () {
         return {
@@ -1463,7 +1466,8 @@ angular.module('encore.ui.rxButton', [])
             scope: {
                 toggleMsg: '@',
                 defaultMsg: '@',
-                toggle: '='
+                toggle: '=',
+                disable: '=?',
             }
         };
     });
@@ -3279,7 +3283,7 @@ angular.module("templates/rxBreadcrumbs.html", []).run(["$templateCache", functi
 
 angular.module("templates/rxButton.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxButton.html",
-    "<button type=\"submit\" class=\"button rx-button\" ng-disabled=\"toggle\">{{ toggle ? toggleMsg : defaultMsg }}<div class=\"spinner\" ng-show=\"toggle\"><i class=\"pos1\"></i> <i class=\"pos2\"></i> <i class=\"pos3\"></i></div></button>");
+    "<button type=\"submit\" class=\"button rx-button\" ng-disabled=\"toggle || disable\">{{ toggle ? toggleMsg : defaultMsg }}<div class=\"spinner\" ng-show=\"toggle\"><i class=\"pos1\"></i> <i class=\"pos2\"></i> <i class=\"pos3\"></i></div></button>");
 }]);
 
 angular.module("templates/feedbackForm.html", []).run(["$templateCache", function($templateCache) {
