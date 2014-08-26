@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.1.0 - 2014-08-25
+ * Version: 1.1.1 - 2014-08-26
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxForm','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
@@ -1430,6 +1430,13 @@ angular.module('encore.ui.rxBreadcrumbs', [])
         return breadcrumbs.slice(0);
     };
 
+    breadcrumbsService.setHome = function (path, name) {
+        breadcrumbs[0] = {
+            path: path,
+            name: name || breadcrumbs[0].name
+        };
+    };
+
     return breadcrumbsService;
 })
 .directive('rxBreadcrumbs', function () {
@@ -1444,6 +1451,7 @@ angular.module('encore.ui.rxBreadcrumbs', [])
         }
     };
 });
+
 angular.module('encore.ui.rxButton', [])
     /**
     * @ngdoc directive
@@ -1637,7 +1645,7 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
     container.setEndpoint = function (url) {
         container.api = $resource(url);
     };
-    
+
     // set a default endpoint
     container.setEndpoint(feedbackApi);
 
@@ -1666,6 +1674,9 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
     return {
         restrict: 'E',
         templateUrl: 'templates/rxFeedback.html',
+        scope: {
+            sendFeedback: '=?onSubmit'
+        },
         link: function (scope) {
             scope.currentUrl = $location.url();
             scope.feedbackTypes = feedbackTypes;
@@ -1702,18 +1713,20 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
                 });
             };
 
-            scope.sendFeedback = function (feedback) {
-                var root = document.querySelector('.rx-app');
+            if (!_.isFunction(scope.sendFeedback)) {
+                scope.sendFeedback = function (feedback) {
+                    var root = document.querySelector('.rx-app');
 
-                // capture screenshot
-                var screenshot = rxScreenshotSvc.capture(root);
+                    // capture screenshot
+                    var screenshot = rxScreenshotSvc.capture(root);
 
-                screenshot.then(function (dataUrl) {
-                    makeApiCall(feedback, dataUrl);
-                }, function (reason) {
-                    makeApiCall(feedback, reason);
-                });
-            };
+                    screenshot.then(function (dataUrl) {
+                        makeApiCall(feedback, dataUrl);
+                    }, function (reason) {
+                        makeApiCall(feedback, reason);
+                    });
+                };
+            }
         }
     };
 }]);
