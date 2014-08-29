@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.1.2 - 2014-08-27
+ * Version: 1.1.3 - 2014-08-29
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxForm','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
@@ -586,7 +586,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxEnvironment', 'ngSanitize', 'ngR
 .service('rxAppRoutes', ["$rootScope", "$location", "$route", "$interpolate", "rxEnvironmentUrlFilter", "$log", function ($rootScope, $location, $route, $interpolate, rxEnvironmentUrlFilter, $log) {
     var AppRoutes = function () {
         var routes = [];
-        var currentPath;
+        var currentPathChunks;
 
         // remove any preceding # and / from the URL for cleaner comparison
         var stripLeadingChars = function (url) {
@@ -604,13 +604,21 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxEnvironment', 'ngSanitize', 'ngR
             return url.replace(trailingSlash, '');
         };
 
+        // Given a URL, split it on '/' and return all the non-empty components
+        var getChunks = function (url) {
+            if (!_.isString(url)) {
+                return [''];
+            }
+            return _.filter(url.split('/'), function (chunk) { return chunk !== '';});
+        };
+
         // get the current path, adding the <base> path if neeeded
         //
         // @example
         // if the current page url is 'http://localhost:9000/encore-ui/#/overviewPage#bookmark?book=harry%20potter'
         // and the page contains a <base href="encore-ui"> tag
         // getCurrentPath() would return '/encore-ui/overviewPage'
-        var getCurrentPath = function () {
+        var getCurrentPathChunks = function () {
             var fullPath;
             var base = document.getElementsByTagName('base');
             var basePath = '';
@@ -625,10 +633,10 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxEnvironment', 'ngSanitize', 'ngR
             fullPath = basePath + $location.path();
             fullPath = stripLeadingChars(fullPath);
 
-            return fullPath;
+            return getChunks(fullPath);
         };
         // we need to get the current path on page load
-        currentPath = getCurrentPath();
+        currentPathChunks = getCurrentPathChunks();
 
         // get the url defined in the route by removing the hash tag, leading slashes and query string
         // e.g. '/#/my/url?param=1' -> 'my/url'
@@ -644,16 +652,27 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxEnvironment', 'ngSanitize', 'ngR
             return itemUrl;
         };
 
+        // Given two sets of chunks, check if the first `numChunks` of `firstChunks`
+        // matches `subChunks`
+        var matchesSubChunks = function (firstChunks, subChunks, numChunks) {
+            return _.isEqual(firstChunks.slice(0, numChunks), subChunks);
+        };
+
+        // For a given route item, grab its defined URL, and see
+        // if it matches the currentPathChunks
         var isActive = function (item) {
-            var itemUrl = getItemUrl(item);
+            var itemUrlChunks = getChunks(getItemUrl(item));
+            var numChunks = itemUrlChunks.length;
 
             // check against the path and the hash
             // (in case the difference is the 'hash' like on the encore-ui demo page)
-            var pathMatches = (currentPath == itemUrl || $location.hash() == itemUrl);
+            var pathMatches = matchesSubChunks(currentPathChunks, itemUrlChunks, numChunks);
+            pathMatches = pathMatches || matchesSubChunks(getChunks($location.hash()), itemUrlChunks, numChunks);
 
             // if current item not active, check if any children are active
+            // This requires that `isActive` was called on all the children beforehand
             if (!pathMatches && item.children) {
-                pathMatches = _.any(item.children, isActive);
+                pathMatches = _.any(item.children, 'active');
             }
 
             return pathMatches;
@@ -737,8 +756,8 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxEnvironment', 'ngSanitize', 'ngR
         };
 
         $rootScope.$on('$locationChangeSuccess', function () {
-            // NOTE: currentPath MUST be updated before routes
-            currentPath = getCurrentPath();
+            // NOTE: currentPathChunks MUST be updated before routes
+            currentPathChunks = getCurrentPathChunks();
 
             routes = setDynamicProperties(routes);
         });

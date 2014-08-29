@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.1.2 - 2014-08-27
+ * Version: 1.1.3 - 2014-08-29
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxForm','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
@@ -587,7 +587,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxEnvironment', 'ngSanitize', 'ngR
 .service('rxAppRoutes', ["$rootScope", "$location", "$route", "$interpolate", "rxEnvironmentUrlFilter", "$log", function ($rootScope, $location, $route, $interpolate, rxEnvironmentUrlFilter, $log) {
     var AppRoutes = function () {
         var routes = [];
-        var currentPath;
+        var currentPathChunks;
 
         // remove any preceding # and / from the URL for cleaner comparison
         var stripLeadingChars = function (url) {
@@ -605,13 +605,21 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxEnvironment', 'ngSanitize', 'ngR
             return url.replace(trailingSlash, '');
         };
 
+        // Given a URL, split it on '/' and return all the non-empty components
+        var getChunks = function (url) {
+            if (!_.isString(url)) {
+                return [''];
+            }
+            return _.filter(url.split('/'), function (chunk) { return chunk !== '';});
+        };
+
         // get the current path, adding the <base> path if neeeded
         //
         // @example
         // if the current page url is 'http://localhost:9000/encore-ui/#/overviewPage#bookmark?book=harry%20potter'
         // and the page contains a <base href="encore-ui"> tag
         // getCurrentPath() would return '/encore-ui/overviewPage'
-        var getCurrentPath = function () {
+        var getCurrentPathChunks = function () {
             var fullPath;
             var base = document.getElementsByTagName('base');
             var basePath = '';
@@ -626,10 +634,10 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxEnvironment', 'ngSanitize', 'ngR
             fullPath = basePath + $location.path();
             fullPath = stripLeadingChars(fullPath);
 
-            return fullPath;
+            return getChunks(fullPath);
         };
         // we need to get the current path on page load
-        currentPath = getCurrentPath();
+        currentPathChunks = getCurrentPathChunks();
 
         // get the url defined in the route by removing the hash tag, leading slashes and query string
         // e.g. '/#/my/url?param=1' -> 'my/url'
@@ -645,16 +653,27 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxEnvironment', 'ngSanitize', 'ngR
             return itemUrl;
         };
 
+        // Given two sets of chunks, check if the first `numChunks` of `firstChunks`
+        // matches `subChunks`
+        var matchesSubChunks = function (firstChunks, subChunks, numChunks) {
+            return _.isEqual(firstChunks.slice(0, numChunks), subChunks);
+        };
+
+        // For a given route item, grab its defined URL, and see
+        // if it matches the currentPathChunks
         var isActive = function (item) {
-            var itemUrl = getItemUrl(item);
+            var itemUrlChunks = getChunks(getItemUrl(item));
+            var numChunks = itemUrlChunks.length;
 
             // check against the path and the hash
             // (in case the difference is the 'hash' like on the encore-ui demo page)
-            var pathMatches = (currentPath == itemUrl || $location.hash() == itemUrl);
+            var pathMatches = matchesSubChunks(currentPathChunks, itemUrlChunks, numChunks);
+            pathMatches = pathMatches || matchesSubChunks(getChunks($location.hash()), itemUrlChunks, numChunks);
 
             // if current item not active, check if any children are active
+            // This requires that `isActive` was called on all the children beforehand
             if (!pathMatches && item.children) {
-                pathMatches = _.any(item.children, isActive);
+                pathMatches = _.any(item.children, 'active');
             }
 
             return pathMatches;
@@ -738,8 +757,8 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxEnvironment', 'ngSanitize', 'ngR
         };
 
         $rootScope.$on('$locationChangeSuccess', function () {
-            // NOTE: currentPath MUST be updated before routes
-            currentPath = getCurrentPath();
+            // NOTE: currentPathChunks MUST be updated before routes
+            currentPathChunks = getCurrentPathChunks();
 
             routes = setDynamicProperties(routes);
         });
@@ -3296,7 +3315,7 @@ angular.module("templates/rxAppNav.html", []).run(["$templateCache", function($t
 
 angular.module("templates/rxAppNavItem.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxAppNavItem.html",
-    "<li class=\"rx-app-nav-item\" ng-show=\"isVisible(item.visibility)\" ng-class=\"{'has-children': item.children.length > 0, active: item.active }\"><a href=\"{{ item.url }}\" class=\"item-link\" ng-click=\"toggleNav($event, item.href)\">{{item.linkText}}</a><div class=\"item-content\" ng-show=\"item.active && (item.directive || item.children)\"><div class=\"item-directive\" ng-show=\"item.directive\"></div><div class=\"item-children\" ng-show=\"item.children && isVisible(item.childVisibility)\"><div class=\"child-header\" ng-if=\"item.childHeader\" rx-compile=\"item.childHeader\"></div></div></div></li>");
+    "<li class=\"rx-app-nav-item\" ng-show=\"isVisible(item.visibility)\" ng-class=\"{'has-children': item.children.length > 0, active: item.active, 'rx-app-key-{{ item.key }}': item.key }\"><a href=\"{{ item.url }}\" class=\"item-link\" ng-click=\"toggleNav($event, item.href)\">{{item.linkText}}</a><div class=\"item-content\" ng-show=\"item.active && (item.directive || item.children)\"><div class=\"item-directive\" ng-show=\"item.directive\"></div><div class=\"item-children\" ng-show=\"item.children && isVisible(item.childVisibility)\"><div class=\"child-header\" ng-if=\"item.childHeader\" rx-compile=\"item.childHeader\"></div></div></div></li>");
 }]);
 
 angular.module("templates/rxAppSearch.html", []).run(["$templateCache", function($templateCache) {
@@ -3306,7 +3325,7 @@ angular.module("templates/rxAppSearch.html", []).run(["$templateCache", function
 
 angular.module("templates/rxPage.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxPage.html",
-    "<div class=\"rx-page\"><header class=\"page-header clearfix\"><rx-breadcrumbs></rx-breadcrumbs></header><div class=\"page-body\"><rx-notifications></rx-notifications><div class=\"page-titles\"><h2 class=\"page-title title lg\" ng-bind-html=\"title\"></h2><h3 class=\"page-subtitle title subdued\" ng-bind-html=\"subtitle\"></h3></div><div class=\"page-content\" ng-transclude></div></div></div>");
+    "<div class=\"rx-page\"><header class=\"page-header clearfix\"><rx-breadcrumbs></rx-breadcrumbs></header><div class=\"page-body\"><rx-notifications></rx-notifications><div class=\"page-titles\" ng-if=\"title.length > 0 || subtitle.length > 0\"><h2 class=\"page-title title lg\" ng-bind-html=\"title\" ng-if=\"title.length > 0\"></h2><h 3 class=\"page-subtitle title subdued\" ng-bind-html=\"subtitle\" ng-if=\"subtitle.length > 0\"></h></div><div class=\"page-content\" ng-transclude></div></div></div>");
 }]);
 
 angular.module("templates/rxPermission.html", []).run(["$templateCache", function($templateCache) {
