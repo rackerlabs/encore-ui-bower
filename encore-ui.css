@@ -3829,9 +3829,7 @@ Add the class `disabled` to classes `pagination-first`, `pagination-prev`, `pagi
 .rx-paginate .pagination .disabled > a,
 .rx-paginate .pagination .disabled > a:hover,
 .rx-paginate .pagination .disabled > a:focus {
-  color: #999;
-  cursor: not-allowed;
-  background-color: #fff;
+  visibility: hidden;
 }
 .rx-paginate .pagination-lg > li > a,
 .rx-paginate .pagination-lg > li > span {
