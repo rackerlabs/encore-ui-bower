@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.1.6 - 2014-09-16
+ * Version: 1.2.0 - 2014-09-29
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxForm','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
@@ -186,8 +186,6 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
 * </pre>
 */
 .service('Environment', ["$location", "$rootScope", "$log", function ($location, $rootScope, $log) {
-    var envSvc = {};
-
     /*
      * This array defined different environments to check against.
      * It is prefilled with 'Encore' based environments
@@ -208,20 +206,29 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
         pattern: /\/\/(localhost|server)(:\d{1,4})?/,
         url: '//localhost:' + $location.port() + '/{{path}}'
     }, {
+        // Matches only https://preprod.encore.rackspace.com
+        name: 'preprod',
+        pattern: /\/\/preprod.encore.rackspace.com/,
+        url: '{{path}}'
+    }, {
+        // This is anything with a host preceeding encore.rackspace.com
         // https://staging.encore.rackspace.com/
         // https://preprod.encore.rackspace.com/
         name: 'unified-preprod',
         pattern: /\/\/(\w+\.)encore.rackspace.com/,
         url: '{{path}}'
     }, {
+        // This is *all* environments
         // https://encore.rackspace.com/
+        // https://staging.encore.rackspace.com/
+        // https://preprod.encore.rackspace.com/
         name: 'unified',
         pattern: 'encore.rackspace.com',
         url: '{{path}}'
     }, {
-        // https://encore.rackspace.com/ only
+        // This is only https://encore.rackspace.com/
         name: 'unified-prod',
-        pattern: /\/\/(?=[\w.]+)encore.rackspace.com/,
+        pattern: /\/\/encore.rackspace.com/,
         url: '{{path}}'
     }];
 
@@ -240,24 +247,26 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
         return isValid;
     };
 
+    var environmentPatternMatch = function (href, pattern) {
+        if (_.isRegExp(pattern)) {
+            return pattern.test(href);
+        }
+
+        return _.contains(href, pattern);
+    };
+
     /*
      * Retrieves current environment
      * @public
      * @param {string} [href] The path to check the environment on. Defaults to $location.absUrl()
      * @returns {Object} The current environment (if found), else 'localhost' environment.
      */
-    envSvc.get = function (href) {
+    this.get = function (href) {
         // default to current location if href not provided
         href = href || $location.absUrl();
 
         var currentEnvironment = _.find(environments, function (environment) {
-            var pattern = environment.pattern;
-
-            if (_.isRegExp(pattern)) {
-                return pattern.test(href);
-            }
-
-            return _.contains(href, pattern);
+            return environmentPatternMatch(href, environment.pattern);
         });
 
         if (_.isUndefined(currentEnvironment)) {
@@ -274,7 +283,7 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
      * @public
      * @param {object} environment The environment to add. See 'environments' array for required properties
      */
-    envSvc.add = function (environment) {
+    this.add = function (environment) {
         // do some sanity checks here
         if (isValidEnvironment(environment)) {
             // add environment
@@ -289,7 +298,7 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
      * @public
      * @param {array} newEnvironments New environments to use
      */
-    envSvc.setAll = function (newEnvironments) {
+    this.setAll = function (newEnvironments) {
         // validate that all new environments are valid
         if (newEnvironments.length > 0 && _.every(environments, isValidEnvironment)) {
             // overwrite old environments with new
@@ -297,7 +306,50 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
         }
     };
 
-    return envSvc;
+    /*
+     * Given an environment name, check if any of our registered environments 
+     * match it
+     * @public
+     * @param {string} [name] Environment name to check
+     * @param {string} [href] Optional href to check against. Defaults to $location.absUrl()
+     */
+    this.envCheck = function (name, href) {
+        href = href || $location.absUrl();
+        var matchingEnvironments = _.filter(environments, function (environment) {
+            return environmentPatternMatch(href, environment.pattern);
+        });
+        return _.contains(_.pluck(matchingEnvironments, 'name'), name);
+    };
+
+    var makeEnvCheck = function (name) {
+        return function (href) { return this.envCheck(name, href); };
+    };
+
+    /* Whether or not we're in the `preprod` environment
+     * @public
+     */
+    this.isPreProd = makeEnvCheck('preprod');
+
+    /* Whether or not we're in `local` environment
+     * @public
+     */
+    this.isLocal = makeEnvCheck('local');
+
+    /* Whether or not we're in the `unified-preprod` environment
+     * @public
+     */
+    this.isUnifiedPreProd = makeEnvCheck('unified-preprod');
+
+    /* Whether or not we're in the `unified` environment
+     * @public
+     */
+    this.isUnified = makeEnvCheck('unified');
+
+    /* Whether or not we're in the `unified-prod` environment
+     * @public
+     */
+    this.isUnifiedProd = makeEnvCheck('unified-prod');
+
 }])
 /**
 *
@@ -845,7 +897,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxEnvironment', 'ngSanitize', 'ngR
 *     <rx-app site-title="Custom Title"></rx-app>
 * </pre>
 */
-.directive('rxApp', ["rxAppRoutes", "hotkeys", function (rxAppRoutes, hotkeys) {
+.directive('rxApp', ["rxAppRoutes", "hotkeys", "Environment", function (rxAppRoutes, hotkeys, Environment) {
     return {
         restrict: 'E',
         transclude: true,
@@ -860,6 +912,8 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxEnvironment', 'ngSanitize', 'ngR
             logoutUrl: '@?'
         },
         link: function (scope) {
+            scope.isPreProd = Environment.isPreProd();
+
             scope.appRoutes = scope.newInstance ? rxAppRoutes.createInstance() : rxAppRoutes;
 
             // default hideFeedback to false
@@ -1681,9 +1735,10 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
         }
     };
 }])
-.service('rxFeedbackSvc', ["$resource", "feedbackApi", "$location", "$window", function ($resource, feedbackApi, $location, $window) {
+.factory('rxFeedbackSvc', ["$resource", "feedbackApi", "$location", "$window", function ($resource, feedbackApi, $location, $window) {
     var container = {
         api: undefined,
+        email: 'encoreui@lists.rackspace.com'
     };
 
     container.setEndpoint = function (url) {
@@ -1704,7 +1759,7 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
         body = body.join('\n\n');
 
         // if the feedback service fails, this fallback function can be run as a last ditch effort
-        var uri = encodeURI('mailto:encoreui@lists.rackspace.com?subject=' + subject + '&body=' + body);
+        var uri = encodeURI('mailto:' + container.email + '?subject=' + subject + '&body=' + body);
         var windowOpen = $window.open(uri, '_blank');
 
         if (!windowOpen) {
@@ -3305,7 +3360,7 @@ angular.module("templates/rxAccountSearch.html", []).run(["$templateCache", func
 
 angular.module("templates/rxApp.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxApp.html",
-    "<div class=\"rx-app\" ng-class=\"{collapsible: collapsibleNav === 'true', collapsed: collapsedNav}\" ng-cloak><nav class=\"rx-app-menu\"><header class=\"site-branding\"><h1 class=\"site-title\">{{ siteTitle || 'Encore' }}</h1><button class=\"collapsible-toggle btn-link\" ng-if=\"collapsibleNav === 'true'\" rx-toggle=\"$parent.collapsedNav\" title=\"{{ (collapsedNav) ? 'Show' : 'Hide' }} Main Menu\"><span class=\"visually-hidden\">{{ (collapsedNav) ? 'Show' : 'Hide' }} Main Menu</span><div class=\"double-chevron\" ng-class=\"{'double-chevron-left': !collapsedNav}\"></div></button><div class=\"site-options\"><button class=\"btn-link site-option site-logout\" rx-logout=\"{{logoutUrl}}\">Logout</button></div></header><nav class=\"rx-app-nav\"><div ng-repeat=\"section in appRoutes.getAll()\" class=\"nav-section nav-section-{{ section.type || 'all' }}\"><h2 class=\"nav-section-title\">{{ section.title }}</h2><rx-app-nav items=\"section.children\" level=\"1\"></rx-app-nav></div></nav><div class=\"rx-app-help clearfix\"><rx-feedback ng-if=\"!hideFeedback\"></rx-feedback></div></nav><div class=\"rx-app-content\" ng-transclude></div></div>");
+    "<div class=\"preprod rx-notifications\" rx-if-environment=\"preprod\"><div class=\"rx-notification notification-warning\"><span class=\"notification-text\">You are using a pre-production environment that has real, live production data!</span></div></div><div class=\"rx-app\" ng-class=\"{collapsible: collapsibleNav === 'true', collapsed: collapsedNav, preprod: isPreProd}\" ng-cloak><nav class=\"rx-app-menu\"><header class=\"site-branding\"><h1 class=\"site-title\">{{ siteTitle || 'Encore' }}</h1><button class=\"collapsible-toggle btn-link\" ng-if=\"collapsibleNav === 'true'\" rx-toggle=\"$parent.collapsedNav\" title=\"{{ (collapsedNav) ? 'Show' : 'Hide' }} Main Menu\"><span class=\"visually-hidden\">{{ (collapsedNav) ? 'Show' : 'Hide' }} Main Menu</span><div class=\"double-chevron\" ng-class=\"{'double-chevron-left': !collapsedNav}\"></div></button><div class=\"site-options\"><button class=\"btn-link site-option site-logout\" rx-logout=\"{{logoutUrl}}\">Logout</button></div></header><nav class=\"rx-app-nav\"><div ng-repeat=\"section in appRoutes.getAll()\" class=\"nav-section nav-section-{{ section.type || 'all' }}\"><h2 class=\"nav-section-title\">{{ section.title }}</h2><rx-app-nav items=\"section.children\" level=\"1\"></rx-app-nav></div></nav><div class=\"rx-app-help clearfix\"><rx-feedback ng-if=\"!hideFeedback\"></rx-feedback></div></nav><div class=\"rx-app-content\" ng-transclude></div></div>");
 }]);
 
 angular.module("templates/rxAppNav.html", []).run(["$templateCache", function($templateCache) {
@@ -3325,7 +3380,7 @@ angular.module("templates/rxAppSearch.html", []).run(["$templateCache", function
 
 angular.module("templates/rxPage.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxPage.html",
-    "<div class=\"rx-page\"><header class=\"page-header clearfix\"><rx-breadcrumbs></rx-breadcrumbs></header><div class=\"page-body\"><rx-notifications></rx-notifications><div class=\"page-titles\" ng-if=\"title.length > 0 || subtitle.length > 0\"><h2 class=\"page-title title lg\" ng-bind-html=\"title\" ng-if=\"title.length > 0\"></h2><h 3 class=\"page-subtitle title subdued\" ng-bind-html=\"subtitle\" ng-if=\"subtitle.length > 0\"></h></div><div class=\"page-content\" ng-transclude></div></div></div>");
+    "<div class=\"rx-page\"><header class=\"page-header clearfix\"><rx-breadcrumbs></rx-breadcrumbs></header><div class=\"page-body\"><rx-notifications></rx-notifications><div class=\"page-titles\" ng-if=\"title.length > 0 || subtitle.length > 0\"><h2 class=\"page-title title lg\" ng-bind-html=\"title\" ng-if=\"title.length > 0\"></h2><h3 class=\"page-subtitle title subdued\" ng-bind-html=\"subtitle\" ng-if=\"subtitle.length > 0\"></h3></div><div class=\"page-content\" ng-transclude></div></div></div>");
 }]);
 
 angular.module("templates/rxPermission.html", []).run(["$templateCache", function($templateCache) {

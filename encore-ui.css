@@ -2690,6 +2690,40 @@ For apps that want to use the default Encore navigation, use the following HTML 
 .rx-app.collapsed .rx-app-help {
   display: none;
 }
+.rx-app.preprod {
+  position: absolute;
+  margin-top: 3em;
+  width: 100%;
+}
+.rx-app.preprod .rx-app-menu {
+  background: #aa161c;
+}
+.rx-app.preprod .rx-app-nav-item.active:not(.has-children) > .item-link {
+  border-top-color: #bd1b22;
+}
+.rx-app.preprod .rx-app-nav-item .item-link {
+  background: #aa161c;
+  border-top: 1px solid #bd1b22;
+  border-bottom: 1px solid #991016;
+}
+.rx-app.preprod .rx-app-nav-item .item-link:hover,
+.rx-app.preprod .rx-app-nav-item .item-link:focus {
+  background: #be1c22;
+  border-top: 1px solid #991016;
+  border-bottom: 1px solid #991016;
+}
+.rx-app.preprod .rx-app-nav-item.active.has-children > .item-link {
+  border-top-color: #bd1b22;
+}
+.rx-app.preprod .rx-app-nav-item.active.has-children > .item-link:before {
+  background: #d41f26;
+}
+.rx-app.preprod .rx-app-nav-item.active.has-children > .item-link .item-content {
+  border-bottom: 1px solid #000000;
+}
+.rx-app.preprod .rx-app-nav-item .item-content {
+  background: #d41f26;
+}
 .rx-app .rx-app-nav {
   clear: both;
 }
@@ -2931,6 +2965,12 @@ For apps that want to use the default Encore navigation, use the following HTML 
 .rx-app .page-body .page-actions {
   float: right;
   margin: 0 0 2em 2em;
+}
+.preprod.rx-notifications {
+  position: fixed;
+  z-index: 3;
+  width: 100%;
+  margin-bottom: 0;
 }
 /*
 # rxBreadcrumbs
