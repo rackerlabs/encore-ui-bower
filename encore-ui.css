@@ -25,17 +25,18 @@
   border-radius: 4px;
   background: #ffffff;
   text-shadow: rgba(0, 0, 0, 0.09) 1px 1px 1px;
-  box-shadow: rgba(0, 0, 0, 0.09) 1px 1px 4px 0px;
+  box-shadow: rgba(0, 0, 0, 0.35) 1px 1px 4px 0px;
   padding: 6px;
 }
 .action-list-hideable:before {
   content: "\f0da";
+  text-shadow: rgba(0, 0, 0, 0.35) 1px 1px 1px;
   font-family: FontAwesome;
   text-decoration: inherit;
   color: #ffffff;
   font-size: 24px;
   display: block;
-  left: 149px;
+  left: 155px;
   position: absolute;
   top: 0;
   width: 0;
