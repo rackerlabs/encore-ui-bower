@@ -40,7 +40,7 @@
   position: absolute;
   top: -10px;
   right: 15px;
-  min-width: 12em;
+  min-width: 20em;
   font-size: .9em;
   border: 4px solid #ffffff;
   border-radius: 4px;
@@ -57,7 +57,7 @@
   color: #ffffff;
   font-size: 24px;
   display: block;
-  left: 155px;
+  left: 249px;
   position: absolute;
   top: 0;
   width: 0;
@@ -2712,38 +2712,38 @@ For apps that want to use the default Encore navigation, use the following HTML 
 .rx-app.collapsed .rx-app-help {
   display: none;
 }
-.rx-app.preprod {
+.rx-app.warning-bar {
   position: absolute;
   margin-top: 3em;
   width: 100%;
 }
-.rx-app.preprod .rx-app-menu {
+.rx-app.warning-bar.preprod .rx-app-menu {
   background: #aa161c;
 }
-.rx-app.preprod .rx-app-nav-item.active:not(.has-children) > .item-link {
+.rx-app.warning-bar.preprod .rx-app-nav-item.active:not(.has-children) > .item-link {
   border-top-color: #bd1b22;
 }
-.rx-app.preprod .rx-app-nav-item .item-link {
+.rx-app.warning-bar.preprod .rx-app-nav-item .item-link {
   background: #aa161c;
   border-top: 1px solid #bd1b22;
   border-bottom: 1px solid #991016;
 }
-.rx-app.preprod .rx-app-nav-item .item-link:hover,
-.rx-app.preprod .rx-app-nav-item .item-link:focus {
+.rx-app.warning-bar.preprod .rx-app-nav-item .item-link:hover,
+.rx-app.warning-bar.preprod .rx-app-nav-item .item-link:focus {
   background: #be1c22;
   border-top: 1px solid #991016;
   border-bottom: 1px solid #991016;
 }
-.rx-app.preprod .rx-app-nav-item.active.has-children > .item-link {
+.rx-app.warning-bar.preprod .rx-app-nav-item.active.has-children > .item-link {
   border-top-color: #bd1b22;
 }
-.rx-app.preprod .rx-app-nav-item.active.has-children > .item-link:before {
+.rx-app.warning-bar.preprod .rx-app-nav-item.active.has-children > .item-link:before {
   background: #d41f26;
 }
-.rx-app.preprod .rx-app-nav-item.active.has-children > .item-link .item-content {
+.rx-app.warning-bar.preprod .rx-app-nav-item.active.has-children > .item-link .item-content {
   border-bottom: 1px solid #000000;
 }
-.rx-app.preprod .rx-app-nav-item .item-content {
+.rx-app.warning-bar.preprod .rx-app-nav-item .item-content {
   background: #d41f26;
 }
 .rx-app .rx-app-nav {
@@ -2988,7 +2988,7 @@ For apps that want to use the default Encore navigation, use the following HTML 
   float: right;
   margin: 0 0 2em 2em;
 }
-.preprod.rx-notifications {
+.warning-bar.rx-notifications {
   position: fixed;
   z-index: 3;
   width: 100%;
@@ -3090,10 +3090,14 @@ Buttons are sized using 'xl', 'lg', 'sm' and 'xs'
  <button class="button xs">Tiny Button</button>
  <button class="button positive">"Positive" Button</button>
  <button class="button negative">"Negative" Button</button>
+ <button class="button submit">"Submit" Button</button>
  <button class="button cancel">"Cancel" Button</button>
  <button class="button" disabled>Disabled Button</button>
  <a href="#" class="button">My Link Button</a>
  ```
+
+When is a submit button blue and when is the submit button green?  If the form you are submitting results in CREATING or ADDING something, use green. If the form you are submitting results in editing something or something auxiliary (like getting metadata from a different sources) keep it blue. Ping an Encore-UI member if you have questions!
+
  */
 .button {
   display: inline-block;
@@ -3314,6 +3318,11 @@ field-prefix, field-suffix and field-description are all optional.
   flex-wrap: nowrap;
   align-items: baseline;
 }
+.text-area-label.form-item {
+  align-items: flex-start;
+  -webkit-align-items: flex-start;
+  -moz-align-items: flex-start;
+}
 .rx-form-fieldset > fieldset {
   width: 100%;
 }
@@ -3506,13 +3515,18 @@ Replace default UI of select fields and adds custom border/arrow
 
 ```
 <div class="form-actions">
-    <button class="submit form-action" type="submit" disabled="disabled">
+    <button class="button submit" type="submit" disabled="disabled">
         Submit Form (Disabled)
     </button>
 
-    <button class="submit form-action" type="submit">
+    <button class="button submit" type="submit">
         Submit Form
     </button>
+
+    <button class="button cancel" type="submit">
+        Cancel Form
+    </button>
+
 </div>
 
 ```
@@ -3659,15 +3673,17 @@ Replace default UI of select fields and adds custom border/arrow
   filter: alpha(opacity=40);
 }
 .modal {
-  position: fixed;
-  top: 10%;
+  position: absolute;
+  top: 50%;
   left: 50%;
   z-index: 1050;
   width: 560px;
-  margin-left: -295px;
   padding-right: 30px;
   background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.3);
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
   -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
   -ms-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
@@ -4322,5 +4338,221 @@ Provides styling for the Angular-UI tab HTML
 .dropdown-menu .active a {
   background: #007bff;
   color: #ffffff;
+}
+/*!
+Pure v0.5.0
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+https://github.com/yui/pure/blob/master/LICENSE.md
+*/
+.pure-g {
+  letter-spacing: -0.31em;
+  *letter-spacing: normal;
+  *word-spacing: -0.43em;
+  text-rendering: optimizespeed;
+  font-family: FreeSans, Arimo, "Droid Sans", Helvetica, Arial, sans-serif;
+  display: -webkit-flex;
+  -webkit-flex-flow: row wrap;
+  display: -ms-flexbox;
+  -ms-flex-flow: row wrap;
+}
+.opera-only :-o-prefocus,
+.pure-g {
+  word-spacing: -0.43em;
+}
+.pure-u {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  letter-spacing: normal;
+  word-spacing: normal;
+  vertical-align: top;
+  text-rendering: auto;
+}
+.pure-g [class*="pure-u"] {
+  font-family: sans-serif;
+}
+.pure-u-1,
+.pure-u-1-1,
+.pure-u-1-2,
+.pure-u-1-3,
+.pure-u-2-3,
+.pure-u-1-4,
+.pure-u-3-4,
+.pure-u-1-5,
+.pure-u-2-5,
+.pure-u-3-5,
+.pure-u-4-5,
+.pure-u-5-5,
+.pure-u-1-6,
+.pure-u-5-6,
+.pure-u-1-8,
+.pure-u-3-8,
+.pure-u-5-8,
+.pure-u-7-8,
+.pure-u-1-12,
+.pure-u-5-12,
+.pure-u-7-12,
+.pure-u-11-12,
+.pure-u-1-24,
+.pure-u-2-24,
+.pure-u-3-24,
+.pure-u-4-24,
+.pure-u-5-24,
+.pure-u-6-24,
+.pure-u-7-24,
+.pure-u-8-24,
+.pure-u-9-24,
+.pure-u-10-24,
+.pure-u-11-24,
+.pure-u-12-24,
+.pure-u-13-24,
+.pure-u-14-24,
+.pure-u-15-24,
+.pure-u-16-24,
+.pure-u-17-24,
+.pure-u-18-24,
+.pure-u-19-24,
+.pure-u-20-24,
+.pure-u-21-24,
+.pure-u-22-24,
+.pure-u-23-24,
+.pure-u-24-24 {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  letter-spacing: normal;
+  word-spacing: normal;
+  vertical-align: top;
+  text-rendering: auto;
+}
+.pure-u-1-24 {
+  width: 4.1667%;
+  *width: 4.1357%;
+}
+.pure-u-1-12,
+.pure-u-2-24 {
+  width: 8.3333%;
+  *width: 8.3023%;
+}
+.pure-u-1-8,
+.pure-u-3-24 {
+  width: 12.5%;
+  *width: 12.469%;
+}
+.pure-u-1-6,
+.pure-u-4-24 {
+  width: 16.6667%;
+  *width: 16.6357%;
+}
+.pure-u-1-5 {
+  width: 20%;
+  *width: 19.969%;
+}
+.pure-u-5-24 {
+  width: 20.8333%;
+  *width: 20.8023%;
+}
+.pure-u-1-4,
+.pure-u-6-24 {
+  width: 25%;
+  *width: 24.969%;
+}
+.pure-u-7-24 {
+  width: 29.1667%;
+  *width: 29.1357%;
+}
+.pure-u-1-3,
+.pure-u-8-24 {
+  width: 33.3333%;
+  *width: 33.3023%;
+}
+.pure-u-3-8,
+.pure-u-9-24 {
+  width: 37.5%;
+  *width: 37.469%;
+}
+.pure-u-2-5 {
+  width: 40%;
+  *width: 39.969%;
+}
+.pure-u-5-12,
+.pure-u-10-24 {
+  width: 41.6667%;
+  *width: 41.6357%;
+}
+.pure-u-11-24 {
+  width: 45.8333%;
+  *width: 45.8023%;
+}
+.pure-u-1-2,
+.pure-u-12-24 {
+  width: 50%;
+  *width: 49.969%;
+}
+.pure-u-13-24 {
+  width: 54.1667%;
+  *width: 54.1357%;
+}
+.pure-u-7-12,
+.pure-u-14-24 {
+  width: 58.3333%;
+  *width: 58.3023%;
+}
+.pure-u-3-5 {
+  width: 60%;
+  *width: 59.969%;
+}
+.pure-u-5-8,
+.pure-u-15-24 {
+  width: 62.5%;
+  *width: 62.469%;
+}
+.pure-u-2-3,
+.pure-u-16-24 {
+  width: 66.6667%;
+  *width: 66.6357%;
+}
+.pure-u-17-24 {
+  width: 70.8333%;
+  *width: 70.8023%;
+}
+.pure-u-3-4,
+.pure-u-18-24 {
+  width: 75%;
+  *width: 74.969%;
+}
+.pure-u-19-24 {
+  width: 79.1667%;
+  *width: 79.1357%;
+}
+.pure-u-4-5 {
+  width: 80%;
+  *width: 79.969%;
+}
+.pure-u-5-6,
+.pure-u-20-24 {
+  width: 83.3333%;
+  *width: 83.3023%;
+}
+.pure-u-7-8,
+.pure-u-21-24 {
+  width: 87.5%;
+  *width: 87.469%;
+}
+.pure-u-11-12,
+.pure-u-22-24 {
+  width: 91.6667%;
+  *width: 91.6357%;
+}
+.pure-u-23-24 {
+  width: 95.8333%;
+  *width: 95.8023%;
+}
+.pure-u-1,
+.pure-u-1-1,
+.pure-u-5-5,
+.pure-u-24-24 {
+  width: 100%;
 }
 /*# sourceMappingURL=encore-ui.css.map */

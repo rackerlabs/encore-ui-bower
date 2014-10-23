@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.3.0 - 2014-10-15
+ * Version: 1.3.1 - 2014-10-23
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
@@ -24,32 +24,63 @@ angular.module('encore.ui.configs', [])
     { value: '/dev/xvdp', label: '/dev/xvdp' }
 ])
 .constant('feedbackApi', '/api/feedback')
-.constant('routesCdnPath', {
-    production: 'https://d5b31243886503cdda55-92f888f8ef3e8464bcb65f52330fcbfb.ssl.cf1.rackcdn.com/encoreNav.json',
-    staging: 'https://5593626d69acc4cdb66a-521ce2b7cdb9308893eabb7915d88c0c.ssl.cf1.rackcdn.com/encoreNav.json',
-    preprod: 'https://b24ad15095637d2f91ee-ae6903de16cd565a74a9a50d287ad33f.ssl.cf1.rackcdn.com/encoreNav.json'
+.provider('routesCdnPath', function () {
+
+    this.customURL = null;
+
+    this.$get = function () {
+        var staging = this.customURL ||
+            'https://5593626d69acc4cdb66a-521ce2b7cdb9308893eabb7915d88c0c.ssl.cf1.rackcdn.com/encoreNav.json';
+
+        var production =
+            'https://d5b31243886503cdda55-92f888f8ef3e8464bcb65f52330fcbfb.ssl.cf1.rackcdn.com/encoreNav.json';
+
+        var preprod =
+            'https://b24ad15095637d2f91ee-ae6903de16cd565a74a9a50d287ad33f.ssl.cf1.rackcdn.com/encoreNav.json';
+
+        return {
+            production: production,
+            staging: staging,
+            preprod: preprod,
+            hasCustomURL: !_.isEmpty(this.customURL)
+        };
+        
+    };
 });
 
 angular.module('encore.ui.rxAccountInfo', [])
-.directive('rxAccountInfo', ["SupportAccount", "Encore", "rxNotify", function (SupportAccount, Encore, rxNotify) {
+.directive('rxAccountInfo', ["SupportAccount", "Teams", "Encore", "rxNotify", function (SupportAccount, Teams, Encore, rxNotify) {
     return {
         templateUrl: 'templates/rxAccountInfo.html',
         restrict: 'E',
         scope: {
             accountNumber: '@',
+            teamId: '@',
             notifyStack: '@'
         },
         link: function (scope) {
             var notifyStack = scope.notifyStack || 'page';
+            scope.badges = [];
 
             SupportAccount.getBadges({ accountNumber: scope.accountNumber }, function (badges) {
-                scope.badges = badges;
+                scope.badges = scope.badges.concat(badges);
             }, function () {
                 rxNotify.add('Error retrieving badges for this account', {
                     type: 'error',
                     stack: notifyStack
                 });
             });
+
+            if (!_.isEmpty(scope.teamId) && (_.isNumber(_.parseInt(scope.teamId)))) {
+                Teams.badges({ id: scope.teamId }).$promise.then(function (badges) {
+                    scope.badges = scope.badges.concat(badges);
+                }, function () {
+                    rxNotify.add('Error retrieving badges for this team', {
+                        type: 'error',
+                        stack: notifyStack
+                    });
+                });
+            }
 
             Encore.getAccount({ id: scope.accountNumber }, function (account) {
                 scope.accountName = account.name;
@@ -813,7 +844,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
 *     <rx-app site-title="Custom Title"></rx-app>
 * </pre>
 */
-.directive('rxApp', ["encoreRoutes", "rxAppRoutes", "hotkeys", "Environment", function (encoreRoutes, rxAppRoutes, hotkeys, Environment) {
+.directive('rxApp', ["encoreRoutes", "rxAppRoutes", "hotkeys", "Environment", "routesCdnPath", function (encoreRoutes, rxAppRoutes, hotkeys, Environment, routesCdnPath) {
     return {
         restrict: 'E',
         transclude: true,
@@ -829,6 +860,18 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
         },
         link: function (scope) {
             scope.isPreProd = Environment.isPreProd();
+
+            scope.isLocalNav = routesCdnPath.hasCustomURL && (Environment.isLocal());
+
+            scope.isWarning = scope.isPreProd || scope.isLocalNav;
+
+            if (scope.isPreProd) {
+                scope.warningMessage =
+                    'You are using a pre-production environment that has real, live production data!';
+            } else if (scope.isLocalNav) {
+                scope.warningMessage =
+                    'You are using a local nav file. Remove it from your config before committing!';
+            }
 
             // default hideFeedback to false
             var appRoutes = scope.newInstance ? new rxAppRoutes() : encoreRoutes;
@@ -1865,7 +1908,7 @@ angular.module('encore.ui.rxForm', ['ngSanitize'])
             description: '@'
         },
         link: function (scope, el) {
-            var inputSelectors = '.field-input input, .field-input select, .field-input texarea';
+            var inputSelectors = '.field-input input, .field-input select, .field-input textarea';
 
             // For accessibility reasons, we need to link the <label> to the <input>
             // To do this, we use the 'for' and 'id' attributes on the <label> and <input> tags, respectively
@@ -1877,6 +1920,8 @@ angular.module('encore.ui.rxForm', ['ngSanitize'])
                 var fieldId = 'field-' + scope.$id;
 
                 var inputField = el[0].querySelector(inputSelectors);
+
+                scope.isTextArea = _.has(inputField, 'type') && inputField.type === 'textarea';
 
                 // make sure an input field is found
                 if (!_.isObject(inputField)) {
@@ -3407,7 +3452,7 @@ angular.module("templates/rxAccountSearch.html", []).run(["$templateCache", func
 
 angular.module("templates/rxApp.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxApp.html",
-    "<div class=\"preprod rx-notifications\" rx-if-environment=\"preprod\"><div class=\"rx-notification notification-warning\"><span class=\"notification-text\">You are using a pre-production environment that has real, live production data!</span></div></div><div class=\"rx-app\" ng-class=\"{collapsible: collapsibleNav === 'true', collapsed: collapsedNav, preprod: isPreProd}\" ng-cloak><nav class=\"rx-app-menu\"><header class=\"site-branding\"><h1 class=\"site-title\">{{ siteTitle || 'Encore' }}</h1><button class=\"collapsible-toggle btn-link\" ng-if=\"collapsibleNav === 'true'\" rx-toggle=\"$parent.collapsedNav\" title=\"{{ (collapsedNav) ? 'Show' : 'Hide' }} Main Menu\"><span class=\"visually-hidden\">{{ (collapsedNav) ? 'Show' : 'Hide' }} Main Menu</span><div class=\"double-chevron\" ng-class=\"{'double-chevron-left': !collapsedNav}\"></div></button><div class=\"site-options\"><button class=\"btn-link site-option site-logout\" rx-logout=\"{{logoutUrl}}\">Logout</button></div></header><nav class=\"rx-app-nav\"><div ng-repeat=\"section in routes\" class=\"nav-section nav-section-{{ section.type || 'all' }}\"><h2 class=\"nav-section-title\">{{ section.title }}</h2><rx-app-nav items=\"section.children\" level=\"1\"></rx-app-nav></div></nav><div class=\"rx-app-help clearfix\"><rx-feedback ng-if=\"!hideFeedback\"></rx-feedback></div></nav><div class=\"rx-app-content\" ng-transclude></div></div>");
+    "<div class=\"warning-bar rx-notifications\" ng-class=\"{preprod: isPreProd}\" ng-if=\"isWarning\"><div class=\"rx-notification notification-warning\"><span class=\"notification-text\">{{ warningMessage }}</span></div></div><div class=\"rx-app\" ng-class=\"{collapsible: collapsibleNav === 'true', collapsed: collapsedNav, 'warning-bar': isWarning, preprod: isPreProd}\" ng-cloak><nav class=\"rx-app-menu\"><header class=\"site-branding\"><h1 class=\"site-title\">{{ siteTitle || 'Encore' }}</h1><button class=\"collapsible-toggle btn-link\" ng-if=\"collapsibleNav === 'true'\" rx-toggle=\"$parent.collapsedNav\" title=\"{{ (collapsedNav) ? 'Show' : 'Hide' }} Main Menu\"><span class=\"visually-hidden\">{{ (collapsedNav) ? 'Show' : 'Hide' }} Main Menu</span><div class=\"double-chevron\" ng-class=\"{'double-chevron-left': !collapsedNav}\"></div></button><div class=\"site-options\"><button class=\"btn-link site-option site-logout\" rx-logout=\"{{logoutUrl}}\">Logout</button></div></header><nav class=\"rx-app-nav\"><div ng-repeat=\"section in routes\" class=\"nav-section nav-section-{{ section.type || 'all' }}\"><h2 class=\"nav-section-title\">{{ section.title }}</h2><rx-app-nav items=\"section.children\" level=\"1\"></rx-app-nav></div></nav><div class=\"rx-app-help clearfix\"><rx-feedback ng-if=\"!hideFeedback\"></rx-feedback></div></nav><div class=\"rx-app-content\" ng-transclude></div></div>");
 }]);
 
 angular.module("templates/rxAppNav.html", []).run(["$templateCache", function($templateCache) {
@@ -3462,7 +3507,7 @@ angular.module("templates/rxFormFieldset.html", []).run(["$templateCache", funct
 
 angular.module("templates/rxFormItem.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxFormItem.html",
-    "<div class=\"form-item\"><label class=\"field-label\">{{label}}:</label><div class=\"field-content\"><span class=\"field-prefix\" ng-if=\"prefix\">{{prefix}}</span>  <span class=\"field-input\" ng-transclude></span> <span class=\"field-suffix\" ng-if=\"suffix\">{{suffix}}</span><div ng-if=\"description\" class=\"field-description\" ng-bind-html=\"description\"></div></div></div>");
+    "<div class=\"form-item\" ng-class=\"{'text-area-label': isTextArea}\"><label class=\"field-label\">{{label}}:</label><div class=\"field-content\"><span class=\"field-prefix\" ng-if=\"prefix\">{{prefix}}</span>  <span class=\"field-input\" ng-transclude></span> <span class=\"field-suffix\" ng-if=\"suffix\">{{suffix}}</span><div ng-if=\"description\" class=\"field-description\" ng-bind-html=\"description\"></div></div></div>");
 }]);
 
 angular.module("templates/rxFormOptionTable.html", []).run(["$templateCache", function($templateCache) {
