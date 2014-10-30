@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.3.1 - 2014-10-23
+ * Version: 1.3.2 - 2014-10-30
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
@@ -52,6 +52,7 @@ angular.module('encore.ui.rxAccountInfo', [])
     return {
         templateUrl: 'templates/rxAccountInfo.html',
         restrict: 'E',
+        transclude: true,
         scope: {
             accountNumber: '@',
             teamId: '@',
@@ -472,14 +473,8 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
         // get name of environment to look for
         var targetEnvironmentName = isNegated ? environment.substr(1) : environment;
 
-        // get name of current environment
-        var currentEnvironmentName = Environment.get().name;
-
-        if (isNegated) {
-            return currentEnvironmentName !== targetEnvironmentName;
-        } else {
-            return currentEnvironmentName === targetEnvironmentName;
-        }
+        var environmentMatches = Environment.envCheck(targetEnvironmentName);
+        return isNegated ? !environmentMatches : environmentMatches;
     };
 }])
 /**

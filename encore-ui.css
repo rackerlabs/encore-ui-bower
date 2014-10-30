@@ -1635,7 +1635,7 @@
 .fa-bomb:before {
   content: "\f1e2";
 }
-/*! normalize.css v3.0.1 | MIT License | git.io/normalize */
+/*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 
 /**
  * 1. Set default font family to sans-serif.
@@ -1662,7 +1662,8 @@ body {
 
 /**
  * Correct `block` display not defined for any HTML5 element in IE 8/9.
- * Correct `block` display not defined for `details` or `summary` in IE 10/11 and Firefox.
+ * Correct `block` display not defined for `details` or `summary` in IE 10/11
+ * and Firefox.
  * Correct `block` display not defined for `main` in IE 11.
  */
 
@@ -1675,6 +1676,7 @@ footer,
 header,
 hgroup,
 main,
+menu,
 nav,
 section,
 summary {
@@ -1722,7 +1724,7 @@ template {
  */
 
 a {
-  background: transparent;
+  background-color: transparent;
 }
 
 /**
@@ -3148,16 +3150,14 @@ When is a submit button blue and when is the submit button green?  If the form y
   margin-bottom: 5px;
   font-size: .9em;
 }
-.button[disabled] {
-  cursor: not-allowed;
-  color: #f0efef;
-  background: #cfd2d4;
-}
-.button.positive {
+.button.positive,
+.button.submit {
   background: #16b667;
 }
 .button.positive:hover,
-.button.positive:focus {
+.button.submit:hover,
+.button.positive:focus,
+.button.submit:focus {
   background: #19d176;
 }
 .button.negative {
@@ -3166,6 +3166,11 @@ When is a submit button blue and when is the submit button green?  If the form y
 .button.negative:hover,
 .button.negative:focus {
   background: #ff0000;
+}
+.button[disabled] {
+  cursor: not-allowed;
+  color: #f0efef;
+  background: #cfd2d4;
 }
 .button.cancel {
   background: #898989;

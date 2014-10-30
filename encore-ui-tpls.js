@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.3.1 - 2014-10-23
+ * Version: 1.3.2 - 2014-10-30
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
@@ -53,6 +53,7 @@ angular.module('encore.ui.rxAccountInfo', [])
     return {
         templateUrl: 'templates/rxAccountInfo.html',
         restrict: 'E',
+        transclude: true,
         scope: {
             accountNumber: '@',
             teamId: '@',
@@ -473,14 +474,8 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
         // get name of environment to look for
         var targetEnvironmentName = isNegated ? environment.substr(1) : environment;
 
-        // get name of current environment
-        var currentEnvironmentName = Environment.get().name;
-
-        if (isNegated) {
-            return currentEnvironmentName !== targetEnvironmentName;
-        } else {
-            return currentEnvironmentName === targetEnvironmentName;
-        }
+        var environmentMatches = Environment.envCheck(targetEnvironmentName);
+        return isNegated ? !environmentMatches : environmentMatches;
     };
 }])
 /**
@@ -3432,7 +3427,7 @@ angular.module('encore.ui.rxUnauthorizedInterceptor', ['encore.ui.rxSession'])
 
 angular.module("templates/rxAccountInfo.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxAccountInfo.html",
-    "<div class=\"rx-account-info\"><rx-info-panel panel-title=\"Account Info\"><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account Name</div><div class=\"account-info-data\">{{ accountName }}</div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account #</div><div class=\"account-info-data\">{{ accountNumber }}</div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Badges</div><div class=\"account-info-data\"><img ng-repeat=\"badge in badges\" ng-src=\"{{badge.url}}\" tooltip=\"{{badge.description}}\" tooltip-placement=\"bottom\"></div></div></rx-info-panel></div>");
+    "<div class=\"rx-account-info\"><rx-info-panel panel-title=\"Account Info\"><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account Name</div><div class=\"account-info-data\">{{ accountName }}</div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account #</div><div class=\"account-info-data\">{{ accountNumber }}</div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Badges</div><div class=\"account-info-data\"><img ng-repeat=\"badge in badges\" ng-src=\"{{badge.url}}\" tooltip=\"{{badge.description}}\" tooltip-placement=\"bottom\"></div></div><div class=\"account-info-wrapper\" ng-transclude></div></rx-info-panel></div>");
 }]);
 
 angular.module("templates/rxActionMenu.html", []).run(["$templateCache", function($templateCache) {
@@ -3507,7 +3502,7 @@ angular.module("templates/rxFormFieldset.html", []).run(["$templateCache", funct
 
 angular.module("templates/rxFormItem.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxFormItem.html",
-    "<div class=\"form-item\" ng-class=\"{'text-area-label': isTextArea}\"><label class=\"field-label\">{{label}}:</label><div class=\"field-content\"><span class=\"field-prefix\" ng-if=\"prefix\">{{prefix}}</span>  <span class=\"field-input\" ng-transclude></span> <span class=\"field-suffix\" ng-if=\"suffix\">{{suffix}}</span><div ng-if=\"description\" class=\"field-description\" ng-bind-html=\"description\"></div></div></div>");
+    "<div class=\"form-item\" ng-class=\"{'text-area-label': isTextArea}\"><label class=\"field-label\">{{label}}:</label><div class=\"field-content\"><span class=\"field-prefix\" ng-if=\"prefix\">{{prefix}}</span> <span class=\"field-input\" ng-transclude></span> <span class=\"field-suffix\" ng-if=\"suffix\">{{suffix}}</span><div ng-if=\"description\" class=\"field-description\" ng-bind-html=\"description\"></div></div></div>");
 }]);
 
 angular.module("templates/rxFormOptionTable.html", []).run(["$templateCache", function($templateCache) {
@@ -3527,7 +3522,7 @@ angular.module("templates/rxModalAction.html", []).run(["$templateCache", functi
 
 angular.module("templates/rxModalActionForm.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxModalActionForm.html",
-    "<div class=\"modal-header\"><h3 class=\"modal-title\">{{title}}</h3><h4 class=\"modal-subtitle\" ng-if=\"subtitle\">{{subtitle}}</h4><button class=\"modal-close btn-link\" ng-click=\"$parent.cancel()\"><span class=\"visually-hidden\">Close Window</span></button></div><div class=\"modal-body\"><div ng-show=\"$parent.isLoading\" class=\"loading\" rx-spinner=\"dark\" toggle=\"$parent.isLoading\"></div><form ng-hide=\"$parent.isLoading\" name=\"modalActionForm\" class=\"modal-form rx-form\" ng-transclude></form></div><div class=\"modal-footer\"><button class=\"submit form-action\" ng-click=\"$parent.submit()\" type=\"submit\" ng-disabled=\"modalActionForm.$invalid\">{{submitText || \"Submit\"}}</button> <button class=\"cancel form-action\" ng-click=\"$parent.cancel()\">{{cancelText || \"Cancel\"}}</button></div>");
+    "<div class=\"modal-header\"><h3 class=\"modal-title\">{{title}}</h3><h4 class=\"modal-subtitle\" ng-if=\"subtitle\">{{subtitle}}</h4><button class=\"modal-close btn-link\" ng-click=\"$parent.cancel()\"><span class=\"visually-hidden\">Close Window</span></button></div><div class=\"modal-body\"><div ng-show=\"$parent.isLoading\" class=\"loading\" rx-spinner=\"dark\" toggle=\"$parent.isLoading\"></div><form ng-hide=\"$parent.isLoading\" name=\"modalActionForm\" class=\"modal-form rx-form\" ng-transclude></form></div><div class=\"modal-footer\"><button class=\"button submit\" ng-click=\"$parent.submit()\" type=\"submit\" ng-disabled=\"modalActionForm.$invalid\">{{submitText || \"Submit\"}}</button> <button class=\"button cancel\" ng-click=\"$parent.cancel()\">{{cancelText || \"Cancel\"}}</button></div>");
 }]);
 
 angular.module("templates/rxNotification.html", []).run(["$templateCache", function($templateCache) {
