@@ -2,11 +2,11 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.3.3 - 2014-10-31
+ * Version: 1.3.4 - 2014-11-05
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
-angular.module('encore.ui.tpls', ['templates/rxAccountInfo.html','templates/rxActionMenu.html','templates/rxActiveUrl.html','templates/rxAccountSearch.html','templates/rxApp.html','templates/rxAppNav.html','templates/rxAppNavItem.html','templates/rxAppSearch.html','templates/rxPage.html','templates/rxPermission.html','templates/rxBreadcrumbs.html','templates/rxButton.html','templates/feedbackForm.html','templates/rxFeedback.html','templates/rxFormFieldset.html','templates/rxFormItem.html','templates/rxFormOptionTable.html','templates/rxInfoPanel.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxItemsPerPage.html','templates/rxPaginate.html','templates/rxSortableColumn.html']);
+angular.module('encore.ui.tpls', ['templates/rxAccountInfo.html','templates/rxActionMenu.html','templates/rxActiveUrl.html','templates/rxAccountSearch.html','templates/rxApp.html','templates/rxAppNav.html','templates/rxAppNavItem.html','templates/rxAppSearch.html','templates/rxPage.html','templates/rxPermission.html','templates/rxBreadcrumbs.html','templates/rxButton.html','templates/feedbackForm.html','templates/rxFeedback.html','templates/rxFormFieldset.html','templates/rxFormItem.html','templates/rxFormOptionTable.html','templates/rxInfoPanel.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxPaginate.html','templates/rxSortableColumn.html']);
 angular.module('encore.ui.configs', [])
 .value('devicePaths', [
     { value: '/dev/xvdb', label: '/dev/xvdb' },
@@ -62,6 +62,10 @@ angular.module('encore.ui.rxAccountInfo', [])
         link: function (scope) {
             var notifyStack = scope.notifyStack || 'page';
             scope.badges = [];
+            scope.tooltipHtml = function (badge) {
+                return ['<span class="tooltip-header">', badge.name,
+                        '</span><p>', badge.description, '</p>'].join('');
+            };
 
             SupportAccount.getBadges({ accountNumber: scope.accountNumber }, function (badges) {
                 scope.badges = scope.badges.concat(badges);
@@ -91,7 +95,7 @@ angular.module('encore.ui.rxAccountInfo', [])
                     stack: notifyStack
                 });
             });
-            
+
         }
     };
 }]);
@@ -2767,7 +2771,7 @@ angular.module('encore.ui.rxPaginate', [])
  * @param {number} numberOfPages This is the maximum number of pages that the
  * page object will display at a time.
  */
-.directive('rxPaginate', function () {
+.directive('rxPaginate', ["PageTracking", function (PageTracking) {
     return {
         templateUrl: 'templates/rxPaginate.html',
         replace: true,
@@ -2775,9 +2779,33 @@ angular.module('encore.ui.rxPaginate', [])
         scope: {
             pageTracking: '=',
             numberOfPages: '@'
+        },
+        link: function (scope, element) {
+
+            // We need to find the `<table>` that contains
+            // this `<rx-paginate>`
+            var parentElement = element.parent();
+            while (parentElement.length && parentElement[0].tagName !== 'TABLE') {
+                parentElement = parentElement.parent();
+            }
+
+            var table = parentElement;
+
+            scope.updateItemsPerPage = function (itemsPerPage) {
+                scope.pageTracking.itemsPerPage = itemsPerPage;
+                scope.pageTracking.pageNumber = 0;
+
+                // Set itemsPerPage as the new default value for
+                // all future pagination tables
+                PageTracking.userSelectedItemsPerPage(itemsPerPage);
+            };
+
+            scope.scrollToTop = function () {
+                table[0].scrollIntoView(true);
+            };
         }
     };
-})
+}])
 /**
 *
 * @ngdoc service
@@ -2787,7 +2815,7 @@ angular.module('encore.ui.rxPaginate', [])
 * objects to store/control page display of data tables and other items.
 *
 * @property {number} itemsPerPage This is the current setting for the number
-* of items to display per page
+* of items to display per page.
 * @property {number} pagesToShow This is the number of pages to show
 * in the pagination controls
 * @property {number} pageNumber This is where the current page number is
@@ -2800,7 +2828,15 @@ angular.module('encore.ui.rxPaginate', [])
 * the pagination or not.
 *
 * @method createInstance This is used to generate the instance of the
-* PageTracking object. Enables the ability to override default settings
+* PageTracking object. Enables the ability to override default settings.
+* If you choose to override the default `itemsPerPage`, and it isn't
+* a value in itemSizeList, then it will automatically be added to itemSizeList
+* at the right spot.
+*
+* @method userSelectedItemsPerPage Call this when a user chooses a new value for
+* itemsPerPage, and all future instances of PageTracking will default to that value,
+* assuming that the value exists in itemSizeList
+* 
 *
 * @example
 * <pre>
@@ -2808,15 +2844,35 @@ angular.module('encore.ui.rxPaginate', [])
 * </pre>
 */
 .factory('PageTracking', function () {
+
+    var selectedItemsPerPage;
+
     function PageTrackingObject (opts) {
         this.settings = _.defaults(opts, {
-            itemsPerPage: 10,
+            itemsPerPage: 50,
             pagesToShow: 5,
             pageNumber: 0,
             pageInit: false,
             total: 0,
             showAll: false,
+            itemSizeList: [50, 200, 350, 500]
         });
+
+        var itemsPerPage = this.settings.itemsPerPage;
+        var itemSizeList = this.settings.itemSizeList;
+
+        // If itemSizeList doesn't contain the desired itemsPerPage,
+        // then find the right spot in itemSizeList and insert the
+        // itemsPerPage value
+        if (!_.contains(itemSizeList, itemsPerPage)) {
+            var index = _.sortedIndex(itemSizeList, itemsPerPage);
+            itemSizeList.splice(index, 0, itemsPerPage);
+        }
+
+        // If the user has chosen a desired itemsPerPage, make sure we're respecting that
+        if (!_.isUndefined(selectedItemsPerPage) && _.contains(itemSizeList, selectedItemsPerPage)) {
+            this.settings.itemsPerPage = selectedItemsPerPage;
+        }
     }
 
     return {
@@ -2824,6 +2880,10 @@ angular.module('encore.ui.rxPaginate', [])
             options = options ? options : {};
             var tracking = new PageTrackingObject(options);
             return tracking.settings;
+        },
+
+        userSelectedItemsPerPage: function (itemsPerPage) {
+            selectedItemsPerPage = itemsPerPage;
         }
     };
 })
@@ -2866,6 +2926,32 @@ angular.module('encore.ui.rxPaginate', [])
         }
     };
 }])
+
+/**
+ * @ngdoc filter
+ * @name encore.ui.rxPaginate:PaginatedItemsSummary
+ * @description
+ * Given an active pager (i.e. the result of PageTracking.createInstance()),
+ * return a string like "26-50 of 500", when on the second page of a list of
+ * 500 items, where we are displaying 25 items per page
+ *
+ * @param {Object} pager The instance of the PageTracking service. If not
+ *
+ * @returns {String} The list of page numbers that will be displayed.
+ */
+.filter('PaginatedItemsSummary', function () {
+    return function (pager) {
+        var template = '<%= first %>-<%= last %> of <%= total %>';
+        if (pager.showAll || pager.itemsPerPage > pager.total) {
+            template = '<%= total %>';
+        }
+        return _.template(template, {
+            first: pager.first,
+            last: pager.last,
+            total: pager.total
+        });
+    };
+})
 /**
 *
 * @ngdoc filter
@@ -3427,7 +3513,7 @@ angular.module('encore.ui.rxUnauthorizedInterceptor', ['encore.ui.rxSession'])
 
 angular.module("templates/rxAccountInfo.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxAccountInfo.html",
-    "<div class=\"rx-account-info\"><rx-info-panel panel-title=\"Account Info\"><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account Name</div><div class=\"account-info-data\">{{ accountName }}</div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account #</div><div class=\"account-info-data\">{{ accountNumber }}</div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Badges</div><div class=\"account-info-data\"><img ng-repeat=\"badge in badges\" ng-src=\"{{badge.url}}\" tooltip=\"{{badge.description}}\" tooltip-placement=\"bottom\"></div></div><div class=\"account-info-wrapper\" ng-transclude></div></rx-info-panel></div>");
+    "<div class=\"rx-account-info\"><rx-info-panel panel-title=\"Account Info\"><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account Name</div><div class=\"account-info-data\">{{ accountName }}</div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account #</div><div class=\"account-info-data\">{{ accountNumber }}</div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Badges</div><div class=\"account-info-data\"><img ng-repeat=\"badge in badges\" ng-src=\"{{badge.url}}\" data-name=\"{{badge.name}}\" data-description=\"{{badge.description}}\" tooltip-html-unsafe=\"{{tooltipHtml(badge)}}\" tooltip-placement=\"bottom\"></div></div><div class=\"account-info-wrapper\" ng-transclude></div></rx-info-panel></div>");
 }]);
 
 angular.module("templates/rxActionMenu.html", []).run(["$templateCache", function($templateCache) {
@@ -3535,14 +3621,9 @@ angular.module("templates/rxNotifications.html", []).run(["$templateCache", func
     "<div class=\"rx-notifications\" ng-show=\"messages.length > 0\"><div ng-repeat=\"message in messages\" class=\"rx-notification notification-{{message.type}}\" ng-class=\"{'notification-loading': message.loading}\" rx-spinner toggle=\"message.loading\" ng-init=\"loading = message.loading\"><span class=\"notification-text\" ng-bind-html=\"message.text\"></span> <button ng-click=\"dismiss(message)\" class=\"notification-dismiss btn-link\" ng-if=\"message.dismissable && !message.loading\">&times; <span class=\"visually-hidden\">Dismiss Message</span></button></div></div>");
 }]);
 
-angular.module("templates/rxItemsPerPage.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("templates/rxItemsPerPage.html",
-    "<form id=\"itemsPerPageForm\" class=\"itemsPerPage\"><label for=\"itemsPerPageSelector\">{{ label }}</label><select name=\"itemsPerPageSelector\" id=\"itemsPerPageSelector\" ng-model=\"pager.itemsPerPage\" ng-change=\"updatePaging()\"><option ng-repeat=\"i in pager.itemSizeList\">{{ i }}</option></select></form>");
-}]);
-
 angular.module("templates/rxPaginate.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxPaginate.html",
-    "<div class=\"rx-paginate\"><ul class=\"pagination\"><li ng-class=\"{disabled: pageTracking.pageNumber == 0}\" class=\"pagination-first\"><a ng-click=\"pageTracking.pageNumber = 0\" ng-hide=\"pageTracking.pageNumber == 0\">First</a> <span ng-show=\"pageTracking.pageNumber == 0\">First</span></li><li ng-class=\"{disabled: pageTracking.pageNumber == 0}\" class=\"pagination-prev\"><a ng-click=\"pageTracking.pageNumber = (pageTracking.pageNumber - 1)\" ng-hide=\"pageTracking.pageNumber == 0\">« Prev</a> <span ng-show=\"pageTracking.pageNumber == 0\">« Prev</span></li><li ng-repeat=\"n in pageTracking | Page\" ng-class=\"{active: n == pageTracking.pageNumber, 'page-number-last': n == pageTracking.totalPages - 1}\" class=\"pagination-page\"><a ng-click=\"pageTracking.pageNumber = n\">{{n + 1}}</a></li><li ng-class=\"{disabled: pageTracking.pageNumber == pageTracking.totalPages - 1 || pageTracking.total == 0}\" class=\"pagination-next\"><a ng-click=\"pageTracking.pageNumber = (pageTracking.pageNumber + 1)\" ng-hide=\"pageTracking.pageNumber == pageTracking.totalPages - 1 || pageTracking.total == 0\">Next »</a> <span ng-show=\"pageTracking.pageNumber == pageTracking.totalPages - 1\">Next »</span></li><li ng-class=\"{disabled: pageTracking.pageNumber == pageTracking.totalPages - 1}\" class=\"pagination-last\"><a ng-click=\"pageTracking.pageNumber = pageTracking.totalPages - 1\" ng-hide=\"pageTracking.pageNumber == pageTracking.totalPages - 1\">Last</a> <span ng-show=\"pageTracking.pageNumber == pageTracking.totalPages - 1\">Last</span></li></ul></div>");
+    "<div class=\"rx-paginate\"><ul class=\"pagination\"><li><a tabindex=\"0\" ng-click=\"scrollToTop()\">Back to top</a></li><li>Showing {{ pageTracking | PaginatedItemsSummary}} items</li><span class=\"page-links\"><li ng-class=\"{disabled: pageTracking.pageNumber == 0}\" class=\"pagination-first\"><a ng-click=\"pageTracking.pageNumber = 0\" ng-hide=\"pageTracking.pageNumber == 0\">First</a> <span ng-show=\"pageTracking.pageNumber == 0\">First</span></li><li ng-class=\"{disabled: pageTracking.pageNumber == 0}\" class=\"pagination-prev\"><a ng-click=\"pageTracking.pageNumber = (pageTracking.pageNumber - 1)\" ng-hide=\"pageTracking.pageNumber == 0\">« Prev</a> <span ng-show=\"pageTracking.pageNumber == 0\">« Prev</span></li><li ng-repeat=\"n in pageTracking | Page\" ng-class=\"{active: n == pageTracking.pageNumber, 'page-number-last': n == pageTracking.totalPages - 1}\" class=\"pagination-page\"><a ng-click=\"pageTracking.pageNumber = n\">{{n + 1}}</a></li><li ng-class=\"{disabled: pageTracking.pageNumber == pageTracking.totalPages - 1 || pageTracking.total == 0}\" class=\"pagination-next\"><a ng-click=\"pageTracking.pageNumber = (pageTracking.pageNumber + 1)\" ng-hide=\"pageTracking.pageNumber == pageTracking.totalPages - 1 || pageTracking.total == 0\">Next »</a> <span ng-show=\"pageTracking.pageNumber == pageTracking.totalPages - 1\">Next »</span></li><li ng-class=\"{disabled: pageTracking.pageNumber == pageTracking.totalPages - 1}\" class=\"pagination-last\"><a ng-click=\"pageTracking.pageNumber = pageTracking.totalPages - 1\" ng-hide=\"pageTracking.pageNumber == pageTracking.totalPages - 1\">Last</a> <span ng-show=\"pageTracking.pageNumber == pageTracking.totalPages - 1\">Last</span></li></span><li class=\"pagination-per-page\"><div>Show<ul><li ng-repeat=\"i in pageTracking.itemSizeList\"><button ng-disabled=\"i == pageTracking.itemsPerPage\" class=\"pagination-per-page-button\" ng-disabled=\"i == pageTracking.itemsPerPage\" ng-click=\"updateItemsPerPage(i)\">{{ i }}</button></li></ul></div></li></ul></div>");
 }]);
 
 angular.module("templates/rxSortableColumn.html", []).run(["$templateCache", function($templateCache) {

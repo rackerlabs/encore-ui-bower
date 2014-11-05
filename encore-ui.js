@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.3.3 - 2014-10-31
+ * Version: 1.3.4 - 2014-11-05
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
@@ -61,6 +61,10 @@ angular.module('encore.ui.rxAccountInfo', [])
         link: function (scope) {
             var notifyStack = scope.notifyStack || 'page';
             scope.badges = [];
+            scope.tooltipHtml = function (badge) {
+                return ['<span class="tooltip-header">', badge.name,
+                        '</span><p>', badge.description, '</p>'].join('');
+            };
 
             SupportAccount.getBadges({ accountNumber: scope.accountNumber }, function (badges) {
                 scope.badges = scope.badges.concat(badges);
@@ -90,7 +94,7 @@ angular.module('encore.ui.rxAccountInfo', [])
                     stack: notifyStack
                 });
             });
-            
+
         }
     };
 }]);
@@ -2766,7 +2770,7 @@ angular.module('encore.ui.rxPaginate', [])
  * @param {number} numberOfPages This is the maximum number of pages that the
  * page object will display at a time.
  */
-.directive('rxPaginate', function () {
+.directive('rxPaginate', ["PageTracking", function (PageTracking) {
     return {
         templateUrl: 'templates/rxPaginate.html',
         replace: true,
@@ -2774,9 +2778,33 @@ angular.module('encore.ui.rxPaginate', [])
         scope: {
             pageTracking: '=',
             numberOfPages: '@'
+        },
+        link: function (scope, element) {
+
+            // We need to find the `<table>` that contains
+            // this `<rx-paginate>`
+            var parentElement = element.parent();
+            while (parentElement.length && parentElement[0].tagName !== 'TABLE') {
+                parentElement = parentElement.parent();
+            }
+
+            var table = parentElement;
+
+            scope.updateItemsPerPage = function (itemsPerPage) {
+                scope.pageTracking.itemsPerPage = itemsPerPage;
+                scope.pageTracking.pageNumber = 0;
+
+                // Set itemsPerPage as the new default value for
+                // all future pagination tables
+                PageTracking.userSelectedItemsPerPage(itemsPerPage);
+            };
+
+            scope.scrollToTop = function () {
+                table[0].scrollIntoView(true);
+            };
         }
     };
-})
+}])
 /**
 *
 * @ngdoc service
@@ -2786,7 +2814,7 @@ angular.module('encore.ui.rxPaginate', [])
 * objects to store/control page display of data tables and other items.
 *
 * @property {number} itemsPerPage This is the current setting for the number
-* of items to display per page
+* of items to display per page.
 * @property {number} pagesToShow This is the number of pages to show
 * in the pagination controls
 * @property {number} pageNumber This is where the current page number is
@@ -2799,7 +2827,15 @@ angular.module('encore.ui.rxPaginate', [])
 * the pagination or not.
 *
 * @method createInstance This is used to generate the instance of the
-* PageTracking object. Enables the ability to override default settings
+* PageTracking object. Enables the ability to override default settings.
+* If you choose to override the default `itemsPerPage`, and it isn't
+* a value in itemSizeList, then it will automatically be added to itemSizeList
+* at the right spot.
+*
+* @method userSelectedItemsPerPage Call this when a user chooses a new value for
+* itemsPerPage, and all future instances of PageTracking will default to that value,
+* assuming that the value exists in itemSizeList
+* 
 *
 * @example
 * <pre>
@@ -2807,15 +2843,35 @@ angular.module('encore.ui.rxPaginate', [])
 * </pre>
 */
 .factory('PageTracking', function () {
+
+    var selectedItemsPerPage;
+
     function PageTrackingObject (opts) {
         this.settings = _.defaults(opts, {
-            itemsPerPage: 10,
+            itemsPerPage: 50,
             pagesToShow: 5,
             pageNumber: 0,
             pageInit: false,
             total: 0,
             showAll: false,
+            itemSizeList: [50, 200, 350, 500]
         });
+
+        var itemsPerPage = this.settings.itemsPerPage;
+        var itemSizeList = this.settings.itemSizeList;
+
+        // If itemSizeList doesn't contain the desired itemsPerPage,
+        // then find the right spot in itemSizeList and insert the
+        // itemsPerPage value
+        if (!_.contains(itemSizeList, itemsPerPage)) {
+            var index = _.sortedIndex(itemSizeList, itemsPerPage);
+            itemSizeList.splice(index, 0, itemsPerPage);
+        }
+
+        // If the user has chosen a desired itemsPerPage, make sure we're respecting that
+        if (!_.isUndefined(selectedItemsPerPage) && _.contains(itemSizeList, selectedItemsPerPage)) {
+            this.settings.itemsPerPage = selectedItemsPerPage;
+        }
     }
 
     return {
@@ -2823,6 +2879,10 @@ angular.module('encore.ui.rxPaginate', [])
             options = options ? options : {};
             var tracking = new PageTrackingObject(options);
             return tracking.settings;
+        },
+
+        userSelectedItemsPerPage: function (itemsPerPage) {
+            selectedItemsPerPage = itemsPerPage;
         }
     };
 })
@@ -2865,6 +2925,32 @@ angular.module('encore.ui.rxPaginate', [])
         }
     };
 }])
+
+/**
+ * @ngdoc filter
+ * @name encore.ui.rxPaginate:PaginatedItemsSummary
+ * @description
+ * Given an active pager (i.e. the result of PageTracking.createInstance()),
+ * return a string like "26-50 of 500", when on the second page of a list of
+ * 500 items, where we are displaying 25 items per page
+ *
+ * @param {Object} pager The instance of the PageTracking service. If not
+ *
+ * @returns {String} The list of page numbers that will be displayed.
+ */
+.filter('PaginatedItemsSummary', function () {
+    return function (pager) {
+        var template = '<%= first %>-<%= last %> of <%= total %>';
+        if (pager.showAll || pager.itemsPerPage > pager.total) {
+            template = '<%= total %>';
+        }
+        return _.template(template, {
+            first: pager.first,
+            last: pager.last,
+            total: pager.total
+        });
+    };
+})
 /**
 *
 * @ngdoc filter

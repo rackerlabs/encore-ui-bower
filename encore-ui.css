@@ -1,4 +1,42 @@
 /*
+ * metadata
+ */
+.list-definition,
+.metadata {
+  font-size: 16px;
+}
+.list-definition dt,
+.metadata dt {
+  line-height: 1.6em;
+  float: left;
+  min-width: 9em;
+  font-weight: 700;
+  text-align: right;
+  clear: left;
+}
+.list-definition dd,
+.metadata dd {
+  line-height: 1.6em;
+  float: left;
+  font-weight: 400;
+  text-align: left;
+  margin: 0;
+  padding-left: 1em;
+  clear: right;
+}
+.metadata {
+  overflow: hidden;
+  font-size: 16px;
+  color: #727272;
+}
+.metadata dl {
+  margin: 0;
+  clear: both;
+}
+.metadata dt {
+  min-width: 10em;
+}
+/*
  * rxAccountInfo
  */
 .rx-account-info .info-panel {
@@ -3943,8 +3981,11 @@ Add the class `disabled` to classes `pagination-first`, `pagination-prev`, `pagi
   background: #fff;
 }
 .rx-paginate .pagination {
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
+  flex-flow: row;
   padding-left: 0;
+  width: 100%;
 }
 .rx-paginate .pagination li {
   display: inline;
@@ -3963,22 +4004,80 @@ Add the class `disabled` to classes `pagination-first`, `pagination-prev`, `pagi
   border-top: 2px solid transparent;
   color: #ababab;
 }
+.rx-paginate .pagination > li:first-child {
+  order: 1;
+}
 .rx-paginate .pagination > li:first-child > a,
 .rx-paginate .pagination > li:first-child > span {
-  margin-left: 0;
+  padding-left: 30px;
+  color: #4580c2;
+  background: transparent;
 }
-.rx-paginate .pagination > li > a:hover,
-.rx-paginate .pagination > li > span:hover,
-.rx-paginate .pagination > li > a:focus,
-.rx-paginate .pagination > li > span:focus {
+.rx-paginate .pagination > li:first-child > a:before,
+.rx-paginate .pagination > li:first-child > span:before {
+  content: ".";
+  width: 0;
+  height: 0;
+  font-size: 0;
+  display: block;
+  position: absolute;
+  border: 6px solid transparent;
+  border-bottom-color: #4580c2;
+  border-top: none;
+  left: 10px;
+  top: 55%;
+  margin-top: -4px;
+}
+.rx-paginate .pagination > li:nth-child(2) {
+  order: 2;
+  padding: 6px 12px;
+  border-top: 2px solid transparent;
+  color: #ababab;
+}
+.rx-paginate .pagination > .page-links {
+  order: 3;
+  margin: auto;
+  align-self: center;
+}
+.rx-paginate .pagination > li:last-child {
+  order: 4;
+  border-top: 2px solid transparent;
+  padding: 6px 12px;
+  color: #ababab;
+}
+.rx-paginate .pagination > li:last-child button[disabled] {
+  color: #ababab;
+}
+.rx-paginate .pagination > li > div > ul {
+  float: right;
+  padding-left: 5px;
+}
+.rx-paginate .pagination > li > div > ul button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #4580c2;
+}
+.rx-paginate .pagination > li > div > ul span {
+  float: none;
+  background: transparent;
+}
+.rx-paginate .pagination > li > div > ul li + li::before {
+  content: " | ";
+  margin: 0 1em;
+}
+.rx-paginate .pagination > .page-links > li > a:hover,
+.rx-paginate .pagination > .page-links > li > span:hover,
+.rx-paginate .pagination > .page-links > li > a:focus,
+.rx-paginate .pagination > .page-links > li > span:focus {
   background: #eee;
 }
-.rx-paginate .pagination > .active > a,
-.rx-paginate .pagination > .active > span,
-.rx-paginate .pagination > .active > a:hover,
-.rx-paginate .pagination > .active > span:hover,
-.rx-paginate .pagination > .active > a:focus,
-.rx-paginate .pagination > .active > span:focus {
+.rx-paginate .pagination > .page-links > .active > a,
+.rx-paginate .pagination > .page-links > .active > span,
+.rx-paginate .pagination > .page-links > .active > a:hover,
+.rx-paginate .pagination > .page-links > .active > span:hover,
+.rx-paginate .pagination > .page-links > .active > a:focus,
+.rx-paginate .pagination > .page-links > .active > span:focus {
   z-index: 2;
   cursor: default;
   border-top-color: #000;
