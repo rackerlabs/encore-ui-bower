@@ -1673,7 +1673,7 @@
 .fa-bomb:before {
   content: "\f1e2";
 }
-/*! normalize.css v3.0.2 | MIT License | git.io/normalize */
+/*! normalize.css v3.0.1 | MIT License | git.io/normalize */
 
 /**
  * 1. Set default font family to sans-serif.
@@ -1700,8 +1700,7 @@ body {
 
 /**
  * Correct `block` display not defined for any HTML5 element in IE 8/9.
- * Correct `block` display not defined for `details` or `summary` in IE 10/11
- * and Firefox.
+ * Correct `block` display not defined for `details` or `summary` in IE 10/11 and Firefox.
  * Correct `block` display not defined for `main` in IE 11.
  */
 
@@ -1714,7 +1713,6 @@ footer,
 header,
 hgroup,
 main,
-menu,
 nav,
 section,
 summary {
@@ -1762,7 +1760,7 @@ template {
  */
 
 a {
-  background-color: transparent;
+  background: transparent;
 }
 
 /**
@@ -3648,6 +3646,20 @@ Replace default UI of select fields and adds custom border/arrow
   display: inline-block;
   width: auto;
 }
+.rx-app-nav-item .field-select {
+  background: #404140;
+}
+.rx-app-nav-item .field-select select {
+  border: 1px solid #3a3a3a;
+}
+.rx-app-nav-item .field-select:before {
+  border-top-color: #cacaca;
+}
+.account-users {
+  float: right;
+  box-sizing: border-box;
+  width: 50%;
+}
 /*
  * rxInfoPanel
  */
@@ -4658,4 +4670,4 @@ https://github.com/yui/pure/blob/master/LICENSE.md
 .pure-u-24-24 {
   width: 100%;
 }
-/*# sourceMappingURL=encore-ui.css.map */
+/*# sourceMappingURL=encore-ui-1.3.4.css.map */
