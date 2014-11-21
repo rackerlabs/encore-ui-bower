@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.4.0 - 2014-11-10
+ * Version: 1.4.1 - 2014-11-21
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
@@ -1653,7 +1653,7 @@ angular.module('encore.ui.rxAuth',
         return svc;
     }]);
 
-angular.module('encore.ui.rxBreadcrumbs', [])
+angular.module('encore.ui.rxBreadcrumbs', ['ngSanitize'])
 .factory('rxBreadcrumbsSvc', function () {
     // default will always be home
     var breadcrumbs = [{
@@ -1769,7 +1769,12 @@ angular.module('encore.ui.rxDiskSize', [])
         var index = _.indexOf(units, unit);
 
         if (index === -1) {
-            index = Math.floor(Math.log(size) / Math.log(1000));
+            if (size > 0) {
+                index = Math.floor(Math.log(size) / Math.log(1000));
+            } else {
+                index = 0;
+                size = 0;
+            }
         }
 
         return size / Math.pow(1000, Math.floor(index)).toFixed(1) + ' ' + units[index];
