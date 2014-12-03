@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.4.1 - 2014-11-21
+ * Version: 1.4.2 - 2014-12-03
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
@@ -1704,7 +1704,8 @@ angular.module('encore.ui.rxButton', [])
     *
     * @description
     * Renders a button which will disable when clicked and show a loading message
-    * and renable when operation is complete.
+    * and renable when operation is complete. If you set `classes` attributes `<rx-button>`,
+    * those will get passed to the `<button>` instance as `class`
     * @scope
     * @param {String} loadingMsg - Text to be displayed when an operation is in progress.
     * @param {String} defaultMsg - Text to be displayed by default an no operation is in progress.
@@ -1720,7 +1721,8 @@ angular.module('encore.ui.rxButton', [])
                 defaultMsg: '@',
                 toggle: '=',
                 disable: '=?',
-            }
+                classes: '@?'
+            },
         };
     });
 
@@ -3021,6 +3023,16 @@ angular.module('encore.ui.rxPaginate', [])
         if (items) {
             pager.total = items.length;
             pager.totalPages = Math.ceil(pager.total / pager.itemsPerPage);
+
+            // We were previously on the last page, but enough items were deleted
+            // to reduce the total number of pages. We should now jump to whatever the
+            // new last page is
+            // When loading items over the network, our first few times through here
+            // will have totalPages===0. We do the _.max to ensure that
+            // we never set pageNumber to -1
+            if (pager.pageNumber + 1 > pager.totalPages) {
+                pager.pageNumber = _.max([0, pager.totalPages - 1]);
+            }
 
             var first = pager.pageNumber * pager.itemsPerPage;
             var added = first + pager.itemsPerPage;

@@ -214,6 +214,19 @@ https://github.com/yui/pure/blob/master/LICENSE.md
 .pure-u-24-24 {
   width: 100%;
 }
+.pure-g.columns > div {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding-left: 1.25em;
+  padding-right: 1.25em;
+}
+.pure-g.columns > div:first-child {
+  padding-left: 0;
+}
+.pure-g.columns > div:last-child {
+  padding-right: 0;
+}
 /*
  * metadata
  */
@@ -3654,7 +3667,6 @@ Any input field can be placed inside an element with a class of 'field-input'.
 .field-input select {
   color: #404040;
   font-size: 1.2em;
-  border-radius: 0;
 }
 .field-input input.ng-valid.ng-dirty,
 .field-input select.ng-valid.ng-dirty {
@@ -3723,27 +3735,59 @@ Replace default UI of select fields and adds custom border/arrow
 }
 .field-select select {
   width: 100%;
-  background: transparent;
+  margin: 0;
+  border-radius: 0;
+  background: #fff;
+  border: none;
+  outline: none;
+  display: inline-block;
   -webkit-appearance: none;
-  -moz-appearance: window;
-  position: relative;
-  z-index: 2;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
   border: 1px solid #cccccc;
   padding: 3px 5px;
 }
 .field-select:before {
-  content: ".";
-  width: 0;
-  height: 0;
-  font-size: 0;
-  display: block;
+  content: '';
+  right: 1px;
+  top: 1px;
+  width: 20px;
+  height: 90%;
+  background: #fff;
   position: absolute;
-  border: 7px solid transparent;
-  border-top-color: #cccccc;
-  border-bottom: none;
-  top: 50%;
-  margin-top: -4px;
-  right: 9px;
+  pointer-events: none;
+  display: block;
+}
+.field-select:after {
+  content: '\f0d7';
+  font-family: FontAwesome;
+  font-size: 15px;
+  color: #aaa;
+  right: 10px;
+  top: 6px;
+  padding: 0;
+  position: absolute;
+  pointer-events: none;
+}
+.rx-app-nav-item .field-select select {
+  background: #404140;
+  border: 1px solid #3a3a3a;
+}
+.rx-app-nav-item .field-select:before {
+  background: #404140;
+}
+.rx-app-nav-item .field-select:after {
+  right: 6px;
+  top: 4px;
+}
+.account-users {
+  float: right;
+  box-sizing: border-box;
+  width: 50%;
+}
+.account-users select {
+  border-radius: 0;
 }
 /*
  * @bugfix Because of '-moz-appearance: window', the border/padding is removed from the select box.
@@ -3875,20 +3919,6 @@ Replace default UI of select fields and adds custom border/arrow
 .rx-form.layout-compressed rx-form-item[prefix] .field-input {
   display: inline-block;
   width: auto;
-}
-.rx-app-nav-item .field-select {
-  background: #404140;
-}
-.rx-app-nav-item .field-select select {
-  border: 1px solid #3a3a3a;
-}
-.rx-app-nav-item .field-select:before {
-  border-top-color: #cacaca;
-}
-.account-users {
-  float: right;
-  box-sizing: border-box;
-  width: 50%;
 }
 /*
  * rxInfoPanel
@@ -4524,6 +4554,7 @@ Provides styling for the Angular-UI tab HTML
 .nav-tabs {
   display: flex;
   border-bottom: 9px solid #4480c1;
+  clear: both;
 }
 .nav-tabs li {
   flex: 0 0 auto;
