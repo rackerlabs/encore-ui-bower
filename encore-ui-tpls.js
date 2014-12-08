@@ -2,10 +2,10 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.4.2 - 2014-12-03
+ * Version: 1.4.3 - 2014-12-08
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
 angular.module('encore.ui.tpls', ['templates/rxAccountInfo.html','templates/rxActionMenu.html','templates/rxActiveUrl.html','templates/rxAccountSearch.html','templates/rxAccountUsers.html','templates/rxApp.html','templates/rxAppNav.html','templates/rxAppNavItem.html','templates/rxAppSearch.html','templates/rxPage.html','templates/rxPermission.html','templates/rxBreadcrumbs.html','templates/rxButton.html','templates/feedbackForm.html','templates/rxFeedback.html','templates/rxFormFieldset.html','templates/rxFormItem.html','templates/rxFormOptionTable.html','templates/rxInfoPanel.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxPaginate.html','templates/rxSortableColumn.html']);
 angular.module('encore.ui.configs', [])
 .value('devicePaths', [
@@ -1981,6 +1981,208 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
                 };
             }
         }
+    };
+}]);
+
+/**
+ * @ngdoc directive
+ * @name encore.ui.rxFloatingHeader:rxFloatingHeader
+ * @description
+ * Turns a tableheader into a floating persistent header
+ */
+angular.module('encore.ui.rxFloatingHeader', [])
+.directive('rxFloatingHeader', ["rxDOMHelper", function (rxDOMHelper) {
+    return {
+        restrict: 'A',
+        scope: {},
+        link: function (scope, table) {
+
+            var state = 'fixed',
+                seenFirstScroll = false,
+
+                // The original <tr> elements
+                trs = [],
+
+                // The original <th> elements
+                ths = [],
+
+                // Clones of the <tr> elements
+                clones = [],
+
+                // any <input> elements in the <thead>
+                inputs = [],
+                maxHeight,
+                header = angular.element(table.find('thead'));
+
+            // Grab all the original `tr` elements from the `thead`,
+            _.each(header.find('tr'), function (tr) {
+                tr = angular.element(tr);
+                clones.push(tr.clone());
+                trs.push(tr);
+                ths = ths.concat(_.map(tr.find('th'), angular.element));
+            });
+
+            // Apply .filter-header to any <input> elements 
+            _.each(ths, function (th) {
+                var input = th.find('input');
+                if (input.length) {
+                    th.addClass('filter-header');
+                    input.addClass('filter-box');
+                    inputs.push(input);
+                }
+            });
+
+            scope.updateHeaders = function () {
+                if (_.isUndefined(maxHeight)) {
+                    maxHeight = table[0].offsetHeight;
+                }
+
+                maxHeight = _.max([maxHeight, table[0].offsetHeight]);
+                
+                if (rxDOMHelper.shouldFloat(table, maxHeight)) {
+                    if (state === 'fixed') {
+                        state = 'float';
+                        var thWidths = [],
+                            trHeights = [];
+
+                        // Get the current height of each `tr` that we want to float
+                        _.each(trs, function (tr) {
+                            trHeights.push(rxDOMHelper.height(tr));
+                        });
+
+                        // Grab the current widths of each `th` that we want to float
+                        thWidths = _.map(ths, rxDOMHelper.width);
+
+                        // Put the cloned `tr` elements back into the DOM
+                        _.each(clones, function (clone) {
+                            header.append(clone);
+                        });
+
+                        // Apply the rx-floating-header class to each `tr` and
+                        // set a correct `top` for each, to make sure they stack
+                        // properly
+                        // We previously did tr.css({ 'width': rxDOMHelper.width(tr) })
+                        // but it *seems* that setting the widths of the `th` is enough
+                        var topOffset = 0;
+                        _.each(trs, function (tr, index) {
+                            tr.addClass('rx-floating-header');
+                            tr.css({ 'top': topOffset });
+                            topOffset += trHeights[index];
+                        });
+
+                        // Explicitly set the widths of each `th` element that we floated
+                        _.each(_.zip(ths, thWidths), function (pair) {
+                            var th = pair[0];
+                            var width = pair[1];
+                            th.css({ 'width': width });
+                        });
+                    }
+
+                } else {
+                    if (state === 'float' || !seenFirstScroll) {
+                        state = 'fixed';
+                        seenFirstScroll = true;
+
+                        // Make sure that an input filter doesn't have focus when
+                        // we re-dock the header, otherwise the browser will scroll
+                        // the screen back up ot the input
+                        _.each(inputs, function (input) {
+                            if (rxDOMHelper.scrollTop() > rxDOMHelper.offset(input).top) {
+                                input[0].blur();
+                            }
+                        });
+
+                        _.each(trs, function (tr) {
+                            tr.removeClass('rx-floating-header');
+                        });
+
+                        // Detach each cloaned `tr` from the DOM,
+                        // but don't destroy it
+                        _.each(clones, function (clone) {
+                            clone.remove();
+                        });
+                    }
+                }
+
+            };
+
+            rxDOMHelper.onscroll(function () {
+                scope.updateHeaders();
+            });
+
+        },
+    };
+}])
+
+/**
+ * @ngdoc service
+ * @name encore.ui.rxFloatingHeader:rxDOMHelper
+ * @description
+ * A small set of functions to provide some functionality
+ * that isn't present in Angular's jQuery-lite, and other 
+ * DOM-related functions that are useful
+ *
+ * All methods take jquery-lite wrapped elements as arguments
+ */
+.factory('rxDOMHelper', ["$document", "$window", function ($document, $window) {
+
+    var scrollTop = function () {
+        // Safari and Chrome both use body.scrollTop, but Firefox needs
+        // documentElement.scrollTop
+        var doc = $document[0];
+        var scrolltop = $window.pageYOffset || doc.body.scrollTop || doc.documentElement.scrollTop || 0;
+        return scrolltop;
+    };
+    
+    var offset = function (elm) {
+        //http://cvmlrobotics.blogspot.co.at/2013/03/angularjs-get-element-offset-position.html
+        var rawDom = elm[0];
+        var _x = 0;
+        var _y = 0;
+        var doc = $document[0];
+        var body = doc.documentElement || doc.body;
+        var scrollX = $window.pageXOffset || body.scrollLeft;
+        var scrollY = scrollTop();
+        var rect = rawDom.getBoundingClientRect();
+        _x = rect.left + scrollX;
+        _y = rect.top + scrollY;
+        return { left: _x, top:_y };
+    };
+
+    var style = function (elem) {
+        if (elem instanceof angular.element) {
+            elem = elem[0];
+        }
+        return $window.getComputedStyle(elem);
+    };
+
+    var width = function (elem) {
+        return style(elem).width;
+    };
+    
+    var height = function (elem) {
+        return style(elem).height;
+    };
+
+    var shouldFloat = function (elem, maxHeight) {
+        var elemOffset = offset(elem),
+            scrolltop = scrollTop();
+
+        return ((scrolltop > elemOffset.top) && (scrolltop < elemOffset.top + maxHeight));
+    };
+
+    // bind `f` to the scroll event
+    var onscroll = function (f) {
+        angular.element($window).bind('scroll', f);
+    };
+
+    return {
+        offset: offset,
+        scrollTop: scrollTop,
+        width: width,
+        height: height,
+        shouldFloat: shouldFloat,
+        onscroll: onscroll,
     };
 }]);
 

@@ -2437,6 +2437,9 @@ table thead th {
   color: #ffffff;
   border: 1px solid #6e6e6e;
 }
+table tr {
+  background: #ffffff;
+}
 table.table-striped tr:nth-child(even) {
   background: #f2f2f2;
 }
@@ -3548,6 +3551,25 @@ thead th .btn-link:focus {
   height: 10em;
 }
 /*
+ * rxFloatingHeader
+ */
+.rx-floating-header {
+  position: fixed;
+  z-index: 3;
+  opacity: 0.96;
+}
+th.filter-header {
+  font-weight: normal;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #e1e0df;
+}
+th.filter-header input.filter-box {
+  color: #404040;
+}
+th.filter-header button {
+  margin: 0;
+}
+/*
 ## Form Fields
 
 field-prefix, field-suffix and field-description are all optional.
@@ -3750,8 +3772,8 @@ Replace default UI of select fields and adds custom border/arrow
 }
 .field-select:before {
   content: '';
-  right: 1px;
-  top: 1px;
+  right: 2px;
+  top: 2px;
   width: 20px;
   height: 90%;
   background: #fff;
