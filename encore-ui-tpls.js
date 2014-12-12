@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.4.3 - 2014-12-08
+ * Version: 1.5.0 - 2014-12-12
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
@@ -66,6 +66,8 @@ angular.module('encore.ui.rxAccountInfo', [])
                 return ['<span class="tooltip-header">', badge.name,
                         '</span><p>', badge.description, '</p>'].join('');
             };
+
+            scope.accountPageUrl = _.template('/accounts/<%= accountNumber %>', scope);
 
             SupportAccount.getBadges({ accountNumber: scope.accountNumber }, function (badges) {
                 scope.badges = scope.badges.concat(badges);
@@ -944,8 +946,15 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
 * @scope
 * @description
 * Responsible for creating the HTML necessary for a page (including breadcrumbs and page title)
+* You can pass in a `title` attribute or an `unsafeHtmlTitle` attribute, but not both. Use the former
+* if your title is a plain string, use the latter if your title contains embedded HTML tags AND you
+* trust the source of this title. Arbitrary javascript can be executed, so ensure you trust your source.
+*
+* The document title will be set to either `title` or a stripped version of `unsafeHtmlTitle`, depending
+* on which you provide.
 *
 * @param {expression} [title] Title of page
+* @param {expression} [unsafeHtmlTitle] Title for the page, with embedded HTML tags
 * @param {expression} [subtitle] Subtitle of page
 *
 * @example
@@ -960,7 +969,10 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
         templateUrl: 'templates/rxPage.html',
         scope: {
             title: '=',
+            unsafeHtmlTitle: '=',
             subtitle: '=',
+            status: '@'
+
         },
         link: function (scope, element) {
             // Remove the title attribute, as it will cause a popup to appear when hovering over page content
@@ -970,6 +982,12 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
         controller: ["$scope", "rxPageTitle", function ($scope, rxPageTitle) {
             $scope.$watch('title', function () {
                 rxPageTitle.setTitle($scope.title);
+            });
+
+            $scope.$watch('unsafeHtmlTitle', function () {
+                if (!_.isEmpty($scope.unsafeHtmlTitle)) {
+                    rxPageTitle.setTitleUnsafeStripHTML($scope.unsafeHtmlTitle);
+                }
             });
         }]
     };
@@ -1323,6 +1341,82 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
     };
 
     return pathParams;
+}])
+
+/*
+ * @ngdoc provider
+ * name encore.ui.rxApp: rxStatusTags
+ * @description
+ * This provider is primarily used for applications to specify custom status
+ * tags, for use with the `status` attributes of `rx-page` and of breadcrumb
+ * objects.
+ *
+ * It also contains getTag and hasTag run time (vs. config time) methods, but
+ * these should rarely, if ever, be needed outside of the framework.
+ */
+.provider('rxStatusTags', function () {
+     
+    var allTags = {
+        alpha: {
+            class: 'alpha-status',
+            text: 'Alpha'
+        },
+        beta: {
+            class: 'beta-status',
+            text: 'Beta'
+        },
+    };
+    // Takes an object with `key`, `text` and `class` attributes,
+    // and adds it to to the existing set of status values
+    this.addStatus = function (config) {
+        allTags[config.key] = {
+            text: config.text,
+            'class': config['class']
+        };
+    };
+
+    this.$get = function () {
+        return {
+            // Given a status tag key, return the `text` and `class` specified
+            // for the tag
+            getTag: function (key) {
+                if (_.has(allTags, key)) {
+                    return allTags[key];
+                }
+                return { class: '', text: '' };
+            },
+
+            hasTag: function (key) {
+                return _.has(allTags, key);
+            }
+        };
+    };
+})
+
+/**
+* @ngdoc directive
+* @name encore.ui.rxApp:rxStatusTag
+* @restrict E
+* @description
+* This is used to draw the Alpha/Beta/etc tags in page titles and in breadcrumbs. It's not
+* intended as a public directive.
+*/
+.directive('rxStatusTag', ["rxStatusTags", function (rxStatusTags) {
+    return {
+        template: '<span ng-if="status && validKey" class="status-tag {{ class }}">{{ text }}</span>',
+        restrict: 'E',
+        scope: {
+            status: '@'
+        },
+        link: function (scope) {
+            scope.validKey = rxStatusTags.hasTag(scope.status);
+            if (scope.validKey) {
+                var config = rxStatusTags.getTag(scope.status);
+                scope.class = config.class;
+                scope.text = config.text;
+            }
+        }
+    };
 }]);
 
 angular.module('encore.ui.rxAttributes', [])
@@ -1670,9 +1764,22 @@ angular.module('encore.ui.rxBreadcrumbs', ['ngSanitize'])
         breadcrumbs = breadcrumbs.concat(items);
     };
 
-    breadcrumbsService.getAll = function () {
+    breadcrumbsService.getAll = function (titleStatus) {
         // return a copy of the array (so it can't be modified)
-        return breadcrumbs.slice(0);
+        var copy = breadcrumbs.slice(0);
+
+        // If a titleStatus tag was passed in for the page, check each of the
+        // breadcrumbs to see if they're asking for that tag
+        if (_.isString(titleStatus) && titleStatus) {
+            _.each(copy, function (breadcrumb) {
+                // only add the page status tag to the breadcrumb if it
+                // doesn't already have its own status tag defined
+                if (breadcrumb.usePageStatusTag && !breadcrumb.status) {
+                    breadcrumb.status = titleStatus;
+                }
+            });
+        }
+        return copy;
     };
 
     breadcrumbsService.setHome = function (path, name) {
@@ -1684,6 +1791,22 @@ angular.module('encore.ui.rxBreadcrumbs', ['ngSanitize'])
 
     return breadcrumbsService;
 })
+
+/**
+* @ngdoc directive
+* @name encore.ui.rxBreadcrumbs:rxBreadcrumbs
+* @restrict E
+* @scope
+* @description
+* Responsible for drawing the breadcrumbs for a page
+*
+* @param {string} [status] The tag to apply to any breadcrumbs with usePageStatusTag:true
+*
+* @example
+* <pre>
+*     <rx-app site-title="Custom Title"></rx-app>
+* </pre>
+*/
 .directive('rxBreadcrumbs', function () {
     return {
         restrict: 'E',
@@ -1692,7 +1815,7 @@ angular.module('encore.ui.rxBreadcrumbs', ['ngSanitize'])
             $scope.breadcrumbs = rxBreadcrumbsSvc;
         }],
         scope: {
-            visible: '&'
+            status: '@'
         }
     };
 });
@@ -2513,6 +2636,7 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
 * @param {boolean} [isLoading] True to show a spinner by default
 * @param {string} [submitText] 'Submit' button text to use. Defaults to 'Submit'
 * @param {string} [cancelText] 'Cancel' button text to use. Defaults to 'Cancel'
+* @param {string} [defaultFocus] default focus element. May be 'submit' or 'cancel'. Defaults to 'firstTabbable'
 *
 * @example
 * <rx-modal-form title="My Form" is-loading="true" submit-text="Yes!"></rx-modal-form>
@@ -2527,30 +2651,46 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
             subtitle: '@',
             isLoading: '=',
             submitText: '@',
-            cancelText: '@'
+            cancelText: '@',
+            defaultFocus: '@'
         },
         link: function (scope, element) {
-            // this function will focus on the first tabbable element inside the form
-            var focusOnFirstTabbable = function () {
-                var autofocusElements = '[autofocus]';
-                var tabbableElements = 'input:not([type="hidden"]), textarea, select';
-                var modalForm = element[0].querySelector('.modal-form');
 
-                // first check for an element with an autofocus attribute
-                var firstTabbable = modalForm.querySelector(autofocusElements);
-                if (!firstTabbable) {
-                    firstTabbable = modalForm.querySelector(tabbableElements);
-                }
+            var focusSelectors = {
+                'cancel': 'button.cancel',
+                'submit': 'button.submit',
+                'firstTabbable': 'input:not([type="hidden"]):not([disabled="disabled"]), textarea, select'
+            };
+            var setFocus = function (focus) {
+                var formSelector, focusElement;
 
-                // we need to wait for $modalWindow to run so it doesn't steal focus
-                if (firstTabbable) {
+                if (focus === 'cancel' || focus === 'submit') {
+                    formSelector = element[0].querySelector('.modal-footer');
+                    focusElement = formSelector.querySelector(focusSelectors[focus]);
+                    // wait for $modalWindow to run so it doesn't steal focus
                     $timeout(function () {
-                        firstTabbable.focus();
+                        if (focusElement) {
+                            focusElement.focus();
+                        }
                     }, 10);
+                } else {
+                    focus = 'firstTabbable';
+                    formSelector = element[0].querySelector('.modal-form');
+                    // Give content some time to load to get first tabbable
+                    $timeout(function () {
+                        // first check for an element with autofocus
+                        focusElement = formSelector.querySelector('[autofocus]');
+                        if (!focusElement) {
+                            focusElement = formSelector.querySelector(focusSelectors[focus]);
+                        }
+                        if (focusElement) {
+                            focusElement.focus();
+                        }
+                    }, 400);
                 }
             };
 
-            focusOnFirstTabbable();
+            setFocus(scope.defaultFocus);
 
             // Remove the title attribute, as it will cause a popup to appear when hovering over page content
             // @see https://github.com/rackerlabs/encore-ui/issues/256
@@ -3044,9 +3184,22 @@ angular.module('encore.ui.rxNotify', ['ngSanitize', 'ngAnimate'])
 }]);
 
 angular.module('encore.ui.rxPageTitle', [])
-.factory('rxPageTitle', ["$document", function ($document) {
+.factory('rxPageTitle', ["$document", "$filter", function ($document, $filter) {
     var suffix = '',
         title = '';
+
+    var addSuffix = function (t) {
+        if (suffix !== '') {
+            title = t + suffix;
+        } else {
+            title = t;
+        }
+        
+    };
+
+    var setDocumentTitle = function (t) {
+        $document.prop('title', t);
+    };
 
     return {
         setSuffix: function (s) {
@@ -3056,18 +3209,52 @@ angular.module('encore.ui.rxPageTitle', [])
             return suffix;
         },
         setTitle: function (t) {
-            if (suffix !== '') {
-                title = t + suffix;
-            } else {
-                title = t;
-            }
-            $document.prop('title', title);
+            addSuffix(t);
+            setDocumentTitle(title);
         },
+
+        // Set the page title to `t`, and strip any HTML tags/entities
+        // within it. This is considered unsafe, i.e. you *must* trust the 
+        // source of the input, as it allows arbitrary javascript to be executed
+        setTitleUnsafeStripHTML: function (t) {
+            addSuffix(t);
+            setDocumentTitle($filter('rxUnsafeRemoveHTML')(title));
+        },
+
         getTitle: function () {
             return $document.prop('title');
         }
     };
+}])
+
+/**
+ *
+ * @ngdoc filter
+ * @name encore.ui.rxPageTitle:rxUnsafeRemoveHTML
+ * @description
+ * Given a string, it removes all HTML tags from the string, using the
+ * browser's own parsing engine. Any content inside of tags will be kept.
+ *
+ * NOTE: You must only use this with trusted text. See
+ * http://stackoverflow.com/a/5002618 for more details
+ *
+ * @param {string} The string to remove HTML from
+ *
+ * @returns {string} Cleaned string
+ */
+.filter('rxUnsafeRemoveHTML', ["$document", function ($document) {
+    return function (htmlString) {
+        // protect against null, which can crash some browsers
+        if (_.isEmpty(htmlString)) {
+            htmlString = '';
+        }
+
+        var div = $document[0].createElement('div');
+        div.innerHTML = htmlString;
+        return div.textContent || div.innerText || '';
+    };
 }]);
+
 angular.module('encore.ui.rxPaginate', [])
 /**
  *
@@ -3835,7 +4022,7 @@ angular.module('encore.ui.rxUnauthorizedInterceptor', ['encore.ui.rxSession'])
 
 angular.module("templates/rxAccountInfo.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxAccountInfo.html",
-    "<div class=\"rx-account-info\"><rx-info-panel panel-title=\"Account Info\"><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account Name</div><div class=\"account-info-data\">{{ accountName }}</div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account #</div><div class=\"account-info-data\">{{ accountNumber }}</div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Badges</div><div class=\"account-info-data\"><img ng-repeat=\"badge in badges\" ng-src=\"{{badge.url}}\" data-name=\"{{badge.name}}\" data-description=\"{{badge.description}}\" tooltip-html-unsafe=\"{{tooltipHtml(badge)}}\" tooltip-placement=\"bottom\"></div></div><div class=\"account-info-wrapper\" ng-transclude></div></rx-info-panel></div>");
+    "<div class=\"rx-account-info\"><rx-info-panel panel-title=\"Account Info\"><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account Name</div><div class=\"account-info-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountName }}</a></div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account #</div><div class=\"account-info-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountNumber }}</a></div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Badges</div><div class=\"account-info-data\"><img ng-repeat=\"badge in badges\" ng-src=\"{{badge.url}}\" data-name=\"{{badge.name}}\" data-description=\"{{badge.description}}\" tooltip-html-unsafe=\"{{tooltipHtml(badge)}}\" tooltip-placement=\"bottom\"></div></div><div class=\"account-info-wrapper\" ng-transclude></div></rx-info-panel></div>");
 }]);
 
 angular.module("templates/rxActionMenu.html", []).run(["$templateCache", function($templateCache) {
@@ -3880,7 +4067,7 @@ angular.module("templates/rxAppSearch.html", []).run(["$templateCache", function
 
 angular.module("templates/rxPage.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxPage.html",
-    "<div class=\"rx-page\"><header class=\"page-header clearfix\"><rx-breadcrumbs></rx-breadcrumbs></header><div class=\"page-body\"><rx-notifications></rx-notifications><div class=\"page-titles\" ng-if=\"title.length > 0 || subtitle.length > 0\"><h2 class=\"page-title title lg\" ng-bind-html=\"title\" ng-if=\"title.length > 0\"></h2><h3 class=\"page-subtitle title subdued\" ng-bind-html=\"subtitle\" ng-if=\"subtitle.length > 0\"></h3></div><div class=\"page-content\" ng-transclude></div></div></div>");
+    "<div class=\"rx-page\"><header class=\"page-header clearfix\"><rx-breadcrumbs status=\"{{ status }}\"></rx-breadcrumbs></header><div class=\"page-body\"><rx-notifications></rx-notifications><div class=\"page-titles\" ng-if=\"title.length > 0 || unsafeHtmlTitle.length > 0 || subtitle.length > 0\"><h2 class=\"page-title title lg\" ng-if=\"title.length > 0\"><span ng-bind=\"title\"></span><rx-status-tag status=\"{{ status }}\"></rx-status-tag></h2><h2 class=\"page-title title lg\" ng-if=\"unsafeHtmlTitle.length > 0\"><span ng-bind-html=\"unsafeHtmlTitle\"></span><rx-status-tag status=\"{{ status }}\"></rx-status-tag></h2><h3 class=\"page-subtitle title subdued\" ng-bind-html=\"subtitle\" ng-if=\"subtitle.length > 0\"></h3></div><div class=\"page-content\" ng-transclude></div></div></div>");
 }]);
 
 angular.module("templates/rxPermission.html", []).run(["$templateCache", function($templateCache) {
@@ -3890,7 +4077,7 @@ angular.module("templates/rxPermission.html", []).run(["$templateCache", functio
 
 angular.module("templates/rxBreadcrumbs.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxBreadcrumbs.html",
-    "<ol class=\"rx-breadcrumbs\"><li ng-repeat=\"breadcrumb in breadcrumbs.getAll()\" class=\"breadcrumb\"><ng-switch on=\"$last\"><span ng-switch-when=\"true\" class=\"breadcrumb-name last\" ng-bind-html=\"breadcrumb.name\"></span> <span ng-switch-default><a href=\"{{breadcrumb.path}}\" ng-class=\"{first: $first}\" class=\"breadcrumb-name\" ng-bind-html=\"breadcrumb.name\"></a></span></ng-switch></li></ol>");
+    "<ol class=\"rx-breadcrumbs\"><li ng-repeat=\"breadcrumb in breadcrumbs.getAll(status)\" class=\"breadcrumb\"><ng-switch on=\"$last\"><span ng-switch-when=\"true\" class=\"breadcrumb-name last\"><span ng-bind-html=\"breadcrumb.name\"></span><rx-status-tag status=\"{{ breadcrumb.status }}\"></rx-status-tag></span> <span ng-switch-default><a href=\"{{breadcrumb.path}}\" ng-class=\"{first: $first}\" class=\"breadcrumb-name\"><span ng-bind-html=\"breadcrumb.name\"></span><rx-status-tag status=\"{{ breadcrumb.status }}\"></rx-status-tag></a></span></ng-switch></li></ol>");
 }]);
 
 angular.module("templates/rxButton.html", []).run(["$templateCache", function($templateCache) {
