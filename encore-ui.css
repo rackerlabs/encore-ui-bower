@@ -4561,6 +4561,40 @@ Add the class `disabled` to classes `pagination-first`, `pagination-prev`, `pagi
   }
 }
 /*
+ * rxStatusColumn
+ */
+th.rx-status-header {
+  width: 17px;
+  padding: 0;
+}
+td.rx-status-column.status-ACTIVE {
+  background: #ddffd3;
+}
+td.rx-status-column.status-PENDING {
+  background: #b6b1b1;
+}
+td.rx-status-column.status-PENDING i {
+  color: #666;
+}
+td.rx-status-column.status-WARNING {
+  background: #fda532;
+}
+td.rx-status-column.status-WARNING i {
+  color: #db7820;
+}
+td.rx-status-column.status-ERROR {
+  background: #eb2124;
+}
+td.rx-status-column.status-ERROR i {
+  color: #861212;
+}
+td.rx-status-column.status-INFO {
+  background: #86cafd;
+}
+td.rx-status-column.status-INFO i {
+  color: #287BBD;
+}
+/*
 
 # Angular-UI Tabs
 

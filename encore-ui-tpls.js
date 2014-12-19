@@ -2,11 +2,11 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.5.0 - 2014-12-12
+ * Version: 1.5.1 - 2014-12-19
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
-angular.module('encore.ui.tpls', ['templates/rxAccountInfo.html','templates/rxActionMenu.html','templates/rxActiveUrl.html','templates/rxAccountSearch.html','templates/rxAccountUsers.html','templates/rxApp.html','templates/rxAppNav.html','templates/rxAppNavItem.html','templates/rxAppSearch.html','templates/rxPage.html','templates/rxPermission.html','templates/rxBreadcrumbs.html','templates/rxButton.html','templates/feedbackForm.html','templates/rxFeedback.html','templates/rxFormFieldset.html','templates/rxFormItem.html','templates/rxFormOptionTable.html','templates/rxInfoPanel.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxPaginate.html','templates/rxSortableColumn.html']);
+angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui.tpls', ['templates/rxAccountInfo.html','templates/rxActionMenu.html','templates/rxActiveUrl.html','templates/rxAccountSearch.html','templates/rxAccountUsers.html','templates/rxApp.html','templates/rxAppNav.html','templates/rxAppNavItem.html','templates/rxAppSearch.html','templates/rxPage.html','templates/rxPermission.html','templates/rxBreadcrumbs.html','templates/rxButton.html','templates/feedbackForm.html','templates/rxFeedback.html','templates/rxFormFieldset.html','templates/rxFormItem.html','templates/rxFormOptionTable.html','templates/rxInfoPanel.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxPaginate.html','templates/rxSortableColumn.html','templates/rxStatusColumn.html']);
 angular.module('encore.ui.configs', [])
 .value('devicePaths', [
     { value: '/dev/xvdb', label: '/dev/xvdb' },
@@ -3348,7 +3348,7 @@ angular.module('encore.ui.rxPaginate', [])
 
     function PageTrackingObject (opts) {
         this.settings = _.defaults(opts, {
-            itemsPerPage: 50,
+            itemsPerPage: 200,
             pagesToShow: 5,
             pageNumber: 0,
             pageInit: false,
@@ -3903,6 +3903,145 @@ angular.module('encore.ui.rxStatus', ['encore.ui.rxNotify'])
         };
     });
 
+angular.module('encore.ui.rxStatusColumn', [])
+
+/**
+ * @ngdoc directive
+ * @name encore.ui.rxStatusColumn:rxStatusColumn
+ * @description
+ * A directive for drawing colored status columns in a table. This
+ * takes the place of the <td></td> for the column it's in.
+ *
+ * @param {String} status The status to draw
+ * @param {String} [api] Optionally specify which API mapping to use for the status
+ * @param {String} [tooltip] The string to use for the tooltip. If omitted,
+ *                           it will default to using the passed in status 
+ */
+.directive('rxStatusColumn', ["rxStatusMappings", "rxStatusColumnIcons", function (rxStatusMappings, rxStatusColumnIcons) {
+    return {
+        templateUrl: 'templates/rxStatusColumn.html',
+        restrict: 'A',
+        scope: {
+            status: '@',
+            api: '@',
+            tooltipContent: '@'
+        },
+        link: function (scope, element) {
+            scope.mappedStatus = rxStatusMappings.getInternalMapping(scope.status, scope.api);
+            scope.tooltipText = scope.tooltipContent || scope.status;
+            scope.statusIcon = rxStatusColumnIcons[scope.mappedStatus] || '';
+            element.addClass('status');
+            element.addClass('status-' + scope.mappedStatus);
+            element.addClass('rx-status-column');
+        }
+    };
+}])
+
+/**
+ * @ngdoc object
+ * @name encore.ui.rxStatusColumn:rxStatusColumnIcons
+ * @description
+ * Mapping of internal statuses to FontAwesome icons.
+ * The keys map to the names defined in rxStatusColumn.less
+ */
+.value('rxStatusColumnIcons', {
+    'ERROR': 'fa-ban',
+    'WARNING': 'fa-exclamation-triangle',
+    'INFO': 'fa-info-circle',
+    'PENDING': 'fa-repeat fa-spin'
+})
+
+/**
+ * @ngdoc directive
+ * @name encore.ui.rxStatusColumn:rxStatusHeader
+ * @description
+ * Place this attribute directive on the `<th>` for the status columns. It ensures
+ * correct styling.
+ *
+ */
+.directive('rxStatusHeader', function () {
+    return {
+        link: function (scope, element) {
+            element.addClass('rx-status-header');
+        }
+    };
+})
+
+/**
+ * @ngdoc service
+ * @name encore.ui.rxStatusColumn:rxStatusMappings
+ * @description
+ * A set of methods for creating mappings between a product's notion
+ * of statuses, and the status identifiers used in encore-ui
+ *
+ */
+.factory('rxStatusMappings', function () {
+
+    var globalMappings = {};
+    var apiMappings = {};
+    var rxStatusMappings = {};
+
+    var upperCaseCallback = function (objectValue, sourceValue) {
+        return sourceValue.toUpperCase();
+    };
+
+    // Takes a full set of mappings to be used globally
+    rxStatusMappings.addGlobal = function (mapping) {
+        _.assign(globalMappings, mapping, upperCaseCallback);
+    };
+
+    // Create a mapping specific to a particular API. This will
+    // only be used when the directive receives the `api="..."`
+    // attribute
+    rxStatusMappings.addAPI = function (apiName, mapping) {
+        var api = apiMappings[apiName] || {};
+        _.assign(api, mapping, upperCaseCallback);
+        apiMappings[apiName] = api;
+    };
+
+    var buildMapFunc = function (mapToString) {
+        return function (statusString, api) {
+            var obj = {};
+            if (_.isString(statusString)) {
+                obj[statusString] = mapToString;
+            } else if (_.isArray(statusString)) {
+                _.each(statusString, function (str) {
+                    obj[str] = mapToString;
+                });
+            }
+
+            if (api) {
+                rxStatusMappings.addAPI(api, obj);
+            } else {
+                rxStatusMappings.addGlobal(obj);
+            }
+        };
+    };
+
+    // All four of these map a string, or an array of strings,
+    // to the corresponding internal status (Active/Warning/Error/Info)
+    // Each can optionally take a string as the second parameter, indictating
+    // which api the mapping belongs to
+    rxStatusMappings.mapToActive = buildMapFunc('ACTIVE');
+    rxStatusMappings.mapToWarning = buildMapFunc('WARNING');
+    rxStatusMappings.mapToError = buildMapFunc('ERROR');
+    rxStatusMappings.mapToInfo = buildMapFunc('INFO');
+    rxStatusMappings.mapToPending = buildMapFunc('PENDING');
+    
+    rxStatusMappings.getInternalMapping = function (statusString, api) {
+        if (_.has(apiMappings, api) && _.has(apiMappings[api], statusString)) {
+            return apiMappings[api][statusString];
+        }
+
+        var mapped = globalMappings[statusString];
+
+        return mapped ? mapped : statusString;
+    };
+
+    return rxStatusMappings;
+    
+});
+
 angular.module('encore.ui.rxToggle', [])
 /**
 * @ngdoc directive
@@ -4143,4 +4282,9 @@ angular.module("templates/rxPaginate.html", []).run(["$templateCache", function(
 angular.module("templates/rxSortableColumn.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxSortableColumn.html",
     "<div class=\"rx-sortable-column\"><button class=\"sort-action btn-link\" ng-click=\"sortMethod({property:sortProperty})\"><span class=\"visually-hidden\">Sort by&nbsp;</span> <span ng-transclude></span></button> <i class=\"sort-icon\" ng-style=\"{visibility: predicate === '{{sortProperty}}' && 'visible' || 'hidden'}\" ng-class=\"{'desc': !reverse, 'asc': reverse}\"><span class=\"visually-hidden\">Sorted {{reverse ? 'ascending' : 'descending'}}</span></i></div>");
+}]);
+
+angular.module("templates/rxStatusColumn.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/rxStatusColumn.html",
+    "<span tooltip=\"{{ tooltipText }}\" tooltip-placement=\"top\"><i class=\"fa fa-lg {{ statusIcon }}\" title=\"{{ tooltipText }}\"></i></span>");
 }]);
