@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.5.2 - 2015-01-05
+ * Version: 1.5.3 - 2015-01-07
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
@@ -827,12 +827,13 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
 *
 * @returns {object} Instance of rxAppRoutes with `fetchRoutes` method added
 */
-.factory('encoreRoutes', ["rxAppRoutes", "routesCdnPath", "rxNotify", "$q", "$http", "rxVisibilityPathParams", "rxVisibility", "Environment", function (rxAppRoutes, routesCdnPath, rxNotify, $q, $http,
-                                     rxVisibilityPathParams, rxVisibility, Environment) {
+.factory('encoreRoutes', ["rxAppRoutes", "routesCdnPath", "rxNotify", "$q", "$http", "rxVisibilityPathParams", "rxVisibility", "Environment", "rxHideIfUkAccount", function (rxAppRoutes, routesCdnPath, rxNotify, $q, $http,
+                                     rxVisibilityPathParams, rxVisibility, Environment, rxHideIfUkAccount) {
 
     // We use rxVisibility in the nav menu at routesCdnPath, so ensure it's ready
     // before loading from the CDN
     rxVisibility.addVisibilityObj(rxVisibilityPathParams);
+    rxVisibility.addVisibilityObj(rxHideIfUkAccount);
 
     var encoreRoutes = new rxAppRoutes();
 
@@ -1343,6 +1344,25 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
 }])
 
 /*
+ * @ngdoc object
+ * name encore.ui.rxApp:rxHideIfUkAccount
+ * @description
+ * Check if account number in URL is of the UK origin
+ * @return false if account number matches UK pattern
+ * Use it as `visibility: [ 'rxHideIfUkAccount' ]`
+ */
+.factory('rxHideIfUkAccount', ["$routeParams", function ($routeParams) {
+    var isUkAccount = {
+        name: 'rxHideIfUkAccount',
+        method: function () {
+            return $routeParams.accountNumber < 10000000;
+        }
+    };
+
+    return isUkAccount;
+}])
+
+/*
  * @ngdoc provider
  * name encore.ui.rxApp: rxStatusTags
  * @description
@@ -1354,7 +1374,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
  * these should rarely, if ever, be needed outside of the framework.
  */
 .provider('rxStatusTags', function () {
-     
+
     var allTags = {
         alpha: {
             class: 'alpha-status',
