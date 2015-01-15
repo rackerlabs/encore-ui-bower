@@ -286,6 +286,72 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   height: 35px;
   margin-right: 5px;
 }
+/*
+ * rxAccountInfoBanner
+ */
+.rx-page .account-info-banner {
+  clear: both;
+  background: #d1d1d1;
+  width: 100%;
+  border-top: 1px solid;
+  border-color: #b9b9b9;
+}
+.rx-page ul.account-info-text {
+  padding: 5px 50px 5px 12px;
+  overflow: hidden;
+}
+.rx-page ul.account-info-text li {
+  float: left;
+  padding-right: 40px;
+}
+.rx-page ul.account-info-text li .label {
+  color: #797979;
+  text-shadow: 0 1px #efefef;
+  font-size: 9px;
+}
+.rx-page ul.account-info-text li .account-data {
+  color: #505050;
+  font-size: 18px;
+  font-weight: 300;
+}
+.rx-page ul.account-info-text li .account-data .field-select {
+  width: 140px;
+}
+.rx-page ul.account-info-text li .account-data .field-select:before {
+  background: #959595;
+  top: 4px;
+  height: 80%;
+}
+.rx-page ul.account-info-text li .account-data .field-select:after {
+  color: #6c6c6c;
+}
+.rx-page ul.account-info-text li .account-data select {
+  font-size: 12px;
+  background: #959595;
+  border: 1px solid #6c6c6c;
+  color: #fff;
+}
+.rx-page ul.account-info-text li .msg-warn {
+  color: #cb2124;
+}
+.rx-page ul.account-info-text li .msg-info {
+  color: #dd7800;
+}
+.rx-page ul.account-info-text li.badges {
+  float: right;
+  padding: 0;
+}
+.rx-page ul.account-info-text li.badges .account-info-badge .tooltip {
+  width: 150px;
+}
+.rx-page ul.account-info-text li.badges .account-info-badge img {
+  width: 35px;
+  float: left;
+  margin: 5px 2px;
+}
+.rx-page ul.account-info-badges {
+  overflow: hidden;
+}
 .action-menu-container {
   position: relative;
   width: 5px;
@@ -3752,6 +3818,12 @@ Any input field can be placed inside an element with a class of 'field-input'.
 .ng-pristine .field-input .ng-invalid-required {
   box-shadow: none;
 }
+/* Inline error messages */
+.field-input-wrapper .inline-error {
+  color: #ff2400;
+  font-weight: 900;
+  margin-top: 5px;
+}
 /*
 ## Dropdowns
 Replace default UI of select fields and adds custom border/arrow
@@ -4564,8 +4636,17 @@ Add the class `disabled` to classes `pagination-first`, `pagination-prev`, `pagi
  * rxStatusColumn
  */
 th.rx-status-header {
-  width: 17px;
+  width: 20px;
   padding: 0;
+}
+th.rx-status-header rx-sortable-column .sort-action {
+  color: transparent;
+}
+th.rx-status-header rx-sortable-column .sort-icon {
+  margin: -9px 14px;
+}
+td.rx-status-column i {
+  padding-left: 2px;
 }
 td.rx-status-column.status-ACTIVE {
   background: #ddffd3;
@@ -4591,6 +4672,9 @@ td.rx-status-column.status-INFO {
 }
 td.rx-status-column.status-INFO i {
   color: #287BBD;
+}
+td.rx-status-column .fa-exclamation-circle {
+  color: transparent;
 }
 /*
 

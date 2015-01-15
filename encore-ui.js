@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.5.3 - 2015-01-07
+ * Version: 1.5.4 - 2015-01-15
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
@@ -48,9 +48,33 @@ angular.module('encore.ui.configs', [])
 });
 
 angular.module('encore.ui.rxAccountInfo', [])
-.directive('rxAccountInfo', ["SupportAccount", "Teams", "Encore", "rxNotify", function (SupportAccount, Teams, Encore, rxNotify) {
+
+/**
+ * @ngdoc directive
+ * @name encore.ui.rxAccountInfo:rxAccountInfo
+ * @restrict E
+ * @scope
+ * @description
+ * Responsible for drawing an account info box.
+ *
+ * There are two different styles of account info box supported. The "old" one, which appears
+ * wherever you want it to be, and a new one that is intended to be placed underneath the breadcrumbs.
+ * To use the new one, pass `account-info-banner="true"` to this directive
+ *
+ * @param {string} accountNumber - The account number to load and retrieve data for
+ * @param {string} [teamId] - Optional team ID, used for loading team badges
+ * @param {string} [notifyStack] - Optional notifications stack to put errors on. Defaults to `page`
+ * @param {string} [accountInfoBanner] - Set to "true" to use the new under-the-breadcrumbs style
+ */
+.directive('rxAccountInfo', ["Teams", "SupportAccount", "Encore", "rxNotify", "encoreRoutes", "AccountStatusGroup", function (Teams, SupportAccount, Encore, rxNotify, encoreRoutes,
+                                    AccountStatusGroup) {
     return {
-        templateUrl: 'templates/rxAccountInfo.html',
+        templateUrl: function (elem, attr) {
+            if (attr.accountInfoBanner === 'true') {
+                return 'templates/rxAccountInfoBanner.html';
+            }
+            return 'templates/rxAccountInfo.html';
+        },
         restrict: 'E',
         transclude: true,
         scope: {
@@ -65,6 +89,12 @@ angular.module('encore.ui.rxAccountInfo', [])
                 return ['<span class="tooltip-header">', badge.name,
                         '</span><p>', badge.description, '</p>'].join('');
             };
+
+            // Currently, the only time we should show the `Current User` area is
+            // if the Racker is on the Cloud page
+            encoreRoutes.isActiveByKey('cloud').then(function (isCloud) {
+                scope.showCurrentUser = isCloud;
+            });
 
             scope.accountPageUrl = _.template('/accounts/<%= accountNumber %>', scope);
 
@@ -90,13 +120,20 @@ angular.module('encore.ui.rxAccountInfo', [])
 
             Encore.getAccount({ id: scope.accountNumber }, function (account) {
                 scope.accountName = account.name;
+                scope.accountStatus = account.status;
+                scope.statusClass = '';
+                var statusClass = AccountStatusGroup(account.status);
+                if (statusClass === 'warning') {
+                    scope.statusClass = 'msg-warn';
+                } else if (statusClass === 'info') {
+                    scope.statusClass = 'msg-info';
+                }
             }, function () {
                 rxNotify.add('Error retrieving account name', {
                     type: 'error',
                     stack: notifyStack
                 });
             });
-
         }
     };
 }]);
@@ -971,8 +1008,9 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
             title: '=',
             unsafeHtmlTitle: '=',
             subtitle: '=',
-            status: '@'
-
+            status: '@',
+            accountNumber: '@',
+            teamId: '@'
         },
         link: function (scope, element) {
             // Remove the title attribute, as it will cause a popup to appear when hovering over page content
@@ -2164,7 +2202,7 @@ angular.module('encore.ui.rxFloatingHeader', [])
                 ths = ths.concat(_.map(tr.find('th'), angular.element));
             });
 
-            // Apply .filter-header to any <input> elements 
+            // Apply .filter-header to any <input> elements
             _.each(ths, function (th) {
                 var input = th.find('input');
                 if (input.length) {
@@ -2180,7 +2218,7 @@ angular.module('encore.ui.rxFloatingHeader', [])
                 }
 
                 maxHeight = _.max([maxHeight, table[0].offsetHeight]);
-                
+
                 if (rxDOMHelper.shouldFloat(table, maxHeight)) {
                     if (state === 'fixed') {
                         state = 'float';
@@ -2261,7 +2299,7 @@ angular.module('encore.ui.rxFloatingHeader', [])
  * @name encore.ui.rxFloatingHeader:rxDOMHelper
  * @description
  * A small set of functions to provide some functionality
- * that isn't present in Angular's jQuery-lite, and other 
+ * that isn't present in Angular's jQuery-lite, and other
  * DOM-related functions that are useful
  *
  * All methods take jquery-lite wrapped elements as arguments
@@ -2275,7 +2313,7 @@ angular.module('encore.ui.rxFloatingHeader', [])
         var scrolltop = $window.pageYOffset || doc.body.scrollTop || doc.documentElement.scrollTop || 0;
         return scrolltop;
     };
-    
+
     var offset = function (elm) {
         //http://cvmlrobotics.blogspot.co.at/2013/03/angularjs-get-element-offset-position.html
         var rawDom = elm[0];
@@ -2301,7 +2339,7 @@ angular.module('encore.ui.rxFloatingHeader', [])
     var width = function (elem) {
         return style(elem).width;
     };
-    
+
     var height = function (elem) {
         return style(elem).height;
     };
@@ -2313,9 +2351,49 @@ angular.module('encore.ui.rxFloatingHeader', [])
         return ((scrolltop > elemOffset.top) && (scrolltop < elemOffset.top + maxHeight));
     };
 
+    // An implementation of wrapAll, based on 
+    // http://stackoverflow.com/a/13169465
+    // Takes a raw DOM `newParent`, and moves all of `elms` (either
+    // a single element or an array of elements) into it. It then places
+    // `newParent` in the location that elms[0] was originally in
+    var wrapAll = function (newParent, elms) {
+
+        // Figure out if it's one element or an array
+        var el = elms.length ? elms[0] : elms;
+
+        // cache the current parent node and sibling 
+        // of the first element
+        var parentNode = el.parentNode;
+        var sibling = el.nextSibling;
+
+        // wrap the first element. This automatically
+        // removes it from its parent
+        newParent.appendChild(el);
+
+        // If there are other elements, wrap them. Each time
+        // it will remove the element from its current parent,
+        // and also from the `elms` array
+        while (elms.length) {
+            newParent.appendChild(elms[0]);
+        }
+
+        // If there was a sibling to the first element,
+        // insert newParent right before it. Otherwise
+        // just add it to parentNode
+        if (sibling) {
+            parentNode.insertBefore(newParent, sibling);
+        } else {
+            parentNode.appendChild(newParent);
+        }
+    };
+
     // bind `f` to the scroll event
     var onscroll = function (f) {
         angular.element($window).bind('scroll', f);
+    };
+
+    var find = function (elem, selector) {
+        return angular.element(elem[0].querySelector(selector));
     };
 
     return {
@@ -2325,6 +2403,8 @@ angular.module('encore.ui.rxFloatingHeader', [])
         height: height,
         shouldFloat: shouldFloat,
         onscroll: onscroll,
+        find: find,
+        wrapAll: wrapAll
     };
 }]);
 
@@ -2345,7 +2425,7 @@ angular.module('encore.ui.rxForm', ['ngSanitize'])
  * @param {String} suffix - Text to include to the right of content
  * @param {String} description - Text to place below input
  */
-.directive('rxFormItem', function () {
+.directive('rxFormItem', ["$document", "rxDOMHelper", function ($document, rxDOMHelper) {
     return {
         restrict: 'E',
         templateUrl: 'templates/rxFormItem.html',
@@ -2357,7 +2437,12 @@ angular.module('encore.ui.rxForm', ['ngSanitize'])
             description: '@'
         },
         link: function (scope, el) {
-            var inputSelectors = '.field-input input, .field-input select, .field-input textarea';
+            var inputSelectors = [
+                '.field-input-wrapper input',
+                '.field-input-wrapper select',
+                '.field-input-wrapper textarea'
+            ];
+            inputSelectors = inputSelectors.join(', ');
 
             // For accessibility reasons, we need to link the <label> to the <input>
             // To do this, we use the 'for' and 'id' attributes on the <label> and <input> tags, respectively
@@ -2377,6 +2462,21 @@ angular.module('encore.ui.rxForm', ['ngSanitize'])
                     return;
                 }
 
+                // Manually insert the `suffix` span after the input/select/textarea
+                // It needs to be in between the input/select/textarea and any other
+                // transcluded content, so we have to do it here instead of in the template
+                if (scope.suffix) {
+                    var suffixSpan = $document[0].createElement('span');
+                    suffixSpan.innerHTML = scope.suffix;
+                    suffixSpan.className = 'field-suffix';
+                    inputField.parentNode.insertBefore(suffixSpan, inputField.nextSibling);
+                }
+
+                // Put a <span class="field-input"> around the input/select/textarea
+                var fieldInputSpan = $document[0].createElement('span');
+                fieldInputSpan.className = 'field-input';
+                rxDOMHelper.wrapAll(fieldInputSpan, inputField);
+
                 var inputId = inputField.getAttribute('id');
 
                 if (_.isString(inputId)) {
@@ -2391,7 +2491,7 @@ angular.module('encore.ui.rxForm', ['ngSanitize'])
             setFieldId();
         }
     };
-})
+}])
 /**
  *
  * @ngdoc directive
@@ -2511,11 +2611,11 @@ angular.module('encore.ui.rxForm', ['ngSanitize'])
                     return false;
                 }
             };
-            
+
             // Because of a bug in Angular 1.2.x, we can't use `required` and
             // ngTrueValue/ngFalseValue simultaneously. We don't want to affect
             // people that were already using rxFormOptionTable, so instead we'll
-            // build a `modelProxy` which is simply a mapping of $scope.model to 
+            // build a `modelProxy` which is simply a mapping of $scope.model to
             // an array of `true` / `false` values. We then have to take care
             // of updating the actual $scope.model ourselves in `updateCheckboxes`
             // with the correct ngTrueValue/ngFalseValue values
@@ -2527,7 +2627,7 @@ angular.module('encore.ui.rxForm', ['ngSanitize'])
 
             // If we are using checkboxes and the required attribute is set, then we
             // need an array to store the indexes of checked boxes. ng-required is
-            // specifically set if required is true and the array is empty. 
+            // specifically set if required is true and the array is empty.
             var boxesChecked = 0;
             _.forEach($scope.modelProxy, function (el) {
                 if (el) {
@@ -2556,7 +2656,7 @@ angular.module('encore.ui.rxForm', ['ngSanitize'])
 
             /*
              * Get the value out of a key from the row, or parse an expression
-             * @param {String} expr - Key or Angular Expression (or static text) to be compiled
+             * @param {Object} column - Column whose `key` is an Angular Expression or HTML to be compiled
              * @param {Object} row - Data object with data to be used against the expression
              */
             $scope.getContent = function (column, row) {
@@ -2817,16 +2917,48 @@ angular.module('encore.ui.rxNotify', ['ngSanitize', 'ngAnimate'])
 * @example
 * <rx-notification type="warning">This is a message!</rx-notification>
 */
-.directive('rxNotification', function () {
+.directive('rxNotification', ["rxNotify", function (rxNotify) {
     return {
         scope: {
             type: '@'
         },
         transclude: true,
         restrict: 'E',
-        templateUrl: 'templates/rxNotification.html'
+        templateUrl: 'templates/rxNotification.html',
+        link: {
+            // Transclude returns a jqLite object of the content in the directive pre transclusion into the template.
+            pre: function (scope, el, attrs, ctrl, transclude) {
+                if (!_.isEmpty(attrs.stack)) {
+                    /* jshint maxlen:false */
+                    /**
+                     * transclude().parent() - returns a jqLite instance of the parent (this directive as defined
+                     *                           in the template pre-rendering).
+                     * transclude().parent().html() - returns the inner HTML of the parent, as a string, as it was
+                     *                                  defined in the template pre-rendering (Text Only)
+                     * ----------------------------
+                     * el                           -> [<rx-notification stack=​"demo-stack" type=​"info">​
+                     *                                  <div class=​"rx-notifications">​...template...​</div>​
+                     *                                  </rx-notification>​]
+                     *
+                     * transclude()                 -> [<span class=​"ng-scope">​Hello, world in demo-stack stack!​</span>​]
+                     *
+                     * transclude().parent()        -> [<rx-notification stack=​"demo-stack" type=​"info">​
+                     *                                  <span class=​"ng-scope">​Hello, world in demo-stack stack!​</span>
+                     *                                  ​</rx-notification>​]
+                     *
+                     * transclude().parent().html() -> "<span class="ng-scope">Hello, world in demo-stack stack!</span>"
+                     **/
+                    var content = transclude().parent().html();
+                    rxNotify.add(content, {
+                        type: attrs.type,
+                        stack: attrs.stack
+                    });
+                    el.remove();
+                }
+            }
+        }
     };
-})
+}])
  /**
  * @ngdoc directive
  * @name encore.ui.rxNotify:rxNotifications
@@ -3948,7 +4080,10 @@ angular.module('encore.ui.rxStatusColumn', [])
         link: function (scope, element) {
             scope.mappedStatus = rxStatusMappings.getInternalMapping(scope.status, scope.api);
             scope.tooltipText = scope.tooltipContent || scope.status;
-            scope.statusIcon = rxStatusColumnIcons[scope.mappedStatus] || '';
+
+            // We use `fa-exclamation-circle` when no icon should be visible. Our LESS file
+            // makes it transparent
+            scope.statusIcon = rxStatusColumnIcons[scope.mappedStatus] || 'fa-exclamation-circle';
             element.addClass('status');
             element.addClass('status-' + scope.mappedStatus);
             element.addClass('rx-status-column');
