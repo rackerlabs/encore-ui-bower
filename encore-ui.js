@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.5.4 - 2015-01-15
+ * Version: 1.6.0 - 2015-01-26
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
@@ -301,7 +301,7 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
 */
 .service('Environment', ["$location", "$rootScope", "$log", function ($location, $rootScope, $log) {
     /*
-     * This array defined different environments to check against.
+     * This array defines different environments to check against.
      * It is prefilled with 'Encore' based environments
      * It can be overwritten if necessary via the returned 'environments' property
      *
@@ -353,12 +353,9 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
      * @returns {boolean} true if valid, false otherwise
      */
     var isValidEnvironment = function (environment) {
-        var isValid =
-            _.isString(environment.name) &&
+        return _.isString(environment.name) &&
             (_.isString(environment.pattern) || _.isRegExp(environment.pattern)) &&
             _.isString(environment.url);
-
-        return isValid;
     };
 
     var environmentPatternMatch = function (href, pattern) {
@@ -487,9 +484,7 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
         var environment = Environment.get();
 
         // convert url template into full path based on details provided (if details is an object)
-        var url = _.isObject(details) ? $interpolate(environment.url)(details) : details;
-
-        return url;
+        return _.isObject(details) ? $interpolate(environment.url)(details) : details;
     };
 }])
 /**
@@ -530,8 +525,8 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
 *
 * @example
 * <pre>
-*     <div rx-if-environment="staging">Show if staging</div>
-*     <div rx-if-environment="!production">Show if not prod</div>
+*     <div rx-if-environment="unified-preprod">Show if staging</div>
+*     <div rx-if-environment="!unified-prod">Show if not prod</div>
 * </pre>
 */
 .directive('rxIfEnvironment', ["$compile", function ($compile) {
@@ -3784,7 +3779,36 @@ angular.module('encore.ui.rxSortableColumn', [])
     };
 
     return util;
-});
+})
+/**
+* @ngdoc filter
+* @name encore.ui.rxSortableColumn:rxSortEmptyTop
+* @description
+* Filter that moves rows with an empty predicate to the top of the column in ascending order,
+  and to the bottom in descending order.
+*
+* @example
+* <pre>
+* [{ name: { firstName: 'Adam' } }, { }] | rxSortEmptyTop 'name.firstName':false
+* Will sort as [{}, { name: { firstName: 'Adam' } }].
+
+* [{ name: { firstName: 'Adam' } }, { name: { firstName: null } ] | rxSortEmptyTop 'name.firstName':true
+* Will sort as [{ name: { firstName: 'Adam' } }, {}]
+
+* </pre>
+*/
+.filter('rxSortEmptyTop', ['$filter', '$parse', function ($filter, $parse) {
+    return function (array, key, reverse) {
+
+        var predicateGetter = $parse(key);
+
+        var sortFn = function (item) {
+            return predicateGetter(item) || '';
+        };
+
+        return $filter('orderBy')(array, sortFn, reverse);
+    };
+}]);
 
 angular.module('encore.ui.rxSpinner', [])
 /**

@@ -3725,7 +3725,7 @@ field-prefix, field-suffix and field-description are all optional.
 .field-legend {
   color: #989998;
   font-size: 1.1em;
-  flex: 0 0 100px;
+  flex: 0 0 110px;
 }
 .field-content {
   display: flex;
@@ -3861,10 +3861,10 @@ Replace default UI of select fields and adds custom border/arrow
 }
 .field-select:before {
   content: '';
-  right: 2px;
-  top: 2px;
+  right: 1px;
+  top: 1px;
   width: 20px;
-  height: 90%;
+  height: 94%;
   background: #fff;
   position: absolute;
   pointer-events: none;
@@ -3876,7 +3876,7 @@ Replace default UI of select fields and adds custom border/arrow
   font-size: 15px;
   color: #aaa;
   right: 10px;
-  top: 6px;
+  top: 7px;
   padding: 0;
   position: absolute;
   pointer-events: none;
@@ -3889,8 +3889,8 @@ Replace default UI of select fields and adds custom border/arrow
   background: #404140;
 }
 .rx-app-nav-item .field-select:after {
-  right: 6px;
-  top: 4px;
+  right: 10px;
+  top: 5px;
 }
 .account-users {
   float: right;
@@ -3899,17 +3899,6 @@ Replace default UI of select fields and adds custom border/arrow
 }
 .account-users select {
   border-radius: 0;
-}
-/*
- * @bugfix Because of '-moz-appearance: window', the border/padding is removed from the select box.
- * This adds it back
- * @see http://stackoverflow.com/questions/5912791/how-to-remove-the-arrow-from-a-select-tag-in-firefox
- */
-@-moz-document url-prefix() {
-  .field-select {
-    border: 1px solid #cccccc;
-    padding: 3px 5px;
-  }
 }
 .option-table {
   width: auto;

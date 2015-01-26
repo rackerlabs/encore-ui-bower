@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.5.4 - 2015-01-15
+ * Version: 1.6.0 - 2015-01-26
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
@@ -302,7 +302,7 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
 */
 .service('Environment', ["$location", "$rootScope", "$log", function ($location, $rootScope, $log) {
     /*
-     * This array defined different environments to check against.
+     * This array defines different environments to check against.
      * It is prefilled with 'Encore' based environments
      * It can be overwritten if necessary via the returned 'environments' property
      *
@@ -354,12 +354,9 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
      * @returns {boolean} true if valid, false otherwise
      */
     var isValidEnvironment = function (environment) {
-        var isValid =
-            _.isString(environment.name) &&
+        return _.isString(environment.name) &&
             (_.isString(environment.pattern) || _.isRegExp(environment.pattern)) &&
             _.isString(environment.url);
-
-        return isValid;
     };
 
     var environmentPatternMatch = function (href, pattern) {
@@ -488,9 +485,7 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
         var environment = Environment.get();
 
         // convert url template into full path based on details provided (if details is an object)
-        var url = _.isObject(details) ? $interpolate(environment.url)(details) : details;
-
-        return url;
+        return _.isObject(details) ? $interpolate(environment.url)(details) : details;
     };
 }])
 /**
@@ -531,8 +526,8 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
 *
 * @example
 * <pre>
-*     <div rx-if-environment="staging">Show if staging</div>
-*     <div rx-if-environment="!production">Show if not prod</div>
+*     <div rx-if-environment="unified-preprod">Show if staging</div>
+*     <div rx-if-environment="!unified-prod">Show if not prod</div>
 * </pre>
 */
 .directive('rxIfEnvironment', ["$compile", function ($compile) {
@@ -3785,7 +3780,36 @@ angular.module('encore.ui.rxSortableColumn', [])
     };
 
     return util;
-});
+})
+/**
+* @ngdoc filter
+* @name encore.ui.rxSortableColumn:rxSortEmptyTop
+* @description
+* Filter that moves rows with an empty predicate to the top of the column in ascending order,
+  and to the bottom in descending order.
+*
+* @example
+* <pre>
+* [{ name: { firstName: 'Adam' } }, { }] | rxSortEmptyTop 'name.firstName':false
+* Will sort as [{}, { name: { firstName: 'Adam' } }].
+
+* [{ name: { firstName: 'Adam' } }, { name: { firstName: null } ] | rxSortEmptyTop 'name.firstName':true
+* Will sort as [{ name: { firstName: 'Adam' } }, {}]
+
+* </pre>
+*/
+.filter('rxSortEmptyTop', ['$filter', '$parse', function ($filter, $parse) {
+    return function (array, key, reverse) {
+
+        var predicateGetter = $parse(key);
+
+        var sortFn = function (item) {
+            return predicateGetter(item) || '';
+        };
+
+        return $filter('orderBy')(array, sortFn, reverse);
+    };
+}]);
 
 angular.module('encore.ui.rxSpinner', [])
 /**
@@ -4405,7 +4429,7 @@ angular.module("templates/rxFormItem.html", []).run(["$templateCache", function(
 
 angular.module("templates/rxFormOptionTable.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxFormOptionTable.html",
-    "<div class=\"form-item\"><table class=\"table-striped option-table\" ng-show=\"data.length > 0 || emptyMessage \"><thead><tr><th></th><th ng-repeat=\"column in columns\" scope=\"col\">{{column.label}}</th></tr></thead><tr ng-repeat=\"row in data\" ng-class=\"{current: isCurrent(row.value), selected: isSelected(row.value, $index)}\"><td class=\"option-table-input\" ng-switch=\"type\"><label><input type=\"radio\" ng-switch-when=\"radio\" id=\"{{fieldId}}_{{$index}}\" ng-model=\"$parent.$parent.model\" value=\"{{row.value}}\" name=\"{{fieldId}}\" ng-disabled=\"isCurrent(row.value)\" rx-attributes=\"{'ng-required': required}\"> <input type=\"checkbox\" ng-switch-when=\"checkbox\" id=\"{{fieldId}}_{{$index}}\" ng-model=\"$parent.modelProxy[$index]\" ng-change=\"updateCheckboxes($parent.modelProxy[$index], $index)\" ng-required=\"checkRequired()\"></label></td><td ng-repeat=\"column in columns\"><label for=\"{{column.label}}_{{$parent.$index}}\"><span ng-bind-html=\"getContent(column, row)\"></span> <span ng-show=\"isCurrent(row.value)\">{{column.selectedLabel}}</span></label></td></tr><tr ng-if=\"data.length === 0 && emptyMessage\"><td colspan=\"{{columns.length + 1}}\" class=\"empty-data\"><span class=\"msg-warn\">{{emptyMessage}}</span></td></tr></table></div>");
+    "<div class=\"form-item\"><table class=\"table-striped option-table\" ng-show=\"data.length > 0 || emptyMessage \"><thead><tr><th></th><th ng-repeat=\"column in columns\" scope=\"col\">{{column.label}}</th></tr></thead><tr ng-repeat=\"row in data\" ng-class=\"{current: isCurrent(row.value), selected: isSelected(row.value, $index)}\"><td class=\"option-table-input\" ng-switch=\"type\"><label><input type=\"radio\" ng-switch-when=\"radio\" id=\"{{fieldId}}_{{$index}}\" ng-model=\"$parent.$parent.model\" value=\"{{row.value}}\" name=\"{{fieldId}}\" ng-disabled=\"isCurrent(row.value)\" rx-attributes=\"{'ng-required': required}\"> <input type=\"checkbox\" ng-switch-when=\"checkbox\" id=\"{{fieldId}}_{{$index}}\" ng-model=\"$parent.modelProxy[$index]\" ng-change=\"updateCheckboxes($parent.modelProxy[$index], $index)\" ng-required=\"checkRequired()\"></label></td><td ng-repeat=\"column in columns\"><label for=\"{{column.label}}_{{$parent.$index}}\"><span ng-bind-html=\"getContent(column, row)\"></span> <span ng-show=\"isCurrent(row.value)\">{{column.selectedLabel}}</span></label></td></tr><tr ng-if=\"data.length === 0 && emptyMessage\"><td colspan=\"{{columns.length + 1}}\" class=\"empty-data\">{{emptyMessage}}</td></tr></table></div>");
 }]);
 
 angular.module("templates/rxInfoPanel.html", []).run(["$templateCache", function($templateCache) {
@@ -4440,7 +4464,7 @@ angular.module("templates/rxPaginate.html", []).run(["$templateCache", function(
 
 angular.module("templates/rxSortableColumn.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxSortableColumn.html",
-    "<div class=\"rx-sortable-column\"><button class=\"sort-action btn-link\" ng-click=\"sortMethod({property:sortProperty})\"><span class=\"visually-hidden\">Sort by&nbsp;</span> <span ng-transclude></span> <i class=\"sort-icon\" ng-style=\"{visibility: predicate === '{{sortProperty}}' && 'visible' || 'hidden'}\" ng-class=\"{'desc': !reverse, 'asc': reverse}\"><span class=\"visually-hidden\">Sorted {{reverse ? 'ascending' : 'descending'}}</span></i></button></div>");
+    "<div class=\"rx-sortable-column\"><button class=\"sort-action btn-link\" ng-click=\"sortMethod({property:sortProperty})\"><span class=\"visually-hidden\">Sort by&nbsp;</span> <span ng-transclude></span> <i class=\"sort-icon\" ng-style=\"{visibility: predicate === '{{sortProperty}}' && 'visible' || 'hidden'}\" ng-class=\"{'desc': reverse, 'asc': !reverse}\"><span class=\"visually-hidden\">Sorted {{reverse ? 'ascending' : 'descending'}}</span></i></button></div>");
 }]);
 
 angular.module("templates/rxStatusColumn.html", []).run(["$templateCache", function($templateCache) {
