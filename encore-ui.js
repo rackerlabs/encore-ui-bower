@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.6.1 - 2015-01-28
+ * Version: 1.6.2 - 2015-02-06
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
@@ -1275,15 +1275,25 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
         }
     };
 }])
-.directive('rxBillingSearch', ["$window", function ($window) {
+.directive('rxBillingSearch', ["$location", "$window", "encoreRoutes", function ($location, $window, encoreRoutes) {
     return {
-        template: '<rx-app-search placeholder="Fetch account by transaction or auth ID..." submit="fetchAccounts">' +
-            '</rx-app-search>',
+        templateUrl: 'templates/rxBillingSearch.html',
         restrict: 'E',
         link: function (scope) {
+            scope.searchType = 'bsl';
+            scope.$watch('searchType', function () {
+                scope.placeholder = scope.searchType === 'bsl' ? 'Transaction or Auth ID' : 'Account or Contact Info';
+            });
             scope.fetchAccounts = function (searchValue) {
                 if (!_.isEmpty(searchValue)) {
-                    $window.location = '/billing/search/' + searchValue;
+                    // Assuming we are already in /billing, we should use $location to prevent a page refresh
+                    encoreRoutes.isActiveByKey('billing').then(function (isBilling) {
+                        if (isBilling) {
+                            $location.url('/search?q=' + searchValue + '&type=' + scope.searchType);
+                        } else {
+                            $window.location = '/billing/search?q=' + searchValue + '&type=' + scope.searchType;
+                        }
+                    });
                 }
             };
         }

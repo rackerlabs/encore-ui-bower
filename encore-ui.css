@@ -354,7 +354,7 @@ https://github.com/yui/pure/blob/master/LICENSE.md
 }
 .action-menu-container {
   position: relative;
-  width: 5px;
+  width: 15px;
 }
 .action-menu-container > i {
   cursor: pointer;
@@ -2838,102 +2838,6 @@ Requires 'display' to be defined as `inline-block` or `block`
 /*
 FlexBox Columns
 */
-/*
-
- # rxApp
-
-This component is responsible for creating the HTML necessary for a common Encore layout. It builds out the main navigation, plus breadcrumbs and page titles.
-
-## Usage
-
-For apps that want to use the default Encore navigation, use the following HTML class structures placed inside your index.html file:
-
-```
-    <body>
-        <div class="rx-app">
-            <nav class="rx-app-menu">
-                <header class="site-branding">
-                    <h1 class="site-title">Encore</h1>
-                    <button class="collapsible-toggle btn-link">
-                        <div class="double-chevron"></div>
-                    </button>
-                    <div class="site-options">
-                        <a href="#" class="site-option">Logout</a>
-                    </div>
-                </header>
-                <nav class="rx-app-nav">
-                    <div class="nav-section nav-section-1">
-                        <h2 class="nav-section-title">Section One</h2>
-                        <div class="rx-app-nav rx-app-nav-level-1">
-                            <ul class="rx-app-nav-group">
-                                <li class="rx-app-nav-item active">
-                                    <a href="#" class="item-link">Link one</a>
-                                </li>
-                                <li class="rx-app-nav-item">
-                                    <a href="#" class="item-link">Link two</a>
-                                </li>
-                                <li class="rx-app-nav-item has-children">
-                                    <a href="#" class="item-link">Link three</a>
-                                    <div class="item-content">
-                                        <div class="item-directive">[Things like a search go here]</div>
-                                        <div class="item-children">
-                                            <div class="child-header">Subgroup Header</div>
-                                            <div class="rx-app-nav rx-app-nav-level-2">
-                                                <ul class="rx-app-nav-group">
-                                                    <li class="rx-app-nav-item active">
-                                                        <a href="#" class="item-link">Sub link 1</a>
-                                                    </li>
-                                                    <li class="rx-app-nav-item">
-                                                        <a href="#" class="item-link">Sub link 2</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <h2 class="nav-section-title">Section Two</h2>
-                        <div class="rx-app-nav rx-app-nav-level-2">
-                            <ul class="rx-app-nav-group">
-                                <rx-app-nav-item ng-repeat="item in items" item="item"></rx-app-nav-item>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-            </nav>
-            <div class="rx-app-content">
-                <div class="rx-page">
-                    <header class="page-header clearfix">
-                        <!--
-                            This uses the rxBreadcrumbs angular.js directive. For non-angular
-                            implementations, please see the rxBreadcrumbs template section in
-                            the CSS documentation.
-                        -->
-                        <rx-breadcrumbs></rx-breadcrumbs>
-                    </header>
-                    <div class="page-body">
-                        <!--
-                            This uses the rxNotifications angular.js directive. For non-angular
-                            implementations, please see the rxNotifications template section in
-                            the CSS documentation.
-                        -->
-                        <rx-notifications></rx-notifications>
-                        <div class="page-titles">
-                            <h2 class="page-title">Lorem Ipsum</h2>
-                            <h3 class="page-subtitle">Dolor Sit Amet</h3>
-                        </div>
-                        <div class="page-content clear">
-                            <p>Lorem ipsum dolor sit amet.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </body>
-```
-
- */
 .rx-app {
   min-height: 100%;
   display: -webkit-box;
@@ -3286,6 +3190,9 @@ For apps that want to use the default Encore navigation, use the following HTML 
   border: 0;
   opacity: 0.2;
 }
+.rx-app .rx-app-search .search-option {
+  margin-top: 10px;
+}
 .rx-app .rx-app-help {
   position: fixed;
   bottom: 0;
@@ -3355,6 +3262,24 @@ For apps that want to use the default Encore navigation, use the following HTML 
   top: 9px;
   position: absolute;
   color: #427fc4;
+}
+/* Disabled link styles */
+.link-disabled {
+  pointer-events: none;
+}
+.link-disabled a {
+  color: #d5d3d3;
+}
+.link-disabled .rx-spinner {
+  margin-left: 10px;
+  border-bottom-color: #d5d3d3;
+  border-right-color: #d5d3d3;
+}
+a.disabled {
+  color: #d5d3d3;
+  cursor: default;
+  pointer-events: none;
+  text-decoration: none;
 }
 /*
 # rxBreadcrumbs
@@ -4010,6 +3935,10 @@ Replace default UI of select fields and adds custom border/arrow
 .rx-form.layout-compressed .form-item .field-input input:not([type="radio"]) {
   width: 100%;
 }
+.rx-form.layout-compressed .form-item .field-input input[type="checkbox"],
+.rx-form.layout-compressed .form-item .field-input input[type="radio"] {
+  width: 1em;
+}
 .rx-form.layout-compressed .form-item .field-label,
 .rx-form.layout-compressed .form-item .field-legend {
   font-size: 0.8em;
@@ -4178,45 +4107,6 @@ Replace default UI of select fields and adds custom border/arrow
     margin: -10px;
   }
 }
-/*
-# rxNotify
-
-Note: **Styledocco will not display the images associated with the notification bars.** Please reference the main Encore demo to view this. The class `rx-notifications` is a container div, and is required.
-
-In the second example we added `<button class="notification-dismiss btn-link">&times;</button>` to add a dismiss marker. If you are not using Encore UI's angular.js directives, it's up to you to flesh out this functionality.
-
-Note that `<rx-app></rx-app>` uses the `<rx-notifications>` directive, where each individual status message has the class `animate-fade`. This class uses CSS3 animations and requires the `ngAnimate` module which adds `ng-enter` and `ng-leave` classes as the element appears and dissapears. The `<rx-notification>` directive does not include the animation class.
-
-```
-<div class="rx-notifications">
-    <div class="rx-notification animate-fade notification-error">
-        Error Message
-    </div>
-
-    <div class="rx-notification animate-fade notification-error">
-        Error Message
-        <button class="notification-dismiss btn-link">&times;</button>
-    </div>
-
-    <div class="rx-notification animate-fade notification-info">
-        Informational Message
-    </div>    
-
-    <div class="rx-notification animate-fade notification-info notification-loading">
-        <div class="rx-spinner"></div>
-        Loading
-    </div>
-
-    <div class="rx-notification animate-fade notification-success">
-        Success Message
-    </div>
-
-    <div class="rx-notification animate-fade notification-warning">
-        Warning Message
-    </div>
-</div>
-```
-*/
 .rx-notifications {
   margin-bottom: 1.5em;
 }
@@ -4234,20 +4124,32 @@ Note that `<rx-app></rx-app>` uses the `<rx-notifications>` directive, where eac
   background-image: url('images/green-checkmark-circled.png');
   color: #45ad26;
 }
+.rx-notifications .rx-notification.notification-success a {
+  color: #7db162;
+}
 .rx-notifications .rx-notification.notification-info {
   background-color: #83c9fe;
   background-image: url('images/info-circled.png');
   color: #1672b9;
+}
+.rx-notifications .rx-notification.notification-info a {
+  color: #568fb8;
 }
 .rx-notifications .rx-notification.notification-warning {
   background-color: #ffa61b;
   background-image: url('images/warning-triangle.png');
   color: #fff;
 }
+.rx-notifications .rx-notification.notification-warning a {
+  color: #f1d6af;
+}
 .rx-notifications .rx-notification.notification-error {
   background-color: #f21a1a;
   background-image: url('images/error-stop.png');
   color: #fff;
+}
+.rx-notifications .rx-notification.notification-error a {
+  color: #fdaaab;
 }
 .rx-notifications .rx-notification.notification-loading {
   background-image: none;

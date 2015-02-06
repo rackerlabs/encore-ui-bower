@@ -2,11 +2,11 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.6.1 - 2015-01-28
+ * Version: 1.6.2 - 2015-02-06
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
-angular.module('encore.ui.tpls', ['templates/rxAccountInfo.html','templates/rxAccountInfoBanner.html','templates/rxActionMenu.html','templates/rxActiveUrl.html','templates/rxAccountSearch.html','templates/rxAccountUsers.html','templates/rxApp.html','templates/rxAppNav.html','templates/rxAppNavItem.html','templates/rxAppSearch.html','templates/rxPage.html','templates/rxPermission.html','templates/rxBreadcrumbs.html','templates/rxButton.html','templates/feedbackForm.html','templates/rxFeedback.html','templates/rxFormFieldset.html','templates/rxFormItem.html','templates/rxFormOptionTable.html','templates/rxInfoPanel.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxPaginate.html','templates/rxSortableColumn.html','templates/rxStatusColumn.html']);
+angular.module('encore.ui.tpls', ['templates/rxAccountInfo.html','templates/rxAccountInfoBanner.html','templates/rxActionMenu.html','templates/rxActiveUrl.html','templates/rxAccountSearch.html','templates/rxAccountUsers.html','templates/rxApp.html','templates/rxAppNav.html','templates/rxAppNavItem.html','templates/rxAppSearch.html','templates/rxBillingSearch.html','templates/rxPage.html','templates/rxPermission.html','templates/rxBreadcrumbs.html','templates/rxButton.html','templates/feedbackForm.html','templates/rxFeedback.html','templates/rxFormFieldset.html','templates/rxFormItem.html','templates/rxFormOptionTable.html','templates/rxInfoPanel.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxPaginate.html','templates/rxSortableColumn.html','templates/rxStatusColumn.html']);
 angular.module('encore.ui.configs', [])
 .value('devicePaths', [
     { value: '/dev/xvdb', label: '/dev/xvdb' },
@@ -1276,15 +1276,25 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
         }
     };
 }])
-.directive('rxBillingSearch', ["$window", function ($window) {
+.directive('rxBillingSearch', ["$location", "$window", "encoreRoutes", function ($location, $window, encoreRoutes) {
     return {
-        template: '<rx-app-search placeholder="Fetch account by transaction or auth ID..." submit="fetchAccounts">' +
-            '</rx-app-search>',
+        templateUrl: 'templates/rxBillingSearch.html',
         restrict: 'E',
         link: function (scope) {
+            scope.searchType = 'bsl';
+            scope.$watch('searchType', function () {
+                scope.placeholder = scope.searchType === 'bsl' ? 'Transaction or Auth ID' : 'Account or Contact Info';
+            });
             scope.fetchAccounts = function (searchValue) {
                 if (!_.isEmpty(searchValue)) {
-                    $window.location = '/billing/search/' + searchValue;
+                    // Assuming we are already in /billing, we should use $location to prevent a page refresh
+                    encoreRoutes.isActiveByKey('billing').then(function (isBilling) {
+                        if (isBilling) {
+                            $location.url('/search?q=' + searchValue + '&type=' + scope.searchType);
+                        } else {
+                            $window.location = '/billing/search?q=' + searchValue + '&type=' + scope.searchType;
+                        }
+                    });
                 }
             };
         }
@@ -4388,6 +4398,11 @@ angular.module("templates/rxAppNavItem.html", []).run(["$templateCache", functio
 angular.module("templates/rxAppSearch.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxAppSearch.html",
     "<div class=\"rx-app-search\"><form role=\"search\" ng-submit=\"submit(model)\"><input type=\"text\" placeholder=\"{{ placeholder }}\" ng-model=\"model\" class=\"form-item search-input\" ng-required rx-attributes=\"{'ng-pattern': pattern}\"> <button type=\"submit\" class=\"search-action\"><span class=\"visually-hidden\">Search</span></button></form></div>");
+}]);
+
+angular.module("templates/rxBillingSearch.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/rxBillingSearch.html",
+    "<div class=\"rx-app-search\"><form name=\"search\" role=\"search\" ng-submit=\"fetchAccounts(model)\"><fieldset><input type=\"text\" ng-attr-placeholder=\"Search by {{ placeholder }}\" ng-model=\"model\" class=\"form-item search-input\" ng-required> <button type=\"submit\" class=\"search-action\" ng-disabled=\"!search.$valid\"><span class=\"visually-hidden\">Search</span></button></fieldset><fieldset><ul><li class=\"search-option\"><label for=\"transaction\"><input id=\"transaction\" type=\"radio\" value=\"bsl\" ng-model=\"searchType\"> Transaction/Auth ID</label></li><li class=\"search-option\"><label for=\"account\"><input id=\"account\" type=\"radio\" value=\"cloud\" ng-model=\"searchType\"> Account/Contact Info</label></li></ul></fieldset></form></div>");
 }]);
 
 angular.module("templates/rxPage.html", []).run(["$templateCache", function($templateCache) {
