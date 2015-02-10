@@ -3151,6 +3151,9 @@ FlexBox Columns
   font-size: 14px;
   color: #babab9;
 }
+.rx-app .rx-app-search fieldset {
+  position: relative;
+}
 .rx-app .rx-app-search ::-webkit-input-placeholder {
   font-style: italic;
   text-overflow: ellipsis;
