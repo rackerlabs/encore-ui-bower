@@ -2506,8 +2506,66 @@ table thead th {
 table tr {
   background: #ffffff;
 }
-table.table-striped tr:nth-child(even) {
+table.table-striped tr:nth-child(even),
+table.table-striped tbody:nth-child(odd) > tr {
   background: #f2f2f2;
+}
+table td.double-chevron-cell {
+  width: 10px;
+  padding: 0px 10px;
+}
+table td.double-chevron-cell .double-chevron {
+  cursor: pointer;
+}
+table td.double-chevron-cell .double-chevron::after {
+  display: inline-block;
+  color: #bbbbbb;
+  font-size: 20px;
+  content: "\00bb";
+  -webkit-transform: rotate(90deg) scaleX(1);
+  transform: rotate(90deg) scaleX(1);
+  -webkit-transition: all .2s;
+  transition: all .2s;
+}
+table td.expanded {
+  background-color: #adadad;
+  border-bottom-color: #adadad;
+}
+table td.expanded .double-chevron::after {
+  color: #ffffff;
+  content: "\00bb";
+  -webkit-transform: rotate(90deg) scaleX(-1);
+  transform: rotate(90deg) scaleX(-1);
+  -webkit-transition: all .2s;
+  transition: all .2s;
+}
+.expanded-container {
+  padding: 0 3px 3px 3px;
+  background-color: #adadad;
+}
+.expanded-container > * {
+  margin-left: 2%;
+  width: 98%;
+}
+.expanded-container table.subtable {
+  table-layout: fixed;
+}
+.expanded-container table.subtable th:first-child {
+  border-left-width: 0;
+}
+.expanded-container table.subtable th:last-child {
+  border-right-width: 0;
+  width: 15px;
+}
+.expanded-container table.subtable th {
+  border-color: #878787;
+  background-color: #adadad;
+  border-top: 0;
+  border-bottom: 0;
+}
+.expanded-container .expanded-content {
+  background-color: #ffffff;
+  margin-top: 3px;
 }
 /*
 
