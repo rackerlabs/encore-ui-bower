@@ -2893,9 +2893,32 @@ Requires 'display' to be defined as `inline-block` or `block`
 .full-width {
   width: 100%;
 }
-/*
-FlexBox Columns
-*/
+/* Flexbox LESS Elements
+ *
+ * This file will contain those mixins that pertain to the flexbox W3C Candidate Recommendation
+ *
+ * Useful Links:
+ *  http://www.w3.org/TR/css3-flexbox/
+ *  http://css-tricks.com/snippets/css/a-guide-to-flexbox/
+ *  http://caniuse.com/flexbox
+ *  https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Flexible_boxes
+ *
+ */
+.flexbox {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+/* NOTE:
+ *  Firefox does not support 'flex-flow' or 'flex-wrap' properties.
+ *  'flex-direction' will be the only usable property by Firefox 27 and earlier for this purpose.
+ */
+/* NOTE:
+ *  Firefox does not support the 'flex-wrap' property.
+ *  This property defaults to 'nowrap'.
+ */
 .rx-app {
   min-height: 100%;
   display: -webkit-box;
@@ -2910,16 +2933,14 @@ FlexBox Columns
   background: #f5f5f5;
 }
 .rx-app .rx-app-content {
-  -webkit-box-flex: 1 1 0;
-  -moz-box-flex: 1 1 0;
   -webkit-flex: 1 1 0;
+  -moz-flex: 1 1 0;
   -ms-flex: 1 1 0;
   flex: 1 1 0;
 }
 .rx-app .rx-app-menu {
-  -webkit-box-flex: 0 0 300px;
-  -moz-box-flex: 0 0 300px;
   -webkit-flex: 0 0 300px;
+  -moz-flex: 0 0 300px;
   -ms-flex: 0 0 300px;
   flex: 0 0 300px;
   color: #fff;
@@ -2989,9 +3010,8 @@ FlexBox Columns
   padding-right: calc(2em + 20px);
 }
 .rx-app.collapsed .rx-app-menu {
-  -webkit-box-flex: 0 0 25px;
-  -moz-box-flex: 0 0 25px;
   -webkit-flex: 0 0 25px;
+  -moz-flex: 0 0 25px;
   -ms-flex: 0 0 25px;
   flex: 0 0 25px;
   padding-bottom: 0;
@@ -3688,14 +3708,28 @@ field-prefix, field-suffix and field-description are all optional.
 }
 .form-item {
   margin-top: 5px;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
   display: flex;
-  flex-wrap: nowrap;
+  -webkit-flex-flow: row nowrap;
+  -moz-flex-flow: row nowrap;
+  -ms-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  -webkit-justify-content: flex-start;
+  -moz-justify-content: flex-start;
+  justify-content: flex-start;
+  -webkit-align-items: baseline;
+  -moz-align-items: baseline;
+  -ms-align-items: baseline;
   align-items: baseline;
 }
 .text-area-label.form-item {
-  align-items: flex-start;
   -webkit-align-items: flex-start;
   -moz-align-items: flex-start;
+  -ms-align-items: flex-start;
+  align-items: flex-start;
 }
 .rx-form-fieldset > fieldset {
   width: 100%;
@@ -3711,14 +3745,31 @@ field-prefix, field-suffix and field-description are all optional.
 .field-legend {
   color: #989998;
   font-size: 1.1em;
+  -webkit-flex: 0 0 110px;
+  -moz-flex: 0 0 110px;
+  -ms-flex: 0 0 110px;
   flex: 0 0 110px;
 }
 .field-content {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
   display: flex;
+  -webkit-flex: 1 auto;
+  -moz-flex: 1 auto;
+  -ms-flex: 1 auto;
   flex: 1 auto;
   -webkit-flex-flow: row wrap;
+  -moz-flex-flow: row wrap;
+  -ms-flex-flow: row wrap;
   flex-flow: row wrap;
+  -webkit-justify-content: flex-start;
+  -moz-justify-content: flex-start;
   justify-content: flex-start;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
   align-items: center;
 }
 .field-content .field-prefix,
@@ -3732,6 +3783,9 @@ field-prefix, field-suffix and field-description are all optional.
   margin-left: 5px;
 }
 .field-content .field-description {
+  -webkit-flex: 1 100%;
+  -moz-flex: 1 100%;
+  -ms-flex: 1 100%;
   flex: 1 100%;
   font-size: 0.8em;
   font-style: italic;
@@ -3973,12 +4027,25 @@ Replace default UI of select fields and adds custom border/arrow
 ```
 */
 .rx-form.layout-compressed .rx-form-row {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
   display: flex;
+  -webkit-flex-wrap: nowrap;
+  -moz-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
   flex-wrap: nowrap;
+  -webkit-flex: 1 auto;
+  -moz-flex: 1 auto;
+  -ms-flex: 1 auto;
   flex: 1 auto;
 }
 .rx-form.layout-compressed .rx-form-row .form-item {
   padding: 0px 3px;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  -ms-flex: 1;
   flex: 1;
 }
 .rx-form.layout-compressed .form-item {
@@ -4336,9 +4403,15 @@ Add the class `disabled` to classes `pagination-first`, `pagination-prev`, `pagi
   background: #fff;
 }
 .rx-paginate .pagination {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
   display: flex;
-  flex-direction: row;
-  flex-flow: row;
+  -webkit-flex-flow: row nowrap;
+  -moz-flex-flow: row nowrap;
+  -ms-flex-flow: row nowrap;
+  flex-flow: row nowrap;
   padding-left: 0;
   width: 100%;
 }
@@ -4662,11 +4735,18 @@ Provides styling for the Angular-UI tab HTML
 ```
 */
 .nav-tabs {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
   display: flex;
   border-bottom: 9px solid #4480c1;
   clear: both;
 }
 .nav-tabs li {
+  -webkit-flex: 0 0 auto;
+  -moz-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   font-size: 14px;
 }

@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.7.1 - 2015-02-19
+ * Version: 1.7.2 - 2015-02-20
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
@@ -1184,7 +1184,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
  * @description
  * Provides the ability to switch between account users. This directive is specific to Rackspace
  */
-.directive('rxAccountUsers', ["$location", "$route", "$routeParams", "Encore", "$rootScope", "encoreRoutes", function ($location, $route, $routeParams, Encore, $rootScope, encoreRoutes) {
+.directive('rxAccountUsers', ["$location", "$route", "Encore", "$rootScope", "encoreRoutes", function ($location, $route, Encore, $rootScope, encoreRoutes) {
     return {
         restrict: 'E',
         templateUrl: 'templates/rxAccountUsers.html',
@@ -1204,10 +1204,14 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
                 });
             };
 
+            // We use $route.current.params instead of $routeParams because
+            // the former is always available, while $routeParams only gets populated
+            // after the route has successfully resolved. See the Angular docs on $routeParams
+            // for more details.
             var loadUsers = function () {
                 var success = function (account) {
                     scope.users = account.users;
-                    scope.currentUser = $routeParams.user;
+                    scope.currentUser = $route.current.params.user;
                     if (!scope.currentUser) {
                         // We're not in Cloud, but instead in Billing, or Events, or
                         // one of the other Accounts menu items that doesn't use a username as
@@ -1218,7 +1222,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
                         encoreRoutes.rebuildUrls({ user: account.users[0].username });
                     }
                 };
-                Encore.getAccountUsers({ id: $routeParams.accountNumber }, success);
+                Encore.getAccountUsers({ id: $route.current.params.accountNumber }, success);
             };
 
             checkCloud();
