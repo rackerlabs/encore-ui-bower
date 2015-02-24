@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.7.2 - 2015-02-20
+ * Version: 1.8.0 - 2015-02-24
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
@@ -2301,10 +2301,29 @@ angular.module('encore.ui.rxFloatingHeader', ['encore.ui.rxMisc'])
 .directive('rxFloatingHeader', ["rxDOMHelper", function (rxDOMHelper) {
     return {
         restrict: 'A',
-        scope: {},
+        controller: ["$scope", function ($scope) {
+            this.update = function () {
+                // It's possible for a child directive to try to call this
+                // before the rxFloatingHeader link function has been run,
+                // meaning $scope.update won't have been configured yet
+                if (_.isFunction($scope.update)) {
+                    $scope.update();
+                }
+            };
+        }],
         link: function (scope, table) {
+            var state, seenFirstScroll, trs, ths, clones, inputs, maxHeight, header, singleThs, maxThWidth;
 
-            var state = 'fixed',
+            var setup = function () {
+
+                if (clones && clones.length) {
+                    _.each(clones, function (clone) {
+                        // Possible memory leak here? I tried clone.scope().$destroy(),
+                        // but it causes exceptions in Angular
+                        clone.remove();
+                    });
+                }
+                state = 'fixed',
                 seenFirstScroll = false,
 
                 // The original <tr> elements
@@ -2313,6 +2332,12 @@ angular.module('encore.ui.rxFloatingHeader', ['encore.ui.rxMisc'])
                 // The original <th> elements
                 ths = [],
 
+                // All <th> elements that are the *only* <th> in their row
+                singleThs = [],
+
+                // The maximum width we could find for a <th>
+                maxThWidth = 0,
+
                 // Clones of the <tr> elements
                 clones = [],
 
@@ -2320,24 +2345,83 @@ angular.module('encore.ui.rxFloatingHeader', ['encore.ui.rxMisc'])
                 inputs = [],
                 maxHeight,
                 header = angular.element(table.find('thead'));
+                
+                // Are we currently floating?
+                var floating = false;
+                // Grab all the original `tr` elements from the `thead`,
+                _.each(header.find('tr'), function (tr) {
+                    tr = angular.element(tr);
 
-            // Grab all the original `tr` elements from the `thead`,
-            _.each(header.find('tr'), function (tr) {
-                tr = angular.element(tr);
-                clones.push(tr.clone());
-                trs.push(tr);
-                ths = ths.concat(_.map(tr.find('th'), angular.element));
-            });
+                    // If `scope.setup()` has been called, it means we'd previously
+                    // worked with these rows before. We want them in as clean a state as possible
+                    if (!floating && tr.hasClass('rx-floating-header')) {
+                        floating = true;
+                    }
 
-            // Apply .filter-header to any <input> elements
-            _.each(ths, function (th) {
-                var input = th.find('input');
-                if (input.length) {
-                    th.addClass('filter-header');
-                    input.addClass('filter-box');
-                    inputs.push(input);
-                }
-            });
+                    // We are going to clone all the <tr> elements in the <thead>, and insert them
+                    // into the DOM whenever the original <tr> elements need to float. This keeps the
+                    // height of the table correct, and prevents it from jumping up when we put
+                    // the <tr> elements into a floating state.
+                    // It also makes sure the column widths stay correct, as the widths of the columns
+                    // are determined by the current fixed header, not the floating header.
+                    var clone = tr.clone();
+                    clones.push(clone);
+                    if (floating) {
+                        clone.removeClass('rx-floating-header');
+                    }
+
+                    if (floating) {
+                        // We're currently floating, so add the class back, and
+                        // push the clone back on
+                        header.append(clone);
+                    }
+                    trs.push(tr);
+
+                    var thsInTr = _.map(tr.find('th'), angular.element);
+                    ths = ths.concat(thsInTr);
+
+                    // This <tr> only had one <th> in it. Grab that <th> and its clone
+                    // Also grab the width of the <th>, and compare it to our max width.
+                    // We need to do this because if a <th> was hidden, and then made to
+                    // appear while floating, its width will be too short, and will need
+                    // to be updated
+                    if (thsInTr.length === 1) {
+                        var th = thsInTr[0];
+                        var width = rxDOMHelper.width(th);
+                        if (width !== 'auto') {
+                            var numeric = _.parseInt(width);
+                            if (numeric > maxThWidth) {
+                                maxThWidth = numeric;
+                            }
+                        }
+
+                        singleThs.push([th, angular.element(clone.find('th'))]);
+                    }
+                });
+
+                // Explicitly set the width on every <th> that is the *only*
+                // <th> in its <tr>
+                maxThWidth = maxThWidth.toString() + 'px';
+                _.each(singleThs, function (thPair) {
+                    thPair[0].css({ width: maxThWidth });
+                    thPair[1].css({ width: maxThWidth });
+                });
+
+                // Apply .filter-header to any <input> elements
+                _.each(ths, function (th) {
+                    var input = th.find('input');
+                    if (input.length) {
+                        var type = input.attr('type');
+                        if (!type || type === 'text') {
+                            th.addClass('filter-header');
+                            input.addClass('filter-box');
+                            inputs.push(input);
+                        }
+                    }
+                });
+            };
+
+            setup();
 
             scope.updateHeaders = function () {
                 if (_.isUndefined(maxHeight)) {
@@ -2354,7 +2438,7 @@ angular.module('encore.ui.rxFloatingHeader', ['encore.ui.rxMisc'])
 
                         // Get the current height of each `tr` that we want to float
                         _.each(trs, function (tr) {
-                            trHeights.push(rxDOMHelper.height(tr));
+                            trHeights.push(parseInt(rxDOMHelper.height(tr)));
                         });
 
                         // Grab the current widths of each `th` that we want to float
@@ -2373,7 +2457,7 @@ angular.module('encore.ui.rxFloatingHeader', ['encore.ui.rxMisc'])
                         var topOffset = 0;
                         _.each(trs, function (tr, index) {
                             tr.addClass('rx-floating-header');
-                            tr.css({ 'top': topOffset });
+                            tr.css({ 'top': topOffset.toString() + 'px' });
                             topOffset += trHeights[index];
                         });
 
@@ -2417,6 +2501,9 @@ angular.module('encore.ui.rxFloatingHeader', ['encore.ui.rxMisc'])
                 scope.updateHeaders();
             });
 
+            scope.update = function () {
+                setup();
+            };
         },
     };
 }]);
@@ -2852,12 +2939,15 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
 * @param {function} [preHook] Function to call when a modal is opened
 * @param {function} [postHook] Function to call when a modal is submitted (not called when cancelled out of)
 * @param {string} [templateUrl] URL of template to use for modal content
+* @param {string} [disable-esc] If the `disable-esc` attribute is present, then "Press Esc to close" will be disabled
+*                               for the modal. This attribute takes no values.
 *
 * @example
 * <rx-modal-action
 *     pre-hook="myPreHook(this)"
 *     post-hook="myPostHook(fields)"
-*     template-url="modalContent.html">
+*     template-url="modalContent.html"
+*     disable-esc>
 *         My Link Text
 *  </rx-modal-action>
 */
@@ -2907,6 +2997,10 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
                 // Since we don't want to isolate the scope, we have to eval our attr instead of using `&`
                 // The eval will execute function (if it exists)
                 scope.$eval(attrs.preHook);
+
+                if (_.has(attrs, 'disableEsc')) {
+                    attrs.keyboard = false;
+                }
 
                 var modal = createModal(attrs, scope);
 
@@ -4121,15 +4215,34 @@ angular.module('encore.ui.rxStatusColumn', [])
             tooltipContent: '@'
         },
         link: function (scope, element) {
-            scope.mappedStatus = rxStatusMappings.getInternalMapping(scope.status, scope.api);
-            scope.tooltipText = scope.tooltipContent || scope.status;
 
-            // We use `fa-exclamation-circle` when no icon should be visible. Our LESS file
-            // makes it transparent
-            scope.statusIcon = rxStatusColumnIcons[scope.mappedStatus] || 'fa-exclamation-circle';
-            element.addClass('status');
-            element.addClass('status-' + scope.mappedStatus);
-            element.addClass('rx-status-column');
+            var lastStatusClass = '';
+
+            var updateTooltip = function () {
+                scope.tooltipText = scope.tooltipContent || scope.status || '';
+            };
+
+            var setStatus = function (status) {
+                scope.mappedStatus = rxStatusMappings.getInternalMapping(status, scope.api);
+                updateTooltip();
+
+                // We use `fa-exclamation-circle` when no icon should be visible. Our LESS file
+                // makes it transparent
+                scope.statusIcon = rxStatusColumnIcons[scope.mappedStatus] || 'fa-exclamation-circle';
+                element.addClass('status');
+                element.removeClass(lastStatusClass);
+                lastStatusClass = 'status-' + scope.mappedStatus;
+                element.addClass(lastStatusClass);
+                element.addClass('rx-status-column');
+            };
+
+            scope.$watch('status', function (newStatus) {
+                setStatus(newStatus);
+            });
+
+            scope.$watch('tooltipContent', function () {
+                updateTooltip();
+            });
         }
     };
 }])
