@@ -2593,6 +2593,9 @@ table thead th {
   color: #ffffff;
   border: 1px solid #6e6e6e;
 }
+table thead th.actions {
+  width: 15px;
+}
 table tr {
   background: #ffffff;
 }
@@ -2645,7 +2648,6 @@ table td.expanded .double-chevron::after {
 }
 .expanded-container table.subtable th:last-child {
   border-right-width: 0;
-  width: 15px;
 }
 .expanded-container table.subtable th {
   border-color: #878787;
@@ -3627,7 +3629,8 @@ When is a submit button blue and when is the submit button green?  If the form y
 .button.negative:focus {
   background: #ff0000;
 }
-.button[disabled] {
+.button[disabled],
+.button[disabled]:hover {
   cursor: not-allowed;
   color: #f0efef;
   background: #cfd2d4;
@@ -3711,6 +3714,25 @@ thead th .btn-link {
 thead th .btn-link:hover,
 thead th .btn-link:focus {
   color: #ffffff;
+}
+/*
+ * rxCharacterCount
+ */
+.character-count-wrapper {
+  width: 375px;
+}
+.character-count-wrapper textarea {
+  width: 370px;
+}
+.character-countdown {
+  text-align: right;
+  color: #989998;
+}
+.character-countdown.near-limit {
+  color: #db7820;
+}
+.character-countdown.over-limit {
+  color: #fc0f1d;
 }
 /*
  * rxFeedback
@@ -3867,6 +3889,7 @@ tr.rx-floating-header:not(.rx-table-filter-row) {
   width: 100%;
   position: relative;
   z-index: 2;
+  box-sizing: border-box;
 }
 .field-input input {
   width: 250px;
@@ -4901,6 +4924,7 @@ Provides styling for the Angular-UI tab HTML
   background: #ffffff;
   border: 1px solid #ccc;
   padding: 6px 0;
+  z-index: 3;
 }
 .dropdown-menu a {
   display: block;
