@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.9.1 - 2015-03-03
+ * Version: 1.10.0 - 2015-03-11
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
@@ -1929,8 +1929,13 @@ angular.module('encore.ui.rxCapitalize', [])
 
 angular.module('encore.ui.rxCharacterCount', [])
 .directive('rxCharacterCount', ["$compile", function ($compile) {
-    var div = '<div class="character-countdown" ng-class="{ \'near-limit\': nearLimit, \'over-limit\': overLimit }">' +
-              '{{ remaining }}</div>';
+    var counter = '<div class="character-countdown" ' +
+                  'ng-class="{ \'near-limit\': nearLimit, \'over-limit\': overLimit }"' +
+                  '>{{ remaining }}</div>';
+
+    var background = '<div class="input-highlighting"><span>{{ underLimitText }}</span>' +
+                     '<span class="over-limit-text">{{ overLimitText }}</span></div>';
+
     return {
         restrict: 'A',
         require: 'ngModel',
@@ -1938,8 +1943,18 @@ angular.module('encore.ui.rxCharacterCount', [])
         // only live within this directive
         scope: true,
         link: function (scope, element, attrs, ngModelCtrl) {
-            $compile(div)(scope, function (clone) {
-                element.after(clone);
+            // Wrap the textarea so that an element containing a copy of the text
+            // can be layered directly behind it.
+            var wrapper = angular.element('<div class="counted-input-wrapper" />');
+            element.after(wrapper);
+
+            $compile(background)(scope, function (clone) {
+                wrapper.append(clone);
+                wrapper.append(element);
+            });
+
+            $compile(counter)(scope, function (clone) {
+                wrapper.after(clone);
             });
 
             var maxCharacters = _.parseInt(attrs.maxCharacters) || 254;
@@ -1955,6 +1970,35 @@ angular.module('encore.ui.rxCharacterCount', [])
                 scope.nearLimit = scope.remaining >= 0 && scope.remaining < lowBoundary;
                 scope.overLimit = scope.remaining < 0;
                 return newText;
+            });
+
+            function countSpaces (str, options) {
+                options || (options = {});
+                return str.search(options.fromEnd ? /\s*$/ : /\S/);
+            }
+
+            // Since the input value is trimmed before writing to the model,
+            // an input event is attached to the element to handle the highlighting,
+            // which needs the pre- and post-trimmed string.
+            function writeLimitText () {
+                var val = element.val();
+                var cutoff = maxCharacters;
+                var end = val.length;
+
+                if (!attrs.ngTrim || attrs.ngTrim !== 'false') {
+                    cutoff += countSpaces(val);
+                    end = countSpaces(val, { fromEnd: true });
+                }
+
+                scope.underLimitText = val.slice(0, cutoff);
+                scope.overLimitText = val.slice(cutoff, end);
+                scope.$apply();
+            }
+
+            element.on('input', writeLimitText);
+
+            scope.$on('$destroy', function () {
+                element.off('input', writeLimitText);
             });
         }
     };
@@ -2685,6 +2729,12 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
  * @param {Object} model - Value to bind input to using ng-model
  * @param {String} fieldId - Used for label and input 'id' attribute
  * @param {Object} required - Value passed to input's 'ng-required' attribute
+ * @param {Function} disableFn - Callback function to determine if option should be disabled.
+                                 Takes tableId, fieldId, and rowId as parameters.
+                                 Example:
+```
+ disable-fn="disableOption(tableId, fieldId, rowId)"
+```
  */
 .directive('rxFormOptionTable', ["$interpolate", function ($interpolate) {
     return {
@@ -2698,15 +2748,20 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
             model: '=',
             fieldId: '@',
             required: '=',
-            emptyMessage: '@'
+            emptyMessage: '@',
+            disableFn: '&?'
         },
-        controller: ["$scope", function ($scope) {
+        controller: ["$scope", "$element", function ($scope, $element) {
             var determineMatch = function (val1, val2) {
                 if (_.isUndefined(val1) || _.isUndefined(val2)) {
                     return false;
                 }
 
                 return (val1 == val2);
+            };
+
+            $scope.checkDisabled = function (row) {
+                return $scope.disableFn({ tableId: $element.attr('id'), fieldId: $scope.fieldId, rowId: row.id });
             };
 
             // Determines whether the row is the initial choice
@@ -2716,7 +2771,7 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
 
             // Determines whether the row is selected
             $scope.isSelected = function (val, idx) {
-                // row can only be 'selected' if it's not the 'current'' value
+                // row can only be 'selected' if it's not the 'current' value
                 if (!$scope.isCurrent(val)) {
                     if ($scope.type == 'radio') {
                         return (val == $scope.model);
@@ -2813,7 +2868,60 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
         }]
 
     };
-}]);
+}])
+/**
+ * @ngdoc service
+ * @name encore.ui.rxModalForm:rxFormUtils
+ * @description
+ * Set of utility functions used by rxForm to access form data
+ *
+ * @example
+ * <pre>
+ * // Returns the selected option for the rxFormOptionTable with id tableId
+ * // [{ tableId: 'tableId', fieldId: 'fieldId', rowId: 'rowId' }]
+ * getSelectedOptionForTable(tableId)
+
+ * // Returns the selected option for the rxFormOptionTable in the tabset with id tabsetId
+ * // [{ tableId: 'tableId', fieldId: 'fieldId', rowId: 'rowId' }]
+ * getSelectedOptionForTabSet(tabsetId)
+ * </pre>
+ */
+.factory('rxFormUtils', function () {
+
+    var rxFormUtils = {};
+
+    // Returns the selected option for the rxFormOptionTable with id: tableId
+    // and fieldId: fieldId (optional)
+    // @param {String} tableId - The id of the table
+    // @returns {object} The rowId of the selected option
+    rxFormUtils.getSelectedOptionForTable = function (tableId) {
+        var selectedRow;
+        var row = document.querySelector('rx-form-option-table#' + tableId + ' .selected input');
+        if (!_.isEmpty(row)) {
+            selectedRow = { rowId: row.value };
+        }
+        return selectedRow;
+    };
+
+    // Returns the selected option within the tabset
+    // @param {String} tabsetId - The id of the tabset
+    // @returns {object} The tableId, fieldId, and rowId of the selected option
+    rxFormUtils.getSelectedOptionForTabSet = function (tabsetId) {
+        var selectedOption;
+        var xpathToTable = '//div[@id="' + tabsetId +
+            '"]//tr[contains(@class, "selected")]//ancestor::rx-form-option-table';
+        var result = document.evaluate(xpathToTable, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
+        if (result.singleNodeValue) {
+            var table = result.singleNodeValue;
+            var fieldId = table.getAttribute('field-id');
+            var rowId = rxFormUtils.getSelectedOptionForTable(table.id).rowId;
+            selectedOption = { tableId: table.id, fieldId: fieldId, rowId: rowId };
+        }
+        return selectedOption;
+    };
+
+    return rxFormUtils;
+});
 
 angular.module('encore.ui.rxInfoPanel', [])
 /**
@@ -4004,8 +4112,7 @@ angular.module('encore.ui.rxSortableColumn', [])
     var util = {};
 
     util.getDefault = function (property, reversed) {
-        var prop = property ? property : 'name';
-        return { predicate: prop, reverse: reversed };
+        return { predicate: property, reverse: reversed };
     };
 
     util.sortCol = function ($scope, predicate) {
