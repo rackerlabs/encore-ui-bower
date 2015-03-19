@@ -2486,9 +2486,6 @@ th {
   padding: 0;
 }
 
-/*
-# Resets for HTML elements
-*/
 html,
 body {
   height: 100%;
@@ -2530,17 +2527,6 @@ li {
 p {
   line-height: 1.2;
 }
-/*
-# Link Styles
-
-```
-<a href="#">My Link</a>
-<a href="#" class=":visited">Visited Link</a>
-<a href="#" class=":hover">Hovered Link</a>
-<a href="#" class=":focus">Focused Link</a>
-<a href="#" class=":active">Active Link</a>
-```
-*/
 a {
   text-decoration: none;
   color: #4682c2;
@@ -2550,30 +2536,6 @@ a:focus {
   text-decoration: underline;
   color: #3481d4;
 }
-/*
-# Table Styles
-
-```
-<table class="table-striped">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Occupation</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Patrick Deuley</td>
-            <td>Design Chaplain</td>
-        </tr>
-        <tr>
-            <td>Hussam Dawood</td>
-            <td>Evangelist of Roger Enriquez</td>
-        </tr>
-    </tbody>
-</table>
-```
-*/
 table {
   clear: both;
   width: 100%;
@@ -2659,31 +2621,6 @@ table td.expanded .double-chevron::after {
   background-color: #ffffff;
   margin-top: 3px;
 }
-/*
-
-# Heading/Title Styles
-
-Headings are sized using 'xl', 'lg', 'sm' and 'xs'
-
-The size of the heading is not impacted by the heading level used (e.g. `<h1>`, `<h2>`).
-This is done to ensure that the heading levels are sequential.
-
-See https://github.com/rackerlabs/encore-ui/blob/master/guides/css-styleguide.md#basic-rules for further reasoning
-
-```
-<h1 class="xl title">Huge Header</h1>
-
-<h1 class="lg title">Large Header</h1>
-<h2 class="lg title subdued">Large Gray Header</h2>
-
-<h1 class="title">Regular Header</h1>
-
-<h2 class="sm title">Small Header</h2>
-<h3 class="sm title subdued">Small Gray Header</h3>
-
-<div class="xs title">Tiny Header</div>
-```
- */
 .title {
   font-size: 18px;
   margin: 1em 0;
@@ -2706,27 +2643,6 @@ See https://github.com/rackerlabs/encore-ui/blob/master/guides/css-styleguide.md
 .title.subdued {
   color: #989998;
 }
-/*
-
-# Statuses
-
-Styles text to provide a clearer status regarding a simple message.
-
-```
-<h1 class="title">Action Links (Horizontal)</h1>
-<p>
-    <a href="#" class="msg-action link-action">Create</a>
-    <span class="action-separator">\</span>
-    <a href="#" class="msg-warn link-warn">Delete</a>
-</p>
-
-<h1 class="title">Messages</h1>
-<p class="msg-action">Something was created</p>
-<p class="msg-warn">Something was deleted</p>
-<p class="msg-info">Informational Message</p>
-<p class="msg-info-blue">Blue Informational Message</p>
-```
-*/
 .link-action,
 .link-action a,
 .link-warn,
@@ -2786,44 +2702,6 @@ Styles text to provide a clearer status regarding a simple message.
 .msg-info-blue a:focus {
   color: #327fd5;
 }
-/*
-# Lists
-
-Add bullets/decimals to lists with the 'list' class
-
-### Decimals
-```
-<ol class="list">
-    <li>Item 1</li>
-    <li>Item 2</li>
-    <li>Item 3</li>
-</ol>
-```
-
-### Bullets
-```
-<ul class="list">
-    <li>Item 1</li>
-    <li>Item 2</li>
-    <li>Item 3</li>
-</ul>
-```
-
-### Non-semantic lists
-```
-<div class="list bulleted">
-    <p class="item">Item 1</p>
-    <p class="item">Item 2</p>
-    <p class="item">Item 3</p>
-</div>
-
-<div class="list decimal">
-    <p class="item">Item 1</p>
-    <p class="item">Item 2</p>
-    <p class="item">Item 3</p>
-</div>
-```
- */
 .list li,
 .list .item {
   display: list-item;
@@ -2841,33 +2719,26 @@ ol.list .item,
 .list.decimal .item {
   list-style: decimal;
 }
-/*
-# Wells
-
-Creates a 'well' effect (box with light gray background)
-```
-<div class="well">
-    <p>Well, here you go.</p>
-</div>
-```
-*/
 .well {
   background: #eee;
   padding: 40px 50px;
+  box-shadow: 0 0 0 10px white inset;
 }
 .well p {
   line-height: 1.5em;
   color: #727272;
 }
-/*
-## Subdued Text
-Basic color change to make text less prominant
-
-```
-<h1>My Items <span class="subdued">(10)</span></h1>
-<h1><a href="#">My Items <span class="subdued">(10)</span></a></h1>
-```
- */
+.well ul {
+  display: inline-block;
+  text-align: left;
+}
+.modal-well {
+  background-color: #eee;
+  padding: 20px 30px;
+}
+.modal-well h2 {
+  font-size: 14px;
+}
 .subdued {
   color: #bbbbbb;
 }
@@ -2877,20 +2748,9 @@ a:hover .subdued,
 a:focus .subdued {
   color: #959595;
 }
-/*
-## Hidden content
-
-### .hidden
-Add to hide an element but not remove it from the spacing of the page
-*/
 .hidden {
   visibility: hidden;
 }
-/*
-### .visually-hidden
-Used to hide content visually but let them still be read by screen readers (removed from the page spacing)
-See http://developer.yahoo.com/blogs/ydn/clip-hidden-content-better-accessibility-53456.html
-*/
 .visually-hidden {
   position: absolute !important;
   clip: rect(1px, 1px, 1px, 1px);
@@ -2905,25 +2765,6 @@ body:hover .visually-hidden input,
 body:hover .visually-hidden button {
   display: none;
 }
-/*
-## Clearing Floats
-
-### Clearfix
-Provide clearfix functionality
-See http://nicolasgallagher.com/micro-clearfix-hack/
-
-```
-<h1 class="title lg">No Clearfix</h1>
-<div style="background: #ddd; padding: 1em;">
-    <div style="float: left; background: #eee; padding: 1em;">Floated Content</div>
-</div>
-
-<h1 class="title lg clear">With Clearfix</h1>
-<div class="clearfix" style="background: #ddd; padding: 1em;">
-    <div style="float: left; background: #eee; padding: 1em;">Floated Content</div>
-</div>
-```
-*/
 .clearfix:before,
 .clearfix:after {
   content: " ";
@@ -2934,32 +2775,6 @@ See http://nicolasgallagher.com/micro-clearfix-hack/
 .clearfix:after {
   clear: both;
 }
-/*
-### Clearing siblings
-
-Simple classes to help with clearing previous sibling floats
-
-```
-
-<div class="clearfix padding: 1em;">
-    <div style="float: left;">Floated</div>
-    <div class="clear-right">Uncleared (wrong side)</div>
-    <div class="clear-left">Cleared</div>
-
-    <hr>
-
-    <div style="float: right;">Floated</div>
-    <div class="clear-left">Uncleared (wrong side)</div>
-    <div class="clear-right">Cleared</div>
-
-    <hr>
-
-    <div style="float: right;">Floated</div>
-    <div style="float: left;">Floated</div>
-    <div class="clear">Both cleared</div>
-</div>
-```
-*/
 .clear {
   clear: both;
 }
@@ -2969,21 +2784,11 @@ Simple classes to help with clearing previous sibling floats
 .clear-right {
   clear: right;
 }
-/*
-### Full Width
-
-Class that marks content as full width (e.g. to give a button full width).
-
-Requires 'display' to be defined as `inline-block` or `block`
-
-```
-<button class="button sm negative">I'm just a sad regular button</button>
-<button class="button xl positive full-width">Not me, I'm a happy wide button</button>
-```
-
-*/
 .full-width {
   width: 100%;
+}
+.centered {
+  text-align: center;
 }
 /* Flexbox LESS Elements
  *

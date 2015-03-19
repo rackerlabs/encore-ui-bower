@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.10.0 - 2015-03-11
+ * Version: 1.10.1 - 2015-03-19
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
@@ -1966,12 +1966,16 @@ angular.module('encore.ui.rxCharacterCount', [])
 
             // This gets called whenever the ng-model for this element
             // changes, i.e. when someone enters new text into the textarea
-            ngModelCtrl.$parsers.push(function (newText) {
-                scope.remaining = maxCharacters - newText.length;
-                scope.nearLimit = scope.remaining >= 0 && scope.remaining < lowBoundary;
-                scope.overLimit = scope.remaining < 0;
-                return newText;
-            });
+            scope.$watch(
+                function () { return ngModelCtrl.$modelValue; },
+                function (newValue) {
+                    if (typeof newValue !== 'string') {
+                        return;
+                    }
+                    scope.remaining = maxCharacters - newValue.length;
+                    scope.nearLimit = scope.remaining >= 0 && scope.remaining < lowBoundary;
+                    scope.overLimit = scope.remaining < 0;
+                });
 
             function countSpaces (str, options) {
                 options || (options = {});
