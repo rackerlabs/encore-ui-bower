@@ -286,11 +286,8 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   height: 18px;
   margin-bottom: 18px;
   background-color: #f5f5f5;
-  border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-  -ms-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ccc;
+  padding: 1px;
 }
 .progress-bar {
   float: left;
@@ -298,13 +295,9 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   height: 100%;
   font-size: 12px;
   line-height: 18px;
-  color: #ffffff;
+  color: #1672b9;
   text-align: center;
-  background-color: #06356b;
-  -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-  -moz-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-  -ms-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  background-color: #86cafd;
   -webkit-transition: all width 0.6s ease ease-out;
   -moz-transition: all width 0.6s ease ease-out;
   -o-transition: all width 0.6s ease ease-out;
@@ -323,34 +316,20 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   -o-animation: progress-bar-stripes 2s linear infinite;
   animation: progress-bar-stripes 2s linear infinite;
 }
-.progress-bar-success {
-  background-color: #5cb85c;
-}
-.progress-striped .progress-bar-success {
-  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
-  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
-  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
-}
-.progress-bar-info {
+.progress-bar-secondary {
   background-color: #4580c2;
+  color: #fff;
 }
-.progress-striped .progress-bar-info {
+.progress-striped .progress-bar-secondary {
   background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
   background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
 }
-.progress-bar-warning {
-  background-color: #dd7800;
+.progress-bar-tertiary {
+  background-color: #3ab661;
+  color: #fff;
 }
-.progress-striped .progress-bar-warning {
-  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
-  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
-  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
-}
-.progress-bar-danger {
-  background-color: #eb2124;
-}
-.progress-striped .progress-bar-danger {
+.progress-striped .progress-bar-tertiary {
   background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
   background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
@@ -3347,28 +3326,6 @@ They show your position within the site heirarchy.
   margin-left: 6px;
   position: static;
 }
-/*
-# Common button styles
-
-Buttons are sized using 'xl', 'lg', 'sm' and 'xs'
-
- ```
- <button class="button xl">Extra-large Button</button>
- <button class="button lg">Large Button</button>
- <button class="button">Default Button</button>
- <button class="button sm">Small Button</button>
- <button class="button xs">Tiny Button</button>
- <button class="button positive">"Positive" Button</button>
- <button class="button negative">"Negative" Button</button>
- <button class="button submit">"Submit" Button</button>
- <button class="button cancel">"Cancel" Button</button>
- <button class="button" disabled>Disabled Button</button>
- <a href="#" class="button">My Link Button</a>
- ```
-
-When is a submit button blue and when is the submit button green?  If the form you are submitting results in CREATING or ADDING something, use green. If the form you are submitting results in editing something or something auxiliary (like getting metadata from a different sources) keep it blue. Ping an EncoreUI member if you have questions!
-
- */
 .button {
   display: inline-block;
   background: #427fc4;
@@ -3378,20 +3335,6 @@ When is a submit button blue and when is the submit button green?  If the form y
   padding: 7px 13px;
   margin-bottom: 10px;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  /*
-# Spinner styles
-
-```
-<button class="button">
-    I have a spinner
-    <div class="spinner">
-        <i class="pos1"></i>
-        <i class="pos2"></i>
-        <i class="pos3"></i>
-    </div>
-</button>
-```
-*/
 }
 .button:hover,
 .button:focus {
@@ -3434,18 +3377,18 @@ When is a submit button blue and when is the submit button green?  If the form y
 .button.negative:focus {
   background: #ff0000;
 }
-.button[disabled],
-.button[disabled]:hover {
-  cursor: not-allowed;
-  color: #f0efef;
-  background: #cfd2d4;
-}
 .button.cancel {
   background: #898989;
 }
 .button.cancel:hover,
 .button.cancel:focus {
   background: #a3a3a3;
+}
+.button[disabled],
+.button[disabled]:hover {
+  cursor: not-allowed;
+  color: #f0efef;
+  background: #cfd2d4;
 }
 .button .spinner {
   display: inline-block;
@@ -3494,13 +3437,6 @@ When is a submit button blue and when is the submit button green?  If the form y
     -webkit-transform: scale(1);
   }
 }
-/*
-# Make buttons look like plain links
-
-```
-<button class="btn-link">Link</button>
-```
-*/
 .btn-link {
   color: #4682c2;
   background: none;
@@ -3523,26 +3459,14 @@ thead th .btn-link:focus {
 /*
  * rxCharacterCount
  */
-.character-count-wrapper {
-  width: 375px;
-}
-.character-count-wrapper .input-highlighting,
-.character-count-wrapper textarea {
-  width: 370px;
-}
-.character-countdown {
-  text-align: right;
-  color: #989998;
-}
-.character-countdown.near-limit {
-  color: #db7820;
-}
-.character-countdown.over-limit {
-  color: #fc0f1d;
-}
 .counted-input-wrapper {
+  width: 375px;
   position: relative;
   background-color: #ffffff;
+}
+.counted-input-wrapper .input-highlighting,
+.counted-input-wrapper textarea {
+  width: 370px;
 }
 .counted-input-wrapper input,
 .counted-input-wrapper textarea {
@@ -3563,6 +3487,16 @@ thead th .btn-link:focus {
 .counted-input-wrapper .input-highlighting .over-limit-text {
   background-color: #eb2124;
   opacity: 0.3;
+}
+.counted-input-wrapper .character-countdown {
+  text-align: right;
+  color: #989998;
+}
+.counted-input-wrapper .character-countdown.near-limit {
+  color: #db7820;
+}
+.counted-input-wrapper .character-countdown.over-limit {
+  color: #fc0f1d;
 }
 /*
  * rxFeedback
@@ -3735,6 +3669,11 @@ tr.rx-floating-header:not(.rx-table-filter-row) {
   max-width: none;
   font-size: 1em;
   vertical-align: middle;
+}
+.field-input input[disabled] {
+  color: #999;
+  background-color: #dededd;
+  cursor: not-allowed;
 }
 /*
  * @bugfix Input field is marked as invalid before a user has done anything on form
@@ -4144,22 +4083,22 @@ tr.rx-floating-header:not(.rx-table-filter-row) {
   height: 100%;
   padding: 0 15px;
   content: '\00D7';
-  -moz-opacity: 0.2;
-  -khtml-opacity: 0.2;
-  -webkit-opacity: 0.2;
-  opacity: 0.2;
-  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=20);
-  filter: alpha(opacity=20);
-  color: #000;
-}
-.rx-notifications .notification-dismiss:hover,
-.rx-notifications .notification-dismiss:focus {
   -moz-opacity: 0.5;
   -khtml-opacity: 0.5;
   -webkit-opacity: 0.5;
   opacity: 0.5;
   -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=50);
   filter: alpha(opacity=50);
+  color: #000;
+}
+.rx-notifications .notification-dismiss:hover,
+.rx-notifications .notification-dismiss:focus {
+  -moz-opacity: 0.8;
+  -khtml-opacity: 0.8;
+  -webkit-opacity: 0.8;
+  opacity: 0.8;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=80);
+  filter: alpha(opacity=80);
   text-decoration: none;
 }
 .animate-fade.ng-enter,

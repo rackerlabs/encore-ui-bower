@@ -2,10 +2,10 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.10.1 - 2015-03-19
+ * Version: 1.11.0 - 2015-03-31
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
 angular.module('encore.ui.configs', [])
 .value('devicePaths', [
     { value: '/dev/xvdb', label: '/dev/xvdb' },
@@ -848,8 +848,159 @@ angular.module('encore.ui.rxAppRoutes', ['encore.ui.rxEnvironment'])
     return AppRoutes;
 }]);
 
+/*jshint proto:true*/
+angular.module('encore.ui.rxLocalStorage', [])
+    /**
+    *
+    * @ngdoc service
+    * @name encore.ui.rxLocalStorage:LocalStorage
+    * @description
+    * A simple wrapper for injecting the global variable localStorage
+    * for storing values in local storage. This service is similar to angular's
+    * $window and $document services.  The API works the same as the W3C's
+    * specification provided at: http://dev.w3.org/html5/webstorage/#storage-0.
+    * Also includes to helper functions for getting and setting objects.
+    *
+    * @example
+    * <pre>
+    * LocalStorage.setItem('Batman', 'Robin'); // no return value
+    * LocalStorage.key(0); // returns 'Batman'
+    * LocalStorage.getItem('Batman'); // returns 'Robin'
+    * LocalStorage.removeItem('Batman'); // no return value
+    * LocalStorage.setObject('hero', {name:'Batman'}); // no return value
+    * LocalStorage.getObject('hero'); // returns { name: 'Batman'}
+    * LocalStorage.clear(); // no return value
+    * </pre>
+    */
+    .service('LocalStorage', ["$window", function ($window) {
+        this.setItem = function (key, value) {
+            $window.localStorage.setItem(key, value);
+        };
+
+        this.getItem = function (key) {
+            return $window.localStorage.getItem(key);
+        };
+
+        this.key = function (key) {
+            return $window.localStorage.key(key);
+        };
+
+        this.removeItem = function (key) {
+            $window.localStorage.removeItem(key);
+        };
+
+        this.clear = function () {
+            $window.localStorage.clear();
+        };
+
+        this.__defineGetter__('length', function () {
+            return $window.localStorage.length;
+        });
+
+        this.setObject = function (key, val) {
+            var value = _.isObject(val) || _.isArray(val) ? JSON.stringify(val) : val;
+            this.setItem(key, value);
+        };
+
+        this.getObject = function (key) {
+            var item = $window.localStorage.getItem(key);
+            try {
+                item = JSON.parse(item);
+            } catch (error) {
+                return item;
+            }
+
+            return item;
+        };
+    }]);
+
+angular.module('encore.ui.rxSession', ['encore.ui.rxLocalStorage'])
+/**
+    *
+    * @ngdoc service
+    * @name encore.ui.rxSession:Session
+    * @description
+    * Service for managing user session in encore-ui.
+    *
+    * @requires encore.ui.rxLocalStorage:LocalStorage
+    *
+    * @example
+    * <pre>
+    * Session.getToken(); // Returns the stored token
+    * Session.storeToken(token); // Stores token
+    * Session.logout(); // Logs user off
+    * Session.isCurrent(); // Returns true/false if the token has expired.
+    * Session.isAuthenticated(); // Returns true/false if the user token is valid.
+    * </pre>
+    */
+    .factory('Session', ["LocalStorage", function (LocalStorage) {
+        var TOKEN_ID = 'encoreSessionToken';
+        var session = {};
+
+        /**
+        * Dot walks the token without throwing an error.
+        * If key exists, returns value otherwise returns undefined.
+        */
+        session.getByKey = function (key) {
+            var tokenValue,
+                token = session.getToken(),
+                keys = key ? key.split('.') : undefined;
+
+            if (_.isEmpty(token) || !keys) {
+                return;
+            }
+
+            tokenValue = _.reduce(keys, function (val, key) {
+                return val ? val[key] : undefined;
+            }, token);
+
+            return tokenValue;
+        };
+
+        session.getToken = function () {
+            return LocalStorage.getObject(TOKEN_ID);
+        };
+
+        session.getTokenId = function () {
+            return session.getByKey('access.token.id');
+        };
+
+        session.getUserId = function () {
+            return session.getByKey('access.user.id');
+        };
+
+        session.getUserName = function () {
+            return session.getByKey('access.user.name');
+        };
+
+        session.storeToken = function (token) {
+            LocalStorage.setObject(TOKEN_ID, token);
+        };
+
+        session.logout = function () {
+            LocalStorage.removeItem(TOKEN_ID);
+        };
+
+        session.isCurrent = function () {
+            var expireDate = session.getByKey('access.token.expires');
+
+            if (expireDate) {
+                return new Date(expireDate) > _.now();
+            }
+
+            return false;
+        };
+
+        session.isAuthenticated = function () {
+            var token = session.getToken();
+            return _.isEmpty(token) ? false : session.isCurrent();
+        };
+
+        return session;
+    }]);
+
 angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnvironment', 'ngSanitize',
-    'ngRoute', 'cfp.hotkeys'])
+    'ngRoute', 'cfp.hotkeys', 'encore.ui.rxSession'])
 /**
 * @ngdoc service
 * @name encore.ui.rxApp:encoreRoutes
@@ -911,7 +1062,8 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
 *     <rx-app site-title="Custom Title"></rx-app>
 * </pre>
 */
-.directive('rxApp', ["encoreRoutes", "rxAppRoutes", "hotkeys", "Environment", "routesCdnPath", function (encoreRoutes, rxAppRoutes, hotkeys, Environment, routesCdnPath) {
+.directive('rxApp', ["encoreRoutes", "rxAppRoutes", "hotkeys", "Environment", "routesCdnPath", "Session", function (encoreRoutes, rxAppRoutes, hotkeys,
+                              Environment, routesCdnPath, Session) {
     return {
         restrict: 'E',
         transclude: true,
@@ -926,6 +1078,8 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
             logoutUrl: '@?'
         },
         link: function (scope) {
+            scope.userId = Session.getUserId();
+
             scope.isPreProd = Environment.isPreProd();
 
             scope.isLocalNav = routesCdnPath.hasCustomURL && (Environment.isLocal());
@@ -1558,157 +1712,6 @@ angular.module('encore.ui.rxIdentity', ['ngResource'])
         return authSvc;
     }]);
 
-/*jshint proto:true*/
-angular.module('encore.ui.rxLocalStorage', [])
-    /**
-    *
-    * @ngdoc service
-    * @name encore.ui.rxLocalStorage:LocalStorage
-    * @description
-    * A simple wrapper for injecting the global variable localStorage
-    * for storing values in local storage. This service is similar to angular's
-    * $window and $document services.  The API works the same as the W3C's
-    * specification provided at: http://dev.w3.org/html5/webstorage/#storage-0.
-    * Also includes to helper functions for getting and setting objects.
-    *
-    * @example
-    * <pre>
-    * LocalStorage.setItem('Batman', 'Robin'); // no return value
-    * LocalStorage.key(0); // returns 'Batman'
-    * LocalStorage.getItem('Batman'); // returns 'Robin'
-    * LocalStorage.removeItem('Batman'); // no return value
-    * LocalStorage.setObject('hero', {name:'Batman'}); // no return value
-    * LocalStorage.getObject('hero'); // returns { name: 'Batman'}
-    * LocalStorage.clear(); // no return value
-    * </pre>
-    */
-    .service('LocalStorage', ["$window", function ($window) {
-        this.setItem = function (key, value) {
-            $window.localStorage.setItem(key, value);
-        };
-
-        this.getItem = function (key) {
-            return $window.localStorage.getItem(key);
-        };
-
-        this.key = function (key) {
-            return $window.localStorage.key(key);
-        };
-
-        this.removeItem = function (key) {
-            $window.localStorage.removeItem(key);
-        };
-
-        this.clear = function () {
-            $window.localStorage.clear();
-        };
-
-        this.__defineGetter__('length', function () {
-            return $window.localStorage.length;
-        });
-
-        this.setObject = function (key, val) {
-            var value = _.isObject(val) || _.isArray(val) ? JSON.stringify(val) : val;
-            this.setItem(key, value);
-        };
-
-        this.getObject = function (key) {
-            var item = $window.localStorage.getItem(key);
-            try {
-                item = JSON.parse(item);
-            } catch (error) {
-                return item;
-            }
-
-            return item;
-        };
-    }]);
-
-angular.module('encore.ui.rxSession', ['encore.ui.rxLocalStorage'])
-/**
-    *
-    * @ngdoc service
-    * @name encore.ui.rxSession:Session
-    * @description
-    * Service for managing user session in encore-ui.
-    *
-    * @requires encore.ui.rxLocalStorage:LocalStorage
-    *
-    * @example
-    * <pre>
-    * Session.getToken(); // Returns the stored token
-    * Session.storeToken(token); // Stores token
-    * Session.logout(); // Logs user off
-    * Session.isCurrent(); // Returns true/false if the token has expired.
-    * Session.isAuthenticated(); // Returns true/false if the user token is valid.
-    * </pre>
-    */
-    .factory('Session', ["LocalStorage", function (LocalStorage) {
-        var TOKEN_ID = 'encoreSessionToken';
-        var session = {};
-
-        /**
-        * Dot walks the token without throwing an error.
-        * If key exists, returns value otherwise returns undefined.
-        */
-        session.getByKey = function (key) {
-            var tokenValue,
-                token = session.getToken(),
-                keys = key ? key.split('.') : undefined;
-
-            if (_.isEmpty(token) || !keys) {
-                return;
-            }
-
-            tokenValue = _.reduce(keys, function (val, key) {
-                return val ? val[key] : undefined;
-            }, token);
-
-            return tokenValue;
-        };
-
-        session.getToken = function () {
-            return LocalStorage.getObject(TOKEN_ID);
-        };
-
-        session.getTokenId = function () {
-            return session.getByKey('access.token.id');
-        };
-
-        session.getUserId = function () {
-            return session.getByKey('access.user.id');
-        };
-
-        session.getUserName = function () {
-            return session.getByKey('access.user.name');
-        };
-
-        session.storeToken = function (token) {
-            LocalStorage.setObject(TOKEN_ID, token);
-        };
-
-        session.logout = function () {
-            LocalStorage.removeItem(TOKEN_ID);
-        };
-
-        session.isCurrent = function () {
-            var expireDate = session.getByKey('access.token.expires');
-
-            if (expireDate) {
-                return new Date(expireDate) > _.now();
-            }
-
-            return false;
-        };
-
-        session.isAuthenticated = function () {
-            var token = session.getToken();
-            return _.isEmpty(token) ? false : session.isCurrent();
-        };
-
-        return session;
-    }]);
-
 angular.module('encore.ui.rxPermission', ['encore.ui.rxSession'])
     /**
     *
@@ -1929,12 +1932,32 @@ angular.module('encore.ui.rxCapitalize', [])
 
 angular.module('encore.ui.rxCharacterCount', [])
 .directive('rxCharacterCount', ["$compile", function ($compile) {
-    var counter = '<div class="character-countdown" ' +
-                  'ng-class="{ \'near-limit\': nearLimit, \'over-limit\': overLimit }"' +
+    var counterStart = '<div class="character-countdown" ';
+    var counterEnd =   'ng-class="{ \'near-limit\': nearLimit, \'over-limit\': overLimit }"' +
                   '>{{ remaining }}</div>';
 
-    var background = '<div class="input-highlighting"><span>{{ underLimitText }}</span>' +
+    var backgroundStart = '<div class="input-highlighting" ';
+    var backgroundEnd = '><span>{{ underLimitText }}</span>' +
                      '<span class="over-limit-text">{{ overLimitText }}</span></div>';
+
+    var extraDirectives = function (attrs) {
+        var extra = '';
+        if (_.has(attrs, 'ngShow')) {
+            extra += 'ng-show="' + attrs.ngShow + '" ';
+        }
+        if (_.has(attrs, 'ngHide')) {
+            extra += 'ng-hide="' + attrs.ngHide + '" ';
+        }
+        return extra;
+    };
+
+    var buildCounter = function (attrs) {
+        return counterStart + extraDirectives(attrs) + counterEnd;
+    };
+
+    var buildBackground = function (attrs) {
+        return backgroundStart + extraDirectives(attrs) + backgroundEnd;
+    };
 
     return {
         restrict: 'A',
@@ -1948,13 +1971,13 @@ angular.module('encore.ui.rxCharacterCount', [])
             var wrapper = angular.element('<div class="counted-input-wrapper" />');
             element.after(wrapper);
 
-            $compile(background)(scope, function (clone) {
+            $compile(buildBackground(attrs))(scope, function (clone) {
                 wrapper.append(clone);
                 wrapper.append(element);
             });
 
-            $compile(counter)(scope, function (clone) {
-                wrapper.after(clone);
+            $compile(buildCounter(attrs))(scope, function (clone) {
+                wrapper.append(clone);
             });
 
             var maxCharacters = _.parseInt(attrs.maxCharacters) || 254;
@@ -2003,6 +2026,7 @@ angular.module('encore.ui.rxCharacterCount', [])
 
             scope.$on('$destroy', function () {
                 element.off('input', writeLimitText);
+                wrapper.remove();
             });
         }
     };
