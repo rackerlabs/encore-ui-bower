@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.11.0 - 2015-03-31
+ * Version: 1.12.0 - 2015-04-08
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
@@ -1001,7 +1001,7 @@ angular.module('encore.ui.rxSession', ['encore.ui.rxLocalStorage'])
     }]);
 
 angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnvironment', 'ngSanitize',
-    'ngRoute', 'cfp.hotkeys', 'encore.ui.rxSession'])
+    'ngRoute', 'cfp.hotkeys', 'encore.ui.rxSession', 'encore.ui.rxLocalStorage'])
 /**
 * @ngdoc service
 * @name encore.ui.rxApp:encoreRoutes
@@ -1011,8 +1011,9 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
 *
 * @returns {object} Instance of rxAppRoutes with `fetchRoutes` method added
 */
-.factory('encoreRoutes', ["rxAppRoutes", "routesCdnPath", "rxNotify", "$q", "$http", "rxVisibilityPathParams", "rxVisibility", "Environment", "rxHideIfUkAccount", function (rxAppRoutes, routesCdnPath, rxNotify, $q, $http,
-                                     rxVisibilityPathParams, rxVisibility, Environment, rxHideIfUkAccount) {
+.factory('encoreRoutes', ["rxAppRoutes", "routesCdnPath", "rxNotify", "$q", "$http", "rxVisibilityPathParams", "rxVisibility", "Environment", "rxHideIfUkAccount", "LocalStorage", function (rxAppRoutes, routesCdnPath, rxNotify, $q, $http,
+                                   rxVisibilityPathParams, rxVisibility, Environment,
+                                   rxHideIfUkAccount, LocalStorage) {
 
     // We use rxVisibility in the nav menu at routesCdnPath, so ensure it's ready
     // before loading from the CDN
@@ -1021,23 +1022,60 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
 
     var encoreRoutes = new rxAppRoutes();
 
+    var setWarningMessage = function () {
+        rxNotify.add('There was a problem loading the navigation, so a cached version has been loaded for display.', {
+            type: 'warning'
+        });
+    };
+
     var setFailureMessage = function () {
         rxNotify.add('Error loading site navigation', {
             type: 'error'
         });
     };
 
-    var url = routesCdnPath.staging;
-    if (Environment.isPreProd()) {
-        url = routesCdnPath.preprod;
-    } else if (Environment.isUnifiedProd()) {
-        url = routesCdnPath.production;
+    var url, suffix;
+    switch (true) {
+        case Environment.isUnifiedProd(): {
+            url = routesCdnPath.production;
+            suffix = 'prod';
+            break;
+        }
+        case Environment.isPreProd(): {
+            url = routesCdnPath.preprod;
+            suffix = 'preprod';
+            break;
+        }
+        case routesCdnPath.hasCustomURL: {
+            url = routesCdnPath.staging;
+            suffix = 'custom';
+            break;
+        }
+        default: {
+            url = routesCdnPath.staging;
+            suffix = 'staging';
+        }
     }
 
     encoreRoutes.fetchRoutes = function () {
-        return $http.get(url)
-            .success(encoreRoutes.setAll)
-            .error(setFailureMessage);
+        var routesKey = 'encoreRoutes-' + suffix;
+        var cachedRoutes = LocalStorage.getObject(routesKey);
+
+        $http.get(url)
+            .success(function (routes) {
+                encoreRoutes.setAll(routes);
+                LocalStorage.setObject(routesKey, routes);
+            })
+            .error(function () {
+                if (cachedRoutes) {
+                    encoreRoutes.setAll(cachedRoutes);
+                    setWarningMessage();
+                } else {
+                    setFailureMessage();
+                }
+            });
+
+        return cachedRoutes || [];
     };
 
     return encoreRoutes;
@@ -1104,7 +1142,8 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
                 appRoutes.setAll(scope.menu);
             } else {
                 // if the default menu is needed, load it from the CDN
-                appRoutes.fetchRoutes();
+                // a cached copy is assigned if available
+                scope.routes = appRoutes.fetchRoutes();
             }
 
             appRoutes.getAll().then(function (routes) {
@@ -1932,6 +1971,23 @@ angular.module('encore.ui.rxCapitalize', [])
 });
 
 angular.module('encore.ui.rxCharacterCount', [])
+/**
+ *
+ * @ngdoc directive
+ * @name encore.ui.rxCharacterCount:rxCharacterCount
+ * @restrict A
+ * @description
+ * Monitors the number of characters in a text input and compares it to the desired length.
+ *
+ * @param {number} [low-boundary=10] How far from the maximum to enter a warning state
+ * @param {number} [max-characters=254] The maximum number of characters allowed
+ * @param {boolean} [highlight=false] Whether or not characters over the limit are highlighted
+ *
+ * @example
+ * <pre>
+ *     <textarea ng-model="model" rx-character-count></textarea>
+ * </pre>
+ */
 .directive('rxCharacterCount', ["$compile", function ($compile) {
     var counterStart = '<div class="character-countdown" ';
     var counterEnd =   'ng-class="{ \'near-limit\': nearLimit, \'over-limit\': overLimit }"' +
@@ -1972,12 +2028,8 @@ angular.module('encore.ui.rxCharacterCount', [])
             var wrapper = angular.element('<div class="counted-input-wrapper" />');
             element.after(wrapper);
 
-            $compile(buildBackground(attrs))(scope, function (clone) {
-                wrapper.append(clone);
-                wrapper.append(element);
-            });
-
             $compile(buildCounter(attrs))(scope, function (clone) {
+                wrapper.append(element);
                 wrapper.append(clone);
             });
 
@@ -2023,7 +2075,13 @@ angular.module('encore.ui.rxCharacterCount', [])
                 scope.$apply();
             }
 
-            element.on('input', writeLimitText);
+            if (attrs.highlight === 'true') {
+                $compile(buildBackground(attrs))(scope, function (clone) {
+                    wrapper.prepend(clone);
+                });
+
+                element.on('input', writeLimitText);
+            }
 
             scope.$on('$destroy', function () {
                 element.off('input', writeLimitText);
