@@ -255,6 +255,12 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   list-style-type: none;
   list-style-image: url('');
 }
+/*
+ * Form Inputs
+ */
+/*
+ * rxSearchBox
+ */
 @-webkit-keyframes progress-bar-stripes {
   from {
     background-position: 40px 0;
@@ -2764,6 +2770,20 @@ body:hover .visually-hidden button {
 .centered {
   text-align: center;
 }
+/* PLACEHOLDER TEXT STYLING
+  https://css-tricks.com/snippets/css/style-placeholder-text/
+*/
+::-webkit-input-placeholder {
+  color: #a9a9a9;
+  font-weight: 300;
+}
+::-moz-placeholder {
+  color: #a9a9a9;
+  font-weight: 400;
+}
+.filter-box {
+  font-style: italic;
+}
 /* Flexbox LESS Elements
  *
  * This file will contain those mixins that pertain to the flexbox W3C Candidate Recommendation
@@ -3377,6 +3397,22 @@ They show your position within the site heirarchy.
 .button.negative:focus {
   background: #ff0000;
 }
+.button.finish {
+  background: #fff;
+  color: #427fc4;
+  -webkit-box-shadow: inset 0 0 0 2px #427fc4;
+  -moz-box-shadow: inset 0 0 0 2px #427fc4;
+  -ms-box-shadow: inset 0 0 0 2px #427fc4;
+  box-shadow: inset 0 0 0 2px #427fc4;
+}
+.button.finish:hover,
+.button.finish:focus {
+  color: #6999d0;
+  -webkit-box-shadow: inset 0 0 0 2px #6999d0;
+  -moz-box-shadow: inset 0 0 0 2px #6999d0;
+  -ms-box-shadow: inset 0 0 0 2px #6999d0;
+  box-shadow: inset 0 0 0 2px #6999d0;
+}
 .button.cancel {
   background: #898989;
 }
@@ -3676,7 +3712,7 @@ tr.rx-floating-header:not(.rx-table-filter-row) {
   vertical-align: middle;
 }
 .field-input input[disabled] {
-  color: #999;
+  color: #999999;
   background-color: #dededd;
   cursor: not-allowed;
 }
@@ -3780,7 +3816,7 @@ tr.rx-floating-header:not(.rx-table-filter-row) {
   cursor: default;
 }
 .option-table .disabled span {
-  color: #dddddd;
+  color: #999999;
 }
 .option-table label {
   display: block;
@@ -4135,67 +4171,7 @@ tr.rx-floating-header:not(.rx-table-filter-row) {
   opacity: 1;
 }
 /*
- # rxPaginate
-
-Add the class `disabled` to classes `pagination-first`, `pagination-prev`, `pagination-next` and `pagination-last` to disable navigation links.
-
-```
-<table class="table-striped">
-    <thead>
-        <tr>
-            <th class="column-title" style="width:10em;">Name</th>
-            <th class="column-title">OS</a>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Server 1</td>
-            <td>Red Hat Enterprise Linux 6.4</td>
-        </tr>
-        <tr>
-            <td>Server 2</td>
-            <td>CentOS 6.4</td>
-        </tr>
-    </tbody>
-    <tfoot>
-        <tr class="paginate-area">
-            <td colspan="12">
-                <div class="rx-paginate">
-                    <ul class="pagination">
-                        <li class="pagination-first disabled">
-                            <a class="ng-hide">First</a>
-                        </li>
-                        <li class="pagination-prev disabled">
-                            <a>« Prev</a>
-                        </li>
-                        <li class="pagination-page">
-                            <a>1</a>
-                        </li>
-                        <li class="pagination-page">
-                            <a>2</a>
-                        </li>
-                        <li class="pagination-page">
-                            <a>3</a>
-                        </li>
-                        <li class="pagination-page active">
-                            <a>4</a>
-                        </li>
-                        <li class="pagination-page page-number-last">
-                            <a>5</a>
-                        </li>
-                        <li class="pagination-next">
-                            <a>Next »</a>
-                        </li>
-                        <li class="pagination-last">
-                            <a>Last</a>
-                        </li>
-                    </ul>
-                </div>
-            </td>
-        </tr>
-    </tfoot>
-</table>
-```
+  rxPaginate
 
  */
 .paginate-area {
@@ -4332,6 +4308,136 @@ Add the class `disabled` to classes `pagination-first`, `pagination-prev`, `pagi
 .rx-paginate .pagination-sm > li > span {
   padding: 5px 10px;
   font-size: 12px;
+}
+.loading-overlay {
+  position: absolute;
+  background: rgba(222, 222, 221, 0.8);
+}
+.loading-overlay .loading-text-wrapper {
+  width: 100px;
+  margin: 20% auto;
+}
+.loading-overlay .loading-text {
+  font-size: 18px;
+  margin-top: 15%;
+  text-align: center;
+  color: #777;
+}
+.loading-overlay i {
+  font-size: 30px;
+  margin-left: 25px;
+  color: #777;
+}
+.loading-row {
+  padding: 10px;
+}
+/*
+ * rxSearchBox
+ */
+rx-search-box {
+  display: inline-block;
+  width: 250px;
+  min-width: 120px;
+  font-size: 1.2em;
+}
+rx-search-box .rxSearchBox-wrapper {
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+  border: 1px solid #cccccc;
+  height: auto;
+  min-width: 120px;
+  padding: 0px;
+  background: #ffffff;
+  color: #404040;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row nowrap;
+  -moz-flex-flow: row nowrap;
+  -ms-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  -webkit-justify-content: flex-start;
+  -moz-justify-content: flex-start;
+  justify-content: flex-start;
+}
+rx-search-box .rxSearchBox-wrapper .rxSearchBox-input {
+  /* Safari/Chrome, other WebKit */
+  /* Firefox, other Gecko */
+  /* Opera/IE 8+ */
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding;
+  background-clip: padding;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+  -moz-background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-appearance: none;
+  background-color: #fff;
+  color: #000;
+  outline: none;
+  border: none;
+  margin: 0px;
+  padding: 0px;
+  text-align: left;
+  -webkit-flex: 1 1;
+  -moz-flex: 1 1;
+  -ms-flex: 1 1;
+  flex: 1 1;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+  background: transparent;
+  padding: 3px 5px;
+  /*
+      This gets around FireFox setting the min-width to a value
+      that overflows content out of the .rxSearch container.
+       */
+  min-width: 86px;
+}
+rx-search-box .rxSearchBox-wrapper .rxSearchBox-input[disabled] {
+  color: #999999;
+  background: #dededd;
+  cursor: not-allowed;
+}
+rx-search-box .rxSearchBox-wrapper .rxSearchBox-clear {
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+  cursor: pointer;
+  color: #a9a9a9;
+  -webkit-flex: 0 0 24px;
+  -moz-flex: 0 0 24px;
+  -ms-flex: 0 0 24px;
+  flex: 0 0 24px;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  justify-content: center;
+}
+rx-search-box .rxSearchBox-wrapper .rxSearchBox-clear .rxSearchBox-clear-icon {
+  min-width: 24px;
 }
 /*
  * rxSortableColumn
@@ -4508,6 +4614,81 @@ td.rx-status-column.status-INFO i {
 }
 td.rx-status-column .fa-exclamation-circle {
   color: transparent;
+}
+/*
+ * rxToggleSwitch
+ */
+.rx-toggle-switch {
+  font-size: 0.8em;
+  line-height: 1.5em;
+  display: inline-block;
+  border: 1px #9a9a9a solid;
+  border-radius: 9px;
+  background-color: #b3b3b3;
+  color: #ffffff;
+  padding: 0 1.08em 0 1.08em;
+  width: 5em;
+  cursor: pointer;
+  position: relative;
+  text-align: right;
+  -webkit-box-shadow: inset 1px 2px 1.08em -0.36em rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: inset 1px 2px 1.08em -0.36em rgba(0, 0, 0, 0.5);
+  -ms-box-shadow: inset 1px 2px 1.08em -0.36em rgba(0, 0, 0, 0.5);
+  box-shadow: inset 1px 2px 1.08em -0.36em rgba(0, 0, 0, 0.5);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+}
+.rx-toggle-switch[disabled] {
+  background-color: #c5c5c5;
+  color: #666666;
+  cursor: not-allowed;
+}
+.rx-toggle-switch[disabled].on {
+  background-color: #99bba3;
+}
+.rx-toggle-switch[disabled] .knob {
+  background-color: #adadad;
+  border: 1px #999999 solid;
+}
+.rx-toggle-switch.on {
+  background-color: #00ac31;
+  text-align: left;
+}
+.rx-toggle-switch.on .knob {
+  left: 100%;
+  -webkit-transform: translate(-100%, 0);
+  -moz-transform: translate(-100%, 0);
+  transform: translate(-100%, 0);
+}
+.rx-toggle-switch .knob {
+  -webkit-transition: all 0.1s ease-out;
+  -moz-transition: all 0.1s ease-out;
+  -o-transition: all 0.1s ease-out;
+  transition: all 0.1s ease-out;
+  position: absolute;
+  display: inline-block;
+  top: 0;
+  left: 0;
+  width: 1.2em;
+  height: 1.2em;
+  border-radius: 1.6em;
+  background-color: #ffffff;
+  border: 1px #e6e6e6 solid;
+  -webkit-box-shadow: 0 0 1.08em -0.36em rgba(0, 0, 0, 0.55);
+  -moz-box-shadow: 0 0 1.08em -0.36em rgba(0, 0, 0, 0.55);
+  -ms-box-shadow: 0 0 1.08em -0.36em rgba(0, 0, 0, 0.55);
+  box-shadow: 0 0 1.08em -0.36em rgba(0, 0, 0, 0.55);
+  overflow: hidden;
 }
 /*
 
