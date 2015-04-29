@@ -1,0 +1,133 @@
+// Common colors re-used in different instances
+@white: #fff;
+
+// # Backgrounds
+
+// ## General
+@appBg: #f5f5f5;
+@appMenuBg: #1a1a1a;
+@siteBrandingBg: #06356b;
+@appHelpBg: #333;
+
+// ## Tables
+@tableHeaderBg: #878787;
+@tableBg: @white;
+@tableBgAlt: #f2f2f2;
+@tableRowSelected: #c6e4c8;
+
+// ## Buttons
+@optionHighlightBg: #007bff;
+@buttonColor: @white;
+@buttonColorDisabled: #f0efef;
+@buttonDefaultBg: #427fc4;
+@buttonDefaultBgHover: lighten(@buttonDefaultBg, 10%);
+@buttonPositiveBg: #16b667;
+@buttonPositiveBgHover: lighten(@buttonPositiveBg, 6%);
+@buttonNegativeBg: #cc0000;
+@buttonNegativeBgHover: lighten(@buttonNegativeBg, 10%);
+@buttonCancelBg: #898989;
+@buttonCancelBgHover: lighten(@buttonCancelBg, 10%);
+@buttonDisabledBg: #cfd2d4;
+@buttonSpinnerBg: @buttonColor;
+
+
+// # Borders
+
+// ## General
+@pageDivider: #e6e6e5;
+@appHelpBorder: #424242;
+
+// ## Tables
+@tableBorder: #e1e0df;
+@tableHeaderBorder: #6e6e6e;
+@subtableBorder: #adadad;
+
+// ## Tabs and Account Info
+@tabBorder: #4480c1;
+
+
+// # Text colors
+
+// ## General
+@appTextColor: #404040;
+@linkColor: #4682c2;
+@linkColorHover: saturate(@linkColor, 15%);
+@menuLinkLightBlue: #97b1d0;
+@menuLinkOrange: #ffa61b;
+@menuRed: #F37A7C;
+@warnRed: #eb2124;
+@warnRedHover: saturate(@warnRed, 15%);
+@actionGreen: #3ab661;
+@actionGreenHover: saturate(@actionGreen, 15%);
+@infoOrange: #dd7800;
+@infoOrangeHover: saturate(@infoOrange, 15%);
+@infoBlue: #4580C2;
+@infoBlueHover: saturate(@infoBlue, 15%);
+
+// # PreProd warnings
+@preprodBackground: #AA161C;
+@preprodBorderTop: #BD1B22;
+@preprodBorderBottom: #991016;
+@preprodBackgroundFocus: #BE1C22;
+@preprodActiveBackground: #D41F26;
+
+
+@wellText: #727272;
+
+@subduedText: #bbb;
+@subduedTextHover: darken(@subduedText, 15%);
+@subduedTitle: #989998;
+@closeText: #e5e5e5;
+@closeTextHover: darken(@closeText, 10%);
+
+// ## Tables
+@tableHeaderText: @white;
+@tableCellText: #555;
+
+// # Measurements
+
+// ## General
+@modalPadding: 30px;
+@modalBodyPadding: 50px;
+
+// ## Tables
+@tableCellPadding: 5px 10px;
+
+// # Fonts
+@appFont: "Roboto", sans-serif;
+@appLineHeight: 1.2;
+@appFontSize: 13px;
+
+
+/*
+ * Form Inputs
+ */
+@inputWidth: 250px;
+@inputSelectWidth: @inputWidth;
+@inputNumberWidth: 150px;
+@inputLabelWidth: 110px;
+@inputColor: @appTextColor;
+@inputColorDisabled: #999;
+@inputLabelColor: @subduedTitle;
+@inputPlaceholderColor: #a9a9a9;
+@inputBackground: #fff;
+@inputBackgroundDisabled: #dededd;
+@inputBorderRadius: 0px;
+@inputBorderColor: #ccc;
+@inputBorderColorInvalid: #ff2400;
+
+/*
+ * rxSearchBox
+ */
+@rxSearchBox-clear-width: 24px;
+@rxSearchBox-min-width: 5 * @rxSearchBox-clear-width;
+@rxSearchBox-width: @inputWidth;
+@rxSearchBox-color: @inputColor;
+@rxSearchBox-color-disabled: @inputColorDisabled;
+@rxSearchBox-color-icon: #a9a9a9;
+@rxSearchBox-background: @inputBackground;
+@rxSearchBox-background-disabled: @inputBackgroundDisabled;
+@rxSearchBox-border: 1px solid @inputBorderColor;
+@rxSearchBox-border-radius: @inputBorderRadius;
+@rxSearchBox-padding-vertical: 3px;
+@rxSearchBox-padding-horizontal: 5px;

@@ -2,11 +2,11 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.13.1 - 2015-04-17
+ * Version: 1.14.0 - 2015-04-29
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSearchBox','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
-angular.module('encore.ui.tpls', ['templates/rxAccountInfo.html','templates/rxAccountInfoBanner.html','templates/rxActionMenu.html','templates/rxActiveUrl.html','templates/rxAccountSearch.html','templates/rxAccountUsers.html','templates/rxApp.html','templates/rxAppNav.html','templates/rxAppNavItem.html','templates/rxAppSearch.html','templates/rxBillingSearch.html','templates/rxPage.html','templates/rxPermission.html','templates/rxBreadcrumbs.html','templates/rxButton.html','templates/feedbackForm.html','templates/rxFeedback.html','templates/rxFormFieldset.html','templates/rxFormItem.html','templates/rxFormOptionTable.html','templates/rxInfoPanel.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxModalFooters.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxPaginate.html','templates/rxSearchBox.html','templates/rxSortableColumn.html','templates/rxStatusColumn.html','templates/rxToggleSwitch.html']);
+angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSearchBox','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui.tpls', ['templates/rxAccountInfo.html','templates/rxAccountInfoBanner.html','templates/rxActionMenu.html','templates/rxActiveUrl.html','templates/rxAccountSearch.html','templates/rxAccountUsers.html','templates/rxApp.html','templates/rxAppNav.html','templates/rxAppNavItem.html','templates/rxAppSearch.html','templates/rxBillingSearch.html','templates/rxPage.html','templates/rxPermission.html','templates/detailsLayout.html','templates/rxBreadcrumbs.html','templates/rxButton.html','templates/feedbackForm.html','templates/rxFeedback.html','templates/rxFormFieldset.html','templates/rxFormItem.html','templates/rxFormOptionTable.html','templates/rxInfoPanel.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxModalFooters.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxPaginate.html','templates/rxSearchBox.html','templates/rxSortableColumn.html','templates/rxStatusColumn.html','templates/rxToggleSwitch.html']);
 angular.module('encore.ui.configs', [])
 .value('devicePaths', [
     { value: '/dev/xvdb', label: '/dev/xvdb' },
@@ -2339,7 +2339,73 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
     };
 }]);
 
-angular.module('encore.ui.rxMisc', [])
+/*jshint proto:true*/
+angular.module('encore.ui.rxSessionStorage', [])
+    /**
+    *
+    * @ngdoc service
+    * @name encore.ui.rxSessionStorage:SessionStorage
+    * @description
+    * A simple wrapper for injecting the global variable sessionStorage
+    * for storing values in session storage. This service is similar to angular's
+    * $window and $document services.  The API works the same as the W3C's
+    * specification provided at: http://dev.w3.org/html5/webstorage/#storage-0.
+    * Also includes to helper functions for getting and setting objects.
+    *
+    * @example
+    * <pre>
+    * SessionStorage.setItem('Batman', 'Robin'); // no return value
+    * SessionStorage.key(0); // returns 'Batman'
+    * SessionStorage.getItem('Batman'); // returns 'Robin'
+    * SessionStorage.removeItem('Batman'); // no return value
+    * SessionStorage.setObject('hero', {name:'Batman'}); // no return value
+    * SessionStorage.getObject('hero'); // returns { name: 'Batman'}
+    * SessionStorage.clear(); // no return value
+    * </pre>
+    */
+    .service('SessionStorage', ["$window", function ($window) {
+        this.setItem = function (key, value) {
+            $window.sessionStorage.setItem(key, value);
+        };
+
+        this.getItem = function (key) {
+            return $window.sessionStorage.getItem(key);
+        };
+
+        this.key = function (key) {
+            return $window.sessionStorage.key(key);
+        };
+
+        this.removeItem = function (key) {
+            $window.sessionStorage.removeItem(key);
+        };
+
+        this.clear = function () {
+            $window.sessionStorage.clear();
+        };
+
+        this.__defineGetter__('length', function () {
+            return $window.sessionStorage.length;
+        });
+
+        this.setObject = function (key, val) {
+            var value = _.isObject(val) || _.isArray(val) ? JSON.stringify(val) : val;
+            this.setItem(key, value);
+        };
+
+        this.getObject = function (key) {
+            var item = $window.sessionStorage.getItem(key);
+            try {
+                item = JSON.parse(item);
+            } catch (error) {
+                return item;
+            }
+
+            return item;
+        };
+    }]);
+
+angular.module('encore.ui.rxMisc', ['debounce', 'encore.ui.rxSessionStorage'])
 /**
  * @ngdoc service
  * @name encore.ui.rxMisc:rxDOMHelper
@@ -2454,6 +2520,249 @@ angular.module('encore.ui.rxMisc', [])
         onscroll: onscroll,
         find: find,
         wrapAll: wrapAll
+    };
+}])
+
+/**
+ * @ngdoc service
+ * @name encore.ui.rxMisc:rxAutoSave
+ * @description
+ * A factory that controllers can use to help automatically save and load
+ * (from LocalStorage) forms on any given page.
+ */
+.factory('rxAutoSave', ["$location", "$q", "debounce", "LocalStorage", function ($location, $q, debounce, LocalStorage) {
+
+    /* 
+     * We'll version the schema for the stored data, so if we need to change
+     * the schema in the future, we can do automatic migrations. Never 
+     * delete any of these documented schemas. If you have to add a new version,
+     * then add it on top, but keep the documentation for the old one around.
+     * VERSION 1
+     *      'rxAutoSave::' + URL => {
+     *          pageConfig: {
+     *              version: 1
+     *          },
+     *          forms: {
+     *              "form1": {
+     *                   config: {
+     *                      expires: 0,
+     *                  },
+     *                  data: {
+     *                      // Serialized form data
+     *                  }
+     *              }
+     *              "form2": {
+     *                  config: {
+     *                      expires: 33421234322,
+     *                  }
+     *                  data: {
+     *                      // Serialized form data
+     *                  }
+     *              }
+     *          }
+     *      }
+    */
+    var version = 1;
+
+    // This will be used by the rxAutoSave instance to interact with
+    // LocalStorage. 
+    //
+    // @param watchVar - the string name of the
+    //                   object that's being watched, representing the model for the form.
+    //                   StorageAPI is not publically exposed, it can only be used and accessed
+    //                   by the rxAutoSave instance
+    // @param [storageBackend] - Optional, defaults to LocalStorage. If you pass in a storage object,
+    //                           it must support both getObject(key) and setObject(key, val), matching
+    //                           the operations of LocalStorage and SessionStorage
+    var StorageAPI = function (watchVar, storageBackend) {
+        this.key = 'rxAutoSave::' + $location.url();
+        this.watchVar = watchVar;
+        this.storage = storageBackend ? storageBackend : LocalStorage;
+    };
+
+    // Get all the saved data for this page. If none
+    // exists, then create an empty object that matches
+    // the current schema.
+    StorageAPI.prototype.getAll = function () {
+        return this.storage.getObject(this.key) || {
+            pageConfig: {
+                version: version,
+            },
+            forms: {
+            }
+        };
+    };
+
+    // Given a `watchVar`, return the corresponding
+    // `form` object from LocalStorage. This form object should include
+    // both `.data` and `.config` properties.
+    // If no form currently exists for `watchVar`, then an empty
+    // object will be created that matches the current schema
+    StorageAPI.prototype.getForm = function () {
+        var all = this.getAll();
+        if (!_.has(all.forms, this.watchVar)) {
+            all.forms[this.watchVar] = {
+                data: {},
+                config: {
+                    expires: 0
+                }
+            };
+        }
+        return all.forms[this.watchVar];
+    };
+
+    // Given a full form object, save it into LocalStorage,
+    // indexed into the forms[watchVar] location for this page
+    StorageAPI.prototype.setForm = function (form) {
+        var all = this.getAll();
+        all.forms[this.watchVar] = form;
+        this.storage.setObject(this.key, all);
+    };
+
+    // Get the current `config` object for a given watchVar
+    StorageAPI.prototype.getConfig = function () {
+        return this.getForm().config;
+    };
+
+    // Return the time that a given form is supposed to
+    // have its saved data expire
+    StorageAPI.prototype.getExpires = function () {
+        return this.getConfig().expires;
+    };
+
+    // For a given watchVar, set a new expiry time, and save
+    // into LocalStorage
+    StorageAPI.prototype.setExpiryTime = function (expiryTime) {
+        var form = this.getForm();
+        form.config.expires = expiryTime;
+        this.setForm(form);
+    };
+
+    // Force an expiration for a given watchVar. This will completely
+    // clear the saved data for this watchVar, and set the `expires`
+    // back to 0
+    StorageAPI.prototype.expire = function () {
+        var form = this.getForm();
+        form.data = {};
+        form.config.expires = 0;
+        this.setForm(form);
+    };
+
+    // Return the current saved data for a given watchVar
+    StorageAPI.prototype.getDataObject = function () {
+        return this.getForm().data || {};
+    };
+
+    // For a given watchVar, store `val` as its saved
+    // data, into LocalStorage
+    StorageAPI.prototype.setDataObject = function (val) {
+        var form = this.getForm();
+        form.data = val;
+        this.setForm(form);
+    };
+
+    // This is what we return from rxAutoSave, and calling this
+    // function will return an instance
+    return function (scope, watchVar, opts) {
+
+        opts = opts || {};
+        _.defaults(opts, {
+            load: true,
+            save: true,
+            clearOnSuccess: undefined,
+            exclude: [],
+            ttl: 172800,
+            storageBackend: LocalStorage
+        });
+
+        opts.ttl = opts.ttl * 1000; // convert back to milliseconds
+        
+        var api = new StorageAPI(watchVar, opts.storageBackend);
+
+        var updateExpiryTime = function () {
+            if (opts.ttl > 0) {
+                api.setExpiryTime(_.now() + opts.ttl);
+            }
+        };
+
+        // Responsible for loading the data from LocalStorage into the form
+        var load = function () {
+            var expires = api.getExpires();
+            if (expires > 0 && expires <= _.now()) {
+                // This data has expired. Make sure we clear it out
+                // of LocalStorage
+                api.expire();
+                return;
+            }
+
+            updateExpiryTime();
+
+            // Write all the storedObject values into scope[watchVar], except
+            // for any specified in opts.exclude
+            var storedObject = api.getDataObject();
+            _.assign(scope[watchVar], _.omit(storedObject, opts.exclude));
+        };
+
+        // This is the "instance" that is returned when someone
+        // calls rxAutoSave($scope, 'someWatchVar')
+        var autoSaveInstance = {
+            clear: function () {
+                api.expire();
+            },
+
+            clearOnSuccess: function (promise) {
+                promise.then(this.clear);
+            },
+
+            save: function () {
+                update(scope[watchVar]);
+            },
+
+            getStoredValue: function () {
+                return api.getDataObject();
+            }
+        };
+
+        _.bindAll(autoSaveInstance);
+
+        var update = function (newVal) {
+            // Get the current data stored for this watchVar
+            var data = api.getDataObject();
+
+            // Overwrite all properties in allWatchVars[watchVar] with properties from
+            // newVal, except for the properties in opts.exclude
+            _.assign(data, _.omit(newVal, opts.exclude));
+
+            // Store the newly changed data in LocalStorage
+            api.setDataObject(data);
+
+            // Update the expiry time whenever we modify data
+            updateExpiryTime();
+        };
+        
+        // We don't want to write to LocalStorage every time the model changes,
+        // because that would turn typing into a textarea into an expensive operation.
+        // We'll instead debounce the the writes for 1 second
+        var debounced = debounce(update, 1000);
+
+        $q.when(opts.save).then(function (shouldSave) {
+            if (shouldSave) {
+                // The `true` third argument tells $watch to do a deep comparison
+                scope.$watch(watchVar, debounced, true);
+            }
+        });
+
+        $q.when(opts.load).then(function (shouldLoad) {
+            if (shouldLoad) {
+                load();
+            }
+        });
+
+        if (!_.isUndefined(opts.clearOnSuccess)) {
+            autoSaveInstance.clearOnSuccess(opts.clearOnSuccess);
+        }
+
+        return autoSaveInstance;
     };
 }]);
 
@@ -4477,72 +4786,6 @@ angular.module('encore.ui.rxSearchBox', [])
     };
 });
 
-/*jshint proto:true*/
-angular.module('encore.ui.rxSessionStorage', [])
-    /**
-    *
-    * @ngdoc service
-    * @name encore.ui.rxSessionStorage:SessionStorage
-    * @description
-    * A simple wrapper for injecting the global variable sessionStorage
-    * for storing values in session storage. This service is similar to angular's
-    * $window and $document services.  The API works the same as the W3C's
-    * specification provided at: http://dev.w3.org/html5/webstorage/#storage-0.
-    * Also includes to helper functions for getting and setting objects.
-    *
-    * @example
-    * <pre>
-    * SessionStorage.setItem('Batman', 'Robin'); // no return value
-    * SessionStorage.key(0); // returns 'Batman'
-    * SessionStorage.getItem('Batman'); // returns 'Robin'
-    * SessionStorage.removeItem('Batman'); // no return value
-    * SessionStorage.setObject('hero', {name:'Batman'}); // no return value
-    * SessionStorage.getObject('hero'); // returns { name: 'Batman'}
-    * SessionStorage.clear(); // no return value
-    * </pre>
-    */
-    .service('SessionStorage', ["$window", function ($window) {
-        this.setItem = function (key, value) {
-            $window.sessionStorage.setItem(key, value);
-        };
-
-        this.getItem = function (key) {
-            return $window.sessionStorage.getItem(key);
-        };
-
-        this.key = function (key) {
-            return $window.sessionStorage.key(key);
-        };
-
-        this.removeItem = function (key) {
-            $window.sessionStorage.removeItem(key);
-        };
-
-        this.clear = function () {
-            $window.sessionStorage.clear();
-        };
-
-        this.__defineGetter__('length', function () {
-            return $window.sessionStorage.length;
-        });
-
-        this.setObject = function (key, val) {
-            var value = _.isObject(val) || _.isArray(val) ? JSON.stringify(val) : val;
-            this.setItem(key, value);
-        };
-
-        this.getObject = function (key) {
-            var item = $window.sessionStorage.getItem(key);
-            try {
-                item = JSON.parse(item);
-            } catch (error) {
-                return item;
-            }
-
-            return item;
-        };
-    }]);
-
 angular.module('encore.ui.rxSortableColumn', [])
 /**
 * @ngdoc directive
@@ -5048,6 +5291,7 @@ angular.module('encore.ui.rxStatusColumn', [])
     rxStatusMappings.mapToError = buildMapFunc('ERROR');
     rxStatusMappings.mapToInfo = buildMapFunc('INFO');
     rxStatusMappings.mapToPending = buildMapFunc('PENDING');
+    rxStatusMappings.mapToDisabled = buildMapFunc('DISABLED');
     
     rxStatusMappings.getInternalMapping = function (statusString, api) {
         if (_.has(apiMappings, api) && _.has(apiMappings[api], statusString)) {
@@ -5309,6 +5553,11 @@ angular.module("templates/rxPage.html", []).run(["$templateCache", function($tem
 angular.module("templates/rxPermission.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxPermission.html",
     "<div class=\"rxPermission\" ng-if=\"hasRole(role)\" ng-transclude></div>");
+}]);
+
+angular.module("templates/detailsLayout.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/detailsLayout.html",
+    "<div class=\"page-actions\"></div><div class=\"pure-g clear\"><div class=\"pure-u-2-5\" ng-show=\"components.leftMetadata\"><div class=\"clear-left metadata left-metadata\"></div></div><div class=\"pure-u-3-5\" ng-show=\"components.rightMetadata\"><div class=\"metadata right-metadata\"></div></div></div><h2 class=\"clear-left title\">Header</h2><h2 class=\"title\">Sub-header</h2><div class=\"table-area\" ng-show=\"components.table\"></div><div class=\"pure-g columns clear\"><div class=\"pure-u-1-2\"><h2 class=\"title\">Sub-header 2</h2><table class=\"table\"><thead><th>Column 1</th></thead><tbody><tr><td>Cell 1</td></tr></tbody></table></div><div class=\"pure-u-1-2\"><h2 class=\"title\">Sub-header 3</h2><table class=\"table\"><thead><th>Header 1</th></thead><tbody><tr><td>Cell 1</td></tr></tbody></table></div></div>");
 }]);
 
 angular.module("templates/rxBreadcrumbs.html", []).run(["$templateCache", function($templateCache) {
