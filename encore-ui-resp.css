@@ -8553,64 +8553,58 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 66.66%;
   }
 }
-.base-box,
-.box,
-.flex-box,
-.small-box,
-.grow-box {
+.layout-demo .base-box,
+.layout-demo .box,
+.layout-demo .flex-box,
+.layout-demo .small-box,
+.layout-demo .grow-box {
   height: 50px;
   color: white;
   font-weight: bold;
   padding: 20px;
   text-shadow: 0 0 4px #646464;
 }
-.box {
+.layout-demo .box {
   width: 150px;
   margin: 10px 15px;
 }
-.flex-box {
+.layout-demo .flex-box {
   width: auto;
 }
-.dark-blue {
+.layout-demo .dark-blue {
   background-color: #4881c0;
 }
-.light-blue {
+.layout-demo .light-blue {
   background-color: #86cafd;
 }
-.dark-green {
+.layout-demo .dark-green {
   background-color: #24b56a;
 }
-.light-green {
+.layout-demo .light-green {
   background-color: #c8e5bf;
 }
-.orange {
+.layout-demo .orange {
   background-color: #db7820;
 }
-.small-box-container {
+.layout-demo .small-box-container {
   width: 95%;
   height: 300px;
   margin: 0 auto 10px;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.6);
 }
-.small-box {
+.layout-demo .small-box {
   height: auto;
   width: auto;
   text-align: center;
 }
-.grow-box {
+.layout-demo .grow-box {
   height: auto;
 }
-.layout-examples input[type="radio"] {
+.layout-demo .layout-examples input[type="radio"] {
   margin-right: 6px;
 }
-.layout-examples label {
+.layout-demo .layout-examples label {
   margin: 10px 0 0 10px;
-}
-code {
-  padding: 1px 2px;
-  background-color: #F0F0F0;
-  color: #db7820;
-  border-radius: 2px;
 }
 /*
  * metadata
