@@ -2,11 +2,11 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.14.0 - 2015-04-29
+ * Version: 1.15.0 - 2015-05-08
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSearchBox','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
-angular.module('encore.ui.tpls', ['templates/rxAccountInfo.html','templates/rxAccountInfoBanner.html','templates/rxActionMenu.html','templates/rxActiveUrl.html','templates/rxAccountSearch.html','templates/rxAccountUsers.html','templates/rxApp.html','templates/rxAppNav.html','templates/rxAppNavItem.html','templates/rxAppSearch.html','templates/rxBillingSearch.html','templates/rxPage.html','templates/rxPermission.html','templates/detailsLayout.html','templates/rxBreadcrumbs.html','templates/rxButton.html','templates/feedbackForm.html','templates/rxFeedback.html','templates/rxFormFieldset.html','templates/rxFormItem.html','templates/rxFormOptionTable.html','templates/rxInfoPanel.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxModalFooters.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxPaginate.html','templates/rxSearchBox.html','templates/rxSortableColumn.html','templates/rxStatusColumn.html','templates/rxToggleSwitch.html']);
+angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSearchBox','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui.tpls', ['templates/rxAccountInfo.html','templates/rxAccountInfoBanner.html','templates/rxActionMenu.html','templates/rxActiveUrl.html','templates/rxAccountSearch.html','templates/rxAccountUsers.html','templates/rxApp.html','templates/rxAppNav.html','templates/rxAppNavItem.html','templates/rxAppSearch.html','templates/rxBillingSearch.html','templates/rxPage.html','templates/rxPermission.html','templates/detailsLayout.html','templates/rxBreadcrumbs.html','templates/rxButton.html','templates/rxCollapse.html','templates/feedbackForm.html','templates/rxFeedback.html','templates/rxFormFieldset.html','templates/rxFormItem.html','templates/rxFormOptionTable.html','templates/rxInfoPanel.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxModalFooters.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxPaginate.html','templates/rxSearchBox.html','templates/rxMultiSelect.html','templates/rxSelectFilter.html','templates/rxSelectOption.html','templates/rxSortableColumn.html','templates/rxStatusColumn.html','templates/rxToggleSwitch.html']);
 angular.module('encore.ui.configs', [])
 .value('devicePaths', [
     { value: '/dev/xvdb', label: '/dev/xvdb' },
@@ -2091,6 +2091,37 @@ angular.module('encore.ui.rxCharacterCount', [])
     };
 }]);
 
+angular.module('encore.ui.rxCollapse', [])
+/**
+ * @ngdoc directive
+ * @name encore.ui.rxCollapse:rxCollapse
+ * @restrict E
+ * @scope
+ * @description
+ * Hide and show an element with a transition.
+ *
+ * @param {string} [title] The title to display next to the toggle button.
+ * @param {string} [expanded] Initially expanded or collapsed.  Default is expanded.
+ *
+ * @example
+ * <pre>
+ *     <rx-collapse title="Filter results" expanded="true"></rx-collapse>
+ * </pre>
+ */
+.directive('rxCollapse', function () {
+    return {
+        restrict: 'E',
+        templateUrl: 'templates/rxCollapse.html',
+        transclude: true,
+        scope: {
+            title: '@'
+        },
+        link: function (scope, element, attrs) {
+            scope.isExpanded = (attrs.expanded === 'false') ? false : true;
+        }
+    };
+});
+
 angular.module('encore.ui.rxCompile', [])
 /*
  * @ngdoc directive
@@ -2522,6 +2553,25 @@ angular.module('encore.ui.rxMisc', ['debounce', 'encore.ui.rxSessionStorage'])
         wrapAll: wrapAll
     };
 }])
+
+/*
+ * @ngdoc filter
+ * @name encore.ui.rxMisc:titleize
+ * @description
+ * Convert a string to a title case, stripping out symbols and capitalizing words.
+ *
+ * Credit where it's due: https://github.com/epeli/underscore.string/blob/master/titleize.js
+ *
+ * @param {string} str The string to convert
+ * @returns {string} The titleized version of the string
+ */
+.filter('titleize', function () {
+    return function (str) {
+        return str.toLowerCase().replace(/_/g, ' ').replace(/(?:^|\s)\S/g, function (c) {
+            return c.toUpperCase();
+        });
+    };
+})
 
 /**
  * @ngdoc service
@@ -4166,6 +4216,8 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
  * of this method are described in the rxPaginate README
  * @param {Object} [filterText] The model for the table filter input, if any. This directive
  * will watch that model for changes, and request new results from the paginated API, on change
+ * @param {Object} [selections] The `selected` property of a SelectFilter instance, if one is being used.
+ * This directive will watch the filter's selections, and request new results from the paginated API, on change
  * @param {Object} [sortColumn] The model containing the current column the results should sort on.
  * This directive will watch that column for changes, and request new results from the paginated API, on change
  * @param {Object} [sortDirection] The model containing the current direction of the current sort column. This
@@ -4183,6 +4235,7 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
             numberOfPages: '@',
             serverInterface: '=?',
             filterText: '=?',
+            selections: '=?',
             sortColumn: '=?',
             sortDirection: '=?'
         },
@@ -4224,6 +4277,7 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
                     var direction = scope.sortDirection ? 'DESCENDING' : 'ASCENDING';
                     return {
                         filterText: scope.filterText,
+                        selections: scope.selections,
                         sortColumn: scope.sortColumn,
                         sortDirection: direction
                     };
@@ -4262,6 +4316,8 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
 
                 var textChange = debounce(notifyPageTracking, 500);
 
+                var selectionChange = debounce(notifyPageTracking, 1000);
+
                 var ifChanged = function (fn) {
                     return function (newVal,  oldVal) {
                         if (newVal !== oldVal) {
@@ -4273,6 +4329,10 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
                 // the PageTracker that it should go grab new items
                 if (!_.isUndefined(scope.filterText)) {
                     scope.$watch('filterText', ifChanged(textChange));
+                }
+
+                if (!_.isUndefined(scope.selections)) {
+                    scope.$watch('selections', ifChanged(selectionChange), true);
                 }
 
                 if (!_.isUndefined(scope.sortColumn)) {
@@ -4785,6 +4845,248 @@ angular.module('encore.ui.rxSearchBox', [])
         }]
     };
 });
+
+angular.module('encore.ui.rxSelectFilter', ['encore.ui.rxMisc'])
+/**
+ * @ngdoc filter
+ * @name encore.ui.rxSelectFilter:Apply
+ * @description
+ * Used to apply an instance of SelectFilter to an array.
+ *
+ * @param {Array} list The list to be filtered.
+ * @param {Object} filter An instance of SelectFilter
+ */
+.filter('Apply', function () {
+    return function (list, filter) {
+        return filter.applyTo(list);
+    };
+})
+
+/**
+ * @ngdoc service
+ * @name encore.ui.rxSelectFilter:SelectFilter
+ * @description
+ * A prototype for creating objects that can be used for filtering arrays.
+ *
+ * @method create(options) - Create a filter that tracks the provided properties.
+ */
+.service('SelectFilter', function () {
+    return {
+        create: function (options) {
+            options = _.defaults(options, {
+                properties: [],
+                available: {},
+                selected: _.isUndefined(options.available) ? {} : _.cloneDeep(options.available)
+            });
+
+            var filter = _.cloneDeep(options);
+
+            var firstRun = true;
+
+            function init (list) {
+                filter.properties.forEach(function (property) {
+                    if (_.isUndefined(filter.available[property])) {
+                        filter.available[property] = _.uniq(_.pluck(list, property));
+                    }
+
+                    // Check `options.selected` instead of `filter.selected` because the latter
+                    // is used as the model for `<rx-multi-select>`, which initializes its
+                    // model to an empty array. However, the intent is select all options
+                    // initially when left unspecified (preferred default behavior).
+                    if (_.isUndefined(options.selected[property])) {
+                        filter.selected[property] = _.clone(filter.available[property]);
+                    }
+                });
+            }
+
+            function isItemValid (item) {
+                return filter.properties.every(function (property) {
+                    return _.contains(filter.selected[property], item[property]);
+                });
+            }
+
+            filter.applyTo = function (list) {
+                if (firstRun) {
+                    firstRun = false;
+                    init(list);
+                }
+                return list.filter(isItemValid);
+            };
+
+            return filter;
+        }
+    };
+})
+
+/**
+ * @ngdoc directive
+ * @name encore.ui.rxSelectFilter:rxSelectFilter
+ * @restrict E
+ * @description
+ * Autmatically creates the appropriate dropdowns to manage a filter object.
+ *
+ * @param {Object} filter - An instance of SelectFilter
+ */
+.directive('rxSelectFilter', function () {
+    return {
+        restrict: 'E',
+        templateUrl: 'templates/rxSelectFilter.html',
+        scope: {
+            filter: '='
+        }
+    };
+})
+
+/**
+ * @ngdoc directive
+ * @name encore.ui.rxSelectFilter:rxMultiSelect
+ * @restrict E
+ * @description
+ * A multi-select dropdown with checkboxes for each option
+ *
+ * @param {string} ng-model The scope property that stores the value of the input
+ * @param {Array} [options] A list of the options for the dropdown
+ */
+.directive('rxMultiSelect', ["$document", "rxDOMHelper", function ($document, rxDOMHelper) {
+    return {
+        restrict: 'E',
+        templateUrl: 'templates/rxMultiSelect.html',
+        transclude: true,
+        require: ['rxMultiSelect', 'ngModel'],
+        scope: {
+            selected: '=ngModel',
+            options: '=?',
+        },
+        controller: ["$scope", function ($scope) {
+            if (_.isUndefined($scope.selected)) {
+                $scope.selected = [];
+            }
+
+            this.options = [];
+            this.addOption = function (option) {
+                if (option !== 'all') {
+                    this.options = _.union(this.options, [option]);
+                }
+            };
+
+            this.select = function (option) {
+                $scope.selected = option === 'all' ? _.clone(this.options) : _.union($scope.selected, [option]);
+            };
+            this.unselect = function (option) {
+                $scope.selected = option === 'all' ? [] : _.without($scope.selected, option);
+            };
+            this.isSelected = function (option) {
+                if (option === 'all') {
+                    return this.options.length === $scope.selected.length;
+                } else {
+                    return _.contains($scope.selected, option);
+                }
+            };
+
+            this.render = function () {
+                if (this.ngModelCtrl) {
+                    this.ngModelCtrl.$render();
+                }
+            };
+        }],
+        link: function (scope, element, attrs, controllers) {
+            var selectElement = rxDOMHelper.find(element, '.rx-multi-select')[0];
+
+            var documentClickHandler = function (event) {
+                if (event.target !== selectElement) {
+                    scope.listDisplayed = false;
+                    scope.$apply();
+                }
+            };
+
+            $document.on('click', documentClickHandler);
+            scope.$on('$destroy', function () {
+                $document.off('click', documentClickHandler);
+            });
+
+            scope.listDisplayed = false;
+
+            scope.toggleDisplay = function (event) {
+                if (event.target === selectElement) {
+                    scope.listDisplayed = !scope.listDisplayed;
+                } else {
+                    event.stopPropagation();
+                }
+            };
+
+            var selectCtrl = controllers[0];
+            var ngModelCtrl = controllers[1];
+
+            ngModelCtrl.$render = function () {
+                scope.preview = (function () {
+                    function getLabel (option) {
+                        var optionElement = rxDOMHelper.find(element, '[value="' + option + '"]');
+                        return optionElement.text().trim();
+                    }
+
+                    if (_.isEmpty(scope.selected)) {
+                        return 'None';
+                    } else if (scope.selected.length === 1) {
+                        return getLabel(scope.selected[0]) || scope.selected[0];
+                    } else if (scope.selected.length === selectCtrl.options.length - 1) {
+                        var option = _.first(_.difference(selectCtrl.options, scope.selected));
+                        return 'All except ' + getLabel(option) || scope.selected[0];
+                    } else if (scope.selected.length === selectCtrl.options.length) {
+                        return 'All Selected';
+                    } else {
+                        return scope.selected.length + ' Selected';
+                    }
+                })();
+            };
+
+            selectCtrl.ngModelCtrl = ngModelCtrl;
+        }
+    };
+}])
+
+/**
+ * @ngdoc directive
+ * @name encore.ui.rxSelectFilter:rxSelectOption
+ * @restrict E
+ * @description
+ * A single option for rxMultiSelect
+ *
+ * @param {string} value The value of the option. If no transcluded content is provided,
+ *                       the value will also be used as the option's text.
+ */
+.directive('rxSelectOption', ["rxDOMHelper", function (rxDOMHelper) {
+    return {
+        restrict: 'E',
+        templateUrl: 'templates/rxSelectOption.html',
+        transclude: true,
+        scope: {
+            value: '@'
+        },
+        require: '^^rxMultiSelect',
+        link: function (scope, element, attrs, selectCtrl) {
+            scope.transclusion = rxDOMHelper.find(element, '[ng-transclude] > *').length > 0;
+
+            scope.toggle = function () {
+                if (scope.isSelected) {
+                    selectCtrl.unselect(scope.value);
+                } else {
+                    selectCtrl.select(scope.value);
+                }
+            };
+
+            // The state of the input may be changed by the 'all' option.
+            scope.$watch(function () {
+                return selectCtrl.isSelected(scope.value);
+            }, function (isSelected) {
+                scope.isSelected = isSelected;
+            });
+
+            selectCtrl.addOption(scope.value);
+
+            selectCtrl.render();
+        }
+    };
+}]);
 
 angular.module('encore.ui.rxSortableColumn', [])
 /**
@@ -5557,7 +5859,7 @@ angular.module("templates/rxPermission.html", []).run(["$templateCache", functio
 
 angular.module("templates/detailsLayout.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/detailsLayout.html",
-    "<div class=\"page-actions\"></div><div class=\"pure-g clear\"><div class=\"pure-u-2-5\" ng-show=\"components.leftMetadata\"><div class=\"clear-left metadata left-metadata\"></div></div><div class=\"pure-u-3-5\" ng-show=\"components.rightMetadata\"><div class=\"metadata right-metadata\"></div></div></div><h2 class=\"clear-left title\">Header</h2><h2 class=\"title\">Sub-header</h2><div class=\"table-area\" ng-show=\"components.table\"></div><div class=\"pure-g columns clear\"><div class=\"pure-u-1-2\"><h2 class=\"title\">Sub-header 2</h2><table class=\"table\"><thead><th>Column 1</th></thead><tbody><tr><td>Cell 1</td></tr></tbody></table></div><div class=\"pure-u-1-2\"><h2 class=\"title\">Sub-header 3</h2><table class=\"table\"><thead><th>Header 1</th></thead><tbody><tr><td>Cell 1</td></tr></tbody></table></div></div>");
+    "<div class=\"page-actions\" layout-id=\"actions\" block-type=\"actions\"></div><div class=\"pure-g clear\"><div class=\"pure-u-2-5\"><div class=\"clear-left metadata\" layout-id=\"left-metadata\"></div></div><div class=\"pure-u-3-5\" layout-id=\"right-metadata\" ng-show=\"components.rightMetadata\"><div class=\"metadata right-metadata\"></div></div></div><div class=\"table-area\" ng-show=\"components.table\"></div><div ng-show=\"components.table1\"><div class=\"page-actions\" layout-id=\"table1-actions\" block-type=\"actions\"></div><div class=\"table-area\" layout-id=\"table1\" block-type=\"table\"></div></div><div ng-show=\"components.table2\"><div class=\"page-actions\" layout-id=\"table2-actions\" block-type=\"actions\"></div><div class=\"table-area\" layout-id=\"table2\" block-type=\"table\"></div></div><div ng-show=\"components.table3\"><div class=\"page-actions\" layout-id=\"table3-actions\" block-type=\"actions\"></div><div class=\"table-area\" layout-id=\"table3\" block-type=\"table\"></div></div><div class=\"pure-g columns clear\"><div class=\"pure-u-1-2\" ng-show=\"components.splitLeft\"><h2 class=\"title\">Sub-header 2</h2><table class=\"table\"><thead><th>Column 1</th></thead><tbody><tr><td>Cell 1</td></tr></tbody></table></div><div class=\"pure-u-1-2\" ng-show=\"components.splitRight\"><h2 class=\"title\">Sub-header 3</h2><table class=\"table\"><thead><th>Header 1</th></thead><tbody><tr><td>Cell 1</td></tr></tbody></table></div></div>");
 }]);
 
 angular.module("templates/rxBreadcrumbs.html", []).run(["$templateCache", function($templateCache) {
@@ -5568,6 +5870,11 @@ angular.module("templates/rxBreadcrumbs.html", []).run(["$templateCache", functi
 angular.module("templates/rxButton.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxButton.html",
     "<button type=\"submit\" class=\"button rx-button {{classes}}\" ng-disabled=\"toggle || disable\">{{ toggle ? toggleMsg : defaultMsg }}<div class=\"spinner\" ng-show=\"toggle\"><i class=\"pos1\"></i> <i class=\"pos2\"></i> <i class=\"pos3\"></i></div></button>");
+}]);
+
+angular.module("templates/rxCollapse.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/rxCollapse.html",
+    "<div class=\"collapse-container\"><div class=\"double-chevron-cell\" ng-class=\"{ expanded: isExpanded }\"><a class=\"double-chevron\" ng-click=\"isExpanded = !isExpanded\"></a></div><h3 class=\"rx-collapse-title title\">{{title}}</h3><div class=\"collapse-body\" ng-show=\"isExpanded\" ng-transclude></div></div>");
 }]);
 
 angular.module("templates/feedbackForm.html", []).run(["$templateCache", function($templateCache) {
@@ -5633,6 +5940,21 @@ angular.module("templates/rxPaginate.html", []).run(["$templateCache", function(
 angular.module("templates/rxSearchBox.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxSearchBox.html",
     "<div class=\"rxSearchBox-wrapper\"><input type=\"text\" class=\"rxSearchBox-input\" placeholder=\"{{rxPlaceholder}}\" ng-disabled=\"{{isDisabled}}\" ng-model=\"searchVal\"> <span class=\"rxSearchBox-clear\" ng-if=\"isClearable\" ng-click=\"clearSearch()\"><i class=\"rxSearchBox-clear-icon fa fa-fw fa-times-circle\"></i></span></div>");
+}]);
+
+angular.module("templates/rxMultiSelect.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/rxMultiSelect.html",
+    "<div class=\"rx-multi-select field-select\" ng-click=\"toggleDisplay($event)\">{{ preview }}<ul ng-show=\"listDisplayed\"><rx-select-option value=\"all\">Select All</rx-select-option><rx-select-option value=\"{{option}}\" ng-repeat=\"option in options\"></rx-select-option><div ng-if=\"!options\" ng-transclude></div></ul></div>");
+}]);
+
+angular.module("templates/rxSelectFilter.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/rxSelectFilter.html",
+    "<span class=\"rx-select-filter\"><span class=\"select-wrapper {{prop}}-filter\" ng-repeat=\"prop in filter.properties\"><span class=\"field-label\">{{ prop | titleize }}:</span><rx-multi-select ng-model=\"filter.selected[prop]\" options=\"filter.available[prop]\"></rx-multi-select></span></span>");
+}]);
+
+angular.module("templates/rxSelectOption.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/rxSelectOption.html",
+    "<li class=\"rx-select-option\"><label><input type=\"checkbox\" ng-model=\"isSelected\" ng-click=\"toggle()\"> <span ng-if=\"!transclusion\">{{value | titleize}}</span> <span ng-transclude></span></label></li>");
 }]);
 
 angular.module("templates/rxSortableColumn.html", []).run(["$templateCache", function($templateCache) {
