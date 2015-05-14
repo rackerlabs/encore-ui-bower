@@ -2,10 +2,10 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.15.1 - 2015-05-08
+ * Version: 1.16.0 - 2015-05-14
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSearchBox','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCheckbox','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
 angular.module('encore.ui.configs', [])
 .value('devicePaths', [
     { value: '/dev/xvdb', label: '/dev/xvdb' },
@@ -22,7 +22,7 @@ angular.module('encore.ui.configs', [])
     { value: '/dev/xvdo', label: '/dev/xvdo' },
     { value: '/dev/xvdp', label: '/dev/xvdp' }
 ])
-.constant('feedbackApi', '/api/feedback')
+.constant('feedbackApi', '/api/encore/feedback')
 .provider('routesCdnPath', function () {
 
     this.customURL = null;
@@ -2090,6 +2090,52 @@ angular.module('encore.ui.rxCharacterCount', [])
     };
 }]);
 
+angular.module('encore.ui.rxCheckbox', [])
+.directive('rxCheckbox', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            ngDisabled: '=?'
+        },
+        compile: function (tElement, tAttrs) {
+            // automatically set input type
+            tElement.attr('type', 'checkbox');
+            tAttrs.type = 'checkbox';
+
+            return function (scope, element, attrs) {
+                var disabledClass = 'rx-disabled';
+                var wrapper = angular.element('<div class="rxCheckbox"></div>');
+                var fakeCheckbox = '<div class="fake-checkbox">' +
+                        '<div class="tick fa fa-check"></div>' +
+                    '</div>';
+
+                element.wrap(wrapper);
+                element.after(fakeCheckbox);
+
+                // apply/remove disabled attribute so we can
+                // apply a CSS selector to style sibling elements
+                if (attrs.disabled) {
+                    wrapper.addClass(disabledClass);
+                }
+                if (_.has(attrs, 'ngDisabled')) {
+                    scope.$watch('ngDisabled', function (newVal) {
+                        if (newVal === true) {
+                            wrapper.addClass(disabledClass);
+                        } else {
+                            wrapper.removeClass(disabledClass);
+                        }
+                    });
+                }
+
+                // remove stylistic markup when element is destroyed
+                element.on('$destroy', function () {
+                    wrapper[0].remove();
+                });
+            };
+        }//compile
+    };
+});//rxCheckbox
+
 angular.module('encore.ui.rxCollapse', [])
 /**
  * @ngdoc directive
@@ -2308,7 +2354,7 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
 
     return container;
 }])
-.directive('rxFeedback', ["feedbackTypes", "$location", "rxFeedbackSvc", "rxScreenshotSvc", "rxNotify", function (feedbackTypes, $location, rxFeedbackSvc, rxScreenshotSvc, rxNotify) {
+.directive('rxFeedback', ["feedbackTypes", "$location", "rxFeedbackSvc", "rxScreenshotSvc", "rxNotify", "Session", function (feedbackTypes, $location, rxFeedbackSvc, rxScreenshotSvc, rxNotify, Session) {
     return {
         restrict: 'E',
         templateUrl: 'templates/rxFeedback.html',
@@ -2343,7 +2389,8 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
                 rxFeedbackSvc.api.save({
                     type: feedback.type.label,
                     description: feedback.description,
-                    screenshot: screenshot
+                    screenshot: screenshot,
+                    sso: feedback.sso
                 }, showSuccessMessage, function (httpResponse) {
                     showFailureMessage(httpResponse);
 
@@ -2353,6 +2400,8 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
 
             if (!_.isFunction(scope.sendFeedback)) {
                 scope.sendFeedback = function (feedback) {
+                    feedback.sso = Session.getUserId();
+
                     var root = document.querySelector('.rx-app');
 
                     // capture screenshot
@@ -3815,6 +3864,7 @@ angular.module('encore.ui.rxNotify', ['ngSanitize', 'ngAnimate'])
         loading: false,
         show: 'immediate',
         dismiss: 'next',
+        ondismiss: _.noop(),
         stack: 'page',
         repeat: true
     };
@@ -3936,6 +3986,12 @@ angular.module('encore.ui.rxNotify', ['ngSanitize', 'ngAnimate'])
     var dismiss = function (msg) {
         // remove message by id
         stacks[msg.stack] = _.reject(stacks[msg.stack], { 'id': msg.id });
+
+        if (_.isFunction(msg.ondismiss)) {
+            $interval(function () {
+                msg.ondismiss(msg);
+            }, 0, 1);
+        }
     };
 
     /*
@@ -4814,6 +4870,52 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
     };
 
 }]);
+
+angular.module('encore.ui.rxRadio', [])
+.directive('rxRadio', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            ngDisabled: '=?'
+        },
+        compile: function (tElement, tAttrs) {
+            // automatically set input type
+            tElement.attr('type', 'radio');
+            tAttrs.type = 'radio';
+
+            return function (scope, element, attrs) {
+                var disabledClass = 'rx-disabled';
+                var wrapper = angular.element('<div class="rxRadio"></div>');
+                var fakeRadio = '<div class="fake-radio">' +
+                        '<div class="tick"></div>' +
+                    '</div>';
+
+                element.wrap(wrapper);
+                element.after(fakeRadio);
+
+                // apply/remove disabled attribute so we can
+                // apply a CSS selector to style sibling elements
+                if (attrs.disabled) {
+                    wrapper.addClass(disabledClass);
+                }
+                if (_.has(attrs, 'ngDisabled')) {
+                    scope.$watch('ngDisabled', function (newVal) {
+                        if (newVal === true) {
+                            wrapper.addClass(disabledClass);
+                        } else {
+                            wrapper.removeClass(disabledClass);
+                        }
+                    });
+                }
+
+                // remove stylistic markup when element is destroyed
+                element.on('$destroy', function () {
+                    wrapper[0].remove();
+                });
+            };
+        }//compile
+    };
+});
 
 angular.module('encore.ui.rxSearchBox', [])
 .directive('rxSearchBox', function () {

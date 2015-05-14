@@ -2,10 +2,10 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.15.1 - 2015-05-08
+ * Version: 1.16.0 - 2015-05-14
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxSearchBox','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCheckbox','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
 angular.module('encore.ui.tpls', ['templates/rxAccountInfo.html','templates/rxAccountInfoBanner.html','templates/rxActionMenu.html','templates/rxActiveUrl.html','templates/rxAccountSearch.html','templates/rxAccountUsers.html','templates/rxApp.html','templates/rxAppNav.html','templates/rxAppNavItem.html','templates/rxAppSearch.html','templates/rxBillingSearch.html','templates/rxPage.html','templates/rxPermission.html','templates/detailsLayout.html','templates/rxBreadcrumbs.html','templates/rxButton.html','templates/rxCollapse.html','templates/feedbackForm.html','templates/rxFeedback.html','templates/rxFormFieldset.html','templates/rxFormItem.html','templates/rxFormOptionTable.html','templates/rxInfoPanel.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxModalFooters.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxPaginate.html','templates/rxSearchBox.html','templates/rxMultiSelect.html','templates/rxSelectFilter.html','templates/rxSelectOption.html','templates/rxSortableColumn.html','templates/rxStatusColumn.html','templates/rxToggleSwitch.html']);
 angular.module('encore.ui.configs', [])
 .value('devicePaths', [
@@ -23,7 +23,7 @@ angular.module('encore.ui.configs', [])
     { value: '/dev/xvdo', label: '/dev/xvdo' },
     { value: '/dev/xvdp', label: '/dev/xvdp' }
 ])
-.constant('feedbackApi', '/api/feedback')
+.constant('feedbackApi', '/api/encore/feedback')
 .provider('routesCdnPath', function () {
 
     this.customURL = null;
@@ -2091,6 +2091,52 @@ angular.module('encore.ui.rxCharacterCount', [])
     };
 }]);
 
+angular.module('encore.ui.rxCheckbox', [])
+.directive('rxCheckbox', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            ngDisabled: '=?'
+        },
+        compile: function (tElement, tAttrs) {
+            // automatically set input type
+            tElement.attr('type', 'checkbox');
+            tAttrs.type = 'checkbox';
+
+            return function (scope, element, attrs) {
+                var disabledClass = 'rx-disabled';
+                var wrapper = angular.element('<div class="rxCheckbox"></div>');
+                var fakeCheckbox = '<div class="fake-checkbox">' +
+                        '<div class="tick fa fa-check"></div>' +
+                    '</div>';
+
+                element.wrap(wrapper);
+                element.after(fakeCheckbox);
+
+                // apply/remove disabled attribute so we can
+                // apply a CSS selector to style sibling elements
+                if (attrs.disabled) {
+                    wrapper.addClass(disabledClass);
+                }
+                if (_.has(attrs, 'ngDisabled')) {
+                    scope.$watch('ngDisabled', function (newVal) {
+                        if (newVal === true) {
+                            wrapper.addClass(disabledClass);
+                        } else {
+                            wrapper.removeClass(disabledClass);
+                        }
+                    });
+                }
+
+                // remove stylistic markup when element is destroyed
+                element.on('$destroy', function () {
+                    wrapper[0].remove();
+                });
+            };
+        }//compile
+    };
+});//rxCheckbox
+
 angular.module('encore.ui.rxCollapse', [])
 /**
  * @ngdoc directive
@@ -2309,7 +2355,7 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
 
     return container;
 }])
-.directive('rxFeedback', ["feedbackTypes", "$location", "rxFeedbackSvc", "rxScreenshotSvc", "rxNotify", function (feedbackTypes, $location, rxFeedbackSvc, rxScreenshotSvc, rxNotify) {
+.directive('rxFeedback', ["feedbackTypes", "$location", "rxFeedbackSvc", "rxScreenshotSvc", "rxNotify", "Session", function (feedbackTypes, $location, rxFeedbackSvc, rxScreenshotSvc, rxNotify, Session) {
     return {
         restrict: 'E',
         templateUrl: 'templates/rxFeedback.html',
@@ -2344,7 +2390,8 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
                 rxFeedbackSvc.api.save({
                     type: feedback.type.label,
                     description: feedback.description,
-                    screenshot: screenshot
+                    screenshot: screenshot,
+                    sso: feedback.sso
                 }, showSuccessMessage, function (httpResponse) {
                     showFailureMessage(httpResponse);
 
@@ -2354,6 +2401,8 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
 
             if (!_.isFunction(scope.sendFeedback)) {
                 scope.sendFeedback = function (feedback) {
+                    feedback.sso = Session.getUserId();
+
                     var root = document.querySelector('.rx-app');
 
                     // capture screenshot
@@ -3816,6 +3865,7 @@ angular.module('encore.ui.rxNotify', ['ngSanitize', 'ngAnimate'])
         loading: false,
         show: 'immediate',
         dismiss: 'next',
+        ondismiss: _.noop(),
         stack: 'page',
         repeat: true
     };
@@ -3937,6 +3987,12 @@ angular.module('encore.ui.rxNotify', ['ngSanitize', 'ngAnimate'])
     var dismiss = function (msg) {
         // remove message by id
         stacks[msg.stack] = _.reject(stacks[msg.stack], { 'id': msg.id });
+
+        if (_.isFunction(msg.ondismiss)) {
+            $interval(function () {
+                msg.ondismiss(msg);
+            }, 0, 1);
+        }
     };
 
     /*
@@ -4815,6 +4871,52 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
     };
 
 }]);
+
+angular.module('encore.ui.rxRadio', [])
+.directive('rxRadio', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            ngDisabled: '=?'
+        },
+        compile: function (tElement, tAttrs) {
+            // automatically set input type
+            tElement.attr('type', 'radio');
+            tAttrs.type = 'radio';
+
+            return function (scope, element, attrs) {
+                var disabledClass = 'rx-disabled';
+                var wrapper = angular.element('<div class="rxRadio"></div>');
+                var fakeRadio = '<div class="fake-radio">' +
+                        '<div class="tick"></div>' +
+                    '</div>';
+
+                element.wrap(wrapper);
+                element.after(fakeRadio);
+
+                // apply/remove disabled attribute so we can
+                // apply a CSS selector to style sibling elements
+                if (attrs.disabled) {
+                    wrapper.addClass(disabledClass);
+                }
+                if (_.has(attrs, 'ngDisabled')) {
+                    scope.$watch('ngDisabled', function (newVal) {
+                        if (newVal === true) {
+                            wrapper.addClass(disabledClass);
+                        } else {
+                            wrapper.removeClass(disabledClass);
+                        }
+                    });
+                }
+
+                // remove stylistic markup when element is destroyed
+                element.on('$destroy', function () {
+                    wrapper[0].remove();
+                });
+            };
+        }//compile
+    };
+});
 
 angular.module('encore.ui.rxSearchBox', [])
 .directive('rxSearchBox', function () {
@@ -5859,7 +5961,7 @@ angular.module("templates/rxPermission.html", []).run(["$templateCache", functio
 
 angular.module("templates/detailsLayout.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/detailsLayout.html",
-    "<div class=\"page-actions\" layout-id=\"actions\" block-type=\"actions\"></div><div class=\"pure-g clear\"><div class=\"pure-u-2-5\"><div class=\"clear-left metadata\" layout-id=\"left-metadata\"></div></div><div class=\"pure-u-3-5\" layout-id=\"right-metadata\" ng-show=\"components.rightMetadata\"><div class=\"metadata right-metadata\"></div></div></div><div class=\"table-area\" ng-show=\"components.table\"></div><div ng-show=\"components.table1\"><div class=\"page-actions\" layout-id=\"table1-actions\" block-type=\"actions\"></div><div class=\"table-area\" layout-id=\"table1\" block-type=\"table\"></div></div><div ng-show=\"components.table2\"><div class=\"page-actions\" layout-id=\"table2-actions\" block-type=\"actions\"></div><div class=\"table-area\" layout-id=\"table2\" block-type=\"table\"></div></div><div ng-show=\"components.table3\"><div class=\"page-actions\" layout-id=\"table3-actions\" block-type=\"actions\"></div><div class=\"table-area\" layout-id=\"table3\" block-type=\"table\"></div></div><div class=\"pure-g columns clear\"><div class=\"pure-u-1-2\" ng-show=\"components.splitLeft\"><h2 class=\"title\">Sub-header 2</h2><table class=\"table\"><thead><th>Column 1</th></thead><tbody><tr><td>Cell 1</td></tr></tbody></table></div><div class=\"pure-u-1-2\" ng-show=\"components.splitRight\"><h2 class=\"title\">Sub-header 3</h2><table class=\"table\"><thead><th>Header 1</th></thead><tbody><tr><td>Cell 1</td></tr></tbody></table></div></div>");
+    "<div class=\"rx-auto-layout\"><div class=\"page-actions\" layout-id=\"actions\"></div><div><div class=\"clear-left metadata\" layout-id=\"left-metadata\" ng-show=\"components.leftMetadata\"></div><div class=\"metadata right-metadata\" layout-id=\"right-metadata\" ng-show=\"components.rightMetadata\"></div></div><div class=\"flexbox\"><div><div layout-id=\"left-table-title\"></div><div layout-id=\"left-table\"></div></div><div><div layout-id=\"right-table-title\"></div><div layout-id=\"right-table\"></div></div></div><div ng-show=\"components.table1\"><div class=\"page-actions\" layout-id=\"table1-actions\"></div><div class=\"table-area\" layout-id=\"table1\"></div></div><div ng-show=\"components.table2\"><div class=\"page-actions\" layout-id=\"table2-actions\"></div><div class=\"table-area\" layout-id=\"table2\"></div></div><div ng-show=\"components.table3\"><div class=\"page-actions\" layout-id=\"table3-actions\"></div><div class=\"table-area\" layout-id=\"table3\"></div></div><div ng-show=\"components.table4\"><div class=\"page-actions\" layout-id=\"table4-actions\"></div><div class=\"table-area\" layout-id=\"table4\"></div></div><div ng-show=\"components.table5\"><div class=\"page-actions\" layout-id=\"table5-actions\"></div><div class=\"table-area\" layout-id=\"table5\"></div></div><div class=\"pure-g columns clear\"><div class=\"pure-u-1-2\" ng-show=\"components.splitLeft\"><h2 class=\"title\">Sub-header 2</h2><table class=\"table\"><thead><th>Column 1</th></thead><tbody><tr><td>Cell 1</td></tr></tbody></table></div><div class=\"pure-u-1-2\" ng-show=\"components.splitRight\"><h2 class=\"title\">Sub-header 3</h2><table class=\"table\"><thead><th>Header 1</th></thead><tbody><tr><td>Cell 1</td></tr></tbody></table></div></div></div>");
 }]);
 
 angular.module("templates/rxBreadcrumbs.html", []).run(["$templateCache", function($templateCache) {

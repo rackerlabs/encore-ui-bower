@@ -275,6 +275,12 @@ https://github.com/yui/pure/blob/master/LICENSE.md
  *  960  <= size < 1200    Tablet-Landscape
  *  1200 <= size           PC
  */
+/*
+ * rxRadio
+ */
+/*
+ * rxCheckbox
+ */
 [layout] {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -4188,6 +4194,77 @@ thead th .btn-link:focus {
   color: #fc0f1d;
 }
 /*
+ * rxCheckbox
+ */
+.rxCheckbox {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  color: #ffffff;
+  background-color: #ffffff;
+  position: relative;
+}
+.rxCheckbox input[type="checkbox"],
+.rxCheckbox .fake-checkbox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+  outline: 0px;
+}
+.rxCheckbox .fake-checkbox {
+  box-sizing: border-box;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  color: transparent;
+}
+.rxCheckbox .fake-checkbox .tick {
+  flex: 0 0 auto;
+  font-size: 12px;
+}
+.rxCheckbox.rx-disabled .fake-checkbox {
+  background: #ffffff;
+}
+.rxCheckbox.rx-disabled input[type="checkbox"] {
+  cursor: not-allowed;
+}
+.rxCheckbox.rx-disabled input[type="checkbox"]:checked ~ .fake-checkbox {
+  background-color: #dededd;
+  border: none;
+}
+.rxCheckbox.rx-disabled + label {
+  color: #999999;
+}
+.rxCheckbox input[type="checkbox"] {
+  z-index: 1;
+  height: 110%;
+  width: 110%;
+  opacity: 0;
+  cursor: pointer;
+}
+.rxCheckbox input[type="checkbox"]:checked ~ .fake-checkbox {
+  background-color: #4881c0;
+  color: #ffffff;
+  border: none;
+}
+.rxCheckbox input[type="checkbox"].ng-invalid ~ .fake-checkbox {
+  background-color: #ffffff;
+  border: 2px solid #fc0f1d;
+}
+.rxCheckbox input[type="checkbox"].ng-invalid:checked ~ .fake-checkbox {
+  background-color: #fc0f1d;
+}
+/*
  * rxCollapse
  */
 rx-collapse {
@@ -5033,6 +5110,113 @@ tr.rx-floating-header:not(.rx-table-filter-row) {
 }
 .loading-row {
   padding: 10px;
+}
+/*
+ * rxRadio
+ */
+.rxRadio {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-color: #ffffff;
+  position: relative;
+}
+.rxRadio input[type="radio"],
+.rxRadio .fake-radio {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+  outline: 0px;
+}
+.rxRadio .fake-radio {
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  border-radius: 100%;
+  -moz-background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  overflow: hidden;
+  border: 1px solid #cccccc;
+  display: -moz-box;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row nowrap;
+  -moz-flex-flow: row nowrap;
+  -ms-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  justify-content: center;
+}
+.rxRadio .fake-radio .tick {
+  -webkit-flex: 0 0 auto;
+  -moz-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  border-radius: 100%;
+  -moz-background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  width: 60%;
+  height: 60%;
+  background-color: transparent;
+}
+.rxRadio.rx-disabled + label {
+  color: #999999;
+}
+.rxRadio input[type="radio"] {
+  z-index: 1;
+  height: 110%;
+  width: 110%;
+  opacity: 0;
+  cursor: pointer;
+}
+.rxRadio input[type="radio"]:checked + .fake-radio {
+  border-color: #4881c0;
+}
+.rxRadio input[type="radio"]:checked + .fake-radio .tick {
+  background-color: #4881c0;
+}
+.rxRadio input[type="radio"][disabled] {
+  cursor: not-allowed;
+}
+.rxRadio input[type="radio"][disabled] + .fake-radio {
+  border-color: #dededd;
+}
+.rxRadio input[type="radio"][disabled]:checked + .fake-radio .tick {
+  background: #dededd;
+}
+.rxRadio input[type="radio"].ng-invalid + .fake-radio {
+  border: 2px solid #fc0f1d;
+}
+.rxRadio input[type="radio"].ng-invalid + .fake-radio .tick {
+  width: 70%;
+  height: 70%;
+}
+.rxRadio input[type="radio"].ng-invalid:checked + .fake-radio .tick {
+  background: #fc0f1d;
 }
 /*
  * rxSearchBox

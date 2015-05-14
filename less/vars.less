@@ -112,6 +112,7 @@
 @inputPlaceholderColor: #a9a9a9;
 @inputBackground: #fff;
 @inputBackgroundDisabled: #dededd;
+@inputBackgroundError: #fc0f1d;
 @inputBorderRadius: 0px;
 @inputBorderColor: #ccc;
 @inputBorderColorInvalid: #ff2400;
@@ -156,3 +157,25 @@
 @layout-breakpoint-sm:     600px;
 @layout-breakpoint-md:     960px;
 @layout-breakpoint-lg:     1200px;
+
+/*
+ * rxRadio
+ */
+@rxRadio-size: 16px;
+@rxRadio-background-color: @inputBackground;
+@rxRadio-color-selected: #4881c0;
+@rxRadio-color-disabled: @inputBackgroundDisabled;
+@rxRadio-color-error: @inputBackgroundError;
+@rxRadio-tick-size: @rxRadio-size - 4px;
+
+/*
+ * rxCheckbox
+ */
+@rxCheckbox-size: 16px;
+@rxCheckbox-font-size: @rxCheckbox-size - 4px;
+@rxCheckbox-color: #fff;
+@rxCheckbox-background-color: @inputBackground;
+@rxCheckbox-color-selected: #fff;
+@rxCheckbox-background-color-selected: #4881c0;
+@rxCheckbox-border-color: #ccc;
+@rxCheckbox-border-color-selected: @rxCheckbox-background-color-selected;
