@@ -2,10 +2,10 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.16.0 - 2015-05-14
+ * Version: 1.17.0 - 2015-05-25
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCheckbox','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCheckbox','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
 angular.module('encore.ui.configs', [])
 .value('devicePaths', [
     { value: '/dev/xvdb', label: '/dev/xvdb' },
@@ -2672,8 +2672,11 @@ angular.module('encore.ui.rxMisc', ['debounce', 'encore.ui.rxSessionStorage'])
     // @param [storageBackend] - Optional, defaults to LocalStorage. If you pass in a storage object,
     //                           it must support both getObject(key) and setObject(key, val), matching
     //                           the operations of LocalStorage and SessionStorage
-    var StorageAPI = function (watchVar, storageBackend) {
-        this.key = 'rxAutoSave::' + $location.url();
+    // @param [keyShaping] - Optional, defaults to just returning the originally defined key value.
+    //                       It gets passed the original value defined ('rxAutoSave::' + $location.url())
+    //                       and is expected to return the new key that you wish to have used.
+    var StorageAPI = function (watchVar, storageBackend, keyShaping) {
+        this.key = keyShaping('rxAutoSave::' + $location.url());
         this.watchVar = watchVar;
         this.storage = storageBackend ? storageBackend : LocalStorage;
     };
@@ -2770,12 +2773,13 @@ angular.module('encore.ui.rxMisc', ['debounce', 'encore.ui.rxSessionStorage'])
             clearOnSuccess: undefined,
             exclude: [],
             ttl: 172800,
+            keyShaping: _.identity,
             storageBackend: LocalStorage
         });
 
         opts.ttl = opts.ttl * 1000; // convert back to milliseconds
         
-        var api = new StorageAPI(watchVar, opts.storageBackend);
+        var api = new StorageAPI(watchVar, opts.storageBackend, opts.keyShaping);
 
         var updateExpiryTime = function () {
             if (opts.ttl > 0) {
@@ -4947,6 +4951,56 @@ angular.module('encore.ui.rxSearchBox', [])
     };
 });
 
+angular.module('encore.ui.rxSelect', [])
+/**
+ *
+ * @ngdoc directive
+ * @name encore.ui.rxForm:rxSelect
+ * @restrict A
+ * @param {Boolean} [ngDisabled=""] - Angular expression that evaluates to a Boolean
+ * @description This directive is to apply styling to native `<select>` elements
+ */
+.directive('rxSelect', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            ngDisabled: '=?'
+        },
+        link: function (scope, element, attrs) {
+            var disabledClass = 'rx-disabled';
+            var wrapper = angular.element('<div class="rxSelect"></div>');
+            var fakeSelect = '<div class="fake-select">' +
+                    '<div class="select-trigger">' +
+                        '<i class="fa fa-fw fa-caret-down"></i>' +
+                    '</div>' +
+                '</div>';
+
+            element.wrap(wrapper);
+            element.after(fakeSelect);
+
+            // apply/remove disabled class so we have the ability to
+            // apply a CSS selector for purposes of style sibling elements
+            if (attrs.disabled) {
+                wrapper.addClass(disabledClass);
+            }
+            if (_.has(attrs, 'ngDisabled')) {
+                scope.$watch('ngDisabled', function (newVal) {
+                    if (newVal === true) {
+                        wrapper.addClass(disabledClass);
+                    } else {
+                        wrapper.removeClass(disabledClass);
+                    }
+                });
+            }
+
+            // remove stylistic markup when element is destroyed
+            element.on('$destroy', function () {
+                wrapper[0].remove();
+            });
+        }
+    };
+});
+
 angular.module('encore.ui.rxSelectFilter', ['encore.ui.rxMisc'])
 /**
  * @ngdoc filter
@@ -5892,3 +5946,50 @@ angular.module('encore.ui.rxUnauthorizedInterceptor', ['encore.ui.rxSession'])
 
         return svc;
     }]);
+
+angular.module('encore.ui.typeahead', ['ui.bootstrap'])
+.config(["$provide", function ($provide) {
+    $provide.decorator('typeaheadDirective', ["$delegate", "$filter", function ($delegate, $filter) {
+        var typeahead = $delegate[0];
+        var link = typeahead.link;
+        var lowercase = $filter('lowercase');
+
+        typeahead.compile = function () {
+            return function (scope, element, attrs, ngModelCtrl) {
+                link.apply(this, arguments);
+
+                if (/allowEmpty/.test(attrs.typeahead)) {
+                    var EMPTY_KEY = '$EMPTY$';
+
+                    // Wrap the directive's $parser such that the $viewValue
+                    // is not empty when the function runs.
+                    ngModelCtrl.$parsers.unshift(function ($viewValue) {
+                        var value = _.isEmpty($viewValue) ? EMPTY_KEY : $viewValue;
+                        // The directive will check this equality before populating the menu.
+                        ngModelCtrl.$viewValue = value;
+                        return value;
+                    });
+
+                    ngModelCtrl.$parsers.push(function ($viewValue) {
+                        return $viewValue === EMPTY_KEY ? '' : $viewValue;
+                    });
+
+                    element.on('click', function () {
+                        scope.$apply(function () {
+                            ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
+                        });
+                    });
+
+                    scope.allowEmpty = function (actual, expected) {
+                        if (expected === EMPTY_KEY) {
+                            return true;
+                        }
+                        return lowercase(actual).indexOf(lowercase(expected)) !== -1;
+                    };
+                }
+            };
+        };
+
+        return $delegate;
+    }]);
+}]);

@@ -166,7 +166,16 @@
 @rxRadio-color-selected: #4881c0;
 @rxRadio-color-disabled: @inputBackgroundDisabled;
 @rxRadio-color-error: @inputBackgroundError;
-@rxRadio-tick-size: @rxRadio-size - 4px;
+@rxRadio-border-width: 1px;
+@rxRadio-border-width-invalid: 2px;
+@rxRadio-tick-margin: 3px;
+@rxRadio-tick-margin-invalid: (@rxRadio-tick-margin - (@rxRadio-border-width-invalid - @rxRadio-border-width));
+/* Size and radius must be calculated. Percentages are not consistent across browsers. */
+@rxRadio-tick-size: (@rxRadio-size - (2 * @rxRadio-border-width) - (2 * @rxRadio-tick-margin));
+@rxRadio-tick-size-invalid: (@rxRadio-size - (2 * @rxRadio-border-width-invalid) - (2 * @rxRadio-tick-margin-invalid));
+@rxRadio-tick-border-radius: (@rxRadio-tick-size / 2);
+@rxRadio-tick-border-radius-invalid: (@rxRadio-tick-size-invalid / 2);
+
 
 /*
  * rxCheckbox
@@ -179,3 +188,23 @@
 @rxCheckbox-background-color-selected: #4881c0;
 @rxCheckbox-border-color: #ccc;
 @rxCheckbox-border-color-selected: @rxCheckbox-background-color-selected;
+
+/*
+ * rxSelect
+ */
+@rxSelect-min-width: @inputWidth;
+@rxSelect-min-height: 26px;
+@rxSelect-color: @inputColor;
+@rxSelect-background: #fff;
+@rxSelect-trigger-background: #fff;
+@rxSelect-color-disabled: @inputColorDisabled;
+@rxSelect-background-disabled: @inputBackgroundDisabled;
+@rxSelect-border-color: @inputBorderColor;
+@rxSelect-border-color-invalid: @inputBorderColorInvalid;
+@rxSelect-border-color-disabled: @inputBorderColor;
+@rxSelect-border-radius: @inputBorderRadius;
+@rxSelect-border-width: 1px;
+@rxSelect-trigger-width: @rxSelect-min-height;
+@rxSelect-trigger-color: #aaa;
+@rxSelect-trigger-color-invalid: @inputBorderColorInvalid;
+@rxSelect-trigger-color-disabled: @rxSelect-trigger-color;

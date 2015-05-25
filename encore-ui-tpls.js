@@ -2,10 +2,10 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.16.0 - 2015-05-14
+ * Version: 1.17.0 - 2015-05-25
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCheckbox','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCheckbox','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
 angular.module('encore.ui.tpls', ['templates/rxAccountInfo.html','templates/rxAccountInfoBanner.html','templates/rxActionMenu.html','templates/rxActiveUrl.html','templates/rxAccountSearch.html','templates/rxAccountUsers.html','templates/rxApp.html','templates/rxAppNav.html','templates/rxAppNavItem.html','templates/rxAppSearch.html','templates/rxBillingSearch.html','templates/rxPage.html','templates/rxPermission.html','templates/detailsLayout.html','templates/rxBreadcrumbs.html','templates/rxButton.html','templates/rxCollapse.html','templates/feedbackForm.html','templates/rxFeedback.html','templates/rxFormFieldset.html','templates/rxFormItem.html','templates/rxFormOptionTable.html','templates/rxInfoPanel.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxModalFooters.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxPaginate.html','templates/rxSearchBox.html','templates/rxMultiSelect.html','templates/rxSelectFilter.html','templates/rxSelectOption.html','templates/rxSortableColumn.html','templates/rxStatusColumn.html','templates/rxToggleSwitch.html']);
 angular.module('encore.ui.configs', [])
 .value('devicePaths', [
@@ -2673,8 +2673,11 @@ angular.module('encore.ui.rxMisc', ['debounce', 'encore.ui.rxSessionStorage'])
     // @param [storageBackend] - Optional, defaults to LocalStorage. If you pass in a storage object,
     //                           it must support both getObject(key) and setObject(key, val), matching
     //                           the operations of LocalStorage and SessionStorage
-    var StorageAPI = function (watchVar, storageBackend) {
-        this.key = 'rxAutoSave::' + $location.url();
+    // @param [keyShaping] - Optional, defaults to just returning the originally defined key value.
+    //                       It gets passed the original value defined ('rxAutoSave::' + $location.url())
+    //                       and is expected to return the new key that you wish to have used.
+    var StorageAPI = function (watchVar, storageBackend, keyShaping) {
+        this.key = keyShaping('rxAutoSave::' + $location.url());
         this.watchVar = watchVar;
         this.storage = storageBackend ? storageBackend : LocalStorage;
     };
@@ -2771,12 +2774,13 @@ angular.module('encore.ui.rxMisc', ['debounce', 'encore.ui.rxSessionStorage'])
             clearOnSuccess: undefined,
             exclude: [],
             ttl: 172800,
+            keyShaping: _.identity,
             storageBackend: LocalStorage
         });
 
         opts.ttl = opts.ttl * 1000; // convert back to milliseconds
         
-        var api = new StorageAPI(watchVar, opts.storageBackend);
+        var api = new StorageAPI(watchVar, opts.storageBackend, opts.keyShaping);
 
         var updateExpiryTime = function () {
             if (opts.ttl > 0) {
@@ -4948,6 +4952,56 @@ angular.module('encore.ui.rxSearchBox', [])
     };
 });
 
+angular.module('encore.ui.rxSelect', [])
+/**
+ *
+ * @ngdoc directive
+ * @name encore.ui.rxForm:rxSelect
+ * @restrict A
+ * @param {Boolean} [ngDisabled=""] - Angular expression that evaluates to a Boolean
+ * @description This directive is to apply styling to native `<select>` elements
+ */
+.directive('rxSelect', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            ngDisabled: '=?'
+        },
+        link: function (scope, element, attrs) {
+            var disabledClass = 'rx-disabled';
+            var wrapper = angular.element('<div class="rxSelect"></div>');
+            var fakeSelect = '<div class="fake-select">' +
+                    '<div class="select-trigger">' +
+                        '<i class="fa fa-fw fa-caret-down"></i>' +
+                    '</div>' +
+                '</div>';
+
+            element.wrap(wrapper);
+            element.after(fakeSelect);
+
+            // apply/remove disabled class so we have the ability to
+            // apply a CSS selector for purposes of style sibling elements
+            if (attrs.disabled) {
+                wrapper.addClass(disabledClass);
+            }
+            if (_.has(attrs, 'ngDisabled')) {
+                scope.$watch('ngDisabled', function (newVal) {
+                    if (newVal === true) {
+                        wrapper.addClass(disabledClass);
+                    } else {
+                        wrapper.removeClass(disabledClass);
+                    }
+                });
+            }
+
+            // remove stylistic markup when element is destroyed
+            element.on('$destroy', function () {
+                wrapper[0].remove();
+            });
+        }
+    };
+});
+
 angular.module('encore.ui.rxSelectFilter', ['encore.ui.rxMisc'])
 /**
  * @ngdoc filter
@@ -5894,6 +5948,53 @@ angular.module('encore.ui.rxUnauthorizedInterceptor', ['encore.ui.rxSession'])
         return svc;
     }]);
 
+angular.module('encore.ui.typeahead', ['ui.bootstrap'])
+.config(["$provide", function ($provide) {
+    $provide.decorator('typeaheadDirective', ["$delegate", "$filter", function ($delegate, $filter) {
+        var typeahead = $delegate[0];
+        var link = typeahead.link;
+        var lowercase = $filter('lowercase');
+
+        typeahead.compile = function () {
+            return function (scope, element, attrs, ngModelCtrl) {
+                link.apply(this, arguments);
+
+                if (/allowEmpty/.test(attrs.typeahead)) {
+                    var EMPTY_KEY = '$EMPTY$';
+
+                    // Wrap the directive's $parser such that the $viewValue
+                    // is not empty when the function runs.
+                    ngModelCtrl.$parsers.unshift(function ($viewValue) {
+                        var value = _.isEmpty($viewValue) ? EMPTY_KEY : $viewValue;
+                        // The directive will check this equality before populating the menu.
+                        ngModelCtrl.$viewValue = value;
+                        return value;
+                    });
+
+                    ngModelCtrl.$parsers.push(function ($viewValue) {
+                        return $viewValue === EMPTY_KEY ? '' : $viewValue;
+                    });
+
+                    element.on('click', function () {
+                        scope.$apply(function () {
+                            ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
+                        });
+                    });
+
+                    scope.allowEmpty = function (actual, expected) {
+                        if (expected === EMPTY_KEY) {
+                            return true;
+                        }
+                        return lowercase(actual).indexOf(lowercase(expected)) !== -1;
+                    };
+                }
+            };
+        };
+
+        return $delegate;
+    }]);
+}]);
+
 angular.module("templates/rxAccountInfo.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxAccountInfo.html",
     "<div class=\"rx-account-info\"><rx-info-panel panel-title=\"Account Info\"><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account Name</div><div class=\"account-info-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountName }}</a></div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account #</div><div class=\"account-info-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountNumber }}</a></div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Badges</div><div class=\"account-info-data\"><img ng-repeat=\"badge in badges\" ng-src=\"{{badge.url}}\" data-name=\"{{badge.name}}\" data-description=\"{{badge.description}}\" tooltip-html-unsafe=\"{{tooltipHtml(badge)}}\" tooltip-placement=\"bottom\"></div></div><div class=\"account-info-wrapper\" ng-transclude></div></rx-info-panel></div>");
@@ -5961,7 +6062,7 @@ angular.module("templates/rxPermission.html", []).run(["$templateCache", functio
 
 angular.module("templates/detailsLayout.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/detailsLayout.html",
-    "<div class=\"rx-auto-layout\"><div class=\"page-actions\" layout-id=\"actions\"></div><div><div class=\"clear-left metadata\" layout-id=\"left-metadata\" ng-show=\"components.leftMetadata\"></div><div class=\"metadata right-metadata\" layout-id=\"right-metadata\" ng-show=\"components.rightMetadata\"></div></div><div class=\"flexbox\"><div><div layout-id=\"left-table-title\"></div><div layout-id=\"left-table\"></div></div><div><div layout-id=\"right-table-title\"></div><div layout-id=\"right-table\"></div></div></div><div ng-show=\"components.table1\"><div class=\"page-actions\" layout-id=\"table1-actions\"></div><div class=\"table-area\" layout-id=\"table1\"></div></div><div ng-show=\"components.table2\"><div class=\"page-actions\" layout-id=\"table2-actions\"></div><div class=\"table-area\" layout-id=\"table2\"></div></div><div ng-show=\"components.table3\"><div class=\"page-actions\" layout-id=\"table3-actions\"></div><div class=\"table-area\" layout-id=\"table3\"></div></div><div ng-show=\"components.table4\"><div class=\"page-actions\" layout-id=\"table4-actions\"></div><div class=\"table-area\" layout-id=\"table4\"></div></div><div ng-show=\"components.table5\"><div class=\"page-actions\" layout-id=\"table5-actions\"></div><div class=\"table-area\" layout-id=\"table5\"></div></div><div class=\"pure-g columns clear\"><div class=\"pure-u-1-2\" ng-show=\"components.splitLeft\"><h2 class=\"title\">Sub-header 2</h2><table class=\"table\"><thead><th>Column 1</th></thead><tbody><tr><td>Cell 1</td></tr></tbody></table></div><div class=\"pure-u-1-2\" ng-show=\"components.splitRight\"><h2 class=\"title\">Sub-header 3</h2><table class=\"table\"><thead><th>Header 1</th></thead><tbody><tr><td>Cell 1</td></tr></tbody></table></div></div></div>");
+    "<div class=\"rx-auto-layout\"><div class=\"page-actions\" layout-id=\"actions\"></div><div><div class=\"clear-left metadata\" layout-id=\"left-metadata\" ng-show=\"components.leftMetadata\"></div><div class=\"metadata right-metadata\" layout-id=\"right-metadata\" ng-show=\"components.rightMetadata\"></div></div><div class=\"flexbox-tables\"><div ng-show=\"components.leftTable\" class=\"flexbox-item\"><h2 layout-id=\"left-table\" block-type=\"title\"></h2><div layout-id=\"left-table\"></div></div><div ng-show=\"components.rightTable\" class=\"flexbox-item\"><h2 layout-id=\"right-table\" block-type=\"title\"></h2><div layout-id=\"right-table\"></div></div></div><div ng-show=\"components.table1\"><div class=\"page-actions\" layout-id=\"table1-actions\"></div><div class=\"table-area\" layout-id=\"table1\"></div></div><div ng-show=\"components.table2\"><div class=\"page-actions\" layout-id=\"table2-actions\"></div><div class=\"table-area\" layout-id=\"table2\"></div></div><div ng-show=\"components.table3\"><div class=\"page-actions\" layout-id=\"table3-actions\"></div><div class=\"table-area\" layout-id=\"table3\"></div></div><div ng-show=\"components.table4\"><div class=\"page-actions\" layout-id=\"table4-actions\"></div><div class=\"table-area\" layout-id=\"table4\"></div></div><div ng-show=\"components.table5\"><div class=\"page-actions\" layout-id=\"table5-actions\"></div><div class=\"table-area\" layout-id=\"table5\"></div></div></div>");
 }]);
 
 angular.module("templates/rxBreadcrumbs.html", []).run(["$templateCache", function($templateCache) {
@@ -6001,7 +6102,7 @@ angular.module("templates/rxFormItem.html", []).run(["$templateCache", function(
 
 angular.module("templates/rxFormOptionTable.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxFormOptionTable.html",
-    "<div class=\"form-item\"><table class=\"table-striped option-table\" ng-show=\"data.length > 0 || emptyMessage \"><thead><tr><th></th><th ng-repeat=\"column in columns\" scope=\"col\">{{column.label}}</th></tr></thead><tr ng-repeat=\"row in data\" ng-class=\"{current: isCurrent(row.value), selected: isSelected(row.value, $index), disabled: checkDisabled(row)}\"><td class=\"option-table-input\" ng-switch=\"type\"><label><input type=\"radio\" ng-switch-when=\"radio\" id=\"{{fieldId}}_{{$index}}\" ng-model=\"$parent.$parent.model\" value=\"{{row.value}}\" name=\"{{fieldId}}\" ng-disabled=\"checkDisabled(row)\" rx-attributes=\"{'ng-required': required}\"> <input type=\"checkbox\" ng-switch-when=\"checkbox\" id=\"{{fieldId}}_{{$index}}\" ng-model=\"$parent.modelProxy[$index]\" ng-change=\"updateCheckboxes($parent.modelProxy[$index], $index)\" ng-required=\"checkRequired()\"></label></td><td ng-repeat=\"column in columns\"><label for=\"{{column.label}}_{{$parent.$index}}\"><span ng-bind-html=\"getContent(column, row)\"></span> <span ng-show=\"isCurrent(row.value)\">{{column.selectedLabel}}</span></label></td></tr><tr ng-if=\"data.length === 0 && emptyMessage\"><td colspan=\"{{columns.length + 1}}\" class=\"empty-data\">{{emptyMessage}}</td></tr></table></div>");
+    "<div class=\"form-item\"><table class=\"table-striped option-table\" ng-show=\"data.length > 0 || emptyMessage \"><thead><tr><th></th><th ng-repeat=\"column in columns\" scope=\"col\">{{column.label}}</th></tr></thead><tr ng-repeat=\"row in data\" ng-class=\"{current: isCurrent(row.value), selected: isSelected(row.value, $index), disabled: checkDisabled(row)}\"><td class=\"option-table-input\" ng-switch=\"type\"><div class=\"fillWrapper\"><label><div class=\"alignWrapper\"><input rx-radio ng-switch-when=\"radio\" id=\"{{fieldId}}_{{$index}}\" ng-model=\"$parent.$parent.model\" value=\"{{row.value}}\" name=\"{{fieldId}}\" ng-disabled=\"checkDisabled(row)\" rx-attributes=\"{'ng-required': required}\"> <input rx-checkbox ng-switch-when=\"checkbox\" id=\"{{fieldId}}_{{$index}}\" ng-model=\"$parent.modelProxy[$index]\" ng-change=\"updateCheckboxes($parent.modelProxy[$index], $index)\" ng-required=\"checkRequired()\"></div></label></div></td><td ng-repeat=\"column in columns\" data-column=\"{{column.label}}\"><div class=\"fillWrapper\"><label for=\"{{fieldId}}_{{$parent.$index}}\"><div class=\"alignWrapper\"><span ng-bind-html=\"getContent(column, row)\"></span> <span ng-show=\"isCurrent(row.value)\">{{column.selectedLabel}}</span></div></label></div></td></tr><tr ng-if=\"data.length === 0 && emptyMessage\"><td colspan=\"{{columns.length + 1}}\" class=\"empty-data\">{{emptyMessage}}</td></tr></table></div>");
 }]);
 
 angular.module("templates/rxInfoPanel.html", []).run(["$templateCache", function($templateCache) {
