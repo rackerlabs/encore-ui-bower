@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.17.0 - 2015-05-25
+ * Version: 1.17.1 - 2015-05-29
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCheckbox','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
@@ -3132,7 +3132,7 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
 
                 var inputField = el[0].querySelector(inputSelectors);
 
-                scope.isTextArea = _.has(inputField, 'type') && inputField.type === 'textarea';
+                scope.isTextArea = _.isObject(inputField) && inputField.type === 'textarea';
 
                 // make sure an input field is found
                 if (!_.isObject(inputField)) {
@@ -3384,7 +3384,7 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
  * getSelectedOptionForTabSet(tabsetId)
  * </pre>
  */
-.factory('rxFormUtils', function () {
+.factory('rxFormUtils', ["$document", function ($document) {
 
     var rxFormUtils = {};
 
@@ -3394,8 +3394,9 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
     // @returns {object} The rowId of the selected option
     rxFormUtils.getSelectedOptionForTable = function (tableId) {
         var selectedRow;
-        var row = document.querySelector('rx-form-option-table#' + tableId + ' .selected input');
-        if (!_.isEmpty(row)) {
+        var row = $document[0].querySelector('rx-form-option-table#' + tableId + ' .selected input');
+
+        if (_.isObject(row) && 'value' in row) {
             selectedRow = { rowId: row.value };
         }
         return selectedRow;
@@ -3408,7 +3409,7 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
         var selectedOption;
         var xpathToTable = '//div[@id="' + tabsetId +
             '"]//tr[contains(@class, "selected")]//ancestor::rx-form-option-table';
-        var result = document.evaluate(xpathToTable, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
+        var result = $document[0].evaluate(xpathToTable, $document[0], null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
         if (result.singleNodeValue) {
             var table = result.singleNodeValue;
             var fieldId = table.getAttribute('field-id');
@@ -3419,7 +3420,7 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
     };
 
     return rxFormUtils;
-});
+}]);
 
 angular.module('encore.ui.rxInfoPanel', [])
 /**

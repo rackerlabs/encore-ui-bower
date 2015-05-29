@@ -11216,6 +11216,9 @@ table td.expanded .double-chevron::after {
   background-color: #ffffff;
   margin-top: 3px;
 }
+.expanded-container .expanded-content .metadata {
+  padding: 5px 10px;
+}
 .title {
   font-size: 18px;
   margin: 1em 0;
@@ -13648,14 +13651,10 @@ rx-search-box .rxSearchBox-wrapper .rxSearchBox-clear .rxSearchBox-clear-icon {
  * rxStatusColumn
  */
 th.rx-status-header {
-  width: 20px;
-  padding: 0;
+  width: 55px;
 }
-th.rx-status-header rx-sortable-column .sort-action {
-  color: transparent;
-}
-th.rx-status-header rx-sortable-column .sort-icon {
-  margin: -9px 14px;
+td.rx-status-column {
+  text-align: center;
 }
 td.rx-status-column i {
   padding-left: 2px;
