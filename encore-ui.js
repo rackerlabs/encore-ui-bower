@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.17.1 - 2015-05-29
+ * Version: 1.18.0 - 2015-06-01
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCheckbox','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
@@ -1204,6 +1204,27 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
             // Remove the title attribute, as it will cause a popup to appear when hovering over page content
             // @see https://github.com/rackerlabs/encore-ui/issues/251
             element.removeAttr('title');
+
+            var pageDiv = element[0];
+            var pageBodyDiv = pageDiv.querySelector('.page-content');
+
+            // Move the specified attribute from rxPage div to page-body div
+            function moveLayoutAttrib (attr) {
+
+                // Only apply to attributes that start with 'layout'
+                if (!_.isString(attr.name) || !attr.name.match(/^layout/)) {
+                    return;
+                }
+
+                pageBodyDiv.setAttribute(attr.name, pageDiv.getAttribute(attr.name));
+                pageDiv.removeAttribute(attr.name);
+            }
+
+            // Relocate all layout attributes
+            var i = pageDiv.attributes.length;
+            while (i--) {
+                moveLayoutAttrib(pageDiv.attributes[i]);
+            }
         },
         controller: ["$scope", "rxPageTitle", function ($scope, rxPageTitle) {
             $scope.$watch('title', function () {
