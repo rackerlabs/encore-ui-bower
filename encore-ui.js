@@ -2,10 +2,10 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.18.1 - 2015-06-02
+ * Version: 1.19.0 - 2015-06-05
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxPermission','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCheckbox','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCheckbox','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxFieldName','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
 angular.module('encore.ui.configs', [])
 .value('devicePaths', [
     { value: '/dev/xvdb', label: '/dev/xvdb' },
@@ -999,8 +999,109 @@ angular.module('encore.ui.rxSession', ['encore.ui.rxLocalStorage'])
         return session;
     }]);
 
+angular.module('encore.ui.rxPermission', ['encore.ui.rxSession'])
+    /**
+    *
+    * @ngdoc service
+    * @name encore.ui.rxPermission:Permission
+    * @description
+    * Simple service for accessing roles and permissions for a user.
+    * @requires encore.ui.rxSession:Session
+    *
+    * @example
+    * <pre>
+    * Permission.getRoles() //returns an array of roles for a user
+    * Permission.hasRole(role) //returns true/false if user has specified role
+    * </pre>
+    */
+    .factory('Permission', ["Session", function (Session) {
+        var permissionSvc = {};
+        
+        var cleanRoles = function (roles) {
+            return roles.split(',').map(function (r) {
+                return r.trim();
+            });
+        };
+
+        var userRoles = function () {
+            return _.pluck(permissionSvc.getRoles(), 'name');
+        };
+
+        /*
+         * @description Takes a function and a list of roles, and returns the
+         * result of calling that function with `roles`, and comparing to userRoles()
+         * @param {function} fn - Comparison function to use. _.any, _.all, etc.
+         * @param {array} roles - List of desired roles
+         */
+        var checkRoles = function (roles, fn) {
+            // Some code expects to pass a comma-delimited string
+            // here, so turn that into an array
+            if (_.isString(roles)) {
+                roles = cleanRoles(roles);
+            }
+
+            var allUserRoles = userRoles();
+            return fn(roles, function (role) {
+                return _.contains(allUserRoles, role);
+            });
+        };
+
+        /*
+         * @description Returns a list of all roles associated to the user
+         */
+        permissionSvc.getRoles = function () {
+            var token = Session.getToken();
+            return (token && token.access && token.access.user && token.access.user.roles) ?
+                token.access.user.roles : [];
+        };
+
+        /*
+         * @description Returns whether or not the user has at least one of `roles`
+         * @param {array} roles - List of roles to check against
+         */
+        permissionSvc.hasRole = function (roles) {
+            return checkRoles(roles, _.any);
+        };
+
+        /*
+         * @description Returns whether or not the user has _every_ role in `roles`
+         * @param {array} roles - List of roles to check against
+         */
+        permissionSvc.hasAllRoles = function (roles) {
+            return checkRoles(roles, _.all);
+        };
+
+        return permissionSvc;
+    }])
+    /**
+    * @ngdoc directive
+    * @name encore.ui.rxPermission:rxPermission
+    * @restrict E
+    * @description
+    * Simple directive which will show or hide content if user specified role.
+    * @requires encore.ui.rxPermission:Permission
+    *
+    * @scope
+    * @param {String} role - Name of required role.
+    */
+    .directive('rxPermission', function () {
+        return {
+            restrict: 'E',
+            transclude: true,
+            scope: {
+                role: '@'
+            },
+            templateUrl: 'templates/rxPermission.html',
+            controller: ["$scope", "Permission", function ($scope, Permission) {
+                $scope.hasRole = function (roles) {
+                    return Permission.hasRole(roles);
+                };
+            }]
+        };
+    });
+
 angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnvironment', 'ngSanitize',
-    'ngRoute', 'cfp.hotkeys', 'encore.ui.rxSession', 'encore.ui.rxLocalStorage'])
+    'ngRoute', 'cfp.hotkeys', 'encore.ui.rxSession', 'encore.ui.rxLocalStorage', 'encore.ui.rxPermission'])
 /**
 * @ngdoc service
 * @name encore.ui.rxApp:encoreRoutes
@@ -1323,16 +1424,40 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
         scope: {
             item: '='
         },
-        controller: ["$scope", "$location", "rxVisibility", function ($scope, $location, rxVisibility) {
+        controller: ["$scope", "$location", "rxVisibility", "Permission", function ($scope, $location, rxVisibility, Permission) {
             // provide `route` as a scope property so that links can tie into them
             $scope.route = $route;
 
-            $scope.isVisible = function (visibility) {
+            var roleCheck = function (roles) {
+                if (_.isUndefined(roles)) {
+                    return true;
+                }
+
+                if (!_.isUndefined(roles.any)) {
+                    return Permission.hasRole(roles.any);
+                }
+                
+                if (!_.isUndefined(roles.all)) {
+                    return Permission.hasAllRoles(roles.all);
+                }
+
+                return false;
+            };
+
+            /*
+             * @description Determines whether or not a nav item should be displayed, based on `visibility`
+             * criteria and `roles` criteria
+             * @param [visibility] - Can be an expression, a function, an array (using format below) to
+             *                     determine visibility
+             * @param {object} [roles] - An object with a format { 'any': ['role1', 'role2'] } or
+             *                           { 'all': ['role1', 'role2'] }
+             */
+            $scope.isVisible = function (visibility, roles) {
                 var locals = {
                     location: $location
                 };
-                if (_.isUndefined(visibility)) {
-                    // if undefined, default to true
+                if (_.isUndefined(visibility) && _.isUndefined(roles)) {
+                    // no visibility or role criteria specified, so default to true
                     return true;
                 }
 
@@ -1350,8 +1475,18 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
                     // in $scope.$eval
                     visibility = rxVisibility.getMethod(methodName) || 'false';
                 }
+                
+                // If `visibility` isn't defined, then default it to `true` (i.e. visible)
+                var visible = _.isUndefined(visibility) ? true : $scope.$eval(visibility, locals),
+                    hasRole = true;
 
-                return $scope.$eval(visibility, locals);
+                // Only do a roleCheck() if `visible` is true. If we failed the visibility test,
+                // then we must ensure the nav item is not displayed, regardless of the roles
+                if (visible && _.isObject(roles)) {
+                    hasRole = roleCheck(roles);
+                }
+
+                return visible && hasRole;
             };
 
             $scope.toggleNav = function (ev, href) {
@@ -1772,73 +1907,6 @@ angular.module('encore.ui.rxIdentity', ['ngResource'])
         return authSvc;
     }]);
 
-angular.module('encore.ui.rxPermission', ['encore.ui.rxSession'])
-    /**
-    *
-    * @ngdoc service
-    * @name encore.ui.rxPermission:Permission
-    * @description
-    * Simple service for accessing roles and permissions for a user.
-    * @requires encore.ui.rxSession:Session
-    *
-    * @example
-    * <pre>
-    * Permission.getRoles() //returns an array of roles for a user
-    * Permission.hasRole(role) //returns true/false if user has specified role
-    * </pre>
-    */
-    .factory('Permission', ["Session", function (Session) {
-        var permissionSvc = {};
-        
-        permissionSvc.getRoles = function () {
-            var token = Session.getToken();
-            return (token && token.access && token.access.user && token.access.user.roles) ?
-                token.access.user.roles : [];
-        };
-
-        permissionSvc.hasRole = function (roles) {
-            // Replace any spaces surrounded the comma delimeter
-            roles = roles.split(',').map(function (r) {
-                return r.trim();
-            });
-            
-            // Get all the role names from the session and retrieve their names
-            var userRoles = _.pluck(this.getRoles(), 'name');
-            // Find the common roles between what's been passed in, and the session
-            var commonRoles = _.intersection(userRoles, roles);
-            // if the common roles list is not empty, then we have the expected roles
-            return !_.isEmpty(commonRoles);
-        };
-
-        return permissionSvc;
-    }])
-    /**
-    * @ngdoc directive
-    * @name encore.ui.rxPermission:rxPermission
-    * @restrict E
-    * @description
-    * Simple directive which will show or hide content if user specified role.
-    * @requires encore.ui.rxPermission:Permission
-    *
-    * @scope
-    * @param {String} role - Name of required role.
-    */
-    .directive('rxPermission', function () {
-        return {
-            restrict: 'E',
-            transclude: true,
-            scope: {
-                role: '@'
-            },
-            templateUrl: 'templates/rxPermission.html',
-            controller: ["$scope", "Permission", function ($scope, Permission) {
-                $scope.hasRole = function (roles) {
-                    return Permission.hasRole(roles);
-                };
-            }]
-        };
-    });
-
 angular.module('encore.ui.rxAuth',
     ['encore.ui.rxIdentity', 'encore.ui.rxSession', 'encore.ui.rxPermission'])
    /**
@@ -2125,32 +2193,34 @@ angular.module('encore.ui.rxCheckbox', [])
 
             return function (scope, element, attrs) {
                 var disabledClass = 'rx-disabled';
-                var wrapper = angular.element('<div class="rxCheckbox"></div>');
+                var wrapper = '<div class="rxCheckbox"></div>';
                 var fakeCheckbox = '<div class="fake-checkbox">' +
                         '<div class="tick fa fa-check"></div>' +
                     '</div>';
 
                 element.wrap(wrapper);
                 element.after(fakeCheckbox);
+                // must be defined AFTER the element is wrapped
+                var parent = element.parent();
 
                 // apply/remove disabled attribute so we can
                 // apply a CSS selector to style sibling elements
                 if (attrs.disabled) {
-                    wrapper.addClass(disabledClass);
+                    parent.addClass(disabledClass);
                 }
                 if (_.has(attrs, 'ngDisabled')) {
                     scope.$watch('ngDisabled', function (newVal) {
                         if (newVal === true) {
-                            wrapper.addClass(disabledClass);
+                            parent.addClass(disabledClass);
                         } else {
-                            wrapper.removeClass(disabledClass);
+                            parent.removeClass(disabledClass);
                         }
                     });
                 }
 
                 // remove stylistic markup when element is destroyed
                 element.on('$destroy', function () {
-                    wrapper[0].remove();
+                    parent[0].remove();
                 });
             };
         }//compile
@@ -2438,6 +2508,18 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
         }
     };
 }]);
+
+angular.module('encore.ui.rxFieldName', [])
+.directive('rxFieldName', function () {
+    return {
+        restrict: 'E',
+        transclude: true,
+        scope: {
+            ngRequired: '=?'
+        },
+        templateUrl: 'templates/rxFieldName.html'
+    };
+});
 
 /*jshint proto:true*/
 angular.module('encore.ui.rxSessionStorage', [])
@@ -3270,7 +3352,7 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
             emptyMessage: '@',
             disableFn: '&?'
         },
-        controller: ["$scope", "$element", function ($scope, $element) {
+        link: function (scope, element) {
             var determineMatch = function (val1, val2) {
                 if (_.isUndefined(val1) || _.isUndefined(val2)) {
                     return false;
@@ -3279,28 +3361,32 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
                 return (val1 == val2);
             };
 
-            $scope.checkDisabled = function (row) {
-                return $scope.disableFn({ tableId: $element.attr('id'), fieldId: $scope.fieldId, rowId: row.id });
+            scope.checkDisabled = function (row) {
+                return scope.disableFn({
+                    tableId: element.attr('id'),
+                    fieldId: scope.fieldId,
+                    rowId: row.id
+                });
             };
 
             // Determines whether the row is the initial choice
-            $scope.isCurrent = function (val) {
-                return determineMatch(val, $scope.selected);
+            scope.isCurrent = function (val) {
+                return determineMatch(val, scope.selected);
             };
 
             // Determines whether the row is selected
-            $scope.isSelected = function (val, idx) {
+            scope.isSelected = function (val, idx) {
                 // row can only be 'selected' if it's not the 'current' value
-                if (!$scope.isCurrent(val)) {
-                    if ($scope.type == 'radio') {
-                        return (val == $scope.model);
-                    } else if ($scope.type == 'checkbox') {
+                if (!scope.isCurrent(val)) {
+                    if (scope.type == 'radio') {
+                        return (val == scope.model);
+                    } else if (scope.type == 'checkbox') {
                         if (!_.isUndefined(val)) {
                             // if 'val' is defined, run it through our custom matcher
-                            return determineMatch(val, $scope.model[idx]);
+                            return determineMatch(val, scope.model[idx]);
                         } else {
                             // otherwise, just return the value of the model and angular can decide
-                            return $scope.modelProxy[idx];
+                            return scope.modelProxy[idx];
                         }
                     }
                 }
@@ -3313,9 +3399,9 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
              * Returns a true value if required="true" and there is at least one checkbox
              * checked (based on $scope.values).
              */
-            $scope.checkRequired = function () {
-                if (_.isBoolean($scope.required)) {
-                    return $scope.required && boxesChecked === 0;
+            scope.checkRequired = function () {
+                if (_.isBoolean(scope.required)) {
+                    return scope.required && boxesChecked === 0;
                 } else {
                     return false;
                 }
@@ -3328,8 +3414,8 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
             // an array of `true` / `false` values. We then have to take care
             // of updating the actual $scope.model ourselves in `updateCheckboxes`
             // with the correct ngTrueValue/ngFalseValue values
-            $scope.modelProxy = _.map($scope.model, function (val, index) {
-                var data = $scope.data[index];
+            scope.modelProxy = _.map(scope.model, function (val, index) {
+                var data = scope.data[index];
                 var trueValue = _.has(data, 'value') ? data.value : true;
                 return val === trueValue;
             });
@@ -3338,7 +3424,7 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
             // need an array to store the indexes of checked boxes. ng-required is
             // specifically set if required is true and the array is empty.
             var boxesChecked = 0;
-            _.forEach($scope.modelProxy, function (el) {
+            _.forEach(scope.modelProxy, function (el) {
                 if (el) {
                     boxesChecked += 1;
                 }
@@ -3349,12 +3435,12 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
              * @param {String|boolean} val - The checkbox value (Boolean, ng-true-value or ng-false-value per row)
              * @param {Integer} index - Array index of the checkbox element marked true
              */
-            $scope.updateCheckboxes = function (val, index) {
-                var data = $scope.data[index];
+            scope.updateCheckboxes = function (val, index) {
+                var data = scope.data[index];
                 var trueValue = _.has(data, 'value') ? data.value : true;
                 var falseValue = _.has(data, 'falseValue') ? data.falseValue : false;
 
-                $scope.model[index] = val ? trueValue : falseValue;
+                scope.model[index] = val ? trueValue : falseValue;
 
                 if (val) {
                     boxesChecked += 1;
@@ -3368,7 +3454,7 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
              * @param {Object} column - Column whose `key` is an Angular Expression or HTML to be compiled
              * @param {Object} row - Data object with data to be used against the expression
              */
-            $scope.getContent = function (column, row) {
+            scope.getContent = function (column, row) {
                 var expr = column.key;
                 // If no expression exit out;
                 if (!expr) {
@@ -3384,8 +3470,7 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
                 var outputHTML = $interpolate(expr)(row);
                 return outputHTML;
             };
-        }]
-
+        }
     };
 }])
 /**
@@ -4911,32 +4996,34 @@ angular.module('encore.ui.rxRadio', [])
 
             return function (scope, element, attrs) {
                 var disabledClass = 'rx-disabled';
-                var wrapper = angular.element('<div class="rxRadio"></div>');
+                var wrapper = '<div class="rxRadio"></div>';
                 var fakeRadio = '<div class="fake-radio">' +
                         '<div class="tick"></div>' +
                     '</div>';
 
                 element.wrap(wrapper);
                 element.after(fakeRadio);
+                // must be defined AFTER the element is wrapped
+                var parent = element.parent();
 
                 // apply/remove disabled attribute so we can
                 // apply a CSS selector to style sibling elements
                 if (attrs.disabled) {
-                    wrapper.addClass(disabledClass);
+                    parent.addClass(disabledClass);
                 }
                 if (_.has(attrs, 'ngDisabled')) {
                     scope.$watch('ngDisabled', function (newVal) {
                         if (newVal === true) {
-                            wrapper.addClass(disabledClass);
+                            parent.addClass(disabledClass);
                         } else {
-                            wrapper.removeClass(disabledClass);
+                            parent.removeClass(disabledClass);
                         }
                     });
                 }
 
                 // remove stylistic markup when element is destroyed
                 element.on('$destroy', function () {
-                    wrapper[0].remove();
+                    parent[0].remove();
                 });
             };
         }//compile
@@ -4990,7 +5077,7 @@ angular.module('encore.ui.rxSelect', [])
         },
         link: function (scope, element, attrs) {
             var disabledClass = 'rx-disabled';
-            var wrapper = angular.element('<div class="rxSelect"></div>');
+            var wrapper = '<div class="rxSelect"></div>';
             var fakeSelect = '<div class="fake-select">' +
                     '<div class="select-trigger">' +
                         '<i class="fa fa-fw fa-caret-down"></i>' +
@@ -4999,31 +5086,33 @@ angular.module('encore.ui.rxSelect', [])
 
             element.wrap(wrapper);
             element.after(fakeSelect);
+            // must be defined AFTER the element is wrapped
+            var parent = element.parent();
 
             // apply/remove disabled class so we have the ability to
             // apply a CSS selector for purposes of style sibling elements
-            if (attrs.disabled) {
-                wrapper.addClass(disabledClass);
+            if (_.has(attrs, 'disabled')) {
+                parent.addClass(disabledClass);
             }
             if (_.has(attrs, 'ngDisabled')) {
                 scope.$watch('ngDisabled', function (newVal) {
                     if (newVal === true) {
-                        wrapper.addClass(disabledClass);
+                        parent.addClass(disabledClass);
                     } else {
-                        wrapper.removeClass(disabledClass);
+                        parent.removeClass(disabledClass);
                     }
                 });
             }
 
             // remove stylistic markup when element is destroyed
             element.on('$destroy', function () {
-                wrapper[0].remove();
+                parent[0].remove();
             });
         }
     };
 });
 
-angular.module('encore.ui.rxSelectFilter', ['encore.ui.rxMisc'])
+angular.module('encore.ui.rxSelectFilter', ['encore.ui.rxMisc', 'encore.ui.rxSelect'])
 /**
  * @ngdoc filter
  * @name encore.ui.rxSelectFilter:Apply
@@ -5124,7 +5213,7 @@ angular.module('encore.ui.rxSelectFilter', ['encore.ui.rxMisc'])
  * @param {string} ng-model The scope property that stores the value of the input
  * @param {Array} [options] A list of the options for the dropdown
  */
-.directive('rxMultiSelect', ["$document", "rxDOMHelper", function ($document, rxDOMHelper) {
+.directive('rxMultiSelect', ["$document", "rxDOMHelper", "rxSelectDirective", function ($document, rxDOMHelper, rxSelectDirective) {
     return {
         restrict: 'E',
         templateUrl: 'templates/rxMultiSelect.html',
@@ -5167,10 +5256,12 @@ angular.module('encore.ui.rxSelectFilter', ['encore.ui.rxMisc'])
             };
         }],
         link: function (scope, element, attrs, controllers) {
-            var selectElement = rxDOMHelper.find(element, '.rx-multi-select')[0];
+            rxSelectDirective[0].link.apply(this, arguments);
+
+            var previewElement = rxDOMHelper.find(element, '.preview')[0];
 
             var documentClickHandler = function (event) {
-                if (event.target !== selectElement) {
+                if (event.target !== previewElement) {
                     scope.listDisplayed = false;
                     scope.$apply();
                 }
@@ -5184,7 +5275,7 @@ angular.module('encore.ui.rxSelectFilter', ['encore.ui.rxMisc'])
             scope.listDisplayed = false;
 
             scope.toggleDisplay = function (event) {
-                if (event.target === selectElement) {
+                if (event.target === previewElement) {
                     scope.listDisplayed = !scope.listDisplayed;
                 } else {
                     event.stopPropagation();

@@ -108,11 +108,12 @@
 @inputLabelWidth: 110px;
 @inputColor: @appTextColor;
 @inputColorDisabled: #999;
+@inputColorError: #fc0f1d;
 @inputLabelColor: @subduedTitle;
 @inputPlaceholderColor: #a9a9a9;
 @inputBackground: #fff;
 @inputBackgroundDisabled: #dededd;
-@inputBackgroundError: #fc0f1d;
+@inputBackgroundError: @inputColorError;
 @inputBorderRadius: 0px;
 @inputBorderColor: #ccc;
 @inputBorderColorInvalid: #ff2400;
@@ -192,8 +193,8 @@
 /*
  * rxSelect
  */
-@rxSelect-min-width: @inputWidth;
-@rxSelect-min-height: 26px;
+@rxSelect-min-width: 60px;
+@rxSelect-height: 26px;
 @rxSelect-color: @inputColor;
 @rxSelect-background: #fff;
 @rxSelect-trigger-background: #fff;
@@ -204,7 +205,13 @@
 @rxSelect-border-color-disabled: @inputBorderColor;
 @rxSelect-border-radius: @inputBorderRadius;
 @rxSelect-border-width: 1px;
-@rxSelect-trigger-width: @rxSelect-min-height;
+@rxSelect-trigger-width: @rxSelect-height;
 @rxSelect-trigger-color: #aaa;
 @rxSelect-trigger-color-invalid: @inputBorderColorInvalid;
 @rxSelect-trigger-color-disabled: @rxSelect-trigger-color;
+
+/*
+ * rxFieldName
+ */
+@rxFieldName-color: @inputLabelColor;
+@rxFieldName-symbol-color: @inputColorError;
