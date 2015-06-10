@@ -5552,6 +5552,94 @@ They show your position within the site heirarchy.
   margin-left: 6px;
   position: static;
 }
+/*
+ * rxBulkSelect
+ */
+thead th.bulk-select-header {
+  background: #c6e4c8;
+  text-align: center;
+  color: #555555;
+  font-weight: normal;
+  border: 1px solid #e1e0df;
+}
+thead th[rx-bulk-select-header-check] {
+  width: 16px;
+}
+.header-button.btn-link {
+  color: #4682c2;
+}
+.header-button.btn-link:focus {
+  color: #4682c2;
+}
+.header-button.btn-link:hover {
+  color: #3481d4;
+}
+.batch-action-menu-container {
+  position: relative;
+  width: 5px;
+  height: 0;
+}
+.batch-action-menu-container > i {
+  cursor: pointer;
+  color: #bbbbbb;
+}
+.batch-action-menu-container > i:hover {
+  color: #959595;
+}
+.batch-actions-area {
+  font-size: 115%;
+  line-height: 2em;
+}
+.batch-action-list-hideable {
+  float: left;
+  z-index: 99;
+  position: absolute;
+  top: 0;
+  right: -115px;
+  min-width: 20em;
+  font-size: 12px;
+  border: 4px solid #ffffff;
+  border-radius: 4px;
+  background: #ffffff;
+  text-shadow: rgba(0, 0, 0, 0.09) 1px 1px 1px;
+  box-shadow: rgba(0, 0, 0, 0.35) 1px 1px 4px 0px;
+  padding: 6px;
+}
+.batch-action-list-hideable:before {
+  content: "\f0d8";
+  text-shadow: rgba(0, 0, 0, 0.35) 0px -1px 1px;
+  font-family: FontAwesome;
+  text-decoration: inherit;
+  color: #ffffff;
+  font-size: 24px;
+  display: block;
+  left: 230px;
+  position: absolute;
+  top: -23px;
+  width: 0;
+  z-index: 1;
+}
+.batch-action-list-hideable i {
+  margin-right: 5px;
+}
+.batch-action-list {
+  float: right;
+  z-index: 5;
+}
+.selected td:not(.status) {
+  background: #c6e4c8;
+  border-color: #bad4bb;
+  border-style: double;
+}
+.batch-action-modal-table .pagination > li:nth-child(1) {
+  display: none;
+}
+.batch-action-modal-table .pagination > li:nth-child(2) {
+  display: none;
+}
+.batch-action-modal-table .pagination .pagination-per-page {
+  display: none;
+}
 .button {
   display: inline-block;
   background: #427fc4;
