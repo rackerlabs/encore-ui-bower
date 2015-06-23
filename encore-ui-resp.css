@@ -318,10 +318,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
 [layout-padding] > [flex] {
   padding: 8px;
 }
-[layout-margin],
-[layout-margin] > [flex] {
-  margin: 8px;
-}
 [layout-wrap] {
   -webkit-flex-wrap: wrap;
   -moz-flex-wrap: wrap;
@@ -340,6 +336,15 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     min-height: auto;
     height: inherit;
   }
+}
+[layout-margin] > [flex]:not([flex-order]) {
+  margin: 8px;
+}
+[layout-margin] > [flex]:not([flex-order]):first-child {
+  margin-left: 0;
+}
+[layout-margin] > [flex]:not([flex-order]):last-child {
+  margin-right: 0;
 }
 [flex] {
   -webkit-box-sizing: border-box;
@@ -733,6 +738,12 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   -ms-align-items: stretch;
   align-items: stretch;
 }
+[flex-order].margin-right {
+  margin-right: 8px;
+}
+[flex-order].margin-left {
+  margin-left: 8px;
+}
 [flex-order="0"] {
   order: 0;
 }
@@ -841,18 +852,68 @@ https://github.com/yui/pure/blob/master/LICENSE.md
 [layout-padding] > [flex-lg] {
   padding: 16px;
 }
-[layout-margin] > [flex-sm],
-[layout-margin] > [flex-lt-md] {
+[layout-margin] > [flex-sm]:not([flex-order]) {
   margin: 4px;
 }
-[layout-margin] > [flex-gt-sm],
-[layout-margin] > [flex-md],
-[layout-margin] > [flex-lt-lg] {
+[layout-margin] > [flex-sm]:not([flex-order]):first-child {
+  margin-left: 0;
+}
+[layout-margin] > [flex-sm]:not([flex-order]):last-child {
+  margin-right: 0;
+}
+[layout-margin] > [flex-lt-md]:not([flex-order]) {
+  margin: 4px;
+}
+[layout-margin] > [flex-lt-md]:not([flex-order]):first-child {
+  margin-left: 0;
+}
+[layout-margin] > [flex-lt-md]:not([flex-order]):last-child {
+  margin-right: 0;
+}
+[layout-margin] > [flex-gt-sm]:not([flex-order]) {
   margin: 8px;
 }
-[layout-margin] > [flex-gt-md],
-[layout-margin] > [flex-lg] {
+[layout-margin] > [flex-gt-sm]:not([flex-order]):first-child {
+  margin-left: 0;
+}
+[layout-margin] > [flex-gt-sm]:not([flex-order]):last-child {
+  margin-right: 0;
+}
+[layout-margin] > [flex-md]:not([flex-order]) {
+  margin: 8px;
+}
+[layout-margin] > [flex-md]:not([flex-order]):first-child {
+  margin-left: 0;
+}
+[layout-margin] > [flex-md]:not([flex-order]):last-child {
+  margin-right: 0;
+}
+[layout-margin] > [flex-lt-lg]:not([flex-order]) {
+  margin: 8px;
+}
+[layout-margin] > [flex-lt-lg]:not([flex-order]):first-child {
+  margin-left: 0;
+}
+[layout-margin] > [flex-lt-lg]:not([flex-order]):last-child {
+  margin-right: 0;
+}
+[layout-margin] > [flex-gt-md]:not([flex-order]) {
   margin: 16px;
+}
+[layout-margin] > [flex-gt-md]:not([flex-order]):first-child {
+  margin-left: 0;
+}
+[layout-margin] > [flex-gt-md]:not([flex-order]):last-child {
+  margin-right: 0;
+}
+[layout-margin] > [flex-lg]:not([flex-order]) {
+  margin: 16px;
+}
+[layout-margin] > [flex-lg]:not([flex-order]):first-child {
+  margin-left: 0;
+}
+[layout-margin] > [flex-lg]:not([flex-order]):last-child {
+  margin-right: 0;
 }
 /**
  * `hide-gt-sm show-gt-lg` should hide from 600px to 1200px
@@ -863,6 +924,12 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   [hide-sm]:not([show-sm]):not([show]),
   [hide]:not([show-sm]):not([show]) {
     display: none;
+  }
+  [flex-order-sm].margin-right {
+    margin-right: 8px;
+  }
+  [flex-order-sm].margin-left {
+    margin-left: 8px;
   }
   [flex-order-sm="0"] {
     order: 0;
@@ -1379,6 +1446,12 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   }
 }
 @media (min-width: 600px) {
+  [flex-order-gt-sm].margin-right {
+    margin-right: 8px;
+  }
+  [flex-order-gt-sm].margin-left {
+    margin-left: 8px;
+  }
   [flex-order-gt-sm="0"] {
     order: 0;
   }
@@ -1901,6 +1974,12 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   [hide-md]:not([show-md]):not([show]) {
     display: none;
   }
+  [flex-order-md].margin-right {
+    margin-right: 8px;
+  }
+  [flex-order-md].margin-left {
+    margin-left: 8px;
+  }
   [flex-order-md="0"] {
     order: 0;
   }
@@ -2416,6 +2495,12 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   }
 }
 @media (min-width: 960px) {
+  [flex-order-gt-md].margin-right {
+    margin-right: 8px;
+  }
+  [flex-order-gt-md].margin-left {
+    margin-left: 8px;
+  }
   [flex-order-gt-md="0"] {
     order: 0;
   }
@@ -2939,6 +3024,12 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   [hide-lg]:not([show-lg]):not([show]) {
     display: none;
   }
+  [flex-order-lg].margin-right {
+    margin-right: 8px;
+  }
+  [flex-order-lg].margin-left {
+    margin-left: 8px;
+  }
   [flex-order-lg="0"] {
     order: 0;
   }
@@ -3459,6 +3550,12 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   [hide-gt-lg]:not([show-gt-sm]):not([show-gt-md]):not([show-gt-lg]):not([show]),
   [hide]:not([show-gt-sm]):not([show-gt-md]):not([show-gt-lg]):not([show]) {
     display: none;
+  }
+  [flex-order-gt-lg].margin-right {
+    margin-right: 8px;
+  }
+  [flex-order-gt-lg].margin-left {
+    margin-left: 8px;
   }
   [flex-order-gt-lg="0"] {
     order: 0;
@@ -6098,7 +6195,7 @@ tr.rx-floating-header:not(.rx-table-filter-row) {
 .rx-form-fieldset > fieldset {
   width: 100%;
 }
-.rx-form-fieldset > fieldset .full-width .option-table {
+.rx-form-fieldset > fieldset .full-width .rx-option-table {
   width: 100%;
 }
 .form-description,
@@ -6286,64 +6383,6 @@ tr.rx-floating-header:not(.rx-table-filter-row) {
   -moz-background-clip: padding-box;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-}
-.option-table {
-  width: auto;
-  min-width: 39em;
-}
-.option-table td:not(.empty-data) {
-  padding: 0;
-}
-.option-table input[disabled] {
-  cursor: not-allowed;
-}
-.option-table .disabled label {
-  cursor: default;
-}
-.option-table .disabled span {
-  color: #999999;
-}
-.option-table .fillWrapper {
-  box-sizing: border-box;
-  display: inline-block;
-  height: 100%;
-  width: 100%;
-  position: relative;
-}
-.option-table .fillWrapper label {
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  padding: 5px 10px;
-  cursor: pointer;
-  display: -moz-box;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-align-items: center;
-  -moz-align-items: center;
-  -ms-align-items: center;
-  align-items: center;
-}
-.option-table .fillWrapper label .alignWrapper {
-  -webkit-flex: 1 1 auto;
-  -moz-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-}
-.option-table .option-table-input {
-  text-align: center;
-  line-height: 0;
-}
-.option-table .current td {
-  color: #3AB661;
-}
-.option-table .selected td {
-  background: #c6e4c8;
-  border-color: #bad4bb;
-  border-style: double;
 }
 /* Submit buttons */
 .form-actions {
@@ -6684,6 +6723,65 @@ tr.rx-floating-header:not(.rx-table-filter-row) {
 .animate-fade.ng-leave,
 .animate-fade.ng-enter.ng-enter-active {
   opacity: 1;
+}
+/*
+ * rxOptionTable
+ */
+.rx-option-table {
+  width: auto;
+  min-width: 39em;
+}
+.rx-option-table td:not(.empty-data) {
+  padding: 0;
+}
+.rx-option-table .fillWrapper {
+  box-sizing: border-box;
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+.rx-option-table .fillWrapper label {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 5px 10px;
+  cursor: pointer;
+  display: -moz-box;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+}
+.rx-option-table .fillWrapper label .alignWrapper {
+  -webkit-flex: 1 1 auto;
+  -moz-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+.rx-option-table input[disabled] {
+  cursor: not-allowed;
+}
+.rx-option-table .disabled label {
+  cursor: default;
+  color: #999999;
+}
+.rx-option-table .option-table-input {
+  text-align: center;
+  line-height: 0;
+}
+.rx-option-table .current td {
+  color: #3AB661;
+}
+.rx-option-table .selected td {
+  background: #c6e4c8;
+  border-color: #bad4bb;
+  border-style: double;
 }
 /*
   rxPaginate

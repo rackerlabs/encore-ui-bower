@@ -2,11 +2,11 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.20.0 - 2015-06-10
+ * Version: 1.21.0 - 2015-06-23
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxCheckbox','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxFieldName','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
-angular.module('encore.ui.tpls', ['templates/rxAccountInfo.html','templates/rxAccountInfoBanner.html','templates/rxActionMenu.html','templates/rxActiveUrl.html','templates/rxPermission.html','templates/rxAccountSearch.html','templates/rxAccountUsers.html','templates/rxApp.html','templates/rxAppNav.html','templates/rxAppNavItem.html','templates/rxAppSearch.html','templates/rxBillingSearch.html','templates/rxPage.html','templates/detailsLayout.html','templates/rxBreadcrumbs.html','templates/rxBatchActions.html','templates/rxBulkSelectMessage.html','templates/rxButton.html','templates/rxCollapse.html','templates/feedbackForm.html','templates/rxFeedback.html','templates/rxFieldName.html','templates/rxFormFieldset.html','templates/rxFormItem.html','templates/rxFormOptionTable.html','templates/rxInfoPanel.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxModalFooters.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxPaginate.html','templates/rxSearchBox.html','templates/rxMultiSelect.html','templates/rxSelectFilter.html','templates/rxSelectOption.html','templates/rxSortableColumn.html','templates/rxStatusColumn.html','templates/rxToggleSwitch.html']);
+angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxCheckbox','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxFieldName','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui.tpls', ['templates/rxAccountInfo.html','templates/rxAccountInfoBanner.html','templates/rxActionMenu.html','templates/rxActiveUrl.html','templates/rxPermission.html','templates/rxAccountSearch.html','templates/rxAccountUsers.html','templates/rxApp.html','templates/rxAppNav.html','templates/rxAppNavItem.html','templates/rxAppSearch.html','templates/rxBillingSearch.html','templates/rxPage.html','templates/detailsLayout.html','templates/rxBreadcrumbs.html','templates/rxBatchActions.html','templates/rxBulkSelectMessage.html','templates/rxButton.html','templates/rxCollapse.html','templates/feedbackForm.html','templates/rxFeedback.html','templates/rxFieldName.html','templates/rxFormFieldset.html','templates/rxFormItem.html','templates/rxInfoPanel.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxModalFooters.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxOptionTable.html','templates/rxPaginate.html','templates/rxSearchBox.html','templates/rxMultiSelect.html','templates/rxSelectFilter.html','templates/rxSelectOption.html','templates/rxSortableColumn.html','templates/rxStatusColumn.html','templates/rxToggleSwitch.html']);
 angular.module('encore.ui.configs', [])
 .value('devicePaths', [
     { value: '/dev/xvdb', label: '/dev/xvdb' },
@@ -1541,6 +1541,19 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
         link: function (scope) {
             scope.isCloudProduct = false;
 
+            // This function is attached to the scope for the sole purpose of making
+            // it easier to test this functionality. A reorganization of this and/or 
+            // the tests is needed in order to pull this off the scope.
+            scope.switchToAdmin = function () {
+                // If the user in the params is not the admin swtich to the admin
+                // this causes the $route.current.params.user to become the admin user
+                var adminUser = _.first(_.where(scope.users, { admin: true }));
+                if (adminUser && ($route.current.params.user !== adminUser.username)){
+                    scope.currentUser = adminUser.username;
+                    scope.switchUser(adminUser.username);
+                }
+            };
+
             var checkCloud = function () {
                 encoreRoutes.isActiveByKey('accountLvlTools').then(function (isAccounts) {
                     if (isAccounts) {
@@ -1561,6 +1574,8 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
             var loadUsers = function () {
                 var success = function (account) {
                     scope.users = account.users;
+                    scope.switchToAdmin();
+
                     scope.currentUser = $route.current.params.user;
                     if (!scope.currentUser) {
                         // We're not in Cloud, but instead in Billing, or Events, or
@@ -2058,9 +2073,13 @@ angular.module('encore.ui.rxCheckbox', [])
                     });
                 }
 
+                var removeParent = function () {
+                    parent.remove();
+                };
+
                 // remove stylistic markup when element is destroyed
                 element.on('$destroy', function () {
-                    parent[0].remove();
+                    scope.$evalAsync(removeParent);
                 });
             };
         }//compile
@@ -2098,7 +2117,7 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
 
             // We add the `<tr rx-bulk-select-message>` row to the header here to save the devs
             // from having to do it themselves. 
-            var thead = elem.find('thead');
+            var thead = elem.find('thead').eq(0);
             var messageElem = angular.element(elemString);
             messageElem.attr('resource-name', attrs.resourceName || attrs.bulkSource.replace(/s$/, ''));
             thead.append(messageElem);
@@ -2389,13 +2408,16 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
  *       </rx-batch-actions>
  *   </th>
  */
-.directive('rxBatchActions', function () {
+.directive('rxBatchActions', ["rxDOMHelper", function (rxDOMHelper) {
     return {
         restrict: 'E',
-        require: '^rxBulkSelect',
+        require: ['^rxBulkSelect', '?^rxFloatingHeader'],
         templateUrl: 'templates/rxBatchActions.html',
         transclude: true,
-        link: function (scope, element, attrs, rxBulkSelectCtrl) {
+        link: function (scope, element, attrs, controllers) {
+
+            var rxBulkSelectCtrl = controllers[0],
+                rxFloatingHeaderCtrl = controllers[1];
 
             // We need to add the class onto the parent <tr>, so rxFloatingHeader can
             // easily identify this <tr>
@@ -2415,10 +2437,22 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
             };
             rxBulkSelectCtrl.registerForNumSelected(numSelectedChange);
 
+            if (!_.isUndefined(rxFloatingHeaderCtrl)) {
+                // When rxBatchActions lives inside of an rxFloatingHeader enabled table,
+                // the element will be cloned by rxFloatingHeader. The issue is that a normal
+                // .clone() does not clone Angular bindings, and thus the cloned element doesn't
+                // have `ng-show="displayed"` on it. We can manually add `ng-hide` on startup, to
+                // ensure that class is present in the clone. After that, everything will work as expected.
+                if (!scope.displayed) {
+                    rxDOMHelper.find(element, '.batch-action-menu-container').addClass('ng-hide');
+                }
+                rxFloatingHeaderCtrl.update();
+            }
+
         }
     };
     
-})
+}])
 .factory('rxBulkSelectUtils', function () {
     var rxBulkSelectUtils = {};
     
@@ -3408,7 +3442,7 @@ angular.module('encore.ui.rxMisc', ['debounce', 'encore.ui.rxSessionStorage'])
  * Turns a tableheader into a floating persistent header
  */
 angular.module('encore.ui.rxFloatingHeader', ['encore.ui.rxMisc'])
-.directive('rxFloatingHeader', ["rxDOMHelper", function (rxDOMHelper) {
+.directive('rxFloatingHeader', ["$document", "rxDOMHelper", function ($document, rxDOMHelper) {
     return {
         restrict: 'A',
         controller: ["$scope", function ($scope) {
@@ -3588,7 +3622,7 @@ angular.module('encore.ui.rxFloatingHeader', ['encore.ui.rxMisc'])
                         // we re-dock the header, otherwise the browser will scroll
                         // the screen back up ot the input
                         _.each(inputs, function (input) {
-                            if (rxDOMHelper.scrollTop() > rxDOMHelper.offset(input).top) {
+                            if ($document[0].activeElement === input[0]) {
                                 input[0].blur();
                             }
                         });
@@ -3724,185 +3758,6 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
         }
     };
 })
-/**
- *
- * @ngdoc directive
- * @name encore.ui.rxForm:rxFormOptionTable
- * @restrict E
- * @description
- * This directive is used to build a table of radio/checkbox inputs
- * @scope
- * @param {Array} data - Array of objects used to populate table. Properties must match columns data
- * key. Example:
- * ```
- * [
- *     {
- *         'name': 'Option 1',
- *         'value': 0
- *     }, {
- *         'name': 'Option 2',
- *         'value': 1
- *     }, {
- *         'name': 'Option 3',
- *         'value': 2
- *     }
- * ]
- * ```
- * @param {array} columns - Array of objects with label/key values. Example:
- * ```
- * [{
- *     'label': 'Name',
- *     'key': 'name'
- * }]
- * ```
- * @param {String=} selected - Key of item that's selected (and therefore will have input disabled)
- * @param {String} type - Type of input to be used
- * @param {Object} model - Value to bind input to using ng-model
- * @param {String} fieldId - Used for label and input 'id' attribute
- * @param {Object} required - Value passed to input's 'ng-required' attribute
- * @param {Function} disableFn - Callback function to determine if option should be disabled.
-                                 Takes tableId, fieldId, and rowId as parameters.
-                                 Example:
-```
- disable-fn="disableOption(tableId, fieldId, rowId)"
-```
- */
-.directive('rxFormOptionTable', ["$interpolate", function ($interpolate) {
-    return {
-        restrict: 'E',
-        templateUrl: 'templates/rxFormOptionTable.html',
-        scope: {
-            data: '=',
-            columns: '=',
-            selected: '@',
-            type: '@',
-            model: '=',
-            fieldId: '@',
-            required: '=',
-            emptyMessage: '@',
-            disableFn: '&?'
-        },
-        link: function (scope, element) {
-            var determineMatch = function (val1, val2) {
-                if (_.isUndefined(val1) || _.isUndefined(val2)) {
-                    return false;
-                }
-
-                return (val1 == val2);
-            };
-
-            scope.checkDisabled = function (row) {
-                return scope.disableFn({
-                    tableId: element.attr('id'),
-                    fieldId: scope.fieldId,
-                    rowId: row.id
-                });
-            };
-
-            // Determines whether the row is the initial choice
-            scope.isCurrent = function (val) {
-                return determineMatch(val, scope.selected);
-            };
-
-            // Determines whether the row is selected
-            scope.isSelected = function (val, idx) {
-                // row can only be 'selected' if it's not the 'current' value
-                if (!scope.isCurrent(val)) {
-                    if (scope.type == 'radio') {
-                        return (val == scope.model);
-                    } else if (scope.type == 'checkbox') {
-                        if (!_.isUndefined(val)) {
-                            // if 'val' is defined, run it through our custom matcher
-                            return determineMatch(val, scope.model[idx]);
-                        } else {
-                            // otherwise, just return the value of the model and angular can decide
-                            return scope.modelProxy[idx];
-                        }
-                    }
-                }
-
-                return false;
-            };
-
-            /*
-             * checkRequired: Returns true/false to the ng-required attribute for checkboxes.
-             * Returns a true value if required="true" and there is at least one checkbox
-             * checked (based on $scope.values).
-             */
-            scope.checkRequired = function () {
-                if (_.isBoolean(scope.required)) {
-                    return scope.required && boxesChecked === 0;
-                } else {
-                    return false;
-                }
-            };
-
-            // Because of a bug in Angular 1.2.x, we can't use `required` and
-            // ngTrueValue/ngFalseValue simultaneously. We don't want to affect
-            // people that were already using rxFormOptionTable, so instead we'll
-            // build a `modelProxy` which is simply a mapping of $scope.model to
-            // an array of `true` / `false` values. We then have to take care
-            // of updating the actual $scope.model ourselves in `updateCheckboxes`
-            // with the correct ngTrueValue/ngFalseValue values
-            scope.modelProxy = _.map(scope.model, function (val, index) {
-                var data = scope.data[index];
-                var trueValue = _.has(data, 'value') ? data.value : true;
-                return val === trueValue;
-            });
-
-            // If we are using checkboxes and the required attribute is set, then we
-            // need an array to store the indexes of checked boxes. ng-required is
-            // specifically set if required is true and the array is empty.
-            var boxesChecked = 0;
-            _.forEach(scope.modelProxy, function (el) {
-                if (el) {
-                    boxesChecked += 1;
-                }
-            });
-
-            /*
-             * Updates $scope.values when a checkbox is clicked.
-             * @param {String|boolean} val - The checkbox value (Boolean, ng-true-value or ng-false-value per row)
-             * @param {Integer} index - Array index of the checkbox element marked true
-             */
-            scope.updateCheckboxes = function (val, index) {
-                var data = scope.data[index];
-                var trueValue = _.has(data, 'value') ? data.value : true;
-                var falseValue = _.has(data, 'falseValue') ? data.falseValue : false;
-
-                scope.model[index] = val ? trueValue : falseValue;
-
-                if (val) {
-                    boxesChecked += 1;
-                } else {
-                    boxesChecked -= 1;
-                }
-            };
-
-            /*
-             * Get the value out of a key from the row, or parse an expression
-             * @param {Object} column - Column whose `key` is an Angular Expression or HTML to be compiled
-             * @param {Object} row - Data object with data to be used against the expression
-             */
-            scope.getContent = function (column, row) {
-                var expr = column.key;
-                // If no expression exit out;
-                if (!expr) {
-                    return '';
-                }
-
-                // if the expr is a property of row, then we expect the value of the key.
-                if (row.hasOwnProperty(expr)) {
-                    return String(row[expr]);
-                }
-
-                // Compile expression & Run output template
-                var outputHTML = $interpolate(expr)(row);
-                return outputHTML;
-            };
-        }
-    };
-}])
 /**
  * @ngdoc service
  * @name encore.ui.rxModalForm:rxFormUtils
@@ -4720,6 +4575,219 @@ angular.module('encore.ui.rxNotify', ['ngSanitize', 'ngAnimate'])
     };
 }]);
 
+/**
+ * @ngdoc overview
+ * @name rxOptionTable
+ */
+angular.module('encore.ui.rxOptionTable', ['ngSanitize'])
+/**
+ *
+ * @ngdoc directive
+ * @name rxOptionTable.directive:rxOptionTable
+ * @restrict E
+ * @scope
+ * @description
+ * This directive is used to build a table of radio/checkbox inputs
+ *
+ * @param {String} field-id - Used as the base for unique identifiers within the generated markup.
+ * @param {Object} model - The AngularJS model to tie all radios/checkboxes together.
+ * @param {String} type - (`radio` | `checkbox`) Type of input to be used.
+ * @param {String} empty-message - A default message if the data attribute is empty.
+ * @param {Array} data - Array of objects used to populate table. Properties must match column keys.
+ * For checkboxes, checked values default to true unless `value` and `falseValue` attributes are given.
+ * Example:
+ * ```js
+ * [
+ *     {
+ *         'name': 'Option 1',
+ *         'value': 0
+ *     }, {
+ *         'name': 'Option 2',
+ *         'value': 1
+ *     }, {
+ *         'name': 'Option 3',
+ *         'value': 2
+ *     }
+ * ]
+ * ```
+ * @param {Object} columns - Array of column data to match against data objects.
+ * Each object may include the following properties.
+ * * **label** - Column display value
+ * * **key** - object key used to display data from the data object
+ * * *selectedLabel* - (optional) Label to display alongside preseleted-values. Expressions are allowed; see
+ *   demonstration samples.
+ *
+ * Example:
+ * ```js
+ * [{
+ *     'label': 'Name',
+ *     'key': 'name'
+ * }]
+ * ```
+ * @param {String=} selected - Array of objects to match against data for preselection on page load.
+ * If excluded, no values will be preselected on initial load.
+ * @param {Boolean=} required - Value passed to input's 'ng-required' attribute.
+ * For checkboxes, a `true` value means that there must be at least one checkbox selected.
+ * @param {Function=} disable-fn - Optional callback function to determine if option should be disabled.
+ * Parameters `tableId`, `fieldId`, and `rowId` will be passed to the function.
+ * Example:
+ * ```js
+ *  disable-fn="disableOption(tableId, fieldId, rowId)"
+ * ```
+ */
+.directive('rxOptionTable', ["$interpolate", function ($interpolate) {
+    return {
+        restrict: 'E',
+        templateUrl: 'templates/rxOptionTable.html',
+        scope: {
+            data: '=',
+            columns: '=',
+            selected: '@',
+            type: '@',
+            model: '=',
+            fieldId: '@',
+            required: '=',
+            emptyMessage: '@',
+            disableFn: '&?'
+        },
+        link: function (scope, element) {
+            var determineMatch = function (val1, val2) {
+                if (_.isUndefined(val1) || _.isUndefined(val2)) {
+                    return false;
+                }
+
+                return (val1 == val2);
+            };
+
+            scope.checkDisabled = function (row) {
+                return scope.disableFn({
+                    tableId: element.attr('id'),
+                    fieldId: scope.fieldId,
+                    rowId: row.id
+                });
+            };
+
+            // Determines whether the row is the initial choice
+            scope.isCurrent = function (val) {
+                return determineMatch(val, scope.selected);
+            };
+
+            // Determines whether the row is selected
+            scope.isSelected = function (val, idx) {
+                // row can only be 'selected' if it's not the 'current' value
+                if (!scope.isCurrent(val)) {
+                    if (scope.type == 'radio') {
+                        return (val == scope.model);
+                    } else if (scope.type == 'checkbox') {
+                        if (!_.isUndefined(val)) {
+                            // if 'val' is defined, run it through our custom matcher
+                            return determineMatch(val, scope.model[idx]);
+                        } else {
+                            // otherwise, just return the value of the model and angular can decide
+                            return scope.modelProxy[idx];
+                        }
+                    }
+                }
+
+                return false;
+            };
+
+            /*
+             * checkRequired: Returns true/false to the ng-required attribute for checkboxes.
+             * Returns a true value if required="true" and there is at least one checkbox
+             * checked (based on $scope.values).
+             */
+            scope.checkRequired = function () {
+                if (_.isBoolean(scope.required)) {
+                    return scope.required && boxesChecked === 0;
+                } else {
+                    return false;
+                }
+            };
+
+            // Because of a bug in Angular 1.2.x, we can't use `required` and
+            // ngTrueValue/ngFalseValue simultaneously. We don't want to affect
+            // people that were already using rxFormOptionTable, so instead we'll
+            // build a `modelProxy` which is simply a mapping of $scope.model to
+            // an array of `true` / `false` values. We then have to take care
+            // of updating the actual $scope.model ourselves in `updateCheckboxes`
+            // with the correct ngTrueValue/ngFalseValue values
+            scope.modelProxy = _.map(scope.model, function (val, index) {
+                var data = scope.data[index];
+                var trueValue = _.has(data, 'value') ? data.value : true;
+                return val === trueValue;
+            });
+
+            // If we are using checkboxes and the required attribute is set, then we
+            // need an array to store the indexes of checked boxes. ng-required is
+            // specifically set if required is true and the array is empty.
+            var boxesChecked = 0;
+            _.forEach(scope.modelProxy, function (el) {
+                if (el) {
+                    boxesChecked += 1;
+                }
+            });
+
+            /*
+             * Updates $scope.values when a checkbox is clicked.
+             * @param {String|boolean} val - The checkbox value (Boolean, ng-true-value or ng-false-value per row)
+             * @param {Integer} index - Array index of the checkbox element marked true
+             */
+            scope.updateCheckboxes = function (val, index) {
+                var data = scope.data[index];
+                var trueValue = _.has(data, 'value') ? data.value : true;
+                var falseValue = _.has(data, 'falseValue') ? data.falseValue : false;
+
+                scope.model[index] = val ? trueValue : falseValue;
+
+                if (val) {
+                    boxesChecked += 1;
+                } else {
+                    boxesChecked -= 1;
+                }
+            };
+
+            /*
+             * Get the value out of a key from the row, or parse an expression
+             * @param {Object} column - Column whose `key` is an Angular Expression or HTML to be compiled
+             * @param {Object} row - Data object with data to be used against the expression
+             */
+            scope.getContent = function (column, row) {
+                var expr = column.key;
+                // If no expression exit out;
+                if (!expr) {
+                    return '';
+                }
+
+                // if the expr is a property of row, then we expect the value of the key.
+                if (row.hasOwnProperty(expr)) {
+                    return String(row[expr]);
+                }
+
+                // Compile expression & Run output template
+                var outputHTML = $interpolate(expr)(row);
+                return outputHTML;
+            };
+        }
+    };
+}])
+/**
+ * @deprecated
+ * @ngdoc directive
+ * @restrict E
+ * @name rxOptionTable.directive:rxFormOptionTable
+ * @description
+ * **DEPRECATED**: Please use **{@link rxOptionTable.directive:rxOptionTable rxOptionTable}**
+ * as a stand-in-replacement.
+ */
+.directive('rxFormOptionTable', ["rxOptionTableDirective", function (rxOptionTableDirective) {
+    var warnMsg = 'DEPRECATION WARNING: rxFormOptionTable has been marked as deprecated ' +
+        'and will be removed in a future release of the EncoreUI framework. ' +
+        'Please use rxOptionTable as a stand-in replacement.';
+    console.warn(warnMsg); // jshint ignore:line
+    return rxOptionTableDirective[0];
+}]);
+
 angular.module('encore.ui.rxPageTitle', [])
 .factory('rxPageTitle', ["$document", "$filter", function ($document, $filter) {
     var suffix = '',
@@ -5451,9 +5519,13 @@ angular.module('encore.ui.rxRadio', [])
                     });
                 }
 
+                var removeParent = function () {
+                    parent.remove();
+                };
+
                 // remove stylistic markup when element is destroyed
                 element.on('$destroy', function () {
-                    parent[0].remove();
+                    scope.$evalAsync(removeParent);
                 });
             };
         }//compile
@@ -5464,7 +5536,7 @@ angular.module('encore.ui.rxSearchBox', [])
 .directive('rxSearchBox', function () {
     return {
         restrict: 'E',
-        require: 'ngModel',
+        require: ['ngModel', '?^rxFloatingHeader'],
         templateUrl: 'templates/rxSearchBox.html',
         scope: {
             searchVal: '=ngModel',
@@ -5486,7 +5558,13 @@ angular.module('encore.ui.rxSearchBox', [])
             $scope.clearSearch = function () {
                 $scope.searchVal = '';
             };
-        }]
+        }],
+        link: function (scope, element, attrs, controllers) {
+            var rxFloatingHeaderCtrl = controllers[1];
+            if (!_.isUndefined(rxFloatingHeaderCtrl)) {
+                rxFloatingHeaderCtrl.update();
+            }
+        }
     };
 });
 
@@ -5534,9 +5612,13 @@ angular.module('encore.ui.rxSelect', [])
                 });
             }
 
+            var removeParent = function () {
+                parent.remove();
+            };
+
             // remove stylistic markup when element is destroyed
             element.on('$destroy', function () {
-                parent[0].remove();
+                scope.$evalAsync(removeParent);
             });
         }
     };
@@ -6675,11 +6757,6 @@ angular.module("templates/rxFormItem.html", []).run(["$templateCache", function(
     "<div class=\"form-item\" ng-class=\"{'text-area-label': isTextArea}\"><label class=\"field-label\">{{label}}:</label><div class=\"field-content\"><span class=\"field-prefix\" ng-if=\"prefix\">{{prefix}}</span> <span class=\"field-input-wrapper\" ng-transclude></span><div ng-if=\"description\" class=\"field-description\" ng-bind-html=\"description\"></div></div></div>");
 }]);
 
-angular.module("templates/rxFormOptionTable.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("templates/rxFormOptionTable.html",
-    "<div class=\"form-item\"><table class=\"table-striped option-table\" ng-show=\"data.length > 0 || emptyMessage \"><thead><tr><th></th><th ng-repeat=\"column in columns\" scope=\"col\">{{column.label}}</th></tr></thead><tr ng-repeat=\"row in data\" ng-class=\"{current: isCurrent(row.value), selected: isSelected(row.value, $index), disabled: checkDisabled(row)}\"><td class=\"option-table-input\" ng-switch=\"type\"><div class=\"fillWrapper\"><label><div class=\"alignWrapper\"><input rx-radio ng-switch-when=\"radio\" id=\"{{fieldId}}_{{$index}}\" ng-model=\"$parent.$parent.model\" value=\"{{row.value}}\" name=\"{{fieldId}}\" ng-disabled=\"checkDisabled(row)\" rx-attributes=\"{'ng-required': required}\"> <input rx-checkbox ng-switch-when=\"checkbox\" id=\"{{fieldId}}_{{$index}}\" ng-model=\"$parent.modelProxy[$index]\" ng-change=\"updateCheckboxes($parent.modelProxy[$index], $index)\" ng-required=\"checkRequired()\"></div></label></div></td><td ng-repeat=\"column in columns\" data-column=\"{{column.label}}\"><div class=\"fillWrapper\"><label for=\"{{fieldId}}_{{$parent.$index}}\"><div class=\"alignWrapper\"><span ng-bind-html=\"getContent(column, row)\"></span> <span ng-show=\"isCurrent(row.value)\">{{column.selectedLabel}}</span></div></label></div></td></tr><tr ng-if=\"data.length === 0 && emptyMessage\"><td colspan=\"{{columns.length + 1}}\" class=\"empty-data\">{{emptyMessage}}</td></tr></table></div>");
-}]);
-
 angular.module("templates/rxInfoPanel.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxInfoPanel.html",
     "<section class=\"info-panel\"><h3 class=\"info-title\">{{panelTitle}}</h3><div class=\"info-body\" ng-transclude></div></section>");
@@ -6708,6 +6785,11 @@ angular.module("templates/rxNotification.html", []).run(["$templateCache", funct
 angular.module("templates/rxNotifications.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxNotifications.html",
     "<div class=\"rx-notifications\" ng-show=\"messages.length > 0\"><div ng-repeat=\"message in messages\" class=\"rx-notification animate-fade notification-{{message.type}}\" ng-class=\"{'notification-loading': message.loading}\" rx-spinner toggle=\"message.loading\" ng-init=\"loading = message.loading\"><span class=\"notification-text\" ng-bind-html=\"message.text\"></span> <button ng-click=\"dismiss(message)\" class=\"notification-dismiss btn-link\" ng-if=\"message.dismissable && !message.loading\">&times; <span class=\"visually-hidden\">Dismiss Message</span></button></div></div>");
+}]);
+
+angular.module("templates/rxOptionTable.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/rxOptionTable.html",
+    "<table class=\"table-striped rx-option-table\" ng-show=\"data.length > 0 || emptyMessage \"><thead><tr><th></th><th class=\"column\" ng-repeat=\"column in columns\">{{column.label}}</th></tr></thead><tbody><tr ng-repeat=\"row in data\" class=\"datum-row\" ng-class=\"{current: isCurrent(row.value), selected: isSelected(row.value, $index), disabled: checkDisabled(row)}\"><td class=\"option-table-input\"><div class=\"fillWrapper\"><label ng-switch=\"type\"><div class=\"alignWrapper\"><input rx-radio ng-switch-when=\"radio\" id=\"{{fieldId}}_{{$index}}\" ng-model=\"$parent.$parent.model\" value=\"{{row.value}}\" name=\"{{fieldId}}\" class=\"option-input\" ng-disabled=\"checkDisabled(row)\" rx-attributes=\"{'ng-required': required}\"> <input rx-checkbox ng-switch-when=\"checkbox\" id=\"{{fieldId}}_{{$index}}\" class=\"option-input\" ng-model=\"$parent.modelProxy[$index]\" ng-change=\"updateCheckboxes($parent.modelProxy[$index], $index)\" ng-required=\"checkRequired()\"></div></label></div></td><td ng-repeat=\"column in columns\" data-column=\"{{column.label}}\" data-row-number=\"{{$parent.$index}}\"><div class=\"fillWrapper\"><label for=\"{{fieldId}}_{{$parent.$index}}\"><div class=\"alignWrapper\"><span ng-bind-html=\"getContent(column, row)\"></span> <span ng-show=\"isCurrent(row.value)\">{{column.selectedLabel}}</span></div></label></div></td></tr><tr ng-if=\"data.length === 0 && emptyMessage\" class=\"empty-message-row\"><td colspan=\"{{columns.length + 1}}\" class=\"empty-message\">{{emptyMessage}}</td></tr></tbody></table>");
 }]);
 
 angular.module("templates/rxPaginate.html", []).run(["$templateCache", function($templateCache) {

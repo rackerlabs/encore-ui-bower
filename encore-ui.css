@@ -318,10 +318,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
 [layout-padding] > [flex] {
   padding: 8px;
 }
-[layout-margin],
-[layout-margin] > [flex] {
-  margin: 8px;
-}
 [layout-wrap] {
   -webkit-flex-wrap: wrap;
   -moz-flex-wrap: wrap;
@@ -340,6 +336,15 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     min-height: auto;
     height: inherit;
   }
+}
+[layout-margin] > [flex]:not([flex-order]) {
+  margin: 8px;
+}
+[layout-margin] > [flex]:not([flex-order]):first-child {
+  margin-left: 0;
+}
+[layout-margin] > [flex]:not([flex-order]):last-child {
+  margin-right: 0;
 }
 [flex] {
   -webkit-box-sizing: border-box;
@@ -732,6 +737,12 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   -moz-align-items: stretch;
   -ms-align-items: stretch;
   align-items: stretch;
+}
+[flex-order].margin-right {
+  margin-right: 8px;
+}
+[flex-order].margin-left {
+  margin-left: 8px;
 }
 [flex-order="0"] {
   order: 0;
@@ -2952,7 +2963,7 @@ tr.rx-floating-header:not(.rx-table-filter-row) {
 .rx-form-fieldset > fieldset {
   width: 100%;
 }
-.rx-form-fieldset > fieldset .full-width .option-table {
+.rx-form-fieldset > fieldset .full-width .rx-option-table {
   width: 100%;
 }
 .form-description,
@@ -3140,64 +3151,6 @@ tr.rx-floating-header:not(.rx-table-filter-row) {
   -moz-background-clip: padding-box;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-}
-.option-table {
-  width: auto;
-  min-width: 39em;
-}
-.option-table td:not(.empty-data) {
-  padding: 0;
-}
-.option-table input[disabled] {
-  cursor: not-allowed;
-}
-.option-table .disabled label {
-  cursor: default;
-}
-.option-table .disabled span {
-  color: #999999;
-}
-.option-table .fillWrapper {
-  box-sizing: border-box;
-  display: inline-block;
-  height: 100%;
-  width: 100%;
-  position: relative;
-}
-.option-table .fillWrapper label {
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  padding: 5px 10px;
-  cursor: pointer;
-  display: -moz-box;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-align-items: center;
-  -moz-align-items: center;
-  -ms-align-items: center;
-  align-items: center;
-}
-.option-table .fillWrapper label .alignWrapper {
-  -webkit-flex: 1 1 auto;
-  -moz-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-}
-.option-table .option-table-input {
-  text-align: center;
-  line-height: 0;
-}
-.option-table .current td {
-  color: #3AB661;
-}
-.option-table .selected td {
-  background: #c6e4c8;
-  border-color: #bad4bb;
-  border-style: double;
 }
 /* Submit buttons */
 .form-actions {
@@ -3538,6 +3491,65 @@ tr.rx-floating-header:not(.rx-table-filter-row) {
 .animate-fade.ng-leave,
 .animate-fade.ng-enter.ng-enter-active {
   opacity: 1;
+}
+/*
+ * rxOptionTable
+ */
+.rx-option-table {
+  width: auto;
+  min-width: 39em;
+}
+.rx-option-table td:not(.empty-data) {
+  padding: 0;
+}
+.rx-option-table .fillWrapper {
+  box-sizing: border-box;
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+.rx-option-table .fillWrapper label {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 5px 10px;
+  cursor: pointer;
+  display: -moz-box;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+}
+.rx-option-table .fillWrapper label .alignWrapper {
+  -webkit-flex: 1 1 auto;
+  -moz-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+.rx-option-table input[disabled] {
+  cursor: not-allowed;
+}
+.rx-option-table .disabled label {
+  cursor: default;
+  color: #999999;
+}
+.rx-option-table .option-table-input {
+  text-align: center;
+  line-height: 0;
+}
+.rx-option-table .current td {
+  color: #3AB661;
+}
+.rx-option-table .selected td {
+  background: #c6e4c8;
+  border-color: #bad4bb;
+  border-style: double;
 }
 /*
   rxPaginate
