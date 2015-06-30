@@ -258,6 +258,9 @@ https://github.com/yui/pure/blob/master/LICENSE.md
  * Form Inputs
  */
 /*
+ * rxForm
+ */
+/*
  * rxSearchBox
  */
 /*
@@ -4896,6 +4899,10 @@ table td.expanded .double-chevron::after {
   -webkit-transition: all .2s;
   transition: all .2s;
 }
+table .fa-times.delete-x:hover {
+  color: #fd0f12;
+  cursor: pointer;
+}
 .expanded-container {
   padding: 0 3px 3px 3px;
   background-color: #adadad;
@@ -6112,35 +6119,6 @@ rx-collapse .collapse-container .collapse-body {
   height: 10em;
 }
 /*
- * rxFieldName
- */
-rx-field-name {
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-  display: block;
-  margin: 0px;
-  padding: 0px;
-  color: #989998;
-}
-rx-field-name .wrapper {
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-  margin: 0px;
-  padding: 0px;
-}
-rx-field-name .wrapper .required-symbol {
-  font-weight: 900;
-  color: #fc0f1d;
-}
-/*
  * rxFloatingHeader
  */
 .rx-floating-header {
@@ -6404,7 +6382,7 @@ tr.rx-floating-header:not(.rx-table-filter-row) {
 .form-action.submit:focus {
   color: #28c85a;
 }
-.form-action.submit[disabled="disabled"] {
+.form-action.submit[disabled] {
   color: #bbbbbb;
   cursor: not-allowed;
 }
@@ -6467,6 +6445,186 @@ tr.rx-floating-header:not(.rx-table-filter-row) {
 .rx-form.layout-compressed rx-form-item[prefix] .field-input {
   display: inline-block;
   width: auto;
+}
+/* NEW rxForm "2.0" STYLES  */
+input,
+textarea,
+select {
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+}
+[rx-form],
+rx-form-section,
+rx-field,
+rx-field-name,
+rx-field-content,
+rx-input,
+rx-inline-error,
+rx-help-text {
+  box-sizing: border-box;
+  display: block;
+  margin: 0px;
+  padding: 0px;
+}
+rx-inline-error {
+  color: #fc0f1d;
+  font-weight: 900;
+}
+rx-help-text {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 1em 0em;
+}
+rx-field-name {
+  color: #989998;
+  font-size: 1.2em;
+}
+rx-field-name .wrapper {
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
+rx-field-name .wrapper .required-symbol {
+  font-weight: 900;
+  color: #fc0f1d;
+}
+[rx-form] {
+  font-size: 14px;
+}
+[rx-form] input:not([type="checkbox"]):not([type="radio"]) {
+  min-height: 26px;
+}
+[rx-form] rx-field-name,
+[rx-form] rx-help-text,
+[rx-form] rx-inline-error,
+[rx-form] rx-input {
+  margin-bottom: 8px;
+}
+[rx-form] rx-field-name:last-child,
+[rx-form] rx-help-text:last-child,
+[rx-form] rx-inline-error:last-child,
+[rx-form] rx-input:last-child {
+  margin-bottom: 0px;
+}
+[rx-form] rx-form-section {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  margin: 0px 8px;
+}
+[rx-form] rx-form-section > div,
+[rx-form] rx-form-section rx-field {
+  margin: 0px 8px 20px;
+  flex: 1 0 250px;
+}
+[rx-form] rx-form-section rx-field {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+}
+[rx-form] rx-form-section rx-field rx-field-content {
+  flex: 1 0 auto;
+  margin-bottom: 16px;
+}
+[rx-form] rx-form-section rx-field rx-field-content:last-child {
+  margin-bottom: 0px;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  /* ===== Other Directive Support ===== */
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input input:not([type="checkbox"]):not([type="radio"]),
+[rx-form] rx-form-section rx-field rx-field-content rx-input textarea {
+  flex: 1 1 auto;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input input:not([type="checkbox"]):not([type="radio"]),
+[rx-form] rx-form-section rx-field rx-field-content rx-input textarea,
+[rx-form] rx-form-section rx-field rx-field-content rx-input input:not([type="checkbox"]):not([type="radio"]).ng-valid,
+[rx-form] rx-form-section rx-field rx-field-content rx-input textarea.ng-valid {
+  padding: 3px 5px;
+  border: 1px solid #cccccc;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input input:not([type="checkbox"]):not([type="radio"]).ng-invalid,
+[rx-form] rx-form-section rx-field rx-field-content rx-input textarea.ng-invalid {
+  border-color: #ff2400;
+  border-width: 2px;
+  padding: 2px 4px;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input input:not([type="checkbox"]):not([type="radio"])[disabled],
+[rx-form] rx-form-section rx-field rx-field-content rx-input textarea[disabled] {
+  border: 1px solid #cccccc;
+  color: #999999;
+  background: #dededd;
+  cursor: not-allowed !important;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input rx-prefix,
+[rx-form] rx-form-section rx-field rx-field-content rx-input rx-suffix {
+  box-sizing: border-box;
+  min-height: 26px;
+  padding: 0px 4px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input rx-prefix:first-child {
+  padding-left: 0px;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input rx-suffix:last-child {
+  padding-right: 0px;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input .rxSelect {
+  flex: 1 1 auto;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input .rxCheckbox,
+[rx-form] rx-form-section rx-field rx-field-content rx-input .rxRadio,
+[rx-form] rx-form-section rx-field rx-field-content rx-input rx-toggle-switch {
+  flex: 0 0 auto;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input .rxCheckbox + label,
+[rx-form] rx-form-section rx-field rx-field-content rx-input .rxRadio + label,
+[rx-form] rx-form-section rx-field rx-field-content rx-input rx-toggle-switch + label {
+  margin-left: 5px;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input .rxCheckbox[disabled] + label,
+[rx-form] rx-form-section rx-field rx-field-content rx-input .rxRadio[disabled] + label,
+[rx-form] rx-form-section rx-field rx-field-content rx-input rx-toggle-switch[disabled] + label {
+  color: #999999;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input .rx-option-table {
+  table-layout: fixed;
+  width: 100%;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper {
+  flex: 1 0;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper input,
+[rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper textarea {
+  width: 100%;
+}
+[rx-form] rx-form-section > div {
+  margin-top: 8px;
+}
+[rx-form] rx-form-section > div .button {
+  margin: 2px;
+}
+[rx-form] rx-form-section > div .button:first-of-type {
+  margin-left: 0px;
+}
+[rx-form] rx-form-section > div .button:last-of-type {
+  margin-right: 0px;
+}
+[rx-form] rx-form-section[stacked] {
+  flex-flow: column nowrap;
+}
+[rx-form] rx-form-section[stacked] > div,
+[rx-form] rx-form-section[stacked] rx-field {
+  flex: 1 0;
+  max-width: 400px;
+  margin-bottom: 20px;
 }
 /*
  * rxInfoPanel
@@ -6764,6 +6922,9 @@ tr.rx-floating-header:not(.rx-table-filter-row) {
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
 }
+.rx-option-table .fillWrapper rx-help-text {
+  margin: 0;
+}
 .rx-option-table input[disabled] {
   cursor: not-allowed;
 }
@@ -6782,6 +6943,9 @@ tr.rx-floating-header:not(.rx-table-filter-row) {
   background: #c6e4c8;
   border-color: #bad4bb;
   border-style: double;
+}
+.rx-option-table thead tr th:first-child {
+  width: 16px;
 }
 /*
   rxPaginate

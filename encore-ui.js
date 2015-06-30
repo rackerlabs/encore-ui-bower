@@ -2,10 +2,10 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.21.1 - 2015-06-25
+ * Version: 1.22.0 - 2015-06-30
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxCheckbox','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxFieldName','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxCheckbox','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
 angular.module('encore.ui.configs', [])
 .value('devicePaths', [
     { value: '/dev/xvdb', label: '/dev/xvdb' },
@@ -2034,6 +2034,21 @@ angular.module('encore.ui.rxBreadcrumbs', ['ngSanitize'])
 });
 
 angular.module('encore.ui.rxCheckbox', [])
+/**
+ * @name rxCheckbox.directive:rxCheckbox
+ * @ngdoc directive
+ * @restrict A
+ * @scope
+ * @description
+ * Attribute directive that wraps a native checkbox element in markup required for styling purposes.
+ *
+ * @example
+ * <pre>
+ * <input rx-checkbox ng-model="demoValue" />
+ * </pre>
+ *
+ * @param {Boolean=} [ng-disabled=false] Determines if the control is disabled.
+ */
 .directive('rxCheckbox', function () {
     return {
         restrict: 'A',
@@ -2530,34 +2545,34 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
 }]);
 
 angular.module('encore.ui.rxButton', [])
-    /**
-    * @ngdoc directive
-    * @name encore.ui.rxButton:rxButton
-    * @restrict E
-    *
-    * @description
-    * Renders a button which will disable when clicked and show a loading message
-    * and renable when operation is complete. If you set `classes` attributes `<rx-button>`,
-    * those will get passed to the `<button>` instance as `class`
-    * @scope
-    * @param {String} loadingMsg - Text to be displayed when an operation is in progress.
-    * @param {String} defaultMsg - Text to be displayed by default an no operation is in progress.
-    * @param {Boolean} toggle - When true, the button will display the loading text.
-    * @param {Boolean} disable - When true, the button will be disabled.
-    */
-    .directive('rxButton', function () {
-        return {
-            templateUrl: 'templates/rxButton.html',
-            restrict: 'E',
-            scope: {
-                toggleMsg: '@',
-                defaultMsg: '@',
-                toggle: '=',
-                disable: '=?',
-                classes: '@?'
-            },
-        };
-    });
+/**
+* @ngdoc directive
+* @name rxButton.directive:rxButton
+* @restrict E
+* @scope
+* @description
+* Renders a button which will disable when clicked and show a loading message
+* and renable when operation is complete. If you set `classes` attributes `<rx-button>`,
+* those will get passed to the `<button>` instance as `class`
+*
+* @param {String} loadingMsg Text to be displayed when an operation is in progress.
+* @param {String} defaultMsg Text to be displayed by default an no operation is in progress.
+* @param {Boolean=} [toggle=false] When true, the button will display the loading text.
+* @param {Boolean=} [disable=false] When true, the button will be disabled.
+*/
+.directive('rxButton', function () {
+    return {
+        templateUrl: 'templates/rxButton.html',
+        restrict: 'E',
+        scope: {
+            toggleMsg: '@',
+            defaultMsg: '@',
+            toggle: '=',
+            disable: '=?',
+            classes: '@?'
+        },
+    };
+});
 
 angular.module('encore.ui.rxCapitalize', [])
 .filter('rxCapitalize', function () {
@@ -2573,7 +2588,7 @@ angular.module('encore.ui.rxCharacterCount', [])
 /**
  *
  * @ngdoc directive
- * @name encore.ui.rxCharacterCount:rxCharacterCount
+ * @name rxCharacterCount.directive:rxCharacterCount
  * @restrict A
  * @description
  * Monitors the number of characters in a text input and compares it to the desired length.
@@ -2972,18 +2987,6 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
     };
 }]);
 
-angular.module('encore.ui.rxFieldName', [])
-.directive('rxFieldName', function () {
-    return {
-        restrict: 'E',
-        transclude: true,
-        scope: {
-            ngRequired: '=?'
-        },
-        templateUrl: 'templates/rxFieldName.html'
-    };
-});
-
 /*jshint proto:true*/
 angular.module('encore.ui.rxSessionStorage', [])
     /**
@@ -3050,10 +3053,26 @@ angular.module('encore.ui.rxSessionStorage', [])
         };
     }]);
 
+/**
+ * @ngdoc overview
+ * @name rxMisc
+ * @description
+ * A module for shared functionality across framework components.
+ *
+ * ## Filters
+ *
+ * * {@link rxMisc.filter:titleize titleize}
+ *
+ * ## Services
+ *
+ * * {@link rxMisc.service:rxAutoSave rxAutoSave}
+ * * {@link rxMisc.service:rxDOMHelper rxDOMHelper}
+ * * {@link rxMisc.service:rxNestedElement rxNestedElement}
+ */
 angular.module('encore.ui.rxMisc', ['debounce', 'encore.ui.rxSessionStorage'])
 /**
  * @ngdoc service
- * @name encore.ui.rxMisc:rxDOMHelper
+ * @name rxMisc.service:rxDOMHelper
  * @description
  * A small set of functions to provide some functionality
  * that isn't present in Angular's jQuery-lite, and other
@@ -3062,7 +3081,6 @@ angular.module('encore.ui.rxMisc', ['debounce', 'encore.ui.rxSessionStorage'])
  * All methods take jquery-lite wrapped elements as arguments
  */
 .factory('rxDOMHelper', ["$document", "$window", function ($document, $window) {
-
     var scrollTop = function () {
         // Safari and Chrome both use body.scrollTop, but Firefox needs
         // documentElement.scrollTop
@@ -3114,7 +3132,6 @@ angular.module('encore.ui.rxMisc', ['debounce', 'encore.ui.rxSessionStorage'])
     // a single element or an array of elements) into it. It then places
     // `newParent` in the location that elms[0] was originally in
     var wrapAll = function (newParent, elms) {
-
         // Figure out if it's one element or an array
         var isGroupParent = ['SELECT', 'FORM'].indexOf(elms.tagName) !== -1;
         var el = (elms.length && !isGroupParent) ? elms[0] : elms;
@@ -3167,38 +3184,167 @@ angular.module('encore.ui.rxMisc', ['debounce', 'encore.ui.rxSessionStorage'])
         wrapAll: wrapAll
     };
 }])
-
-/*
+/**
  * @ngdoc filter
- * @name encore.ui.rxMisc:titleize
+ * @name rxMisc.filter:titleize
  * @description
- * Convert a string to a title case, stripping out symbols and capitalizing words.
+ * Convert a string to title case, stripping out underscores and capitalizing words.
  *
  * Credit where it's due: https://github.com/epeli/underscore.string/blob/master/titleize.js
  *
- * @param {string} str The string to convert
- * @returns {string} The titleized version of the string
+ * @param {String} inputString - The string to convert
+ * @returns {String} The titleized version of the string
+ *
+ * @example
+ * Both examples result in a string of `"A Simple String"`.
+ * <pre>
+ * {{ 'a simple_STRING' | titleize }}
+ * </pre>
+ *
+ * <pre>
+ * $filter('titleize')('a simple_STRING');
+ * </pre>
  */
 .filter('titleize', function () {
-    return function (str) {
-        return str.toLowerCase().replace(/_/g, ' ').replace(/(?:^|\s)\S/g, function (c) {
-            return c.toUpperCase();
-        });
+    return function (inputString) {
+        return inputString
+            .toLowerCase()
+            .replace(/_/g, ' ')
+            .replace(/(?:^|\s)\S/g, function (character) {
+                return character.toUpperCase();
+            });
     };
 })
-
 /**
  * @ngdoc service
- * @name encore.ui.rxMisc:rxAutoSave
+ * @name rxMisc.service:rxNestedElement
+ * @description
+ * Helper function to aid in the creation of boilerplate DDO definitions
+ * required to validate nested custom elements.
+ *
+ * @param {Object=} opts - Options to merge with default DDO definitions
+ * @param {String} opts.parent - Parent directive name
+ * (i.e. defined NestedElement is an immediate child of this parent element)
+ *
+ * @return {Object} Directive Definition Object for a rxNestedElement
+ *
+ * @example
+ * <pre>
+ * angular.module('myApp', [])
+ * .directive('parentElement', function (rxNestedElement) {
+ *   return rxNestedElement();
+ * })
+ * .directive('childElement', function (rxNestedElement) {
+ *   return rxNestedElement({
+ *      parent: 'parentElement'
+ *   });
+ * });
+ * </pre>
+ */
+.factory('rxNestedElement', function () {
+    return function (opts) {
+        opts = opts || {};
+
+        var defaults = {
+            restrict: 'E',
+            /*
+             * must be defined for a child element to verify
+             * correct hierarchy
+             */
+            controller: angular.noop
+        };
+
+        if (angular.isDefined(opts.parent)) {
+            opts.require = '^' + opts.parent;
+            /*
+             * bare minimum function definition needed for "require"
+             * validation logic
+             *
+             * NOTE: `angular.noop` and `_.noop` WILL NOT trigger validation
+             */
+            opts.link = function () {};
+        }
+
+        return _.defaults(opts, defaults);
+    };
+})
+/**
+ * @ngdoc service
+ * @name rxMisc.service:rxAutoSave
  * @description
  * A factory that controllers can use to help automatically save and load
- * (from LocalStorage) forms on any given page.
+ * form data (via LocalStorage) on any given page.
+ *
+ * @param {Object} scope scope to apply a `$watch` expression
+ * @param {String} variable
+ * variable name corresponding to an object on the given scope
+ * @param {Object=} options usage options
+ * @param {Promise} [options.clearOnSuccess=null] *optional* -
+ * Clear saved data on successful resolution of given promise.
+ *
+ * @param {Function} [options.keyShaping]
+ * Sometimes, it may be necessary to change how a key is formed for the specified
+ * `storageBackend`.  Keys are calculated by prepending `'rxAutoSave::'` before the
+ * url. Your custom `keyShaping` function will take one parameter (`key`), to which
+ * you may modify to your specific needs.
+ *
+ * The below example will ignore any caching flags in the url.
+ * <pre>
+ * var autosave = rxAutoSave($scope, 'formData', {
+ *     keyShaping: function (key) {
+ *         return key.replace('?cache=false', '');
+ *     }
+ * });
+ * </pre>
+ *
+ * @param {Integer} [options.ttl=172800] *optional* -
+ * Time to Live (in seconds) - defaults to 2 days
+ *
+ * Whenever data changes in the watched variable, the expiry time will be freshly set
+ * In addition, we freshly set the expiry time whenever the data is loaded. If the data
+ * is 12 hours away from expiring and a user visits the page again, the expiry will be
+ * freshly set to a new 48 hours, whether or not the user makes a change.
+ *
+ * If a user visits a page after the data has expired, the data will be cleared from
+ * storage and not automatically loaded.
+ * * A continuous background process is not running to look for expired data.
+ * * We only check for expiration the next time `rxAutoSave` tries to load the data.
+ *
+ * To turn off automatic expiry for a given form, pass a value of `{ ttl: 0 }`.
+ * In this case, the data will never expire and you will have to clear it manually at
+ * an appropriate time by using one of the following:
+ *
+ * * `clear()`
+ * * `clearOnSuccess()`
+ *
+ * @param {Boolean|Promise} [options.load=true] *optional* -
+ * If false, will prevent data from being automatically loaded onto the scope.
+ *
+ * You may use a promise that resolves to a boolean, if desired.
+ * @param {Boolean|Promise} [options.save=true] *optional* -
+ * If false, will prevent data from being automatically saved on change.
+ *
+ * You may use a promise that resolves to a boolean, if desired.
+ * @param {String[]} [options.exclude] *optional* -
+ * A string of property names to exclude from automatic save. This is useful to
+ * exclude saving any sensitive information like passwords, credit card numbers, etc.
+ *
+ * <pre>
+ * var autosave = rxAutoSave($scope, 'formData', { exclude: ['password'] });
+ * </pr>
+ *
+ * @param {Object} [options.storageBackend=LocalStorage] *optional* -
+ * Must be an object which has `getObject(key)` and `setObject(key, val)` methods.
+ * `LocalStorage` and `SessionStorage` are both provided by EncoreUI, and support
+ * this interface.
+ *
+ * You can use your own custom backends as well, as long as it supports `getObject(key)`
+ * and `setObject(key, val)`.
  */
 .factory('rxAutoSave', ["$location", "$q", "debounce", "LocalStorage", function ($location, $q, debounce, LocalStorage) {
-
-    /* 
+    /*
      * We'll version the schema for the stored data, so if we need to change
-     * the schema in the future, we can do automatic migrations. Never 
+     * the schema in the future, we can do automatic migrations. Never
      * delete any of these documented schemas. If you have to add a new version,
      * then add it on top, but keep the documentation for the old one around.
      * VERSION 1
@@ -3229,7 +3375,7 @@ angular.module('encore.ui.rxMisc', ['debounce', 'encore.ui.rxSessionStorage'])
     var version = 1;
 
     // This will be used by the rxAutoSave instance to interact with
-    // LocalStorage. 
+    // LocalStorage.
     //
     // @param watchVar - the string name of the
     //                   object that's being watched, representing the model for the form.
@@ -3331,7 +3477,6 @@ angular.module('encore.ui.rxMisc', ['debounce', 'encore.ui.rxSessionStorage'])
     // This is what we return from rxAutoSave, and calling this
     // function will return an instance
     return function (scope, watchVar, opts) {
-
         opts = opts || {};
         _.defaults(opts, {
             load: true,
@@ -3344,7 +3489,7 @@ angular.module('encore.ui.rxMisc', ['debounce', 'encore.ui.rxSessionStorage'])
         });
 
         opts.ttl = opts.ttl * 1000; // convert back to milliseconds
-        
+
         var api = new StorageAPI(watchVar, opts.storageBackend, opts.keyShaping);
 
         var updateExpiryTime = function () {
@@ -3407,7 +3552,7 @@ angular.module('encore.ui.rxMisc', ['debounce', 'encore.ui.rxSessionStorage'])
             // Update the expiry time whenever we modify data
             updateExpiryTime();
         };
-        
+
         // We don't want to write to LocalStorage every time the model changes,
         // because that would turn typing into a textarea into an expensive operation.
         // We'll instead debounce the the writes for 1 second
@@ -3651,24 +3796,573 @@ angular.module('encore.ui.rxFloatingHeader', ['encore.ui.rxMisc'])
     };
 }]);
 
+/**
+ * @ngdoc overview
+ * @name rxForm
+ * @description
+ * # rxForm Component
+ *
+ * rxForm components are a set of directives used to create forms throughout Encore.
+ * These directives provide a common HTML layout and style for all form elements,
+ * which helps ensure form accessibility and makes creating new forms easier.
+ *
+ * ## Services
+ * * {@link rxForm.service:rxFormUtils rxFormUtils}
+ *
+ * ## Directives
+ * * {@link rxForm.directive:rxField rxField}
+ * * {@link rxForm.directive:rxFieldContent rxFieldContent}
+ * * {@link rxForm.directive:rxFieldName rxFieldName}
+ * * {@link rxForm.directive:rxForm rxForm}
+ * * {@link rxForm.directive:rxFormSection rxFormSection}
+ * * {@link rxForm.directive:rxHelpText rxHelpText}
+ * * {@link rxForm.directive:rxInlineError rxInlineError}
+ * * {@link rxForm.directive:rxInput rxInput}
+ * * {@link rxForm.directive:rxPrefix rxPrefix}
+ * * {@link rxForm.directive:rxSuffix rxSuffix}
+ *
+ * ### Related Directives
+ * * {@link rxButton.directive:rxButton rxButton}
+ * * {@link rxCharacterCount.directive:rxCharacterCount rxCharacterCount}
+ * * {@link rxCheckbox.directive:rxCheckbox rxCheckbox}
+ * * {@link rxOptionTable.directive:rxOptionTable rxOptionTable}
+ * * {@link rxRadio.directive:rxRadio rxRadio}
+ * * {@link rxSelect.directive:rxSelect rxSelect}
+ * * {@link rxToggleSwitch.directive:rxToggleSwitch rxToggleSwitch}
+ *
+ * ### Deprecated Directives
+ * * {@link rxForm.directive:rxFormItem rxFormItem}
+ * * {@link rxForm.directive:rxFormFieldset rxFormFieldset}
+ *
+ */
 angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
 /**
- *
+ * @name rxForm.directive:rxForm
  * @ngdoc directive
- * @name encore.ui.rxForm:rxFormItem
+ * @restrict A
+ * @description
+ * The rxForm directive is an attribute directive meant to be used for
+ * hierarchical validation of form-related elements. This directive may
+ * be placed on ANY DOM element, not just `<form>`.
+ *
+ * <dl>
+ *   <dt>Display:</dt>
+ *   <dd>**block** *(full width of parent)*</dd>
+ *
+ *   <dt>Parent:</dt>
+ *   <dd>Any HTML Element</dd>
+ *
+ *   <dt>Siblings:</dt>
+ *   <dd>Any HTML Element</dd>
+ *
+ *   <dt>Children:</dt>
+ *   <dd>
+ *     <ul>
+ *       <li>{@link rxForm.directive:rxFormSection rxFormSection}</li>
+ *       <li>Any HTML Element</li>
+ *     </ul>
+ *   </dd>
+ * </dl>
+ *
+ * @example
+ * <pre>
+ * ...
+ * <form rx-form><!-- you can use a DIV, if desired -->
+ *   <rx-form-section>
+ *     ...
+ *   </rx-form-section>
+ * </form>
+ * ...
+ * </pre>
+ */
+.directive('rxForm', ["rxNestedElement", function (rxNestedElement) {
+    return rxNestedElement({
+        restrict: 'A'
+    });
+}])
+/**
+ * @name rxForm.directive:rxFormSection
+ * @ngdoc directive
  * @restrict E
  * @description
+ * Structural element directive used for layout of sub-elements.
+ *
+ * By default, all `rxField` elements will display inline (horizontally).
+ * If you wish to display `rxField` elements in a stacked manner, you may
+ * place the `stacked` attribute on `rx-form-section`
+ *
+ * <dl>
+ *   <dt>Display:</dt>
+ *   <dd>**block** *(full width of parent)*</dd>
+ *
+ *   <dt>Parent:</dt>
+ *   <dd>{@link rxForm.directive:rxForm rxForm}</dd>
+ *
+ *   <dt>Siblings:</dt>
+ *   <dd>Any HTML Element</dd>
+ *
+ *   <dt>Children:</dt>
+ *   <dd>
+ *     <ul>
+ *       <li>{@link rxForm.directive:rxField rxField}</li>
+ *       <li>HTML DIV Element</li>
+ *     </ul>
+ *   </dd>
+ * </dl>
+ *
+ * @example
+ * <pre>
+ * ...
+ * <form rx-form>
+ *   <rx-form-section>
+ *     <rx-field>...</rx-field>
+ *     <div>...</div>
+ *   </rx-form-section>
+ * </form>
+ * ...
+ * </pre>
+ *
+ * @param {*=} stacked
+ * If present, `rxField` children will stack vertically rather than
+ * display horizontally.
+ */
+.directive('rxFormSection', ["rxNestedElement", function (rxNestedElement) {
+    return rxNestedElement({
+        parent: 'rxForm'
+    });
+}])
+/**
+ * @name rxForm.directive:rxField
+ * @ngdoc directive
+ * @restrict E
+ * @description
+ * Structural element directive used for layout of sub-elements.
+ *
+ * <dl>
+ *   <dt>Display:</dt>
+ *   <dd>**block**
+ *     <ul>
+ *       <li>default: *shares width equally with sibling `rxField` and `div` elements*</li>
+ *       <li>stacked: *max-width: 400px*</li>
+ *     </ul>
+ *   </dd>
+ *
+ *   <dt>Parent:</dt>
+ *   <dd>{@link rxForm.directive:rxFormSection rxFormSection}</dd>
+ *
+ *   <dt>Siblings:</dt>
+ *   <dd>Any HTML Element</dd>
+ *
+ *   <dt>Children:</dt>
+ *   <dd>
+ *     <ul>
+ *       <li>{@link rxForm.directive:rxFieldName rxFieldName}</li>
+ *       <li>{@link rxForm.directive:rxFieldContent rxFieldContent}</li>
+ *       <li>Any HTML Element</li>
+ *     </ul>
+ *   </dd>
+ * </dl>
+ *
+ * @example
+ * <pre>
+ * ...
+ * <form rx-form>
+ *   <rx-form-section>
+ *     <rx-field>
+ *       <rx-field-name>...</rx-field-name>
+ *       <rx-field-content>...</rx-field-content>
+ *     </rx-field>
+ *   </rx-form-section>
+ * </form>
+ * ...
+ * </pre>
+ */
+.directive('rxField', ["rxNestedElement", function (rxNestedElement) {
+    return rxNestedElement({
+        parent: 'rxFormSection'
+    });
+}])
+/**
+ * @name rxForm.directive:rxFieldName
+ * @ngdoc directive
+ * @restrict E
+ * @scope
+ * @description
+ * Stylistic element directive that provides a standardized UI for
+ * form field names.
+ *
+ * <dl>
+ *   <dt>Display:</dt>
+ *   <dd>**block** *(full width of parent)*</dd>
+ *
+ *   <dt>Parent:</dt>
+ *   <dd>{@link rxForm.directive:rxField rxField}</dd>
+ *
+ *   <dt>Siblings:</dt>
+ *   <dd>
+ *     <ul>
+ *       <li>{@link rxForm.directive:rxFieldContent rxFieldContent}</li>
+ *       <li>Any HTML Element</li>
+ *     </ul>
+ *   </dd>
+ *
+ *   <dt>Children:</dt>
+ *   <dd>Any HTML Element</dd>
+ * </dl>
+ *
+ * @example
+ * <pre>
+ * ...
+ * <form rx-form>
+ *   <rx-form-section>
+ *     <rx-field>
+ *       <rx-field-name>Salary</rx-field-name>
+ *       <rx-field-content>...</rx-field-content>
+ *     </rx-field>
+ *   </rx-form-section>
+ * </form>
+ * ...
+ * </pre>
+ *
+ * @param {Boolean=} [ng-required=false]
+ * Is this field required? This will add/remove the required symbol to the left of the name.
+ */
+.directive('rxFieldName', ["rxNestedElement", function (rxNestedElement) {
+    return rxNestedElement({
+        parent: 'rxField',
+        transclude: true,
+        scope: {
+            ngRequired: '=?'
+        },
+        templateUrl: 'templates/rxFieldName.html'
+    });
+}])
+/**
+ * @name rxForm.directive:rxFieldContent
+ * @ngdoc directive
+ * @restrict E
+ * @description
+ * Structural element directive used for layout of sub-elements.
+ * This element is used to wrap the actual content markup for your
+ * controls, labels, help text, and error messages.
+ *
+ * <dl>
+ *   <dt>Display:</dt>
+ *   <dd>**block** *(full width of parent)*</dd>
+ *
+ *   <dt>Parent:</dt>
+ *   <dd>{@link rxForm.directive:rxField rxField}</dd>
+ *
+ *   <dt>Siblings:</dt>
+ *   <dd>
+ *     <ul>
+ *       <li>{@link rxForm.directive:rxFieldName rxFieldName}</li>
+ *       <li>Any HTML Element</li>
+ *     </ul>
+ *   </dd>
+ *
+ *   <dt>Children:</dt>
+ *   <dd>
+ *     <ul>
+ *       <li>{@link rxForm.directive:rxInput rxInput}</li>
+ *       <li>Any HTML Element</li>
+ *     </ul>
+ *   </dd>
+ * </dl>
+ *
+ * @example
+ * <pre>
+ * ...
+ * <form rx-form>
+ *   <rx-form-section>
+ *     <rx-field>
+ *       <rx-field-name>
+ *          <i class="fa fa-exclamation"></i>
+ *          Important Field Name
+ *       </rx-field-name>
+ *       <rx-field-content>
+ *          <rx-input>...</rx-input>
+ *       </rx-field-content>
+ *     </rx-field>
+ *   </rx-form-section>
+ * </form>
+ * ...
+ * </pre>
+ */
+.directive('rxFieldContent', ["rxNestedElement", function (rxNestedElement) {
+    return rxNestedElement({
+        parent: 'rxField'
+    });
+}])
+/**
+ * @name rxForm.directive:rxInput
+ * @ngdoc directive
+ * @restrict E
+ * @description
+ * Structural element directive used for layout of sub-elements.
+ * Place your HTML control elements within this directive.
+ *
+ * <dl>
+ *   <dt>Display:</dt>
+ *   <dd>**block** *(full width of parent)*</dd>
+ *
+ *   <dt>Parent:</dt>
+ *   <dd>{@link rxForm.directive:rxFieldContent rxFieldContent}</dd>
+ *
+ *   <dt>Siblings:</dt>
+ *   <dd>Any HTML Element</dd>
+ *
+ *   <dt>Children:</dt>
+ *   <dd>
+ *     <ul>
+ *       <li>{@link rxForm.directive:rxPrefix rxPrefix}</li>
+ *       <li>{@link rxForm.directive:rxSuffix rxSuffix}</li>
+ *       <li>{@link rxCheckbox.directive:rxCheckbox rxCheckbox}</li>
+ *       <li>{@link rxRadio.directive:rxRadio rxRadio}</li>
+ *       <li>{@link rxSelect.directive:rxSelect rxSelect}</li>
+ *       <li>{@link rxToggleSwitch.directive:rxToggleSwitch rxToggleSwitch}</li>
+ *       <li>{@link rxOptionTable.directive:rxOptionTable rxOptionTable}</li>
+ *       <li>Any HTML Element</li>
+ *     </ul>
+ *   </dd>
+ * </dl>
+ *
+ * @example
+ * <pre>
+ * ...
+ * <form rx-form>
+ *   <rx-form-section>
+ *     <rx-field>
+ *       <rx-field-name>Salary:</rx-field-name>
+ *       <rx-field-content>
+ *         <rx-input>
+ *           <input type="number" />
+ *         </rx-input>
+ *       </rx-field-content>
+ *     </rx-field>
+ *   </rx-form-section>
+ * </form>
+ * ...
+ * </pre>
+ */
+.directive('rxInput', ["rxNestedElement", function (rxNestedElement) {
+    return rxNestedElement({
+        parent: 'rxFieldContent'
+    });
+}])
+/**
+ * @name rxForm.directive:rxPrefix
+ * @ngdoc directive
+ * @restrict E
+ * @description
+ * Structural element directive used to wrap content to be placed
+ * inline with a form control element.
+ *
+ * * Best placed before a form control element.
+ *
+ * <dl>
+ *   <dt>Display:</dt>
+ *   <dd>**inline block** *(only as wide as necessary for content)*</dd>
+ *
+ *   <dt>Parent:</dt>
+ *   <dd>{@link rxForm.directive:rxInput rxInput}</dd>
+ *
+ *   <dt>Siblings:</dt>
+ *   <dd>
+ *     <ul>
+ *       <li>{@link rxForm.directive:rxSuffix rxSuffix}</li>
+ *       <li>Any HTML Element</li>
+ *     </ul>
+ *   </dd>
+ *
+ *   <dt>Children:</dt>
+ *   <dd>Any HTML Element</dd>
+ * </dl>
+ *
+ * @example
+ * <pre>
+ * ...
+ * <form rx-form>
+ *   <rx-form-section>
+ *     <rx-field>
+ *       <rx-field-name>Salary:</rx-field-name>
+ *       <rx-field-content>
+ *         <rx-input>
+ *           <rx-prefix>$</rx-prefix>
+ *           <input type="number" />
+ *           <rx-suffix>Million</rx-suffix>
+ *         </rx-input>
+ *       </rx-field-content>
+ *     </rx-field>
+ *   </rx-form-section>
+ * </form>
+ * ...
+ * </pre>
+ */
+.directive('rxPrefix', ["rxNestedElement", function (rxNestedElement) {
+    return rxNestedElement({
+        parent: 'rxInput'
+    });
+}])
+/**
+ * @name rxForm.directive:rxSuffix
+ * @ngdoc directive
+ * @restrict E
+ * @description
+ * Structural element directive used to wrap content to be placed
+ * inline with a form control element.
+ *
+ * * Best placed after a form control element.
+ *
+ * <dl>
+ *   <dt>Display:</dt>
+ *   <dd>**inline block** *(only as wide as necessary for content)*</dd>
+ *
+ *   <dt>Parent:</dt>
+ *   <dd>{@link rxForm.directive:rxInput rxInput}</dd>
+ *
+ *   <dt>Siblings:</dt>
+ *   <dd>
+ *     <ul>
+ *       <li>{@link rxForm.directive:rxPrefix rxPrefix}</li>
+ *       <li>Any HTML Element</li>
+ *     </ul>
+ *   </dd>
+ *
+ *   <dt>Children:</dt>
+ *   <dd>Any HTML Element</dd>
+ * </dl>
+ *
+ * @example
+ * <pre>
+ * ...
+ * <form rx-form>
+ *   <rx-form-section>
+ *     <rx-field>
+ *       <rx-field-name>Salary:</rx-field-name>
+ *       <rx-field-content>
+ *         <rx-input>
+ *           <rx-prefix>$</rx-prefix>
+ *           <input type="number" />
+ *           <rx-suffix>Million</rx-suffix>
+ *         </rx-input>
+ *       </rx-field-content>
+ *     </rx-field>
+ *   </rx-form-section>
+ * </form>
+ * ...
+ * </pre>
+ */
+.directive('rxSuffix', ["rxNestedElement", function (rxNestedElement) {
+    return rxNestedElement({
+        parent: 'rxInput'
+    });
+}])
+/**
+ * @name rxForm.directive:rxInlineError
+ * @ngdoc directive
+ * @restrict E
+ * @description
+ * Stylistic element directive used to wrap an error message.
+ *
+ * * **block** element *(full width of parent)*
+ * * Best used as a sibling after {@link rxForm.directive:rxInput rxInput},
+ *   and {@link rxForm.directive:rxHelpText rxHelpText} elements.
+ *
+ * @example
+ * <pre>
+ * ...
+ * <form rx-form name="demoForm">
+ *   <rx-form-section>
+ *     <rx-field>
+ *       <rx-field-name>Salary:</rx-field-name>
+ *       <rx-field-content>
+ *         <rx-input>
+ *           <rx-prefix>$</rx-prefix>
+ *           <input type="number" name="salary" min="1000000" ng-model="salary" />
+ *           <rx-suffix>Million</rx-suffix>
+ *         </rx-input>
+ *         <rx-inline-error ng-show="demoForm.salary.$errors.min">
+ *           Salary must be above $1,000,000
+ *         </rx-inline-error>
+ *       </rx-field-content>
+ *     </rx-field>
+ *   </rx-form-section>
+ * </form>
+ * ...
+ * </pre>
+ */
+.directive('rxInlineError', function () {
+    return {
+        restrict: 'E'
+    };
+})
+/**
+ * @name rxForm.directive:rxHelpText
+ * @ngdoc directive
+ * @restrict E
+ * @description
+ * Stylistic element directive used to wrap form input help text.
+ *
+ * * **block** element *(full width of parent)*
+ * * Best used as a sibling after {@link rxForm.directive:rxInput rxInput},
+ *   but before {@link rxForm.directive:rxInlineError rxInlineError} elements.
+ *
+ * @example
+ * <pre>
+ * ...
+ * <form rx-form name="demoForm">
+ *   <rx-form-section>
+ *     <rx-field>
+ *       <rx-field-name>Salary:</rx-field-name>
+ *       <rx-field-content>
+ *         <rx-input>
+ *           <rx-prefix>$</rx-prefix>
+ *           <input type="number" name="salary" />
+ *           <rx-suffix>Million</rx-suffix>
+ *         </rx-input>
+ *         <rx-help-text>Must be greater than $1,000,000</rx-help-text>
+ *         <rx-inline-error ng-show="demoForm.salary.$errors.minimum">
+ *           Salary must be above $1,000,000
+ *         </rx-inline-error>
+ *       </rx-field-content>
+ *     </rx-field>
+ *   </rx-form-section>
+ * </form>
+ * ...
+ * </pre>
+ */
+.directive('rxHelpText', function () {
+    return {
+        restrict: 'E'
+    };
+})
+/**
+ * @name rxForm.directive:rxFormItem
+ * @deprecated
+ * @ngdoc directive
+ * @restrict E
+ * @scope
+ * @description
+ * **DEPRECATED** - This directive has been marked as deprecated and *will be removed* in a future
+ * release of the EncoreUI framework.  Please see current rxForm documentation for updated
+ * functionality.
+ *
  * This directive is used to wrap input fields and select boxes in the proper HTML.
  * It will attach the `<label>` to a transcluded input using the `id` attribute of the input.
  * If no `id` attribute exists, it will create one.
  *
- * @scope
  * @param {String} label - Text to use for <label>
  * @param {String} prefix - Text to include to the left of content
  * @param {String} suffix - Text to include to the right of content
  * @param {String} description - Text to place below input
  */
 .directive('rxFormItem', ["$document", "rxDOMHelper", function ($document, rxDOMHelper) {
+    var warnMsg = 'DEPRECATION WARNING: rxFormItem has been marked as deprecated ' +
+        'and will be removed in a future release of the EncoreUI framework. ' +
+        'Please see current rxForm documentation for updated functionality.';
+    console.warn(warnMsg); // jshint ignore:line
+
     return {
         restrict: 'E',
         templateUrl: 'templates/rxFormItem.html',
@@ -3736,17 +4430,27 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
     };
 }])
 /**
- *
+ * @name rxForm.directive:rxFormFieldset
+ * @deprecated
  * @ngdoc directive
- * @name encore.ui.rxForm:rxFormFieldset
  * @restrict E
- * @description
- * This directive is used to wrap a set of input fields in the proper HTML
  * @scope
+ * @description
+ * **DEPRECATED** - This directive has been marked as deprecated and *will be removed* in a future
+ * release of the EncoreUI framework.  Please see current rxForm documentation for updated
+ * functionality.
+ *
+ * This directive is used to wrap a set of input fields in the proper HTML
+ *
  * @param {String} legend - Text to use for <legend>
  * @param {String} description - Text to place below input
  */
 .directive('rxFormFieldset', function () {
+    var warnMsg = 'DEPRECATION WARNING: rxFormFieldset has been marked as deprecated ' +
+        'and will be removed in a future release of the EncoreUI framework. ' +
+        'Please see current rxForm documentation for updated functionality.';
+    console.warn(warnMsg); // jshint ignore:line
+
     return {
         restrict: 'E',
         templateUrl: 'templates/rxFormFieldset.html',
@@ -3758,8 +4462,9 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
     };
 })
 /**
+ * @name rxForm.service:rxFormUtils
  * @ngdoc service
- * @name encore.ui.rxModalForm:rxFormUtils
+ *
  * @description
  * Set of utility functions used by rxForm to access form data
  *
@@ -3775,7 +4480,6 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
  * </pre>
  */
 .factory('rxFormUtils', ["$document", function ($document) {
-
     var rxFormUtils = {};
 
     // Returns the selected option for the rxFormOptionTable with id: tableId
@@ -5480,6 +6184,21 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
 }]);
 
 angular.module('encore.ui.rxRadio', [])
+/**
+ * @name rxRadio.directive:rxRadio
+ * @ngdoc directive
+ * @restrict A
+ * @scope
+ * @description
+ * Attribute directive that wraps a native radio element in markup required for styling purposes.
+ *
+ * @example
+ * <pre>
+ * <input rx-radio />
+ * </pre>
+ *
+ * @param {Boolean=} [ng-disabled=false] Determines if control is disabled.
+ */
 .directive('rxRadio', function () {
     return {
         restrict: 'A',
@@ -5569,12 +6288,21 @@ angular.module('encore.ui.rxSearchBox', [])
 
 angular.module('encore.ui.rxSelect', [])
 /**
- *
  * @ngdoc directive
- * @name encore.ui.rxForm:rxSelect
+ * @name rxSelect.directive:rxSelect
  * @restrict A
- * @param {Boolean} [ngDisabled=""] - Angular expression that evaluates to a Boolean
  * @description This directive is to apply styling to native `<select>` elements
+ *
+ * @example
+ * <pre>
+ * <select rx-select ng-model="demoItem">
+ *   <option value="1">First</option>
+ *   <option value="2">Second</option>
+ *   <option value="3">Third</option>
+ * </select>
+ * </pre>
+ *
+ * @param {Boolean=} [ngDisabled=false] Determines if control is disabled.
  */
 .directive('rxSelect', function () {
     return {
@@ -6430,9 +7158,8 @@ angular.module('encore.ui.rxToggle', [])
 
 angular.module('encore.ui.rxToggleSwitch', [])
 /**
- *
  * @ngdoc directive
- * @name encore.ui.rxToggleSwitch:rxToggleSwitch
+ * @name rxToggleSwitch.directive:rxToggleSwitch
  * @restrict E
  * @description
  * Displays an on/off switch toggle
