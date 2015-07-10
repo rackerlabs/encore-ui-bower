@@ -2848,15 +2848,15 @@ rx-collapse .collapse-container .double-chevron-cell .double-chevron:after {
   color: #ffffff;
   font-size: 28px;
   content: "\00bb";
-  -webkit-transform: rotate(90deg) scaleX(-1);
-  transform: rotate(90deg) scaleX(-1);
+  -webkit-transform: rotate(90deg) scaleX(1);
+  transform: rotate(90deg) scaleX(1);
   -webkit-transition: all .2s;
   transition: all .2s;
 }
 rx-collapse .collapse-container .double-chevron-cell.expanded .double-chevron:after {
   content: "\00bb";
-  -webkit-transform: rotate(90deg) scaleX(1);
-  transform: rotate(90deg) scaleX(1);
+  -webkit-transform: rotate(90deg) scaleX(-1);
+  transform: rotate(90deg) scaleX(-1);
   -webkit-transition: all .2s;
   transition: all .2s;
 }
@@ -2868,6 +2868,14 @@ rx-collapse .collapse-container .rx-collapse-title {
 rx-collapse .collapse-container .collapse-body {
   margin: 0;
   padding: 10px;
+}
+rx-collapse .sml-title {
+  cursor: pointer;
+  color: #898989;
+  font-size: 10pt;
+}
+rx-collapse .hide-border {
+  border: none;
 }
 /*
  * rxFeedback
