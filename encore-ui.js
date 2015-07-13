@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.23.0 - 2015-07-10
+ * Version: 1.23.1 - 2015-07-13
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxCheckbox','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
@@ -66,7 +66,7 @@ angular.module('encore.ui.rxAccountInfo', [])
  * @param {string} [notifyStack] - Optional notifications stack to put errors on. Defaults to `page`
  * @param {string} [accountInfoBanner] - Set to "true" to use the new under-the-breadcrumbs style
  */
-.directive('rxAccountInfo', function (Teams, SupportAccount, Encore, rxNotify, encoreRoutes,
+.directive('rxAccountInfo', ["Teams", "SupportAccount", "Encore", "rxNotify", "encoreRoutes", "AccountStatusGroup", function (Teams, SupportAccount, Encore, rxNotify, encoreRoutes,
                                     AccountStatusGroup) {
     return {
         templateUrl: function (elem, attr) {
@@ -136,10 +136,10 @@ angular.module('encore.ui.rxAccountInfo', [])
             });
         }
     };
-});
+}]);
 
 angular.module('encore.ui.rxActionMenu', [])
-.directive('rxActionMenu', function ($rootScope, $document) {
+.directive('rxActionMenu', ["$rootScope", "$document", function ($rootScope, $document) {
     return {
         restrict: 'E',
         transclude: true,
@@ -188,7 +188,7 @@ angular.module('encore.ui.rxActionMenu', [])
             // https://github.com/angular-ui/bootstrap/blob/master/src/tooltip/tooltip.js
         }
     };
-});
+}]);
 
 angular.module('encore.ui.rxActiveUrl', [])
 /**
@@ -201,7 +201,7 @@ angular.module('encore.ui.rxActiveUrl', [])
  * form of <li rx-active-url="/servers">. The directive checks if the attribute
  * value is a subset of the current URL. If so it returns the class name "selected"
  */
-.directive('rxActiveUrl', function ($location) {
+.directive('rxActiveUrl', ["$location", function ($location) {
     return {
         restrict: 'E',
         templateUrl: 'templates/rxActiveUrl.html',
@@ -210,17 +210,17 @@ angular.module('encore.ui.rxActiveUrl', [])
         scope: {
             url: '@'
         },
-        controller: function ($scope) {
+        controller: ["$scope", function ($scope) {
             $scope.isNavActive = function (pattern) {
                 return $location.path().indexOf(pattern) !== -1;
             };
-        },
+        }],
         link: function (scope, element, attribute) {
             // Is the subset of whatever is in isNavActive part of the URL string?
             scope.navActive = scope.isNavActive(attribute.url);
         }
     };
-});
+}]);
 
 angular.module('encore.ui.rxAge', [])
 // Another option
@@ -299,7 +299,7 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
 * Environment.get() // return environment object that matches current location
 * </pre>
 */
-.service('Environment', function ($location, $rootScope, $log) {
+.service('Environment', ["$location", "$rootScope", "$log", function ($location, $rootScope, $log) {
     /*
      * This array defines different environments to check against.
      * It is prefilled with 'Encore' based environments
@@ -461,7 +461,7 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
      */
     this.isUnifiedProd = makeEnvCheck('unified-prod');
 
-})
+}])
 /**
 *
 * @ngdoc filter
@@ -479,14 +479,14 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
 * Renders as '/myPath' regardless of environment, because value passed in was not an object
 * </pre>
 */
-.filter('rxEnvironmentUrl', function (Environment, $interpolate) {
+.filter('rxEnvironmentUrl', ["Environment", "$interpolate", function (Environment, $interpolate) {
     return function (details) {
         var environment = Environment.get();
 
         // convert url template into full path based on details provided (if details is an object)
         return _.isObject(details) ? $interpolate(environment.url)(details) : details;
     };
-})
+}])
 /**
 *
 * @ngdoc filter
@@ -503,7 +503,7 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
 * returns false if current environment is 'production', true otherwise
 * </pre>
 */
-.filter('rxEnvironmentMatch', function (Environment) {
+.filter('rxEnvironmentMatch', ["Environment", function (Environment) {
     return function (environment) {
         // check to see if first character is negation indicator
         var isNegated = environment[0] === '!';
@@ -514,7 +514,7 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
         var environmentMatches = Environment.envCheck(targetEnvironmentName);
         return isNegated ? !environmentMatches : environmentMatches;
     };
-})
+}])
 /**
 * @ngdoc directive
 * @name encore.ui.rxEnvironment:rxEnvironment
@@ -529,7 +529,7 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
 *     <div rx-if-environment="!unified-prod">Show if not prod</div>
 * </pre>
 */
-.directive('rxIfEnvironment', function ($compile) {
+.directive('rxIfEnvironment', ["$compile", function ($compile) {
     return {
         restrict: 'A',
         terminal: true,
@@ -550,7 +550,7 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
             };
         }
     };
-});
+}]);
 
 angular.module('encore.ui.rxAppRoutes', ['encore.ui.rxEnvironment'])
 /**
@@ -559,7 +559,7 @@ angular.module('encore.ui.rxAppRoutes', ['encore.ui.rxEnvironment'])
 * @description
 * Set of utility functions used by rxAppRoutes to break apart/compare URLs
 */
-.service('urlUtils', function ($location, rxEnvironmentUrlFilter, $interpolate, $route, $document) {
+.service('urlUtils', ["$location", "rxEnvironmentUrlFilter", "$interpolate", "$route", "$document", function ($location, rxEnvironmentUrlFilter, $interpolate, $route, $document) {
     // remove any preceding # and / from the URL for cleaner comparison
     this.stripLeadingChars = function (url) {
         // http://regexr.com/39coc
@@ -674,14 +674,14 @@ angular.module('encore.ui.rxAppRoutes', ['encore.ui.rxEnvironment'])
     this.matchesSubChunks = function (firstChunks, subChunks, numChunks) {
         return _.isEqual(firstChunks.slice(0, numChunks), subChunks);
     };
-})
+}])
 /**
 * @ngdoc interface
 * @name encore.ui.rxApp:AppRoutes
 * @description
 * Manages page routes, building urls and marking them as active on route change
 */
-.factory('rxAppRoutes', function ($rootScope, $log, urlUtils, $q) {
+.factory('rxAppRoutes', ["$rootScope", "$log", "urlUtils", "$q", function ($rootScope, $log, urlUtils, $q) {
     var AppRoutes = function (routes) {
         routes = routes || [];
         // we need to get the current path on page load
@@ -846,7 +846,7 @@ angular.module('encore.ui.rxAppRoutes', ['encore.ui.rxEnvironment'])
     };
 
     return AppRoutes;
-});
+}]);
 
 /*jshint proto:true*/
 angular.module('encore.ui.rxLocalStorage', [])
@@ -872,7 +872,7 @@ angular.module('encore.ui.rxLocalStorage', [])
     * LocalStorage.clear(); // no return value
     * </pre>
     */
-    .service('LocalStorage', function ($window) {
+    .service('LocalStorage', ["$window", function ($window) {
         this.setItem = function (key, value) {
             $window.localStorage.setItem(key, value);
         };
@@ -912,7 +912,7 @@ angular.module('encore.ui.rxLocalStorage', [])
 
             return item;
         };
-    });
+    }]);
 
 angular.module('encore.ui.rxSession', ['encore.ui.rxLocalStorage'])
 /**
@@ -933,7 +933,7 @@ angular.module('encore.ui.rxSession', ['encore.ui.rxLocalStorage'])
     * Session.isAuthenticated(); // Returns true/false if the user token is valid.
     * </pre>
     */
-    .factory('Session', function (LocalStorage) {
+    .factory('Session', ["LocalStorage", function (LocalStorage) {
         var TOKEN_ID = 'encoreSessionToken';
         var session = {};
 
@@ -997,7 +997,7 @@ angular.module('encore.ui.rxSession', ['encore.ui.rxLocalStorage'])
         };
 
         return session;
-    });
+    }]);
 
 angular.module('encore.ui.rxPermission', ['encore.ui.rxSession'])
     /**
@@ -1014,7 +1014,7 @@ angular.module('encore.ui.rxPermission', ['encore.ui.rxSession'])
     * Permission.hasRole(role) //returns true/false if user has specified role
     * </pre>
     */
-    .factory('Permission', function (Session) {
+    .factory('Permission', ["Session", function (Session) {
         var permissionSvc = {};
         
         var cleanRoles = function (roles) {
@@ -1072,7 +1072,7 @@ angular.module('encore.ui.rxPermission', ['encore.ui.rxSession'])
         };
 
         return permissionSvc;
-    })
+    }])
     /**
     * @ngdoc directive
     * @name encore.ui.rxPermission:rxPermission
@@ -1092,11 +1092,11 @@ angular.module('encore.ui.rxPermission', ['encore.ui.rxSession'])
                 role: '@'
             },
             templateUrl: 'templates/rxPermission.html',
-            controller: function ($scope, Permission) {
+            controller: ["$scope", "Permission", function ($scope, Permission) {
                 $scope.hasRole = function (roles) {
                     return Permission.hasRole(roles);
                 };
-            }
+            }]
         };
     });
 
@@ -1111,7 +1111,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
 *
 * @returns {object} Instance of rxAppRoutes with `fetchRoutes` method added
 */
-.factory('encoreRoutes', function (rxAppRoutes, routesCdnPath, rxNotify, $q, $http,
+.factory('encoreRoutes', ["rxAppRoutes", "routesCdnPath", "rxNotify", "$q", "$http", "rxVisibilityPathParams", "rxVisibility", "Environment", "rxHideIfUkAccount", "LocalStorage", function (rxAppRoutes, routesCdnPath, rxNotify, $q, $http,
                                    rxVisibilityPathParams, rxVisibility, Environment,
                                    rxHideIfUkAccount, LocalStorage) {
 
@@ -1179,7 +1179,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
     };
 
     return encoreRoutes;
-})
+}])
 /**
 * @ngdoc directive
 * @name encore.ui.rxApp:rxApp
@@ -1201,7 +1201,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
 *     <rx-app site-title="Custom Title"></rx-app>
 * </pre>
 */
-.directive('rxApp', function (encoreRoutes, rxAppRoutes, hotkeys,
+.directive('rxApp', ["encoreRoutes", "rxAppRoutes", "hotkeys", "Environment", "routesCdnPath", "Session", function (encoreRoutes, rxAppRoutes, hotkeys,
                               Environment, routesCdnPath, Session) {
     return {
         restrict: 'E',
@@ -1264,7 +1264,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
             }
         }
     };
-})
+}])
 /**
 * @ngdoc directive
 * @name encore.ui.rxApp:rxPage
@@ -1327,7 +1327,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
                 moveLayoutAttrib(pageDiv.attributes[i]);
             }
         },
-        controller: function ($scope, rxPageTitle) {
+        controller: ["$scope", "rxPageTitle", function ($scope, rxPageTitle) {
             $scope.$watch('title', function () {
                 rxPageTitle.setTitle($scope.title);
             });
@@ -1337,7 +1337,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
                     rxPageTitle.setTitleUnsafeStripHTML($scope.unsafeHtmlTitle);
                 }
             });
-        }
+        }]
     };
 })
 /**
@@ -1380,7 +1380,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
 *     <rx-app-nav-item ng-repeat="item in items"></rx-app-nav-item>
 * </pre>
 */
-.directive('rxAppNavItem', function ($compile, $location, $route) {
+.directive('rxAppNavItem', ["$compile", "$location", "$route", function ($compile, $location, $route) {
     var linker = function (scope, element) {
         var injectContent = function (selector, content) {
             var el = element[0].querySelector(selector);
@@ -1424,7 +1424,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
         scope: {
             item: '='
         },
-        controller: function ($scope, $location, rxVisibility, Permission) {
+        controller: ["$scope", "$location", "rxVisibility", "Permission", function ($scope, $location, rxVisibility, Permission) {
             // provide `route` as a scope property so that links can tie into them
             $scope.route = $route;
 
@@ -1497,9 +1497,9 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
                 }
                 // otherwise, let the default nav do it's thing
             };
-        }
+        }]
     };
-})
+}])
 /**
 * @ngdoc directive
 * @name encore.ui.rxApp:rxAppSearch
@@ -1533,7 +1533,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
  * @description
  * Provides the ability to switch between account users. This directive is specific to Rackspace
  */
-.directive('rxAccountUsers', function ($location, $route, Encore, $rootScope, encoreRoutes) {
+.directive('rxAccountUsers', ["$location", "$route", "Encore", "$rootScope", "encoreRoutes", function ($location, $route, Encore, $rootScope, encoreRoutes) {
     return {
         restrict: 'E',
         templateUrl: 'templates/rxAccountUsers.html',
@@ -1613,7 +1613,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
             $rootScope.$on('$routeChangeSuccess', checkCloud);
         }
     };
-})
+}])
 /**
 * @ngdoc directive
 * @name encore.ui.rxApp:rxAtlasSearch
@@ -1621,7 +1621,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
 * @description
 * Used to search accounts for Cloud Atlas
 */
-.directive('rxAtlasSearch', function ($window) {
+.directive('rxAtlasSearch', ["$window", function ($window) {
     return {
         template: '<rx-app-search placeholder="Search by username..." submit="searchAccounts"></rx-app-search>',
         restrict: 'E',
@@ -1633,8 +1633,8 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
             };
         }
     };
-})
-.directive('rxAccountSearch', function ($window) {
+}])
+.directive('rxAccountSearch', ["$window", function ($window) {
     return {
         templateUrl: 'templates/rxAccountSearch.html',
         restrict: 'E',
@@ -1646,8 +1646,8 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
             };
         }
     };
-})
-.directive('rxBillingSearch', function ($location, $window, encoreRoutes) {
+}])
+.directive('rxBillingSearch', ["$location", "$window", "encoreRoutes", function ($location, $window, encoreRoutes) {
     return {
         templateUrl: 'templates/rxBillingSearch.html',
         restrict: 'E',
@@ -1670,7 +1670,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
             };
         }
     };
-})
+}])
 
 /**
 * @ngdoc directive
@@ -1746,7 +1746,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
  * in the current route
  * Use it as `visibility: [ 'rxPathParams', { param: 'userName' } ]`
  */
-.factory('rxVisibilityPathParams', function ($routeParams) {
+.factory('rxVisibilityPathParams', ["$routeParams", function ($routeParams) {
 
     var pathParams = {
         name:'rxPathParams',
@@ -1756,7 +1756,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
     };
 
     return pathParams;
-})
+}])
 
 /*
  * @ngdoc object
@@ -1766,7 +1766,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
  * @return false if account number matches UK pattern
  * Use it as `visibility: [ 'rxHideIfUkAccount' ]`
  */
-.factory('rxHideIfUkAccount', function ($routeParams) {
+.factory('rxHideIfUkAccount', ["$routeParams", function ($routeParams) {
     var isUkAccount = {
         name: 'rxHideIfUkAccount',
         method: function () {
@@ -1775,7 +1775,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
     };
 
     return isUkAccount;
-})
+}])
 
 /*
  * @ngdoc provider
@@ -1835,7 +1835,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
 * This is used to draw the Alpha/Beta/etc tags in page titles and in breadcrumbs. It's not
 * intended as a public directive.
 */
-.directive('rxStatusTag', function (rxStatusTags) {
+.directive('rxStatusTag', ["rxStatusTags", function (rxStatusTags) {
     return {
         template: '<span ng-if="status && validKey" class="status-tag {{ class }}">{{ text }}</span>',
         restrict: 'E',
@@ -1851,10 +1851,10 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
             }
         }
     };
-});
+}]);
 
 angular.module('encore.ui.rxAttributes', [])
-.directive('rxAttributes', function ($parse, $compile) {
+.directive('rxAttributes', ["$parse", "$compile", function ($parse, $compile) {
     // @see http://stackoverflow.com/questions/19224028/add-directives-from-directive-in-angularjs
     return {
         restrict: 'A',
@@ -1884,7 +1884,7 @@ angular.module('encore.ui.rxAttributes', [])
             };
         }
     };
-});
+}]);
 
 angular.module('encore.ui.rxIdentity', ['ngResource'])
    /**
@@ -1902,7 +1902,7 @@ angular.module('encore.ui.rxIdentity', ['ngResource'])
     * Identity.login({username: '', password: '', successCallback, errorCallback}); // returns a promise
     * </pre>
     */
-    .factory('Identity', function ($resource) {
+    .factory('Identity', ["$resource", function ($resource) {
         var authSvc = $resource('/api/identity/:action',
             {},
             {
@@ -1924,7 +1924,7 @@ angular.module('encore.ui.rxIdentity', ['ngResource'])
         };
 
         return authSvc;
-    });
+    }]);
 
 angular.module('encore.ui.rxAuth',
     ['encore.ui.rxIdentity', 'encore.ui.rxSession', 'encore.ui.rxPermission'])
@@ -1955,7 +1955,7 @@ angular.module('encore.ui.rxAuth',
     * Auth.hasRole(role) // Returns true/false if user has specified role
     * </pre>
     */
-    .factory('Auth', function (Identity, Session, Permission) {
+    .factory('Auth', ["Identity", "Session", "Permission", function (Identity, Session, Permission) {
         var svc = {};
 
         _.assign(svc, Identity);
@@ -1963,7 +1963,7 @@ angular.module('encore.ui.rxAuth',
         _.assign(svc, Permission);
 
         return svc;
-    });
+    }]);
 
 angular.module('encore.ui.rxBreadcrumbs', ['ngSanitize'])
 .factory('rxBreadcrumbsSvc', function () {
@@ -2028,9 +2028,9 @@ angular.module('encore.ui.rxBreadcrumbs', ['ngSanitize'])
     return {
         restrict: 'E',
         templateUrl: 'templates/rxBreadcrumbs.html',
-        controller: function ($scope, rxBreadcrumbsSvc) {
+        controller: ["$scope", "rxBreadcrumbsSvc", function ($scope, rxBreadcrumbsSvc) {
             $scope.breadcrumbs = rxBreadcrumbsSvc;
-        },
+        }],
         scope: {
             status: '@'
         }
@@ -2147,7 +2147,7 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
         controller: 'rxBulkSelectController'
     };
 })
-.controller('rxBulkSelectController', function ($scope, NotifyProperties, rxBulkSelectUtils) {
+.controller('rxBulkSelectController', ["$scope", "NotifyProperties", "rxBulkSelectUtils", function ($scope, NotifyProperties, rxBulkSelectUtils) {
     $scope.showMessage = false;
     
     var uncheckHeaderFn = _.noop,
@@ -2228,7 +2228,7 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
         }
     };
 
-})
+}])
 
 /**
  * @ngdoc directive
@@ -2244,7 +2244,7 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
  *
  * @example   <th rx-bulk-select-header-check></th>
  */
-.directive('rxBulkSelectHeaderCheck', function ($compile) {
+.directive('rxBulkSelectHeaderCheck', ["$compile", function ($compile) {
     var selectAllCheckbox = '<input ng-model="allSelected" ng-change="selectAll()" rx-checkbox>';
     return {
         restrict: 'A',
@@ -2274,7 +2274,7 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
             rxBulkSelectCtrl.registerHeader(uncheck);
         }
     };
-})
+}])
 
 /**
  * @ngdoc directive
@@ -2426,7 +2426,7 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
  *       </rx-batch-actions>
  *   </th>
  */
-.directive('rxBatchActions', function (rxDOMHelper) {
+.directive('rxBatchActions', ["rxDOMHelper", function (rxDOMHelper) {
     return {
         restrict: 'E',
         require: ['^rxBulkSelect', '?^rxFloatingHeader'],
@@ -2470,7 +2470,7 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
         }
     };
     
-})
+}])
 .factory('rxBulkSelectUtils', function () {
     var rxBulkSelectUtils = {};
     
@@ -2518,7 +2518,7 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
  * This means that if you do `stats.numSelected = 20`, everyone that registered for notifications will
  * get their notification function called.
  */
-.factory('NotifyProperties', function ($timeout) {
+.factory('NotifyProperties', ["$timeout", function ($timeout) {
     var NotifyProperties = {};
 
     NotifyProperties.registrationFn = function (dst, name, sourceName) {
@@ -2546,7 +2546,7 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
 
     return NotifyProperties;
     
-});
+}]);
 
 angular.module('encore.ui.rxButton', [])
 /**
@@ -2606,7 +2606,7 @@ angular.module('encore.ui.rxCharacterCount', [])
  *     <textarea ng-model="model" rx-character-count></textarea>
  * </pre>
  */
-.directive('rxCharacterCount', function ($compile) {
+.directive('rxCharacterCount', ["$compile", function ($compile) {
     var counterStart = '<div class="character-countdown" ';
     var counterEnd =   'ng-class="{ \'near-limit\': nearLimit, \'over-limit\': overLimit }"' +
                   '>{{ remaining }}</div>';
@@ -2707,7 +2707,7 @@ angular.module('encore.ui.rxCharacterCount', [])
             });
         }
     };
-});
+}]);
 
 angular.module('encore.ui.rxCollapse', [])
 /**
@@ -2751,7 +2751,7 @@ angular.module('encore.ui.rxCompile', [])
  * @name encore.ui.rxCompile:rxCompile
  * @see http://docs.angularjs.org/api/ng/service/$compile#attributes
  */
-.directive('rxCompile', function ($compile) {
+.directive('rxCompile', ["$compile", function ($compile) {
     return function (scope, element, attrs) {
         scope.$watch(
             function (scope) {
@@ -2771,7 +2771,7 @@ angular.module('encore.ui.rxCompile', [])
             }
         );
     };
-});
+}]);
 
 angular.module('encore.ui.rxDiskSize', [])
 .filter('rxDiskSize', function () {
@@ -2804,7 +2804,7 @@ angular.module('encore.ui.rxFavicon', ['encore.ui.rxEnvironment'])
 * @param {Object} rxFavicon - Takes two optional properties (staging and local), with the value of each being
 *                             the path to the favicon.
 */
-.directive('rxFavicon', function (Environment, $parse, $log) {
+.directive('rxFavicon', ["Environment", "$parse", "$log", function (Environment, $parse, $log) {
     return {
         restrict: 'A',
         replace: true,
@@ -2842,7 +2842,7 @@ angular.module('encore.ui.rxFavicon', ['encore.ui.rxEnvironment'])
             });
         }
     };
-});
+}]);
 
 angular.module('encore.ui.rxFeedback', ['ngResource'])
 .value('feedbackTypes', [
@@ -2869,7 +2869,7 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
     }
 ])
 // requires html2canvas
-.service('rxScreenshotSvc', function ($log, $q) {
+.service('rxScreenshotSvc', ["$log", "$q", function ($log, $q) {
     // double check that html2canvas is loaded
     var hasDependencies = function () {
         var hasHtml2Canvas = typeof html2canvas == 'function';
@@ -2897,8 +2897,8 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
             return deferred.promise;
         }
     };
-})
-.factory('rxFeedbackSvc', function ($resource, feedbackApi, $location, $window) {
+}])
+.factory('rxFeedbackSvc', ["$resource", "feedbackApi", "$location", "$window", function ($resource, feedbackApi, $location, $window) {
     var container = {
         api: undefined,
         email: 'encoreui@lists.rackspace.com'
@@ -2931,8 +2931,8 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
     };
 
     return container;
-})
-.directive('rxFeedback', function (feedbackTypes, $location, rxFeedbackSvc, rxScreenshotSvc, rxNotify, Session) {
+}])
+.directive('rxFeedback', ["feedbackTypes", "$location", "rxFeedbackSvc", "rxScreenshotSvc", "rxNotify", "Session", function (feedbackTypes, $location, rxFeedbackSvc, rxScreenshotSvc, rxNotify, Session) {
     return {
         restrict: 'E',
         templateUrl: 'templates/rxFeedback.html',
@@ -2994,7 +2994,7 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
             }
         }
     };
-});
+}]);
 
 /*jshint proto:true*/
 angular.module('encore.ui.rxSessionStorage', [])
@@ -3020,7 +3020,7 @@ angular.module('encore.ui.rxSessionStorage', [])
     * SessionStorage.clear(); // no return value
     * </pre>
     */
-    .service('SessionStorage', function ($window) {
+    .service('SessionStorage', ["$window", function ($window) {
         this.setItem = function (key, value) {
             $window.sessionStorage.setItem(key, value);
         };
@@ -3060,7 +3060,7 @@ angular.module('encore.ui.rxSessionStorage', [])
 
             return item;
         };
-    });
+    }]);
 
 /**
  * @ngdoc overview
@@ -3089,7 +3089,7 @@ angular.module('encore.ui.rxMisc', ['debounce', 'encore.ui.rxSessionStorage'])
  *
  * All methods take jquery-lite wrapped elements as arguments
  */
-.factory('rxDOMHelper', function ($document, $window) {
+.factory('rxDOMHelper', ["$document", "$window", function ($document, $window) {
     var scrollTop = function () {
         // Safari and Chrome both use body.scrollTop, but Firefox needs
         // documentElement.scrollTop
@@ -3192,7 +3192,7 @@ angular.module('encore.ui.rxMisc', ['debounce', 'encore.ui.rxSessionStorage'])
         find: find,
         wrapAll: wrapAll
     };
-})
+}])
 /**
  * @ngdoc filter
  * @name rxMisc.filter:titleize
@@ -3350,7 +3350,7 @@ angular.module('encore.ui.rxMisc', ['debounce', 'encore.ui.rxSessionStorage'])
  * You can use your own custom backends as well, as long as it supports `getObject(key)`
  * and `setObject(key, val)`.
  */
-.factory('rxAutoSave', function ($location, $q, debounce, LocalStorage) {
+.factory('rxAutoSave', ["$location", "$q", "debounce", "LocalStorage", function ($location, $q, debounce, LocalStorage) {
     /*
      * We'll version the schema for the stored data, so if we need to change
      * the schema in the future, we can do automatic migrations. Never
@@ -3586,7 +3586,7 @@ angular.module('encore.ui.rxMisc', ['debounce', 'encore.ui.rxSessionStorage'])
 
         return autoSaveInstance;
     };
-});
+}]);
 
 /**
  * @ngdoc directive
@@ -3595,10 +3595,10 @@ angular.module('encore.ui.rxMisc', ['debounce', 'encore.ui.rxSessionStorage'])
  * Turns a tableheader into a floating persistent header
  */
 angular.module('encore.ui.rxFloatingHeader', ['encore.ui.rxMisc'])
-.directive('rxFloatingHeader', function ($document, rxDOMHelper) {
+.directive('rxFloatingHeader', ["$document", "rxDOMHelper", function ($document, rxDOMHelper) {
     return {
         restrict: 'A',
-        controller: function ($scope) {
+        controller: ["$scope", function ($scope) {
             this.update = function () {
                 // It's possible for a child directive to try to call this
                 // before the rxFloatingHeader link function has been run,
@@ -3607,7 +3607,7 @@ angular.module('encore.ui.rxFloatingHeader', ['encore.ui.rxMisc'])
                     $scope.update();
                 }
             };
-        },
+        }],
         link: function (scope, table) {
             var state, seenFirstScroll, trs, ths, clones, inputs, maxHeight, header, singleThs, maxThWidth;
 
@@ -3803,7 +3803,7 @@ angular.module('encore.ui.rxFloatingHeader', ['encore.ui.rxMisc'])
             };
         },
     };
-});
+}]);
 
 /**
  * @ngdoc overview
@@ -3884,11 +3884,11 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
  * ...
  * </pre>
  */
-.directive('rxForm', function (rxNestedElement) {
+.directive('rxForm', ["rxNestedElement", function (rxNestedElement) {
     return rxNestedElement({
         restrict: 'A'
     });
-})
+}])
 /**
  * @name rxForm.directive:rxFormSection
  * @ngdoc directive
@@ -3935,11 +3935,11 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
  * If present, `rxField` children will stack vertically rather than
  * display horizontally.
  */
-.directive('rxFormSection', function (rxNestedElement) {
+.directive('rxFormSection', ["rxNestedElement", function (rxNestedElement) {
     return rxNestedElement({
         parent: 'rxForm'
     });
-})
+}])
 /**
  * @name rxForm.directive:rxField
  * @ngdoc directive
@@ -3986,11 +3986,11 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
  * ...
  * </pre>
  */
-.directive('rxField', function (rxNestedElement) {
+.directive('rxField', ["rxNestedElement", function (rxNestedElement) {
     return rxNestedElement({
         parent: 'rxFormSection'
     });
-})
+}])
 /**
  * @name rxForm.directive:rxFieldName
  * @ngdoc directive
@@ -4036,7 +4036,7 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
  * @param {Boolean=} [ng-required=false]
  * Is this field required? This will add/remove the required symbol to the left of the name.
  */
-.directive('rxFieldName', function (rxNestedElement) {
+.directive('rxFieldName', ["rxNestedElement", function (rxNestedElement) {
     return rxNestedElement({
         parent: 'rxField',
         transclude: true,
@@ -4045,7 +4045,7 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
         },
         templateUrl: 'templates/rxFieldName.html'
     });
-})
+}])
 /**
  * @name rxForm.directive:rxFieldContent
  * @ngdoc directive
@@ -4098,11 +4098,11 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
  * ...
  * </pre>
  */
-.directive('rxFieldContent', function (rxNestedElement) {
+.directive('rxFieldContent', ["rxNestedElement", function (rxNestedElement) {
     return rxNestedElement({
         parent: 'rxField'
     });
-})
+}])
 /**
  * @name rxForm.directive:rxInput
  * @ngdoc directive
@@ -4154,11 +4154,11 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
  * ...
  * </pre>
  */
-.directive('rxInput', function (rxNestedElement) {
+.directive('rxInput', ["rxNestedElement", function (rxNestedElement) {
     return rxNestedElement({
         parent: 'rxFieldContent'
     });
-})
+}])
 /**
  * @name rxForm.directive:rxPrefix
  * @ngdoc directive
@@ -4208,11 +4208,11 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
  * ...
  * </pre>
  */
-.directive('rxPrefix', function (rxNestedElement) {
+.directive('rxPrefix', ["rxNestedElement", function (rxNestedElement) {
     return rxNestedElement({
         parent: 'rxInput'
     });
-})
+}])
 /**
  * @name rxForm.directive:rxSuffix
  * @ngdoc directive
@@ -4262,11 +4262,11 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
  * ...
  * </pre>
  */
-.directive('rxSuffix', function (rxNestedElement) {
+.directive('rxSuffix', ["rxNestedElement", function (rxNestedElement) {
     return rxNestedElement({
         parent: 'rxInput'
     });
-})
+}])
 /**
  * @name rxForm.directive:rxInlineError
  * @ngdoc directive
@@ -4366,7 +4366,7 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
  * @param {String} suffix - Text to include to the right of content
  * @param {String} description - Text to place below input
  */
-.directive('rxFormItem', function ($document, rxDOMHelper) {
+.directive('rxFormItem', ["$document", "rxDOMHelper", function ($document, rxDOMHelper) {
     var warnMsg = 'DEPRECATION WARNING: rxFormItem has been marked as deprecated ' +
         'and will be removed in a future release of the EncoreUI framework. ' +
         'Please see current rxForm documentation for updated functionality.';
@@ -4437,7 +4437,7 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
             setFieldId();
         }
     };
-})
+}])
 /**
  * @name rxForm.directive:rxFormFieldset
  * @deprecated
@@ -4488,7 +4488,7 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
  * getSelectedOptionForTabSet(tabsetId)
  * </pre>
  */
-.factory('rxFormUtils', function ($document) {
+.factory('rxFormUtils', ["$document", function ($document) {
     var rxFormUtils = {};
 
     // Returns the selected option for the rxFormOptionTable with id: tableId
@@ -4523,7 +4523,7 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
     };
 
     return rxFormUtils;
-});
+}]);
 
 angular.module('encore.ui.rxInfoPanel', [])
 /**
@@ -4562,7 +4562,7 @@ angular.module('encore.ui.rxLogout', ['encore.ui.rxAuth'])
 * <button rx-logout>Logout</button>
 * <button rx-logout="/custom">Logout (w/ custom location)</button>
 */
-.directive ('rxLogout', function (Auth, $window, $location) {
+.directive ('rxLogout', ["Auth", "$window", "$location", function (Auth, $window, $location) {
     return {
         restrict: 'A',
         scope: {
@@ -4585,12 +4585,12 @@ angular.module('encore.ui.rxLogout', ['encore.ui.rxAuth'])
             });
         }
     };
-});
+}]);
 
 angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
-.run(function ($compile, $templateCache) {
+.run(["$compile", "$templateCache", function ($compile, $templateCache) {
     $compile($templateCache.get('templates/rxModalFooters.html'));
-})
+}])
 /**
 * @ngdoc directive
 * @name encore.ui.rxModalAction:rxModalForm
@@ -4610,7 +4610,7 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
 * @example
 * <rx-modal-form title="My Form" is-loading="true" submit-text="Yes!"></rx-modal-form>
 */
-.directive('rxModalForm', function ($timeout, $compile, rxModalFooterTemplates) {
+.directive('rxModalForm', ["$timeout", "$compile", "rxModalFooterTemplates", function ($timeout, $compile, rxModalFooterTemplates) {
     return {
         transclude: true,
         templateUrl: 'templates/rxModalActionForm.html',
@@ -4668,8 +4668,8 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
             element.removeAttr('title');
         }
     };
-})
-.controller('rxModalCtrl', function ($scope, $modalInstance, $rootScope) {
+}])
+.controller('rxModalCtrl', ["$scope", "$modalInstance", "$rootScope", function ($scope, $modalInstance, $rootScope) {
     // define a controller for the modal to use
     $scope.submit = function () {
         $modalInstance.close($scope);
@@ -4679,7 +4679,7 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
 
     // cancel out of the modal if the route is changed
     $rootScope.$on('$routeChangeSuccess', $modalInstance.dismiss);
-})
+}])
 /**
 * @ngdoc service
 * @name encore.ui.rxModalAction:rxModalFooterTemplates
@@ -4744,7 +4744,7 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
 *     <button class="button" ng-click="setState('pending')">I understand the risks.</button>
 * </rx-modal-footer>
 */
-.directive('rxModalFooter', function (rxModalFooterTemplates) {
+.directive('rxModalFooter', ["rxModalFooterTemplates", function (rxModalFooterTemplates) {
     return {
         restrict: 'E',
         compile: function (element, attrs) {
@@ -4761,7 +4761,7 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
             };
         }
     };
-})
+}])
 /**
 * @ngdoc directive
 * @name encore.ui.rxModalAction:rxModalAction
@@ -4785,7 +4785,7 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
 *         My Link Text
 *  </rx-modal-action>
 */
-.directive('rxModalAction', function ($modal) {
+.directive('rxModalAction', ["$modal", function ($modal) {
     var createModal = function (config, scope) {
         config = _.defaults(config, {
             templateUrl: config.templateUrl,
@@ -4847,7 +4847,7 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
             };
         }
     };
-});
+}]);
 
 angular.module('encore.ui.rxNotify', ['ngSanitize', 'ngAnimate'])
 /**
@@ -4863,7 +4863,7 @@ angular.module('encore.ui.rxNotify', ['ngSanitize', 'ngAnimate'])
 * @example
 * <rx-notification type="warning">This is a message!</rx-notification>
 */
-.directive('rxNotification', function (rxNotify) {
+.directive('rxNotification', ["rxNotify", function (rxNotify) {
     return {
         scope: {
             type: '@'
@@ -4904,7 +4904,7 @@ angular.module('encore.ui.rxNotify', ['ngSanitize', 'ngAnimate'])
             }
         }
     };
-})
+}])
  /**
  * @ngdoc directive
  * @name encore.ui.rxNotify:rxNotifications
@@ -4918,7 +4918,7 @@ angular.module('encore.ui.rxNotify', ['ngSanitize', 'ngAnimate'])
  * @example
  * <rx-notifications stack="myCustomStack"></rx-notifications>
  */
-.directive('rxNotifications', function (rxNotify) {
+.directive('rxNotifications', ["rxNotify", function (rxNotify) {
     return {
         scope: {
             stack: '@?'
@@ -4926,7 +4926,7 @@ angular.module('encore.ui.rxNotify', ['ngSanitize', 'ngAnimate'])
         restrict: 'E',
         replace: true,
         templateUrl: 'templates/rxNotifications.html',
-        controller: function ($scope) {
+        controller: ["$scope", function ($scope) {
             /*
              * Calls rxNotify service to remove a message from a stack
              * @param {object} message The message object to remove.
@@ -4934,7 +4934,7 @@ angular.module('encore.ui.rxNotify', ['ngSanitize', 'ngAnimate'])
             $scope.dismiss = function (message) {
                 rxNotify.dismiss(message);
             };
-        },
+        }],
         link: function (scope) {
             var stack = scope.stack || 'page';
 
@@ -4948,14 +4948,14 @@ angular.module('encore.ui.rxNotify', ['ngSanitize', 'ngAnimate'])
             scope.loading = true;
         }
     };
-})
+}])
 /**
 * @ngdoc service
 * @name encore.ui.rxNotify:rxNotify
 * @description
 * Manages page messages for an application
 */
-.service('rxNotify', function ($interval, $rootScope) {
+.service('rxNotify', ["$interval", "$rootScope", function ($interval, $rootScope) {
     var defaultStack = 'page';
     var stacks = {};
 
@@ -5163,7 +5163,7 @@ angular.module('encore.ui.rxNotify', ['ngSanitize', 'ngAnimate'])
         dismiss: dismiss,
         stacks: stacks
     };
-})
+}])
 /**
 * @ngdoc service
 * @name encore.ui.rxNotify:rxPromiseNotifications
@@ -5177,7 +5177,7 @@ angular.module('encore.ui.rxNotify', ['ngSanitize', 'ngAnimate'])
 *     error: 'Error Message'
 * });
 */
-.factory('rxPromiseNotifications', function (rxNotify, $rootScope, $q, $interpolate) {
+.factory('rxPromiseNotifications', ["rxNotify", "$rootScope", "$q", "$interpolate", function (rxNotify, $rootScope, $q, $interpolate) {
     var scope = $rootScope.$new();
 
     /*
@@ -5285,7 +5285,7 @@ angular.module('encore.ui.rxNotify', ['ngSanitize', 'ngAnimate'])
     return {
         add: add
     };
-});
+}]);
 
 /**
  * @ngdoc overview
@@ -5347,7 +5347,7 @@ angular.module('encore.ui.rxOptionTable', ['ngSanitize'])
  *  disable-fn="disableOption(tableId, fieldId, rowId)"
  * ```
  */
-.directive('rxOptionTable', function ($interpolate) {
+.directive('rxOptionTable', ["$interpolate", function ($interpolate) {
     return {
         restrict: 'E',
         templateUrl: 'templates/rxOptionTable.html',
@@ -5482,7 +5482,7 @@ angular.module('encore.ui.rxOptionTable', ['ngSanitize'])
             };
         }
     };
-})
+}])
 /**
  * @deprecated
  * @ngdoc directive
@@ -5492,16 +5492,16 @@ angular.module('encore.ui.rxOptionTable', ['ngSanitize'])
  * **DEPRECATED**: Please use **{@link rxOptionTable.directive:rxOptionTable rxOptionTable}**
  * as a stand-in-replacement.
  */
-.directive('rxFormOptionTable', function (rxOptionTableDirective) {
+.directive('rxFormOptionTable', ["rxOptionTableDirective", function (rxOptionTableDirective) {
     var warnMsg = 'DEPRECATION WARNING: rxFormOptionTable has been marked as deprecated ' +
         'and will be removed in a future release of the EncoreUI framework. ' +
         'Please use rxOptionTable as a stand-in replacement.';
     console.warn(warnMsg); // jshint ignore:line
     return rxOptionTableDirective[0];
-});
+}]);
 
 angular.module('encore.ui.rxPageTitle', [])
-.factory('rxPageTitle', function ($document, $filter) {
+.factory('rxPageTitle', ["$document", "$filter", function ($document, $filter) {
     var suffix = '',
         title = '';
 
@@ -5542,7 +5542,7 @@ angular.module('encore.ui.rxPageTitle', [])
             return $document.prop('title');
         }
     };
-})
+}])
 
 /**
  *
@@ -5559,7 +5559,7 @@ angular.module('encore.ui.rxPageTitle', [])
  *
  * @returns {string} Cleaned string
  */
-.filter('rxUnsafeRemoveHTML', function ($document) {
+.filter('rxUnsafeRemoveHTML', ["$document", function ($document) {
     return function (htmlString) {
         // protect against null, which can crash some browsers
         if (_.isEmpty(htmlString)) {
@@ -5570,7 +5570,7 @@ angular.module('encore.ui.rxPageTitle', [])
         div.innerHTML = htmlString;
         return div.textContent || div.innerText || '';
     };
-});
+}]);
 
 angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
 /**
@@ -5600,7 +5600,7 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
  * directive will watch for changes, and request new results from the paginated API, on change
  * @param {String} [errorMessage] An error message that should be displayed if a call to the request fails
  */
-.directive('rxPaginate', function ($q, $compile, debounce, PageTracking, rxPromiseNotifications) {
+.directive('rxPaginate', ["$q", "$compile", "debounce", "PageTracking", "rxPromiseNotifications", function ($q, $compile, debounce, PageTracking, rxPromiseNotifications) {
     return {
         templateUrl: 'templates/rxPaginate.html',
         replace: true,
@@ -5724,7 +5724,7 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
 
         }
     };
-})
+}])
 
 /**
  *
@@ -5741,7 +5741,7 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
  * @method showAndHide(promise) - Shows the overlay, and automatically
  * hides it when the given promise either resolves or rejects
  */
-.directive('rxLoadingOverlay', function ($compile, rxDOMHelper) {
+.directive('rxLoadingOverlay', ["$compile", "rxDOMHelper", function ($compile, rxDOMHelper) {
     var loadingBlockHTML = '<div ng-show="showLoadingOverlay" class="loading-overlay">' +
                                 '<div class="loading-text-wrapper">' +
                                     '<i class="fa fa-fw fa-lg fa-spin fa-circle-o-notch"></i>' +
@@ -5752,7 +5752,7 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
     return {
         restrict: 'A',
         scope: true,
-        controller: function ($scope, $element) {
+        controller: ["$scope", "$element", function ($scope, $element) {
             this.show = function () {
                 var offset = rxDOMHelper.offset($element);
                 var width = rxDOMHelper.width($element);
@@ -5776,7 +5776,7 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
                 this.show();
                 promise.finally(this.hide);
             };
-        },
+        }],
         link: function (scope, element) {
             // This target element has to have `position: relative` otherwise the overlay
             // will not sit on top of it
@@ -5789,7 +5789,7 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
             });
         }
     };
-})
+}])
 /**
 *
 * @ngdoc service
@@ -5827,7 +5827,7 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
 * PageTracking.createInstance({showAll: true, itemsPerPage: 15});
 * </pre>
 */
-.factory('PageTracking', function ($q, LocalStorage, rxPaginateUtils) {
+.factory('PageTracking', ["$q", "LocalStorage", "rxPaginateUtils", function ($q, LocalStorage, rxPaginateUtils) {
 
     function PageTrackingObject (opts) {
         var pager = _.defaults(_.cloneDeep(opts), {
@@ -6037,7 +6037,7 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
             LocalStorage.setItem('rxItemsPerPage', itemsPerPage);
         }
     };
-})
+}])
 
 /**
 *
@@ -6053,7 +6053,7 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
 *
 * @returns {Object} The list of items for the current page in the PageTracking object
 */
-.filter('Paginate', function (PageTracking, rxPaginateUtils) {
+.filter('Paginate', ["PageTracking", "rxPaginateUtils", function (PageTracking, rxPaginateUtils) {
     return function (items, pager) {
         if (!pager) {
             pager = PageTracking.createInstance();
@@ -6080,7 +6080,7 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
             return items.slice(firstLast.first, firstLast.last);
         }
     };
-})
+}])
 
 /**
 *
@@ -6134,7 +6134,7 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
  *
  * @returns {String} The list of page numbers that will be displayed.
  */
-.filter('PaginatedItemsSummary', function (rxPaginateUtils) {
+.filter('PaginatedItemsSummary', ["rxPaginateUtils", function (rxPaginateUtils) {
     return function (pager) {
         var template = '<%= first %>-<%= last %> of <%= total %>';
         if (pager.showAll || pager.itemsPerPage > pager.total) {
@@ -6147,7 +6147,7 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
             total: pager.total
         });
     };
-})
+}])
 /**
 *
 * @ngdoc filter
@@ -6161,7 +6161,7 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
 *
 * @returns {Array} The list of page numbers that will be displayed.
 */
-.filter('Page', function (PageTracking) {
+.filter('Page', ["PageTracking", function (PageTracking) {
     return function (pager) {
         if (!pager) {
             pager = PageTracking.createInstance();
@@ -6190,7 +6190,7 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
         return displayPages;
     };
 
-});
+}]);
 
 angular.module('encore.ui.rxRadio', [])
 /**
@@ -6270,7 +6270,7 @@ angular.module('encore.ui.rxSearchBox', [])
             isDisabled: '@ngDisabled',
             rxPlaceholder: '=?'
         },
-        controller: function ($scope) {
+        controller: ["$scope", function ($scope) {
             $scope.searchVal = $scope.searchVal || '';
             $scope.rxPlaceholder = $scope.rxPlaceholder || 'Search...';
 
@@ -6285,7 +6285,7 @@ angular.module('encore.ui.rxSearchBox', [])
             $scope.clearSearch = function () {
                 $scope.searchVal = '';
             };
-        },
+        }],
         link: function (scope, element, attrs, controllers) {
             var rxFloatingHeaderCtrl = controllers[1];
             if (!_.isUndefined(rxFloatingHeaderCtrl)) {
@@ -6461,7 +6461,7 @@ angular.module('encore.ui.rxSelectFilter', ['encore.ui.rxMisc', 'encore.ui.rxSel
  * @param {string} ng-model The scope property that stores the value of the input
  * @param {Array} [options] A list of the options for the dropdown
  */
-.directive('rxMultiSelect', function ($document, rxDOMHelper, rxSelectDirective) {
+.directive('rxMultiSelect', ["$document", "rxDOMHelper", "rxSelectDirective", function ($document, rxDOMHelper, rxSelectDirective) {
     return {
         restrict: 'E',
         templateUrl: 'templates/rxMultiSelect.html',
@@ -6471,7 +6471,7 @@ angular.module('encore.ui.rxSelectFilter', ['encore.ui.rxMisc', 'encore.ui.rxSel
             selected: '=ngModel',
             options: '=?',
         },
-        controller: function ($scope) {
+        controller: ["$scope", function ($scope) {
             if (_.isUndefined($scope.selected)) {
                 $scope.selected = [];
             }
@@ -6510,7 +6510,7 @@ angular.module('encore.ui.rxSelectFilter', ['encore.ui.rxMisc', 'encore.ui.rxSel
                     this.ngModelCtrl.$render();
                 }
             };
-        },
+        }],
         link: function (scope, element, attrs, controllers) {
             rxSelectDirective[0].link.apply(this, arguments);
 
@@ -6568,7 +6568,7 @@ angular.module('encore.ui.rxSelectFilter', ['encore.ui.rxMisc', 'encore.ui.rxSel
             selectCtrl.ngModelCtrl = ngModelCtrl;
         }
     };
-})
+}])
 
 /**
  * @ngdoc directive
@@ -6580,7 +6580,7 @@ angular.module('encore.ui.rxSelectFilter', ['encore.ui.rxMisc', 'encore.ui.rxSel
  * @param {string} value The value of the option. If no transcluded content is provided,
  *                       the value will also be used as the option's text.
  */
-.directive('rxSelectOption', function (rxDOMHelper) {
+.directive('rxSelectOption', ["rxDOMHelper", function (rxDOMHelper) {
     return {
         restrict: 'E',
         templateUrl: 'templates/rxSelectOption.html',
@@ -6614,7 +6614,7 @@ angular.module('encore.ui.rxSelectFilter', ['encore.ui.rxMisc', 'encore.ui.rxSel
             });
         }
     };
-});
+}]);
 
 angular.module('encore.ui.rxSortableColumn', [])
 /**
@@ -6760,20 +6760,20 @@ angular.module('encore.ui.rxStatus', ['encore.ui.rxNotify'])
 *   });
 * </pre>
 */
-    .service('StatusUtil', function ($route, $rootScope, Status) {
+    .service('StatusUtil', ["$route", "$rootScope", "Status", function ($route, $rootScope, Status) {
         return {
             setupScope: function (scope) {
                 Status.setScope(scope || $rootScope);
             }
         };
-    })
+    }])
 /**
 * @ngdoc service
 * @name encore.ui.rxStatus:Status
 * @description
 * Manages notifications for rxNotify with an abstracted set of functions for ease of use
 */
-    .service('Status', function ($rootScope, rxNotify, ErrorFormatter) {
+    .service('Status', ["$rootScope", "rxNotify", "ErrorFormatter", function ($rootScope, rxNotify, ErrorFormatter) {
         var stack = 'page';
         var scope;
         var status = {
@@ -6949,7 +6949,7 @@ angular.module('encore.ui.rxStatus', ['encore.ui.rxNotify'])
         };
 
         return status;
-    })
+    }])
 /**
 * @ngdoc service 
 * @name encore.ui.rxStatus:ErrorFormatter
@@ -6990,7 +6990,7 @@ angular.module('encore.ui.rxStatusColumn', [])
  * @param {String} [tooltip] The string to use for the tooltip. If omitted,
  *                           it will default to using the passed in status 
  */
-.directive('rxStatusColumn', function (rxStatusMappings, rxStatusColumnIcons) {
+.directive('rxStatusColumn', ["rxStatusMappings", "rxStatusColumnIcons", function (rxStatusMappings, rxStatusColumnIcons) {
     return {
         templateUrl: 'templates/rxStatusColumn.html',
         restrict: 'A',
@@ -7030,7 +7030,7 @@ angular.module('encore.ui.rxStatusColumn', [])
             });
         }
     };
-})
+}])
 
 /**
  * @ngdoc object
@@ -7251,7 +7251,7 @@ angular.module('encore.ui.rxTokenInterceptor', ['encore.ui.rxSession'])
     .provider('TokenInterceptor', function () {
         var exclusionList = this.exclusionList = [ 'rackcdn.com' ];
 
-        this.$get = function (Session, $document) {
+        this.$get = ["Session", "$document", function (Session, $document) {
             var url = $document[0].createElement('a');
             return {
                 request: function (config) {
@@ -7274,7 +7274,7 @@ angular.module('encore.ui.rxTokenInterceptor', ['encore.ui.rxSession'])
                     return config;
                 }
             };
-        };
+        }];
     });
 
 angular.module('encore.ui.rxUnauthorizedInterceptor', ['encore.ui.rxSession'])
@@ -7298,7 +7298,7 @@ angular.module('encore.ui.rxUnauthorizedInterceptor', ['encore.ui.rxSession'])
     *     });
     * </pre>
     */
-    .factory('UnauthorizedInterceptor', function ($q, $window, Session) {
+    .factory('UnauthorizedInterceptor', ["$q", "$window", "Session", function ($q, $window, Session) {
         var svc = {
             redirectPath: function () {
                 // This brings in the entire relative URI (including the path
@@ -7323,11 +7323,11 @@ angular.module('encore.ui.rxUnauthorizedInterceptor', ['encore.ui.rxSession'])
         };
 
         return svc;
-    });
+    }]);
 
 angular.module('encore.ui.typeahead', ['ui.bootstrap'])
-.config(function ($provide) {
-    $provide.decorator('typeaheadDirective', function ($delegate, $filter) {
+.config(["$provide", function ($provide) {
+    $provide.decorator('typeaheadDirective', ["$delegate", "$filter", function ($delegate, $filter) {
         var typeahead = $delegate[0];
         var link = typeahead.link;
         var lowercase = $filter('lowercase');
@@ -7369,5 +7369,5 @@ angular.module('encore.ui.typeahead', ['ui.bootstrap'])
         };
 
         return $delegate;
-    });
-});
+    }]);
+}]);
