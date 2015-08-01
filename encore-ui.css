@@ -291,6 +291,9 @@ https://github.com/yui/pure/blob/master/LICENSE.md
 /*
  * rxFieldName
  */
+/*
+ * rxMetadata
+ */
 [layout] {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -3420,6 +3423,41 @@ rx-field-name .wrapper .required-symbol {
   width: 100%;
   padding: 8px 10px;
   margin: 0 0 10px -10px;
+}
+/*
+ * rxMetadata
+ */
+rx-metadata {
+  box-sizing: border-box;
+  padding: 0px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+rx-metadata rx-meta {
+  display: block;
+  margin: 0 0 22px;
+}
+rx-metadata rx-meta .label {
+  color: #989998;
+  font-size: 13px;
+  margin: 0 0 6px;
+}
+rx-metadata rx-meta .definition {
+  color: #727272;
+  font-size: 16px;
+  font-weight: 700;
+}
+rx-metadata section {
+  box-sizing: border-box;
+  display: block;
+  padding: 0px;
+  margin: 0px 9px 22px;
+  flex: 0 0 300px;
+}
+rx-metadata section > rx-meta:last-child {
+  margin-bottom: 0;
 }
 /**
  * rxModalAction.less

@@ -2,10 +2,10 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.23.1 - 2015-07-13
+ * Version: 1.24.0 - 2015-07-31
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxCheckbox','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxCheckbox','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
 angular.module('encore.ui.configs', [])
 .value('devicePaths', [
     { value: '/dev/xvdb', label: '/dev/xvdb' },
@@ -1540,19 +1540,6 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
         link: function (scope) {
             scope.isCloudProduct = false;
 
-            // This function is attached to the scope for the sole purpose of making
-            // it easier to test this functionality. A reorganization of this and/or
-            // the tests is needed in order to pull this off the scope.
-            scope.switchToAdmin = function () {
-                // If the user in the params is not the admin swtich to the admin
-                // this causes the $route.current.params.user to become the admin user
-                var adminUser = _.first(_.where(scope.users, { admin: true }));
-                if (adminUser && ($route.current.params.user !== adminUser.username)){
-                    scope.currentUser = adminUser.username;
-                    scope.switchUser(adminUser.username);
-                }
-            };
-
             var checkCloud = function () {
                 encoreRoutes.isActiveByKey('accountLvlTools').then(function (isAccounts) {
                     if (isAccounts) {
@@ -1565,17 +1552,21 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
                     }
                 });
             };
-
+            
             // We use $route.current.params instead of $routeParams because
             // the former is always available, while $routeParams only gets populated
             // after the route has successfully resolved. See the Angular docs on $routeParams
             // for more details.
             var loadUsers = function () {
                 var success = function (account) {
+                    
+                    // Sort the list so admins are at the top of the array
+                    account.users = _.sortBy(account.users, 'admin');
+
                     scope.users = account.users;
-                    scope.switchToAdmin();
 
                     scope.currentUser = $route.current.params.user;
+
                     if (!scope.currentUser) {
                         // We're not in Cloud, but instead in Billing, or Events, or
                         // one of the other Accounts menu items that doesn't use a username as
@@ -1583,6 +1574,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
                         // But we need the URLs for the Cloud items to be valid, so grab a
                         // default username for this account, and rebuild the Cloud URLs with
                         // it
+                        
                         encoreRoutes.rebuildUrls({ user: account.users[0].username });
                     }
                 };
@@ -2563,6 +2555,7 @@ angular.module('encore.ui.rxButton', [])
 * @param {String} defaultMsg Text to be displayed by default an no operation is in progress.
 * @param {Boolean=} [toggle=false] When true, the button will display the loading text.
 * @param {Boolean=} [disable=false] When true, the button will be disabled.
+* @param {String=} [classes=""] The class names to be applied to the button.
 */
 .directive('rxButton', function () {
     return {
@@ -2940,8 +2933,11 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
             sendFeedback: '=?onSubmit'
         },
         link: function (scope) {
-            scope.currentUrl = $location.url();
             scope.feedbackTypes = feedbackTypes;
+
+            scope.setCurrentUrl = function (modalScope) {
+                modalScope.currentUrl = $location.url();
+            };
 
             var showSuccessMessage = function (response) {
                 var message = _.isString(response.message) ? response.message : 'Thanks for your feedback!';
@@ -4587,6 +4583,125 @@ angular.module('encore.ui.rxLogout', ['encore.ui.rxAuth'])
     };
 }]);
 
+/**
+ * @ngdoc overview
+ * @name rxMetadata
+ * @description
+ * # rxMetadata Component
+ *
+ * rxMetadata contains directives to provide consistent styling for
+ * the display of metadata information.
+ *
+ * ## Directives
+ * * {@link rxMetadata.directive:rxMetadata rxMetadata}
+ * * {@link rxMetadata.directive:rxMeta rxMeta}
+ */
+angular.module('encore.ui.rxMetadata', [])
+/**
+ * @ngdoc directive
+ * @name rxMetadata.directive:rxMetadata
+ * @restrict E
+ * @description
+ * Parent directive used for styling and arranging metadata information.
+ *
+ * <dl>
+ *   <dt>Display:</dt>
+ *   <dd>**block** *(full width of parent)*</dd>
+ *
+ *   <dt>Parent:</dt>
+ *   <dd>Any HTML Element</dd>
+ *
+ *   <dt>Siblings:</dt>
+ *   <dd>Any HTML Element</dd>
+ *
+ *   <dt>Children:</dt>
+ *   <dd>
+ *     <ul>
+ *       <li>{@link rxMetadata.directive:rxMeta rxMeta}</li>
+ *       <li>SECTION element</li>
+ *     </ul>
+ *   </dd>
+ * </dl>
+ *
+ * It is highly recommended to use `<section>` blocks for purposes
+ * of arranging information into columns.
+ *
+ * Each `<section>` will be 300px wide and will wrap and stack vertically
+ * if the container isn't wide enought to accommodate all sections in a
+ * single row.
+ *
+ * @example
+ * <pre>
+ * <rx-metadata>
+ *   <section>
+ *     <rx-meta label="fubar">
+ *       out of working order; seriously, perhaps irreparably, damaged
+ *     </rx-meta>
+ *   </section>
+ *   <section>
+ *     <rx-meta label="Foo">Bar</rx-meta>
+ *   </section>
+ *   <section>
+ *     <rx-meta label="Bang">Biz</rx-meta>
+ *   </section>
+ * </rx-metadata>
+ * </pre>
+ */
+.directive('rxMetadata', function () {
+    return {
+        restrict: 'E'
+    };
+})
+/**
+ * @ngdoc directive
+ * @name rxMetadata.directive:rxMeta
+ * @scope
+ * @restrict E
+ * @description
+ *
+ * <dl>
+ *   <dt>Display:</dt>
+ *   <dd>**block** *(full width of parent)*</dd>
+ *
+ *   <dt>Parent:</dt>
+ *   <dd>
+ *     <ul>
+ *       <li>{@link rxMetadata.directive:rxMetadata rxMetadata}</li>
+ *       <li>SECTION element</li>
+ *     </ul>
+ *   </dd>
+ *
+ *   <dt>Siblings:</dt>
+ *   <dd>Any HTML Element</dd>
+ *
+ *   <dt>Children:</dt>
+ *   <dd>Any HTML Element</dd>
+ * </dl>
+ *
+ * @example
+ * <pre>
+ * <rx-metadata>
+ *   <section>
+ *     <rx-meta label="fubar">
+ *       out of working order; seriously, perhaps irreparably, damaged
+ *     </rx-meta>
+ *   </section>
+ * </rx-metadata>
+ * </pre>
+ *
+ * @param {String=} label Label for metadata definition/value
+ */
+.directive('rxMeta', function () {
+    return {
+        restrict: 'E',
+        transclude: true,
+        templateUrl: 'templates/rxMeta.html',
+        scope: {
+            label: '@'
+        }
+    };
+});//rxMetadata
+
 angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
 .run(["$compile", "$templateCache", function ($compile, $templateCache) {
     $compile($templateCache.get('templates/rxModalFooters.html'));
@@ -5633,15 +5748,6 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
 
             var table = parentElement;
 
-            scope.updateItemsPerPage = function (itemsPerPage) {
-                return scope.pageTracking.setItemsPerPage(itemsPerPage).then(function () {
-
-                    // Set itemsPerPage as the new default value for
-                    // all future pagination tables
-                    PageTracking.userSelectedItemsPerPage(itemsPerPage);
-                });
-            };
-
             scope.scrollToTop = function () {
                 table[0].scrollIntoView(true);
             };
@@ -5798,28 +5904,6 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
 * This is the data service that can be used in conjunction with the pagination
 * objects to store/control page display of data tables and other items.
 *
-* @property {number} itemsPerPage This is the current setting for the number
-* of items to display per page.
-* @property {number} pagesToShow This is the number of pages to show
-* in the pagination controls
-* @property {number} pageNumber This is where the current page number is
-* stored.
-* @property {boolean} pageInit This is used to determine if the page has been
-* initialzed before.
-* @property {number} total This is the total number of items that are in the
-* data set
-* @property {boolean} showAll This is used to determine whether or not to use
-* the pagination or not.
-*
-* @method createInstance This is used to generate the instance of the
-* PageTracking object. Enables the ability to override default pager.
-* If you choose to override the default `itemsPerPage`, and it isn't
-* a value in itemSizeList, then it will automatically be added to itemSizeList
-* at the right spot.
-*
-* @method userSelectedItemsPerPage Call this when a user chooses a new value for
-* itemsPerPage, and all future instances of PageTracking will default to that value,
-* assuming that the value exists in itemSizeList
 * 
 *
 * @example
@@ -5832,6 +5916,7 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
     function PageTrackingObject (opts) {
         var pager = _.defaults(_.cloneDeep(opts), {
             itemsPerPage: 200,
+            persistItemsPerPage: true,
             pagesToShow: 5,
             pageNumber: 0,
             pageInit: false,
@@ -6013,6 +6098,11 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
                 // Now that we've "officially" changed the itemsPerPage,
                 // we have to update all the cache values
                 updateCache(pager, data.pageNumber, data.items);
+
+                // Persist this itemsPerPage as the new global value
+                if (pager.persistItemsPerPage) {
+                    PageTracking.userSelectedItemsPerPage(numItems);
+                }
             });
         };
 
@@ -6026,17 +6116,44 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
 
     }
 
-    return {
+    var PageTracking = {
+        /**
+        * @property {number} itemsPerPage This is the current setting for the number
+        * of items to display per page.
+        * @property {boolean} [persistItemsPerPage=true] Whether or not a change to this pager's itemsPerPage
+        * should be persisted globally to all other pagers
+        * @property {number} pagesToShow This is the number of pages to show
+        * in the pagination controls
+        * @property {number} pageNumber This is where the current page number is
+        * stored.
+        * @property {boolean} pageInit This is used to determine if the page has been
+        * initialzed before.
+        * @property {number} total This is the total number of items that are in the
+        * data set
+        * @property {boolean} showAll This is used to determine whether or not to use
+        * the pagination or not.
+        *
+        * @method createInstance This is used to generate the instance of the
+        * PageTracking object. Enables the ability to override default pager.
+        * If you choose to override the default `itemsPerPage`, and it isn't
+        * a value in itemSizeList, then it will automatically be added to itemSizeList
+        * at the right spot.
+        */
         createInstance: function (options) {
             options = options ? options : {};
             var tracking = new PageTrackingObject(options);
             return tracking.pager;
         },
 
+        /*
+        * @method userSelectedItemsPerPage This method sets a new global itemsPerPage value
+        */
         userSelectedItemsPerPage: function (itemsPerPage) {
             LocalStorage.setItem('rxItemsPerPage', itemsPerPage);
         }
     };
+
+    return PageTracking;
 }])
 
 /**
