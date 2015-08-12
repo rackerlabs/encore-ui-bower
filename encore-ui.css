@@ -2595,6 +2595,9 @@ thead th[rx-bulk-select-header-check] {
   color: #f0efef;
   background: #cfd2d4;
 }
+.button.inline {
+  vertical-align: middle;
+}
 .button .spinner {
   display: inline-block;
   position: relative;
@@ -3257,7 +3260,7 @@ rx-help-text {
 }
 rx-field-name {
   color: #989998;
-  font-size: 1.2em;
+  font-size: 12px;
 }
 rx-field-name .wrapper {
   box-sizing: border-box;
@@ -3269,7 +3272,7 @@ rx-field-name .wrapper .required-symbol {
   color: #fc0f1d;
 }
 [rx-form] {
-  font-size: 14px;
+  font-size: 13px;
 }
 [rx-form] input:not([type="checkbox"]):not([type="radio"]) {
   min-height: 26px;
