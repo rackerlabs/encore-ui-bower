@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.25.2 - 2015-08-12
+ * Version: 1.26.0 - 2015-08-20
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxCheckbox','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
@@ -390,15 +390,15 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
     };
 
     /*
-     * Adds an environment to the stack
+     * Adds an environment to the front of the stack, ensuring it will be matched first
      * @public
      * @param {object} environment The environment to add. See 'environments' array for required properties
      */
     this.add = function (environment) {
         // do some sanity checks here
         if (isValidEnvironment(environment)) {
-            // add environment
-            environments.push(environment);
+            // add environment, over riding all others created previously
+            environments.unshift(environment);
         } else {
             $log.error('Unable to add Environment: defined incorrectly');
         }
@@ -418,7 +418,7 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
     };
 
     /*
-     * Given an environment name, check if any of our registered environments 
+     * Given an environment name, check if any of our registered environments
      * match it
      * @public
      * @param {string} [name] Environment name to check

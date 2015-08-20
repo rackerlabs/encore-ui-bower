@@ -3452,6 +3452,9 @@ rx-metadata rx-meta .definition {
   font-size: 16px;
   font-weight: 700;
 }
+rx-metadata rx-meta.force-word-break {
+  word-break: break-all;
+}
 rx-metadata section {
   box-sizing: border-box;
   display: block;
