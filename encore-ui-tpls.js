@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.26.1 - 2015-08-20
+ * Version: 1.27.0 - 2015-08-26
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxCheckbox','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
@@ -1538,7 +1538,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
     return {
         restrict: 'E',
         templateUrl: 'templates/rxAccountUsers.html',
-        link: function (scope) {
+        link: function (scope, element) {
             scope.isCloudProduct = false;
 
             var checkCloud = function () {
@@ -1553,14 +1553,14 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
                     }
                 });
             };
-            
+
             // We use $route.current.params instead of $routeParams because
             // the former is always available, while $routeParams only gets populated
             // after the route has successfully resolved. See the Angular docs on $routeParams
             // for more details.
             var loadUsers = function () {
                 var success = function (account) {
-                    
+
                     // Sort the list so admins are at the top of the array
                     account.users = _.sortBy(account.users, 'admin');
 
@@ -1575,7 +1575,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
                         // But we need the URLs for the Cloud items to be valid, so grab a
                         // default username for this account, and rebuild the Cloud URLs with
                         // it
-                        
+
                         encoreRoutes.rebuildUrls({ user: account.users[0].username });
                     }
                 };
@@ -1603,7 +1603,13 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
                 }
             };
 
-            $rootScope.$on('$routeChangeSuccess', checkCloud);
+            var unregisterCheckCloud = $rootScope.$on('$routeChangeSuccess', checkCloud);
+
+            // We need to register a function to cleanup the watcher, this avoids multiple calls
+            //Ecore.getAccountUsers every time we load a page in cloud.
+            element.on('$destroy', function () {
+                unregisterCheckCloud();
+            });
         }
     };
 }])
@@ -4888,6 +4894,7 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
 *
 * @param {function} [preHook] Function to call when a modal is opened
 * @param {function} [postHook] Function to call when a modal is submitted (not called when cancelled out of)
+* @param {function} [dismissHook] Function to call when a modal is dismissed (not called when submitted)
 * @param {string} [templateUrl] URL of template to use for modal content
 * @param {string} [disable-esc] If the `disable-esc` attribute is present, then "Press Esc to close" will be disabled
 *                               for the modal. This attribute takes no values.
@@ -4929,6 +4936,14 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
                 element.find('a')[0].focus();
             };
 
+            var handleDismiss = function () {
+                focusLink();
+
+                // Since we don't want to isolate the scope, we have to eval our attr instead of using `&`
+                // The eval will execute function (if it exists)
+                scope.$eval(attrs.dismissHook);
+            };
+
             var handleSubmit = function () {
                 focusLink();
 
@@ -4959,7 +4974,7 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
 
                 var modal = createModal(attrs, scope);
 
-                modal.result.then(handleSubmit, focusLink);
+                modal.result.then(handleSubmit, handleDismiss);
             };
         }
     };
