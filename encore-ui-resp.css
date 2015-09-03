@@ -255,6 +255,9 @@ https://github.com/yui/pure/blob/master/LICENSE.md
  *  This property defaults to 'nowrap'.
  */
 /*
+ * Named Colors
+ */
+/*
  * Form Inputs
  */
 /*
@@ -4936,12 +4939,44 @@ table .fa-times.delete-x:hover {
 .expanded-container .expanded-content .metadata {
   padding: 5px 10px;
 }
-.title {
-  font-size: 18px;
+/* ===== HEADINGS ===== */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: 1em 0;
 }
-.title + .title {
-  margin-top: 0;
+h1.subdued,
+h2.subdued,
+h3.subdued,
+h4.subdued,
+h5.subdued,
+h6.subdued {
+  color: #989998;
+}
+h1 {
+  font-size: 28px;
+}
+h2 {
+  font-size: 22px;
+}
+h3 {
+  font-size: 18px;
+}
+h4 {
+  font-size: 16px;
+}
+h5 {
+  font-size: 13px;
+}
+h6 {
+  font-size: 10px;
+}
+.title {
+  margin: 1em 0;
+  font-size: 18px;
 }
 .title.xl {
   font-size: 28px;
@@ -5111,10 +5146,12 @@ body:hover .visually-hidden button {
 ::-webkit-input-placeholder {
   color: #a9a9a9;
   font-weight: 300;
+  font-style: italic;
 }
 ::-moz-placeholder {
   color: #a9a9a9;
   font-weight: 400;
+  font-style: italic;
 }
 .filter-box {
   font-style: italic;
@@ -5151,6 +5188,11 @@ body:hover .visually-hidden button {
   line-height: 1.2;
   padding-bottom: 10em;
   position: relative;
+}
+.rx-app .rx-app-menu .site-title,
+.rx-app .rx-app-menu .nav-section-title {
+  margin: 0;
+  font-size: inherit;
 }
 .rx-app .site-branding {
   border-top: 1px solid #074285;
@@ -6514,9 +6556,6 @@ rx-field-name .wrapper .required-symbol {
 [rx-form] {
   font-size: 13px;
 }
-[rx-form] input:not([type="checkbox"]):not([type="radio"]) {
-  min-height: 26px;
-}
 [rx-form] rx-field-name,
 [rx-form] rx-help-text,
 [rx-form] rx-inline-error,
@@ -6559,25 +6598,26 @@ rx-field-name .wrapper .required-symbol {
   align-items: stretch;
   /* ===== Other Directive Support ===== */
 }
-[rx-form] rx-form-section rx-field rx-field-content rx-input input:not([type="checkbox"]):not([type="radio"]),
-[rx-form] rx-form-section rx-field rx-field-content rx-input textarea {
+[rx-form] rx-form-section rx-field rx-field-content rx-input > input,
+[rx-form] rx-form-section rx-field rx-field-content rx-input > textarea {
   flex: 1 1 auto;
+  min-height: 26px;
 }
-[rx-form] rx-form-section rx-field rx-field-content rx-input input:not([type="checkbox"]):not([type="radio"]),
-[rx-form] rx-form-section rx-field rx-field-content rx-input textarea,
-[rx-form] rx-form-section rx-field rx-field-content rx-input input:not([type="checkbox"]):not([type="radio"]).ng-valid,
-[rx-form] rx-form-section rx-field rx-field-content rx-input textarea.ng-valid {
+[rx-form] rx-form-section rx-field rx-field-content rx-input > input,
+[rx-form] rx-form-section rx-field rx-field-content rx-input > textarea,
+[rx-form] rx-form-section rx-field rx-field-content rx-input > input.ng-valid,
+[rx-form] rx-form-section rx-field rx-field-content rx-input > textarea.ng-valid {
   padding: 3px 5px;
   border: 1px solid #cccccc;
 }
-[rx-form] rx-form-section rx-field rx-field-content rx-input input:not([type="checkbox"]):not([type="radio"]).ng-invalid,
-[rx-form] rx-form-section rx-field rx-field-content rx-input textarea.ng-invalid {
+[rx-form] rx-form-section rx-field rx-field-content rx-input > input.ng-invalid,
+[rx-form] rx-form-section rx-field rx-field-content rx-input > textarea.ng-invalid {
   border-color: #ff2400;
   border-width: 2px;
   padding: 2px 4px;
 }
-[rx-form] rx-form-section rx-field rx-field-content rx-input input:not([type="checkbox"]):not([type="radio"])[disabled],
-[rx-form] rx-form-section rx-field rx-field-content rx-input textarea[disabled] {
+[rx-form] rx-form-section rx-field rx-field-content rx-input > input[disabled],
+[rx-form] rx-form-section rx-field rx-field-content rx-input > textarea[disabled] {
   border: 1px solid #cccccc;
   color: #999999;
   background: #dededd;
@@ -6626,6 +6666,9 @@ rx-field-name .wrapper .required-symbol {
 [rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper input,
 [rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper textarea {
   width: 100%;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input rx-search-box {
+  flex: 1 1;
 }
 [rx-form] rx-form-section > div {
   margin-top: 8px;
@@ -7148,7 +7191,12 @@ rx-metadata section > rx-meta:last-child {
   font-size: 12px;
 }
 .loading-overlay {
+  z-index: 100;
   position: absolute;
+  top: -1px;
+  left: -1px;
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
   background: rgba(222, 222, 221, 0.8);
 }
 .loading-overlay .loading-text-wrapper {
@@ -7165,9 +7213,6 @@ rx-metadata section > rx-meta:last-child {
   font-size: 30px;
   margin-left: 25px;
   color: #777;
-}
-.loading-row {
-  padding: 10px;
 }
 /*
  * rxRadio
@@ -7300,7 +7345,6 @@ rx-search-box {
   display: inline-block;
   width: 250px;
   min-width: 120px;
-  font-size: 1.2em;
 }
 rx-search-box .rxSearchBox-wrapper {
   -webkit-box-sizing: border-box;
@@ -7310,7 +7354,7 @@ rx-search-box .rxSearchBox-wrapper {
   box-sizing: border-box;
   /* Opera/IE 8+ */
   border: 1px solid #cccccc;
-  height: auto;
+  min-height: 26px;
   min-width: 120px;
   padding: 0px;
   background: #ffffff;

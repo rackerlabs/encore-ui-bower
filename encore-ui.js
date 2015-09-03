@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.27.0 - 2015-08-26
+ * Version: 1.28.0 - 2015-09-03
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxCheckbox','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
@@ -5781,7 +5781,6 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
                 };
 
                 var getItems = function (pageNumber, itemsPerPage) {
-                    scope.loadingState = 'loading';
                     var response = scope.serverInterface.getItems(pageNumber,
                                                    itemsPerPage,
                                                    params());
@@ -5792,9 +5791,7 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
                             error: errorMessage
                         });
                     }
-                    return response.finally(function () {
-                        scope.loadingState = '';
-                    });
+                    return response;
                 };
         
                 // Register the getItems function with the PageTracker
@@ -5862,7 +5859,7 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
  * @method showAndHide(promise) - Shows the overlay, and automatically
  * hides it when the given promise either resolves or rejects
  */
-.directive('rxLoadingOverlay', ["$compile", "rxDOMHelper", function ($compile, rxDOMHelper) {
+.directive('rxLoadingOverlay', ["$compile", function ($compile) {
     var loadingBlockHTML = '<div ng-show="showLoadingOverlay" class="loading-overlay">' +
                                 '<div class="loading-text-wrapper">' +
                                     '<i class="fa fa-fw fa-lg fa-spin fa-circle-o-notch"></i>' +
@@ -5873,19 +5870,8 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
     return {
         restrict: 'A',
         scope: true,
-        controller: ["$scope", "$element", function ($scope, $element) {
+        controller: ["$scope", function ($scope) {
             this.show = function () {
-                var offset = rxDOMHelper.offset($element);
-                var width = rxDOMHelper.width($element);
-                var height = rxDOMHelper.height($element);
-                if (!_.isUndefined($scope.loadingBlock)) {
-                    $scope.loadingBlock.css({
-                        top: offset.top + 'px',
-                        left: offset.left + 'px',
-                        width: width,
-                        height: height,
-                    });
-                }
                 $scope.showLoadingOverlay = true;
             };
 
@@ -5905,8 +5891,7 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
             scope.showLoadingOverlay = false;
 
             $compile(loadingBlockHTML)(scope, function (clone) {
-                scope.loadingBlock = clone;
-                element.after(clone);
+                element.append(clone);
             });
         }
     };
