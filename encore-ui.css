@@ -3323,6 +3323,7 @@ rx-field-name .wrapper .required-symbol {
 }
 [rx-form] {
   font-size: 13px;
+  margin: 16px 0;
 }
 [rx-form] rx-field-name,
 [rx-form] rx-help-text,
@@ -3484,6 +3485,7 @@ rx-field-name .wrapper .required-symbol {
 rx-metadata {
   box-sizing: border-box;
   padding: 0px;
+  margin: 18px 0;
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
@@ -3509,12 +3511,12 @@ rx-metadata rx-meta.force-word-break {
 rx-metadata section {
   box-sizing: border-box;
   display: block;
-  padding: 0px;
-  margin: 0px 9px 22px;
+  padding: 0;
+  margin: 0 18px 0 0;
   flex: 0 0 300px;
 }
-rx-metadata section > rx-meta:last-child {
-  margin-bottom: 0;
+rx-metadata section:last-child {
+  margin-right: 0;
 }
 /**
  * rxModalAction.less
