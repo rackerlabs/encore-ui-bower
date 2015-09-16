@@ -2,10 +2,21 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.29.0 - 2015-09-09
+ * Version: 1.30.0 - 2015-09-16
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.configs','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxCheckbox','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui', ['encore.ui.configs','encore.ui.grid','encore.ui.hotkeys','encore.ui.layout','encore.ui.metadata','encore.ui.progressbar','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxCheckbox','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.tabs','encore.ui.tooltips','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
+/**
+ * @ngdoc overview
+ * @name configs
+ * @description
+ * # configs Component
+ *
+ * [TBD]
+ *
+ * ## Services
+ * * {@link configs.service:routesCdnPath routesCdnPath}
+ */
 angular.module('encore.ui.configs', [])
 .value('devicePaths', [
     { value: '/dev/xvdb', label: '/dev/xvdb' },
@@ -23,8 +34,12 @@ angular.module('encore.ui.configs', [])
     { value: '/dev/xvdp', label: '/dev/xvdp' }
 ])
 .constant('feedbackApi', '/api/encore/feedback')
+/**
+ * @ngdoc service
+ * @name configs.service:routesCdnPath
+ * @description [TBD]
+ */
 .provider('routesCdnPath', function () {
-
     this.customURL = null;
 
     this.$get = function () {
@@ -43,15 +58,76 @@ angular.module('encore.ui.configs', [])
             preprod: preprod,
             hasCustomURL: !_.isEmpty(this.customURL)
         };
-        
     };
 });
 
-angular.module('encore.ui.rxAccountInfo', [])
+/**
+ * @ngdoc overview
+ * @name grid
+ * @deprecated
+ * @description
+ * # grid Component
+ *
+ * **Deprecated**: Use {@link layout} instead.
+ */
+angular.module('encore.ui.grid', []);
 
 /**
+ * @ngdoc overview
+ * @name hotkeys
+ * @description
+ * # hotkeys Component
+ *
+ * [TBD]
+ */
+angular.module('encore.ui.hotkeys', []);
+
+/**
+ * @ngdoc overview
+ * @name layout
+ * @description
+ * # layout Component
+ *
+ * [TBD]
+ */
+angular.module('encore.ui.layout', []);
+
+/**
+ * @ngdoc overview
+ * @name metadata
+ * @deprecated
+ * @description
+ * # metadata Component
+ *
+ * **Deprecated**: Use {@link rxMetadata} instead.
+ */
+angular.module('encore.ui.metadata', []);
+
+/**
+ * @ngdoc overview
+ * @name progressbar
+ * @description
+ * # progressbar Component
+ *
+ * [TBD]
+ */
+angular.module('encore.ui.progressbar', []);
+
+/**
+ * @ngdoc overview
+ * @name rxAccountInfo
+ * @description
+ * # rxAccountInfo Component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxAccountInfo.directive:rxAccountInfo rxAccountInfo}
+ */
+angular.module('encore.ui.rxAccountInfo', [])
+/**
  * @ngdoc directive
- * @name encore.ui.rxAccountInfo:rxAccountInfo
+ * @name rxAccountInfo.directive:rxAccountInfo
  * @restrict E
  * @scope
  * @description
@@ -139,7 +215,27 @@ angular.module('encore.ui.rxAccountInfo', [])
     };
 }]);
 
+/**
+ * @ngdoc overview
+ * @name rxActionMenu
+ * @description
+ * # rxActionMenu Component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxActionMenu.directive:rxActionMenu rxActionMenu}
+ */
 angular.module('encore.ui.rxActionMenu', [])
+/**
+ * @ngdoc directive
+ * @name rxActionMenu.directive:rxActionMenu
+ * @restrict E
+ * @scope
+ * @description [TBD]
+ *
+ * @param {Boolean=} [globalDismiss=true] TBD
+ */
 .directive('rxActionMenu', ["$rootScope", "$document", function ($rootScope, $document) {
     return {
         restrict: 'E',
@@ -170,37 +266,48 @@ angular.module('encore.ui.rxActionMenu', [])
                     $scope.displayed = false;
                 }
             });
-            
+
             $document.on('click', function (clickEvent) {
                 if ($scope.globalDismiss && $scope.displayed && !element[0].contains(clickEvent.target)) {
                     $scope.$apply(function () { $scope.displayed = false;});
                 }
             });
 
-            // TODO: Center the Action Menu box so it 
+            // TODO: Center the Action Menu box so it
             // takes the height of the translucded content
-            // and then centers it with CSS. 
+            // and then centers it with CSS.
             // I spent an afternoon trying to see if I could
             // repurpose angularjs' bootstrap popover library
             // and their position.js file, but I spent too
             // much time and had to table this.  -Ernie
-            
+
             // https://github.com/angular-ui/bootstrap/blob/master/src/position/position.js
             // https://github.com/angular-ui/bootstrap/blob/master/src/tooltip/tooltip.js
         }
     };
 }]);
 
+/**
+ * @ngdoc overview
+ * @name rxActiveUrl
+ * @description
+ * # rxActiveUrl Component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxActiveUrl.directive:rxActiveUrl rxActiveUrl}
+ */
 angular.module('encore.ui.rxActiveUrl', [])
 /**
- *
  * @ngdoc directive
- * @name encore.ui.rxActiveUrl
+ * @name rxActiveUrl.directive:rxActiveUrl
  * @restrict A
+ * @scope
  * @description
- * This is used as an attribute to directive <rx-product-resources>, in the
- * form of <li rx-active-url="/servers">. The directive checks if the attribute
- * value is a subset of the current URL. If so it returns the class name "selected"
+ * This is used as an attribute to directive `<rx-product-resources>`, in the
+ * form of `<li rx-active-url="/servers">`. The directive checks if the attribute
+ * value is a subset of the current URL. If so it returns the class name "selected".
  */
 .directive('rxActiveUrl', ["$location", function ($location) {
     return {
@@ -223,10 +330,26 @@ angular.module('encore.ui.rxActiveUrl', [])
     };
 }]);
 
+/**
+ * @ngdoc overview
+ * @name rxAge
+ * @description
+ * # rxAge Component
+ *
+ * [TBD]
+ *
+ * ## Filters
+ * * {@link rxAge.filter:rxAge rxAge}
+ */
 angular.module('encore.ui.rxAge', [])
 // Another option
 // age.js -- https://github.rackspace.com/gist/roge5001/2417941
 // age.spec.js -- https://github.rackspace.com/gist/roge5001/2417940
+/**
+ * @ngdoc filter
+ * @name rxAge.filter:rxAge
+ * @description [TBD]
+ */
 .filter('rxAge', function () {
     return function (dateString, maxUnits, verbose) {
         if (!dateString) {
@@ -287,19 +410,36 @@ angular.module('encore.ui.rxAge', [])
     };
 });
 
+/**
+ * @ngdoc overview
+ * @name rxEnvironment
+ * @description
+ * # rxEnvironment Component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxEnvironment.directive:rxEnvironment rxEnvironment}
+ *
+ * ## Filters
+ * * {@link rxEnvironment.filter:rxEnvironmentMatch rxEnvironmentMatch}
+ * * {@link rxEnvironment.filter:rxEnvironmentUrl rxEnvironmentUrl}
+ *
+ * ## Services
+ * * {@link rxEnvironment.service:Environment Environment}
+ */
 angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
 /**
-*
-* @ngdoc service
-* @name encore.ui.rxEnvironment:Environment
-* @description
-* Allows defining environments and retrieving the current environment based on location
-*
-* @example
-* <pre>
-* Environment.get() // return environment object that matches current location
-* </pre>
-*/
+ * @ngdoc service
+ * @name rxEnvironment.service:Environment
+ * @description
+ * Allows defining environments and retrieving the current environment based on location
+ *
+ * @example
+ * <pre>
+ * Environment.get() // return environment object that matches current location
+ * </pre>
+ */
 .service('Environment', ["$location", "$rootScope", "$log", function ($location, $rootScope, $log) {
     /*
      * This array defines different environments to check against.
@@ -311,7 +451,6 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
      * @property {string} url The url pattern used to build out urls for that environment.
      *                        See 'buildUrl' for more details
      */
-
     var environments = [{
         // http://localhost:3000/
         // http://localhost:9000/
@@ -461,25 +600,23 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
      * @public
      */
     this.isUnifiedProd = makeEnvCheck('unified-prod');
-
 }])
 /**
-*
-* @ngdoc filter
-* @name encore.ui.rxEnvironment:rxEnvironmentUrl
-* @description
-* Builds a URL based on current environment.
-* Note: if value passed in isn't an object, it will simply return that value
-*
-* @example
-* <pre>
-* {{ { tld: 'cloudatlas', path: 'cbs/servers' } | rxEnvironmentUrl }}
-* Renders as '//staging.cloudatlas.encore.rackspace.com/cbs/servers' in staging
-*
-* {{ '/myPath' | rxEnvironmentUrl }}
-* Renders as '/myPath' regardless of environment, because value passed in was not an object
-* </pre>
-*/
+ * @ngdoc filter
+ * @name rxEnvironment.filter:rxEnvironmentUrl
+ * @description
+ * Builds a URL based on current environment.
+ * Note: if value passed in isn't an object, it will simply return that value
+ *
+ * @example
+ * <pre>
+ * {{ { tld: 'cloudatlas', path: 'cbs/servers' } | rxEnvironmentUrl }}
+ * Renders as '//staging.cloudatlas.encore.rackspace.com/cbs/servers' in staging
+ *
+ * {{ '/myPath' | rxEnvironmentUrl }}
+ * Renders as '/myPath' regardless of environment, because value passed in was not an object
+ * </pre>
+ */
 .filter('rxEnvironmentUrl', ["Environment", "$interpolate", function (Environment, $interpolate) {
     return function (details) {
         var environment = Environment.get();
@@ -489,21 +626,20 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
     };
 }])
 /**
-*
-* @ngdoc filter
-* @name encore.ui.rxEnvironment:rxEnvironmentMatch
-* @description
-* Checks if current environment matches target environment
-*
-* @example
-* <pre>
-* {{ 'production' | rxEnvironmentMatch }}
-* returns true if current environment is 'production', false otherwise
-*
-* {{ '!production' | rxEnvironmentMatch }}
-* returns false if current environment is 'production', true otherwise
-* </pre>
-*/
+ * @ngdoc filter
+ * @name rxEnvironment.filter:rxEnvironmentMatch
+ * @description
+ * Checks if current environment matches target environment
+ *
+ * @example
+ * <pre>
+ * {{ 'production' | rxEnvironmentMatch }}
+ * returns true if current environment is 'production', false otherwise
+ *
+ * {{ '!production' | rxEnvironmentMatch }}
+ * returns false if current environment is 'production', true otherwise
+ * </pre>
+ */
 .filter('rxEnvironmentMatch', ["Environment", function (Environment) {
     return function (environment) {
         // check to see if first character is negation indicator
@@ -517,19 +653,19 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
     };
 }])
 /**
-* @ngdoc directive
-* @name encore.ui.rxEnvironment:rxEnvironment
-* @restrict A
-* @description
-* Show or hide content based on environment name
-* @requires encore.ui.rxEnvironment:Environment
-*
-* @example
-* <pre>
-*     <div rx-if-environment="unified-preprod">Show if staging</div>
-*     <div rx-if-environment="!unified-prod">Show if not prod</div>
-* </pre>
-*/
+ * @ngdoc directive
+ * @name rxEnvironment.directive:rxEnvironment
+ * @restrict A
+ * @requires rxEnvironment.service:Environment
+ * @description
+ * Show or hide content based on environment name
+ *
+ * @example
+ * <pre>
+ * <div rx-if-environment="unified-preprod">Show if staging</div>
+ * <div rx-if-environment="!unified-prod">Show if not prod</div>
+ * </pre>
+ */
 .directive('rxIfEnvironment', ["$compile", function ($compile) {
     return {
         restrict: 'A',
@@ -553,13 +689,25 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
     };
 }]);
 
+/**
+ * @ngdoc overview
+ * @name rxAppRoutes
+ * @description
+ * # rxAppRoutes Component
+ *
+ * [TBD]
+ *
+ * ## Services
+ * * {@link rxAppRoutes.service:rxAppRoutes rxAppRoutes}
+ * * {@link rxAppRoutes.service:urlUtils urlUtils}
+ */
 angular.module('encore.ui.rxAppRoutes', ['encore.ui.rxEnvironment'])
 /**
-* @ngdoc service
-* @name encore.ui.rxAppRoutes:urlUtils
-* @description
-* Set of utility functions used by rxAppRoutes to break apart/compare URLs
-*/
+ * @ngdoc service
+ * @name rxAppRoutes.service:urlUtils
+ * @description
+ * Set of utility functions used by rxAppRoutes to break apart/compare URLs
+ */
 .service('urlUtils', ["$location", "rxEnvironmentUrlFilter", "$interpolate", "$route", "$document", function ($location, rxEnvironmentUrlFilter, $interpolate, $route, $document) {
     // remove any preceding # and / from the URL for cleaner comparison
     this.stripLeadingChars = function (url) {
@@ -677,11 +825,11 @@ angular.module('encore.ui.rxAppRoutes', ['encore.ui.rxEnvironment'])
     };
 }])
 /**
-* @ngdoc interface
-* @name encore.ui.rxApp:AppRoutes
-* @description
-* Manages page routes, building urls and marking them as active on route change
-*/
+ * @ngdoc service
+ * @name rxAppRoutes.service:rxAppRoutes
+ * @description
+ * Manages page routes, building urls and marking them as active on route change
+ */
 .factory('rxAppRoutes', ["$rootScope", "$log", "urlUtils", "$q", function ($rootScope, $log, urlUtils, $q) {
     var AppRoutes = function (routes) {
         routes = routes || [];
@@ -808,7 +956,7 @@ angular.module('encore.ui.rxAppRoutes', ['encore.ui.rxEnvironment'])
                 }, function () {
                     return $q.reject();
                 });
-                
+
             },
             /**
              * functionality to update routes based on their key
@@ -850,268 +998,339 @@ angular.module('encore.ui.rxAppRoutes', ['encore.ui.rxEnvironment'])
 }]);
 
 /*jshint proto:true*/
-angular.module('encore.ui.rxLocalStorage', [])
-    /**
-    *
-    * @ngdoc service
-    * @name encore.ui.rxLocalStorage:LocalStorage
-    * @description
-    * A simple wrapper for injecting the global variable localStorage
-    * for storing values in local storage. This service is similar to angular's
-    * $window and $document services.  The API works the same as the W3C's
-    * specification provided at: http://dev.w3.org/html5/webstorage/#storage-0.
-    * Also includes to helper functions for getting and setting objects.
-    *
-    * @example
-    * <pre>
-    * LocalStorage.setItem('Batman', 'Robin'); // no return value
-    * LocalStorage.key(0); // returns 'Batman'
-    * LocalStorage.getItem('Batman'); // returns 'Robin'
-    * LocalStorage.removeItem('Batman'); // no return value
-    * LocalStorage.setObject('hero', {name:'Batman'}); // no return value
-    * LocalStorage.getObject('hero'); // returns { name: 'Batman'}
-    * LocalStorage.clear(); // no return value
-    * </pre>
-    */
-    .service('LocalStorage', ["$window", function ($window) {
-        this.setItem = function (key, value) {
-            $window.localStorage.setItem(key, value);
-        };
-
-        this.getItem = function (key) {
-            return $window.localStorage.getItem(key);
-        };
-
-        this.key = function (key) {
-            return $window.localStorage.key(key);
-        };
-
-        this.removeItem = function (key) {
-            $window.localStorage.removeItem(key);
-        };
-
-        this.clear = function () {
-            $window.localStorage.clear();
-        };
-
-        this.__defineGetter__('length', function () {
-            return $window.localStorage.length;
-        });
-
-        this.setObject = function (key, val) {
-            var value = _.isObject(val) || _.isArray(val) ? JSON.stringify(val) : val;
-            this.setItem(key, value);
-        };
-
-        this.getObject = function (key) {
-            var item = $window.localStorage.getItem(key);
-            try {
-                item = JSON.parse(item);
-            } catch (error) {
-                return item;
-            }
-
-            return item;
-        };
-    }]);
-
-angular.module('encore.ui.rxSession', ['encore.ui.rxLocalStorage'])
 /**
-    *
-    * @ngdoc service
-    * @name encore.ui.rxSession:Session
-    * @description
-    * Service for managing user session in encore-ui.
-    *
-    * @requires encore.ui.rxLocalStorage:LocalStorage
-    *
-    * @example
-    * <pre>
-    * Session.getToken(); // Returns the stored token
-    * Session.storeToken(token); // Stores token
-    * Session.logout(); // Logs user off
-    * Session.isCurrent(); // Returns true/false if the token has expired.
-    * Session.isAuthenticated(); // Returns true/false if the user token is valid.
-    * </pre>
-    */
-    .factory('Session', ["LocalStorage", function (LocalStorage) {
-        var TOKEN_ID = 'encoreSessionToken';
-        var session = {};
+ * @ngdoc overview
+ * @name rxLocalStorage
+ * @description
+ * # rxLocalStorage Component
+ *
+ * [TBD]
+ *
+ * ## Services
+ * * {@link rxLocalStorage.service:LocalStorage LocalStorage}
+ */
+angular.module('encore.ui.rxLocalStorage', [])
+/**
+ * @ngdoc service
+ * @name rxLocalStorage.service:LocalStorage
+ * @description
+ * A simple wrapper for injecting the global variable localStorage
+ * for storing values in local storage. This service is similar to angular's
+ * $window and $document services.  The API works the same as the W3C's
+ * specification provided at: http://dev.w3.org/html5/webstorage/#storage-0.
+ * Also includes to helper functions for getting and setting objects.
+ *
+ * @example
+ * <pre>
+ * LocalStorage.setItem('Batman', 'Robin'); // no return value
+ * LocalStorage.key(0); // returns 'Batman'
+ * LocalStorage.getItem('Batman'); // returns 'Robin'
+ * LocalStorage.removeItem('Batman'); // no return value
+ * LocalStorage.setObject('hero', {name:'Batman'}); // no return value
+ * LocalStorage.getObject('hero'); // returns { name: 'Batman'}
+ * LocalStorage.clear(); // no return value
+ * </pre>
+ */
+.service('LocalStorage', ["$window", function ($window) {
+    this.setItem = function (key, value) {
+        $window.localStorage.setItem(key, value);
+    };
 
-        /**
-        * Dot walks the token without throwing an error.
-        * If key exists, returns value otherwise returns undefined.
-        */
-        session.getByKey = function (key) {
-            var tokenValue,
-                token = session.getToken(),
-                keys = key ? key.split('.') : undefined;
+    this.getItem = function (key) {
+        return $window.localStorage.getItem(key);
+    };
 
-            if (_.isEmpty(token) || !keys) {
-                return;
-            }
+    this.key = function (key) {
+        return $window.localStorage.key(key);
+    };
 
-            tokenValue = _.reduce(keys, function (val, key) {
-                return val ? val[key] : undefined;
-            }, token);
+    this.removeItem = function (key) {
+        $window.localStorage.removeItem(key);
+    };
 
-            return tokenValue;
-        };
+    this.clear = function () {
+        $window.localStorage.clear();
+    };
 
-        session.getToken = function () {
-            return LocalStorage.getObject(TOKEN_ID);
-        };
-
-        session.getTokenId = function () {
-            return session.getByKey('access.token.id');
-        };
-
-        session.getUserId = function () {
-            return session.getByKey('access.user.id');
-        };
-
-        session.getUserName = function () {
-            return session.getByKey('access.user.name');
-        };
-
-        session.storeToken = function (token) {
-            LocalStorage.setObject(TOKEN_ID, token);
-        };
-
-        session.logout = function () {
-            LocalStorage.removeItem(TOKEN_ID);
-        };
-
-        session.isCurrent = function () {
-            var expireDate = session.getByKey('access.token.expires');
-
-            if (expireDate) {
-                return new Date(expireDate) > _.now();
-            }
-
-            return false;
-        };
-
-        session.isAuthenticated = function () {
-            var token = session.getToken();
-            return _.isEmpty(token) ? false : session.isCurrent();
-        };
-
-        return session;
-    }]);
-
-angular.module('encore.ui.rxPermission', ['encore.ui.rxSession'])
-    /**
-    *
-    * @ngdoc service
-    * @name encore.ui.rxPermission:Permission
-    * @description
-    * Simple service for accessing roles and permissions for a user.
-    * @requires encore.ui.rxSession:Session
-    *
-    * @example
-    * <pre>
-    * Permission.getRoles() //returns an array of roles for a user
-    * Permission.hasRole(role) //returns true/false if user has specified role
-    * </pre>
-    */
-    .factory('Permission', ["Session", function (Session) {
-        var permissionSvc = {};
-        
-        var cleanRoles = function (roles) {
-            return roles.split(',').map(function (r) {
-                return r.trim();
-            });
-        };
-
-        var userRoles = function () {
-            return _.pluck(permissionSvc.getRoles(), 'name');
-        };
-
-        /*
-         * @description Takes a function and a list of roles, and returns the
-         * result of calling that function with `roles`, and comparing to userRoles()
-         * @param {function} fn - Comparison function to use. _.any, _.all, etc.
-         * @param {array} roles - List of desired roles
-         */
-        var checkRoles = function (roles, fn) {
-            // Some code expects to pass a comma-delimited string
-            // here, so turn that into an array
-            if (_.isString(roles)) {
-                roles = cleanRoles(roles);
-            }
-
-            var allUserRoles = userRoles();
-            return fn(roles, function (role) {
-                return _.contains(allUserRoles, role);
-            });
-        };
-
-        /*
-         * @description Returns a list of all roles associated to the user
-         */
-        permissionSvc.getRoles = function () {
-            var token = Session.getToken();
-            return (token && token.access && token.access.user && token.access.user.roles) ?
-                token.access.user.roles : [];
-        };
-
-        /*
-         * @description Returns whether or not the user has at least one of `roles`
-         * @param {array} roles - List of roles to check against
-         */
-        permissionSvc.hasRole = function (roles) {
-            return checkRoles(roles, _.any);
-        };
-
-        /*
-         * @description Returns whether or not the user has _every_ role in `roles`
-         * @param {array} roles - List of roles to check against
-         */
-        permissionSvc.hasAllRoles = function (roles) {
-            return checkRoles(roles, _.all);
-        };
-
-        return permissionSvc;
-    }])
-    /**
-    * @ngdoc directive
-    * @name encore.ui.rxPermission:rxPermission
-    * @restrict E
-    * @description
-    * Simple directive which will show or hide content if user specified role.
-    * @requires encore.ui.rxPermission:Permission
-    *
-    * @scope
-    * @param {String} role - Name of required role.
-    */
-    .directive('rxPermission', function () {
-        return {
-            restrict: 'E',
-            transclude: true,
-            scope: {
-                role: '@'
-            },
-            templateUrl: 'templates/rxPermission.html',
-            controller: ["$scope", "Permission", function ($scope, Permission) {
-                $scope.hasRole = function (roles) {
-                    return Permission.hasRole(roles);
-                };
-            }]
-        };
+    this.__defineGetter__('length', function () {
+        return $window.localStorage.length;
     });
 
-angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnvironment', 'ngSanitize',
-    'ngRoute', 'cfp.hotkeys', 'encore.ui.rxSession', 'encore.ui.rxLocalStorage', 'encore.ui.rxPermission'])
+    this.setObject = function (key, val) {
+        var value = _.isObject(val) || _.isArray(val) ? JSON.stringify(val) : val;
+        this.setItem(key, value);
+    };
+
+    this.getObject = function (key) {
+        var item = $window.localStorage.getItem(key);
+        try {
+            item = JSON.parse(item);
+        } catch (error) {
+            return item;
+        }
+
+        return item;
+    };
+}]);
+
 /**
-* @ngdoc service
-* @name encore.ui.rxApp:encoreRoutes
-* @description
-* Creates a shared instance of AppRoutes that is used for the Encore App nav.
-* This allows apps to make updates to the nav via `encoreRoutes`.
-*
-* @returns {object} Instance of rxAppRoutes with `fetchRoutes` method added
-*/
+ * @ngdoc overview
+ * @name rxSession
+ * @description
+ * # rxSession Component
+ *
+ * [TBD]
+ *
+ * ## Services
+ * * {@link rxSession.service:Session Session}
+ */
+angular.module('encore.ui.rxSession', ['encore.ui.rxLocalStorage'])
+/**
+ * @ngdoc service
+ * @name rxSession.service:Session
+ * @description
+ * Service for managing user session in encore-ui.
+ *
+ * @requires rxLocalStorage.service:LocalStorage
+ *
+ * @example
+ * <pre>
+ * Session.getToken(); // Returns the stored token
+ * Session.storeToken(token); // Stores token
+ * Session.logout(); // Logs user off
+ * Session.isCurrent(); // Returns true/false if the token has expired.
+ * Session.isAuthenticated(); // Returns true/false if the user token is valid.
+ * </pre>
+ */
+.factory('Session', ["LocalStorage", function (LocalStorage) {
+    var TOKEN_ID = 'encoreSessionToken';
+    var session = {};
+
+    /**
+    * Dot walks the token without throwing an error.
+    * If key exists, returns value otherwise returns undefined.
+    */
+    session.getByKey = function (key) {
+        var tokenValue,
+            token = session.getToken(),
+            keys = key ? key.split('.') : undefined;
+
+        if (_.isEmpty(token) || !keys) {
+            return;
+        }
+
+        tokenValue = _.reduce(keys, function (val, key) {
+            return val ? val[key] : undefined;
+        }, token);
+
+        return tokenValue;
+    };
+
+    session.getToken = function () {
+        return LocalStorage.getObject(TOKEN_ID);
+    };
+
+    session.getTokenId = function () {
+        return session.getByKey('access.token.id');
+    };
+
+    session.getUserId = function () {
+        return session.getByKey('access.user.id');
+    };
+
+    session.getUserName = function () {
+        return session.getByKey('access.user.name');
+    };
+
+    session.storeToken = function (token) {
+        LocalStorage.setObject(TOKEN_ID, token);
+    };
+
+    session.logout = function () {
+        LocalStorage.removeItem(TOKEN_ID);
+    };
+
+    session.isCurrent = function () {
+        var expireDate = session.getByKey('access.token.expires');
+
+        if (expireDate) {
+            return new Date(expireDate) > _.now();
+        }
+
+        return false;
+    };
+
+    session.isAuthenticated = function () {
+        var token = session.getToken();
+        return _.isEmpty(token) ? false : session.isCurrent();
+    };
+
+    return session;
+}]);
+
+/**
+ * @ngdoc overview
+ * @name rxPermission
+ * @description
+ * # rxPermission Component
+ *
+ * [TBD]
+ *
+ * ## Services
+ * * {@link rxPermission.service:Permission Permission}
+ *
+ * ## Directives
+ * * {@link rxPermission.directive:rxPermission rxPermission}
+ */
+angular.module('encore.ui.rxPermission', ['encore.ui.rxSession'])
+/**
+ * @ngdoc service
+ * @name rxPermission.service:Permission
+ * @description
+ * Simple service for accessing roles and permissions for a user.
+ *
+ * @requires rxSession.service:Session
+ *
+ * @example
+ * <pre>
+ * Permission.getRoles() //returns an array of roles for a user
+ * Permission.hasRole(role) //returns true/false if user has specified role
+ * </pre>
+ */
+.factory('Permission', ["Session", function (Session) {
+    var permissionSvc = {};
+
+    var cleanRoles = function (roles) {
+        return roles.split(',').map(function (r) {
+            return r.trim();
+        });
+    };
+
+    var userRoles = function () {
+        return _.pluck(permissionSvc.getRoles(), 'name');
+    };
+
+    /*
+     * @description Takes a function and a list of roles, and returns the
+     * result of calling that function with `roles`, and comparing to userRoles()
+     * @param {function} fn - Comparison function to use. _.any, _.all, etc.
+     * @param {array} roles - List of desired roles
+     */
+    var checkRoles = function (roles, fn) {
+        // Some code expects to pass a comma-delimited string
+        // here, so turn that into an array
+        if (_.isString(roles)) {
+            roles = cleanRoles(roles);
+        }
+
+        var allUserRoles = userRoles();
+        return fn(roles, function (role) {
+            return _.contains(allUserRoles, role);
+        });
+    };
+
+    /*
+     * @description Returns a list of all roles associated to the user
+     */
+    permissionSvc.getRoles = function () {
+        var token = Session.getToken();
+        return (token && token.access && token.access.user && token.access.user.roles) ?
+            token.access.user.roles : [];
+    };
+
+    /*
+     * @description Returns whether or not the user has at least one of `roles`
+     * @param {array} roles - List of roles to check against
+     */
+    permissionSvc.hasRole = function (roles) {
+        return checkRoles(roles, _.any);
+    };
+
+    /*
+     * @description Returns whether or not the user has _every_ role in `roles`
+     * @param {array} roles - List of roles to check against
+     */
+    permissionSvc.hasAllRoles = function (roles) {
+        return checkRoles(roles, _.all);
+    };
+
+    return permissionSvc;
+}])
+/**
+ * @ngdoc directive
+ * @name rxPermission.directive:rxPermission
+ * @restrict E
+ * @scope
+ * @description
+ * Simple directive which will show or hide content if user specified role.
+ *
+ * @requires rxPermission.service:Permission
+ *
+ * @param {String} role - Name of required role.
+ */
+.directive('rxPermission', function () {
+    return {
+        restrict: 'E',
+        transclude: true,
+        scope: {
+            role: '@'
+        },
+        templateUrl: 'templates/rxPermission.html',
+        controller: ["$scope", "Permission", function ($scope, Permission) {
+            $scope.hasRole = function (roles) {
+                return Permission.hasRole(roles);
+            };
+        }]
+    };
+});
+
+/**
+ * @ngdoc overview
+ * @name rxApp
+ * @description
+ * # rxApp Component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxApp.directive:rxAccountSearch rxAccountSearch}
+ * * {@link rxApp.directive:rxAccountUsers rxAccountUsers}
+ * * {@link rxApp.directive:rxApp rxApp}
+ * * {@link rxApp.directive:rxAppNav rxAppNav}
+ * * {@link rxApp.directive:rxAppNavItem rxAppNavItem}
+ * * {@link rxApp.directive:rxAppSearch rxAppSearch}
+ * * {@link rxApp.directive:rxAtlasSearch rxAtlasSearch}
+ * * {@link rxApp.directive:rxBillingSearch rxBillingSearch}
+ * * {@link rxApp.directive:rxPage rxPage}
+ * * {@link rxApp.directive:rxStatusTag rxStatusTag}
+ * * {@link rxApp.directive:rxTicketSearch rxTicketSearch}
+ *
+ * ## Services
+ * * {@link rxApp.service:encoreRoutes encoreRoutes}
+ * * {@link rxApp.service:rxHideIfUkAccount rxHideIfUkAccount}
+ * * {@link rxApp.service:rxVisibility rxVisibility}
+ * * {@link rxApp.service:rxVisibilityPathParams rxVisibilityPathParams}
+ * * {@link rxApp.service:rxStatusTags rxStatusTags}
+ */
+angular.module('encore.ui.rxApp', [
+    'encore.ui.rxAppRoutes',
+    'encore.ui.rxEnvironment',
+    'ngSanitize',
+    'ngRoute',
+    'cfp.hotkeys',
+    'encore.ui.rxSession',
+    'encore.ui.rxLocalStorage',
+    'encore.ui.rxPermission'
+])
+/**
+ * @ngdoc service
+ * @name rxApp.service:encoreRoutes
+ * @description
+ * Creates a shared instance of AppRoutes that is used for the Encore App nav.
+ * This allows apps to make updates to the nav via `encoreRoutes`.
+ *
+ * @return {Object} Instance of rxAppRoutes with `fetchRoutes` method added
+ */
 .factory('encoreRoutes', ["rxAppRoutes", "routesCdnPath", "rxNotify", "$q", "$http", "rxVisibilityPathParams", "rxVisibility", "Environment", "rxHideIfUkAccount", "LocalStorage", function (rxAppRoutes, routesCdnPath, rxNotify, $q, $http,
                                    rxVisibilityPathParams, rxVisibility, Environment,
                                    rxHideIfUkAccount, LocalStorage) {
@@ -1182,26 +1401,26 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
     return encoreRoutes;
 }])
 /**
-* @ngdoc directive
-* @name encore.ui.rxApp:rxApp
-* @restrict E
-* @scope
-* @description
-* Responsible for creating the HTML necessary for a common Encore layout.
-*
-* @param {string} [siteTitle] Title of site to use in upper right hand corner
-* @param {array} [menu] Menu items used for left-hand navigation
-* @param {string} [collapsibleNav] Set to 'true' if the navigation menu should be collapsible
-* @param {string} [collapsedNav] Binding for the collapsed state of the menu.
-* @param {boolean} [newInstance] Whether the menu items should be a new instance of rxAppRoutes
-* @param {boolean} [hideFeeback] Whether to hide the 'feedback' link or not (defaults to show it)
-* @param {string} [logoutUrl] URL to pass to rx-logout
-*
-* @example
-* <pre>
-*     <rx-app site-title="Custom Title"></rx-app>
-* </pre>
-*/
+ * @ngdoc directive
+ * @name rxApp.directive:rxApp
+ * @restrict E
+ * @scope
+ * @description
+ * Responsible for creating the HTML necessary for a common Encore layout.
+ *
+ * @param {string} [siteTitle] Title of site to use in upper right hand corner
+ * @param {array} [menu] Menu items used for left-hand navigation
+ * @param {string} [collapsibleNav] Set to 'true' if the navigation menu should be collapsible
+ * @param {string} [collapsedNav] Binding for the collapsed state of the menu.
+ * @param {boolean} [newInstance] Whether the menu items should be a new instance of rxAppRoutes
+ * @param {boolean} [hideFeeback] Whether to hide the 'feedback' link or not (defaults to show it)
+ * @param {string} [logoutUrl] URL to pass to rx-logout
+ *
+ * @example
+ * <pre>
+ * <rx-app site-title="Custom Title"></rx-app>
+ * </pre>
+ */
 .directive('rxApp', ["encoreRoutes", "rxAppRoutes", "hotkeys", "Environment", "routesCdnPath", "Session", function (encoreRoutes, rxAppRoutes, hotkeys,
                               Environment, routesCdnPath, Session) {
     return {
@@ -1267,28 +1486,28 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
     };
 }])
 /**
-* @ngdoc directive
-* @name encore.ui.rxApp:rxPage
-* @restrict E
-* @scope
-* @description
-* Responsible for creating the HTML necessary for a page (including breadcrumbs and page title)
-* You can pass in a `title` attribute or an `unsafeHtmlTitle` attribute, but not both. Use the former
-* if your title is a plain string, use the latter if your title contains embedded HTML tags AND you
-* trust the source of this title. Arbitrary javascript can be executed, so ensure you trust your source.
-*
-* The document title will be set to either `title` or a stripped version of `unsafeHtmlTitle`, depending
-* on which you provide.
-*
-* @param {expression} [title] Title of page
-* @param {expression} [unsafeHtmlTitle] Title for the page, with embedded HTML tags
-* @param {expression} [subtitle] Subtitle of page
-*
-* @example
-* <pre>
-*     <rx-page title="'Page Title'"></rx-page>
-* </pre>
-*/
+ * @ngdoc directive
+ * @name rxApp.directive:rxPage
+ * @restrict E
+ * @scope
+ * @description
+ * Responsible for creating the HTML necessary for a page (including breadcrumbs and page title)
+ * You can pass in a `title` attribute or an `unsafeHtmlTitle` attribute, but not both. Use the former
+ * if your title is a plain string, use the latter if your title contains embedded HTML tags AND you
+ * trust the source of this title. Arbitrary javascript can be executed, so ensure you trust your source.
+ *
+ * The document title will be set to either `title` or a stripped version of `unsafeHtmlTitle`, depending
+ * on which you provide.
+ *
+ * @param {expression} [title] Title of page
+ * @param {expression} [unsafeHtmlTitle] Title for the page, with embedded HTML tags
+ * @param {expression} [subtitle] Subtitle of page
+ *
+ * @example
+ * <pre>
+ * <rx-page title="'Page Title'"></rx-page>
+ * </pre>
+ */
 .directive('rxPage', function () {
     return {
         restrict: 'E',
@@ -1342,21 +1561,21 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
     };
 })
 /**
-* @ngdoc directive
-* @name encore.ui.rxApp:rxAppNav
-* @restrict E
-* @scope
-* @description
-* Creates a menu based on items passed in.
-*
-* @param {object} items Menu items to display. See encoreNav for object definition
-* @param {string} level Level in heirarchy in page. Higher number is deeper nested
-*
-* @example
-* <pre>
-*     <rx-app-nav level="1" items="menuItems"></rx-app-nav>
-* </pre>
-*/
+ * @ngdoc directive
+ * @name rxApp.directive:rxAppNav
+ * @restrict E
+ * @scope
+ * @description
+ * Creates a menu based on items passed in.
+ *
+ * @param {object} items Menu items to display. See encoreNav for object definition
+ * @param {string} level Level in heirarchy in page. Higher number is deeper nested
+ *
+ * @example
+ * <pre>
+ * <rx-app-nav level="1" items="menuItems"></rx-app-nav>
+ * </pre>
+ */
 .directive('rxAppNav', function () {
     return {
         restrict: 'E',
@@ -1369,18 +1588,19 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
     };
 })
 /**
-* @ngdoc directive
-* @name encore.ui.rxApp:rxAppNavItem
-* @restrict E
-* @description
-* Creates a menu item. Recursively creates rx-app-nav if 'children' present.
-* 'Item' must be avialable via scope
-*
-* @example
-* <pre>
-*     <rx-app-nav-item ng-repeat="item in items"></rx-app-nav-item>
-* </pre>
-*/
+ * @ngdoc directive
+ * @name rxApp.directive:rxAppNavItem
+ * @restrict E
+ * @scope
+ * @description
+ * Creates a menu item. Recursively creates rx-app-nav if 'children' present.
+ * 'Item' must be avialable via scope
+ *
+ * @example
+ * <pre>
+ * <rx-app-nav-item ng-repeat="item in items"></rx-app-nav-item>
+ * </pre>
+ */
 .directive('rxAppNavItem', ["$compile", "$location", "$route", function ($compile, $location, $route) {
     var linker = function (scope, element) {
         var injectContent = function (selector, content) {
@@ -1502,18 +1722,17 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
     };
 }])
 /**
-* @ngdoc directive
-* @name encore.ui.rxApp:rxAppSearch
-* @restrict E
-* @scope
-* @description
-* Creates a search input form for navigation
-*
-* @param {string} [placeholder] Title of page
-* @param {*} [model] Model to tie input form to (via ng-model)
-* @param {function} [submit] Function to run on submit (model is passed as only argument to function)
-*
-*/
+ * @ngdoc directive
+ * @name rxApp.directive:rxAppSearch
+ * @restrict E
+ * @scope
+ * @description
+ * Creates a search input form for navigation
+ *
+ * @param {string} [placeholder] Title of page
+ * @param {*} [model] Model to tie input form to (via ng-model)
+ * @param {function} [submit] Function to run on submit (model is passed as only argument to function)
+ */
 .directive('rxAppSearch', function () {
     return {
         restrict: 'E',
@@ -1529,7 +1748,7 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
 })
 /**
  * @ngdoc directive
- * @name encore.ui.rxApp:rxAccountUsers
+ * @name rxApp.directive:rxAccountUsers
  * @restrict E
  * @description
  * Provides the ability to switch between account users. This directive is specific to Rackspace
@@ -1614,12 +1833,12 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
     };
 }])
 /**
-* @ngdoc directive
-* @name encore.ui.rxApp:rxAtlasSearch
-* @restrict E
-* @description
-* Used to search accounts for Cloud Atlas
-*/
+ * @ngdoc directive
+ * @name rxApp.directive:rxAtlasSearch
+ * @restrict E
+ * @description
+ * Used to search accounts for Cloud Atlas
+ */
 .directive('rxAtlasSearch', ["$window", function ($window) {
     return {
         template: '<rx-app-search placeholder="Search by username..." submit="searchAccounts"></rx-app-search>',
@@ -1633,6 +1852,12 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
         }
     };
 }])
+/**
+ * @ngdoc directive
+ * @name rxApp.directive:rxAccountSearch
+ * @restrict E
+ * @description [TBD]
+ */
 .directive('rxAccountSearch', ["$window", function ($window) {
     return {
         templateUrl: 'templates/rxAccountSearch.html',
@@ -1646,6 +1871,12 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
         }
     };
 }])
+/**
+ * @ngdoc directive
+ * @name rxApp.directive:rxBillingSearch
+ * @restrict E
+ * @description [TBD]
+ */
 .directive('rxBillingSearch', ["$location", "$window", "encoreRoutes", function ($location, $window, encoreRoutes) {
     return {
         templateUrl: 'templates/rxBillingSearch.html',
@@ -1670,14 +1901,13 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
         }
     };
 }])
-
 /**
-* @ngdoc directive
-* @name encore.ui.rxApp:rxTicketSearch
-* @restrict E
-* @description
-* Used to search tickets for Ticket Queues
-*/
+ * @ngdoc directive
+ * @name rxApp.directive:rxTicketSearch
+ * @restrict E
+ * @description
+ * Used to search tickets for Ticket Queues
+ */
 .directive('rxTicketSearch', function () {
     return {
         template: '<rx-app-search placeholder="Search for a Ticket..." submit="searchTickets"></rx-app-search>',
@@ -1690,10 +1920,9 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
         }
     };
 })
-
-/*
+/**
  * @ngdoc service
- * @name encore.ui.rxApp:rxVisibility
+ * @name rxApp.service:rxVisibility
  * @description
  * Provides an interface for adding new `visibility` methods for nav menus.
  * Methods added via `addMethod` should have a `function (scope, args)` interface
@@ -1702,7 +1931,6 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
  * second argument `args`, i.e. function (scope, args) {}
  */
 .factory('rxVisibility', function () {
-
     var methods = {};
 
     var addMethod = function (methodName, method) {
@@ -1731,12 +1959,10 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
         addVisibilityObj: addVisibilityObj
 
     };
-
 })
-
-/*
- * @ngdoc object
- * name encore.ui.rxApp:rxVisibilityPathParams
+/**
+ * @ngdoc service
+ * @name rxApp.service:rxVisibilityPathParams
  * @description
  * Returns an object with `name` and `method` params that can
  * be passed to `rxVisibility.addMethod()`. We use register this by
@@ -1746,7 +1972,6 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
  * Use it as `visibility: [ 'rxPathParams', { param: 'userName' } ]`
  */
 .factory('rxVisibilityPathParams', ["$routeParams", function ($routeParams) {
-
     var pathParams = {
         name:'rxPathParams',
         method: function (scope, args) {
@@ -1756,13 +1981,13 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
 
     return pathParams;
 }])
-
-/*
- * @ngdoc object
- * name encore.ui.rxApp:rxHideIfUkAccount
+/**
+ * @ngdoc service
+ * @name rxApp.service:rxHideIfUkAccount
  * @description
  * Check if account number in URL is of the UK origin
- * @return false if account number matches UK pattern
+ *
+ * @return {Boolean} false if account number matches UK pattern
  * Use it as `visibility: [ 'rxHideIfUkAccount' ]`
  */
 .factory('rxHideIfUkAccount', ["$routeParams", function ($routeParams) {
@@ -1775,10 +2000,9 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
 
     return isUkAccount;
 }])
-
-/*
- * @ngdoc provider
- * name encore.ui.rxApp: rxStatusTags
+/**
+ * @ngdoc service
+ * @name rxApp.service:rxStatusTags
  * @description
  * This provider is primarily used for applications to specify custom status
  * tags, for use with the `status` attributes of `rx-page` and of breadcrumb
@@ -1788,7 +2012,6 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
  * these should rarely, if ever, be needed outside of the framework.
  */
 .provider('rxStatusTags', function () {
-
     var allTags = {
         alpha: {
             class: 'alpha-status',
@@ -1825,11 +2048,11 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
         };
     };
 })
-
 /**
 * @ngdoc directive
-* @name encore.ui.rxApp:rxStatusTag
+* @name rxApp.directive:rxStatusTag
 * @restrict E
+* @scope
 * @description
 * This is used to draw the Alpha/Beta/etc tags in page titles and in breadcrumbs. It's not
 * intended as a public directive.
@@ -1852,7 +2075,24 @@ angular.module('encore.ui.rxApp', ['encore.ui.rxAppRoutes', 'encore.ui.rxEnviron
     };
 }]);
 
+/**
+ * @ngdoc overview
+ * @name rxAttributes
+ * @description
+ * # rxAttributes Component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxAttributes.directive:rxAttributes rxAttributes}
+ */
 angular.module('encore.ui.rxAttributes', [])
+/**
+ * @ngdoc directive
+ * @name rxAttributes.directive:rxAttributes
+ * @restrict E
+ * @description [TBD]
+ */
 .directive('rxAttributes', ["$parse", "$compile", function ($parse, $compile) {
     // @see http://stackoverflow.com/questions/19224028/add-directives-from-directive-in-angularjs
     return {
@@ -1885,86 +2125,128 @@ angular.module('encore.ui.rxAttributes', [])
     };
 }]);
 
+/**
+ * @ngdoc overview
+ * @name rxIdentity
+ * @description
+ * # rxIdentity Component
+ *
+ * [TBD]
+ *
+ * ## Services
+ * * {@link rxIdentity.service:Identity Identity}
+ */
 angular.module('encore.ui.rxIdentity', ['ngResource'])
-   /**
-    *
-    * @ngdoc service
-    * @name encore.ui.rxIdentity:Identity
-    * @description
-    * Service which is designed to authenticate with Rackspace's Identity service.
-    *
-    * @requires $resource
-    *
-    * @example
-    * <pre>
-    * Identity.loginWithJSON(json); //Returns a promise
-    * Identity.login({username: '', password: '', successCallback, errorCallback}); // returns a promise
-    * </pre>
-    */
-    .factory('Identity', ["$resource", function ($resource) {
-        var authSvc = $resource('/api/identity/:action',
-            {},
-            {
-                loginWithJSON: { method: 'POST', isArray: false, params: { action: 'tokens' }},
-                validate: { method: 'GET', url: '/api/identity/login/session/:id', isArray: false }
-            });
+/**
+* @ngdoc service
+* @name rxIdentity.service:Identity
+* @description
+* Service which is designed to authenticate with Rackspace's Identity service.
+*
+* @requires $resource
+*
+* @example
+* <pre>
+* Identity.loginWithJSON(json); //Returns a promise
+* Identity.login({username: '', password: '', successCallback, errorCallback}); // returns a promise
+* </pre>
+*/
+.factory('Identity', ["$resource", function ($resource) {
+    var authSvc = $resource('/api/identity/:action',
+        {},
+        {
+            loginWithJSON: { method: 'POST', isArray: false, params: { action: 'tokens' }},
+            validate: { method: 'GET', url: '/api/identity/login/session/:id', isArray: false }
+        });
 
-        authSvc.login = function (credentials, success, error) {
-            var body = {
-                auth: {
-                    passwordCredentials: {
-                        username: credentials.username,
-                        password: credentials.password
-                    }
+    authSvc.login = function (credentials, success, error) {
+        var body = {
+            auth: {
+                passwordCredentials: {
+                    username: credentials.username,
+                    password: credentials.password
                 }
-            };
-
-            return authSvc.loginWithJSON(body, success, error);
+            }
         };
 
-        return authSvc;
-    }]);
+        return authSvc.loginWithJSON(body, success, error);
+    };
 
-angular.module('encore.ui.rxAuth',
-    ['encore.ui.rxIdentity', 'encore.ui.rxSession', 'encore.ui.rxPermission'])
-   /**
-    *
-    * @ngdoc service
-    * @name encore.ui.rxAuth:Auth
-    * @description
-    * Service which provides an entire solution for authenticating, user session management
-    * and permissions in the UI.  The Auth service is a wrapper for the Identity, Session and
-    * Permission services.  These services were broken into smaller components to facilitate
-    * customization and re-use.
-    *
-    * @requires encore.ui.rxIdentity:Identity
-    * @requires encore.ui.rxSession:Session
-    * @requires encore.ui.rxPermission:Permission
-    *
-    * @example
-    * <pre>
-    * Auth.loginWithJSON(json); // Returns a promise
-    * Auth.login({username: '', password: '', successCallback, errorCallback}); // Returns a promise
-    * Auth.getToken(); // Returns the stored token
-    * Auth.storeToken(token); // Stores token
-    * Auth.logout(); // Logs user off
-    * Auth.isCurrent(); // Returns true/false if the token has expired.
-    * Auth.isAuthenticated(); // Returns true/false if the user token is valid.
-    * Auth.getRoles() // Returns an array of roles for a user
-    * Auth.hasRole(role) // Returns true/false if user has specified role
-    * </pre>
-    */
-    .factory('Auth', ["Identity", "Session", "Permission", function (Identity, Session, Permission) {
-        var svc = {};
+    return authSvc;
+}]);
 
-        _.assign(svc, Identity);
-        _.assign(svc, Session);
-        _.assign(svc, Permission);
+/**
+ * @ngdoc overview
+ * @name rxAuth
+ * @description
+ * # rxAuth Component
+ *
+ * [TBD]
+ *
+ * ## Services
+ * * {@link rxAuth.service:Auth Auth}
+ */
+angular.module('encore.ui.rxAuth', [
+    'encore.ui.rxIdentity',
+    'encore.ui.rxSession',
+    'encore.ui.rxPermission'
+])
+/**
+ * @ngdoc service
+ * @name rxAuth.service:Auth
+ * @description
+ * Service which provides an entire solution for authenticating, user session management
+ * and permissions in the UI.  The Auth service is a wrapper for the Identity, Session and
+ * Permission services.  These services were broken into smaller components to facilitate
+ * customization and re-use.
+ *
+ * @requires rxIdentity.service:Identity
+ * @requires rxSession.service:Session
+ * @requires rxPermission.service:Permission
+ *
+ * @example
+ * <pre>
+ * Auth.loginWithJSON(json); // Returns a promise
+ * Auth.login({username: '', password: '', successCallback, errorCallback}); // Returns a promise
+ * Auth.getToken(); // Returns the stored token
+ * Auth.storeToken(token); // Stores token
+ * Auth.logout(); // Logs user off
+ * Auth.isCurrent(); // Returns true/false if the token has expired.
+ * Auth.isAuthenticated(); // Returns true/false if the user token is valid.
+ * Auth.getRoles() // Returns an array of roles for a user
+ * Auth.hasRole(role) // Returns true/false if user has specified role
+ * </pre>
+ */
+.factory('Auth', ["Identity", "Session", "Permission", function (Identity, Session, Permission) {
+    var svc = {};
 
-        return svc;
-    }]);
+    _.assign(svc, Identity);
+    _.assign(svc, Session);
+    _.assign(svc, Permission);
 
+    return svc;
+}]);
+
+/**
+ * @ngdoc overview
+ * @name rxBreadcrumbs
+ * @description
+ * # rxBreadcrumbs Component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxBreadcrumbs.directive:rxBreadcrumbs rxBreadcrumbs}
+ *
+ * ## Services
+ * * {@link rxBreadcrumbs.service:rxBreadcrumbsSvc rxBreadcrumbsSvc}
+ */
 angular.module('encore.ui.rxBreadcrumbs', ['ngSanitize'])
+/**
+ * @ngdoc service
+ * @name rxBreadcrumbs.service:rxBreadcrumbsSvc
+ * @description [TBD]
+ */
 .factory('rxBreadcrumbsSvc', function () {
     // default will always be home
     var breadcrumbs = [{
@@ -2007,22 +2289,21 @@ angular.module('encore.ui.rxBreadcrumbs', ['ngSanitize'])
 
     return breadcrumbsService;
 })
-
 /**
-* @ngdoc directive
-* @name encore.ui.rxBreadcrumbs:rxBreadcrumbs
-* @restrict E
-* @scope
-* @description
-* Responsible for drawing the breadcrumbs for a page
-*
-* @param {string} [status] The tag to apply to any breadcrumbs with usePageStatusTag:true
-*
-* @example
-* <pre>
-*     <rx-app site-title="Custom Title"></rx-app>
-* </pre>
-*/
+ * @ngdoc directive
+ * @name rxBreadcrumbs.directive:rxBreadcrumbs
+ * @restrict E
+ * @scope
+ * @description
+ * Responsible for drawing the breadcrumbs for a page
+ *
+ * @param {String=} status The tag to apply to any breadcrumbs with usePageStatusTag:true
+ *
+ * @example
+ * <pre>
+ * <rx-app site-title="Custom Title"></rx-app>
+ * </pre>
+ */
 .directive('rxBreadcrumbs', function () {
     return {
         restrict: 'E',
@@ -2036,6 +2317,17 @@ angular.module('encore.ui.rxBreadcrumbs', ['ngSanitize'])
     };
 });
 
+/**
+ * @ngdoc overview
+ * @name rxCheckbox
+ * @description
+ * # rxCheckbox Component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxCheckbox.directive:rxCheckbox rxCheckbox}
+ */
 angular.module('encore.ui.rxCheckbox', [])
 /**
  * @name rxCheckbox.directive:rxCheckbox
@@ -2103,24 +2395,44 @@ angular.module('encore.ui.rxCheckbox', [])
     };
 });//rxCheckbox
 
+/**
+ * @ngdoc overview
+ * @name rxBulkSelect
+ * @requires rxCheckbox
+ * @description
+ * # rxBulkSelect Component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxBulkSelect.directive:rxBatchActions rxBatchActions}
+ * * {@link rxBulkSelect.directive:rxBulkSelect rxBulkSelect}
+ * * {@link rxBulkSelect.directive:rxBulkSelectHeaderCheck rxBulkSelectHeaderCheck}
+ * * {@link rxBulkSelect.directive:rxBulkSelectRow rxBulkSelectRow}
+ * * {@link rxBulkSelect.directive:rxBulkSelectValidate rxBulkSelectValidate}
+ *
+ * ## Services
+ * * {@link rxBulkSelect.service:NotifyProperties NotifyProperties}
+ * * {@link rxBulkSelect.service:rxBulkSelectUtils rxBulkSelectUtils}
+ */
 angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
 /**
  * @ngdoc directive
- * @name encore.ui.rxBulkSelect:rxBulkSelect
+ * @name rxBulkSelect.directive:rxBulkSelect
  * @restrict A
  * @scope
  * @description
  *
- * A directive you place in your <table> element to enable bulk select.
- * This directive will automatically add <tr bulk-select-message> into your <thead>,
+ * A directive you place on your `<table>` element to enable bulk select.
+ * This directive will automatically add `<tr bulk-select-message>` into your <thead>,
  * which will appear whenever items are selected, and disappear when none are selected.
  * The main responsibility of this directive is to provide a controller for other
  * bulk-select-related directives to interact with.
  *
  * @param {Object} bulkSource The source list that the table ng-repeats over.
- * @param {string} selectedKey The attribute on items in bulkSource that will be used to track
+ * @param {String} selectedKey The attribute on items in bulkSource that will be used to track
  *                             if the user has clicked the checkbox for that item.
- * @param {string} [resourceName=bulkSource] The name of the resource being iterated over.
+ * @param {String=} [resourceName=bulkSource] The name of the resource being iterated over.
  */
 .directive('rxBulkSelect', function () {
     var elemString = '<tr rx-bulk-select-message></tr>';
@@ -2133,7 +2445,7 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
         compile: function (elem, attrs) {
 
             // We add the `<tr rx-bulk-select-message>` row to the header here to save the devs
-            // from having to do it themselves. 
+            // from having to do it themselves.
             var thead = elem.find('thead').eq(0);
             var messageElem = angular.element(elemString);
             messageElem.attr('resource-name', attrs.resourceName || attrs.bulkSource.replace(/s$/, ''));
@@ -2148,7 +2460,7 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
 })
 .controller('rxBulkSelectController', ["$scope", "NotifyProperties", "rxBulkSelectUtils", function ($scope, NotifyProperties, rxBulkSelectUtils) {
     $scope.showMessage = false;
-    
+
     var uncheckHeaderFn = _.noop,
         messageStats = {
             // jscs:disable disallowDanglingUnderscores
@@ -2216,7 +2528,7 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
     this.increment = function () {
         messageStats.numSelected += 1;
     };
-    
+
     this.decrement = function () {
         messageStats.numSelected -= 1;
     };
@@ -2226,22 +2538,23 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
             uncheckHeaderFn = uncheck;
         }
     };
-
 }])
-
 /**
  * @ngdoc directive
- * @name encore.ui.rxBulkSelect:rxBulkSelectHeaderCheck
+ * @name rxBulkSelect.directive:rxBulkSelectHeaderCheck
  * @restrict A
  * @scope
- * @requires rxBulkSelect
+ * @requires rxBulkSelect.directive:rxBulkSelect
  * @description
  *
- * A directive you place on your <th> element representing the checkbox column.
+ * A directive you place on your `<th>` element representing the checkbox column.
  * This places a checkbox in the header, which will select all items on the current
  * page when clicked.
  *
- * @example   <th rx-bulk-select-header-check></th>
+ * @example
+ * <pre>
+ * <th rx-bulk-select-header-check></th>
+ * </pre>
  */
 .directive('rxBulkSelectHeaderCheck', ["$compile", function ($compile) {
     var selectAllCheckbox = '<input ng-model="allSelected" ng-change="selectAll()" rx-checkbox>';
@@ -2274,22 +2587,24 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
         }
     };
 }])
-
 /**
  * @ngdoc directive
- * @name encore.ui.rxBulkSelect:rxBulkSelectRow
+ * @name rxBulkSelect.directive:rxBulkSelectRow
  * @restrict A
  * @scope
- * @requires rxBulkSelect
+ * @requires rxBulkSelect.directive:rxBulkSelect
  * @description
  *
- * A directive you place on your <td> element which will contain the bulk-select
+ * A directive you place on your `<td>` element which will contain the bulk-select
  * checkbox. This directive draws the checkbox itself. This directive takes
  * `row` as an attribute, pointing to the object representing this row.
  *
  * @param {Object} row The object representing this row, i.e. the left side of the ng-repeat
  *
- * @example   <td rx-bulk-select-row row="server"></td>
+ * @example
+ * <pre>
+ * <td rx-bulk-select-row row="server"></td>
+ * </pre>
  */
 .directive('rxBulkSelectRow', function () {
     return {
@@ -2312,13 +2627,12 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
         }
     };
 })
-
 /**
  * @ngdoc directive
- * @name encore.ui.rxBulkSelect:rxBulkSelectMessage
+ * @name rxBulkSelect.directive:rxBulkSelectMessage
  * @restrict A
  * @scope
- * @requires rxBulkSelect, ?rxFloatingHeader
+ * @requires rxBulkSelect.directive:rxBulkSelect
  * @description
  *
  * This directive is responsible for drawing the appearing/disappearing
@@ -2328,11 +2642,11 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
  * You should not use this directive directly. It will be drawn automatically
  * by rxBulkSelect.
  *
- * If the table also has rxFloatingHeader available, this directive will 
+ * If the table also has rxFloatingHeader available, this directive will
  * communicate with the controller from rxFloatingHeader, to correctly
  * support the appearing/disappearing of this header row.
  *
- * @param {string} resourceName The singular form of the name of the resource, e.g. 'server'.
+ * @param {String} resourceName The singular form of the name of the resource, e.g. 'server'.
  *
  */
 .directive('rxBulkSelectMessage', function () {
@@ -2360,7 +2674,7 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
 
             scope.numSelected = 0;
             scope.total = rxBulkSelectCtrl.messageStats.total;
-            
+
             var numSelectedChange = function (numSelected, oldNumSelected) {
                 scope.numSelected = numSelected;
                 var multiple = numSelected > 1;
@@ -2395,9 +2709,9 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
 })
 /**
  * @ngdoc directive
- * @name encore.ui.rxBulkSelect:rxBulkSelectValidate
+ * @name rxBulkSelect.directive:rxBulkSelectValidate
  * @restrict A
- * @requires rxBulkSelect
+ * @requires rxBulkSelect.directive:rxBulkSelect
  * @description
  *
  * A directive used to validate rxBulkSelect in a form. The directive should be placed
@@ -2421,37 +2735,38 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
         }
     };
 })
-
 /**
  * @ngdoc directive
- * @name encore.ui.rxBulkSelect:rxBatchActions
+ * @name rxBulkSelect.directive:rxBatchActions
  * @restrict E
  * @scope
- * @requires rxBulkSelect
+ * @requires rxBulkSelect.directive:rxBulkSelect
  * @description
  *
  * This directive is responsible for adding the batch action menu link
  * inside a table header. It can only be used when rxBulkSelect is also
- * present. It should be placed in a <th> element.
+ * present. It should be placed in a `<th>` element.
  *
  * It will also transclude `<li>` items, each representing a modal bulk
- * select action. You don't need to include the correctly styled <ul>, it
+ * select action. You don't need to include the correctly styled `<ul>`, it
  * will do this for you.
  *
- * @example 
- *   <th colspan="10">
- *       <rx-batch-actions>
- *           <li>
- *               <rx-modal-action
- *                   template-url="templates/suspend-modal.html"
- *                   controller="SuspendServersCtrl"
- *                   classes="msg-info">
- *                   <i class="fa fa-fw fa-power-off msg-info"></i>
- *                   Suspend Selected Servers
- *               </rx-modal-action>
- *           </li>
- *       </rx-batch-actions>
- *   </th>
+ * @example
+ * <pre>
+ * <th colspan="10">
+ *     <rx-batch-actions>
+ *         <li>
+ *             <rx-modal-action
+ *                 template-url="templates/suspend-modal.html"
+ *                 controller="SuspendServersCtrl"
+ *                 classes="msg-info">
+ *                 <i class="fa fa-fw fa-power-off msg-info"></i>
+ *                 Suspend Selected Servers
+ *             </rx-modal-action>
+ *         </li>
+ *     </rx-batch-actions>
+ * </th>
+ * </pre>
  */
 .directive('rxBatchActions', ["rxDOMHelper", function (rxDOMHelper) {
     return {
@@ -2496,11 +2811,15 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
 
         }
     };
-    
 }])
+/**
+ * @ngdoc service
+ * @name rxBulkSelect.service:rxBulkSelectUtils
+ * @description [TBD]
+ */
 .factory('rxBulkSelectUtils', function () {
     var rxBulkSelectUtils = {};
-    
+
     var allVisibleRows = function (tableElement) {
         return _.map(tableElement[0].querySelectorAll('td .rx-bulk-select-row'), angular.element);
     };
@@ -2514,10 +2833,9 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
 
     return rxBulkSelectUtils;
 })
-
 /**
  * @ngdoc service
- * @name encore.ui.rxBulkSelect:NotifyProperties
+ * @name rxBulkSelect.service:NotifyProperties
  * @description
  *
  * This factory provides functionality for abstracting "properties", and allowing
@@ -2528,13 +2846,15 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
  * For example, say you have a value you want to track, which we'll call `numSelected`.
  * This will be a plain integer value that you have complete control over. What you want
  * is for other directives/controllers/etc to be able to register for notifications whenever
- * `numSelected` changes. 
+ * `numSelected` changes.
  *
  * The `registrationFn` method here sets all of this up. In your directive/controller where
  * you want your property to live, do something like:
  *
+ * ```
  * stats = { _numSelected: 0 };
  * scope.registerForNumSelected = NotifyProperties.registrationFn(stats, 'numSelected', '_numSelected');
+ * ```
  *
  * This is saying "We have a property `_numSelected` in `stats`, and we want it exposted as `numSelected`
  * in `stats`. Whenever `stats.numSelected` is modified, other directives/controllers should be notified"
@@ -2572,26 +2892,36 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
     };
 
     return NotifyProperties;
-    
 }]);
 
+/**
+ * @ngdoc overview
+ * @name rxButton
+ * @description
+ * # rxButton Component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxButton.directive:rxButton rxButton}
+ */
 angular.module('encore.ui.rxButton', [])
 /**
-* @ngdoc directive
-* @name rxButton.directive:rxButton
-* @restrict E
-* @scope
-* @description
-* Renders a button which will disable when clicked and show a loading message
-* and renable when operation is complete. If you set `classes` attributes `<rx-button>`,
-* those will get passed to the `<button>` instance as `class`
-*
-* @param {String} loadingMsg Text to be displayed when an operation is in progress.
-* @param {String} defaultMsg Text to be displayed by default an no operation is in progress.
-* @param {Boolean=} [toggle=false] When true, the button will display the loading text.
-* @param {Boolean=} [disable=false] When true, the button will be disabled.
-* @param {String=} [classes=""] The class names to be applied to the button.
-*/
+ * @ngdoc directive
+ * @name rxButton.directive:rxButton
+ * @restrict E
+ * @scope
+ * @description
+ * Renders a button which will disable when clicked and show a loading message
+ * and renable when operation is complete. If you set `classes` attributes `<rx-button>`,
+ * those will get passed to the `<button>` instance as `class`
+ *
+ * @param {String} loadingMsg Text to be displayed when an operation is in progress.
+ * @param {String} defaultMsg Text to be displayed by default an no operation is in progress.
+ * @param {Boolean=} [toggle=false] When true, the button will display the loading text.
+ * @param {Boolean=} [disable=false] When true, the button will be disabled.
+ * @param {String=} [classes=""] The class names to be applied to the button.
+ */
 .directive('rxButton', function () {
     return {
         templateUrl: 'templates/rxButton.html',
@@ -2606,7 +2936,23 @@ angular.module('encore.ui.rxButton', [])
     };
 });
 
+/**
+ * @ngdoc overview
+ * @name rxCapitalize
+ * @description
+ * # rxCapitalize Component
+ *
+ * [TBD]
+ *
+ * ## Filters
+ * * {@link rxCapitalize.filter:rxCapitalize rxCapitalize}
+ */
 angular.module('encore.ui.rxCapitalize', [])
+/**
+ * @ngdoc filter
+ * @name rxCapitalize.filter:rxCapitalize
+ * @description [TBD]
+ */
 .filter('rxCapitalize', function () {
     return function (input) {
         if (!_.isString(input)) {
@@ -2616,22 +2962,33 @@ angular.module('encore.ui.rxCapitalize', [])
     };
 });
 
+/**
+ * @ngdoc overview
+ * @name rxCharacterCount
+ * @description
+ * # rxCharacterCount Component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxCharacterCount.directive:rxCharacterCount rxCharacterCount}
+ */
 angular.module('encore.ui.rxCharacterCount', [])
 /**
- *
  * @ngdoc directive
  * @name rxCharacterCount.directive:rxCharacterCount
  * @restrict A
+ * @scope
  * @description
  * Monitors the number of characters in a text input and compares it to the desired length.
  *
- * @param {number} [low-boundary=10] How far from the maximum to enter a warning state
- * @param {number} [max-characters=254] The maximum number of characters allowed
- * @param {boolean} [highlight=false] Whether or not characters over the limit are highlighted
+ * @param {Number=} [low-boundary=10] How far from the maximum to enter a warning state
+ * @param {Number=} [max-characters=254] The maximum number of characters allowed
+ * @param {Boolean=} [highlight=false] Whether or not characters over the limit are highlighted
  *
  * @example
  * <pre>
- *     <textarea ng-model="model" rx-character-count></textarea>
+ * <textarea ng-model="model" rx-character-count></textarea>
  * </pre>
  */
 .directive('rxCharacterCount', ["$compile", function ($compile) {
@@ -2737,22 +3094,35 @@ angular.module('encore.ui.rxCharacterCount', [])
     };
 }]);
 
+/**
+ * @ngdoc overview
+ * @name rxCollapse
+ * @description
+ * # rxCollapse Component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxCollapse.directive:rxCollapse rxCollapse}
+ */
 angular.module('encore.ui.rxCollapse', [])
 /**
  * @ngdoc directive
- * @name encore.ui.rxCollapse:rxCollapse
+ * @name rxCollapse.directive:rxCollapse
  * @restrict E
  * @scope
  * @description
  * Hide and show an element with a transition.
  *
- * @param {string} [title] The title to display next to the toggle button. Default is "See More/See Less" toggle.
- * @param {string} [expanded] Initially expanded or collapsed. Default is expanded.
+ * @param {String=} [title="See More/See Less"]
+ * The title to display next to the toggle button. Default is "See More/See Less" toggle.
+ * @param {String=} [expanded='true']
+ * Initially expanded or collapsed. Default is expanded.
  *
  * @example
  * <pre>
- *     <rx-collapse title="Filter results" expanded="true">Text Here</rx-collapse>
- *     <rx-collapse expanded="true">Text Here</rx-collapse>
+ * <rx-collapse title="Filter results" expanded="true">Text Here</rx-collapse>
+ * <rx-collapse expanded="true">Text Here</rx-collapse>
  * </pre>
  */
 .directive('rxCollapse', function () {
@@ -2773,10 +3143,21 @@ angular.module('encore.ui.rxCollapse', [])
     };
 });
 
+/**
+ * @ngdoc overview
+ * @name rxCompile
+ * @description
+ * # rxCompile Component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxCompile.directive:rxCompile rxCompile}
+ */
 angular.module('encore.ui.rxCompile', [])
-/*
+/**
  * @ngdoc directive
- * @name encore.ui.rxCompile:rxCompile
+ * @name rxCompile.directive:rxCompile
  * @see http://docs.angularjs.org/api/ng/service/$compile#attributes
  */
 .directive('rxCompile', ["$compile", function ($compile) {
@@ -2801,7 +3182,23 @@ angular.module('encore.ui.rxCompile', [])
     };
 }]);
 
+/**
+ * @ngdoc overview
+ * @name rxDiskSize
+ * @description
+ * # rxDiskSize Component
+ *
+ * [TBD]
+ *
+ * ## Filters
+ * * {@link rxDiskSize.filter:rxDiskSize rxDiskSize}
+ */
 angular.module('encore.ui.rxDiskSize', [])
+/**
+ * @ngdoc filter
+ * @name rxDiskSize.filter:rxDiskSize
+ * @description [TBD]
+ */
 .filter('rxDiskSize', function () {
     return function (size, unit) {
         var units = ['GB', 'TB', 'PB'];
@@ -2820,18 +3217,34 @@ angular.module('encore.ui.rxDiskSize', [])
     };
 });
 
+/**
+ * @ngdoc overview
+ * @name rxFavicon
+ * @description
+ * # rxFavicon Component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxFavicon.directive:rxFavicon rxFavicon}
+ */
 angular.module('encore.ui.rxFavicon', ['encore.ui.rxEnvironment'])
 /**
-* @ngdoc directive
-* @name encore.ui.rxFavicon:rxFavicon
-* @restrict A
-*
-* @description
-* Updates href of element and replaces it with path to a different image based on environment
-* @scope
-* @param {Object} rxFavicon - Takes two optional properties (staging and local), with the value of each being
-*                             the path to the favicon.
-*/
+ * @ngdoc directive
+ * @name rxFavicon.directive:rxFavicon
+ * @restrict A
+ * @scope
+ * @description
+ * Updates href of element and replaces it with path to a different image based on environment
+ *
+ * @param {Object} rxFavicon - Takes two optional properties (staging and local), with the value of each being
+ *                             the path to the favicon.
+ *
+ * @example
+ * <pre>
+ * TBD
+ * </pre>
+ */
 .directive('rxFavicon', ["Environment", "$parse", "$log", function (Environment, $parse, $log) {
     return {
         restrict: 'A',
@@ -2872,6 +3285,21 @@ angular.module('encore.ui.rxFavicon', ['encore.ui.rxEnvironment'])
     };
 }]);
 
+/**
+ * @ngdoc overview
+ * @name rxFeedback
+ * @description
+ * # rxFeedback Component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxFeedback.directive:rxFeedback rxFeedback}
+ *
+ * ## Services
+ * * {@link rxFeedback.service:rxFeedbackSvc rxFeedbackSvc}
+ * * {@link rxFeedback.service:rxScreenshotSvc rxScreenshotSvc}
+ */
 angular.module('encore.ui.rxFeedback', ['ngResource'])
 .value('feedbackTypes', [
     {
@@ -2896,7 +3324,14 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
             'to make it even better'
     }
 ])
-// requires html2canvas
+/**
+ * @ngdoc service
+ * @name rxFeedback.service:rxScreenshotSvc
+ * @description
+ * requires html2canvas
+ *
+ * [TBD]
+ */
 .service('rxScreenshotSvc', ["$log", "$q", function ($log, $q) {
     // double check that html2canvas is loaded
     var hasDependencies = function () {
@@ -2926,6 +3361,11 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
         }
     };
 }])
+/**
+ * @ngdoc service
+ * @name rxFeedback.service:rxFeedbackSvc
+ * @description [TBD]
+ */
 .factory('rxFeedbackSvc', ["$resource", "feedbackApi", "$location", "$window", function ($resource, feedbackApi, $location, $window) {
     var container = {
         api: undefined,
@@ -2960,6 +3400,13 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
 
     return container;
 }])
+/**
+ * @ngdoc directive
+ * @name rxFeedback.directive:rxFeedback
+ * @restrict E
+ * @scope
+ * @description [TBD]
+ */
 .directive('rxFeedback', ["feedbackTypes", "$location", "rxFeedbackSvc", "rxScreenshotSvc", "rxNotify", "Session", function (feedbackTypes, $location, rxFeedbackSvc, rxScreenshotSvc, rxNotify, Session) {
     return {
         restrict: 'E',
@@ -3028,83 +3475,93 @@ angular.module('encore.ui.rxFeedback', ['ngResource'])
 }]);
 
 /*jshint proto:true*/
+/**
+ * @ngdoc overview
+ * @name rxSessionStorage
+ * @description
+ * # rxSessionStorage Component
+ *
+ * [TBD]
+ *
+ * ## Services
+ * * {@link rxSessionStorage.service:SessionStorage SessionStorage}
+ */
 angular.module('encore.ui.rxSessionStorage', [])
-    /**
-    *
-    * @ngdoc service
-    * @name encore.ui.rxSessionStorage:SessionStorage
-    * @description
-    * A simple wrapper for injecting the global variable sessionStorage
-    * for storing values in session storage. This service is similar to angular's
-    * $window and $document services.  The API works the same as the W3C's
-    * specification provided at: http://dev.w3.org/html5/webstorage/#storage-0.
-    * Also includes to helper functions for getting and setting objects.
-    *
-    * @example
-    * <pre>
-    * SessionStorage.setItem('Batman', 'Robin'); // no return value
-    * SessionStorage.key(0); // returns 'Batman'
-    * SessionStorage.getItem('Batman'); // returns 'Robin'
-    * SessionStorage.removeItem('Batman'); // no return value
-    * SessionStorage.setObject('hero', {name:'Batman'}); // no return value
-    * SessionStorage.getObject('hero'); // returns { name: 'Batman'}
-    * SessionStorage.clear(); // no return value
-    * </pre>
-    */
-    .service('SessionStorage', ["$window", function ($window) {
-        this.setItem = function (key, value) {
-            $window.sessionStorage.setItem(key, value);
-        };
+/**
+ * @ngdoc service
+ * @name rxSessionStorage.service:SessionStorage
+ * @description
+ * A simple wrapper for injecting the global variable sessionStorage
+ * for storing values in session storage. This service is similar to angular's
+ * $window and $document services.  The API works the same as the W3C's
+ * specification provided at: http://dev.w3.org/html5/webstorage/#storage-0.
+ * Also includes to helper functions for getting and setting objects.
+ *
+ * @example
+ * <pre>
+ * SessionStorage.setItem('Batman', 'Robin'); // no return value
+ * SessionStorage.key(0); // returns 'Batman'
+ * SessionStorage.getItem('Batman'); // returns 'Robin'
+ * SessionStorage.removeItem('Batman'); // no return value
+ * SessionStorage.setObject('hero', {name:'Batman'}); // no return value
+ * SessionStorage.getObject('hero'); // returns { name: 'Batman'}
+ * SessionStorage.clear(); // no return value
+ * </pre>
+ */
+.service('SessionStorage', ["$window", function ($window) {
+    this.setItem = function (key, value) {
+        $window.sessionStorage.setItem(key, value);
+    };
 
-        this.getItem = function (key) {
-            return $window.sessionStorage.getItem(key);
-        };
+    this.getItem = function (key) {
+        return $window.sessionStorage.getItem(key);
+    };
 
-        this.key = function (key) {
-            return $window.sessionStorage.key(key);
-        };
+    this.key = function (key) {
+        return $window.sessionStorage.key(key);
+    };
 
-        this.removeItem = function (key) {
-            $window.sessionStorage.removeItem(key);
-        };
+    this.removeItem = function (key) {
+        $window.sessionStorage.removeItem(key);
+    };
 
-        this.clear = function () {
-            $window.sessionStorage.clear();
-        };
+    this.clear = function () {
+        $window.sessionStorage.clear();
+    };
 
-        this.__defineGetter__('length', function () {
-            return $window.sessionStorage.length;
-        });
+    this.__defineGetter__('length', function () {
+        return $window.sessionStorage.length;
+    });
 
-        this.setObject = function (key, val) {
-            var value = _.isObject(val) || _.isArray(val) ? JSON.stringify(val) : val;
-            this.setItem(key, value);
-        };
+    this.setObject = function (key, val) {
+        var value = _.isObject(val) || _.isArray(val) ? JSON.stringify(val) : val;
+        this.setItem(key, value);
+    };
 
-        this.getObject = function (key) {
-            var item = $window.sessionStorage.getItem(key);
-            try {
-                item = JSON.parse(item);
-            } catch (error) {
-                return item;
-            }
-
+    this.getObject = function (key) {
+        var item = $window.sessionStorage.getItem(key);
+        try {
+            item = JSON.parse(item);
+        } catch (error) {
             return item;
-        };
-    }]);
+        }
+
+        return item;
+    };
+}]);
 
 /**
  * @ngdoc overview
  * @name rxMisc
  * @description
+ * # rxMisc Component
+ *
  * A module for shared functionality across framework components.
  *
  * ## Filters
- *
  * * {@link rxMisc.filter:titleize titleize}
  *
  * ## Services
- *
  * * {@link rxMisc.service:rxAutoSave rxAutoSave}
  * * {@link rxMisc.service:rxDOMHelper rxDOMHelper}
  * * {@link rxMisc.service:rxNestedElement rxNestedElement}
@@ -3620,12 +4077,24 @@ angular.module('encore.ui.rxMisc', ['debounce', 'encore.ui.rxSessionStorage'])
 }]);
 
 /**
+ * @ngdoc overview
+ * @name rxFloatingHeader
+ * @description
+ * # rxFloatingHeader Component
+ *
+ * TBD
+ *
+ * ## Directives
+ * * {@link rxFloatingHeader.directive:rxFloatingHeader rxFloatingHeader}
+ */
+angular.module('encore.ui.rxFloatingHeader', ['encore.ui.rxMisc'])
+/**
  * @ngdoc directive
- * @name encore.ui.rxFloatingHeader:rxFloatingHeader
+ * @name rxFloatingHeader.directive:rxFloatingHeader
+ * @restrict A
  * @description
  * Turns a tableheader into a floating persistent header
  */
-angular.module('encore.ui.rxFloatingHeader', ['encore.ui.rxMisc'])
 .directive('rxFloatingHeader', ["$document", "rxDOMHelper", function ($document, rxDOMHelper) {
     return {
         restrict: 'A',
@@ -3673,7 +4142,7 @@ angular.module('encore.ui.rxFloatingHeader', ['encore.ui.rxMisc'])
                 inputs = [],
                 maxHeight,
                 header = angular.element(table.find('thead'));
-                
+
                 // Are we currently floating?
                 var floating = false;
                 // Grab all the original `tr` elements from the `thead`,
@@ -4556,15 +5025,26 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
     return rxFormUtils;
 }]);
 
+/**
+ * @ngdoc overview
+ * @name rxInfoPanel
+ * @description
+ * # rxInfoPanel Component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxInfoPanel.directive:rxInfoPanel rxInfoPanel}
+ */
 angular.module('encore.ui.rxInfoPanel', [])
 /**
  * @ngdoc directive
- * @name encore.ui.rxInfoPanel:rxInfoPanel
+ * @name rxInfoPanel.directive:rxInfoPanel
  * @restrict E
- *
+ * @scope
  * @description
  * Renders a generic, pre-styled, info panel, with an optional title.
- * @scope
+ *
  * @param {String} title - Text to be displayed in the title area of the info panel
  */
 .directive('rxInfoPanel', function () {
@@ -4578,21 +5058,34 @@ angular.module('encore.ui.rxInfoPanel', [])
     };
 });
 
+/**
+ * @ngdoc overview
+ * @name rxLogout
+ * @description
+ * # rxLogout Component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxLogout.directive:rxLogout rxLogout}
+ */
 angular.module('encore.ui.rxLogout', ['encore.ui.rxAuth'])
 /**
-* @ngdoc directive
-* @name encore.ui.rxLogout:rxLogout
-* @restrict A
-* @scope
-* @description
-* Adds logout functionality to an element
-*
-* @param {string} [rxLogout] URL to redirect to after logging out
-*
-* @example
-* <button rx-logout>Logout</button>
-* <button rx-logout="/custom">Logout (w/ custom location)</button>
-*/
+ * @ngdoc directive
+ * @name rxLogout.directive:rxLogout
+ * @restrict A
+ * @scope
+ * @description
+ * Adds logout functionality to an element
+ *
+ * @param {String=} [rxLogout='/login'] URL to redirect to after logging out
+ *
+ * @example
+ * <pre>
+ * <button rx-logout>Logout</button>
+ * <button rx-logout="/custom">Logout (w/ custom location)</button>
+ * </pre>
+ */
 .directive ('rxLogout', ["Auth", "$window", "$location", function (Auth, $window, $location) {
     return {
         restrict: 'A',
@@ -4737,29 +5230,45 @@ angular.module('encore.ui.rxMetadata', [])
     };
 });//rxMetadata
 
+/**
+ * @ngdoc overview
+ * @name rxModalAction
+ * @description
+ * # rxModalAction Component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxModalAction.directive:rxModalAction rxModalAction}
+ * * {@link rxModalAction.directive:rxModalFooter rxModalFooter}
+ * * {@link rxModalAction.directive:rxModalForm rxModalForm}
+ *
+ * ## Services
+ * * {@link rxModalAction.service:rxModalFooterTemplates rxModalFooterTemplates}
+ */
 angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
 .run(["$compile", "$templateCache", function ($compile, $templateCache) {
     $compile($templateCache.get('templates/rxModalFooters.html'));
 }])
 /**
-* @ngdoc directive
-* @name encore.ui.rxModalAction:rxModalForm
-* @restrict E
-* @scope
-* @description
-* Responsible for creating the HTML necessary for modal form
-*
-* @param {string} title Title of modal window
-* @param {string} [subtitle] Subtitle of modal window
-* @param {boolean} [isLoading] True to show a spinner by default
-* @param {string} [submitText] 'Submit' button text to use. Defaults to 'Submit'
-* @param {string} [cancelText] 'Cancel' button text to use. Defaults to 'Cancel'
-* @param {string} [returnText] 'Return' button text to use. Defaults to 'Return'
-* @param {string} [defaultFocus] default focus element. May be 'submit' or 'cancel'. Defaults to 'firstTabbable'
-*
-* @example
-* <rx-modal-form title="My Form" is-loading="true" submit-text="Yes!"></rx-modal-form>
-*/
+ * @ngdoc directive
+ * @name rxModalAction.directive:rxModalForm
+ * @restrict E
+ * @scope
+ * @description
+ * Responsible for creating the HTML necessary for modal form
+ *
+ * @param {string} title Title of modal window
+ * @param {string} [subtitle] Subtitle of modal window
+ * @param {boolean} [isLoading] True to show a spinner by default
+ * @param {string} [submitText] 'Submit' button text to use. Defaults to 'Submit'
+ * @param {string} [cancelText] 'Cancel' button text to use. Defaults to 'Cancel'
+ * @param {string} [returnText] 'Return' button text to use. Defaults to 'Return'
+ * @param {string} [defaultFocus] default focus element. May be 'submit' or 'cancel'. Defaults to 'firstTabbable'
+ *
+ * @example
+ * <rx-modal-form title="My Form" is-loading="true" submit-text="Yes!"></rx-modal-form>
+ */
 .directive('rxModalForm', ["$timeout", "$compile", "rxModalFooterTemplates", function ($timeout, $compile, rxModalFooterTemplates) {
     return {
         transclude: true,
@@ -4831,18 +5340,19 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
     $rootScope.$on('$routeChangeSuccess', $modalInstance.dismiss);
 }])
 /**
-* @ngdoc service
-* @name encore.ui.rxModalAction:rxModalFooterTemplates
-* @description
-* A cache for storing the modal footer templates
-* This is used internally by rxModalFooter, which is preferred
-* for registering templates over direct calling of this api.
-* @example
-* <pre>
-* rxModalFooterTemplates.add("step1", "<p>Step 1 Body</p>");
-* rxModalFooterTemplates.flush(); // returns html string to be inserted into DOM
-* </pre>
-*/
+ * @ngdoc service
+ * @name rxModalAction.service:rxModalFooterTemplates
+ * @description
+ * A cache for storing the modal footer templates
+ * This is used internally by rxModalFooter, which is preferred
+ * for registering templates over direct calling of this api.
+ *
+ * @example
+ * <pre>
+ * rxModalFooterTemplates.add("step1", "<p>Step 1 Body</p>");
+ * rxModalFooterTemplates.flush(); // returns html string to be inserted into DOM
+ * </pre>
+ */
 .factory('rxModalFooterTemplates', function () {
     var globals = {};
     var locals = {};
@@ -4878,22 +5388,24 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
     };
 })
 /**
-* @ngdoc directive
-* @name encore.ui.rxModalAction:rxModalFooter
-* @restrict E
-* @scope
-* @description
-* Define a footer for the next modal.
-*
-* @param {string} state The content will be shown in the footer when this state is activated.
-* @param {string} [global] If the global attribute is present, then this footer can be used
-*                          in other modals. This attribute takes no values.
-*
-* @example
-* <rx-modal-footer state="confirm">
-*     <button class="button" ng-click="setState('pending')">I understand the risks.</button>
-* </rx-modal-footer>
-*/
+ * @ngdoc directive
+ * @name rxModalAction.directive:rxModalFooter
+ * @restrict E
+ * @scope
+ * @description
+ * Define a footer for the next modal.
+ *
+ * @param {String} state The content will be shown in the footer when this state is activated.
+ * @param {String=} [global] If the global attribute is present, then this footer can be used
+ *                          in other modals. This attribute takes no values.
+ *
+ * @example
+ * <pre>
+ * <rx-modal-footer state="confirm">
+ *     <button class="button" ng-click="setState('pending')">I understand the risks.</button>
+ * </rx-modal-footer>
+ * </pre>
+ */
 .directive('rxModalFooter', ["rxModalFooterTemplates", function (rxModalFooterTemplates) {
     return {
         restrict: 'E',
@@ -4913,29 +5425,31 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
     };
 }])
 /**
-* @ngdoc directive
-* @name encore.ui.rxModalAction:rxModalAction
-* @restrict E
-* @scope
-* @description
-* Link which will show a modal window on click, and handle callbacks for pre/post modal actions
-*
-* @param {function} [preHook] Function to call when a modal is opened
-* @param {function} [postHook] Function to call when a modal is submitted (not called when cancelled out of)
-* @param {function} [dismissHook] Function to call when a modal is dismissed (not called when submitted)
-* @param {string} [templateUrl] URL of template to use for modal content
-* @param {string} [disable-esc] If the `disable-esc` attribute is present, then "Press Esc to close" will be disabled
-*                               for the modal. This attribute takes no values.
-*
-* @example
-* <rx-modal-action
-*     pre-hook="myPreHook(this)"
-*     post-hook="myPostHook(fields)"
-*     template-url="modalContent.html"
-*     disable-esc>
-*         My Link Text
-*  </rx-modal-action>
-*/
+ * @ngdoc directive
+ * @name rxModalAction.directive:rxModalAction
+ * @restrict E
+ * @scope
+ * @description
+ * Link which will show a modal window on click, and handle callbacks for pre/post modal actions
+ *
+ * @param {Function=} [preHook] Function to call when a modal is opened
+ * @param {Function=} [postHook] Function to call when a modal is submitted (not called when cancelled out of)
+ * @param {Function=} [dismissHook] Function to call when a modal is dismissed (not called when submitted)
+ * @param {String=} [templateUrl] URL of template to use for modal content
+ * @param {*=} [disable-esc] If the `disable-esc` attribute is present, then "Press Esc to close" will be disabled
+ *                           for the modal. This attribute takes no values.
+ *
+ * @example
+ * <pre>
+ * <rx-modal-action
+ *     pre-hook="myPreHook(this)"
+ *     post-hook="myPostHook(fields)"
+ *     template-url="modalContent.html"
+ *     disable-esc>
+ *         My Link Text
+ *  </rx-modal-action>
+ *  </pre>
+ */
 .directive('rxModalAction', ["$modal", function ($modal) {
     var createModal = function (config, scope) {
         config = _.defaults(config, {
@@ -5081,20 +5595,20 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
  */
 angular.module('encore.ui.rxNotify', ['ngSanitize', 'ngAnimate'])
 /**
-* @ngdoc directive
-* @name rxNotify.directive:rxNotification
-* @restrict E
-* @scope
-* @description
-* Display a static message with styling taken from rx-notifications
-*
-* @param {String=} [type='info'] The type of notification (e.g. 'warning', 'error')
-*
-* @example
-* <pre>
-* <rx-notification type="warning">This is a message!</rx-notification>
-* </pre>
-*/
+ * @ngdoc directive
+ * @name rxNotify.directive:rxNotification
+ * @restrict E
+ * @scope
+ * @description
+ * Display a static message with styling taken from rx-notifications
+ *
+ * @param {String=} [type='info'] The type of notification (e.g. 'warning', 'error')
+ *
+ * @example
+ * <pre>
+ * <rx-notification type="warning">This is a message!</rx-notification>
+ * </pre>
+ */
 .directive('rxNotification', ["rxNotify", function (rxNotify) {
     return {
         scope: {
@@ -5137,7 +5651,7 @@ angular.module('encore.ui.rxNotify', ['ngSanitize', 'ngAnimate'])
         }
     };
 }])
- /**
+/**
  * @ngdoc directive
  * @name rxNotify.directive:rxNotifications
  * @restrict E
@@ -5464,19 +5978,19 @@ angular.module('encore.ui.rxNotify', ['ngSanitize', 'ngAnimate'])
     };
 }])
 /**
-* @ngdoc service
-* @name rxNotify.service:rxPromiseNotifications
-* @description Manages displaying messages for a promise
-*
-* @example
-* <pre>
-* rxPromiseNotifications.add($scope.deferred.promise, {
-*     loading: 'Loading Message',
-*     success: 'Success Message',
-*     error: 'Error Message'
-* });
-* </pre>
-*/
+ * @ngdoc service
+ * @name rxNotify.service:rxPromiseNotifications
+ * @description Manages displaying messages for a promise
+ *
+ * @example
+ * <pre>
+ * rxPromiseNotifications.add($scope.deferred.promise, {
+ *     loading: 'Loading Message',
+ *     success: 'Success Message',
+ *     error: 'Error Message'
+ * });
+ * </pre>
+ */
 .factory('rxPromiseNotifications', ["rxNotify", "$rootScope", "$q", "$interpolate", function (rxNotify, $rootScope, $q, $interpolate) {
     var scope = $rootScope.$new();
 
@@ -5598,10 +6112,17 @@ angular.module('encore.ui.rxNotify', ['ngSanitize', 'ngAnimate'])
 /**
  * @ngdoc overview
  * @name rxOptionTable
+ * @description
+ * # rxOptionTable Component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxOptionTable.directive:rxOptionTable rxOptionTable}
+ * * {@link rxOptionTable.directive:rxFormOptionTable rxFormOptionTable} (*deprecated*)
  */
 angular.module('encore.ui.rxOptionTable', ['ngSanitize'])
 /**
- *
  * @ngdoc directive
  * @name rxOptionTable.directive:rxOptionTable
  * @restrict E
@@ -5808,7 +6329,26 @@ angular.module('encore.ui.rxOptionTable', ['ngSanitize'])
     return rxOptionTableDirective[0];
 }]);
 
+/**
+ * @ngdoc overview
+ * @name rxPageTitle
+ * @description
+ * # rxPageTitle Component
+ *
+ * [TBD]
+ *
+ * ## Filters
+ * * {@link rxPageTitle.filter:rxUnsafeRemoveHTML rxUnsafeRemoveHTML}
+ *
+ * ## Services
+ * * {@link rxPageTitle.service:rxPageTitle rxPageTitle}
+ */
 angular.module('encore.ui.rxPageTitle', [])
+/**
+ * @ngdoc service
+ * @name rxPageTitle.service:rxPageTitle
+ * @description [TBD]
+ */
 .factory('rxPageTitle', ["$document", "$filter", function ($document, $filter) {
     var suffix = '',
         title = '';
@@ -5819,7 +6359,7 @@ angular.module('encore.ui.rxPageTitle', [])
         } else {
             title = t;
         }
-        
+
     };
 
     var setDocumentTitle = function (t) {
@@ -5839,7 +6379,7 @@ angular.module('encore.ui.rxPageTitle', [])
         },
 
         // Set the page title to `t`, and strip any HTML tags/entities
-        // within it. This is considered unsafe, i.e. you *must* trust the 
+        // within it. This is considered unsafe, i.e. you *must* trust the
         // source of the input, as it allows arbitrary javascript to be executed
         setTitleUnsafeStripHTML: function (t) {
             addSuffix(t);
@@ -5851,11 +6391,9 @@ angular.module('encore.ui.rxPageTitle', [])
         }
     };
 }])
-
 /**
- *
  * @ngdoc filter
- * @name encore.ui.rxPageTitle:rxUnsafeRemoveHTML
+ * @name rxPageTitle.filter:rxUnsafeRemoveHTML
  * @description
  * Given a string, it removes all HTML tags from the string, using the
  * browser's own parsing engine. Any content inside of tags will be kept.
@@ -5863,9 +6401,8 @@ angular.module('encore.ui.rxPageTitle', [])
  * NOTE: You must only use this with trusted text. See
  * http://stackoverflow.com/a/5002618 for more details
  *
- * @param {string} The string to remove HTML from
- *
- * @returns {string} Cleaned string
+ * @param {String} The string to remove HTML from
+ * @returns {String} Cleaned string
  */
 .filter('rxUnsafeRemoveHTML', ["$document", function ($document) {
     return function (htmlString) {
@@ -5880,11 +6417,30 @@ angular.module('encore.ui.rxPageTitle', [])
     };
 }]);
 
+/**
+ * @ngdoc overview
+ * @name rxPaginate
+ * @description
+ * # rxPaginate Component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxPaginate.directive:rxLoadingOverlay rxLoadingOverlay}
+ * * {@link rxPaginate.directive:rxPaginate rxPaginate}
+ *
+ * ## Filters
+ * * {@link rxPaginate.filter:Page Page}
+ * * {@link rxPaginate.filter:Paginate Paginate}
+ *
+ * ## Services
+ * * {@link rxPaginate.service:PageTracking PageTracking}
+ * * {@link rxPaginate.service:rxPaginateUtils rxPaginateUtils}
+ */
 angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
 /**
- *
  * @ngdoc directive
- * @name encore.ui.rxPaginate:rxPaginate
+ * @name rxPaginate.directive:rxPaginate
  * @restrict E
  * @description
  * Directive that takes in the page tracking object and outputs a page
@@ -5894,7 +6450,7 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
  *
  * @param {Object} pageTracking This is the page tracking service instance to
  * be used for this directive
- * @param {number} numberOfPages This is the maximum number of pages that the
+ * @param {Number} numberOfPages This is the maximum number of pages that the
  * page object will display at a time.
  * @param {Object} [serverInterface] An object with a `getItems()` method. The requirements
  * of this method are described in the rxPaginate README
@@ -5971,7 +6527,7 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
                     }
                     return response;
                 };
-        
+
                 // Register the getItems function with the PageTracker
                 scope.pageTracking.updateItemsFn(getItems);
 
@@ -5980,9 +6536,9 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
                     scope.pageTracking.newItems(getItems(pageNumber, scope.pageTracking.itemsPerPage));
                 };
 
-                // When someone changes the sort column, it will go to the 
+                // When someone changes the sort column, it will go to the
                 // default direction for that column. That could cause both
-                // `sortColumn` and `sortDirection` to get changed, and 
+                // `sortColumn` and `sortDirection` to get changed, and
                 // we don't want to cause two separate API requests to happen
                 var columnOrDirectionChange = debounce(notifyPageTracking, 100);
 
@@ -6021,11 +6577,9 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
         }
     };
 }])
-
 /**
- *
  * @ngdoc directive
- * @name encore.ui.rxPaginate:rxLoadingOverlay
+ * @name rxPaginate.directive:rxLoadingOverlay
  * @restrict A
  * @description
  * This directive can be used to show and hide a "loading" overlay on top
@@ -6075,22 +6629,18 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
     };
 }])
 /**
-*
-* @ngdoc service
-* @name encore.ui.rxPaginate:PageTracking
-* @description
-* This is the data service that can be used in conjunction with the pagination
-* objects to store/control page display of data tables and other items.
-*
-* 
-*
-* @example
-* <pre>
-* PageTracking.createInstance({showAll: true, itemsPerPage: 15});
-* </pre>
-*/
+ * @ngdoc service
+ * @name rxPaginate.service:PageTracking
+ * @description
+ * This is the data service that can be used in conjunction with the pagination
+ * objects to store/control page display of data tables and other items.
+ *
+ * @example
+ * <pre>
+ * PageTracking.createInstance({showAll: true, itemsPerPage: 15});
+ * </pre>
+ */
 .factory('PageTracking', ["$q", "LocalStorage", "rxPaginateUtils", function ($q, LocalStorage, rxPaginateUtils) {
-
     function PageTrackingObject (opts) {
         var pager = _.defaults(_.cloneDeep(opts), {
             itemsPerPage: 200,
@@ -6126,7 +6676,7 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
         if (!opts.itemsPerPage && !_.isNaN(selectedItemsPerPage) && _.contains(itemSizeList, selectedItemsPerPage)) {
             pager.itemsPerPage = selectedItemsPerPage;
         }
-        
+
         Object.defineProperties(pager, {
             'items': {
                 // This returns the slice of data for whatever current page the user is on.
@@ -6150,7 +6700,7 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
         }
 
         updateCache(pager, 0, pager.localItems);
-        
+
         var updateItems = function (pageNumber) {
             // This is the function that gets used when doing UI pagination,
             // thus we're not waiting for the pageNumber to come back from a service,
@@ -6234,11 +6784,11 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
         pager.isPage = function (n) {
             return pager.pageNumber === n;
         };
-        
+
         pager.isPageNTheLastPage = function (n) {
             return pager.totalPages - 1 === n;
         };
-        
+
         pager.currentPage = function () {
             return pager.pageNumber;
         };
@@ -6333,21 +6883,19 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
 
     return PageTracking;
 }])
-
 /**
-*
-* @ngdoc filter
-* @name encore.ui.rxPaginate:Paginate
-* @description
-* This is the pagination filter that is used to calculate the division in the
-* items list for the paging.
-*
-* @param {Object} items The list of items that are to be sliced into pages
-* @param {Object} pager The instance of the PageTracking service. If not
-* specified, a new one will be created.
-*
-* @returns {Object} The list of items for the current page in the PageTracking object
-*/
+ * @ngdoc filter
+ * @name rxPaginate.filter:Paginate
+ * @description
+ * This is the pagination filter that is used to calculate the division in the
+ * items list for the paging.
+ *
+ * @param {Object} items The list of items that are to be sliced into pages
+ * @param {Object} pager The instance of the PageTracking service. If not
+ * specified, a new one will be created.
+ *
+ * @returns {Object} The list of items for the current page in the PageTracking object
+ */
 .filter('Paginate', ["PageTracking", "rxPaginateUtils", function (PageTracking, rxPaginateUtils) {
     return function (items, pager) {
         if (!pager) {
@@ -6358,7 +6906,7 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
             return items;
         }
         if (items) {
-            
+
             pager.total = items.length;
             // We were previously on the last page, but enough items were deleted
             // to reduce the total number of pages. We should now jump to whatever the
@@ -6376,14 +6924,12 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
         }
     };
 }])
-
 /**
-*
-* @ngdoc service
-* @name encore.ui.rxPaginate:rxPaginateUtils
-* @description
-* A few utilities
-*/
+ * @ngdoc service
+ * @name rxPaginate.service:rxPaginateUtils
+ * @description
+ * A few utilities
+ */
 .factory('rxPaginateUtils', function () {
     var rxPaginateUtils = {};
 
@@ -6396,7 +6942,7 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
             first: first,
             last: last,
         };
-        
+
     };
 
     // Given the user requested pageNumber and itemsPerPage, and the number of items we'll
@@ -6416,10 +6962,9 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
 
     return rxPaginateUtils;
 })
-
 /**
  * @ngdoc filter
- * @name encore.ui.rxPaginate:PaginatedItemsSummary
+ * @name rxPaginate.filter:PaginatedItemsSummary
  * @description
  * Given an active pager (i.e. the result of PageTracking.createInstance()),
  * return a string like "26-50 of 500", when on the second page of a list of
@@ -6444,18 +6989,17 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
     };
 }])
 /**
-*
-* @ngdoc filter
-* @name encore.ui.rxPaginate:Page
-* @description
-* This is the pagination filter that is used to limit the number of pages
-* shown
-*
-* @param {Object} pager The instance of the PageTracking service. If not
-* specified, a new one will be created.
-*
-* @returns {Array} The list of page numbers that will be displayed.
-*/
+ * @ngdoc filter
+ * @name rxPaginate.filter:Page
+ * @description
+ * This is the pagination filter that is used to limit the number of pages
+ * shown
+ *
+ * @param {Object} pager The instance of the PageTracking service. If not
+ * specified, a new one will be created.
+ *
+ * @returns {Array} The list of page numbers that will be displayed.
+ */
 .filter('Page', ["PageTracking", function (PageTracking) {
     return function (pager) {
         if (!pager) {
@@ -6484,9 +7028,19 @@ angular.module('encore.ui.rxPaginate', ['encore.ui.rxLocalStorage', 'debounce'])
 
         return displayPages;
     };
-
 }]);
 
+/**
+ * @ngdoc overview
+ * @name rxRadio
+ * @description
+ * # rxRadio Component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxRadio.directive:rxRadio rxRadio}
+ */
 angular.module('encore.ui.rxRadio', [])
 /**
  * @name rxRadio.directive:rxRadio
@@ -6554,7 +7108,37 @@ angular.module('encore.ui.rxRadio', [])
     };
 });
 
+/**
+ * @ngdoc overview
+ * @name rxSearchBox
+ * @description
+ * # rxSearchBox Component
+ *
+ * The rxSearchBox component provides functionality around creating a search input box.
+ *
+ * ## Directives
+ * * {@link rxSearchBox.directive:rxSearchBox rxSearchBox}
+ */
 angular.module('encore.ui.rxSearchBox', [])
+/**
+ * @name rxSearchBox.directive:rxSearchBox
+ * @ngdoc directive
+ * @restrict E
+ * @description
+ * The rxSearchBox directive behaves similar to the HTML "Search" input type. When
+ * the search box is not empty, an "X" button within the element will allow you to
+ * clear the value. Once clear, the "X" will disappear. A disabled search box cannot
+ * be cleared of its value via the "X" button because the button will display.
+ *
+ * @param {String} ng-model Model value to bind the search value.
+ * @param {Boolean=} ng-disabled Boolean value to enable/disable the search box.
+ * @param {String=} [ng-placeholder='Search...'] String to override the default placeholder.
+ *
+ * @example
+ * <pre>
+ * <rx-search-box ng-model="searchModel"></rx-search-box>
+ * </pre>
+ */
 .directive('rxSearchBox', function () {
     return {
         restrict: 'E',
@@ -6590,11 +7174,23 @@ angular.module('encore.ui.rxSearchBox', [])
     };
 });
 
+/**
+ * @ngdoc overview
+ * @name rxSelect
+ * @description
+ * # rxSelect component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxSelect.directive:rxSelect rxSelect}
+ */
 angular.module('encore.ui.rxSelect', [])
 /**
  * @ngdoc directive
  * @name rxSelect.directive:rxSelect
  * @restrict A
+ * @scope
  * @description This directive is to apply styling to native `<select>` elements
  *
  * @example
@@ -6655,10 +7251,29 @@ angular.module('encore.ui.rxSelect', [])
     };
 });
 
+/**
+ * @ngdoc overview
+ * @name rxSelectFilter
+ * @description
+ * # rxSelectFilter component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxSelectFilter.directive:rxMultiSelect rxMultiSelect}
+ * * {@link rxSelectFilter.directive:rxSelectFilter rxSelectFilter}
+ * * {@link rxSelectFilter.directive:rxSelectOption rxSelectOption}
+ *
+ * ## Filters
+ * * {@link rxSelectFilter.filter:Apply Apply}
+ *
+ * ## Services
+ * * {@link rxSelectFilter.service:SelectFilter SelectFilter}
+ */
 angular.module('encore.ui.rxSelectFilter', ['encore.ui.rxMisc', 'encore.ui.rxSelect'])
 /**
  * @ngdoc filter
- * @name encore.ui.rxSelectFilter:Apply
+ * @name rxSelectFilter.filter:Apply
  * @description
  * Used to apply an instance of SelectFilter to an array.
  *
@@ -6670,10 +7285,9 @@ angular.module('encore.ui.rxSelectFilter', ['encore.ui.rxMisc', 'encore.ui.rxSel
         return filter.applyTo(list);
     };
 })
-
 /**
  * @ngdoc service
- * @name encore.ui.rxSelectFilter:SelectFilter
+ * @name rxSelectFilter.service:SelectFilter
  * @description
  * A prototype for creating objects that can be used for filtering arrays.
  *
@@ -6726,11 +7340,11 @@ angular.module('encore.ui.rxSelectFilter', ['encore.ui.rxMisc', 'encore.ui.rxSel
         }
     };
 })
-
 /**
  * @ngdoc directive
- * @name encore.ui.rxSelectFilter:rxSelectFilter
+ * @name rxSelectFilter.directive:rxSelectFilter
  * @restrict E
+ * @scope
  * @description
  * Autmatically creates the appropriate dropdowns to manage a filter object.
  *
@@ -6745,15 +7359,15 @@ angular.module('encore.ui.rxSelectFilter', ['encore.ui.rxMisc', 'encore.ui.rxSel
         }
     };
 })
-
 /**
  * @ngdoc directive
- * @name encore.ui.rxSelectFilter:rxMultiSelect
+ * @name rxSelectFilter.directive:rxMultiSelect
  * @restrict E
+ * @scope
  * @description
  * A multi-select dropdown with checkboxes for each option
  *
- * @param {string} ng-model The scope property that stores the value of the input
+ * @param {String} ng-model The scope property that stores the value of the input
  * @param {Array} [options] A list of the options for the dropdown
  */
 .directive('rxMultiSelect', ["$document", "rxDOMHelper", "rxSelectDirective", function ($document, rxDOMHelper, rxSelectDirective) {
@@ -6864,15 +7478,14 @@ angular.module('encore.ui.rxSelectFilter', ['encore.ui.rxMisc', 'encore.ui.rxSel
         }
     };
 }])
-
 /**
  * @ngdoc directive
- * @name encore.ui.rxSelectFilter:rxSelectOption
+ * @name rxSelectFilter.directive:rxSelectOption
  * @restrict E
  * @description
  * A single option for rxMultiSelect
  *
- * @param {string} value The value of the option. If no transcluded content is provided,
+ * @param {String} value The value of the option. If no transcluded content is provided,
  *                       the value will also be used as the option's text.
  */
 .directive('rxSelectOption', ["rxDOMHelper", function (rxDOMHelper) {
@@ -6911,22 +7524,38 @@ angular.module('encore.ui.rxSelectFilter', ['encore.ui.rxMisc', 'encore.ui.rxSel
     };
 }]);
 
+/**
+ * @ngdoc overview
+ * @name rxSortableColumn
+ * @description
+ * # rxSortableColumn Component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxSortableColumn.directive:rxSortableColumn rxSortableColumn}
+ *
+ * ## Filters
+ * * {@link rxSortableColumn.filter:rxSortEmptyTop rxSortEmptyTop}
+ *
+ * ## Services
+ * * {@link rxSortableColumn.service:rxSortUtil rxSortUtil}
+ */
 angular.module('encore.ui.rxSortableColumn', [])
 /**
-* @ngdoc directive
-* @name encore.ui.rxSortableColumn:rxSortableColumn
-* @restrict E
-*
-* @description
-* Renders a clickable link in a table heading which will sort the table by
-* the referenced property in ascending or descending order.
-*
-* @param {String} displayText - The text to be displayed in the link
-* @param {Function} sortMethod - The sort function to be called when the link is clicked
-* @param {String} sortProperty - The property on the array to sort by when the link is clicked.
-* @param {Object} predicate - The current property the collection is sorted by.
-* @param {Boolean} reverse - Indicates whether the collection should sort the array in reverse order.
-*/
+ * @ngdoc directive
+ * @name rxSortableColumn.directive:rxSortableColumn
+ * @restrict E
+ * @description
+ * Renders a clickable link in a table heading which will sort the table by
+ * the referenced property in ascending or descending order.
+ *
+ * @param {String} displayText - The text to be displayed in the link
+ * @param {Function} sortMethod - The sort function to be called when the link is clicked
+ * @param {String} sortProperty - The property on the array to sort by when the link is clicked.
+ * @param {Object} predicate - The current property the collection is sorted by.
+ * @param {Boolean} reverse - Indicates whether the collection should sort the array in reverse order.
+ */
 .directive('rxSortableColumn', function () {
     return {
         restrict: 'E',
@@ -6941,17 +7570,17 @@ angular.module('encore.ui.rxSortableColumn', [])
     };
 })
 /**
-* @ngdoc service
-* @name encore.ui.rxSortableColumn:rxSortUtil
-* @description
-* Service which provided utility methods for sorting collections.
-*
-* @example
-* <pre>
-* rxSortUtil.getDefault() // returns a sort object with name as the default.
-* rxSortUtil.sortCol($scope, 'name') // sorts the collection based on the predicate
-* </pre>
-*/
+ * @ngdoc service
+ * @name rxSortableColumn.service:rxSortUtil
+ * @description
+ * Service which provided utility methods for sorting collections.
+ *
+ * @example
+ * <pre>
+ * rxSortUtil.getDefault() // returns a sort object with name as the default.
+ * rxSortUtil.sortCol($scope, 'name') // sorts the collection based on the predicate
+ * </pre>
+ */
 .factory('rxSortUtil', function () {
     var util = {};
 
@@ -6974,22 +7603,21 @@ angular.module('encore.ui.rxSortableColumn', [])
     return util;
 })
 /**
-* @ngdoc filter
-* @name encore.ui.rxSortableColumn:rxSortEmptyTop
-* @description
-* Filter that moves rows with an empty predicate to the top of the column in ascending order,
-  and to the bottom in descending order.
-*
-* @example
-* <pre>
-* [{ name: { firstName: 'Adam' } }, { }] | rxSortEmptyTop 'name.firstName':false
-* Will sort as [{}, { name: { firstName: 'Adam' } }].
-
-* [{ name: { firstName: 'Adam' } }, { name: { firstName: null } ] | rxSortEmptyTop 'name.firstName':true
-* Will sort as [{ name: { firstName: 'Adam' } }, {}]
-
-* </pre>
-*/
+ * @ngdoc filter
+ * @name rxSortableColumn.filter:rxSortEmptyTop
+ * @description
+ * Filter that moves rows with an empty predicate to the top of the column in ascending order,
+ * and to the bottom in descending order.
+ *
+ * @example
+ * <pre>
+ * [{ name: { firstName: 'Adam' } }, { }] | rxSortEmptyTop 'name.firstName':false
+ * Will sort as [{}, { name: { firstName: 'Adam' } }].
+ *
+ * [{ name: { firstName: 'Adam' } }, { name: { firstName: null } ] | rxSortEmptyTop 'name.firstName':true
+ * Will sort as [{ name: { firstName: 'Adam' } }, {}]
+ * </pre>
+ */
 .filter('rxSortEmptyTop', ['$filter', '$parse', function ($filter, $parse) {
     return function (array, key, reverse) {
 
@@ -7003,21 +7631,31 @@ angular.module('encore.ui.rxSortableColumn', [])
     };
 }]);
 
+/**
+ * @ngdoc overview
+ * @name rxSpinner
+ * @description
+ * # rxSpinner Component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxSpinner.directive:rxSpinner rxSpinner}
+ */
 angular.module('encore.ui.rxSpinner', [])
 /**
-* @ngdoc directive
-* @name encore.ui.rxSpinner:rxSpinner
-* @restrict A
-*
-* @description
-* Renders a spinner animation on the provided element given the 'toggle' attribute is truthy
-
-* @scope
-* @param {String} size - Controls the size of the spinner.  The options are default (no size specified),
-* mini, small, large and extra-large
-* @param {Boolean} toggle - When true, the spinner will display
-* @param {Boolean} rxSpinner - When present, adds an extra class to the spinner depicting the color
-*/
+ * @ngdoc directive
+ * @name rxSpinner.directive:rxSpinner
+ * @restrict A
+ * @scope
+ * @description
+ * Renders a spinner animation on the provided element given the 'toggle' attribute is truthy
+ *
+ * @param {String} size - Controls the size of the spinner.  The options are default (no size specified),
+ * mini, small, large and extra-large
+ * @param {Boolean} toggle - When true, the spinner will display
+ * @param {Boolean} rxSpinner - When present, adds an extra class to the spinner depicting the color
+ */
 .directive('rxSpinner', function () {
     return {
         restrict: 'A',
@@ -7040,242 +7678,274 @@ angular.module('encore.ui.rxSpinner', [])
     };
 });
 
+/**
+ * @ngdoc overview
+ * @name rxStatus
+ * @description
+ * # rxStatus Component
+ *
+ * [TBD]
+ *
+ * ## Services
+ * * {@link rxStatus.service:ErrorFormatter ErrorFormatter}
+ * * {@link rxStatus.service:Status Status}
+ * * {@link rxStatus.service:StatusUtil StatusUtil}
+ */
 angular.module('encore.ui.rxStatus', ['encore.ui.rxNotify'])
 /**
-* @ngdoc service
-* @name encore.ui.rxStatus:StatusUtil
-* @description
-* Manipulates references to needed $scope input for proper notification functionality
-*
-* @example
-* <pre>
-*   $rootScope.$on('$routeChangeSuccess', function () {
-*       Status.setScope(); // no input results in $rootScope being used
-*       Status.setUtil($rootScope); // forcibly set $rootScope as the scope to be used
-*   });
-* </pre>
-*/
-    .service('StatusUtil', ["$route", "$rootScope", "Status", function ($route, $rootScope, Status) {
-        return {
-            setupScope: function (scope) {
-                Status.setScope(scope || $rootScope);
-            }
-        };
-    }])
+ * @ngdoc service
+ * @name rxStatus.service:StatusUtil
+ * @description
+ * Manipulates references to needed $scope input for proper notification functionality
+ *
+ * @example
+ * <pre>
+ * $rootScope.$on('$routeChangeSuccess', function () {
+ *     Status.setScope(); // no input results in $rootScope being used
+ *     Status.setUtil($rootScope); // forcibly set $rootScope as the scope to be used
+ * });
+ * </pre>
+ */
+.service('StatusUtil', ["$route", "$rootScope", "Status", function ($route, $rootScope, Status) {
+    return {
+        setupScope: function (scope) {
+            Status.setScope(scope || $rootScope);
+        }
+    };
+}])
 /**
-* @ngdoc service
-* @name encore.ui.rxStatus:Status
-* @description
-* Manages notifications for rxNotify with an abstracted set of functions for ease of use
-*/
-    .service('Status', ["$rootScope", "rxNotify", "ErrorFormatter", function ($rootScope, rxNotify, ErrorFormatter) {
-        var stack = 'page';
-        var scope;
-        var status = {
-            LOADING: function () {
-                return { 
-                    loaded: false,
-                    loading: true,
-                    prop: 'loaded'
-                };
-            },
-            SUCCESS: function () {
-                return { 
-                    loaded: true,
-                    loading: false,
-                    success: true,
-                    type: 'success',
-                    prop: 'loaded',
-                    repeat: false,
-                    timeout: 5
-                };
-            },
-            ERROR: function () {
-                return { 
-                    loaded: true,
-                    loading: false,
-                    success: false,
-                    type: 'error',
-                    prop: 'loaded',
-                    repeat: false
-                };
-            },
-            WARNING: function () {
-                return { 
-                    loaded: true,
-                    loading: false,
-                    success: true,
-                    type: 'warning',
-                    prop: 'loaded'
-                };
-            },
-            INFO: function () {
-                return { 
-                    loaded: true,
-                    loading: false,
-                    success: true,
-                    type: 'info',
-                    prop: 'loaded'
-                };
-            },
-            CLEAR: function () {
-                return {
-                    loading: false,
-                    prop: 'loaded'
-                };
-            },
-        };
+ * @ngdoc service
+ * @name rxStatus.service:Status
+ * @description
+ * Manages notifications for rxNotify with an abstracted set of functions for ease of use
+ */
+.service('Status', ["$rootScope", "rxNotify", "ErrorFormatter", function ($rootScope, rxNotify, ErrorFormatter) {
+    var stack = 'page';
+    var scope;
+    var status = {
+        LOADING: function () {
+            return {
+                loaded: false,
+                loading: true,
+                prop: 'loaded'
+            };
+        },
+        SUCCESS: function () {
+            return {
+                loaded: true,
+                loading: false,
+                success: true,
+                type: 'success',
+                prop: 'loaded',
+                repeat: false,
+                timeout: 5
+            };
+        },
+        ERROR: function () {
+            return {
+                loaded: true,
+                loading: false,
+                success: false,
+                type: 'error',
+                prop: 'loaded',
+                repeat: false
+            };
+        },
+        WARNING: function () {
+            return {
+                loaded: true,
+                loading: false,
+                success: true,
+                type: 'warning',
+                prop: 'loaded'
+            };
+        },
+        INFO: function () {
+            return {
+                loaded: true,
+                loading: false,
+                success: true,
+                type: 'info',
+                prop: 'loaded'
+            };
+        },
+        CLEAR: function () {
+            return {
+                loading: false,
+                prop: 'loaded'
+            };
+        },
+    };
 
-        // States that specify a type cannot be dismissed (have to be approved by user)
-        var isDismissable = function (state) {
-            return _.has(state, 'loading') && !_.has(state, 'type');
-        };
+    // States that specify a type cannot be dismissed (have to be approved by user)
+    var isDismissable = function (state) {
+        return _.has(state, 'loading') && !_.has(state, 'type');
+    };
 
-        // Given an options object, check if scope[options.prop] exists,
-        // and set it to `val` if so. `val` defaults to true if not
-        // supplied
-        var setDoneLoadingProp = function (options, val) {
-            val = _.isUndefined(val) ? true : val;
-            if (_.has(options, 'prop') && _.has(scope, options.prop)) {
-                scope[options.prop] = val;
-            }
-        };
+    // Given an options object, check if scope[options.prop] exists,
+    // and set it to `val` if so. `val` defaults to true if not
+    // supplied
+    var setDoneLoadingProp = function (options, val) {
+        val = _.isUndefined(val) ? true : val;
+        if (_.has(options, 'prop') && _.has(scope, options.prop)) {
+            scope[options.prop] = val;
+        }
+    };
 
-        // If the stack is overridden in a given controller, it needs to be refreshed
-        // for any subsequent controllers since a Service is loaded by Angular only once
-        $rootScope.$on('$routeChangeStart', function () {
-            status.setStack('page');
-        });
-
-        status.setStack = function (s) {
-            stack = s;
-        };
-
-        status.setScope = function ($scope) {
-            scope = $scope;
-            scope.loaded = false;
-        };
-
-        status.setStatus = function (msg, state) {
-            state.stack = stack;
-
-            if (!_.has(state, 'dismiss') && isDismissable(state)) {
-                // state.prop defaults to 'loaded', per status.LOADING
-                // However, if a promise is passed in, we use the $resolved
-                // property instead of the default loaded or passed in value
-                if (_.has(scope[state.prop], '$resolved')) {
-                    state.prop = state.prop + '.$resolved';
-                }
-                state.dismiss = [scope, state.prop];
-            }
-
-            if (state.type === 'success') {
-                state.show = state.show || 'next';
-            }
-
-            setDoneLoadingProp(state, _.has(state, 'loading') ? !state.loading : true);
-            scope.status = state;
-            return rxNotify.add(msg, state);
-        };
-
-        status.setLoading = function (msg, options) {
-            options = _.defaults(options ? options : {}, status.LOADING());
-
-            // prop is the variable on scope that stores whether this loading is complete
-            // By default is uses $scope.loaded, but individual messages should be able to
-            // use their own property
-            var prop = options.prop;
-            if (!_.has(scope, prop)) {
-                scope[prop] = false;
-            }
-            return status.setStatus(msg || '', options);
-        };
-
-        status.setSuccess = function (msg, options) {
-            options = _.defaults(options ? options : {}, status.SUCCESS());
-            return status.setStatus(msg || '', options);
-        };
-
-        status.setSuccessNext = function (msg, options) {
-            var next = { 'show': 'next' };
-            options = _.defaults(options ? options : {}, next);
-            return status.setSuccess(msg, options);
-        };
-
-        status.setSuccessImmediate = function (msg, options) {
-            var immediate = { 'show': 'immediate' };
-            options = _.defaults(options ? options : {}, immediate);
-            return status.setSuccess(msg, options);
-        };
-
-        status.setWarning = function (msg, options) {
-            options = _.defaults(options ? options : {}, status.WARNING());
-            return status.setStatus(msg, options);
-        };
-
-        status.setInfo = function (msg, options) {
-            options = _.merge(options ? options : {}, status.INFO());
-            return status.setStatus(msg, options);
-        };
-
-        /*
-         * `msg` - can be a plain string, or it can be a string template with ${message} in it
-         * `error` - An optional error object. Should have a `message` or `statusText` property
-         * `options` - A usual options object
-         */
-        status.setError = function (msg, error, options) {
-            options = _.defaults(options ? options : {}, status.ERROR());
-            msg = ErrorFormatter.buildErrorMsg(msg || '', error);
-            return status.setStatus(msg, options);
-        };
-
-        status.complete = function (options) {
-            return status.setSuccessImmediate('', _.defaults(options ? options : {}, status.SUCCESS()));
-        };
-
-        status.dismiss = function (obj) {
-            scope.status = status.CLEAR();
-            return rxNotify.dismiss(obj);
-        };
-
-        status.clear = function (st) {
-            scope.status = status.CLEAR();
-            return rxNotify.clear(st || stack);
-        };
-
-        return status;
-    }])
-/**
-* @ngdoc service 
-* @name encore.ui.rxStatus:ErrorFormatter
-* @description
-* Provides a helper method to parse error objects for 'message' and format them
-* as necessary for Status.setError()
-*/
-    .factory('ErrorFormatter', function () {
-        /*
-         * formatString is a string with ${message} in it somewhere, where ${message}
-         * will come from the `error` object. The `error` object either needs to have
-         * a `message` property, or a `statusText` property.
-         */
-        var buildErrorMsg = function (formatString, error) {
-            error = error || {};
-            if (!_.has(error, 'message')) {
-                error.message = _.has(error, 'statusText') ? error.statusText : 'Unknown error';
-            }
-            return _.template(formatString, error);
-        };
-
-        return {
-            buildErrorMsg: buildErrorMsg
-        };
+    // If the stack is overridden in a given controller, it needs to be refreshed
+    // for any subsequent controllers since a Service is loaded by Angular only once
+    $rootScope.$on('$routeChangeStart', function () {
+        status.setStack('page');
     });
 
-angular.module('encore.ui.rxStatusColumn', [])
+    status.setStack = function (s) {
+        stack = s;
+    };
+
+    status.setScope = function ($scope) {
+        scope = $scope;
+        scope.loaded = false;
+    };
+
+    status.setStatus = function (msg, state) {
+        state.stack = stack;
+
+        if (!_.has(state, 'dismiss') && isDismissable(state)) {
+            // state.prop defaults to 'loaded', per status.LOADING
+            // However, if a promise is passed in, we use the $resolved
+            // property instead of the default loaded or passed in value
+            if (_.has(scope[state.prop], '$resolved')) {
+                state.prop = state.prop + '.$resolved';
+            }
+            state.dismiss = [scope, state.prop];
+        }
+
+        if (state.type === 'success') {
+            state.show = state.show || 'next';
+        }
+
+        setDoneLoadingProp(state, _.has(state, 'loading') ? !state.loading : true);
+        scope.status = state;
+        return rxNotify.add(msg, state);
+    };
+
+    status.setLoading = function (msg, options) {
+        options = _.defaults(options ? options : {}, status.LOADING());
+
+        // prop is the variable on scope that stores whether this loading is complete
+        // By default is uses $scope.loaded, but individual messages should be able to
+        // use their own property
+        var prop = options.prop;
+        if (!_.has(scope, prop)) {
+            scope[prop] = false;
+        }
+        return status.setStatus(msg || '', options);
+    };
+
+    status.setSuccess = function (msg, options) {
+        options = _.defaults(options ? options : {}, status.SUCCESS());
+        return status.setStatus(msg || '', options);
+    };
+
+    status.setSuccessNext = function (msg, options) {
+        var next = { 'show': 'next' };
+        options = _.defaults(options ? options : {}, next);
+        return status.setSuccess(msg, options);
+    };
+
+    status.setSuccessImmediate = function (msg, options) {
+        var immediate = { 'show': 'immediate' };
+        options = _.defaults(options ? options : {}, immediate);
+        return status.setSuccess(msg, options);
+    };
+
+    status.setWarning = function (msg, options) {
+        options = _.defaults(options ? options : {}, status.WARNING());
+        return status.setStatus(msg, options);
+    };
+
+    status.setInfo = function (msg, options) {
+        options = _.merge(options ? options : {}, status.INFO());
+        return status.setStatus(msg, options);
+    };
+
+    /*
+     * `msg` - can be a plain string, or it can be a string template with ${message} in it
+     * `error` - An optional error object. Should have a `message` or `statusText` property
+     * `options` - A usual options object
+     */
+    status.setError = function (msg, error, options) {
+        options = _.defaults(options ? options : {}, status.ERROR());
+        msg = ErrorFormatter.buildErrorMsg(msg || '', error);
+        return status.setStatus(msg, options);
+    };
+
+    status.complete = function (options) {
+        return status.setSuccessImmediate('', _.defaults(options ? options : {}, status.SUCCESS()));
+    };
+
+    status.dismiss = function (obj) {
+        scope.status = status.CLEAR();
+        return rxNotify.dismiss(obj);
+    };
+
+    status.clear = function (st) {
+        scope.status = status.CLEAR();
+        return rxNotify.clear(st || stack);
+    };
+
+    return status;
+}])
+/**
+ * @ngdoc service
+ * @name rxStatus.service:ErrorFormatter
+ * @description
+ * Provides a helper method to parse error objects for 'message' and format them
+ * as necessary for Status.setError()
+ */
+.factory('ErrorFormatter', function () {
+    /*
+     * formatString is a string with ${message} in it somewhere, where ${message}
+     * will come from the `error` object. The `error` object either needs to have
+     * a `message` property, or a `statusText` property.
+     */
+    var buildErrorMsg = function (formatString, error) {
+        error = error || {};
+        if (!_.has(error, 'message')) {
+            error.message = _.has(error, 'statusText') ? error.statusText : 'Unknown error';
+        }
+        return _.template(formatString, error);
+    };
+
+    return {
+        buildErrorMsg: buildErrorMsg
+    };
+});
 
 /**
+ * @ngdoc overview
+ * @name rxStatusColumn
+ * @description
+ * # rxStatusColumn Component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxStatusColumn.directive:rxStatusColumn rxStatusColumn}
+ * * {@link rxStatusColumn.directive:rxStatusHeader rxStatusHeader}
+ *
+ * ## Objects/Values
+ * * {@link rxStatusColumn.object:rxStatusColumnIcons rxStatusColumnIcons}
+ *
+ * ## Services
+ * * {@link rxStatusColumn.service:rxStatusMappings rxStatusMappings}
+ */
+angular.module('encore.ui.rxStatusColumn', [])
+/**
  * @ngdoc directive
- * @name encore.ui.rxStatusColumn:rxStatusColumn
+ * @name rxStatusColumn.directive:rxStatusColumn
+ * @restrict A
+ * @scope
  * @description
  * A directive for drawing colored status columns in a table. This
  * takes the place of the <td></td> for the column it's in.
@@ -7283,7 +7953,7 @@ angular.module('encore.ui.rxStatusColumn', [])
  * @param {String} status The status to draw
  * @param {String} [api] Optionally specify which API mapping to use for the status
  * @param {String} [tooltip] The string to use for the tooltip. If omitted,
- *                           it will default to using the passed in status 
+ *                           it will default to using the passed in status
  */
 .directive('rxStatusColumn', ["rxStatusMappings", "rxStatusColumnIcons", function (rxStatusMappings, rxStatusColumnIcons) {
     return {
@@ -7326,10 +7996,9 @@ angular.module('encore.ui.rxStatusColumn', [])
         }
     };
 }])
-
 /**
  * @ngdoc object
- * @name encore.ui.rxStatusColumn:rxStatusColumnIcons
+ * @name rxStatusColumn.object:rxStatusColumnIcons
  * @description
  * Mapping of internal statuses to FontAwesome icons.
  * The keys map to the names defined in rxStatusColumn.less
@@ -7339,10 +8008,9 @@ angular.module('encore.ui.rxStatusColumn', [])
     'WARNING': 'fa-exclamation-triangle',
     'INFO': 'fa-info-circle',
 })
-
 /**
  * @ngdoc directive
- * @name encore.ui.rxStatusColumn:rxStatusHeader
+ * @name rxStatusColumn.directive:rxStatusHeader
  * @description
  * Place this attribute directive on the `<th>` for the status columns. It ensures
  * correct styling.
@@ -7355,17 +8023,14 @@ angular.module('encore.ui.rxStatusColumn', [])
         }
     };
 })
-
 /**
  * @ngdoc service
- * @name encore.ui.rxStatusColumn:rxStatusMappings
+ * @name rxStatusColumn.service:rxStatusMappings
  * @description
  * A set of methods for creating mappings between a product's notion
  * of statuses, and the status identifiers used in encore-ui
- *
  */
 .factory('rxStatusMappings', function () {
-
     var globalMappings = {};
     var apiMappings = {};
     var rxStatusMappings = {};
@@ -7417,7 +8082,7 @@ angular.module('encore.ui.rxStatusColumn', [])
     rxStatusMappings.mapToInfo = buildMapFunc('INFO');
     rxStatusMappings.mapToPending = buildMapFunc('PENDING');
     rxStatusMappings.mapToDisabled = buildMapFunc('DISABLED');
-    
+
     rxStatusMappings.getInternalMapping = function (statusString, api) {
         if (_.has(apiMappings, api) && _.has(apiMappings[api], statusString)) {
             return apiMappings[api][statusString];
@@ -7429,19 +8094,126 @@ angular.module('encore.ui.rxStatusColumn', [])
     };
 
     return rxStatusMappings;
-    
 });
 
+angular.module('encore.ui.rxTags', ['encore.ui.rxMisc', 'ui.bootstrap'])
+/**
+ * @ngdoc filter
+ * @name encore.ui.rxTags:xor
+ * @description
+ * Returns the exclusive or of two arrays.
+ *
+ * @param {Array} array The first input array
+ * @param {Array} excluded The second input array
+ * @returns {Array} - A new array of the unique elements in each array.
+ */
+.filter('xor', function () {
+    return function () {
+        return _.xor.apply(_, arguments);
+    };
+})
+
+/**
+ * @ngdoc directive
+ * @name encore.ui.rxTags:rxTags
+ * @description
+ *
+ * @param {Array} options - The list available tags.
+ * @param {String=} [key=undefined] - Determines a value of the tag object to use when binding an option to the model.
+ * If not provided, the tag object is used.
+ */
+.directive('rxTags', ["rxDOMHelper", function (rxDOMHelper) {
+    return {
+        templateUrl: 'templates/rxTags.html',
+        restrict: 'E',
+        require: 'ngModel',
+        scope: {
+            options: '=',
+        },
+        link: function (scope, element, attrs, ngModelCtrl) {
+            var container = rxDOMHelper.find(element, '.rx-tags')[0];
+            var input = element.find('input')[0];
+
+            function changeFocus (event) {
+                (event.target.previousElementSibling || input).focus();
+            }
+
+            attrs.$observe('disabled', function (disabled) {
+                scope.disabled = (disabled === '') || disabled;
+            });
+
+            scope.focusInput = function (event) {
+                if (event.target === container) {
+                    input.focus();
+                }
+            };
+
+            scope.removeIfBackspace = function (event, tag) {
+                if (event.keyCode === 8) {
+                    event.preventDefault();
+                    scope.remove(tag);
+                    changeFocus(event);
+                }
+            };
+
+            scope.focusTag = function (event, value) {
+                if (event.keyCode === 8 && _.isEmpty(value)) {
+                    changeFocus(event);
+                }
+            };
+
+            scope.add = function (tag) {
+                scope.tags.push(tag);
+                ngModelCtrl.$setViewValue(scope.tags);
+                scope.newTag = '';
+            };
+
+            scope.remove = function (tag) {
+                _.remove(scope.tags, tag);
+                ngModelCtrl.$setViewValue(scope.tags);
+                input.focus();
+            };
+
+            if (!_.isEmpty(attrs.key)) {
+                ngModelCtrl.$parsers.push(function ($viewValue) {
+                    return _.pluck($viewValue, attrs.key);
+                });
+
+                ngModelCtrl.$formatters.push(function ($modelValue) {
+                    return scope.options.filter(function (option) {
+                        return _.contains($modelValue, option[attrs.key]);
+                    });
+                });
+            }
+
+            ngModelCtrl.$render = function () {
+                scope.tags = ngModelCtrl.$viewValue || [];
+            };
+        }
+    };
+}]);
+
+/**
+ * @ngdoc overview
+ * @name rxToggle
+ * @description
+ * # rxToggle Component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * * {@link rxToggle.directive:rxToggle rxToggle}
+ */
 angular.module('encore.ui.rxToggle', [])
 /**
-* @ngdoc directive
-* @name encore.ui.rxApp:rxToggle
-* @restrict A
-* @description
-* Adds a 'click' listener to an element that, when fired, toggles the boolean scope property defined
-*
-* @param {string} rxToggle Boolean property to toggle true/false state
-*/
+ * @ngdoc directive
+ * @name rxToggle.directive:rxToggle
+ * @restrict A
+ * @description
+ * Adds a 'click' listener to an element that, when fired, toggles the boolean scope property defined
+ *
+ * @param {String} rxToggle Boolean property to toggle true/false state
+ */
 .directive('rxToggle', function () {
     return {
         restrict: 'A',
@@ -7460,6 +8232,17 @@ angular.module('encore.ui.rxToggle', [])
     };
 });
 
+/**
+ * @ngdoc overview
+ * @name rxToggleSwitch
+ * @description
+ * # rxToggleSwitch Component
+ *
+ * [TBD]
+ *
+ * ## Directives
+ * {@link rxToggleSwitch.directive:rxToggleSwitch rxToggleSwitch}
+ */
 angular.module('encore.ui.rxToggleSwitch', [])
 /**
  * @ngdoc directive
@@ -7468,15 +8251,15 @@ angular.module('encore.ui.rxToggleSwitch', [])
  * @description
  * Displays an on/off switch toggle
  *
- * @paran {string} [ng-model] The scope property to bind to
- * @param {boolean} [disabled] Indicates if the input is disabled
- * @param {function} [postHook] A function to run when the switch is toggled
- * @param {expression} [trueValue=true] The value of the scope property when the switch is on
- * @param {expression} [falseValue=false] The value of the scope property when the switch is off
+ * @param {String} [ng-model] The scope property to bind to
+ * @param {Boolean} [disabled] Indicates if the input is disabled
+ * @param {Function} [postHook] A function to run when the switch is toggled
+ * @param {Expression} [trueValue=true] The value of the scope property when the switch is on
+ * @param {Expression} [falseValue=false] The value of the scope property when the switch is off
  *
  * @example
  * <pre>
- *     <rx-toggle-switch ng-model="foo"></rx-toggle-switch>
+ * <rx-toggle-switch ng-model="foo"></rx-toggle-switch>
  * </pre>
  */
 .directive('rxToggleSwitch', function () {
@@ -7524,102 +8307,150 @@ angular.module('encore.ui.rxToggleSwitch', [])
     };
 });
 
+/**
+ * @ngdoc overview
+ * @name rxTokenInterceptor
+ * @description
+ * # rxTokenInterceptor Component
+ *
+ * [TBD]
+ *
+ * ## Services
+ * * {@link rxTokenInterceptor.service:TokenInterceptor TokenInterceptor}
+ */
 angular.module('encore.ui.rxTokenInterceptor', ['encore.ui.rxSession'])
-    /**
-    *
-    * @ngdoc service
-    * @name encore.ui.rxTokenInjector:TokenInjector
-    * @description
-    * Simple injector which will intercept http request and inject the
-    * Rackspace Identity's token into every http request.
-    *
-    * @requires encore.ui.rxSession:Session
-    *
-    * @example
-    * <pre>
-    * angular.module('encoreApp', ['encore.ui'])
-    *     .config(function ($httpProvider) {
-    *         $httpProvider.interceptors.push('TokenInterceptor');
-    *     });
-    * </pre>
-    */
-    .provider('TokenInterceptor', function () {
-        var exclusionList = this.exclusionList = [ 'rackcdn.com' ];
+/**
+ * @ngdoc service
+ * @name rxTokenInterceptor.service:TokenInterceptor
+ * @description
+ * Simple injector which will intercept http request and inject the
+ * Rackspace Identity's token into every http request.
+ *
+ * @requires rxSession.service:Session
+ *
+ * @example
+ * <pre>
+ * angular.module('encoreApp', ['encore.ui'])
+ *     .config(function ($httpProvider) {
+ *         $httpProvider.interceptors.push('TokenInterceptor');
+ *     });
+ * </pre>
+ */
+.provider('TokenInterceptor', function () {
+    var exclusionList = this.exclusionList = [ 'rackcdn.com' ];
 
-        this.$get = ["Session", "$document", function (Session, $document) {
-            var url = $document[0].createElement('a');
-            return {
-                request: function (config) {
-                    // Don't add the X-Auth-Token if the request URL matches
-                    // something in exclusionList
-                    // We're specifically looking at hostnames, so we have to
-                    // do the `createElement('a')` trick to turn the config.url
-                    // into something with a `.hostname`
-                    url.href = config.url;
-                    var exclude = _.some(exclusionList, function (item) {
-                        if (_.contains(url.hostname, item)) {
-                            return true;
-                        }
-                    });
-
-                    if (!exclude) {
-                        config.headers['X-Auth-Token'] = Session.getTokenId();
+    this.$get = ["Session", "$document", function (Session, $document) {
+        var url = $document[0].createElement('a');
+        return {
+            request: function (config) {
+                // Don't add the X-Auth-Token if the request URL matches
+                // something in exclusionList
+                // We're specifically looking at hostnames, so we have to
+                // do the `createElement('a')` trick to turn the config.url
+                // into something with a `.hostname`
+                url.href = config.url;
+                var exclude = _.some(exclusionList, function (item) {
+                    if (_.contains(url.hostname, item)) {
+                        return true;
                     }
+                });
 
-                    return config;
-                }
-            };
-        }];
-    });
-
-angular.module('encore.ui.rxUnauthorizedInterceptor', ['encore.ui.rxSession'])
-    /**
-    *
-    * @ngdoc service
-    * @name encore.ui.rxUnauthorizedInterceptor:UnauthorizedInterceptor
-    * @description
-    * Simple injector which will intercept http responses. If a 401 is returned,
-    * the ui redirects to /login.
-    *
-    * @requires $q
-    * @requires @window
-    * @requires encore.ui.rxSession:Session
-    *
-    * @example
-    * <pre>
-    * angular.module('encoreApp', ['encore.ui'])
-    *     .config(function ($httpProvider) {
-    *         $httpProvider.interceptors.push('UnauthorizedInterceptor');
-    *     });
-    * </pre>
-    */
-    .factory('UnauthorizedInterceptor', ["$q", "$window", "Session", function ($q, $window, Session) {
-        var svc = {
-            redirectPath: function () {
-                // This brings in the entire relative URI (including the path
-                // specified in a <base /> tag), along with query params as a
-                // string.
-                // e.g https://www.google.com/search?q=woody+wood+pecker
-                // window.location.pathname = /search?q=woody+wood+pecker
-                return $window.location.pathname;
-            },
-            redirect: function (loginPath) {
-                loginPath = loginPath ? loginPath : '/login?redirect=';
-                $window.location = loginPath + encodeURIComponent(svc.redirectPath());
-            },
-            responseError: function (response) {
-                if (response.status === 401) {
-                    Session.logout(); // Logs out user by removing token
-                    svc.redirect();
+                if (!exclude) {
+                    config.headers['X-Auth-Token'] = Session.getTokenId();
                 }
 
-                return $q.reject(response);
+                return config;
             }
         };
+    }];
+});
 
-        return svc;
-    }]);
+/**
+ * @ngdoc overview
+ * @name rxUnauthorizedInterceptor
+ * @description
+ * # rxUnauthorizedInterceptor Component
+ *
+ * [TBD]
+ *
+ * ## Services
+ * * {@link rxUnauthorizedInterceptor.service:UnauthorizedInterceptor UnauthorizedInterceptor}
+ */
+angular.module('encore.ui.rxUnauthorizedInterceptor', ['encore.ui.rxSession'])
+/**
+ * @ngdoc service
+ * @name rxUnauthorizedInterceptor.service:UnauthorizedInterceptor
+ * @description
+ * Simple injector which will intercept http responses. If a 401 is returned,
+ * the ui redirects to /login.
+ *
+ * @requires $q
+ * @requires @window
+ * @requires rxSession.service:Session
+ *
+ * @example
+ * <pre>
+ * angular.module('encoreApp', ['encore.ui'])
+ *     .config(function ($httpProvider) {
+ *         $httpProvider.interceptors.push('UnauthorizedInterceptor');
+ *     });
+ * </pre>
+ */
+.factory('UnauthorizedInterceptor', ["$q", "$window", "Session", function ($q, $window, Session) {
+    var svc = {
+        redirectPath: function () {
+            // This brings in the entire relative URI (including the path
+            // specified in a <base /> tag), along with query params as a
+            // string.
+            // e.g https://www.google.com/search?q=woody+wood+pecker
+            // window.location.pathname = /search?q=woody+wood+pecker
+            return $window.location.pathname;
+        },
+        redirect: function (loginPath) {
+            loginPath = loginPath ? loginPath : '/login?redirect=';
+            $window.location = loginPath + encodeURIComponent(svc.redirectPath());
+        },
+        responseError: function (response) {
+            if (response.status === 401) {
+                Session.logout(); // Logs out user by removing token
+                svc.redirect();
+            }
 
+            return $q.reject(response);
+        }
+    };
+
+    return svc;
+}]);
+
+/**
+ * @ngdoc overview
+ * @name tabs
+ * @description
+ * # tabs Component
+ *
+ * [TBD]
+ */
+angular.module('encore.ui.tabs', []);
+
+/**
+ * @ngdoc overview
+ * @name tooltips
+ * @description
+ * # tooltips Component
+ *
+ * [TBD]
+ */
+angular.module('encore.ui.tooltips', []);
+
+/**
+ * @ngdoc overview
+ * @name typeahead
+ * @description
+ * # typeahead Component
+ *
+ * [TBD]
+ */
 angular.module('encore.ui.typeahead', ['ui.bootstrap'])
 .config(["$provide", function ($provide) {
     $provide.decorator('typeaheadDirective', ["$delegate", "$filter", function ($delegate, $filter) {

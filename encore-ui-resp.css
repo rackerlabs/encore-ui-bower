@@ -227,33 +227,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
 .pure-g.columns > div:last-child {
   padding-right: 0;
 }
-/* Flexbox LESS Elements
- *
- * This file will contain those mixins that pertain to the flexbox W3C Candidate Recommendation
- *
- * Useful Links:
- *  http://www.w3.org/TR/css3-flexbox/
- *  http://css-tricks.com/snippets/css/a-guide-to-flexbox/
- *  http://caniuse.com/flexbox
- *  https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Flexible_boxes
- *
- */
-.flexbox {
-  display: -moz-box;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-}
-/* NOTE:
- *  Firefox does not support 'flex-flow' or 'flex-wrap' properties.
- *  'flex-direction' will be the only usable property by Firefox 27 and earlier for this purpose.
- */
-/* NOTE:
- *  Firefox does not support the 'flex-wrap' property.
- *  This property defaults to 'nowrap'.
- */
 /*
  * Named Colors
  */
@@ -297,6 +270,9 @@ https://github.com/yui/pure/blob/master/LICENSE.md
 /*
  * rxMetadata
  */
+/*
+ * rxTags
+ */
 [layout] {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -304,23 +280,12 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   /* Firefox, other Gecko */
   box-sizing: border-box;
   /* Opera/IE 8+ */
-  display: -moz-box;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: -webkit-flex;
   display: flex;
 }
 [layout="column"] {
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  -ms-flex-direction: column;
   flex-direction: column;
 }
 [layout="row"] {
-  -webkit-flex-direction: row;
-  -moz-flex-direction: row;
-  -ms-flex-direction: row;
   flex-direction: row;
 }
 [layout-padding],
@@ -328,9 +293,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   padding: 8px;
 }
 [layout-wrap] {
-  -webkit-flex-wrap: wrap;
-  -moz-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 [layout-fill] {
@@ -362,15 +324,9 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   /* Firefox, other Gecko */
   box-sizing: border-box;
   /* Opera/IE 8+ */
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  -ms-flex: 1;
   flex: 1;
 }
 [flex="0"] {
-  -webkit-flex: 0 0 0%;
-  -moz-flex: 0 0 0%;
-  -ms-flex: 0 0 0%;
   flex: 0 0 0%;
 }
 [layout="row"] > [flex="0"] {
@@ -380,9 +336,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   max-height: 0%;
 }
 [flex="5"] {
-  -webkit-flex: 0 0 5%;
-  -moz-flex: 0 0 5%;
-  -ms-flex: 0 0 5%;
   flex: 0 0 5%;
 }
 [layout="row"] > [flex="5"] {
@@ -392,9 +345,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   max-height: 5%;
 }
 [flex="10"] {
-  -webkit-flex: 0 0 10%;
-  -moz-flex: 0 0 10%;
-  -ms-flex: 0 0 10%;
   flex: 0 0 10%;
 }
 [layout="row"] > [flex="10"] {
@@ -404,9 +354,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   max-height: 10%;
 }
 [flex="15"] {
-  -webkit-flex: 0 0 15%;
-  -moz-flex: 0 0 15%;
-  -ms-flex: 0 0 15%;
   flex: 0 0 15%;
 }
 [layout="row"] > [flex="15"] {
@@ -416,9 +363,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   max-height: 15%;
 }
 [flex="20"] {
-  -webkit-flex: 0 0 20%;
-  -moz-flex: 0 0 20%;
-  -ms-flex: 0 0 20%;
   flex: 0 0 20%;
 }
 [layout="row"] > [flex="20"] {
@@ -428,9 +372,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   max-height: 20%;
 }
 [flex="25"] {
-  -webkit-flex: 0 0 25%;
-  -moz-flex: 0 0 25%;
-  -ms-flex: 0 0 25%;
   flex: 0 0 25%;
 }
 [layout="row"] > [flex="25"] {
@@ -440,9 +381,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   max-height: 25%;
 }
 [flex="30"] {
-  -webkit-flex: 0 0 30%;
-  -moz-flex: 0 0 30%;
-  -ms-flex: 0 0 30%;
   flex: 0 0 30%;
 }
 [layout="row"] > [flex="30"] {
@@ -452,9 +390,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   max-height: 30%;
 }
 [flex="35"] {
-  -webkit-flex: 0 0 35%;
-  -moz-flex: 0 0 35%;
-  -ms-flex: 0 0 35%;
   flex: 0 0 35%;
 }
 [layout="row"] > [flex="35"] {
@@ -464,9 +399,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   max-height: 35%;
 }
 [flex="40"] {
-  -webkit-flex: 0 0 40%;
-  -moz-flex: 0 0 40%;
-  -ms-flex: 0 0 40%;
   flex: 0 0 40%;
 }
 [layout="row"] > [flex="40"] {
@@ -476,9 +408,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   max-height: 40%;
 }
 [flex="45"] {
-  -webkit-flex: 0 0 45%;
-  -moz-flex: 0 0 45%;
-  -ms-flex: 0 0 45%;
   flex: 0 0 45%;
 }
 [layout="row"] > [flex="45"] {
@@ -488,9 +417,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   max-height: 45%;
 }
 [flex="50"] {
-  -webkit-flex: 0 0 50%;
-  -moz-flex: 0 0 50%;
-  -ms-flex: 0 0 50%;
   flex: 0 0 50%;
 }
 [layout="row"] > [flex="50"] {
@@ -500,9 +426,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   max-height: 50%;
 }
 [flex="55"] {
-  -webkit-flex: 0 0 55%;
-  -moz-flex: 0 0 55%;
-  -ms-flex: 0 0 55%;
   flex: 0 0 55%;
 }
 [layout="row"] > [flex="55"] {
@@ -512,9 +435,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   max-height: 55%;
 }
 [flex="60"] {
-  -webkit-flex: 0 0 60%;
-  -moz-flex: 0 0 60%;
-  -ms-flex: 0 0 60%;
   flex: 0 0 60%;
 }
 [layout="row"] > [flex="60"] {
@@ -524,9 +444,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   max-height: 60%;
 }
 [flex="65"] {
-  -webkit-flex: 0 0 65%;
-  -moz-flex: 0 0 65%;
-  -ms-flex: 0 0 65%;
   flex: 0 0 65%;
 }
 [layout="row"] > [flex="65"] {
@@ -536,9 +453,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   max-height: 65%;
 }
 [flex="70"] {
-  -webkit-flex: 0 0 70%;
-  -moz-flex: 0 0 70%;
-  -ms-flex: 0 0 70%;
   flex: 0 0 70%;
 }
 [layout="row"] > [flex="70"] {
@@ -548,9 +462,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   max-height: 70%;
 }
 [flex="75"] {
-  -webkit-flex: 0 0 75%;
-  -moz-flex: 0 0 75%;
-  -ms-flex: 0 0 75%;
   flex: 0 0 75%;
 }
 [layout="row"] > [flex="75"] {
@@ -560,9 +471,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   max-height: 75%;
 }
 [flex="80"] {
-  -webkit-flex: 0 0 80%;
-  -moz-flex: 0 0 80%;
-  -ms-flex: 0 0 80%;
   flex: 0 0 80%;
 }
 [layout="row"] > [flex="80"] {
@@ -572,9 +480,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   max-height: 80%;
 }
 [flex="85"] {
-  -webkit-flex: 0 0 85%;
-  -moz-flex: 0 0 85%;
-  -ms-flex: 0 0 85%;
   flex: 0 0 85%;
 }
 [layout="row"] > [flex="85"] {
@@ -584,9 +489,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   max-height: 85%;
 }
 [flex="90"] {
-  -webkit-flex: 0 0 90%;
-  -moz-flex: 0 0 90%;
-  -ms-flex: 0 0 90%;
   flex: 0 0 90%;
 }
 [layout="row"] > [flex="90"] {
@@ -596,9 +498,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   max-height: 90%;
 }
 [flex="95"] {
-  -webkit-flex: 0 0 95%;
-  -moz-flex: 0 0 95%;
-  -ms-flex: 0 0 95%;
   flex: 0 0 95%;
 }
 [layout="row"] > [flex="95"] {
@@ -608,9 +507,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   max-height: 95%;
 }
 [flex="100"] {
-  -webkit-flex: 0 0 100%;
-  -moz-flex: 0 0 100%;
-  -ms-flex: 0 0 100%;
   flex: 0 0 100%;
 }
 [layout="row"] > [flex="100"] {
@@ -621,16 +517,10 @@ https://github.com/yui/pure/blob/master/LICENSE.md
 }
 [flex="33"],
 [flex="34"] {
-  -webkit-flex: 0 0 33.33%;
-  -moz-flex: 0 0 33.33%;
-  -ms-flex: 0 0 33.33%;
   flex: 0 0 33.33%;
 }
 [flex="66"],
 [flex="67"] {
-  -webkit-flex: 0 0 66.66%;
-  -moz-flex: 0 0 66.66%;
-  -ms-flex: 0 0 66.66%;
   flex: 0 0 66.66%;
 }
 [layout="row"] > [flex="33"],
@@ -650,101 +540,57 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   max-height: 66.66%;
 }
 [layout="row"][layout-align~="left"] {
-  -webkit-justify-content: flex-start;
-  -moz-justify-content: flex-start;
   justify-content: flex-start;
 }
 [layout="row"][layout-align~="center"] {
-  -webkit-justify-content: center;
-  -moz-justify-content: center;
   justify-content: center;
 }
 [layout="row"][layout-align~="right"] {
-  -webkit-justify-content: flex-end;
-  -moz-justify-content: flex-end;
   justify-content: flex-end;
 }
 [layout="row"][layout-align~="justify"] {
-  -webkit-justify-content: space-between;
-  -moz-justify-content: space-between;
   justify-content: space-between;
 }
 [layout="row"][layout-align~="spread"] {
-  -webkit-justify-content: space-around;
-  -moz-justify-content: space-around;
   justify-content: space-around;
 }
 [layout="row"][layout-align~="top"] {
-  -webkit-align-items: flex-start;
-  -moz-align-items: flex-start;
-  -ms-align-items: flex-start;
   align-items: flex-start;
 }
 [layout="row"][layout-align~="middle"] {
-  -webkit-align-items: center;
-  -moz-align-items: center;
-  -ms-align-items: center;
   align-items: center;
 }
 [layout="row"][layout-align~="bottom"] {
-  -webkit-align-items: flex-end;
-  -moz-align-items: flex-end;
-  -ms-align-items: flex-end;
   align-items: flex-end;
 }
 [layout="row"][layout-align~="stretch"] {
-  -webkit-align-items: stretch;
-  -moz-align-items: stretch;
-  -ms-align-items: stretch;
   align-items: stretch;
 }
 [layout="column"][layout-align~="top"] {
-  -webkit-justify-content: flex-start;
-  -moz-justify-content: flex-start;
   justify-content: flex-start;
 }
 [layout="column"][layout-align~="middle"] {
-  -webkit-justify-content: center;
-  -moz-justify-content: center;
   justify-content: center;
 }
 [layout="column"][layout-align~="bottom"] {
-  -webkit-justify-content: flex-end;
-  -moz-justify-content: flex-end;
   justify-content: flex-end;
 }
 [layout="column"][layout-align~="justify"] {
-  -webkit-justify-content: space-between;
-  -moz-justify-content: space-between;
   justify-content: space-between;
 }
 [layout="column"][layout-align~="spread"] {
-  -webkit-justify-content: space-around;
-  -moz-justify-content: space-around;
   justify-content: space-around;
 }
 [layout="column"][layout-align~="left"] {
-  -webkit-align-items: flex-start;
-  -moz-align-items: flex-start;
-  -ms-align-items: flex-start;
   align-items: flex-start;
 }
 [layout="column"][layout-align~="center"] {
-  -webkit-align-items: center;
-  -moz-align-items: center;
-  -ms-align-items: center;
   align-items: center;
 }
 [layout="column"][layout-align~="right"] {
-  -webkit-align-items: flex-end;
-  -moz-align-items: flex-end;
-  -ms-align-items: flex-end;
   align-items: flex-end;
 }
 [layout="column"][layout-align~="stretch"] {
-  -webkit-align-items: stretch;
-  -moz-align-items: stretch;
-  -ms-align-items: stretch;
   align-items: stretch;
 }
 [flex-order].margin-right {
@@ -971,101 +817,57 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     order: 9;
   }
   [layout-sm="row"][layout-align-sm~="left"] {
-    -webkit-justify-content: flex-start;
-    -moz-justify-content: flex-start;
     justify-content: flex-start;
   }
   [layout-sm="row"][layout-align-sm~="center"] {
-    -webkit-justify-content: center;
-    -moz-justify-content: center;
     justify-content: center;
   }
   [layout-sm="row"][layout-align-sm~="right"] {
-    -webkit-justify-content: flex-end;
-    -moz-justify-content: flex-end;
     justify-content: flex-end;
   }
   [layout-sm="row"][layout-align-sm~="justify"] {
-    -webkit-justify-content: space-between;
-    -moz-justify-content: space-between;
     justify-content: space-between;
   }
   [layout-sm="row"][layout-align-sm~="spread"] {
-    -webkit-justify-content: space-around;
-    -moz-justify-content: space-around;
     justify-content: space-around;
   }
   [layout-sm="row"][layout-align-sm~="top"] {
-    -webkit-align-items: flex-start;
-    -moz-align-items: flex-start;
-    -ms-align-items: flex-start;
     align-items: flex-start;
   }
   [layout-sm="row"][layout-align-sm~="middle"] {
-    -webkit-align-items: center;
-    -moz-align-items: center;
-    -ms-align-items: center;
     align-items: center;
   }
   [layout-sm="row"][layout-align-sm~="bottom"] {
-    -webkit-align-items: flex-end;
-    -moz-align-items: flex-end;
-    -ms-align-items: flex-end;
     align-items: flex-end;
   }
   [layout-sm="row"][layout-align-sm~="stretch"] {
-    -webkit-align-items: stretch;
-    -moz-align-items: stretch;
-    -ms-align-items: stretch;
     align-items: stretch;
   }
   [layout-sm="column"][layout-align-sm~="top"] {
-    -webkit-justify-content: flex-start;
-    -moz-justify-content: flex-start;
     justify-content: flex-start;
   }
   [layout-sm="column"][layout-align-sm~="middle"] {
-    -webkit-justify-content: center;
-    -moz-justify-content: center;
     justify-content: center;
   }
   [layout-sm="column"][layout-align-sm~="bottom"] {
-    -webkit-justify-content: flex-end;
-    -moz-justify-content: flex-end;
     justify-content: flex-end;
   }
   [layout-sm="column"][layout-align-sm~="justify"] {
-    -webkit-justify-content: space-between;
-    -moz-justify-content: space-between;
     justify-content: space-between;
   }
   [layout-sm="column"][layout-align-sm~="spread"] {
-    -webkit-justify-content: space-around;
-    -moz-justify-content: space-around;
     justify-content: space-around;
   }
   [layout-sm="column"][layout-align-sm~="left"] {
-    -webkit-align-items: flex-start;
-    -moz-align-items: flex-start;
-    -ms-align-items: flex-start;
     align-items: flex-start;
   }
   [layout-sm="column"][layout-align-sm~="center"] {
-    -webkit-align-items: center;
-    -moz-align-items: center;
-    -ms-align-items: center;
     align-items: center;
   }
   [layout-sm="column"][layout-align-sm~="right"] {
-    -webkit-align-items: flex-end;
-    -moz-align-items: flex-end;
-    -ms-align-items: flex-end;
     align-items: flex-end;
   }
   [layout-sm="column"][layout-align-sm~="stretch"] {
-    -webkit-align-items: stretch;
-    -moz-align-items: stretch;
-    -ms-align-items: stretch;
     align-items: stretch;
   }
   [layout-sm] {
@@ -1075,24 +877,13 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     /* Firefox, other Gecko */
     box-sizing: border-box;
     /* Opera/IE 8+ */
-    display: -moz-box;
-    display: -moz-flex;
-    display: -ms-flexbox;
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
   }
   [layout-sm="column"] {
-    -webkit-flex-direction: col;
-    -moz-flex-direction: col;
-    -ms-flex-direction: col;
     flex-direction: col;
   }
   [layout-sm="row"] {
-    -webkit-flex-direction: row;
-    -moz-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
+    flex-direction: row ;
   }
   [flex-offset-sm="5"] {
     margin-left: 5%;
@@ -1166,15 +957,9 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     /* Firefox, other Gecko */
     box-sizing: border-box;
     /* Opera/IE 8+ */
-    -webkit-flex: 1;
-    -moz-flex: 1;
-    -ms-flex: 1;
     flex: 1;
   }
   [flex-sm="0"] {
-    -webkit-flex: 0 0 0%;
-    -moz-flex: 0 0 0%;
-    -ms-flex: 0 0 0%;
     flex: 0 0 0%;
   }
   [layout="row"] > [flex-sm="0"] {
@@ -1184,9 +969,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 0%;
   }
   [flex-sm="5"] {
-    -webkit-flex: 0 0 5%;
-    -moz-flex: 0 0 5%;
-    -ms-flex: 0 0 5%;
     flex: 0 0 5%;
   }
   [layout="row"] > [flex-sm="5"] {
@@ -1196,9 +978,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 5%;
   }
   [flex-sm="10"] {
-    -webkit-flex: 0 0 10%;
-    -moz-flex: 0 0 10%;
-    -ms-flex: 0 0 10%;
     flex: 0 0 10%;
   }
   [layout="row"] > [flex-sm="10"] {
@@ -1208,9 +987,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 10%;
   }
   [flex-sm="15"] {
-    -webkit-flex: 0 0 15%;
-    -moz-flex: 0 0 15%;
-    -ms-flex: 0 0 15%;
     flex: 0 0 15%;
   }
   [layout="row"] > [flex-sm="15"] {
@@ -1220,9 +996,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 15%;
   }
   [flex-sm="20"] {
-    -webkit-flex: 0 0 20%;
-    -moz-flex: 0 0 20%;
-    -ms-flex: 0 0 20%;
     flex: 0 0 20%;
   }
   [layout="row"] > [flex-sm="20"] {
@@ -1232,9 +1005,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 20%;
   }
   [flex-sm="25"] {
-    -webkit-flex: 0 0 25%;
-    -moz-flex: 0 0 25%;
-    -ms-flex: 0 0 25%;
     flex: 0 0 25%;
   }
   [layout="row"] > [flex-sm="25"] {
@@ -1244,9 +1014,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 25%;
   }
   [flex-sm="30"] {
-    -webkit-flex: 0 0 30%;
-    -moz-flex: 0 0 30%;
-    -ms-flex: 0 0 30%;
     flex: 0 0 30%;
   }
   [layout="row"] > [flex-sm="30"] {
@@ -1256,9 +1023,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 30%;
   }
   [flex-sm="35"] {
-    -webkit-flex: 0 0 35%;
-    -moz-flex: 0 0 35%;
-    -ms-flex: 0 0 35%;
     flex: 0 0 35%;
   }
   [layout="row"] > [flex-sm="35"] {
@@ -1268,9 +1032,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 35%;
   }
   [flex-sm="40"] {
-    -webkit-flex: 0 0 40%;
-    -moz-flex: 0 0 40%;
-    -ms-flex: 0 0 40%;
     flex: 0 0 40%;
   }
   [layout="row"] > [flex-sm="40"] {
@@ -1280,9 +1041,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 40%;
   }
   [flex-sm="45"] {
-    -webkit-flex: 0 0 45%;
-    -moz-flex: 0 0 45%;
-    -ms-flex: 0 0 45%;
     flex: 0 0 45%;
   }
   [layout="row"] > [flex-sm="45"] {
@@ -1292,9 +1050,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 45%;
   }
   [flex-sm="50"] {
-    -webkit-flex: 0 0 50%;
-    -moz-flex: 0 0 50%;
-    -ms-flex: 0 0 50%;
     flex: 0 0 50%;
   }
   [layout="row"] > [flex-sm="50"] {
@@ -1304,9 +1059,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 50%;
   }
   [flex-sm="55"] {
-    -webkit-flex: 0 0 55%;
-    -moz-flex: 0 0 55%;
-    -ms-flex: 0 0 55%;
     flex: 0 0 55%;
   }
   [layout="row"] > [flex-sm="55"] {
@@ -1316,9 +1068,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 55%;
   }
   [flex-sm="60"] {
-    -webkit-flex: 0 0 60%;
-    -moz-flex: 0 0 60%;
-    -ms-flex: 0 0 60%;
     flex: 0 0 60%;
   }
   [layout="row"] > [flex-sm="60"] {
@@ -1328,9 +1077,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 60%;
   }
   [flex-sm="65"] {
-    -webkit-flex: 0 0 65%;
-    -moz-flex: 0 0 65%;
-    -ms-flex: 0 0 65%;
     flex: 0 0 65%;
   }
   [layout="row"] > [flex-sm="65"] {
@@ -1340,9 +1086,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 65%;
   }
   [flex-sm="70"] {
-    -webkit-flex: 0 0 70%;
-    -moz-flex: 0 0 70%;
-    -ms-flex: 0 0 70%;
     flex: 0 0 70%;
   }
   [layout="row"] > [flex-sm="70"] {
@@ -1352,9 +1095,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 70%;
   }
   [flex-sm="75"] {
-    -webkit-flex: 0 0 75%;
-    -moz-flex: 0 0 75%;
-    -ms-flex: 0 0 75%;
     flex: 0 0 75%;
   }
   [layout="row"] > [flex-sm="75"] {
@@ -1364,9 +1104,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 75%;
   }
   [flex-sm="80"] {
-    -webkit-flex: 0 0 80%;
-    -moz-flex: 0 0 80%;
-    -ms-flex: 0 0 80%;
     flex: 0 0 80%;
   }
   [layout="row"] > [flex-sm="80"] {
@@ -1376,9 +1113,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 80%;
   }
   [flex-sm="85"] {
-    -webkit-flex: 0 0 85%;
-    -moz-flex: 0 0 85%;
-    -ms-flex: 0 0 85%;
     flex: 0 0 85%;
   }
   [layout="row"] > [flex-sm="85"] {
@@ -1388,9 +1122,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 85%;
   }
   [flex-sm="90"] {
-    -webkit-flex: 0 0 90%;
-    -moz-flex: 0 0 90%;
-    -ms-flex: 0 0 90%;
     flex: 0 0 90%;
   }
   [layout="row"] > [flex-sm="90"] {
@@ -1400,9 +1131,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 90%;
   }
   [flex-sm="95"] {
-    -webkit-flex: 0 0 95%;
-    -moz-flex: 0 0 95%;
-    -ms-flex: 0 0 95%;
     flex: 0 0 95%;
   }
   [layout="row"] > [flex-sm="95"] {
@@ -1412,9 +1140,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 95%;
   }
   [flex-sm="100"] {
-    -webkit-flex: 0 0 100%;
-    -moz-flex: 0 0 100%;
-    -ms-flex: 0 0 100%;
     flex: 0 0 100%;
   }
   [layout="row"] > [flex-sm="100"] {
@@ -1425,16 +1150,10 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   }
   [flex-sm="33"],
   [flex-sm="34"] {
-    -webkit-flex: 0 0 33.33%;
-    -moz-flex: 0 0 33.33%;
-    -ms-flex: 0 0 33.33%;
     flex: 0 0 33.33%;
   }
   [flex-sm="66"],
   [flex-sm="67"] {
-    -webkit-flex: 0 0 66.66%;
-    -moz-flex: 0 0 66.66%;
-    -ms-flex: 0 0 66.66%;
     flex: 0 0 66.66%;
   }
   [layout="row"] > [flex-sm="33"],
@@ -1492,101 +1211,57 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     order: 9;
   }
   [layout-gt-sm="row"][layout-align-gt-sm~="left"] {
-    -webkit-justify-content: flex-start;
-    -moz-justify-content: flex-start;
     justify-content: flex-start;
   }
   [layout-gt-sm="row"][layout-align-gt-sm~="center"] {
-    -webkit-justify-content: center;
-    -moz-justify-content: center;
     justify-content: center;
   }
   [layout-gt-sm="row"][layout-align-gt-sm~="right"] {
-    -webkit-justify-content: flex-end;
-    -moz-justify-content: flex-end;
     justify-content: flex-end;
   }
   [layout-gt-sm="row"][layout-align-gt-sm~="justify"] {
-    -webkit-justify-content: space-between;
-    -moz-justify-content: space-between;
     justify-content: space-between;
   }
   [layout-gt-sm="row"][layout-align-gt-sm~="spread"] {
-    -webkit-justify-content: space-around;
-    -moz-justify-content: space-around;
     justify-content: space-around;
   }
   [layout-gt-sm="row"][layout-align-gt-sm~="top"] {
-    -webkit-align-items: flex-start;
-    -moz-align-items: flex-start;
-    -ms-align-items: flex-start;
     align-items: flex-start;
   }
   [layout-gt-sm="row"][layout-align-gt-sm~="middle"] {
-    -webkit-align-items: center;
-    -moz-align-items: center;
-    -ms-align-items: center;
     align-items: center;
   }
   [layout-gt-sm="row"][layout-align-gt-sm~="bottom"] {
-    -webkit-align-items: flex-end;
-    -moz-align-items: flex-end;
-    -ms-align-items: flex-end;
     align-items: flex-end;
   }
   [layout-gt-sm="row"][layout-align-gt-sm~="stretch"] {
-    -webkit-align-items: stretch;
-    -moz-align-items: stretch;
-    -ms-align-items: stretch;
     align-items: stretch;
   }
   [layout-gt-sm="column"][layout-align-gt-sm~="top"] {
-    -webkit-justify-content: flex-start;
-    -moz-justify-content: flex-start;
     justify-content: flex-start;
   }
   [layout-gt-sm="column"][layout-align-gt-sm~="middle"] {
-    -webkit-justify-content: center;
-    -moz-justify-content: center;
     justify-content: center;
   }
   [layout-gt-sm="column"][layout-align-gt-sm~="bottom"] {
-    -webkit-justify-content: flex-end;
-    -moz-justify-content: flex-end;
     justify-content: flex-end;
   }
   [layout-gt-sm="column"][layout-align-gt-sm~="justify"] {
-    -webkit-justify-content: space-between;
-    -moz-justify-content: space-between;
     justify-content: space-between;
   }
   [layout-gt-sm="column"][layout-align-gt-sm~="spread"] {
-    -webkit-justify-content: space-around;
-    -moz-justify-content: space-around;
     justify-content: space-around;
   }
   [layout-gt-sm="column"][layout-align-gt-sm~="left"] {
-    -webkit-align-items: flex-start;
-    -moz-align-items: flex-start;
-    -ms-align-items: flex-start;
     align-items: flex-start;
   }
   [layout-gt-sm="column"][layout-align-gt-sm~="center"] {
-    -webkit-align-items: center;
-    -moz-align-items: center;
-    -ms-align-items: center;
     align-items: center;
   }
   [layout-gt-sm="column"][layout-align-gt-sm~="right"] {
-    -webkit-align-items: flex-end;
-    -moz-align-items: flex-end;
-    -ms-align-items: flex-end;
     align-items: flex-end;
   }
   [layout-gt-sm="column"][layout-align-gt-sm~="stretch"] {
-    -webkit-align-items: stretch;
-    -moz-align-items: stretch;
-    -ms-align-items: stretch;
     align-items: stretch;
   }
   [layout-gt-sm] {
@@ -1596,24 +1271,13 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     /* Firefox, other Gecko */
     box-sizing: border-box;
     /* Opera/IE 8+ */
-    display: -moz-box;
-    display: -moz-flex;
-    display: -ms-flexbox;
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
   }
   [layout-gt-sm="column"] {
-    -webkit-flex-direction: col;
-    -moz-flex-direction: col;
-    -ms-flex-direction: col;
     flex-direction: col;
   }
   [layout-gt-sm="row"] {
-    -webkit-flex-direction: row;
-    -moz-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
+    flex-direction: row ;
   }
   [flex-offset-gt-sm="5"] {
     margin-left: 5%;
@@ -1687,15 +1351,9 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     /* Firefox, other Gecko */
     box-sizing: border-box;
     /* Opera/IE 8+ */
-    -webkit-flex: 1;
-    -moz-flex: 1;
-    -ms-flex: 1;
     flex: 1;
   }
   [flex-gt-sm="0"] {
-    -webkit-flex: 0 0 0%;
-    -moz-flex: 0 0 0%;
-    -ms-flex: 0 0 0%;
     flex: 0 0 0%;
   }
   [layout="row"] > [flex-gt-sm="0"] {
@@ -1705,9 +1363,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 0%;
   }
   [flex-gt-sm="5"] {
-    -webkit-flex: 0 0 5%;
-    -moz-flex: 0 0 5%;
-    -ms-flex: 0 0 5%;
     flex: 0 0 5%;
   }
   [layout="row"] > [flex-gt-sm="5"] {
@@ -1717,9 +1372,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 5%;
   }
   [flex-gt-sm="10"] {
-    -webkit-flex: 0 0 10%;
-    -moz-flex: 0 0 10%;
-    -ms-flex: 0 0 10%;
     flex: 0 0 10%;
   }
   [layout="row"] > [flex-gt-sm="10"] {
@@ -1729,9 +1381,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 10%;
   }
   [flex-gt-sm="15"] {
-    -webkit-flex: 0 0 15%;
-    -moz-flex: 0 0 15%;
-    -ms-flex: 0 0 15%;
     flex: 0 0 15%;
   }
   [layout="row"] > [flex-gt-sm="15"] {
@@ -1741,9 +1390,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 15%;
   }
   [flex-gt-sm="20"] {
-    -webkit-flex: 0 0 20%;
-    -moz-flex: 0 0 20%;
-    -ms-flex: 0 0 20%;
     flex: 0 0 20%;
   }
   [layout="row"] > [flex-gt-sm="20"] {
@@ -1753,9 +1399,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 20%;
   }
   [flex-gt-sm="25"] {
-    -webkit-flex: 0 0 25%;
-    -moz-flex: 0 0 25%;
-    -ms-flex: 0 0 25%;
     flex: 0 0 25%;
   }
   [layout="row"] > [flex-gt-sm="25"] {
@@ -1765,9 +1408,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 25%;
   }
   [flex-gt-sm="30"] {
-    -webkit-flex: 0 0 30%;
-    -moz-flex: 0 0 30%;
-    -ms-flex: 0 0 30%;
     flex: 0 0 30%;
   }
   [layout="row"] > [flex-gt-sm="30"] {
@@ -1777,9 +1417,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 30%;
   }
   [flex-gt-sm="35"] {
-    -webkit-flex: 0 0 35%;
-    -moz-flex: 0 0 35%;
-    -ms-flex: 0 0 35%;
     flex: 0 0 35%;
   }
   [layout="row"] > [flex-gt-sm="35"] {
@@ -1789,9 +1426,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 35%;
   }
   [flex-gt-sm="40"] {
-    -webkit-flex: 0 0 40%;
-    -moz-flex: 0 0 40%;
-    -ms-flex: 0 0 40%;
     flex: 0 0 40%;
   }
   [layout="row"] > [flex-gt-sm="40"] {
@@ -1801,9 +1435,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 40%;
   }
   [flex-gt-sm="45"] {
-    -webkit-flex: 0 0 45%;
-    -moz-flex: 0 0 45%;
-    -ms-flex: 0 0 45%;
     flex: 0 0 45%;
   }
   [layout="row"] > [flex-gt-sm="45"] {
@@ -1813,9 +1444,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 45%;
   }
   [flex-gt-sm="50"] {
-    -webkit-flex: 0 0 50%;
-    -moz-flex: 0 0 50%;
-    -ms-flex: 0 0 50%;
     flex: 0 0 50%;
   }
   [layout="row"] > [flex-gt-sm="50"] {
@@ -1825,9 +1453,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 50%;
   }
   [flex-gt-sm="55"] {
-    -webkit-flex: 0 0 55%;
-    -moz-flex: 0 0 55%;
-    -ms-flex: 0 0 55%;
     flex: 0 0 55%;
   }
   [layout="row"] > [flex-gt-sm="55"] {
@@ -1837,9 +1462,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 55%;
   }
   [flex-gt-sm="60"] {
-    -webkit-flex: 0 0 60%;
-    -moz-flex: 0 0 60%;
-    -ms-flex: 0 0 60%;
     flex: 0 0 60%;
   }
   [layout="row"] > [flex-gt-sm="60"] {
@@ -1849,9 +1471,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 60%;
   }
   [flex-gt-sm="65"] {
-    -webkit-flex: 0 0 65%;
-    -moz-flex: 0 0 65%;
-    -ms-flex: 0 0 65%;
     flex: 0 0 65%;
   }
   [layout="row"] > [flex-gt-sm="65"] {
@@ -1861,9 +1480,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 65%;
   }
   [flex-gt-sm="70"] {
-    -webkit-flex: 0 0 70%;
-    -moz-flex: 0 0 70%;
-    -ms-flex: 0 0 70%;
     flex: 0 0 70%;
   }
   [layout="row"] > [flex-gt-sm="70"] {
@@ -1873,9 +1489,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 70%;
   }
   [flex-gt-sm="75"] {
-    -webkit-flex: 0 0 75%;
-    -moz-flex: 0 0 75%;
-    -ms-flex: 0 0 75%;
     flex: 0 0 75%;
   }
   [layout="row"] > [flex-gt-sm="75"] {
@@ -1885,9 +1498,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 75%;
   }
   [flex-gt-sm="80"] {
-    -webkit-flex: 0 0 80%;
-    -moz-flex: 0 0 80%;
-    -ms-flex: 0 0 80%;
     flex: 0 0 80%;
   }
   [layout="row"] > [flex-gt-sm="80"] {
@@ -1897,9 +1507,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 80%;
   }
   [flex-gt-sm="85"] {
-    -webkit-flex: 0 0 85%;
-    -moz-flex: 0 0 85%;
-    -ms-flex: 0 0 85%;
     flex: 0 0 85%;
   }
   [layout="row"] > [flex-gt-sm="85"] {
@@ -1909,9 +1516,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 85%;
   }
   [flex-gt-sm="90"] {
-    -webkit-flex: 0 0 90%;
-    -moz-flex: 0 0 90%;
-    -ms-flex: 0 0 90%;
     flex: 0 0 90%;
   }
   [layout="row"] > [flex-gt-sm="90"] {
@@ -1921,9 +1525,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 90%;
   }
   [flex-gt-sm="95"] {
-    -webkit-flex: 0 0 95%;
-    -moz-flex: 0 0 95%;
-    -ms-flex: 0 0 95%;
     flex: 0 0 95%;
   }
   [layout="row"] > [flex-gt-sm="95"] {
@@ -1933,9 +1534,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 95%;
   }
   [flex-gt-sm="100"] {
-    -webkit-flex: 0 0 100%;
-    -moz-flex: 0 0 100%;
-    -ms-flex: 0 0 100%;
     flex: 0 0 100%;
   }
   [layout="row"] > [flex-gt-sm="100"] {
@@ -1946,16 +1544,10 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   }
   [flex-gt-sm="33"],
   [flex-gt-sm="34"] {
-    -webkit-flex: 0 0 33.33%;
-    -moz-flex: 0 0 33.33%;
-    -ms-flex: 0 0 33.33%;
     flex: 0 0 33.33%;
   }
   [flex-gt-sm="66"],
   [flex-gt-sm="67"] {
-    -webkit-flex: 0 0 66.66%;
-    -moz-flex: 0 0 66.66%;
-    -ms-flex: 0 0 66.66%;
     flex: 0 0 66.66%;
   }
   [layout="row"] > [flex-gt-sm="33"],
@@ -2020,101 +1612,57 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     order: 9;
   }
   [layout-md="row"][layout-align-md~="left"] {
-    -webkit-justify-content: flex-start;
-    -moz-justify-content: flex-start;
     justify-content: flex-start;
   }
   [layout-md="row"][layout-align-md~="center"] {
-    -webkit-justify-content: center;
-    -moz-justify-content: center;
     justify-content: center;
   }
   [layout-md="row"][layout-align-md~="right"] {
-    -webkit-justify-content: flex-end;
-    -moz-justify-content: flex-end;
     justify-content: flex-end;
   }
   [layout-md="row"][layout-align-md~="justify"] {
-    -webkit-justify-content: space-between;
-    -moz-justify-content: space-between;
     justify-content: space-between;
   }
   [layout-md="row"][layout-align-md~="spread"] {
-    -webkit-justify-content: space-around;
-    -moz-justify-content: space-around;
     justify-content: space-around;
   }
   [layout-md="row"][layout-align-md~="top"] {
-    -webkit-align-items: flex-start;
-    -moz-align-items: flex-start;
-    -ms-align-items: flex-start;
     align-items: flex-start;
   }
   [layout-md="row"][layout-align-md~="middle"] {
-    -webkit-align-items: center;
-    -moz-align-items: center;
-    -ms-align-items: center;
     align-items: center;
   }
   [layout-md="row"][layout-align-md~="bottom"] {
-    -webkit-align-items: flex-end;
-    -moz-align-items: flex-end;
-    -ms-align-items: flex-end;
     align-items: flex-end;
   }
   [layout-md="row"][layout-align-md~="stretch"] {
-    -webkit-align-items: stretch;
-    -moz-align-items: stretch;
-    -ms-align-items: stretch;
     align-items: stretch;
   }
   [layout-md="column"][layout-align-md~="top"] {
-    -webkit-justify-content: flex-start;
-    -moz-justify-content: flex-start;
     justify-content: flex-start;
   }
   [layout-md="column"][layout-align-md~="middle"] {
-    -webkit-justify-content: center;
-    -moz-justify-content: center;
     justify-content: center;
   }
   [layout-md="column"][layout-align-md~="bottom"] {
-    -webkit-justify-content: flex-end;
-    -moz-justify-content: flex-end;
     justify-content: flex-end;
   }
   [layout-md="column"][layout-align-md~="justify"] {
-    -webkit-justify-content: space-between;
-    -moz-justify-content: space-between;
     justify-content: space-between;
   }
   [layout-md="column"][layout-align-md~="spread"] {
-    -webkit-justify-content: space-around;
-    -moz-justify-content: space-around;
     justify-content: space-around;
   }
   [layout-md="column"][layout-align-md~="left"] {
-    -webkit-align-items: flex-start;
-    -moz-align-items: flex-start;
-    -ms-align-items: flex-start;
     align-items: flex-start;
   }
   [layout-md="column"][layout-align-md~="center"] {
-    -webkit-align-items: center;
-    -moz-align-items: center;
-    -ms-align-items: center;
     align-items: center;
   }
   [layout-md="column"][layout-align-md~="right"] {
-    -webkit-align-items: flex-end;
-    -moz-align-items: flex-end;
-    -ms-align-items: flex-end;
     align-items: flex-end;
   }
   [layout-md="column"][layout-align-md~="stretch"] {
-    -webkit-align-items: stretch;
-    -moz-align-items: stretch;
-    -ms-align-items: stretch;
     align-items: stretch;
   }
   [layout-md] {
@@ -2124,24 +1672,13 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     /* Firefox, other Gecko */
     box-sizing: border-box;
     /* Opera/IE 8+ */
-    display: -moz-box;
-    display: -moz-flex;
-    display: -ms-flexbox;
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
   }
   [layout-md="column"] {
-    -webkit-flex-direction: col;
-    -moz-flex-direction: col;
-    -ms-flex-direction: col;
     flex-direction: col;
   }
   [layout-md="row"] {
-    -webkit-flex-direction: row;
-    -moz-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
+    flex-direction: row ;
   }
   [flex-offset-md="5"] {
     margin-left: 5%;
@@ -2215,15 +1752,9 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     /* Firefox, other Gecko */
     box-sizing: border-box;
     /* Opera/IE 8+ */
-    -webkit-flex: 1;
-    -moz-flex: 1;
-    -ms-flex: 1;
     flex: 1;
   }
   [flex-md="0"] {
-    -webkit-flex: 0 0 0%;
-    -moz-flex: 0 0 0%;
-    -ms-flex: 0 0 0%;
     flex: 0 0 0%;
   }
   [layout="row"] > [flex-md="0"] {
@@ -2233,9 +1764,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 0%;
   }
   [flex-md="5"] {
-    -webkit-flex: 0 0 5%;
-    -moz-flex: 0 0 5%;
-    -ms-flex: 0 0 5%;
     flex: 0 0 5%;
   }
   [layout="row"] > [flex-md="5"] {
@@ -2245,9 +1773,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 5%;
   }
   [flex-md="10"] {
-    -webkit-flex: 0 0 10%;
-    -moz-flex: 0 0 10%;
-    -ms-flex: 0 0 10%;
     flex: 0 0 10%;
   }
   [layout="row"] > [flex-md="10"] {
@@ -2257,9 +1782,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 10%;
   }
   [flex-md="15"] {
-    -webkit-flex: 0 0 15%;
-    -moz-flex: 0 0 15%;
-    -ms-flex: 0 0 15%;
     flex: 0 0 15%;
   }
   [layout="row"] > [flex-md="15"] {
@@ -2269,9 +1791,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 15%;
   }
   [flex-md="20"] {
-    -webkit-flex: 0 0 20%;
-    -moz-flex: 0 0 20%;
-    -ms-flex: 0 0 20%;
     flex: 0 0 20%;
   }
   [layout="row"] > [flex-md="20"] {
@@ -2281,9 +1800,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 20%;
   }
   [flex-md="25"] {
-    -webkit-flex: 0 0 25%;
-    -moz-flex: 0 0 25%;
-    -ms-flex: 0 0 25%;
     flex: 0 0 25%;
   }
   [layout="row"] > [flex-md="25"] {
@@ -2293,9 +1809,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 25%;
   }
   [flex-md="30"] {
-    -webkit-flex: 0 0 30%;
-    -moz-flex: 0 0 30%;
-    -ms-flex: 0 0 30%;
     flex: 0 0 30%;
   }
   [layout="row"] > [flex-md="30"] {
@@ -2305,9 +1818,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 30%;
   }
   [flex-md="35"] {
-    -webkit-flex: 0 0 35%;
-    -moz-flex: 0 0 35%;
-    -ms-flex: 0 0 35%;
     flex: 0 0 35%;
   }
   [layout="row"] > [flex-md="35"] {
@@ -2317,9 +1827,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 35%;
   }
   [flex-md="40"] {
-    -webkit-flex: 0 0 40%;
-    -moz-flex: 0 0 40%;
-    -ms-flex: 0 0 40%;
     flex: 0 0 40%;
   }
   [layout="row"] > [flex-md="40"] {
@@ -2329,9 +1836,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 40%;
   }
   [flex-md="45"] {
-    -webkit-flex: 0 0 45%;
-    -moz-flex: 0 0 45%;
-    -ms-flex: 0 0 45%;
     flex: 0 0 45%;
   }
   [layout="row"] > [flex-md="45"] {
@@ -2341,9 +1845,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 45%;
   }
   [flex-md="50"] {
-    -webkit-flex: 0 0 50%;
-    -moz-flex: 0 0 50%;
-    -ms-flex: 0 0 50%;
     flex: 0 0 50%;
   }
   [layout="row"] > [flex-md="50"] {
@@ -2353,9 +1854,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 50%;
   }
   [flex-md="55"] {
-    -webkit-flex: 0 0 55%;
-    -moz-flex: 0 0 55%;
-    -ms-flex: 0 0 55%;
     flex: 0 0 55%;
   }
   [layout="row"] > [flex-md="55"] {
@@ -2365,9 +1863,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 55%;
   }
   [flex-md="60"] {
-    -webkit-flex: 0 0 60%;
-    -moz-flex: 0 0 60%;
-    -ms-flex: 0 0 60%;
     flex: 0 0 60%;
   }
   [layout="row"] > [flex-md="60"] {
@@ -2377,9 +1872,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 60%;
   }
   [flex-md="65"] {
-    -webkit-flex: 0 0 65%;
-    -moz-flex: 0 0 65%;
-    -ms-flex: 0 0 65%;
     flex: 0 0 65%;
   }
   [layout="row"] > [flex-md="65"] {
@@ -2389,9 +1881,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 65%;
   }
   [flex-md="70"] {
-    -webkit-flex: 0 0 70%;
-    -moz-flex: 0 0 70%;
-    -ms-flex: 0 0 70%;
     flex: 0 0 70%;
   }
   [layout="row"] > [flex-md="70"] {
@@ -2401,9 +1890,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 70%;
   }
   [flex-md="75"] {
-    -webkit-flex: 0 0 75%;
-    -moz-flex: 0 0 75%;
-    -ms-flex: 0 0 75%;
     flex: 0 0 75%;
   }
   [layout="row"] > [flex-md="75"] {
@@ -2413,9 +1899,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 75%;
   }
   [flex-md="80"] {
-    -webkit-flex: 0 0 80%;
-    -moz-flex: 0 0 80%;
-    -ms-flex: 0 0 80%;
     flex: 0 0 80%;
   }
   [layout="row"] > [flex-md="80"] {
@@ -2425,9 +1908,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 80%;
   }
   [flex-md="85"] {
-    -webkit-flex: 0 0 85%;
-    -moz-flex: 0 0 85%;
-    -ms-flex: 0 0 85%;
     flex: 0 0 85%;
   }
   [layout="row"] > [flex-md="85"] {
@@ -2437,9 +1917,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 85%;
   }
   [flex-md="90"] {
-    -webkit-flex: 0 0 90%;
-    -moz-flex: 0 0 90%;
-    -ms-flex: 0 0 90%;
     flex: 0 0 90%;
   }
   [layout="row"] > [flex-md="90"] {
@@ -2449,9 +1926,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 90%;
   }
   [flex-md="95"] {
-    -webkit-flex: 0 0 95%;
-    -moz-flex: 0 0 95%;
-    -ms-flex: 0 0 95%;
     flex: 0 0 95%;
   }
   [layout="row"] > [flex-md="95"] {
@@ -2461,9 +1935,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 95%;
   }
   [flex-md="100"] {
-    -webkit-flex: 0 0 100%;
-    -moz-flex: 0 0 100%;
-    -ms-flex: 0 0 100%;
     flex: 0 0 100%;
   }
   [layout="row"] > [flex-md="100"] {
@@ -2474,16 +1945,10 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   }
   [flex-md="33"],
   [flex-md="34"] {
-    -webkit-flex: 0 0 33.33%;
-    -moz-flex: 0 0 33.33%;
-    -ms-flex: 0 0 33.33%;
     flex: 0 0 33.33%;
   }
   [flex-md="66"],
   [flex-md="67"] {
-    -webkit-flex: 0 0 66.66%;
-    -moz-flex: 0 0 66.66%;
-    -ms-flex: 0 0 66.66%;
     flex: 0 0 66.66%;
   }
   [layout="row"] > [flex-md="33"],
@@ -2541,101 +2006,57 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     order: 9;
   }
   [layout-gt-md="row"][layout-align-gt-md~="left"] {
-    -webkit-justify-content: flex-start;
-    -moz-justify-content: flex-start;
     justify-content: flex-start;
   }
   [layout-gt-md="row"][layout-align-gt-md~="center"] {
-    -webkit-justify-content: center;
-    -moz-justify-content: center;
     justify-content: center;
   }
   [layout-gt-md="row"][layout-align-gt-md~="right"] {
-    -webkit-justify-content: flex-end;
-    -moz-justify-content: flex-end;
     justify-content: flex-end;
   }
   [layout-gt-md="row"][layout-align-gt-md~="justify"] {
-    -webkit-justify-content: space-between;
-    -moz-justify-content: space-between;
     justify-content: space-between;
   }
   [layout-gt-md="row"][layout-align-gt-md~="spread"] {
-    -webkit-justify-content: space-around;
-    -moz-justify-content: space-around;
     justify-content: space-around;
   }
   [layout-gt-md="row"][layout-align-gt-md~="top"] {
-    -webkit-align-items: flex-start;
-    -moz-align-items: flex-start;
-    -ms-align-items: flex-start;
     align-items: flex-start;
   }
   [layout-gt-md="row"][layout-align-gt-md~="middle"] {
-    -webkit-align-items: center;
-    -moz-align-items: center;
-    -ms-align-items: center;
     align-items: center;
   }
   [layout-gt-md="row"][layout-align-gt-md~="bottom"] {
-    -webkit-align-items: flex-end;
-    -moz-align-items: flex-end;
-    -ms-align-items: flex-end;
     align-items: flex-end;
   }
   [layout-gt-md="row"][layout-align-gt-md~="stretch"] {
-    -webkit-align-items: stretch;
-    -moz-align-items: stretch;
-    -ms-align-items: stretch;
     align-items: stretch;
   }
   [layout-gt-md="column"][layout-align-gt-md~="top"] {
-    -webkit-justify-content: flex-start;
-    -moz-justify-content: flex-start;
     justify-content: flex-start;
   }
   [layout-gt-md="column"][layout-align-gt-md~="middle"] {
-    -webkit-justify-content: center;
-    -moz-justify-content: center;
     justify-content: center;
   }
   [layout-gt-md="column"][layout-align-gt-md~="bottom"] {
-    -webkit-justify-content: flex-end;
-    -moz-justify-content: flex-end;
     justify-content: flex-end;
   }
   [layout-gt-md="column"][layout-align-gt-md~="justify"] {
-    -webkit-justify-content: space-between;
-    -moz-justify-content: space-between;
     justify-content: space-between;
   }
   [layout-gt-md="column"][layout-align-gt-md~="spread"] {
-    -webkit-justify-content: space-around;
-    -moz-justify-content: space-around;
     justify-content: space-around;
   }
   [layout-gt-md="column"][layout-align-gt-md~="left"] {
-    -webkit-align-items: flex-start;
-    -moz-align-items: flex-start;
-    -ms-align-items: flex-start;
     align-items: flex-start;
   }
   [layout-gt-md="column"][layout-align-gt-md~="center"] {
-    -webkit-align-items: center;
-    -moz-align-items: center;
-    -ms-align-items: center;
     align-items: center;
   }
   [layout-gt-md="column"][layout-align-gt-md~="right"] {
-    -webkit-align-items: flex-end;
-    -moz-align-items: flex-end;
-    -ms-align-items: flex-end;
     align-items: flex-end;
   }
   [layout-gt-md="column"][layout-align-gt-md~="stretch"] {
-    -webkit-align-items: stretch;
-    -moz-align-items: stretch;
-    -ms-align-items: stretch;
     align-items: stretch;
   }
   [layout-gt-md] {
@@ -2645,24 +2066,13 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     /* Firefox, other Gecko */
     box-sizing: border-box;
     /* Opera/IE 8+ */
-    display: -moz-box;
-    display: -moz-flex;
-    display: -ms-flexbox;
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
   }
   [layout-gt-md="column"] {
-    -webkit-flex-direction: col;
-    -moz-flex-direction: col;
-    -ms-flex-direction: col;
     flex-direction: col;
   }
   [layout-gt-md="row"] {
-    -webkit-flex-direction: row;
-    -moz-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
+    flex-direction: row ;
   }
   [flex-offset-gt-md="5"] {
     margin-left: 5%;
@@ -2736,15 +2146,9 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     /* Firefox, other Gecko */
     box-sizing: border-box;
     /* Opera/IE 8+ */
-    -webkit-flex: 1;
-    -moz-flex: 1;
-    -ms-flex: 1;
     flex: 1;
   }
   [flex-gt-md="0"] {
-    -webkit-flex: 0 0 0%;
-    -moz-flex: 0 0 0%;
-    -ms-flex: 0 0 0%;
     flex: 0 0 0%;
   }
   [layout="row"] > [flex-gt-md="0"] {
@@ -2754,9 +2158,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 0%;
   }
   [flex-gt-md="5"] {
-    -webkit-flex: 0 0 5%;
-    -moz-flex: 0 0 5%;
-    -ms-flex: 0 0 5%;
     flex: 0 0 5%;
   }
   [layout="row"] > [flex-gt-md="5"] {
@@ -2766,9 +2167,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 5%;
   }
   [flex-gt-md="10"] {
-    -webkit-flex: 0 0 10%;
-    -moz-flex: 0 0 10%;
-    -ms-flex: 0 0 10%;
     flex: 0 0 10%;
   }
   [layout="row"] > [flex-gt-md="10"] {
@@ -2778,9 +2176,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 10%;
   }
   [flex-gt-md="15"] {
-    -webkit-flex: 0 0 15%;
-    -moz-flex: 0 0 15%;
-    -ms-flex: 0 0 15%;
     flex: 0 0 15%;
   }
   [layout="row"] > [flex-gt-md="15"] {
@@ -2790,9 +2185,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 15%;
   }
   [flex-gt-md="20"] {
-    -webkit-flex: 0 0 20%;
-    -moz-flex: 0 0 20%;
-    -ms-flex: 0 0 20%;
     flex: 0 0 20%;
   }
   [layout="row"] > [flex-gt-md="20"] {
@@ -2802,9 +2194,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 20%;
   }
   [flex-gt-md="25"] {
-    -webkit-flex: 0 0 25%;
-    -moz-flex: 0 0 25%;
-    -ms-flex: 0 0 25%;
     flex: 0 0 25%;
   }
   [layout="row"] > [flex-gt-md="25"] {
@@ -2814,9 +2203,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 25%;
   }
   [flex-gt-md="30"] {
-    -webkit-flex: 0 0 30%;
-    -moz-flex: 0 0 30%;
-    -ms-flex: 0 0 30%;
     flex: 0 0 30%;
   }
   [layout="row"] > [flex-gt-md="30"] {
@@ -2826,9 +2212,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 30%;
   }
   [flex-gt-md="35"] {
-    -webkit-flex: 0 0 35%;
-    -moz-flex: 0 0 35%;
-    -ms-flex: 0 0 35%;
     flex: 0 0 35%;
   }
   [layout="row"] > [flex-gt-md="35"] {
@@ -2838,9 +2221,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 35%;
   }
   [flex-gt-md="40"] {
-    -webkit-flex: 0 0 40%;
-    -moz-flex: 0 0 40%;
-    -ms-flex: 0 0 40%;
     flex: 0 0 40%;
   }
   [layout="row"] > [flex-gt-md="40"] {
@@ -2850,9 +2230,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 40%;
   }
   [flex-gt-md="45"] {
-    -webkit-flex: 0 0 45%;
-    -moz-flex: 0 0 45%;
-    -ms-flex: 0 0 45%;
     flex: 0 0 45%;
   }
   [layout="row"] > [flex-gt-md="45"] {
@@ -2862,9 +2239,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 45%;
   }
   [flex-gt-md="50"] {
-    -webkit-flex: 0 0 50%;
-    -moz-flex: 0 0 50%;
-    -ms-flex: 0 0 50%;
     flex: 0 0 50%;
   }
   [layout="row"] > [flex-gt-md="50"] {
@@ -2874,9 +2248,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 50%;
   }
   [flex-gt-md="55"] {
-    -webkit-flex: 0 0 55%;
-    -moz-flex: 0 0 55%;
-    -ms-flex: 0 0 55%;
     flex: 0 0 55%;
   }
   [layout="row"] > [flex-gt-md="55"] {
@@ -2886,9 +2257,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 55%;
   }
   [flex-gt-md="60"] {
-    -webkit-flex: 0 0 60%;
-    -moz-flex: 0 0 60%;
-    -ms-flex: 0 0 60%;
     flex: 0 0 60%;
   }
   [layout="row"] > [flex-gt-md="60"] {
@@ -2898,9 +2266,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 60%;
   }
   [flex-gt-md="65"] {
-    -webkit-flex: 0 0 65%;
-    -moz-flex: 0 0 65%;
-    -ms-flex: 0 0 65%;
     flex: 0 0 65%;
   }
   [layout="row"] > [flex-gt-md="65"] {
@@ -2910,9 +2275,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 65%;
   }
   [flex-gt-md="70"] {
-    -webkit-flex: 0 0 70%;
-    -moz-flex: 0 0 70%;
-    -ms-flex: 0 0 70%;
     flex: 0 0 70%;
   }
   [layout="row"] > [flex-gt-md="70"] {
@@ -2922,9 +2284,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 70%;
   }
   [flex-gt-md="75"] {
-    -webkit-flex: 0 0 75%;
-    -moz-flex: 0 0 75%;
-    -ms-flex: 0 0 75%;
     flex: 0 0 75%;
   }
   [layout="row"] > [flex-gt-md="75"] {
@@ -2934,9 +2293,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 75%;
   }
   [flex-gt-md="80"] {
-    -webkit-flex: 0 0 80%;
-    -moz-flex: 0 0 80%;
-    -ms-flex: 0 0 80%;
     flex: 0 0 80%;
   }
   [layout="row"] > [flex-gt-md="80"] {
@@ -2946,9 +2302,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 80%;
   }
   [flex-gt-md="85"] {
-    -webkit-flex: 0 0 85%;
-    -moz-flex: 0 0 85%;
-    -ms-flex: 0 0 85%;
     flex: 0 0 85%;
   }
   [layout="row"] > [flex-gt-md="85"] {
@@ -2958,9 +2311,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 85%;
   }
   [flex-gt-md="90"] {
-    -webkit-flex: 0 0 90%;
-    -moz-flex: 0 0 90%;
-    -ms-flex: 0 0 90%;
     flex: 0 0 90%;
   }
   [layout="row"] > [flex-gt-md="90"] {
@@ -2970,9 +2320,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 90%;
   }
   [flex-gt-md="95"] {
-    -webkit-flex: 0 0 95%;
-    -moz-flex: 0 0 95%;
-    -ms-flex: 0 0 95%;
     flex: 0 0 95%;
   }
   [layout="row"] > [flex-gt-md="95"] {
@@ -2982,9 +2329,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 95%;
   }
   [flex-gt-md="100"] {
-    -webkit-flex: 0 0 100%;
-    -moz-flex: 0 0 100%;
-    -ms-flex: 0 0 100%;
     flex: 0 0 100%;
   }
   [layout="row"] > [flex-gt-md="100"] {
@@ -2995,16 +2339,10 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   }
   [flex-gt-md="33"],
   [flex-gt-md="34"] {
-    -webkit-flex: 0 0 33.33%;
-    -moz-flex: 0 0 33.33%;
-    -ms-flex: 0 0 33.33%;
     flex: 0 0 33.33%;
   }
   [flex-gt-md="66"],
   [flex-gt-md="67"] {
-    -webkit-flex: 0 0 66.66%;
-    -moz-flex: 0 0 66.66%;
-    -ms-flex: 0 0 66.66%;
     flex: 0 0 66.66%;
   }
   [layout="row"] > [flex-gt-md="33"],
@@ -3070,101 +2408,57 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     order: 9;
   }
   [layout-lg="row"][layout-align-lg~="left"] {
-    -webkit-justify-content: flex-start;
-    -moz-justify-content: flex-start;
     justify-content: flex-start;
   }
   [layout-lg="row"][layout-align-lg~="center"] {
-    -webkit-justify-content: center;
-    -moz-justify-content: center;
     justify-content: center;
   }
   [layout-lg="row"][layout-align-lg~="right"] {
-    -webkit-justify-content: flex-end;
-    -moz-justify-content: flex-end;
     justify-content: flex-end;
   }
   [layout-lg="row"][layout-align-lg~="justify"] {
-    -webkit-justify-content: space-between;
-    -moz-justify-content: space-between;
     justify-content: space-between;
   }
   [layout-lg="row"][layout-align-lg~="spread"] {
-    -webkit-justify-content: space-around;
-    -moz-justify-content: space-around;
     justify-content: space-around;
   }
   [layout-lg="row"][layout-align-lg~="top"] {
-    -webkit-align-items: flex-start;
-    -moz-align-items: flex-start;
-    -ms-align-items: flex-start;
     align-items: flex-start;
   }
   [layout-lg="row"][layout-align-lg~="middle"] {
-    -webkit-align-items: center;
-    -moz-align-items: center;
-    -ms-align-items: center;
     align-items: center;
   }
   [layout-lg="row"][layout-align-lg~="bottom"] {
-    -webkit-align-items: flex-end;
-    -moz-align-items: flex-end;
-    -ms-align-items: flex-end;
     align-items: flex-end;
   }
   [layout-lg="row"][layout-align-lg~="stretch"] {
-    -webkit-align-items: stretch;
-    -moz-align-items: stretch;
-    -ms-align-items: stretch;
     align-items: stretch;
   }
   [layout-lg="column"][layout-align-lg~="top"] {
-    -webkit-justify-content: flex-start;
-    -moz-justify-content: flex-start;
     justify-content: flex-start;
   }
   [layout-lg="column"][layout-align-lg~="middle"] {
-    -webkit-justify-content: center;
-    -moz-justify-content: center;
     justify-content: center;
   }
   [layout-lg="column"][layout-align-lg~="bottom"] {
-    -webkit-justify-content: flex-end;
-    -moz-justify-content: flex-end;
     justify-content: flex-end;
   }
   [layout-lg="column"][layout-align-lg~="justify"] {
-    -webkit-justify-content: space-between;
-    -moz-justify-content: space-between;
     justify-content: space-between;
   }
   [layout-lg="column"][layout-align-lg~="spread"] {
-    -webkit-justify-content: space-around;
-    -moz-justify-content: space-around;
     justify-content: space-around;
   }
   [layout-lg="column"][layout-align-lg~="left"] {
-    -webkit-align-items: flex-start;
-    -moz-align-items: flex-start;
-    -ms-align-items: flex-start;
     align-items: flex-start;
   }
   [layout-lg="column"][layout-align-lg~="center"] {
-    -webkit-align-items: center;
-    -moz-align-items: center;
-    -ms-align-items: center;
     align-items: center;
   }
   [layout-lg="column"][layout-align-lg~="right"] {
-    -webkit-align-items: flex-end;
-    -moz-align-items: flex-end;
-    -ms-align-items: flex-end;
     align-items: flex-end;
   }
   [layout-lg="column"][layout-align-lg~="stretch"] {
-    -webkit-align-items: stretch;
-    -moz-align-items: stretch;
-    -ms-align-items: stretch;
     align-items: stretch;
   }
   [layout-lg] {
@@ -3174,24 +2468,13 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     /* Firefox, other Gecko */
     box-sizing: border-box;
     /* Opera/IE 8+ */
-    display: -moz-box;
-    display: -moz-flex;
-    display: -ms-flexbox;
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
   }
   [layout-lg="column"] {
-    -webkit-flex-direction: col;
-    -moz-flex-direction: col;
-    -ms-flex-direction: col;
     flex-direction: col;
   }
   [layout-lg="row"] {
-    -webkit-flex-direction: row;
-    -moz-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
+    flex-direction: row ;
   }
   [flex-offset-lg="5"] {
     margin-left: 5%;
@@ -3265,15 +2548,9 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     /* Firefox, other Gecko */
     box-sizing: border-box;
     /* Opera/IE 8+ */
-    -webkit-flex: 1;
-    -moz-flex: 1;
-    -ms-flex: 1;
     flex: 1;
   }
   [flex-lg="0"] {
-    -webkit-flex: 0 0 0%;
-    -moz-flex: 0 0 0%;
-    -ms-flex: 0 0 0%;
     flex: 0 0 0%;
   }
   [layout="row"] > [flex-lg="0"] {
@@ -3283,9 +2560,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 0%;
   }
   [flex-lg="5"] {
-    -webkit-flex: 0 0 5%;
-    -moz-flex: 0 0 5%;
-    -ms-flex: 0 0 5%;
     flex: 0 0 5%;
   }
   [layout="row"] > [flex-lg="5"] {
@@ -3295,9 +2569,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 5%;
   }
   [flex-lg="10"] {
-    -webkit-flex: 0 0 10%;
-    -moz-flex: 0 0 10%;
-    -ms-flex: 0 0 10%;
     flex: 0 0 10%;
   }
   [layout="row"] > [flex-lg="10"] {
@@ -3307,9 +2578,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 10%;
   }
   [flex-lg="15"] {
-    -webkit-flex: 0 0 15%;
-    -moz-flex: 0 0 15%;
-    -ms-flex: 0 0 15%;
     flex: 0 0 15%;
   }
   [layout="row"] > [flex-lg="15"] {
@@ -3319,9 +2587,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 15%;
   }
   [flex-lg="20"] {
-    -webkit-flex: 0 0 20%;
-    -moz-flex: 0 0 20%;
-    -ms-flex: 0 0 20%;
     flex: 0 0 20%;
   }
   [layout="row"] > [flex-lg="20"] {
@@ -3331,9 +2596,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 20%;
   }
   [flex-lg="25"] {
-    -webkit-flex: 0 0 25%;
-    -moz-flex: 0 0 25%;
-    -ms-flex: 0 0 25%;
     flex: 0 0 25%;
   }
   [layout="row"] > [flex-lg="25"] {
@@ -3343,9 +2605,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 25%;
   }
   [flex-lg="30"] {
-    -webkit-flex: 0 0 30%;
-    -moz-flex: 0 0 30%;
-    -ms-flex: 0 0 30%;
     flex: 0 0 30%;
   }
   [layout="row"] > [flex-lg="30"] {
@@ -3355,9 +2614,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 30%;
   }
   [flex-lg="35"] {
-    -webkit-flex: 0 0 35%;
-    -moz-flex: 0 0 35%;
-    -ms-flex: 0 0 35%;
     flex: 0 0 35%;
   }
   [layout="row"] > [flex-lg="35"] {
@@ -3367,9 +2623,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 35%;
   }
   [flex-lg="40"] {
-    -webkit-flex: 0 0 40%;
-    -moz-flex: 0 0 40%;
-    -ms-flex: 0 0 40%;
     flex: 0 0 40%;
   }
   [layout="row"] > [flex-lg="40"] {
@@ -3379,9 +2632,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 40%;
   }
   [flex-lg="45"] {
-    -webkit-flex: 0 0 45%;
-    -moz-flex: 0 0 45%;
-    -ms-flex: 0 0 45%;
     flex: 0 0 45%;
   }
   [layout="row"] > [flex-lg="45"] {
@@ -3391,9 +2641,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 45%;
   }
   [flex-lg="50"] {
-    -webkit-flex: 0 0 50%;
-    -moz-flex: 0 0 50%;
-    -ms-flex: 0 0 50%;
     flex: 0 0 50%;
   }
   [layout="row"] > [flex-lg="50"] {
@@ -3403,9 +2650,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 50%;
   }
   [flex-lg="55"] {
-    -webkit-flex: 0 0 55%;
-    -moz-flex: 0 0 55%;
-    -ms-flex: 0 0 55%;
     flex: 0 0 55%;
   }
   [layout="row"] > [flex-lg="55"] {
@@ -3415,9 +2659,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 55%;
   }
   [flex-lg="60"] {
-    -webkit-flex: 0 0 60%;
-    -moz-flex: 0 0 60%;
-    -ms-flex: 0 0 60%;
     flex: 0 0 60%;
   }
   [layout="row"] > [flex-lg="60"] {
@@ -3427,9 +2668,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 60%;
   }
   [flex-lg="65"] {
-    -webkit-flex: 0 0 65%;
-    -moz-flex: 0 0 65%;
-    -ms-flex: 0 0 65%;
     flex: 0 0 65%;
   }
   [layout="row"] > [flex-lg="65"] {
@@ -3439,9 +2677,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 65%;
   }
   [flex-lg="70"] {
-    -webkit-flex: 0 0 70%;
-    -moz-flex: 0 0 70%;
-    -ms-flex: 0 0 70%;
     flex: 0 0 70%;
   }
   [layout="row"] > [flex-lg="70"] {
@@ -3451,9 +2686,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 70%;
   }
   [flex-lg="75"] {
-    -webkit-flex: 0 0 75%;
-    -moz-flex: 0 0 75%;
-    -ms-flex: 0 0 75%;
     flex: 0 0 75%;
   }
   [layout="row"] > [flex-lg="75"] {
@@ -3463,9 +2695,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 75%;
   }
   [flex-lg="80"] {
-    -webkit-flex: 0 0 80%;
-    -moz-flex: 0 0 80%;
-    -ms-flex: 0 0 80%;
     flex: 0 0 80%;
   }
   [layout="row"] > [flex-lg="80"] {
@@ -3475,9 +2704,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 80%;
   }
   [flex-lg="85"] {
-    -webkit-flex: 0 0 85%;
-    -moz-flex: 0 0 85%;
-    -ms-flex: 0 0 85%;
     flex: 0 0 85%;
   }
   [layout="row"] > [flex-lg="85"] {
@@ -3487,9 +2713,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 85%;
   }
   [flex-lg="90"] {
-    -webkit-flex: 0 0 90%;
-    -moz-flex: 0 0 90%;
-    -ms-flex: 0 0 90%;
     flex: 0 0 90%;
   }
   [layout="row"] > [flex-lg="90"] {
@@ -3499,9 +2722,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 90%;
   }
   [flex-lg="95"] {
-    -webkit-flex: 0 0 95%;
-    -moz-flex: 0 0 95%;
-    -ms-flex: 0 0 95%;
     flex: 0 0 95%;
   }
   [layout="row"] > [flex-lg="95"] {
@@ -3511,9 +2731,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 95%;
   }
   [flex-lg="100"] {
-    -webkit-flex: 0 0 100%;
-    -moz-flex: 0 0 100%;
-    -ms-flex: 0 0 100%;
     flex: 0 0 100%;
   }
   [layout="row"] > [flex-lg="100"] {
@@ -3524,16 +2741,10 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   }
   [flex-lg="33"],
   [flex-lg="34"] {
-    -webkit-flex: 0 0 33.33%;
-    -moz-flex: 0 0 33.33%;
-    -ms-flex: 0 0 33.33%;
     flex: 0 0 33.33%;
   }
   [flex-lg="66"],
   [flex-lg="67"] {
-    -webkit-flex: 0 0 66.66%;
-    -moz-flex: 0 0 66.66%;
-    -ms-flex: 0 0 66.66%;
     flex: 0 0 66.66%;
   }
   [layout="row"] > [flex-lg="33"],
@@ -3597,101 +2808,57 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     order: 9;
   }
   [layout-gt-lg="row"][layout-align-gt-lg~="left"] {
-    -webkit-justify-content: flex-start;
-    -moz-justify-content: flex-start;
     justify-content: flex-start;
   }
   [layout-gt-lg="row"][layout-align-gt-lg~="center"] {
-    -webkit-justify-content: center;
-    -moz-justify-content: center;
     justify-content: center;
   }
   [layout-gt-lg="row"][layout-align-gt-lg~="right"] {
-    -webkit-justify-content: flex-end;
-    -moz-justify-content: flex-end;
     justify-content: flex-end;
   }
   [layout-gt-lg="row"][layout-align-gt-lg~="justify"] {
-    -webkit-justify-content: space-between;
-    -moz-justify-content: space-between;
     justify-content: space-between;
   }
   [layout-gt-lg="row"][layout-align-gt-lg~="spread"] {
-    -webkit-justify-content: space-around;
-    -moz-justify-content: space-around;
     justify-content: space-around;
   }
   [layout-gt-lg="row"][layout-align-gt-lg~="top"] {
-    -webkit-align-items: flex-start;
-    -moz-align-items: flex-start;
-    -ms-align-items: flex-start;
     align-items: flex-start;
   }
   [layout-gt-lg="row"][layout-align-gt-lg~="middle"] {
-    -webkit-align-items: center;
-    -moz-align-items: center;
-    -ms-align-items: center;
     align-items: center;
   }
   [layout-gt-lg="row"][layout-align-gt-lg~="bottom"] {
-    -webkit-align-items: flex-end;
-    -moz-align-items: flex-end;
-    -ms-align-items: flex-end;
     align-items: flex-end;
   }
   [layout-gt-lg="row"][layout-align-gt-lg~="stretch"] {
-    -webkit-align-items: stretch;
-    -moz-align-items: stretch;
-    -ms-align-items: stretch;
     align-items: stretch;
   }
   [layout-gt-lg="column"][layout-align-gt-lg~="top"] {
-    -webkit-justify-content: flex-start;
-    -moz-justify-content: flex-start;
     justify-content: flex-start;
   }
   [layout-gt-lg="column"][layout-align-gt-lg~="middle"] {
-    -webkit-justify-content: center;
-    -moz-justify-content: center;
     justify-content: center;
   }
   [layout-gt-lg="column"][layout-align-gt-lg~="bottom"] {
-    -webkit-justify-content: flex-end;
-    -moz-justify-content: flex-end;
     justify-content: flex-end;
   }
   [layout-gt-lg="column"][layout-align-gt-lg~="justify"] {
-    -webkit-justify-content: space-between;
-    -moz-justify-content: space-between;
     justify-content: space-between;
   }
   [layout-gt-lg="column"][layout-align-gt-lg~="spread"] {
-    -webkit-justify-content: space-around;
-    -moz-justify-content: space-around;
     justify-content: space-around;
   }
   [layout-gt-lg="column"][layout-align-gt-lg~="left"] {
-    -webkit-align-items: flex-start;
-    -moz-align-items: flex-start;
-    -ms-align-items: flex-start;
     align-items: flex-start;
   }
   [layout-gt-lg="column"][layout-align-gt-lg~="center"] {
-    -webkit-align-items: center;
-    -moz-align-items: center;
-    -ms-align-items: center;
     align-items: center;
   }
   [layout-gt-lg="column"][layout-align-gt-lg~="right"] {
-    -webkit-align-items: flex-end;
-    -moz-align-items: flex-end;
-    -ms-align-items: flex-end;
     align-items: flex-end;
   }
   [layout-gt-lg="column"][layout-align-gt-lg~="stretch"] {
-    -webkit-align-items: stretch;
-    -moz-align-items: stretch;
-    -ms-align-items: stretch;
     align-items: stretch;
   }
   [layout-gt-lg] {
@@ -3701,24 +2868,13 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     /* Firefox, other Gecko */
     box-sizing: border-box;
     /* Opera/IE 8+ */
-    display: -moz-box;
-    display: -moz-flex;
-    display: -ms-flexbox;
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
   }
   [layout-gt-lg="column"] {
-    -webkit-flex-direction: col;
-    -moz-flex-direction: col;
-    -ms-flex-direction: col;
     flex-direction: col;
   }
   [layout-gt-lg="row"] {
-    -webkit-flex-direction: row;
-    -moz-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
+    flex-direction: row ;
   }
   [flex-offset-gt-lg="5"] {
     margin-left: 5%;
@@ -3792,15 +2948,9 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     /* Firefox, other Gecko */
     box-sizing: border-box;
     /* Opera/IE 8+ */
-    -webkit-flex: 1;
-    -moz-flex: 1;
-    -ms-flex: 1;
     flex: 1;
   }
   [flex-gt-lg="0"] {
-    -webkit-flex: 0 0 0%;
-    -moz-flex: 0 0 0%;
-    -ms-flex: 0 0 0%;
     flex: 0 0 0%;
   }
   [layout="row"] > [flex-gt-lg="0"] {
@@ -3810,9 +2960,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 0%;
   }
   [flex-gt-lg="5"] {
-    -webkit-flex: 0 0 5%;
-    -moz-flex: 0 0 5%;
-    -ms-flex: 0 0 5%;
     flex: 0 0 5%;
   }
   [layout="row"] > [flex-gt-lg="5"] {
@@ -3822,9 +2969,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 5%;
   }
   [flex-gt-lg="10"] {
-    -webkit-flex: 0 0 10%;
-    -moz-flex: 0 0 10%;
-    -ms-flex: 0 0 10%;
     flex: 0 0 10%;
   }
   [layout="row"] > [flex-gt-lg="10"] {
@@ -3834,9 +2978,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 10%;
   }
   [flex-gt-lg="15"] {
-    -webkit-flex: 0 0 15%;
-    -moz-flex: 0 0 15%;
-    -ms-flex: 0 0 15%;
     flex: 0 0 15%;
   }
   [layout="row"] > [flex-gt-lg="15"] {
@@ -3846,9 +2987,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 15%;
   }
   [flex-gt-lg="20"] {
-    -webkit-flex: 0 0 20%;
-    -moz-flex: 0 0 20%;
-    -ms-flex: 0 0 20%;
     flex: 0 0 20%;
   }
   [layout="row"] > [flex-gt-lg="20"] {
@@ -3858,9 +2996,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 20%;
   }
   [flex-gt-lg="25"] {
-    -webkit-flex: 0 0 25%;
-    -moz-flex: 0 0 25%;
-    -ms-flex: 0 0 25%;
     flex: 0 0 25%;
   }
   [layout="row"] > [flex-gt-lg="25"] {
@@ -3870,9 +3005,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 25%;
   }
   [flex-gt-lg="30"] {
-    -webkit-flex: 0 0 30%;
-    -moz-flex: 0 0 30%;
-    -ms-flex: 0 0 30%;
     flex: 0 0 30%;
   }
   [layout="row"] > [flex-gt-lg="30"] {
@@ -3882,9 +3014,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 30%;
   }
   [flex-gt-lg="35"] {
-    -webkit-flex: 0 0 35%;
-    -moz-flex: 0 0 35%;
-    -ms-flex: 0 0 35%;
     flex: 0 0 35%;
   }
   [layout="row"] > [flex-gt-lg="35"] {
@@ -3894,9 +3023,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 35%;
   }
   [flex-gt-lg="40"] {
-    -webkit-flex: 0 0 40%;
-    -moz-flex: 0 0 40%;
-    -ms-flex: 0 0 40%;
     flex: 0 0 40%;
   }
   [layout="row"] > [flex-gt-lg="40"] {
@@ -3906,9 +3032,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 40%;
   }
   [flex-gt-lg="45"] {
-    -webkit-flex: 0 0 45%;
-    -moz-flex: 0 0 45%;
-    -ms-flex: 0 0 45%;
     flex: 0 0 45%;
   }
   [layout="row"] > [flex-gt-lg="45"] {
@@ -3918,9 +3041,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 45%;
   }
   [flex-gt-lg="50"] {
-    -webkit-flex: 0 0 50%;
-    -moz-flex: 0 0 50%;
-    -ms-flex: 0 0 50%;
     flex: 0 0 50%;
   }
   [layout="row"] > [flex-gt-lg="50"] {
@@ -3930,9 +3050,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 50%;
   }
   [flex-gt-lg="55"] {
-    -webkit-flex: 0 0 55%;
-    -moz-flex: 0 0 55%;
-    -ms-flex: 0 0 55%;
     flex: 0 0 55%;
   }
   [layout="row"] > [flex-gt-lg="55"] {
@@ -3942,9 +3059,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 55%;
   }
   [flex-gt-lg="60"] {
-    -webkit-flex: 0 0 60%;
-    -moz-flex: 0 0 60%;
-    -ms-flex: 0 0 60%;
     flex: 0 0 60%;
   }
   [layout="row"] > [flex-gt-lg="60"] {
@@ -3954,9 +3068,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 60%;
   }
   [flex-gt-lg="65"] {
-    -webkit-flex: 0 0 65%;
-    -moz-flex: 0 0 65%;
-    -ms-flex: 0 0 65%;
     flex: 0 0 65%;
   }
   [layout="row"] > [flex-gt-lg="65"] {
@@ -3966,9 +3077,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 65%;
   }
   [flex-gt-lg="70"] {
-    -webkit-flex: 0 0 70%;
-    -moz-flex: 0 0 70%;
-    -ms-flex: 0 0 70%;
     flex: 0 0 70%;
   }
   [layout="row"] > [flex-gt-lg="70"] {
@@ -3978,9 +3086,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 70%;
   }
   [flex-gt-lg="75"] {
-    -webkit-flex: 0 0 75%;
-    -moz-flex: 0 0 75%;
-    -ms-flex: 0 0 75%;
     flex: 0 0 75%;
   }
   [layout="row"] > [flex-gt-lg="75"] {
@@ -3990,9 +3095,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 75%;
   }
   [flex-gt-lg="80"] {
-    -webkit-flex: 0 0 80%;
-    -moz-flex: 0 0 80%;
-    -ms-flex: 0 0 80%;
     flex: 0 0 80%;
   }
   [layout="row"] > [flex-gt-lg="80"] {
@@ -4002,9 +3104,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 80%;
   }
   [flex-gt-lg="85"] {
-    -webkit-flex: 0 0 85%;
-    -moz-flex: 0 0 85%;
-    -ms-flex: 0 0 85%;
     flex: 0 0 85%;
   }
   [layout="row"] > [flex-gt-lg="85"] {
@@ -4014,9 +3113,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 85%;
   }
   [flex-gt-lg="90"] {
-    -webkit-flex: 0 0 90%;
-    -moz-flex: 0 0 90%;
-    -ms-flex: 0 0 90%;
     flex: 0 0 90%;
   }
   [layout="row"] > [flex-gt-lg="90"] {
@@ -4026,9 +3122,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 90%;
   }
   [flex-gt-lg="95"] {
-    -webkit-flex: 0 0 95%;
-    -moz-flex: 0 0 95%;
-    -ms-flex: 0 0 95%;
     flex: 0 0 95%;
   }
   [layout="row"] > [flex-gt-lg="95"] {
@@ -4038,9 +3131,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
     max-height: 95%;
   }
   [flex-gt-lg="100"] {
-    -webkit-flex: 0 0 100%;
-    -moz-flex: 0 0 100%;
-    -ms-flex: 0 0 100%;
     flex: 0 0 100%;
   }
   [layout="row"] > [flex-gt-lg="100"] {
@@ -4051,16 +3141,10 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   }
   [flex-gt-lg="33"],
   [flex-gt-lg="34"] {
-    -webkit-flex: 0 0 33.33%;
-    -moz-flex: 0 0 33.33%;
-    -ms-flex: 0 0 33.33%;
     flex: 0 0 33.33%;
   }
   [flex-gt-lg="66"],
   [flex-gt-lg="67"] {
-    -webkit-flex: 0 0 66.66%;
-    -moz-flex: 0 0 66.66%;
-    -ms-flex: 0 0 66.66%;
     flex: 0 0 66.66%;
   }
   [layout="row"] > [flex-gt-lg="33"],
@@ -4344,8 +3428,8 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  -moz-background-clip: padding-box;
   -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
   background-clip: padding-box;
   background: #ffffff;
   text-shadow: rgba(0, 0, 0, 0.09) 1px 1px 1px;
@@ -5158,28 +4242,14 @@ body:hover .visually-hidden button {
 }
 .rx-app {
   min-height: 100%;
-  display: -moz-box;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: row;
-  -moz-flex-direction: row;
-  -ms-flex-direction: row;
   flex-direction: row;
   background: #f5f5f5;
 }
 .rx-app .rx-app-content {
-  -webkit-flex: 1 1 0;
-  -moz-flex: 1 1 0;
-  -ms-flex: 1 1 0;
   flex: 1 1 0;
 }
 .rx-app .rx-app-menu {
-  -webkit-flex: 0 0 300px;
-  -moz-flex: 0 0 300px;
-  -ms-flex: 0 0 300px;
   flex: 0 0 300px;
   color: #fff;
   font-size: 15px;
@@ -5253,9 +4323,6 @@ body:hover .visually-hidden button {
   padding-right: calc(2em + 20px);
 }
 .rx-app.collapsed .rx-app-menu {
-  -webkit-flex: 0 0 25px;
-  -moz-flex: 0 0 25px;
-  -ms-flex: 0 0 25px;
   flex: 0 0 25px;
   padding-bottom: 0;
   position: relative;
@@ -5596,8 +4663,8 @@ body:hover .visually-hidden button {
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
-  -moz-background-clip: padding-box;
   -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
   background-clip: padding-box;
   top: 9px;
   position: absolute;
@@ -5802,7 +4869,7 @@ thead th[rx-bulk-select-header-check] {
   background: #427fc4;
   color: #ffffff;
   border: 0;
-  font-size: 1.1em;
+  font-size: 14px;
   padding: 7px 13px;
   margin-bottom: 10px;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -5815,21 +4882,21 @@ thead th[rx-bulk-select-header-check] {
   text-decoration: none;
 }
 .button.xl {
-  font-size: 1.25em;
+  font-size: 16px;
   padding: 20px 30px;
 }
 .button.lg {
-  font-size: 1.15em;
+  font-size: 15px;
   padding: 15px 26px;
 }
 .button.sm {
   padding: 5px 10px;
-  font-size: 1em;
+  font-size: 13px;
 }
 .button.xs {
   padding: 3px 7px;
   margin-bottom: 5px;
-  font-size: .9em;
+  font-size: 12px;
 }
 .button.positive,
 .button.submit {
@@ -5892,8 +4959,8 @@ thead th[rx-bulk-select-header-check] {
   -webkit-border-radius: 100%;
   -moz-border-radius: 100%;
   border-radius: 100%;
-  -moz-background-clip: padding-box;
   -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
   background-clip: padding-box;
   display: inline-block;
   -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
@@ -6210,28 +5277,12 @@ tr.rx-floating-header:not(.rx-table-filter-row) {
 }
 .form-item {
   margin-top: 5px;
-  display: -moz-box;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-flow: row nowrap;
-  -moz-flex-flow: row nowrap;
-  -ms-flex-flow: row nowrap;
   flex-flow: row nowrap;
-  -webkit-justify-content: flex-start;
-  -moz-justify-content: flex-start;
   justify-content: flex-start;
-  -webkit-align-items: baseline;
-  -moz-align-items: baseline;
-  -ms-align-items: baseline;
   align-items: baseline;
 }
 .text-area-label.form-item {
-  -webkit-align-items: flex-start;
-  -moz-align-items: flex-start;
-  -ms-align-items: flex-start;
   align-items: flex-start;
 }
 .rx-form-fieldset > fieldset {
@@ -6248,32 +5299,13 @@ tr.rx-floating-header:not(.rx-table-filter-row) {
 .field-legend {
   color: #989998;
   font-size: 1.1em;
-  -webkit-flex: 0 0 110px;
-  -moz-flex: 0 0 110px;
-  -ms-flex: 0 0 110px;
   flex: 0 0 110px;
 }
 .field-content {
-  display: -moz-box;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex: 1 auto;
-  -moz-flex: 1 auto;
-  -ms-flex: 1 auto;
   flex: 1 auto;
-  -webkit-flex-flow: row wrap;
-  -moz-flex-flow: row wrap;
-  -ms-flex-flow: row wrap;
   flex-flow: row wrap;
-  -webkit-justify-content: flex-start;
-  -moz-justify-content: flex-start;
   justify-content: flex-start;
-  -webkit-align-items: center;
-  -moz-align-items: center;
-  -ms-align-items: center;
   align-items: center;
 }
 .field-content .field-prefix,
@@ -6287,9 +5319,6 @@ tr.rx-floating-header:not(.rx-table-filter-row) {
   margin-left: 5px;
 }
 .field-content .field-description {
-  -webkit-flex: 1 100%;
-  -moz-flex: 1 100%;
-  -ms-flex: 1 100%;
   flex: 1 100%;
   font-size: 0.8em;
   font-style: italic;
@@ -6366,8 +5395,8 @@ tr.rx-floating-header:not(.rx-table-filter-row) {
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   border-radius: 0px;
-  -moz-background-clip: padding-box;
   -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
   background-clip: padding-box;
   background: #fff;
   border: none;
@@ -6422,8 +5451,8 @@ tr.rx-floating-header:not(.rx-table-filter-row) {
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   border-radius: 0px;
-  -moz-background-clip: padding-box;
   -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
   background-clip: padding-box;
 }
 /* Submit buttons */
@@ -6459,26 +5488,12 @@ tr.rx-floating-header:not(.rx-table-filter-row) {
 }
 /* Compressed Layout */
 .rx-form.layout-compressed .rx-form-row {
-  display: -moz-box;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-wrap: nowrap;
-  -moz-flex-wrap: nowrap;
-  -ms-flex-wrap: nowrap;
   flex-wrap: nowrap;
-  -webkit-flex: 1 auto;
-  -moz-flex: 1 auto;
-  -ms-flex: 1 auto;
   flex: 1 auto;
 }
 .rx-form.layout-compressed .rx-form-row .form-item {
   padding: 0px 3px;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  -ms-flex: 1;
   flex: 1;
 }
 .rx-form.layout-compressed .form-item {
@@ -6764,18 +5779,18 @@ rx-metadata section:last-child {
   -moz-transition: all 0.2s ease-out;
   -o-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out;
-  -moz-opacity: 0;
-  -khtml-opacity: 0;
   -webkit-opacity: 0;
+  -khtml-opacity: 0;
+  -moz-opacity: 0;
   opacity: 0;
   -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
   filter: alpha(opacity=0);
 }
 .modal.fade.in,
 .modal-backdrop.fade.in {
-  -moz-opacity: 1;
-  -khtml-opacity: 1;
   -webkit-opacity: 1;
+  -khtml-opacity: 1;
+  -moz-opacity: 1;
   opacity: 1;
   -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=100);
   filter: alpha(opacity=100);
@@ -6790,9 +5805,9 @@ rx-metadata section:last-child {
   background: #000;
 }
 .modal-backdrop.fade.in {
-  -moz-opacity: 0.4;
-  -khtml-opacity: 0.4;
   -webkit-opacity: 0.4;
+  -khtml-opacity: 0.4;
+  -moz-opacity: 0.4;
   opacity: 0.4;
   -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=40);
   filter: alpha(opacity=40);
@@ -6812,8 +5827,8 @@ rx-metadata section:last-child {
   -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
   -ms-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-  -moz-background-clip: padding-box;
   -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
   background-clip: padding-box;
   outline: none;
 }
@@ -6951,9 +5966,9 @@ rx-metadata section:last-child {
   height: 100%;
   padding: 0 15px;
   content: '\00D7';
-  -moz-opacity: 0.5;
-  -khtml-opacity: 0.5;
   -webkit-opacity: 0.5;
+  -khtml-opacity: 0.5;
+  -moz-opacity: 0.5;
   opacity: 0.5;
   -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=50);
   filter: alpha(opacity=50);
@@ -6961,9 +5976,9 @@ rx-metadata section:last-child {
 }
 .rx-notifications .notification-dismiss:hover,
 .rx-notifications .notification-dismiss:focus {
-  -moz-opacity: 0.8;
-  -khtml-opacity: 0.8;
   -webkit-opacity: 0.8;
+  -khtml-opacity: 0.8;
+  -moz-opacity: 0.8;
   opacity: 0.8;
   -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=80);
   filter: alpha(opacity=80);
@@ -7010,21 +6025,10 @@ rx-metadata section:last-child {
   height: 100%;
   padding: 5px 10px;
   cursor: pointer;
-  display: -moz-box;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: -webkit-flex;
   display: flex;
-  -webkit-align-items: center;
-  -moz-align-items: center;
-  -ms-align-items: center;
   align-items: center;
 }
 .rx-option-table .fillWrapper label .alignWrapper {
-  -webkit-flex: 1 1 auto;
-  -moz-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
   flex: 1 1 auto;
 }
 .rx-option-table .fillWrapper rx-help-text {
@@ -7064,15 +6068,7 @@ rx-metadata section:last-child {
   background: #fff;
 }
 .rx-paginate .pagination {
-  display: -moz-box;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-flow: row nowrap;
-  -moz-flex-flow: row nowrap;
-  -ms-flex-flow: row nowrap;
   flex-flow: row nowrap;
   padding-left: 0;
   width: 100%;
@@ -7217,8 +6213,8 @@ rx-metadata section:last-child {
   color: #777;
 }
 /*
- * rxRadio
- */
+* rxRadio
+*/
 .rxRadio {
   display: inline-block;
   width: 16px;
@@ -7250,34 +6246,18 @@ rx-metadata section:last-child {
   -webkit-border-radius: 100%;
   -moz-border-radius: 100%;
   border-radius: 100%;
-  -moz-background-clip: padding-box;
   -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
   background-clip: padding-box;
   overflow: hidden;
   border: 1px solid #cccccc;
   background-color: #ffffff;
-  display: -moz-box;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-flow: row nowrap;
-  -moz-flex-flow: row nowrap;
-  -ms-flex-flow: row nowrap;
   flex-flow: row nowrap;
-  -webkit-align-items: center;
-  -moz-align-items: center;
-  -ms-align-items: center;
   align-items: center;
-  -webkit-justify-content: center;
-  -moz-justify-content: center;
   justify-content: center;
 }
 .rxRadio .fake-radio .tick {
-  -webkit-flex: 0 0 auto;
-  -moz-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -7288,8 +6268,8 @@ rx-metadata section:last-child {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  -moz-background-clip: padding-box;
   -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
   background-clip: padding-box;
   width: 8px;
   height: 8px;
@@ -7318,8 +6298,8 @@ rx-metadata section:last-child {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  -moz-background-clip: padding-box;
   -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
   background-clip: padding-box;
   width: 8px;
   height: 8px;
@@ -7341,8 +6321,8 @@ rx-metadata section:last-child {
   background: #dededd;
 }
 /*
- * rxSearchBox
- */
+* rxSearchBox
+*/
 rx-search-box {
   display: inline-block;
   width: 250px;
@@ -7361,32 +6341,22 @@ rx-search-box .rxSearchBox-wrapper {
   padding: 0px;
   background: #ffffff;
   color: #404040;
-  display: -moz-box;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-flow: row nowrap;
-  -moz-flex-flow: row nowrap;
-  -ms-flex-flow: row nowrap;
   flex-flow: row nowrap;
-  -webkit-justify-content: flex-start;
-  -moz-justify-content: flex-start;
   justify-content: flex-start;
 }
 rx-search-box .rxSearchBox-wrapper .rxSearchBox-input {
   /* Safari/Chrome, other WebKit */
   /* Firefox, other Gecko */
   /* Opera/IE 8+ */
-  -moz-background-clip: padding;
   -webkit-background-clip: padding;
+  -moz-background-clip: padding;
   background-clip: padding;
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   border-radius: 0px;
-  -moz-background-clip: padding-box;
   -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
   background-clip: padding-box;
   -webkit-appearance: none;
   background-color: #fff;
@@ -7396,9 +6366,6 @@ rx-search-box .rxSearchBox-wrapper .rxSearchBox-input {
   margin: 0px;
   padding: 0px;
   text-align: left;
-  -webkit-flex: 1 1;
-  -moz-flex: 1 1;
-  -ms-flex: 1 1;
   flex: 1 1;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -7409,9 +6376,9 @@ rx-search-box .rxSearchBox-wrapper .rxSearchBox-input {
   background: transparent;
   padding: 3px 5px;
   /*
-      This gets around FireFox setting the min-width to a value
-      that overflows content out of the .rxSearch container.
-       */
+            This gets around FireFox setting the min-width to a value
+            that overflows content out of the .rxSearch container.
+            */
   min-width: 86px;
 }
 rx-search-box .rxSearchBox-wrapper .rxSearchBox-input[disabled] {
@@ -7428,30 +6395,17 @@ rx-search-box .rxSearchBox-wrapper .rxSearchBox-clear {
   /* Opera/IE 8+ */
   cursor: pointer;
   color: #a9a9a9;
-  -webkit-flex: 0 0 24px;
-  -moz-flex: 0 0 24px;
-  -ms-flex: 0 0 24px;
   flex: 0 0 24px;
-  display: -moz-box;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: -webkit-flex;
   display: flex;
-  -webkit-align-items: center;
-  -moz-align-items: center;
-  -ms-align-items: center;
   align-items: center;
-  -webkit-justify-content: center;
-  -moz-justify-content: center;
   justify-content: center;
 }
 rx-search-box .rxSearchBox-wrapper .rxSearchBox-clear .rxSearchBox-clear-icon {
   min-width: 24px;
 }
 /*
- * rxSelect
- */
+* rxSelect
+*/
 .rxSelect {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -7466,8 +6420,8 @@ rx-search-box .rxSearchBox-wrapper .rxSearchBox-clear .rxSearchBox-clear-icon {
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   border-radius: 0px;
-  -moz-background-clip: padding-box;
   -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
   background-clip: padding-box;
   min-width: 60px;
   height: 26px;
@@ -7541,21 +6495,11 @@ rx-search-box .rxSearchBox-wrapper .rxSearchBox-clear .rxSearchBox-clear-icon {
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   border-radius: 0px;
-  -moz-background-clip: padding-box;
   -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
   background-clip: padding-box;
-  display: -moz-box;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: flex-end;
-  -moz-justify-content: flex-end;
   justify-content: flex-end;
-  -webkit-flex-flow: row nowrap;
-  -moz-flex-flow: row nowrap;
-  -ms-flex-flow: row nowrap;
   flex-flow: row nowrap;
   pointer-events: none !important;
 }
@@ -7569,18 +6513,8 @@ rx-search-box .rxSearchBox-wrapper .rxSearchBox-clear .rxSearchBox-clear-icon {
   width: 26px;
   background: #ffffff;
   color: #aaaaaa;
-  display: -moz-box;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: -webkit-flex;
   display: flex;
-  -webkit-align-items: center;
-  -moz-align-items: center;
-  -ms-align-items: center;
   align-items: center;
-  -webkit-justify-content: center;
-  -moz-justify-content: center;
   justify-content: center;
 }
 /*
@@ -7687,8 +6621,8 @@ rx-multi-select rx-select-option[value="all"] label {
   -webkit-border-radius: 150px;
   -moz-border-radius: 150px;
   border-radius: 150px;
-  -moz-background-clip: padding-box;
   -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
   background-clip: padding-box;
   display: inline-block;
   width: 12px;
@@ -7813,6 +6747,78 @@ td.rx-status-column .fa-exclamation-circle {
   color: transparent;
 }
 /*
+ * rxTags
+ */
+rx-tags {
+  display: block;
+}
+rx-tags[disabled] .rx-tags {
+  border: none;
+}
+rx-tags[disabled] .rx-tags .fa-times {
+  display: none;
+}
+rx-tags[disabled] .rx-tags:hover {
+  cursor: default;
+}
+.rx-tags {
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+}
+.rx-tags:hover {
+  cursor: text;
+}
+.rx-tags input {
+  width: 200px;
+  padding: 3px 5px;
+  margin: 8px 0px;
+}
+.rx-tags .tag {
+  display: inline-block;
+  margin: 6px 10px;
+  line-height: 24px;
+  border-radius: 12px;
+  vertical-align: top;
+  background-color: #e0e0e0;
+}
+.rx-tags .tag:hover {
+  cursor: default;
+}
+.rx-tags .tag:focus {
+  background-color: #007bff;
+  outline: none;
+}
+.rx-tags .tag:focus .fa,
+.rx-tags .tag:focus .text,
+.rx-tags .tag:focus .category {
+  color: #ffffff;
+}
+.rx-tags .tag > * {
+  vertical-align: middle;
+}
+.rx-tags .tag .text {
+  font-size: 12px;
+  margin: 0px 7px 0px 10px;
+  color: #727272;
+}
+.rx-tags .tag .category {
+  font-size: 10px;
+  margin-right: 20px;
+  color: #878787;
+}
+.rx-tags .tag .fa-tag {
+  margin-left: 12px;
+  color: #999999;
+}
+.rx-tags .tag .fa-times {
+  margin-right: 12px;
+  color: #b8b8b8;
+}
+.rx-tags .tag .fa-times:hover {
+  cursor: pointer;
+  color: #fd0f12;
+}
+/*
  * rxToggleSwitch
  */
 .rx-toggle-switch {
@@ -7921,19 +6927,11 @@ Provides styling for the Angular-UI tab HTML
 ```
 */
 .nav-tabs {
-  display: -moz-box;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: -webkit-flex;
   display: flex;
   border-bottom: 9px solid #4480c1;
   clear: both;
 }
 .nav-tabs li {
-  -webkit-flex: 0 0 auto;
-  -moz-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   font-size: 14px;
   margin-right: 1px;
@@ -7986,17 +6984,17 @@ Provides styling for the Angular-UI tab HTML
   visibility: visible;
   font-size: 13px;
   line-height: 1.2;
-  -moz-opacity: 0;
-  -khtml-opacity: 0;
   -webkit-opacity: 0;
+  -khtml-opacity: 0;
+  -moz-opacity: 0;
   opacity: 0;
   -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
   filter: alpha(opacity=0);
 }
 .tooltip.in {
-  -moz-opacity: 1;
-  -khtml-opacity: 1;
   -webkit-opacity: 1;
+  -khtml-opacity: 1;
+  -moz-opacity: 1;
   opacity: 1;
   -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=100);
   filter: alpha(opacity=100);
@@ -8027,8 +7025,8 @@ Provides styling for the Angular-UI tab HTML
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  -moz-background-clip: padding-box;
   -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
   background-clip: padding-box;
   box-shadow: rgba(0, 0, 0, 0.35) 1px 1px 4px 0px;
   padding: 1em;
