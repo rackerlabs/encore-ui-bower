@@ -273,6 +273,9 @@ https://github.com/yui/pure/blob/master/LICENSE.md
 /*
  * rxTags
  */
+/*
+ * Layout
+ */
 [layout] {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -986,6 +989,9 @@ https://github.com/yui/pure/blob/master/LICENSE.md
 .action-list {
   float: right;
 }
+/*
+ * Common
+ */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 
 /**
@@ -1418,6 +1424,11 @@ body {
   color: #404040;
   font-family: "Roboto", sans-serif;
 }
+input,
+textarea,
+select {
+  box-shadow: none;
+}
 button,
 input,
 select,
@@ -1754,9 +1765,10 @@ body:hover .visually-hidden button {
 .centered {
   text-align: center;
 }
-/* PLACEHOLDER TEXT STYLING
-  https://css-tricks.com/snippets/css/style-placeholder-text/
-*/
+/*
+ * PLACEHOLDER TEXT STYLING
+ * https://css-tricks.com/snippets/css/style-placeholder-text/
+ */
 ::-webkit-input-placeholder {
   color: #a9a9a9;
   font-weight: 300;
@@ -2394,6 +2406,9 @@ thead th[rx-bulk-select-header-check] {
 .batch-action-modal-table .pagination .pagination-per-page {
   display: none;
 }
+/*
+ * rxButton
+ */
 .button {
   display: inline-block;
   background: #427fc4;
@@ -2685,12 +2700,23 @@ thead th .btn-link:focus {
   color: #ffffff;
   border: none;
 }
-.rxCheckbox input[type="checkbox"].ng-invalid + .fake-checkbox {
+.rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty + .fake-checkbox {
   background-color: #ffffff;
   border: 2px solid #fc0f1d;
 }
-.rxCheckbox input[type="checkbox"].ng-invalid:checked + .fake-checkbox {
+.rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty:checked + .fake-checkbox {
   background-color: #fc0f1d;
+}
+.rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty[disabled] {
+  cursor: not-allowed;
+}
+.rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty[disabled] ~ .fake-checkbox {
+  background: #ffffff;
+  border: 1px solid #cccccc;
+}
+.rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty[disabled]:checked ~ .fake-checkbox {
+  background-color: #dededd;
+  border: none;
 }
 .rxCheckbox input[type="checkbox"][disabled] {
   cursor: not-allowed;
@@ -2801,6 +2827,9 @@ th.filter-header button {
 tr.rx-floating-header:not(.rx-table-filter-row) {
   z-index: 2;
 }
+/*
+ * rxForm
+ */
 /* Form Fields & Fieldsets */
 .rx-form {
   margin: 15px 0 0;
@@ -3156,11 +3185,18 @@ rx-field-name .wrapper .required-symbol {
   padding: 3px 5px;
   border: 1px solid #cccccc;
 }
-[rx-form] rx-form-section rx-field rx-field-content rx-input > input.ng-invalid,
-[rx-form] rx-form-section rx-field rx-field-content rx-input > textarea.ng-invalid {
+[rx-form] rx-form-section rx-field rx-field-content rx-input > input.ng-invalid.ng-dirty,
+[rx-form] rx-form-section rx-field rx-field-content rx-input > textarea.ng-invalid.ng-dirty {
   border-color: #ff2400;
   border-width: 2px;
   padding: 2px 4px;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input > input.ng-invalid.ng-dirty[disabled],
+[rx-form] rx-form-section rx-field rx-field-content rx-input > textarea.ng-invalid.ng-dirty[disabled] {
+  border: 1px solid #cccccc;
+  color: #999999;
+  background: #dededd;
+  cursor: not-allowed !important;
 }
 [rx-form] rx-form-section rx-field rx-field-content rx-input > input[disabled],
 [rx-form] rx-form-section rx-field rx-field-content rx-input > textarea[disabled] {
@@ -3587,8 +3623,7 @@ rx-metadata section:last-child {
   width: 16px;
 }
 /*
-  rxPaginate
-
+ * rxPaginate
  */
 .paginate-area {
   text-align: center;
@@ -3743,8 +3778,8 @@ rx-metadata section:last-child {
   color: #777;
 }
 /*
-* rxRadio
-*/
+ * rxRadio
+ */
 .rxRadio {
   display: inline-block;
   width: 16px;
@@ -3821,10 +3856,10 @@ rx-metadata section:last-child {
 .rxRadio input[type="radio"]:checked + .fake-radio .tick {
   background-color: #4881c0;
 }
-.rxRadio input[type="radio"].ng-invalid + .fake-radio {
+.rxRadio input[type="radio"].ng-invalid.ng-dirty + .fake-radio {
   border: 2px solid #fc0f1d;
 }
-.rxRadio input[type="radio"].ng-invalid + .fake-radio .tick {
+.rxRadio input[type="radio"].ng-invalid.ng-dirty + .fake-radio .tick {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -3834,8 +3869,21 @@ rx-metadata section:last-child {
   width: 8px;
   height: 8px;
 }
-.rxRadio input[type="radio"].ng-invalid:checked + .fake-radio .tick {
+.rxRadio input[type="radio"].ng-invalid.ng-dirty:checked + .fake-radio .tick {
   background: #fc0f1d;
+}
+.rxRadio input[type="radio"].ng-invalid.ng-dirty[disabled] {
+  cursor: not-allowed;
+}
+.rxRadio input[type="radio"].ng-invalid.ng-dirty[disabled] + .fake-radio {
+  border: 1px solid #dededd;
+}
+.rxRadio input[type="radio"].ng-invalid.ng-dirty[disabled] + .fake-radio .tick {
+  width: 8px;
+  height: 8px;
+}
+.rxRadio input[type="radio"].ng-invalid.ng-dirty[disabled]:checked + .fake-radio .tick {
+  background: #dededd;
 }
 .rxRadio input[type="radio"][disabled] {
   cursor: not-allowed;
@@ -3851,8 +3899,8 @@ rx-metadata section:last-child {
   background: #dededd;
 }
 /*
-* rxSearchBox
-*/
+ * rxSearchBox
+ */
 rx-search-box {
   display: inline-block;
   width: 250px;
@@ -3906,9 +3954,9 @@ rx-search-box .rxSearchBox-wrapper .rxSearchBox-input {
   background: transparent;
   padding: 3px 5px;
   /*
-            This gets around FireFox setting the min-width to a value
-            that overflows content out of the .rxSearch container.
-            */
+             * This gets around FireFox setting the min-width to a value
+             * that overflows content out of the .rxSearch container.
+             */
   min-width: 86px;
 }
 rx-search-box .rxSearchBox-wrapper .rxSearchBox-input[disabled] {
@@ -3934,8 +3982,8 @@ rx-search-box .rxSearchBox-wrapper .rxSearchBox-clear .rxSearchBox-clear-icon {
   min-width: 24px;
 }
 /*
-* rxSelect
-*/
+ * rxSelect
+ */
 .rxSelect {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -3993,14 +4041,30 @@ rx-search-box .rxSearchBox-wrapper .rxSearchBox-clear .rxSearchBox-clear-icon {
   border-color: #cccccc;
   border-width: 1px;
 }
-.rxSelect select.ng-invalid + .fake-select,
-.rxSelect rx-multi-select.ng-invalid + .fake-select {
+.rxSelect select.ng-invalid.ng-dirty + .fake-select,
+.rxSelect rx-multi-select.ng-invalid.ng-dirty + .fake-select {
   border-color: #ff2400;
   border-width: 2px;
 }
-.rxSelect select.ng-invalid + .fake-select .select-trigger,
-.rxSelect rx-multi-select.ng-invalid + .fake-select .select-trigger {
+.rxSelect select.ng-invalid.ng-dirty + .fake-select .select-trigger,
+.rxSelect rx-multi-select.ng-invalid.ng-dirty + .fake-select .select-trigger {
   color: #ff2400;
+}
+.rxSelect select.ng-invalid.ng-dirty[disabled],
+.rxSelect rx-multi-select.ng-invalid.ng-dirty[disabled] {
+  cursor: not-allowed;
+}
+.rxSelect select.ng-invalid.ng-dirty[disabled] + .fake-select,
+.rxSelect rx-multi-select.ng-invalid.ng-dirty[disabled] + .fake-select {
+  border-color: #cccccc;
+  border-width: 1px;
+}
+.rxSelect select.ng-invalid.ng-dirty[disabled] + .fake-select .select-trigger,
+.rxSelect rx-multi-select.ng-invalid.ng-dirty[disabled] + .fake-select .select-trigger {
+  background: #dededd;
+  border-left-width: 0px;
+  border-left-color: #999999;
+  color: #aaaaaa;
 }
 .rxSelect select[disabled],
 .rxSelect rx-multi-select[disabled] {

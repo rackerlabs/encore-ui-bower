@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.30.0 - 2015-09-16
+ * Version: 1.30.1 - 2015-09-23
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.configs','encore.ui.grid','encore.ui.hotkeys','encore.ui.layout','encore.ui.metadata','encore.ui.progressbar','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxCheckbox','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxModalAction','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.tabs','encore.ui.tooltips','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
@@ -12,7 +12,31 @@ angular.module('encore.ui', ['encore.ui.configs','encore.ui.grid','encore.ui.hot
  * @description
  * # configs Component
  *
- * [TBD]
+ * Common configs used throughout Encore.
+ *
+ * Most of the configs are `.constant` or `.value`, but `routesCdnPath` is configured
+ * as a `.provider`. This is to allow users to override the URL used when in a
+ * local/staging environment.
+ *
+ * The main reason for that is to let people test local versions of
+ * [the encore-ui-nav JSON file](https://github.com/rackerlabs/encore-ui-nav/blob/staging/src/encoreNav.json)
+ * before submitting pull requests to that repository.
+ *
+ * For example, to point to a local `mynav.json` file, put the following into your `app.js`:
+ *
+ * <pre>
+ * .config(function (otherdependencies, ..., routesCdnPathProvider) {
+ *     // Other config stuff you need to do
+ *     routesCdnPathProvider.customURL = 'mynav.json';
+ * });
+ * </pre>
+ *
+ * The `mynav.json` file will likely have to live in your `app/` folder, depending
+ * on your configuration.
+ *
+ * If you do set `customURL` to a non `null` value, then `routesCdnPath.hasCustomURL`
+ * will automatically get set to `true`. `hasCustomURL` is intended only for the framework
+ * to use, but we are documenting it in case you find your own use case for it.
  *
  * ## Services
  * * {@link configs.service:routesCdnPath routesCdnPath}
@@ -78,7 +102,46 @@ angular.module('encore.ui.grid', []);
  * @description
  * # hotkeys Component
  *
- * [TBD]
+ * This component is simply a reference guide to using
+ * [the angular-hotkeys plugin](http://chieffancypants.github.io/angular-hotkeys/)
+ * from within EncoreUI.
+ *
+ * Angular-hotkeys was chosen as the solution for hotkeys from within EncoreUI apps,
+ * due to its integration into Angular, it's use of the very good 'mousetrap' library,
+ * and because it allows multiple ways to define hotkeys (through a directive, controller,
+ * route config, etc).
+ *
+ * ## Global Shortcuts
+ *
+ * Currently there is only one global shortcut key defined (`h`). This will collapse/expand
+ * the main menu on any page. More keys can be added as need for them is identified
+ * (suggestions welcome!).
+ *
+ * ## Shortcut Keys
+ *
+ * Because browsers and operating systems have a long list of defined shortcut keys,
+ * it can be difficult to find a keybinding that isn't already taken. When choosing a
+ * shortcut key for your app, you can avoid most conflicts by simple leaving off the
+ * modifier key (e.g. `ctrl`).
+ *
+ * For Encore, the best practice is to use a single letter for your keystroke. For example,
+ * the global key to show/hide the rxApp menu is simply `h`.
+ *
+ * If you'll be defining multiple shortcuts related to a specific set of actions, consider
+ * a combination of two letters, where the first letter is the same for all keystrokes. For
+ * example, an account menu might have the following shortcuts:
+ *
+ * - `a` `n` Creates a new account
+ * - `a` `v` Views the selected account
+ * - `a` `d` Deletes the selected account
+ *
+ * ## Identifying shortcut keys
+ *
+ * If you provide a description, the shortcut will be defined in a helper list provided
+ * when the user presses the `?` key. Currently there is no official guidance on a design
+ * pattern to identify to end-users what particular shortcuts are outside of the standard
+ * help window.
+ *
  */
 angular.module('encore.ui.hotkeys', []);
 
@@ -88,7 +151,20 @@ angular.module('encore.ui.hotkeys', []);
  * @description
  * # layout Component
  *
- * [TBD]
+ * Encore UI includes a grid system forked from
+ * [Angular Material's layout module](https://material.angularjs.org/#/layout/container)
+ * with minor usability enhancements to provide an assortment of attribute-based
+ * layout options based on the flexbox layout model. Included are intuitive attribute
+ * based styles that ease the creation of responsive row and/or column based page layouts.
+ *
+ * ## Note About Responsive Features
+ *
+ * Two versions of the Encore UI CSS file are included in this project. One includes
+ * responsive design style attributes (encore-ui-resp-x.x.x.css). The other omits
+ * these attributes to save space if desired (encore-ui-x.x.x.css). Be sure to only
+ * include the appropriate css file for your project. Any attributes which include
+ * the following suffixes require the responsive css file to work:
+ * '-sm', '-gt-sm', '-md', '-gt-md', '-lg', '-gt-lg'.
  */
 angular.module('encore.ui.layout', []);
 
@@ -119,7 +195,23 @@ angular.module('encore.ui.progressbar', []);
  * @description
  * # rxAccountInfo Component
  *
- * [TBD]
+ * This component is used to draw an account info box at the top of each page,
+ * directly underneath the breadcrumbs. `rxPage` (through `rxApp`) integrates it
+ * directly into its template, and you activate it by passing `account-number="..."`
+ * to `<rx-page>`.
+ * 
+ * While you could theoretically use this component elsewhere, its design and style
+ * were done with the intention of sitting underneath the breadcrumbs.
+ *
+ * When placed on a page that has `:user` in its route parameters, this component
+ * will also draw a drop-down user selector, to allow the Racker to change which
+ * user they're looking at for the given account. At this time, this user-selection
+ * is *only* available for products under Cloud. If you need it for additional products,
+ * please let us know.
+ *
+ * This directive requires that `SupportAccount`, `Encore`, `AccountStatusGroup`,
+ * and `Teams` services are available. These are not provided by this project,
+ * but are available in an internal Rackspace repository.
  *
  * ## Directives
  * * {@link rxAccountInfo.directive:rxAccountInfo rxAccountInfo}
@@ -221,7 +313,7 @@ angular.module('encore.ui.rxAccountInfo', [])
  * @description
  * # rxActionMenu Component
  *
- * [TBD]
+ * A component to create a configurable action menu.
  *
  * ## Directives
  * * {@link rxActionMenu.directive:rxActionMenu rxActionMenu}
@@ -232,9 +324,15 @@ angular.module('encore.ui.rxActionMenu', [])
  * @name rxActionMenu.directive:rxActionMenu
  * @restrict E
  * @scope
- * @description [TBD]
+ * @description
  *
- * @param {Boolean=} [globalDismiss=true] TBD
+ * Component to add a clickable cog which brings up a menu of configurable actions.
+ *
+ * Normally the menu is dismissable by clicking anywhere on the page, but this can
+ * be disabled by passing an optional `global-dismiss="false"` attribute to the
+ * directive.
+ *
+ * @param {Boolean=} [globalDismiss=true] - optional attribute to make menu dismissable by clicking anywhere on the page
  */
 .directive('rxActionMenu', ["$rootScope", "$document", function ($rootScope, $document) {
     return {
@@ -290,10 +388,12 @@ angular.module('encore.ui.rxActionMenu', [])
 /**
  * @ngdoc overview
  * @name rxActiveUrl
+ * @deprecated THIS COMPONENT IS MARKED TO BE REMOVED IN A FUTURE RELEASE.
  * @description
  * # rxActiveUrl Component
  *
- * [TBD]
+ * A Component adds a class name of 'selected' to an LI if the current url matches
+ * a pre-defined value
  *
  * ## Directives
  * * {@link rxActiveUrl.directive:rxActiveUrl rxActiveUrl}
@@ -336,10 +436,65 @@ angular.module('encore.ui.rxActiveUrl', [])
  * @description
  * # rxAge Component
  *
- * [TBD]
+ * `rxAge` filters/parses dates.
  *
  * ## Filters
- * * {@link rxAge.filter:rxAge rxAge}
+ * {@link rxAge.filter:rxAge rxAge}
+ *
+ *  ## Several filters are available to parse dates.
+ *
+ * 1. You can just have it use the default abbreviated method and it truncates it
+ *  to the two largest units.
+ *  
+ *  <pre>
+ *    <div ng-controller="rxAgeCtrl">
+ *      <ul>
+ *        <li>{{ageHours}} &rarr; {{ageHours | rxAge}}</li>
+ *      </ul>
+ *    </div>
+ *  </pre>
+ *  `Tue Sep 22 2015 00:44:00 GMT-0500 (CDT) → 10h 30m`
+ *  
+ * 2. You can also pass in a second value of `true` and have it expand the units
+ *  from the first letter to their full word representation.
+ *  
+ *  <pre>
+ *    <div ng-controller="rxAgeCtrl">
+ *      <ul>
+ *        <li>{{ageHours}} &rarr; {{ageHours | rxAge:true}}</li>
+ *      </ul>
+ *    </div>
+ *  </pre>
+ *  `Tue Sep 22 2015 00:35:30 GMT-0500 (CDT) → 10 hours, 33 minutes`
+ *  
+ * 3. Or you can pass in a number from `1` to `3` as the second value to allow for
+ *  different amounts of units.
+ *  
+ *  <pre>
+ *    <div ng-controller="rxAgeCtrl">
+ *      <ul>
+ *        <li>{{ageYears}} &rarr; {{ageYears | rxAge:3}}</li>
+ *      </ul>
+ *    </div>
+ *  </pre>
+ *  `Sun Sep 07 2014 08:46:05 GMT-0500 (CDT) → 380d 2h 27m`
+ *  
+ * 4. **OR** you can pass in a number as the second argument and `true` as the
+ *    third argument to combine these two effects.
+ *    
+ *  <pre>
+ *    <div ng-controller="rxAgeCtrl">
+ *      <ul>
+ *        <li>{{ageMonths}} &rarr; {{ageMonths | rxAge:3:true}}</li>
+ *      </ul>
+ *    </div>
+ *  </pre>
+ *  `Thu Aug 13 2015 06:22:05 GMT-0500 (CDT) → 40 days, 4 hours, 49 minutes`
+ *
+ * 
+ * **NOTE:** This component requires [moment.js](http://momentjs.com/) to parse, manipulate, and 
+ * display dates which is provided by Encore Framework.
+ * 
  */
 angular.module('encore.ui.rxAge', [])
 // Another option
@@ -348,7 +503,8 @@ angular.module('encore.ui.rxAge', [])
 /**
  * @ngdoc filter
  * @name rxAge.filter:rxAge
- * @description [TBD]
+ * @description
+ * Several filters are available to parse dates.
  */
 .filter('rxAge', function () {
     return function (dateString, maxUnits, verbose) {
@@ -695,7 +851,7 @@ angular.module('encore.ui.rxEnvironment', ['ngSanitize'])
  * @description
  * # rxAppRoutes Component
  *
- * [TBD]
+ * A component to manage app routes and states of routes
  *
  * ## Services
  * * {@link rxAppRoutes.service:rxAppRoutes rxAppRoutes}
@@ -706,6 +862,7 @@ angular.module('encore.ui.rxAppRoutes', ['encore.ui.rxEnvironment'])
  * @ngdoc service
  * @name rxAppRoutes.service:urlUtils
  * @description
+ *
  * Set of utility functions used by rxAppRoutes to break apart/compare URLs
  */
 .service('urlUtils', ["$location", "rxEnvironmentUrlFilter", "$interpolate", "$route", "$document", function ($location, rxEnvironmentUrlFilter, $interpolate, $route, $document) {
@@ -2181,8 +2338,8 @@ angular.module('encore.ui.rxIdentity', ['ngResource'])
  * @description
  * # rxAuth Component
  *
- * [TBD]
- *
+ * The `rxAuth` component provides logic for authenticating, validating permissions, and managing sessions.
+ * 
  * ## Services
  * * {@link rxAuth.service:Auth Auth}
  */
