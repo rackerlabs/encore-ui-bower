@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.32.0 - 2015-10-07
+ * Version: 1.33.0 - 2015-10-14
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.configs','encore.ui.grid','encore.ui.hotkeys','encore.ui.layout','encore.ui.metadata','encore.ui.progressbar','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxCheckbox','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxModalAction','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxMultiSelect','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.tabs','encore.ui.tooltips','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
@@ -7538,7 +7538,8 @@ angular.module('encore.ui.rxSelect', [])
  * @description
  * # rxSelectFilter component
  *
- * This service exposes an object with single method, `create()`, used to create instances of a `SelectFilter`.
+ * A component that provides a multi-select dropdown interface intended for
+ * table filtering.
  *
  * ## Directives
  * * {@link rxSelectFilter.directive:rxSelectFilter rxSelectFilter}
@@ -7556,8 +7557,15 @@ angular.module('encore.ui.rxSelectFilter', ['encore.ui.rxMisc', 'encore.ui.rxSel
  * @description
  * Used to apply an instance of SelectFilter to an array.
  *
+ * Merely calls the `applyTo()` method of a `SelectFilter` instance to an
+ * input array.
+ * <pre>
+ * <tr ng-repeat="item in list | Apply:filter">
+ * </pre>
+ *
  * @param {Array} list The list to be filtered.
  * @param {Object} filter An instance of SelectFilter
+ *
  */
 .filter('Apply', function () {
     return function (list, filter) {
@@ -7570,10 +7578,135 @@ angular.module('encore.ui.rxSelectFilter', ['encore.ui.rxMisc', 'encore.ui.rxSel
  * @description
  * A prototype for creating objects that can be used for filtering arrays.
  *
- * @method create(options) - Create a filter that tracks the provided properties.
+ * ## SelectFilter
+ * This service exposes an object with single method, `create()`, used to
+ * create instances of a `SelectFilter`. It is configurable via three options:
+ * - `properties`: A list of the properties to create a filter control.
+ * Assuming the source data is an array of objects, a property is equivalent to
+ * an object's key.
+ *
+ * - `available` (optional): An object that tracks which options are available
+ * for a property.
+ * Note that the key of the object matches a value in the `properties` array.
+ * - `selected` (optional): An object that tracks which options are selected
+ * for a property. It has the same form as the `available` object, but the
+ * arrays indicate which options are selected, and as such are strict subsets
+ * of their `available` counterparts.
+ *
+ * ### Option Defaults
+ * Every property that is listed in `properties` but not provided as a key
+ * to `available` will be automatically populated the first time `applyTo()`
+ * (see below) is called.
+ * <pre>
+ * var filter = SelectFilter.create({
+ *   properties: ['year']
+ * });
+ *
+ * filter.applyTo([{
+ *   eventId: 1,
+ *   year: 2013
+ * }, {
+ *   eventId: 2,
+ *   year: 2014
+ * }, {
+ *   eventId: 3,
+ *   year: 2013
+ * }]);
+ * // filter.available is { year: [2013, 2014] }
+ * </pre>
+ * **Note:** There is an implied requirement that, when relying on the
+ * auto-populated filter, the input array will have at least one item for every
+ * available option. For example, this may not be the case when used with
+ * server-side pagination.
+ *
+ * Every property that is listed in `properties` but not provided as a key to
+ * `selected` is initialized to have all options selected (by looking them up
+ * in `available`).  If property is also not provided to `available`, its
+ * initialization is delayed until the first call of `applyTo()`.
+ *
+ * <pre>
+ * var filter = SelectFilter.create({
+ *   properties: ['year'],
+ *   available: {
+ *       year: [2013, 2014, 2015]
+ *   }
+ * });
+ * // filter.selected is { year: [2013, 2014, 2015] }
+ * </pre>
+ *
+ * ### Instances
+ * Instances of `SelectFilter` have an `applyTo()` method, which applies the
+ * filter's internal state of selected options to the array. This will not
+ * often be called directly, but instead used by the
+ * {@link rxSelectFilter.filter:Apply Apply} filter. As stated previously,
+ * the first call of `applyTo()` will initialize any
+ * `properties` that have not been defined in `available` or `selected`.
+ * <pre>
+ * var filter = SelectFilter.create({
+ *   properties: ['year'],
+ *   selected: {
+ *      year: [2014]
+ *     }
+ * });
+ *
+ * var filteredArray = filter.applyTo([{
+ *   eventId: 1,
+ *   year: 2013
+ * }, {
+ *   eventId: 2,
+ *   year: 2014
+ * }, {
+ *   eventId: 3,
+ *   year: 2013
+ * }]);
+ * // filteredArray is [{ eventId: 2, year: 2014 }]
+ * </pre>
+ *
+ * The instance will also have all of the constructor options as public
+ * properties, so that they can be watched or changed.
+ *
  */
 .service('SelectFilter', function () {
     return {
+       /**
+        * @ngdoc method
+        * @name create
+        * @methodOf rxSelectFilter.service:SelectFilter
+        * @param {Object} options
+        * Options object
+        * @param {Object} options.properties
+        * A list of the properties to create a filter control. Assuming the
+        * source data is an array of objects, a property is equivalent to an
+        * object's key.
+        * <pre>
+        * SelectFilter.create({
+        *      properties: ['year']
+        * });
+        * </pre>
+        * @param {Object=} options.available
+        * An object that tracks which options are available for a property.
+        * <pre>
+        * SelectFilter.create({
+        *     // other options...
+        *     available: {
+        *        year: [2013, 2014, 2015],
+        *       }
+        * });
+        * </pre>
+        * @param {Object=} options.selected
+        * An object that tracks which options are selected for a property.
+        * It has the same form as the `available` object, but the arrays indicate
+        * which options are selected, and as such are strict subsets of their
+        * `available` counterparts.
+        * <pre>
+        * SelectFilter.create({
+        *     // other options...
+        *     selected: {
+        *         year: [2014],
+        *       }
+        * });
+        * </pre>
+        */
         create: function (options) {
             options = _.defaults(options, {
                 properties: [],
@@ -7627,7 +7760,21 @@ angular.module('encore.ui.rxSelectFilter', ['encore.ui.rxMisc', 'encore.ui.rxSel
  * @description
  * Automatically creates the appropriate dropdowns to manage a filter object.
  *
+ * ## rxSelectFilter
+ * Uses an instance of `SelectFilter` to create a set of `<rx-multi-select>`'s
+ * that modify the instance object.
+ * <pre>
+ * // In the controller
+ * $scope.filter = SelectFilter.create({
+ *   // options...
+ * });
+ *
+ * // In the template
+ * <rx-select-filter filter="filter"></rx-select-filter>
+ * </pre>
+ *
  * @param {Object} filter - An instance of SelectFilter
+ *
  */
 .directive('rxSelectFilter', function () {
     return {
@@ -7638,6 +7785,7 @@ angular.module('encore.ui.rxSelectFilter', ['encore.ui.rxMisc', 'encore.ui.rxSel
         }
     };
 });
+
 /**
  * @ngdoc overview
  * @name rxMultiSelect
@@ -10662,7 +10810,8 @@ angular.module('encore.ui.rxStatus', ['encore.ui.rxNotify'])
  * @description
  * # rxStatusColumn Component
  *
- * [TBD]
+ * This component provides directives and styles for putting status columns
+ * into tables.
  *
  * ## Directives
  * * {@link rxStatusColumn.directive:rxStatusColumn rxStatusColumn}
@@ -10681,8 +10830,51 @@ angular.module('encore.ui.rxStatusColumn', [])
  * @restrict A
  * @scope
  * @description
+ *
  * A directive for drawing colored status columns in a table. This
  * takes the place of the <td></td> for the column it's in.
+ *
+ * For the corresponding `<td>`, you will need to add the `rx-status-column`
+ * attribute, and set the `status` attribute appropriately. You can optionally
+ * set `api` and `tooltip-content` attributes. `tooltip-content` sets the
+ * tooltip that will be used. If not set, it will default to the value you
+ * passed in for `status`. The `api` attribute will be explained below.
+ *
+ * We currently support six statuses, with corresponding CSS styles. Namely,
+ * `"ACTIVE"`, `"DISABLED"`, `"WARNING"`, `"ERROR"`, `"INFO"` and `"PENDING"`.
+ * If your code happens to already use those statuses, then you can simply pass
+ * them to the `status` attribute as appropriate. However, it's likely that
+ * internally you will be receiving a number of different statuses from your
+ * APIs, and will need to map them to these six statuses.
+ *
+ * The example in the {@link /#/components/rxStatusColumn demo} shows a typical
+ * use of this directive, such as:
+ *
+ * <pre>
+ * <tbody>
+ *     <tr ng-repeat="server in servers">
+ *         <!-- Both `api` and `tooltip-content` are optional -->
+ *         <td rx-status-column
+ *             status="{{ server.status }}"
+ *             api="{{ server.api }}"
+ *             tooltip-content="{{ server.status }}"></td>
+ *         <td>{{ server.title }}</td>
+ *         <td>{{ server.value }}</td>
+ *    </tr>
+ * </tbody>
+ * </pre>
+ *
+ * # A note about color usage for rxStatusColumn
+ *
+ * Encore uses the color red for destructive and "delete" actions, and the
+ * color green for additive or "create" actions, and at first it may seem that
+ * the styles of rxStatusColumn do not follow that same logic. However, the
+ * distinction here is that when an action or status on an item is
+ * "in progress" or "pending" (i.e. the user cannot take any additional action
+ * on that item until a transition completes), it is given the yellow animated
+ * `PENDING` treatment. This is true even for "create"/"add" actions or
+ * "delete" actions. A general rule of thumb to follow is that if a status
+ * ends in -`ING`, it should get the animated yellow stripes of `PENDING`.
  *
  * @param {String} status The status to draw
  * @param {String} [api] Optionally specify which API mapping to use for the status
@@ -10734,6 +10926,7 @@ angular.module('encore.ui.rxStatusColumn', [])
  * @ngdoc object
  * @name rxStatusColumn.object:rxStatusColumnIcons
  * @description
+ *
  * Mapping of internal statuses to FontAwesome icons.
  * The keys map to the names defined in rxStatusColumn.less
  */
@@ -10746,9 +10939,37 @@ angular.module('encore.ui.rxStatusColumn', [])
  * @ngdoc directive
  * @name rxStatusColumn.directive:rxStatusHeader
  * @description
- * Place this attribute directive on the `<th>` for the status columns. It ensures
- * correct styling.
  *
+ * Place this attribute directive on the `<th>` for the status columns. It
+ * ensures correct styling.
+ *
+ * For the `<th>` component representing the status column, add the
+ * `rx-status-header` attribute, i.e.
+ *
+ * <pre>
+ * <th rx-status-header></th>
+ * </pre>
+ * Note that status columns are sortable with
+ * {@link /#/components/rxSortableColumn rxSortableColumn}, just like any
+ * other column. The demo below shows an example of this.
+ *
+ * One few things to note about the
+ * {@link /#/components/rxStatusColumn demo}: The `<th>` is defined as:
+ *
+ * <pre>
+ * <th rx-status-header>
+ *     <rx-sortable-column
+ *         sort-method="sortcol(property)"
+ *         sort-property="status"
+ *         predicate="sort.predicate"
+ *         reverse="sort.reverse">
+ *     </rx-sortable-column>
+ * </th>
+ * </pre>
+ *
+ * Note that `sort-property="status"` is referring to the `server.status`
+ * property on each row. Thus the sorting is done in this example by the status
+ * text coming from the API.
  */
 .directive('rxStatusHeader', function () {
     return {
@@ -10761,8 +10982,65 @@ angular.module('encore.ui.rxStatusColumn', [])
  * @ngdoc service
  * @name rxStatusColumn.service:rxStatusMappings
  * @description
+ *
  * A set of methods for creating mappings between a product's notion
- * of statuses, and the status identifiers used in encore-ui
+ * of statuses, and the status identifiers used in EncoreUI
+ *
+ * To accommodate different statuses, the `rxStatusMappings` factory includes
+ * methods for defining mappings from your own statuses to the six defined ones.
+ * The basic methods for this are `rxStatusMappings.addGlobal()` and
+ * `rxStatusMappings.addAPI()`.
+ *
+ * ## mapToActive()/mapToWarning()/mapToError()/mapToInfo()/mapToPending()
+ *
+ * While `.addGlobal()` and `.addAPI()` would be sufficient on their own,
+ * they can be slightly cumbersome. If you have a list of statuses that all
+ * need to get mapped to the same EncoreUI status, the mapping object will
+ * be forced to have repetition, leaving room for errors. For example,
+ * something like this:
+ *
+ * <pre>
+ * rxStatusMappings.addGlobal({
+ *     'BLOCKED': 'ERROR',
+ *     'SHUTDOWN': 'ERROR',
+ *     'FAILED': 'ERROR'
+ * });
+ * </pre>
+ *
+ * There is required repetition of `"ERROR"` in each pair, and there's always
+ * the chance of misspelling `"ERROR"`. Instead, we provide a utility method
+ * `mapToError` to help with this:
+ *
+ * <pre>
+ * rxStatusMappings.mapToError(['BLOCKED', 'SHUTDOWN', 'FAILED']);
+ * </pre>
+ *
+ * This has the advantage that it's shorter to type, eliminates the chance of
+ * mistyping or misassigning `"ERROR"`, and keeps all `"ERROR"` mappings
+ * physically grouped. With this, you could easily keep your mapping values
+ * in an Angular `.value` or `.constant`, and just pass them to these methods
+ * in your `.run()` method.
+ *
+ * There are equivalent `mapToWarning`, `mapToActive`, `mapToDisabled`,
+ * `mapToPending` and `mapToInfo` methods.
+ *
+ * All six of these methods can take an array or a single string as the first
+ * argument. The call above is equivalent to this group of individual calls:
+ *
+ * <pre>
+ * rxStatusMappings.mapToError('BLOCKED');
+ * rxStatusMappings.mapToError('SHUTDOWN');
+ * rxStatusMappings.mapToError('FAILED');
+ * </pre>
+ *
+ * All six can also take `api` as a second, optional parameter. Thus we could
+ * define the `rxStatusMappings.addAPI({ 'FOO': 'ERROR' }, 'z')` example from
+ * above as:
+ *
+ * <pre>
+ * rxStatusMappings.mapToError('FOO', 'z');
+ * </pre>
+ *
  */
 .factory('rxStatusMappings', function () {
     var globalMappings = {};
@@ -10772,15 +11050,76 @@ angular.module('encore.ui.rxStatusColumn', [])
     var upperCaseCallback = function (objectValue, sourceValue) {
         return sourceValue.toUpperCase();
     };
-
-    // Takes a full set of mappings to be used globally
+    /**
+     * @ngdoc function
+     * @name rxStatusMappings.addGlobal
+     * @methodOf rxStatusColumn.service:rxStatusMappings
+     * @description
+     *
+     * Takes a full set of mappings to be used globally
+     *
+     * `rxStatusMappings.addGlobal()` takes an object as an argument, with the
+     * keys being your own product's statuses, and the values being one of the six
+     * internal statuses that it should map to. For example:
+     *
+     * <pre>
+     * rxStatusMappings.addGlobal({
+     *     'RUNNING': 'ACTIVE',
+     *     'STANDBY': 'INFO',
+     *     'SUSPENDED': 'WARNING',
+     *     'FAILURE': 'ERROR'
+     * });
+     * </pre>
+     *
+     * These mappings will be used throughout all instances of `rx-status-column`
+     * in your code.
+     *
+     * @param {String} mapping This is mapping with keys and values
+     */
     rxStatusMappings.addGlobal = function (mapping) {
         _.assign(globalMappings, mapping, upperCaseCallback);
     };
 
-    // Create a mapping specific to a particular API. This will
-    // only be used when the directive receives the `api="..."`
-    // attribute
+    /**
+     * @ngdoc function
+     * @name rxStatusMappings.addAPI
+     * @methodOf rxStatusColumn.service:rxStatusMappings
+     * @description
+     *
+     * Create a mapping specific to a particular API. This will
+     * only be used when the directive receives the `api="..."`
+     * attribute
+     *
+     * Say that you are using three APIs in your product, `X`, `Y` and `Z`. Both
+     * `X` and `Y` define a status `"FOO"`, which you want to map to EncoreUI's
+     * `"WARNING"`. You can declare this  mapping with
+     * `rxStatusMappings.addGlobal({ 'FOO': 'WARNING' })`. But your API `Z` also
+     * returns a `"FOO"` status, which you need mapped to EncoreUI's
+     * `"ERROR"` status.
+     *
+     * You _could_ do a transformation in your product to convert the `"FOO"`
+     * from `Z` into something else, or you can make use of
+     * `rxStatusMappings.addAPI()`, as follows:
+     *
+     * <pre>
+     * rxStatusMappings.addAPI('z', { 'FOO': 'ERROR' });
+     * </pre>
+     *
+     * Then in your template code, you would use `rx-status-column` as:
+     *
+     * <pre>
+     * <td rx-status-column status="{{ status }}" api="z"></td>
+     * </pre>
+     *
+     * This will tell EncoreUI that it should first check if the passed in
+     * `status` was defined separately for an api `"z"`, and if so, to use that
+     * mapping. If `status` can't be found in the mappings defined for `"z"`,
+     * then it will fall back to the mappings you defined in your `.addGlobal()`
+     * call.
+     *
+     * @param {String} apiName This is api name of the mapping
+     * @param {String} mapping This is mapping with keys and values
+     */
     rxStatusMappings.addAPI = function (apiName, mapping) {
         var api = apiMappings[apiName] || {};
         _.assign(api, mapping, upperCaseCallback);
@@ -10817,6 +11156,23 @@ angular.module('encore.ui.rxStatusColumn', [])
     rxStatusMappings.mapToPending = buildMapFunc('PENDING');
     rxStatusMappings.mapToDisabled = buildMapFunc('DISABLED');
 
+    /**
+     * @ngdoc function
+     * @name rxStatusMappings.getInternalMapping
+     * @methodOf rxStatusColumn.service:rxStatusMappings
+     * @description
+     *
+     * `rxStatusMappings` defines a `getInternalMapping(statusString, api)` method,
+     * which the framework uses to map a provided `status` string based on the
+     * mapping rules from all the methods above. It's intended for internal use,
+     * but there's nothing stopping you from using it if you find a need.
+     *
+     * If you ask it to map a string that is not registered for a mapping, it will
+     * return back that same string.
+     *
+     * @param {String} statusString This is status string based on mapping rules
+     * @param {String} api This is an api based on mapping rules
+     */
     rxStatusMappings.getInternalMapping = function (statusString, api) {
         if (_.has(apiMappings, api) && _.has(apiMappings[api], statusString)) {
             return apiMappings[api][statusString];
@@ -10933,7 +11289,9 @@ angular.module('encore.ui.rxTags', ['encore.ui.rxMisc', 'ui.bootstrap'])
  * @description
  * # rxToggle Component
  *
- * [TBD]
+ * This component provides an attribute directive to handle toggling a boolean
+ * scope property for show/hide purposes (normally used in conjunction with
+ * ng-show to toggle hidden content).
  *
  * ## Directives
  * * {@link rxToggle.directive:rxToggle rxToggle}
@@ -10944,7 +11302,9 @@ angular.module('encore.ui.rxToggle', [])
  * @name rxToggle.directive:rxToggle
  * @restrict A
  * @description
- * Adds a 'click' listener to an element that, when fired, toggles the boolean scope property defined
+ *
+ * Adds a 'click' listener to an element that, when fired, toggles the boolean
+ * scope property defined
  *
  * @param {String} rxToggle Boolean property to toggle true/false state
  */
@@ -11123,8 +11483,9 @@ angular.module('encore.ui.rxTokenInterceptor', ['encore.ui.rxSession'])
  * @description
  * # rxUnauthorizedInterceptor Component
  *
- * [TBD]
- *
+ * The rxUnauthorizedInterceptor component redirects users to the login page, 
+ * when user authentication fails during a system service request.
+ * 
  * ## Services
  * * {@link rxUnauthorizedInterceptor.service:UnauthorizedInterceptor UnauthorizedInterceptor}
  */
@@ -11133,8 +11494,8 @@ angular.module('encore.ui.rxUnauthorizedInterceptor', ['encore.ui.rxSession'])
  * @ngdoc service
  * @name rxUnauthorizedInterceptor.service:UnauthorizedInterceptor
  * @description
- * Simple injector which will intercept http responses. If a 401 is returned,
- * the ui redirects to /login.
+ * Simple injector which will intercept HTTP responses. If a HTTP 401 response error code is returned,
+ * the ui redirects to `/login`.
  *
  * @requires $q
  * @requires @window
@@ -11181,7 +11542,21 @@ angular.module('encore.ui.rxUnauthorizedInterceptor', ['encore.ui.rxSession'])
  * @description
  * # tabs Component
  *
- * [TBD]
+ * This component provides styles and a demo for the [the Angular-UI Bootstrap
+ * Tabs plugin](https://github.com/angular-ui/bootstrap/tree/master/src/tabs),
+ * which is included as a dependency for EncoreUI.
+ *
+ * ## Usage
+ *
+ * Usage is the exact same as demoed on the Angular-UI Bootstrap site. See
+ * [the Angular-UI Bootstrap Docs](http://angular-ui.github.io/bootstrap/) for
+ * further guidance on usage and configuration of this component.
+ *
+ * ## Disclaimer
+ *
+ * Only the default horizontal tabs are supported by these styles. `Vertical`,
+ * `Pills` and `Justified` tabs are currently unsupported.
+ *
  */
 angular.module('encore.ui.tabs', []);
 
@@ -11191,7 +11566,29 @@ angular.module('encore.ui.tabs', []);
  * @description
  * # tooltips Component
  *
- * [TBD]
+ * The tooltip component provides styles to raw HTML 
+ * elements and custom directive templates.
+ *
+ * ## Usage
+ * 
+ * Usage is the exact same as shown in the
+ * [Angular-UI Bootstrap Documentation](https://angular-ui.github.io/bootstrap/#/tooltip).
+ * See for further guidance on usage and configuration of this component.
+ * 
+ * **NOTE:**  The `tooltip` directive and its optional attributes can **_only_** be 
+ * applied to raw HTML elements. They can't be applied to directives like this:
+ * <pre>
+ * // DOES NOT WORK 
+ * 
+ * <rx-button tooltip="...">
+ * </pre>
+ * 
+ * If you're creating your own custom directive, it's fine to use the `tooltip` 
+ * directive inside of your directive's template.  See the tooltips component 
+ * {@link /#/components/tooltips demo} for example usage.
+ * 
+ * The [Angular-UI Bootstrap Tooltip](https://github.com/angular-ui/bootstrap/tree/master/src/tooltip) 
+ * plugin is included as a dependency for EncoreUI.
  */
 angular.module('encore.ui.tooltips', []);
 
@@ -11201,7 +11598,23 @@ angular.module('encore.ui.tooltips', []);
  * @description
  * # typeahead Component
  *
- * [TBD]
+ * This component provides styles and a demo for the
+ * [the Angular-UI Bootstrap Typeahead plugin](https://goo.gl/EMGTTq),
+ * which is included as a dependency for EncoreUI.
+ *
+ * ## Usage
+ *
+ * Usage is the exact same as demoed on the Angular-UI Bootstrap site. See
+ * [the Angular-UI Bootstrap Docs](http://angular-ui.github.io/bootstrap/#/typeahead)
+ * for further guidance on usage and configuration of this component.
+ *
+ * A feature has been added that shows the list of options when the input
+ * receives focus.  This list is still filtered according to the input's value,
+ * except when the input is empty.  In that case, all the options are shown.
+ * To use this feature, add the `allowEmpty` parameter to the `filter` filter
+ * in the `typeahead` attribute.  See the {@link /#/components/typeahead demo}
+ * for an example.
+ *
  */
 angular.module('encore.ui.typeahead', ['ui.bootstrap'])
 .config(["$provide", function ($provide) {
