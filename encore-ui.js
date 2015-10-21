@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.33.0 - 2015-10-14
+ * Version: 1.34.0 - 2015-10-21
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.configs','encore.ui.grid','encore.ui.hotkeys','encore.ui.layout','encore.ui.metadata','encore.ui.progressbar','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxCheckbox','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxModalAction','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxMultiSelect','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.tabs','encore.ui.tooltips','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
@@ -5949,6 +5949,7 @@ angular.module('encore.ui.rxFloatingHeader', ['encore.ui.rxMisc'])
  *
  * * {@link rxForm.directive:rxForm rxForm}
  *   * {@link rxForm.directive:rxFormSection rxFormSection} (0..N)
+ *      * {@link rxSelectFilter.directive:rxSelectFilter rxSelectFilter} (0..N)
  *      * {@link rxForm.directive:rxField rxField} (0..N)
  *        * {@link rxForm.directive:rxFieldName rxFieldName} (0..1)
  *        * {@link rxForm.directive:rxFieldContent rxFieldContent} (0..1)
@@ -5983,8 +5984,8 @@ angular.module('encore.ui.rxFloatingHeader', ['encore.ui.rxMisc'])
  * ## Stacked Field Arrangement
  * By default, `rx-form-section` will arrange its children inline, in a row.  To obtain a stacked, columnar layout
  * for a particular section, place the `stacked` attribute on the `rx-form-section` element.  This will arrange the
- * `rx-field` and `div` children elements in a columnar fashion.  This can be used in conjunction with sections taking
- *  the full width of the form.
+ * `rx-field`, `rx-select-filter`, and `div` children elements in a columnar fashion.  This can be used in conjunction 
+ * with sections taking the full width of the form.
  *
  *  *See "Advanced Inputs" in the {@link /#/components/rxForm demo} for an example.*
  *
@@ -6200,9 +6201,9 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
  * @description
  * Structural element directive used for layout of sub-elements.
  *
- * By default, all `rxField` elements will display inline (horizontally).
- * If you wish to display `rxField` elements in a stacked manner, you may
- * place the `stacked` attribute on `rx-form-section`
+ * By default, all `rxField`, `rxSelectFilter`, and `<div>` elements will display inline (horizontally).
+ * If you wish to display these elements in a stacked manner, you may
+ * place the `stacked` attribute on `rx-form-section`.
  *
  * <dl>
  *   <dt>Display:</dt>
@@ -6218,6 +6219,7 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
  *   <dd>
  *     <ul>
  *       <li>{@link rxForm.directive:rxField rxField}</li>
+ *       <li>{@link rxSelectFilter.directive:rxSelectFilter rxSelectFilter}</li>
  *       <li>HTML DIV Element</li>
  *     </ul>
  *   </dd>
@@ -6229,6 +6231,7 @@ angular.module('encore.ui.rxForm', ['ngSanitize', 'encore.ui.rxMisc'])
  * <form rx-form>
  *   <rx-form-section>
  *     <rx-field>...</rx-field>
+ *     <rx-select-filter>...</rx-select-filter>
  *     <div>...</div>
  *   </rx-form-section>
  * </form>
@@ -7759,6 +7762,10 @@ angular.module('encore.ui.rxSelectFilter', ['encore.ui.rxMisc', 'encore.ui.rxSel
  * @scope
  * @description
  * Automatically creates the appropriate dropdowns to manage a filter object.
+ * 
+ * **NOTE:** `rxSelectFilter` directive must be instaniated as a child of 
+ * {@link rxForm.directive:rxFormSection rxFormSection} directive.  The {@link rxForm} component 
+ * hierarchy validation enforces this relationship. 
  *
  * ## rxSelectFilter
  * Uses an instance of `SelectFilter` to create a set of `<rx-multi-select>`'s
@@ -7768,30 +7775,38 @@ angular.module('encore.ui.rxSelectFilter', ['encore.ui.rxMisc', 'encore.ui.rxSel
  * $scope.filter = SelectFilter.create({
  *   // options...
  * });
- *
- * // In the template
- * <rx-select-filter filter="filter"></rx-select-filter>
+ * </pre>
+ * 
+ * ## rxSelectFilter usage in rxForm 
+ * <pre>
+ * // rxSelectFilter must be instantiated as a child of rxFormSection
+ * <rx-form-section>
+ *     <rx-select-filter filter="filter"></rx-select-filter>
+ * </rx-form-section>
  * </pre>
  *
  * @param {Object} filter - An instance of SelectFilter
  *
  */
-.directive('rxSelectFilter', function () {
-    return {
+.directive('rxSelectFilter', ["rxNestedElement", function (rxNestedElement) {
+    return rxNestedElement({
+        parent: 'rxFormSection',
         restrict: 'E',
         templateUrl: 'templates/rxSelectFilter.html',
         scope: {
             filter: '='
         }
-    };
-});
+    });
+}]);
 
 /**
  * @ngdoc overview
  * @name rxMultiSelect
  * @description
  * # rxMultiSelect Component
- *
+ * This component is a multi-select dropdown with checkboxes for each option.
+ * It is a replacement for `<select multiple>` when space is an issue, such as
+ * in the header of a table.
  * ## Services
  * * Links to service APIs provided by rxMultiSelect component.
  *
@@ -7809,10 +7824,39 @@ angular.module('encore.ui.rxMultiSelect', ['encore.ui.rxSelectFilter'])
  * @restrict E
  * @scope
  * @description
- * A multi-select dropdown with checkboxes for each option
+ * This component is a multi-select dropdown with checkboxes for each option.
+ * It is a replacement for `<select multiple>` when space is an issue, such as
+ * in the header of a table.
+ * The options for the control can be specified by passing an array of strings
+ * (corresponding to the options' values) to the `options` attribute of the
+ * directive, or using `<rx-select-option>`s. An 'All' option is automatically
+ * set as the first option for the dropdown, which allows all options to be
+ * toggled at once.
+ *
+ * The following two dropdowns are equivalent.
+ * <pre>
+ * <!-- $scope.available = [2014, 2015] -->
+ * <rx-multi-select ng-model="selected" options="available"></rx-multi-select>
+ *
+ * <rx-multi-select ng-model="selected">
+ *   <rx-select-option value="2014"></rx-select-option>
+ *   <rx-select-option value="2015"></rx-select-option>
+ * </rx-multi-select>
+ * </pre>
+ *
+ * This component requires the `ng-model` attribute and binds the model to an
+ * array of the selected options.
+ *
+ *
+ * The preview text (what is shown when the element is not active) follows the following rules:
+ * * If no items are selected, show "None".
+ * * If only one item is selected from the dropdown, its label will display.
+ * * If > 1 but < n-1 items are selected, show "[#] Selected".
+ * * If all but one item is selected, show "All except [x]"
+ * * If all items are selected, show "All Selected".
  *
  * @param {String} ng-model The scope property that stores the value of the input
- * @param {Array} [options] A list of the options for the dropdown
+ * @param {Array=} options A list of the options for the dropdown
  */
 .directive('rxMultiSelect', ["$document", "rxDOMHelper", "rxSelectDirective", function ($document, rxDOMHelper, rxSelectDirective) {
     return {
@@ -7927,7 +7971,17 @@ angular.module('encore.ui.rxMultiSelect', ['encore.ui.rxSelectFilter'])
  * @name rxMultiSelect.directive:rxSelectOption
  * @restrict E
  * @description
- * A single option for rxMultiSelect
+ * A single option for use within rxMultiSelect.
+ *
+ * `<rx-select-option>` is to `<rx-multi-select>` as `<option>` is to `<select>`.
+ *
+ * Just like `<option>`, it has a `value` attribute and uses the element's
+ * content for the label. If the label is not provided, it defaults to a
+ * titleized version of `value`.
+ *
+ * <pre>
+ * <rx-select-option value="DISABLED">Disabled</rx-select-option>
+ * </pre>
  *
  * @param {String} value The value of the option. If no transcluded content is provided,
  *                       the value will also be used as the option's text.
@@ -7967,6 +8021,7 @@ angular.module('encore.ui.rxMultiSelect', ['encore.ui.rxSelectFilter'])
         }
     };
 }]);
+
 /**
  * @ngdoc overview
  * @name rxNotify
@@ -11186,10 +11241,25 @@ angular.module('encore.ui.rxStatusColumn', [])
     return rxStatusMappings;
 });
 
+/**
+ * @ngdoc overview
+ * @name rxTags
+ * @description
+ * # rxTags component
+ *
+ * A component used to apply predetermined descriptions to an entity.
+ *
+ * ## Directives
+ * * {@link rxTags.directive:rxTags rxTags}
+ *
+ * ## Filters
+ * * {@link rxTags.filter:xor xor}
+ *
+ */
 angular.module('encore.ui.rxTags', ['encore.ui.rxMisc', 'ui.bootstrap'])
 /**
  * @ngdoc filter
- * @name encore.ui.rxTags:xor
+ * @name rxTags.filter:xor
  * @description
  * Returns the exclusive or of two arrays.
  *
@@ -11205,11 +11275,49 @@ angular.module('encore.ui.rxTags', ['encore.ui.rxMisc', 'ui.bootstrap'])
 
 /**
  * @ngdoc directive
- * @name encore.ui.rxTags:rxTags
+ * @name rxTags.directive:rxTags
  * @description
  *
- * @param {Array} options - The list available tags.
- * @param {String=} [key=undefined] - Determines a value of the tag object to use when binding an option to the model.
+ * Like native form components, this directive uses `ng-model` to store
+ * its value. The only other required attribute is `options` which accepts an
+ * array of available tags that can be applied.  The tags are objects, each
+ * with required `text` and `category` properties.  Any additional properties
+ * will be ignored.
+ * <pre>
+ * $scope.colorOptions = [
+ *   {
+ *     "text": "blue",
+ *     "category": "color"
+ *   }
+ *   // ...
+ *  ]
+ * </pre>
+ *
+ * By default, the model value is a subset of the options, meaning an new array
+ * containing some of the same objects.  However, the `key` attribute can be
+ * used to customize the model binding by selecting a single value to represent
+ * the object, e.g.
+ * <pre>
+ * <rx-tags options="colorOptions" ng-model="colors" key="id"></rx-tags>
+ * </pre>
+ *
+ * <pre>
+ * $scope.colorOptions = [
+ *  {
+ *   "id": "tag0",
+ *   "text": "blue",
+ *   "category": "color"
+ *  }
+ * ]
+ *
+ * // $scope.colors === ["tag0"] when selected
+ * </pre>
+ *
+ * This component can be disabled via the `disabled` attribute or `ng-disabled`
+ * directive.
+ * @param {Array} options - The list of available tags.
+ * @param {String=} [key=undefined] - Determines a value of the tag object to
+ * use when binding an option to the model.
  * If not provided, the tag object is used.
  */
 .directive('rxTags', ["rxDOMHelper", function (rxDOMHelper) {

@@ -225,10 +225,10 @@
  *  960  <= size < 1200    Tablet-Landscape
  *  1200 <= size           PC
  */
-@layout-gutter-width:      16px;
-@layout-breakpoint-sm:     600px;
-@layout-breakpoint-md:     960px;
-@layout-breakpoint-lg:     1200px;
+@layout-gutter-width: 16px;
+@layout-breakpoint-sm: 600px;
+@layout-breakpoint-md: 960px;
+@layout-breakpoint-lg: 1200px;
 
 /*
  * rxRadio
@@ -301,3 +301,22 @@
  * rxTags
  */
 @rxTag-height: 24px;
+
+/*
+ * progressbar
+ */
+//** Background color of the whole progress component
+@progress-bg: #f5f5f5;
+//** Default progress bar color
+@progress-bar-bg: @light-blue;
+//** Secondary progress bar color
+@progress-bar-secondary-bg: @infoBlue;
+//** Tertiary progress bar color
+@progress-bar-tertiary-bg: @actionGreen;
+@font-size-base: @appFontSize;
+@font-size-large: ceil((@font-size-base * 1.25));
+@font-size-small: ceil((@font-size-base * 0.85));
+//** Unit-less `line-height` for use in components like buttons.
+@line-height-base: 1.428571429; // 20/14
+//** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
+@line-height-computed: floor((@font-size-base * @line-height-base)); // ~20px

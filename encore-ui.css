@@ -272,6 +272,9 @@ https://github.com/yui/pure/blob/master/LICENSE.md
  * rxTags
  */
 /*
+ * progressbar
+ */
+/*
  * Layout
  */
 [layout] {
@@ -2168,13 +2171,15 @@ body:hover .visually-hidden button {
 .rx-app .page-body .page-titles .page-title {
   margin: 0;
   position: relative;
+  word-break: break-all;
 }
 .rx-app .page-body .page-titles .page-subtitle {
   margin-top: 0;
+  word-break: break-all;
 }
 .rx-app .page-body > .rx-notifications {
   position: fixed;
-  z-index: 5;
+  z-index: 20;
   top: 0px;
   left: 300px;
   right: 100px;
@@ -2207,7 +2212,6 @@ body:hover .visually-hidden button {
   -moz-background-clip: padding-box;
   background-clip: padding-box;
   top: 9px;
-  position: absolute;
   color: #427fc4;
 }
 /* Disabled link styles */
@@ -2822,6 +2826,15 @@ th.filter-header input.filter-box {
 th.filter-header button {
   margin: 0;
 }
+th.filter-header [rx-form] {
+  margin: 10px 0;
+}
+th.filter-header [rx-form] rx-form-section {
+  margin: 0;
+}
+th.filter-header [rx-form] rx-form-section rx-field {
+  margin-bottom: 0;
+}
 tr.rx-floating-header:not(.rx-table-filter-row) {
   z-index: 2;
 }
@@ -3293,6 +3306,10 @@ rx-field-name .wrapper .required-symbol {
   flex: 1 0;
   max-width: 400px;
   margin-bottom: 20px;
+}
+[rx-form] rx-form-section[controlled-width] > div,
+[rx-form] rx-form-section[controlled-width] rx-field {
+  max-width: 400px;
 }
 /*
  * rxInfoPanel
@@ -4175,18 +4192,11 @@ rx-search-box .rxSearchBox-wrapper .rxSearchBox-clear .rxSearchBox-clear-icon {
 /*
  * rxSelectFilter
  */
-.rx-select-filter .rxSelect {
-  display: inline-block;
-}
-.rx-select-filter .select-wrapper:not(:first-child) {
-  padding-left: 20px;
-}
-.rx-select-filter .rxSelect,
-.rx-select-filter .field-label {
-  vertical-align: middle;
-}
-.rx-select-filter .field-label {
-  margin-right: 5px;
+rx-select-filter {
+  flex: 1;
+  display: flex;
+  flex-flow: row wrap;
+  word-break: break-all;
 }
 /*
  * rxSortableColumn
