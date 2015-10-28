@@ -65,7 +65,7 @@
 @appBg: #f5f5f5;
 @appMenuBg: #1a1a1a;
 @siteBrandingBg: #06356b;
-@appHelpBg: #333;
+@appHelpBg: @gray-950;
 
 // ## Tables
 @tableHeaderBg: #878787;
@@ -81,7 +81,7 @@
 @buttonDefaultBgHover: lighten(@buttonDefaultBg, 10%);
 @buttonPositiveBg: #16b667;
 @buttonPositiveBgHover: lighten(@buttonPositiveBg, 6%);
-@buttonNegativeBg: #c00;
+@buttonNegativeBg: #cc0000;
 @buttonNegativeBgHover: lighten(@buttonNegativeBg, 10%);
 @buttonCancelBg: @cancel-gray;
 @buttonCancelBgHover: lighten(@buttonCancelBg, 10%);
@@ -132,7 +132,7 @@
 
 @wellText: #727272;
 
-@subduedText: #bbb;
+@subduedText: #bbbbbb;
 @subduedTextHover: darken(@subduedText, 15%);
 @subduedTitle: #989998;
 @closeText: #e5e5e5;
@@ -140,7 +140,7 @@
 
 // ## Tables
 @tableHeaderText: @white;
-@tableCellText: #555;
+@tableCellText: #555555;
 
 // # Measurements
 
@@ -165,15 +165,15 @@
 @inputNumberWidth: 150px;
 @inputLabelWidth: 110px;
 @inputColor: @appTextColor;
-@inputColorDisabled: #999;
+@inputColorDisabled: #999999;
 @inputColorError: @red;
 @inputLabelColor: @subduedTitle;
 @inputPlaceholderColor: #a9a9a9;
-@inputBackground: #fff;
+@inputBackground: @white;
 @inputBackgroundDisabled: @disabled-gray;
 @inputBackgroundError: @inputColorError;
 @inputBorderRadius: 0px;
-@inputBorderColor: #ccc;
+@inputBorderColor: #cccccc;
 @inputBorderColorInvalid: #ff2400;
 
 /*
@@ -184,7 +184,7 @@
 @rxForm-field-min-width: 250px;
 @rxForm-field-max-width: 400px;
 @rxForm-input-min-height: 26px;
-@rxForm-input-border-color: #ccc;
+@rxForm-input-border-color: #cccccc;
 @rxForm-gutter: 16px; // best if divisible by 4
 
 
@@ -254,11 +254,11 @@
  */
 @rxCheckbox-size: 16px;
 @rxCheckbox-font-size: @rxCheckbox-size - 4px;
-@rxCheckbox-color: #fff;
+@rxCheckbox-color: @white;
 @rxCheckbox-background-color: @inputBackground;
-@rxCheckbox-color-selected: #fff;
+@rxCheckbox-color-selected: @white;
 @rxCheckbox-background-color-selected: @blue;
-@rxCheckbox-border-color: #ccc;
+@rxCheckbox-border-color: #cccccc;
 @rxCheckbox-border-color-selected: @rxCheckbox-background-color-selected;
 
 /*
@@ -267,8 +267,8 @@
 @rxSelect-min-width: 60px;
 @rxSelect-height: 26px;
 @rxSelect-color: @inputColor;
-@rxSelect-background: #fff;
-@rxSelect-trigger-background: #fff;
+@rxSelect-background: @white;
+@rxSelect-trigger-background: @white;
 @rxSelect-color-disabled: @inputColorDisabled;
 @rxSelect-background-disabled: @inputBackgroundDisabled;
 @rxSelect-border-color: @inputBorderColor;
@@ -277,7 +277,7 @@
 @rxSelect-border-radius: @inputBorderRadius;
 @rxSelect-border-width: 1px;
 @rxSelect-trigger-width: @rxSelect-height;
-@rxSelect-trigger-color: #aaa;
+@rxSelect-trigger-color: #aaaaaa;
 @rxSelect-trigger-color-invalid: @inputBorderColorInvalid;
 @rxSelect-trigger-color-disabled: @rxSelect-trigger-color;
 
@@ -320,3 +320,9 @@
 @line-height-base: 1.428571429; // 20/14
 //** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
 @line-height-computed: floor((@font-size-base * @line-height-base)); // ~20px
+
+/*
+ * rxBreadcrumbs
+ */
+@breadcrumbHeight: 1.2em;
+@breadcrumbArrowWidth: 9px;

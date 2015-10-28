@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.35.0 - 2015-10-26
+ * Version: 1.35.1 - 2015-10-28
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.grid','encore.ui.hotkeys','encore.ui.layout','encore.ui.metadata','encore.ui.progressbar','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxCheckbox','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxModalAction','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxMultiSelect','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.tabs','encore.ui.tooltips','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
@@ -1422,8 +1422,8 @@ angular.module('encore.ui.rxSession', ['encore.ui.rxLocalStorage'])
  * @name rxPermission
  * @description
  * # rxPermission Component
- * The rxPermission component provides functionality to perform checks against existing user permissions in 
- * EncoreUI.  It provides a {@link rxPermission.service:Permission Permission} service for working with roles, and 
+ * The rxPermission component provides functionality to perform checks against existing user permissions in
+ * EncoreUI.  It provides a {@link rxPermission.service:Permission Permission} service for working with roles, and
  * a {@link rxPermission.directive:rxPermission rxPermission} directive for excluding DOM content based on roles.
  *
  * ## Services
@@ -1438,7 +1438,7 @@ angular.module('encore.ui.rxPermission', ['encore.ui.rxSession'])
  * @name rxPermission.service:Permission
  * @description
  * Simple service for accessing roles and permissions for a user.
- * 
+ *
  * @requires rxSession.service:Session
  *
  * @example
@@ -1459,11 +1459,11 @@ angular.module('encore.ui.rxPermission', ['encore.ui.rxSession'])
     var userRoles = function () {
         return _.pluck(permissionSvc.getRoles(), 'name');
     };
- 
+
     /**
      * @description Takes a function and a list of roles, and returns the
      * result of calling that function with `roles`, and comparing to userRoles().
-     * 
+     *
      * @param {function} fn - Comparison function to use. _.any, _.all, etc.
      * @param {array} roles - List of desired roles
      */
@@ -1486,7 +1486,7 @@ angular.module('encore.ui.rxPermission', ['encore.ui.rxSession'])
      * @methodOf rxPermission.service:Permission
      * @description
      * Fetch all the roles tied to the user (in the exact format available in their Session token).
-     * 
+     *
      * @returns {Array} List of all roles associated to the user.
      */
     permissionSvc.getRoles = function () {
@@ -1498,7 +1498,7 @@ angular.module('encore.ui.rxPermission', ['encore.ui.rxSession'])
     /**
      * @name  hasRole
      * @ngdoc method
-     * @methodOf rxPermission.service:Permission 
+     * @methodOf rxPermission.service:Permission
      * @description Check if user has at least _one_ of the given roles.
      * @param {Array} roles List of roles to check against
      * @returns {Boolean} True if user has at least _one_ of the given roles; otherwise, False.
@@ -1510,11 +1510,11 @@ angular.module('encore.ui.rxPermission', ['encore.ui.rxSession'])
     /**
      * @name  hasAllRoles
      * @ngdoc method
-     * @methodOf rxPermission.service:Permission 
+     * @methodOf rxPermission.service:Permission
      * @description Checks if user has _every_ role in given list.
      * @param {Array} roles List of roles to check against
      * @returns {Boolean} True if user has _every_ role in given list; otherwise, False.
-     * 
+     *
      */
     permissionSvc.hasAllRoles = function (roles) {
         return checkRoles(roles, _.all);
@@ -1528,9 +1528,9 @@ angular.module('encore.ui.rxPermission', ['encore.ui.rxSession'])
  * @restrict E
  * @scope
  * @description
- * Simple directive which will show or hide content based on whether or not the user has the specified role. See 
- * the `rxPermission` component {@link /#/components/rxPermission demo} for an example.
- * 
+ * Simple directive which will show or hide content based on whether or not the user has the specified role. See
+ * the `rxPermission` component {@link /encore-ui/#/components/rxPermission demo} for an example.
+ *
  * @requires rxPermission.service:Permission
  *
  * @param {String} role - Name of required role.
@@ -3941,9 +3941,9 @@ angular.module('encore.ui.rxBulkSelect', ['encore.ui.rxCheckbox'])
  *  for `<button>` elements in scenarios where the button has multiple states.
  *
  * ## Styling
- * 
+ *
  * There are several styles of buttons available, and they are documented in the
- *  [Encore Framework Styleguide](/#/styles/buttons).  
+ *  [Encore Framework Styleguide](/encore-ui/#/styles/buttons).  
  * Any classes that need to be added to the button should be passed to the `classes` attribute.
  *
  * ## Directives
@@ -3956,21 +3956,21 @@ angular.module('encore.ui.rxButton', [])
  * @restrict E
  * @scope
  * @description
- * Renders a button which will disable when clicked and show a loading message, 
+ * Renders a button which will disable when clicked and show a loading message,
  * and re-enable when the operation is complete. If you set `classes` attributes `<rx-button>`,
  * those will get passed to the `<button>` instance as `class`.
  *
  * ## Button State
- * 
+ *
  * The state of the button is controlled via the `toggle` attribute, which disables the button and replaces the
- * `default-msg` with the `toggle-msg` as the button's text.  There are no defaults for these messages, so they must 
- * be defined if the toggle behavior is desired.  While the button is in the toggled state, it is also disabled (no 
+ * `default-msg` with the `toggle-msg` as the button's text.  There are no defaults for these messages, so they must
+ * be defined if the toggle behavior is desired.  While the button is in the toggled state, it is also disabled (no
  * matter what the value of `disable` is.
  *
- * The button does not modify the variable passed to `toggle`; it should be modified in the handler provided to 
- * `ng-click`.  Usually, the handler will set the variable to `true` immediately, and then to `false` once the the 
+ * The button does not modify the variable passed to `toggle`; it should be modified in the handler provided to
+ * `ng-click`.  Usually, the handler will set the variable to `true` immediately, and then to `false` once the the
  * process (e.g. an API call) is complete.
- * 
+ *
  * To disable the button, use the `disable` attribute instead of the normal `ng-disabled` - the behavior is the same.
  *
  * @param {String} loadingMsg Text to be displayed when an operation is in progress.
@@ -3978,7 +3978,7 @@ angular.module('encore.ui.rxButton', [])
  * @param {Boolean=} [toggle=false] When true, the button will display the loading text.
  * @param {Boolean=} [disable=false] When true, the button will be disabled.
  * @param {String=} [classes=""] The class names to be applied to the button.
- * 
+ *
  */
 .directive('rxButton', function () {
     return {
@@ -5934,15 +5934,15 @@ angular.module('encore.ui.rxFloatingHeader', ['encore.ui.rxMisc'])
  * @description
  * # rxForm Component
  *
- * The rxForm component contains a set of directives used to create forms throughout Encore.  These directives provide 
+ * The rxForm component contains a set of directives used to create forms throughout Encore.  These directives provide
  * a common HTML layout and style for all form elements, which helps ensure form accessibility and makes creating new
  *  forms easier.
  *
- * ## Directives Are Hierarchical 
+ * ## Directives Are Hierarchical
  *
  * To provide a standard layout of form fields (and so CSS rules can apply that layout), most of the new directives
  *  must be nested in a specific hierarchy.
- *  If you do not nest these elements properly, Angular will throw an error (this is by design). So, rule of thumb, 
+ *  If you do not nest these elements properly, Angular will throw an error (this is by design). So, rule of thumb,
  *  aim for `0` console errors.
  *
  * These directives must be nested in the following hierarchy (*the ranges (e.g., 0..1) below denote how many items can
@@ -5979,45 +5979,45 @@ angular.module('encore.ui.rxFloatingHeader', ['encore.ui.rxMisc'])
  * * {@link rxSelect}
  * * {@link rxToggleSwitch}
  * * {@link typeahead}
- * 
+ *
  * # Layout
- * 
+ *
  * ## Stacked Field Arrangement
  * By default, `rx-form-section` will arrange its children inline, in a row.  To obtain a stacked, columnar layout
  * for a particular section, place the `stacked` attribute on the `rx-form-section` element.  This will arrange the
- * `rx-field`, `rx-select-filter`, and `div` children elements in a columnar fashion.  This can be used in conjunction 
+ * `rx-field`, `rx-select-filter`, and `div` children elements in a columnar fashion.  This can be used in conjunction
  * with sections taking the full width of the form.
  *
- *  *See "Advanced Inputs" in the {@link /#/components/rxForm demo} for an example.*
+ *  *See "Advanced Inputs" in the {@link /encore-ui/#/components/rxForm demo} for an example.*
  *
  * ## Responsive
- * `rx-field` and `div` elements that are immediate children of `rx-form-section` will grow from 250px to full width of 
- * the section.  As such, you will see that these elements will wrap in the section if there's not enough width to 
+ * `rx-field` and `div` elements that are immediate children of `rx-form-section` will grow from 250px to full width of
+ * the section.  As such, you will see that these elements will wrap in the section if there's not enough width to
  * accomodate more than one child.
- * 
- * *You can see this in the {@link /#/components/rxForm demo} if you resize the width of your browser.*
+ *
+ * *You can see this in the {@link /encore-ui/#/components/rxForm demo} if you resize the width of your browser.*
  *
  * # Validation
  *
  * ## Required Fields
- * When displaying a field that should be required, please make use of the `ng-required` attribute for rxFieldName.  
- * When the value evaluates to true, an asterisk will display to the left of the field name.  You can see an example 
- * of this with the "Required Textarea" field name in the {@link /#/components/rxForm demo}.
+ * When displaying a field that should be required, please make use of the `ng-required` attribute for rxFieldName.
+ * When the value evaluates to true, an asterisk will display to the left of the field name.  You can see an example
+ * of this with the "Required Textarea" field name in the {@link /encore-ui/#/components/rxForm demo}.
  *
- * See {@link rxForm.directive:rxFieldName rxFieldName} 
+ * See {@link rxForm.directive:rxFieldName rxFieldName}
  * API Documentation for more information.
- * 
+ *
  * ## Custom Validators
  *
  * Angular provides its own validator when you use `type="email"`, and you can use `<rx-inline-error>` to turn email
  * validation errors into a styled message.  You can also use this element if you define a custom validator.
  *
  * ### Foocheck validator
- * The example shown in the "Email Address" example, uses a custom `foocheck` validator. Note that it is enabled by 
+ * The example shown in the "Email Address" example, uses a custom `foocheck` validator. Note that it is enabled by
  * placing the `foocheck` attribute in the `<input>` element, and using it with
- * `ng-show="demoForm.userEmail.$error.foocheck"`.  Check out the Javascript tab in 
- * the {@link /#/components/rxForm demo} to see how this validator is implemented.
- * 
+ * `ng-show="demoForm.userEmail.$error.foocheck"`.  Check out the Javascript tab in
+ * the {@link /encore-ui/#/components/rxForm demo} to see how this validator is implemented.
+ *
  * There are plenty of examples online showing the same thing.
  *
  * # Migrating Old Code
@@ -6034,16 +6034,16 @@ angular.module('encore.ui.rxFloatingHeader', ['encore.ui.rxMisc'])
  * See "Before & After" below
  *
  * ### **rxFormFieldset**
- * Closest equivalent is to use `rxFormSection`. Your individual project requirements will vary, but the `legend` 
+ * Closest equivalent is to use `rxFormSection`. Your individual project requirements will vary, but the `legend`
  * attribute can be replaced with a heading variant where applicable.
  *
  * * If your legend pertains to at least one row, place a heading variant before the desired `rx-form-section`
  * element.
- * * If your legend pertains to controls in a single column, place a heading variant within the `rx-field` 
+ * * If your legend pertains to controls in a single column, place a heading variant within the `rx-field`
  * element at the top.
  *
  * ## Before &amp; After
- * The `rxFormItem` has been found to be incredibly brittle and prone to breakage. The new markup may look a little 
+ * The `rxFormItem` has been found to be incredibly brittle and prone to breakage. The new markup may look a little
  * wordy, but it is designed to provide enough flexibility for advanced field inputs. To be explicit, the new directives
  * were designed based on feedback around:
  *
@@ -6091,7 +6091,7 @@ angular.module('encore.ui.rxFloatingHeader', ['encore.ui.rxMisc'])
  *   </rx-form-section>
  * </form>
  * </pre>
- * 
+ *
  * ### Monthly Cost
  * #### Before
  * <pre>
@@ -6117,8 +6117,8 @@ angular.module('encore.ui.rxFloatingHeader', ['encore.ui.rxMisc'])
  *     </rx-field>
  *   </rx-form-section>
  * </form>
- * </pre>                                                                           
- * 
+ * </pre>
+ *
  * ## Services
  * * {@link rxForm.service:rxFormUtils rxFormUtils}
  *
@@ -7079,14 +7079,14 @@ angular.module('encore.ui.rxMetadata', [])
  * # rxModalAction Component
  *
  * The rxModalAction component provides a hook to open and perform operations on a modal window.
- * 
- * This provides a hook into Angular-UI Bootstrap's modal directive. It's used as a link to open a modal window. The 
- * content inside the window is blank, however you can tie this with `<rx-modal-form>` to build a modal form window 
+ *
+ * This provides a hook into Angular-UI Bootstrap's modal directive. It's used as a link to open a modal window. The
+ * content inside the window is blank, however you can tie this with `<rx-modal-form>` to build a modal form window
  * (including the modal title and submit/cancel buttons).
  *
- * **NOTE:** This module has a dependency on [Angular-UI Bootstrap](http://angular-ui.github.io/bootstrap/), so if 
+ * **NOTE:** This module has a dependency on [Angular-UI Bootstrap](http://angular-ui.github.io/bootstrap/), so if
  * it is going to be used, Bootstrap needs to be included in your webpage.
- * 
+ *
  * ## Directives
  * * {@link rxModalAction.directive:rxModalAction rxModalAction}
  * * {@link rxModalAction.directive:rxModalFooter rxModalFooter}
@@ -7107,11 +7107,11 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
  * @description
  * Responsible for creating the HTML necessary for modal form
  *
- * The `<rx-modal-form>` directive is helpful for providing a common format to forms inside modals (hence the name). 
+ * The `<rx-modal-form>` directive is helpful for providing a common format to forms inside modals (hence the name).
  *
- * This directive also provides an 'autofocus' mechanism, which will move the keyboard focus cursor to the first 
+ * This directive also provides an 'autofocus' mechanism, which will move the keyboard focus cursor to the first
  * 'tabbable' input available in the form.
- * 
+ *
  * @param {string} title Title of modal window
  * @param {string} [subtitle] Subtitle of modal window
  * @param {boolean} [isLoading] True to show a spinner by default
@@ -7251,20 +7251,20 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
  * @description
  * Define a footer for the next modal.
  *
- * When a modal has multiple views or kicks off a process that should be tracked within the modal, the 
- * `<rx-modal-footer>` directive should be used.  
+ * When a modal has multiple views or kicks off a process that should be tracked within the modal, the
+ * `<rx-modal-footer>` directive should be used.
  *
  * Modal Footers should be defined in the same template as the Modal Form unless the footer is global, in which case it
- * should be loaded in `module.run()`.  Global footers can be used in any subsequent modal by changing to the state 
+ * should be loaded in `module.run()`.  Global footers can be used in any subsequent modal by changing to the state
  * they were defined with.
  *
- * The modal's controller also inherits the `setState()` method on the scope, which should be used to toggle different 
- * views or footers. See the *Multi-View Example* in the component {@link /#/components/rxModalAction demo} for an 
- * example of this design pattern's usage.  
- * 
- * The default `editing` state shows the standard submit and cancel buttons, and the only other state provided by the 
+ * The modal's controller also inherits the `setState()` method on the scope, which should be used to toggle different
+ * views or footers. See the *Multi-View Example* in the component {@link /encore-ui/#/components/rxModalAction demo}
+ * for an example of this design pattern's usage.
+ *
+ * The default `editing` state shows the standard submit and cancel buttons, and the only other state provided by the
  * framework is `complete` (showing the return button).
- * 
+ *
  * @param {String} state The content will be shown in the footer when this state is activated.
  * @param {String=} [global] If the global attribute is present, then this footer can be used
  *                          in other modals. This attribute takes no values.
@@ -7304,33 +7304,33 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
  *
  * # Template URL
  *
- * Due to the complex nature of the information passed into modal windows, HTML is handled via a template (versus 
+ * Due to the complex nature of the information passed into modal windows, HTML is handled via a template (versus
  * transcluding the content).
- * 
- * One benefit is that this allows for multiple actions to re-use the same template. It also allows modal content to 
- * live in a separate file, which can be helpful for maintainability if the modal HTML is complex. While this can be 
+ *
+ * One benefit is that this allows for multiple actions to re-use the same template. It also allows modal content to
+ * live in a separate file, which can be helpful for maintainability if the modal HTML is complex. While this can be
  * done via `ng-include`, it would be a little extra work for a common scenario.
  *
  * # Hooks
  *
- * `rxModalAction` allows you to define functions to be called at different points of the modal lifecycle.  These hooks 
+ * `rxModalAction` allows you to define functions to be called at different points of the modal lifecycle.  These hooks
  * are optional and the modal window is fully functional without any being defined.
  *
  * ## Pre-hook
  *
- * The `pre-hook` function is called before the modal window is shown.  Use a this to populate field information inside 
- * of the modal.  This is useful when you have information you don't want loaded when the page is first opened, but do 
+ * The `pre-hook` function is called before the modal window is shown.  Use a this to populate field information inside
+ * of the modal.  This is useful when you have information you don't want loaded when the page is first opened, but do
  * need for the modal.  It is also useful for dynamic information that is based on actions taken.
  *
  * ## Post-hook
  *
- * The `post-hook` function is called after the modal is submitted.  A `post-hook` is useful to take actions based upon 
- * input in the modal.  For example, you can use the user input that gets entered to send API requests with specific 
+ * The `post-hook` function is called after the modal is submitted.  A `post-hook` is useful to take actions based upon
+ * input in the modal.  For example, you can use the user input that gets entered to send API requests with specific
  * JSON data.  Or you can simply run a pre-defined API call (assuming the modal is a simple confirmation dialog).
  *
  * ## Dismiss-hook
  *
- * The `dismiss-hook` function is called after the modal is closed without submitting.  This may happen via any of the 
+ * The `dismiss-hook` function is called after the modal is closed without submitting.  This may happen via any of the
  * following scenarios:
  *
  * * Clicking the "Cancel" button
@@ -7338,9 +7338,9 @@ angular.module('encore.ui.rxModalAction', ['ui.bootstrap'])
  * * Pressing `ESC`
  * * Explicitly calling `$modalInstance.dismiss()` in your javascript logic
  *
- * This hook is useful for making changes to UI state when the user wants to cancel the given action.  For example, you 
+ * This hook is useful for making changes to UI state when the user wants to cancel the given action.  For example, you
  * may use this to return an indeterminate component to a previous state (e.g. toggle switches).
- * 
+ *
  * @param {Function=} [preHook] Function to call when a modal is opened
  * @param {Function=} [postHook] Function to call when a modal is submitted (not called when cancelled out of)
  * @param {Function=} [dismissHook] Function to call when a modal is dismissed (not called when submitted)
@@ -8034,11 +8034,11 @@ angular.module('encore.ui.rxMultiSelect', ['encore.ui.rxSelectFilter'])
  * There may be situations where you will need to use the styling/markup of
  * rxNotify's messaging queue in status messages of your own - for example,
  * a modal window which asks if you want to delete an object, with the
- * appropriate warning or error flags. If this is the case, we recommend using 
+ * appropriate warning or error flags. If this is the case, we recommend using
  * the {@link rxNotify.directive:rxNotification rxNotification} directive in your views.  Please note, this
  * differs from {@link rxNotify.directive:rxNotifications rxNotifications} (plural).
- * 
- * The type attribute can be any type supported by `options.type` for the `rxNotify.add()` function in 
+ *
+ * The type attribute can be any type supported by `options.type` for the `rxNotify.add()` function in
  * the {@link rxNotify.service:rxNotify rxNotify} service.
 
  * ## Services
@@ -8215,16 +8215,16 @@ angular.module('encore.ui.rxNotify', ['ngSanitize', 'ngAnimate'])
  * Manages page messages for an application.
  *
  * # Stacks
- * 
- * Stacks are just separate notification areas. Normally, all messages created will go to the `page` stack, which 
+ *
+ * Stacks are just separate notification areas. Normally, all messages created will go to the `page` stack, which
  * should be displayed at the top of the page. The `page` stack is used for page-level messages.
  *
  * ## Using the Page Stack
  *
- * The default notification stack is added by default to the `rxPage` template (see {@link rxApp}), so it should be 
- * ready to use without any work (unless your app uses a custom template).  The 
- * {@link rxNotify.directive:rxNotifications rxNotifications} directive will gather all notifications for a particular 
- * stack into a single point on the page.  By default, this directive will collect all notifications in the `page` 
+ * The default notification stack is added by default to the `rxPage` template (see {@link rxApp}), so it should be
+ * ready to use without any work (unless your app uses a custom template).  The
+ * {@link rxNotify.directive:rxNotifications rxNotifications} directive will gather all notifications for a particular
+ * stack into a single point on the page.  By default, this directive will collect all notifications in the `page`
  * stack.
  *
  * <pre>
@@ -8235,16 +8235,16 @@ angular.module('encore.ui.rxNotify', ['ngSanitize', 'ngAnimate'])
  *
  * ## Using a Custom Stack
  *
- * You can also create custom stacks for specific notification areas. Say you have a form on your page that you want to 
+ * You can also create custom stacks for specific notification areas. Say you have a form on your page that you want to
  * add error messages to. You can create a custom stack for this form and send form-specific messages to it.
  *
- * Please see the *Custom Stack* usage example in the `rxNotify` {@link /#/components/rxForm demo}.
+ * Please see the *Custom Stack* usage example in the `rxNotify` {@link /encore-ui/#/components/rxForm demo}.
  *
  * ## Adding an `rxNotification` to the Default Stack
  *
- * If you need to add a notification via your Angular template, just set the `stack` parameter on the opening 
+ * If you need to add a notification via your Angular template, just set the `stack` parameter on the opening
  * `<rx-notification>` tag.  This will allow the notification to be added via the `rxNotify.add()` function.
- * 
+ *
  * <pre>
  * <rx-notification type="error" stack="page">
  *   This is an error message being added to the "page" stack with <strong>Custom</strong> html.
@@ -8254,36 +8254,36 @@ angular.module('encore.ui.rxNotify', ['ngSanitize', 'ngAnimate'])
  * ## Adding a New Message Queue via `rxNotify`
  *
  * To add a new message to a stack, inject `rxNotify` into your Angular function and run:
- * 
+ *
  * <pre>
  * rxNotify.add('My Message Text');
  * </pre>
  *
- * This will add a new message to the default stack (`page`) with all default options set.  To customize options, pass 
+ * This will add a new message to the default stack (`page`) with all default options set.  To customize options, pass
  * in an `object` as the second argument with your specific options set:
  *
  * <pre>
  * rxNotify.add('My Message Text', {
  *   stack: 'custom',
  *   type: 'warning'
- * }); 
+ * });
  * </pre>
  *
  * ## Dismissing a message programatically
  *
- * Most messages are dismissed either by the user, a route change or using the custom `dismiss` property.  If you need 
+ * Most messages are dismissed either by the user, a route change or using the custom `dismiss` property.  If you need
  * to dismiss a message programmaticaly, you can run `rxNotify.dismiss(message)`, where *message* is the `object`
  * returned from `rxNotify.add()`.
  *
  * ## Clearing all messages in a stack
  *
- * You can clear all messages in a specific stack programmatically via the `rxNotify.clear()` function. Simply pass in 
+ * You can clear all messages in a specific stack programmatically via the `rxNotify.clear()` function. Simply pass in
  * the name of the stack to clear:
  *
  * <pre>
  * rxNotify.clear('page');
  * </pre>
- * 
+ *
  */
 .service('rxNotify', ["$interval", "$rootScope", function ($interval, $rootScope) {
     var defaultStack = 'page';
@@ -8564,7 +8564,7 @@ angular.module('encore.ui.rxNotify', ['ngSanitize', 'ngAnimate'])
  * @name rxNotify.service:rxPromiseNotifications
  * @description Manages displaying messages for a promise
  *
- * It is a common pattern with API requests that you'll show a loading message, followed by either a success or failure 
+ * It is a common pattern with API requests that you'll show a loading message, followed by either a success or failure
  * message depending on the result of the call.  `rxPromiseNotifications` is the service created for this pattern.
  *
  * @example
@@ -9030,35 +9030,35 @@ angular.module('encore.ui.rxPageTitle', [])
  * # rxPaginate Component
  *
  * The rxPaginate component adds pagination to a table.
- * 
+ *
  * Two different forms of pagination are supported:
- * 
+ *
  * 1. UI-based pagination, where all items are retrieved at once, and paginated in the UI
  * 2. Server-side pagination, where the pagination directive works with a paginated API
  *
  * # UI-Based Pagination
  * With UI-Based pagination, the entire set of data is looped over via an `ngRepeat` in the table's
  * `<tbody>`, with the data passed into the `Paginate` filter. This filter does the work of paginating
- * the set of data and communicating with the `<rx-paginate>` to draw the page selection buttons at the 
+ * the set of data and communicating with the `<rx-paginate>` to draw the page selection buttons at the
  * bottom of the table.
  *
  * As shown in the first example below, the `ngRepeat` will usually look like this:
  *
  * <pre>
- * <tr ng-repeat="server in servers | 
- *                orderBy: sorter.predicate:sorter.reverse | 
+ * <tr ng-repeat="server in servers |
+ *                orderBy: sorter.predicate:sorter.reverse |
  *                Paginate:pager ">
  * </pre>
  *
  * In this case,
  *
- * 1. `servers` is a variable bound to your page `$scope`, and contains the full set of servers. 
- * 2. This is then passed to `orderBy`, to perform column sorting with `rxSortableColumn`. 
+ * 1. `servers` is a variable bound to your page `$scope`, and contains the full set of servers.
+ * 2. This is then passed to `orderBy`, to perform column sorting with `rxSortableColumn`.
  * 3. The sorted results are then passed to `Paginate:pager`, where `Paginate` is a filter from the
- * `rxPaginate` module, and `pager` is a variable on your scope created like 
- * `$scope.pager = PageTracking.createInstance();`. 
+ * `rxPaginate` module, and `pager` is a variable on your scope created like
+ * `$scope.pager = PageTracking.createInstance();`.
  *
- * This `pager` is responsible for tracking pagination state (i.e. "which page are we on", "how many 
+ * This `pager` is responsible for tracking pagination state (i.e. "which page are we on", "how many
  * items per page", "total number of items tracked", etc.
  *
  * To add the pagination buttons to your table, do the following in your `<tfoot>`:
@@ -9072,37 +9072,37 @@ angular.module('encore.ui.rxPageTitle', [])
  * </tfoot>
  * </pre>
  *
- * Here we are using the `<rx-paginate>` directive to draw the buttons, passing it the same `pager` 
+ * Here we are using the `<rx-paginate>` directive to draw the buttons, passing it the same `pager`
  * instance described above.
  *
- * Because all of the `servers` get passed via `ng-repeat`, it means you don't need to take explicit 
- * action if the set of data changes. You can change `$scope.servers` at any time, and `<rx-paginate>` 
+ * Because all of the `servers` get passed via `ng-repeat`, it means you don't need to take explicit
+ * action if the set of data changes. You can change `$scope.servers` at any time, and `<rx-paginate>`
  * will automatically re-process it.
  *
  * ## Persistence
  *
- * The user's preference for the number of items to display per page will be persisted across applications 
+ * The user's preference for the number of items to display per page will be persisted across applications
  * using {@link rxLocalStorage}. This preference is set whenever the user selects a new number to show.
  *
  * This applies to both UI-based pagination and API-based pagination.
  *
- * *NOTE*: If `itemsPerPage` is explicitly specified in the `opts` you pass to `PageTracking.createInstance()`, 
+ * *NOTE*: If `itemsPerPage` is explicitly specified in the `opts` you pass to `PageTracking.createInstance()`,
  * then that pager instance will load using the `itemsPerPage` you specified, and _not_ the globally persisted value.
  *
- * *NOTE*: If you don't want a specific pager to have its `itemsPerPage` persisted to other pagers, 
+ * *NOTE*: If you don't want a specific pager to have its `itemsPerPage` persisted to other pagers,
  * pass `persistItemsPerPage: false` with the `opts` to `createInstance()`.
  *
  * ## Hiding the pagination
  *
- * In some instances, the pagination should be hidden if there isn't enough data to require it. For example, 
- * if you have `itemsPerPage` set to 10, but only have 7 items of data (so only one page). Hiding the 
+ * In some instances, the pagination should be hidden if there isn't enough data to require it. For example,
+ * if you have `itemsPerPage` set to 10, but only have 7 items of data (so only one page). Hiding the
  * pagination is pretty simple:
  *
  * <pre>
  * <rx-paginate page-tracking="pager" ng-hide="pager.totalPages === 1"></rx-paginate>
  * </pre>
  *
- * You can use this code on any part of your view. For example, if you have pagination in your table 
+ * You can use this code on any part of your view. For example, if you have pagination in your table
  * footer, it's a good idea to hide the entire footer:
  *
  * <pre>
@@ -9115,13 +9115,13 @@ angular.module('encore.ui.rxPageTitle', [])
  * </tfoot>
  * </pre>
  *
- * See the rxPaginate compoent {@link /#/components/rxPaginate demo} for more examples of this.
+ * See the rxPaginate compoent {@link /encore-ui/#/components/rxPaginate demo} for more examples of this.
  *
  * This applies to both UI-based pagination and API-based pagination.
  *
  * # API-Based Pagination
- * Many APIs support pagination on their own. Previously, we would have to grab _all_ the data at once, 
- * and use the UI-Based Pagination described above. Now we have support for paginated APIs, such that we 
+ * Many APIs support pagination on their own. Previously, we would have to grab _all_ the data at once,
+ * and use the UI-Based Pagination described above. Now we have support for paginated APIs, such that we
  * only retrieve data for given pages when necessary.
  *
  * With API-based pagination, the `ngRepeat` for your table will instead look like this:
@@ -9132,16 +9132,16 @@ angular.module('encore.ui.rxPageTitle', [])
  * Note a few things here:
  *
  * 1. We now loop over a variable provided by the pager.
- * 2. We no longer pass the values through _any_ filters. Not a search text filter, not sorting filter, 
+ * 2. We no longer pass the values through _any_ filters. Not a search text filter, not sorting filter,
  * and not the `Paginate` filter.
  *
- * ** BEGIN WARNING ** 
+ * ** BEGIN WARNING **
  *
- * You should _never_ access `pagedServers.items` from anywhere other than the `ng-repeat`. Do not touch 
- * it in your controller. It is a dynamic value that can change at anytime. It is only intended for use 
+ * You should _never_ access `pagedServers.items` from anywhere other than the `ng-repeat`. Do not touch
+ * it in your controller. It is a dynamic value that can change at anytime. It is only intended for use
  * by `ng-repeat`.
  *
- * ** END WARNING ** 
+ * ** END WARNING **
  *
  * The `<tfoot>` will look like this:
  *
@@ -9149,7 +9149,7 @@ angular.module('encore.ui.rxPageTitle', [])
  * <tfoot>
  *     <tr class="paginate-area">
  *         <td colspan="2">
- *             <rx-paginate 
+ *             <rx-paginate
  *                 page-tracking="pagedServers"
  *                 server-interface="serverInterface"
  *                 filter-text="searchText"
@@ -9162,16 +9162,16 @@ angular.module('encore.ui.rxPageTitle', [])
  * </tfoot>
  * </pre>
  *
- *  * `page-tracking` still receives the pager (`pagedServers` in this case) as an argument. What's 
+ *  * `page-tracking` still receives the pager (`pagedServers` in this case) as an argument. What's
  *  new are the next four parameters.
- *  * `server-interface` _must_ be present. It has to be passed an object with a `getItems()` method 
+ *  * `server-interface` _must_ be present. It has to be passed an object with a `getItems()` method
  *  on it. This method is what `<rx-paginate>` will use to request data from the paginated API.
- *  * `filter-text`, `selections`, `sort-column` and `sort-direction` are all optional. If present, 
- *  `<rx-paginate>` will watch the variables for changes, and will call `getItems()` for updates whenever 
+ *  * `filter-text`, `selections`, `sort-column` and `sort-direction` are all optional. If present,
+ *  `<rx-paginate>` will watch the variables for changes, and will call `getItems()` for updates whenever
  *  the values change.
  *
- * *Note:* If using `<rx-select-filter>` in the table, the `available` option passed to the `SelectFilter` 
- * constructor **must** be provided and include every property.  This is because the filter cannot reliably 
+ * *Note:* If using `<rx-select-filter>` in the table, the `available` option passed to the `SelectFilter`
+ * constructor **must** be provided and include every property.  This is because the filter cannot reliably
  * determine all available options from a paginated API.
  *
  * You will still create a `PageTracking` instance on your scope, just like in UI-based pagination:
@@ -9181,12 +9181,12 @@ angular.module('encore.ui.rxPageTitle', [])
  * </pre>
  *
  * ## getItems()
- * The `getItems()` method is one you write on your own, and lives as an interface between `<rx-paginate>` 
- * and the server-side paginated API that you will be calling. The framework will make calls to `getItems()` 
- * when appropriate. Rather than have to teach `<rx-paginate>` about how to call and parse a multitude of 
+ * The `getItems()` method is one you write on your own, and lives as an interface between `<rx-paginate>`
+ * and the server-side paginated API that you will be calling. The framework will make calls to `getItems()`
+ * when appropriate. Rather than have to teach `<rx-paginate>` about how to call and parse a multitude of
  * different paginated APIs, it is your responsibility to implement this generic method.
  *
- * `getItems()` takes two required parameters, and one optional parameter object. When the framework calls it, 
+ * `getItems()` takes two required parameters, and one optional parameter object. When the framework calls it,
  * it looks like:
  *
  * <pre>
@@ -9207,12 +9207,12 @@ angular.module('encore.ui.rxPageTitle', [])
  * * `sortColumn`: the name of the selected sort column, if any
  * * `sortDirection`: either `'ASCENDING'` or `'DESCENDING'`
  *
- * When the framework calls `getItems()`, you **_must_ return a promise**. When this promise resolves, 
+ * When the framework calls `getItems()`, you **_must_ return a promise**. When this promise resolves,
  * the resolved object must have the following properties on it:
  *
- * * `items`: An array containing the actual items/rows of the table returned for the request. This should at 
+ * * `items`: An array containing the actual items/rows of the table returned for the request. This should at
  * least contain `itemsPerPage` items, if that many items exist on the given page
- * * `pageNumber`: The 0-based page number that these items belong to. Normally this should be the same as the 
+ * * `pageNumber`: The 0-based page number that these items belong to. Normally this should be the same as the
  * `pageNumber` value passed to `getItems()`
  * * `totalNumberOfItems`: The total number of items available, given the `filterText` parameter.
  *
@@ -9220,19 +9220,19 @@ angular.module('encore.ui.rxPageTitle', [])
  *
  * ## `totalNumberOfItems`
  *
- * If you could get all items from the API in _one call_, `totalNumberOfItems` would reflect the number of items 
+ * If you could get all items from the API in _one call_, `totalNumberOfItems` would reflect the number of items
  * returned (given necessary search parameters). For example, say the following request was made:
  *
  * <pre>
  * var pageNumber = 0;
  * var itemsPerPage = 50;
- * 
+ *
  * getItems(pageNumber, itemsPerPage);
  * </pre>
  *
- * This is asking for all the items on page 0, with the user currently viewing 50 items per page. A valid response 
- * would return 50 items. However, the _total_ number of items available might be 1000 (i.e. 20 pages of results). 
- * Your response must then have `totalNumberOfItems: 1000`. This data is needed so we can display to the 
+ * This is asking for all the items on page 0, with the user currently viewing 50 items per page. A valid response
+ * would return 50 items. However, the _total_ number of items available might be 1000 (i.e. 20 pages of results).
+ * Your response must then have `totalNumberOfItems: 1000`. This data is needed so we can display to the
  * user "Showing 1-50 of 1000 items" in the footer of the table.
  *
  * If `filterText` is present, then the total number of items might change. Say the request became:
@@ -9243,46 +9243,46 @@ angular.module('encore.ui.rxPageTitle', [])
  * var opts = {
  *         filterText: "Ubuntu"
  *     };
- *     
+ *
  * getItems(pageNumber, itemsPerPage, opts);
  * </pre>
  *
- * This means "Filter all your items by the search term 'Ubuntu', then return page 0". 
- * If the total number of items matching "Ubuntu" is 200, then your response would have 
- * `totalNumberOfItems: 200`. You might only return 50 items in `.items`, but the framework 
+ * This means "Filter all your items by the search term 'Ubuntu', then return page 0".
+ * If the total number of items matching "Ubuntu" is 200, then your response would have
+ * `totalNumberOfItems: 200`. You might only return 50 items in `.items`, but the framework
  * needs to know how many total items are available.
  *
  * ## Forcing a Refresh
  *
- * When using API-based pagination, there might be instances where you want to force a reload of 
- * the current items. For example, if the user takes an action to delete an item. Normally, the 
- * items in the view are only updated when the user clicks to change the page. To force a refresh, a 
- * `refresh()` method is available on the `pagedServers`. Calling this will tell `<rx-paginate>` to 
- * refresh itself. You can also pass it a `stayOnPage = true` to tell it to make a fresh request for 
+ * When using API-based pagination, there might be instances where you want to force a reload of
+ * the current items. For example, if the user takes an action to delete an item. Normally, the
+ * items in the view are only updated when the user clicks to change the page. To force a refresh, a
+ * `refresh()` method is available on the `pagedServers`. Calling this will tell `<rx-paginate>` to
+ * refresh itself. You can also pass it a `stayOnPage = true` to tell it to make a fresh request for
  * the current page, i.e.:
  * <pre>
  * var stayOnPage = true;
  * pagedServers.refresh(stayOnPage);
  * </pre>
  *
- * Internally, calling `refresh()` equates to `<rx-paginate>` doing a new `getItems()` call, with 
- * the current filter/sort criteria. But the point is that you can't just call `getItems()` yourself 
+ * Internally, calling `refresh()` equates to `<rx-paginate>` doing a new `getItems()` call, with
+ * the current filter/sort criteria. But the point is that you can't just call `getItems()` yourself
  * to cause an update. The framework has to call that method, so it knows to wait on the returned promise.
  *
- * This is shown in the rxPaginate component {@link /#/components/rxPaginate demo} with a "Refresh" button 
+ * This is shown in the rxPaginate component {@link /encore-ui/#/components/rxPaginate demo} with a "Refresh" button 
  * above the API-paginated example.
  *
  * ## Error Handling
  *
- * 
- * `<rx-paginate>` includes a simple way to show error messages when `getItems()` rejects instead of 
- * resolves. By passing `error-message="Some error text!"` to `<rx-paginate>`, the string entered 
- * there will be shown in an rxNotification whenever `getItems()` fails. If `error-message` is 
- * not specified, then nothing will be shown on errors. In either case, on a failure, the table will 
+ *
+ * `<rx-paginate>` includes a simple way to show error messages when `getItems()` rejects instead of
+ * resolves. By passing `error-message="Some error text!"` to `<rx-paginate>`, the string entered
+ * there will be shown in an rxNotification whenever `getItems()` fails. If `error-message` is
+ * not specified, then nothing will be shown on errors. In either case, on a failure, the table will
  * stay on the page it was on before the request went out.
  *
- * If you wish to show more complicated error messages (and it is highly recommended that you do!), 
- * then you'll have to do that yourself. Either put error handling code directly into your `getItems()`, 
+ * If you wish to show more complicated error messages (and it is highly recommended that you do!),
+ * then you'll have to do that yourself. Either put error handling code directly into your `getItems()`,
  * or have something else wait on the `getItems()` promise whenever it's called, and perform the handling there.
  *
  * One way to do this is as so:
@@ -9311,27 +9311,27 @@ angular.module('encore.ui.rxPageTitle', [])
  *
  *         getItems: function (pageNumber, itemsPerPage, opts) {
  *             var promise = this.getItemsFromAPI(pageNumber, itemsPerPage, opts);
- * 
+ *
  *             rxPromiseNotifications.add(promise, {
  *                 error: 'Error loading page ' + pageNumber
  *             }
  *
  *             return promise;
  *         }
- *     }; 
+ *     };
  * </pre>
  *
  * Thus we've moved the API logic into `getItemsFromAPI`, and handled the UI logic separately.
  *
  * ## Extra Filtering Parameters
  *
- * By default, `<rx-paginate>` can automatically work with a search text field (using `search-text=`). 
- * If you need to filter by additional criteria (maybe some dropdowns/radiobox, extra filter boxes, etc), 
+ * By default, `<rx-paginate>` can automatically work with a search text field (using `search-text=`).
+ * If you need to filter by additional criteria (maybe some dropdowns/radiobox, extra filter boxes, etc),
  * you'll need to do a bit more work on your own.
  *
- * To filter by some element X, set a `$watch` on X's model. Whenever it changes, call 
- * `pagedServers.refresh()` to force `<rx-paginate>` to do a new `getItems()` call. Then, in your 
- * `getItems()`, grab the current value of X and send it out along with the normal criteria that are passed 
+ * To filter by some element X, set a `$watch` on X's model. Whenever it changes, call
+ * `pagedServers.refresh()` to force `<rx-paginate>` to do a new `getItems()` call. Then, in your
+ * `getItems()`, grab the current value of X and send it out along with the normal criteria that are passed
  * into `getItems()`. Something like:
  *
  * <pre>
@@ -9343,37 +9343,37 @@ angular.module('encore.ui.rxPageTitle', [])
  *             return callServerApi(pageNumber, itemsPerPage, opts, extraSearch);
  *         }
  *     };
- * 
+ *
  *    ...
  *
  * <rx-paginate server-interface="serverInterface" ... ></rx-paginate>
  * </pre>
  *
- * Remember that calling `refresh()` without arguments will tell `rx-paginate` to make a fresh request for 
- * page 0. If you call it with `true` as the first argument, the request will be made with whatever the current 
- * page is, i.e. `getItems(currentPage, ...)`. If you have your own search criteria, and they've changed since the 
- * last time this was called, note that the page number might now be different. i.e. If the user was on page 10, 
- * they entered some new filter text, and you call `refresh(true)`, there might not even be 10 pages of results 
+ * Remember that calling `refresh()` without arguments will tell `rx-paginate` to make a fresh request for
+ * page 0. If you call it with `true` as the first argument, the request will be made with whatever the current
+ * page is, i.e. `getItems(currentPage, ...)`. If you have your own search criteria, and they've changed since the
+ * last time this was called, note that the page number might now be different. i.e. If the user was on page 10,
+ * they entered some new filter text, and you call `refresh(true)`, there might not even be 10 pages of results
  * with that filter applied.
  *
- * In general, if you call `refresh(true)`, you should check if _any_ of the filter criteria have changed since 
- * the last call. If they have, you should ask for page 0 from the server, not the page number passed in to 
- * `getItems()`. If you call `refresh()` without arguments, then you don't have to worry about comparing to the 
+ * In general, if you call `refresh(true)`, you should check if _any_ of the filter criteria have changed since
+ * the last call. If they have, you should ask for page 0 from the server, not the page number passed in to
+ * `getItems()`. If you call `refresh()` without arguments, then you don't have to worry about comparing to the
  * last-used filter criteria.
  *
  * ## Local Caching
  *
- * **If you are ok with a call to your API every time the user goes to a new page in the table, then you can ignore 
+ * **If you are ok with a call to your API every time the user goes to a new page in the table, then you can ignore
  * this section. If you want to reduce the total number of calls to your API, please read on.**
  *
- * When a `getItems()` request is made, the framework passes in the user's `itemsPerPage` value. If it is 50, and 
- * there are 50 results available for the requested page, then you should return _at least_ 50 results. However, you 
- * may also return _more_ than 50 items. 
+ * When a `getItems()` request is made, the framework passes in the user's `itemsPerPage` value. If it is 50, and
+ * there are 50 results available for the requested page, then you should return _at least_ 50 results. However, you
+ * may also return _more_ than 50 items.
  *
- * Initially, `<rx-paginate>` will call `getItems()`, wait for a response, and then update items in the table.  If 
- * your `getItems()` returned exactly `itemsPerPage` results in its `items` array, and the user navigates to a 
- * different page of data, `getItems()` will be called again to fetch new information from the API.  The user will 
- * then need to wait before they see new data in the table. This remains true for every interaction with page data 
+ * Initially, `<rx-paginate>` will call `getItems()`, wait for a response, and then update items in the table.  If
+ * your `getItems()` returned exactly `itemsPerPage` results in its `items` array, and the user navigates to a
+ * different page of data, `getItems()` will be called again to fetch new information from the API.  The user will
+ * then need to wait before they see new data in the table. This remains true for every interaction with page data
  * navigation.
  *
  * For example, say the following request is made when the page first loads:
@@ -9381,56 +9381,56 @@ angular.module('encore.ui.rxPageTitle', [])
  * <pre>
  * var pageNumber = 0;
  * var itemsPerPage = 50;
- * 
+ *
  * getItems(pageNumber, itemsPerPage);
  * </pre>
  *
- * Because no data is available yet, `<rx-paginate>` will call `getItems()`, wait for the response, and then draw 
- * the items in the table. If you returned exactly 50 items, and the user then clicks "Next" or 2 (to go to the 
- * second page), then `getItems()` will have to be called again (`getItems(1, 50)`), and the user will have to wait 
+ * Because no data is available yet, `<rx-paginate>` will call `getItems()`, wait for the response, and then draw
+ * the items in the table. If you returned exactly 50 items, and the user then clicks "Next" or 2 (to go to the
+ * second page), then `getItems()` will have to be called again (`getItems(1, 50)`), and the user will have to wait
  * for the results to come in.
  *
- * However, if your `getItems()` were to pull more than `itemsPerPage` of data from the API, `<rx-paginate>` is 
- * smart enough to navigate through the saved data without needing to make an API request every time the page is 
+ * However, if your `getItems()` were to pull more than `itemsPerPage` of data from the API, `<rx-paginate>` is
+ * smart enough to navigate through the saved data without needing to make an API request every time the page is
  * changed.
  *
  * There are some caveats, though.
  *
- * 1. Your returned `items.length` must be a multiple of `itemsPerPage` (if `itemsPerPage = 50`, `items.length` 
+ * 1. Your returned `items.length` must be a multiple of `itemsPerPage` (if `itemsPerPage = 50`, `items.length`
  * must be 50, 100, 150, etc.)
  * 2. You will need to calculate the page number sent to the API based on requested values in the UI.
- * 3. If the user enters any search text, and you've passed the search field to `<rx-paginate>` via `search-text`, 
+ * 3. If the user enters any search text, and you've passed the search field to `<rx-paginate>` via `search-text`,
  * then the cache will be immediately flushed and a new request made.
- * 4. If you've turned on column-sorting, and passed `sort-column` to `<rx-paginate>`, then the cache will be 
+ * 4. If you've turned on column-sorting, and passed `sort-column` to `<rx-paginate>`, then the cache will be
  * flushed whenever the user changes the sort, and a new request will be made to `getItems()`
- * 5. If you've passed `sort-direction` to `<rx-paginate>, and the user changes the sort 
+ * 5. If you've passed `sort-direction` to `<rx-paginate>, and the user changes the sort
  * direction, then the cache will be flushed and a new request will be made to `getItems()`
  *
  * Details on this are below.
  *
  * ### Local Caching Formula
  *
- * You have to be careful with grabbing more items than `itemsPerPage`, as you'll need to modify the values 
- * you send to your server. If you want to be careful, then **don't ever request more than `itemsPerPage` 
+ * You have to be careful with grabbing more items than `itemsPerPage`, as you'll need to modify the values
+ * you send to your server. If you want to be careful, then **don't ever request more than `itemsPerPage`
  * from your API.**
  *
- * Let's say that `itemsPerPage` is 50, but you want to grab 200 items at a time from the server, to reduce 
- * the round-trips to your API. We'll call this 200 the `serverItemsPerPage`. First, ensure that your 
+ * Let's say that `itemsPerPage` is 50, but you want to grab 200 items at a time from the server, to reduce
+ * the round-trips to your API. We'll call this 200 the `serverItemsPerPage`. First, ensure that your
  * `serverItemsPerPage` meets this requirement:
  *
  * <pre>
  * (serverItemsPerPage >= itemsPerPage) && (serverItemsPerPage % itemsPerPage === 0)
  * </pre>
  *
- * If you're asking for 200 items at a time, the page number on the server won't match the page number 
- * requested by the user. Before, a user call for `pageNumber = 4` and `itemsPerPage = 50` means 
- * "Give me items 200-249". But if you're telling your API that each page is 200 items long, then 
- * `pageNumber = 4` is not what you want to ask your API for (it would return items 800-999!). You'll need to 
- * send a custom page number to the server. In this case, you'd need `serverPageNumber` to be `1`, i.e. 
+ * If you're asking for 200 items at a time, the page number on the server won't match the page number
+ * requested by the user. Before, a user call for `pageNumber = 4` and `itemsPerPage = 50` means
+ * "Give me items 200-249". But if you're telling your API that each page is 200 items long, then
+ * `pageNumber = 4` is not what you want to ask your API for (it would return items 800-999!). You'll need to
+ * send a custom page number to the server. In this case, you'd need `serverPageNumber` to be `1`, i.e.
  * the second page of results from the server.
  *
- * We have written a utility function do these calculations for you, `rxPaginateUtils.calculateApiVals`. It 
- * returns an object with `serverPageNumber` and `offset` properties. To use it, your `getItems()` might 
+ * We have written a utility function do these calculations for you, `rxPaginateUtils.calculateApiVals`. It
+ * returns an object with `serverPageNumber` and `offset` properties. To use it, your `getItems()` might
  * look something like this.
  *
  * <pre>
@@ -9438,7 +9438,7 @@ angular.module('encore.ui.rxPageTitle', [])
  *         var deferred = $q.defer();
  *         var serverItemsPerPage = 200;
  *         var vals = rxPaginateUtils.calculateApiVals(pageNumber, itemsPerPage, serverItemsPerPage);
- *   
+ *
  *         yourRequestToAPI(vals.serverPageNumber, serverItemsPerPage)
  *         .then(function (items) {
  *             deferred.resolve({
@@ -9453,7 +9453,7 @@ angular.module('encore.ui.rxPageTitle', [])
  *     };
  * </pre>
  *
- * The following tables should help illustrate what we mean with these conversions. In all three cases, 
+ * The following tables should help illustrate what we mean with these conversions. In all three cases,
  * there are a total of 120 items available from the API.
  *
  *
@@ -9464,13 +9464,13 @@ angular.module('encore.ui.rxPageTitle', [])
  * | 2          | 50           | 101-120 | getItems() | 2                | 50                 | 101-120|
  *
  *
- * This first table is where you don't want to do any local caching. You send the `pageNumber` and 
- * `itemsPerPage` to your API, unchanged from what the user requested. Every time the user clicks to go to 
+ * This first table is where you don't want to do any local caching. You send the `pageNumber` and
+ * `itemsPerPage` to your API, unchanged from what the user requested. Every time the user clicks to go to
  * a new page, an API request will take place.
  *
  * ***
  *
- * 
+ *
  * |pageNumber   | itemsPerPage | Items   | Action     | serverPageNumber | serverItemsPerPage | Items |
  * |-------------|--------------|---------|------------|------------------|--------------------|-------|
  * | 0           | 50           | 1-50    | getItems() | 0                | 100                | 1-100 |
@@ -9478,33 +9478,33 @@ angular.module('encore.ui.rxPageTitle', [])
  * | 2           | 50           | 101-120 | getItems() | 1                | 100                |101-120|
  *
  *
- * This second example shows the case where the user is still looking at 50 `itemsPerPage`, but you want to 
+ * This second example shows the case where the user is still looking at 50 `itemsPerPage`, but you want to
  * grab 100 items at a time from your API.
  *
- * When the table loads (i.e. the user wants to look at the first page of results), an "Action" of 
- * `getItems(0, 50)` will take place. Using `calculateApiVals`, the `serverPageNumber` will be 0 when you 
+ * When the table loads (i.e. the user wants to look at the first page of results), an "Action" of
+ * `getItems(0, 50)` will take place. Using `calculateApiVals`, the `serverPageNumber` will be 0 when you
  * provide `serverItemsPerPage=100`. When you resolve the `getItems()` promise, you'll return items 1-100.
  *
- * When the user clicks on the second page (page 1), `getItems()` will not be called, `<rx-paginate>` will 
- * instead use the values it has cached. 
+ * When the user clicks on the second page (page 1), `getItems()` will not be called, `<rx-paginate>` will
+ * instead use the values it has cached.
  *
- * When the user clicks on the third page (page 2), `getItems(2, 50)` will be called. You'll use 
- * `rxPaginateutils.calculateApiVals` to calculate that `serverPageNumber` now needs to be `1`. Because 
- * only 120 items in total are available, you'll eventually resolve the promise with `items` containing 
+ * When the user clicks on the third page (page 2), `getItems(2, 50)` will be called. You'll use
+ * `rxPaginateutils.calculateApiVals` to calculate that `serverPageNumber` now needs to be `1`. Because
+ * only 120 items in total are available, you'll eventually resolve the promise with `items` containing
  * items 101-120.
  *
  * ***
- * 
+ *
  * | pageNumber | itemsPerPage | Items   | Action     | serverPageNumber | serverItemsPerPage | Items |
  * |------------|--------------|---------|------------|------------------|--------------------|-------|
  * | 0          | 50           | 1-50    | getItems() | 0                | 200                | 1-120 |
  * | 1          | 50           | 51-100  | use cached |                  |                    |  &nbsp;     |
  * | 2          | 50           | 101-120 | use cached |                  |                    |  &nbsp;     |
  *
- * In this final example, there are still only 120 items available, but you're asking your API for 200 items 
- * at a time. This will cause an API request on the first page, but the next two pages will be cached, and 
+ * In this final example, there are still only 120 items available, but you're asking your API for 200 items
+ * at a time. This will cause an API request on the first page, but the next two pages will be cached, and
  * `<rx-paginate>` will use the cached values.
- * 
+ *
  * ## Directives
  * * {@link rxPaginate.directive:rxLoadingOverlay rxLoadingOverlay}
  * * {@link rxPaginate.directive:rxPaginate rxPaginate}
@@ -10235,12 +10235,12 @@ angular.module('encore.ui.rxSearchBox', [])
  *
  * Though it is described as a search box, you can also use it for filtering
  * capabilities (as seen by the placeholder text in the "Customized"
- * {@link /#/components/rxSearchBox demo}).
+ * {@link /encore-ui/#/components/rxSearchBox demo}).
  *
  * # Styling
  * You can style the `<rx-search-box>` element via custom CSS classes the same
  * way you would any HTML element. See the customized search box in the
- * {@link /#/components/rxSearchBox demo} for an example.
+ * {@link /encore-ui/#/components/rxSearchBox demo} for an example.
  *
  * <pre>
  * <rx-search-box
@@ -10903,7 +10903,7 @@ angular.module('encore.ui.rxStatusColumn', [])
  * internally you will be receiving a number of different statuses from your
  * APIs, and will need to map them to these six statuses.
  *
- * The example in the {@link /#/components/rxStatusColumn demo} shows a typical
+ * The example in the {@link /encore-ui/#/components/rxStatusColumn demo} shows a typical
  * use of this directive, such as:
  *
  * <pre>
@@ -11006,11 +11006,11 @@ angular.module('encore.ui.rxStatusColumn', [])
  * <th rx-status-header></th>
  * </pre>
  * Note that status columns are sortable with
- * {@link /#/components/rxSortableColumn rxSortableColumn}, just like any
+ * {@link /encore-ui/#/components/rxSortableColumn rxSortableColumn}, just like any
  * other column. The demo below shows an example of this.
  *
  * One few things to note about the
- * {@link /#/components/rxStatusColumn demo}: The `<th>` is defined as:
+ * {@link /encore-ui/#/components/rxStatusColumn demo}: The `<th>` is defined as:
  *
  * <pre>
  * <th rx-status-header>
@@ -11466,7 +11466,7 @@ angular.module('encore.ui.rxToggleSwitch', [])
  * time the switch is toggled (after the model property is written on the
  * scope).  It takes one argument, `value`, which is the new value of the model.
  * This can be used instead of a `$scope.$watch` on the `ng-model` property.
- * As shown in the {@link /#/components/rxToggleSwitch demo}, the `disabled`
+ * As shown in the {@link /encore-ui/#/components/rxToggleSwitch demo}, the `disabled`
  * attribute can be used to prevent further toggles if the `post-hook` performs
  * an asynchronous operation.
  *
@@ -11675,28 +11675,28 @@ angular.module('encore.ui.tabs', []);
  * @description
  * # tooltips Component
  *
- * The tooltip component provides styles to raw HTML 
+ * The tooltip component provides styles to raw HTML
  * elements and custom directive templates.
  *
  * ## Usage
- * 
+ *
  * Usage is the exact same as shown in the
  * [Angular-UI Bootstrap Documentation](https://angular-ui.github.io/bootstrap/#/tooltip).
  * See for further guidance on usage and configuration of this component.
- * 
- * **NOTE:**  The `tooltip` directive and its optional attributes can **_only_** be 
+ *
+ * **NOTE:**  The `tooltip` directive and its optional attributes can **_only_** be
  * applied to raw HTML elements. They can't be applied to directives like this:
  * <pre>
- * // DOES NOT WORK 
- * 
+ * // DOES NOT WORK
+ *
  * <rx-button tooltip="...">
  * </pre>
- * 
+ *
  * If you're creating your own custom directive, it's fine to use the `tooltip` 
- * directive inside of your directive's template.  See the tooltips component 
- * {@link /#/components/tooltips demo} for example usage.
- * 
- * The [Angular-UI Bootstrap Tooltip](https://github.com/angular-ui/bootstrap/tree/master/src/tooltip) 
+ * directive inside of your directive's template.  See the tooltips component
+ * {@link /encore-ui/#/components/tooltips demo} for example usage.
+ *
+ * The [Angular-UI Bootstrap Tooltip](https://github.com/angular-ui/bootstrap/tree/master/src/tooltip)
  * plugin is included as a dependency for EncoreUI.
  */
 angular.module('encore.ui.tooltips', []);
@@ -11721,7 +11721,7 @@ angular.module('encore.ui.tooltips', []);
  * receives focus.  This list is still filtered according to the input's value,
  * except when the input is empty.  In that case, all the options are shown.
  * To use this feature, add the `allowEmpty` parameter to the `filter` filter
- * in the `typeahead` attribute.  See the {@link /#/components/typeahead demo}
+ * in the `typeahead` attribute.  See the {@link /encore-ui/#/components/typeahead demo}
  * for an example.
  *
  */

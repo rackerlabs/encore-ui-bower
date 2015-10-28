@@ -275,6 +275,9 @@ https://github.com/yui/pure/blob/master/LICENSE.md
  * progressbar
  */
 /*
+ * rxBreadcrumbs
+ */
+/*
  * Layout
  */
 [layout] {
@@ -777,7 +780,7 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   margin: 0;
   display: list-item;
   list-style-type: none;
-  list-style-image: url('');
+  list-style-image: url("");
 }
 @-webkit-keyframes progress-bar-stripes {
   from {
@@ -859,10 +862,10 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   margin-right: 5em;
 }
 .rx-account-info .account-info-label {
-  color: #777;
+  color: #777777;
 }
 .rx-account-info .account-info-data {
-  color: #777;
+  color: #777777;
   font-size: 26px;
 }
 .rx-account-info .account-info-data img {
@@ -912,7 +915,7 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   font-size: 12px;
   background: #959595;
   border: 1px solid #6c6c6c;
-  color: #fff;
+  color: #ffffff;
 }
 .rx-page ul.account-info-text li .msg-warn {
   color: #cb2124;
@@ -957,7 +960,7 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   top: -10px;
   right: 15px;
   min-width: 20em;
-  font-size: .9em;
+  font-size: 0.9em;
   border: 4px solid #ffffff;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -1504,7 +1507,7 @@ table.table-striped tbody:nth-child(odd) > tr {
 }
 table td.double-chevron-cell {
   width: 10px;
-  padding: 0px 10px;
+  padding: 0 10px;
 }
 table td.double-chevron-cell .double-chevron {
   cursor: pointer;
@@ -1516,8 +1519,8 @@ table td.double-chevron-cell .double-chevron::after {
   content: "\00bb";
   -webkit-transform: rotate(90deg) scaleX(1);
   transform: rotate(90deg) scaleX(1);
-  -webkit-transition: all .2s;
-  transition: all .2s;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
 }
 table td.expanded {
   background-color: #adadad;
@@ -1528,8 +1531,8 @@ table td.expanded .double-chevron::after {
   content: "\00bb";
   -webkit-transform: rotate(90deg) scaleX(-1);
   transform: rotate(90deg) scaleX(-1);
-  -webkit-transition: all .2s;
-  transition: all .2s;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
 }
 table .fa-times.delete-x:hover {
   color: #fd0f12;
@@ -1628,11 +1631,11 @@ h6 {
 }
 .link-action:before,
 .link-action a:before {
-  content: '+ ';
+  content: "+ ";
 }
 .link-warn:before,
 .link-warn a:before {
-  content: '- ';
+  content: "- ";
 }
 .action-separator {
   font-size: 1.1em;
@@ -1696,7 +1699,7 @@ ol.list .item,
   list-style: decimal;
 }
 .well {
-  background: #eee;
+  background: #eeeeee;
   padding: 40px 50px;
   box-shadow: 0 0 0 10px white inset;
 }
@@ -1709,7 +1712,7 @@ ol.list .item,
   text-align: left;
 }
 .modal-well {
-  background-color: #eee;
+  background-color: #eeeeee;
   padding: 20px 30px;
 }
 .modal-well h2 {
@@ -2232,38 +2235,10 @@ a.disabled {
   pointer-events: none;
   text-decoration: none;
 }
-/*
-# rxBreadcrumbs
-
-They show your position within the site heirarchy.
-
-```
-<ol class="rx-breadcrumbs">
-    <li class="breadcrumb">
-        <span>
-            <a href="#" class="breadcrumb-name first">First Breadcrumb</a>
-        </span>
-    </li>
-    <li class="breadcrumb">
-        <span>
-            <a href="#" class="breadcrumb-name">Middle Breadcrumb</a>
-        </span>
-    </li>
-    <li class="breadcrumb">
-        <span>
-            <a href="#" class="breadcrumb-name :hover">Hovered Breadcrumb</a>
-        </span>
-    </li>
-    <li class="breadcrumb">
-        <span class="breadcrumb-name last">Last Breadcrumb</span>
-    </li>
-</ol>
-```
-*/
 .rx-breadcrumbs {
   overflow: hidden;
   border-style: solid;
-  border-color: #ccc;
+  border-color: #cccccc;
   float: left;
 }
 .rx-breadcrumbs .breadcrumb {
@@ -2273,11 +2248,11 @@ They show your position within the site heirarchy.
   padding: 0.6em 1em 0.6em 2em;
   font-size: 0.9em;
   display: block;
-  color: #555;
+  color: #555555;
   position: relative;
   text-decoration: none;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-  background: #ddd;
+  background: #dddddd;
 }
 .rx-breadcrumbs .breadcrumb .breadcrumb-name.last {
   background: transparent;
@@ -2294,11 +2269,11 @@ They show your position within the site heirarchy.
 }
 .rx-breadcrumbs .breadcrumb a::after {
   /* TODO add in border gradient to match nav background */
-  border-left-color: #ddd;
+  border-left-color: #dddddd;
   z-index: 2;
 }
 .rx-breadcrumbs .breadcrumb a::before {
-  border-left-color: #ccc;
+  border-left-color: #cccccc;
   right: -10px;
   z-index: 1;
 }
@@ -2310,10 +2285,10 @@ They show your position within the site heirarchy.
   border-left-color: #c8c8c8;
 }
 .rx-breadcrumbs .breadcrumb a:hover {
-  background: #fff;
+  background: #ffffff;
 }
 .rx-breadcrumbs .breadcrumb a:hover::after {
-  border-left-color: #fff;
+  border-left-color: #ffffff;
 }
 .rx-breadcrumbs .status-tag.alpha-status,
 .rx-breadcrumbs .status-tag.beta-status {
@@ -2375,7 +2350,7 @@ thead th[rx-bulk-select-header-check] {
 }
 .batch-action-list-hideable:before {
   content: "\f0d8";
-  text-shadow: rgba(0, 0, 0, 0.35) 0px -1px 1px;
+  text-shadow: rgba(0, 0, 0, 0.35) 0 -1px 1px;
   font-family: FontAwesome;
   text-decoration: inherit;
   color: #ffffff;
@@ -2549,7 +2524,7 @@ thead th[rx-bulk-select-header-check] {
 .btn-link {
   color: #4682c2;
   background: none;
-  border: none;
+  border: 0;
   padding: 0;
   cursor: pointer;
   font-size: inherit;
@@ -2665,10 +2640,10 @@ thead th .btn-link:focus {
   top: 0;
   left: 0;
   display: block;
-  margin: 0px;
-  padding: 0px;
-  border: 0px;
-  outline: 0px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
 }
 .rxCheckbox .fake-checkbox {
   box-sizing: border-box;
@@ -2700,7 +2675,7 @@ thead th .btn-link:focus {
 .rxCheckbox input[type="checkbox"]:checked + .fake-checkbox {
   background-color: #4881c0;
   color: #ffffff;
-  border: none;
+  border: 0;
 }
 .rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty + .fake-checkbox {
   background-color: #ffffff;
@@ -2718,7 +2693,7 @@ thead th .btn-link:focus {
 }
 .rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty[disabled]:checked ~ .fake-checkbox {
   background-color: #dededd;
-  border: none;
+  border: 0;
 }
 .rxCheckbox input[type="checkbox"][disabled] {
   cursor: not-allowed;
@@ -2729,7 +2704,7 @@ thead th .btn-link:focus {
 }
 .rxCheckbox input[type="checkbox"][disabled]:checked ~ .fake-checkbox {
   background-color: #dededd;
-  border: none;
+  border: 0;
 }
 /*
  * rxCollapse
@@ -2763,15 +2738,15 @@ rx-collapse .collapse-container .double-chevron-cell .double-chevron:after {
   content: "\00bb";
   -webkit-transform: rotate(90deg) scaleX(1);
   transform: rotate(90deg) scaleX(1);
-  -webkit-transition: all .2s;
-  transition: all .2s;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
 }
 rx-collapse .collapse-container .double-chevron-cell.expanded .double-chevron:after {
   content: "\00bb";
   -webkit-transform: rotate(90deg) scaleX(-1);
   transform: rotate(90deg) scaleX(-1);
-  -webkit-transition: all .2s;
-  transition: all .2s;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
 }
 rx-collapse .collapse-container .rx-collapse-title {
   display: inline-block;
@@ -2788,7 +2763,7 @@ rx-collapse .sml-title {
   font-size: 10pt;
 }
 rx-collapse .hide-border {
-  border: none;
+  border: 0;
 }
 /*
  * rxFeedback
@@ -2916,7 +2891,7 @@ thead .rx-floating-header:first-child {
 .field-input textarea {
   border: 1px solid #cccccc;
   padding: 3px 5px;
-  background-color: #fff;
+  background-color: #ffffff;
   width: 100%;
   position: relative;
   z-index: 2;
@@ -3316,7 +3291,7 @@ rx-field-name .wrapper .required-symbol {
  */
 .info-panel {
   clear: both;
-  background: #fff;
+  background: #ffffff;
   border-color: #4480c1;
   border-width: 0 5px 5px 5px;
   border-style: solid;
@@ -3325,7 +3300,7 @@ rx-field-name .wrapper .required-symbol {
 }
 .info-panel .info-title {
   background: #4480c1;
-  color: #fff;
+  color: #ffffff;
   width: 100%;
   padding: 8px 10px;
   margin: 0 0 10px -10px;
@@ -3335,7 +3310,7 @@ rx-field-name .wrapper .required-symbol {
  */
 rx-metadata {
   box-sizing: border-box;
-  padding: 0px;
+  padding: 0;
   margin: 18px 0;
   display: flex;
   flex-flow: row wrap;
@@ -3406,7 +3381,7 @@ rx-metadata section:last-child {
   bottom: 0;
   left: 0;
   z-index: 1040;
-  background: #000;
+  background: #000000;
 }
 .modal-backdrop.fade.in {
   -webkit-opacity: 0.4;
@@ -3468,7 +3443,7 @@ rx-metadata section:last-child {
   color: #cccccc;
 }
 .modal-header .modal-close:before {
-  content: '\00D7';
+  content: "\00D7";
   position: absolute;
   line-height: 0;
   right: 0;
@@ -3507,7 +3482,7 @@ rx-metadata section:last-child {
   }
 }
 /*
- * rxMultiSelect 
+ * rxMultiSelect
  */
 rx-multi-select {
   z-index: auto !important;
@@ -3528,7 +3503,7 @@ rx-multi-select ul {
   width: 100%;
   border: 1px solid #cccccc;
   background: #ffffff;
-  box-shadow: 0px 3px 15px 0px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.35);
 }
 rx-multi-select rx-select-option[value="all"] label {
   border-bottom: 1px solid #cccccc;
@@ -3561,11 +3536,11 @@ rx-multi-select rx-select-option[value="all"] label {
 }
 .rx-notifications .rx-notification .button {
   font-weight: normal;
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 .rx-notifications .rx-notification.notification-success {
   background-color: #ddffd3;
-  background-image: url('images/green-checkmark-circled.png');
+  background-image: url("images/green-checkmark-circled.png");
   color: #45ad26;
 }
 .rx-notifications .rx-notification.notification-success a {
@@ -3573,7 +3548,7 @@ rx-multi-select rx-select-option[value="all"] label {
 }
 .rx-notifications .rx-notification.notification-info {
   background-color: #83c9fe;
-  background-image: url('images/info-circled.png');
+  background-image: url("images/info-circled.png");
   color: #1672b9;
 }
 .rx-notifications .rx-notification.notification-info a {
@@ -3581,16 +3556,16 @@ rx-multi-select rx-select-option[value="all"] label {
 }
 .rx-notifications .rx-notification.notification-warning {
   background-color: #ffa61b;
-  background-image: url('images/warning-triangle.png');
-  color: #fff;
+  background-image: url("images/warning-triangle.png");
+  color: #ffffff;
 }
 .rx-notifications .rx-notification.notification-warning a {
   color: #f1d6af;
 }
 .rx-notifications .rx-notification.notification-error {
   background-color: #f21a1a;
-  background-image: url('images/error-stop.png');
-  color: #fff;
+  background-image: url("images/error-stop.png");
+  color: #ffffff;
 }
 .rx-notifications .rx-notification.notification-error a {
   color: #fdaaab;
@@ -3610,14 +3585,14 @@ rx-multi-select rx-select-option[value="all"] label {
   top: 0;
   height: 100%;
   padding: 0 15px;
-  content: '\00D7';
+  content: "\00D7";
   -webkit-opacity: 0.5;
   -khtml-opacity: 0.5;
   -moz-opacity: 0.5;
   opacity: 0.5;
   -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=50);
   filter: alpha(opacity=50);
-  color: #000;
+  color: #000000;
 }
 .rx-notifications .notification-dismiss:hover,
 .rx-notifications .notification-dismiss:focus {
@@ -3691,7 +3666,7 @@ rx-multi-select rx-select-option[value="all"] label {
   line-height: 0;
 }
 .rx-option-table .current td {
-  color: #3AB661;
+  color: #3ab661;
 }
 .rx-option-table .selected td {
   background: #c6e4c8;
@@ -3709,7 +3684,7 @@ rx-multi-select rx-select-option[value="all"] label {
 }
 .paginate-area td {
   padding: 0;
-  background: #fff;
+  background: #ffffff;
 }
 .rx-paginate .pagination {
   display: flex;
@@ -3730,7 +3705,7 @@ rx-multi-select rx-select-option[value="all"] label {
   padding: 6px 12px;
   margin-left: -1px;
   text-decoration: none;
-  background: #fff;
+  background: #ffffff;
   border-top: 2px solid transparent;
   color: #ababab;
 }
@@ -3753,7 +3728,7 @@ rx-multi-select rx-select-option[value="all"] label {
   position: absolute;
   border: 6px solid transparent;
   border-bottom-color: #4580c2;
-  border-top: none;
+  border-top: 0;
   left: 10px;
   top: 55%;
   margin-top: -4px;
@@ -3800,7 +3775,7 @@ rx-multi-select rx-select-option[value="all"] label {
 .rx-paginate .pagination > .page-links > li > span:hover,
 .rx-paginate .pagination > .page-links > li > a:focus,
 .rx-paginate .pagination > .page-links > li > span:focus {
-  background: #eee;
+  background: #eeeeee;
 }
 .rx-paginate .pagination > .page-links > .active > a,
 .rx-paginate .pagination > .page-links > .active > span,
@@ -3809,9 +3784,9 @@ rx-multi-select rx-select-option[value="all"] label {
 .rx-paginate .pagination > .page-links > .active > a:focus,
 .rx-paginate .pagination > .page-links > .active > span:focus {
   cursor: default;
-  border-top-color: #000;
-  color: #000;
-  background: #fff;
+  border-top-color: #000000;
+  color: #000000;
+  background: #ffffff;
 }
 .rx-paginate .pagination .disabled > span,
 .rx-paginate .pagination .disabled > span:hover,
@@ -3848,12 +3823,12 @@ rx-multi-select rx-select-option[value="all"] label {
   font-size: 18px;
   margin-top: 15%;
   text-align: center;
-  color: #777;
+  color: #777777;
 }
 .loading-overlay i {
   font-size: 30px;
   margin-left: 25px;
-  color: #777;
+  color: #777777;
 }
 /*
  * rxRadio
@@ -3994,7 +3969,7 @@ rx-search-box .rxSearchBox-wrapper {
   border: 1px solid #cccccc;
   min-height: 26px;
   min-width: 120px;
-  padding: 0px;
+  padding: 0;
   background: #ffffff;
   color: #404040;
   display: flex;
@@ -4008,19 +3983,19 @@ rx-search-box .rxSearchBox-wrapper .rxSearchBox-input {
   -webkit-background-clip: padding;
   -moz-background-clip: padding;
   background-clip: padding;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  border-radius: 0px;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
   background-clip: padding-box;
   -webkit-appearance: none;
-  background-color: #fff;
-  color: #000;
+  background-color: #ffffff;
+  color: #000000;
   outline: none;
-  border: none;
-  margin: 0px;
-  padding: 0px;
+  border: 0;
+  margin: 0;
+  padding: 0;
   text-align: left;
   flex: 1 1;
   -webkit-box-sizing: border-box;
@@ -4256,11 +4231,11 @@ rx-select-filter {
   height: 12px;
   margin-bottom: 3px;
   vertical-align: middle;
-  -webkit-animation: spin .8s infinite linear;
-  -moz-animation: spin .8s infinite linear;
-  -ms-animation: spin .8s infinite linear;
-  -o-animation: spin .8s infinite linear;
-  animation: spin .8s infinite linear;
+  -webkit-animation: spin 0.8s infinite linear;
+  -moz-animation: spin 0.8s infinite linear;
+  -ms-animation: spin 0.8s infinite linear;
+  -o-animation: spin 0.8s infinite linear;
+  animation: spin 0.8s infinite linear;
 }
 .rx-spinner.dark {
   border-bottom-color: #404040;
@@ -4288,45 +4263,45 @@ rx-select-filter {
 }
 @-webkit-keyframes spin {
   /* Safari and Chrome */
-  0% {
+  from {
     -webkit-transform: rotate(0deg);
   }
-  100% {
+  to {
     -webkit-transform: rotate(360deg);
   }
 }
 @-moz-keyframes spin {
   /* Firefox */
-  0% {
+  from {
     -moz-transform: rotate(0deg);
   }
-  100% {
+  to {
     -moz-transform: rotate(360deg);
   }
 }
 @-ms-keyframes spin {
   /* IE */
-  0% {
+  from {
     -ms-transform: rotate(0deg);
   }
-  100% {
+  to {
     -ms-transform: rotate(360deg);
   }
 }
 @-o-keyframes spin {
   /* Opera */
-  0% {
+  from {
     -o-transform: rotate(0deg);
   }
-  100% {
+  to {
     -o-transform: rotate(360deg);
   }
 }
 @keyframes spin {
-  0% {
+  from {
     transform: rotate(0deg);
   }
-  100% {
+  to {
     transform: rotate(360deg);
   }
 }
@@ -4347,7 +4322,7 @@ td.rx-status-column.status-ACTIVE {
 }
 td.rx-status-column.status-PENDING {
   background: #fdbc3c;
-  background-image: url('images/status-pending.gif');
+  background-image: url("images/status-pending.gif");
 }
 td.rx-status-column.status-WARNING {
   background: #fdbc3c;
@@ -4365,7 +4340,7 @@ td.rx-status-column.status-INFO {
   background: #86cafd;
 }
 td.rx-status-column.status-INFO i {
-  color: #287BBD;
+  color: #287bbd;
 }
 td.rx-status-column.status-DISABLED {
   background: #dededd;
@@ -4380,7 +4355,7 @@ rx-tags {
   display: block;
 }
 rx-tags[disabled] .rx-tags {
-  border: none;
+  border: 0;
 }
 rx-tags[disabled] .rx-tags .fa-times {
   display: none;
@@ -4398,7 +4373,7 @@ rx-tags[disabled] .rx-tags:hover {
 .rx-tags input {
   width: 200px;
   padding: 3px 5px;
-  margin: 8px 0px;
+  margin: 8px 0;
 }
 .rx-tags .tag {
   display: inline-block;
@@ -4425,7 +4400,7 @@ rx-tags[disabled] .rx-tags:hover {
 }
 .rx-tags .tag .text {
   font-size: 12px;
-  margin: 0px 7px 0px 10px;
+  margin: 0 7px 0 10px;
   color: #727272;
 }
 .rx-tags .tag .category {
@@ -4520,39 +4495,6 @@ rx-tags[disabled] .rx-tags:hover {
   box-shadow: 0 0 1.08em -0.36em rgba(0, 0, 0, 0.55);
   overflow: hidden;
 }
-/*
-
-# Angular-UI Tabs
-
-Provides styling for the Angular-UI tab HTML
-
-```
-<div class="tabbable">
-    <ul class="nav nav-tabs">
-        <li class="active">
-            <a>Bacon Ipsum</a>
-        </li>
-        <li>
-            <a>Veggie Ipsum</a>
-        </li>
-        <li>
-            <a>Cat Ipsum</a>
-        </li>
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane active">
-            <p>First Tab Content. Bacon ipsum dolor sit amet salami jowl corned beef, andouille flank tongue ball tip kielbasa pastrami tri-tip meatloaf short loin beef biltong. Cow bresaola ground round strip steak fatback meatball shoulder leberkas pastrami sausage corned beef t-bone pork belly drumstick.</p>
-        </div>
-        <div class="tab-pane">
-            <p>Second tab content. Veggies sunt bona vobis, proinde vos postulo esse magis grape pea sprouts horseradish courgette maize spinach prairie turnip jícama coriander quandong gourd broccoli seakale gumbo. Parsley corn lentil zucchini radicchio maize burdock avocado sea lettuce. Garbanzo tigernut earthnut pea fennel.</p>
-        </div>
-        <div class="tab-pane">
-            <p>Cat ipsum dolor sit amet, hunt anything that moves or hopped up on goofballs hide when guests come over. Hide when guests come over intrigued by the shower, or stare at ceiling climb leg for stretch and use lap as chair. Hunt anything that moves flop over, leave dead animals as gifts for chase imaginary bugs, chase mice for stare at ceiling yet hopped up on goofballs.</p>
-        </div>
-    </div>
-</div>
-```
-*/
 .nav-tabs {
   display: flex;
   border-bottom: 9px solid #4480c1;
@@ -4566,7 +4508,7 @@ Provides styling for the Angular-UI tab HTML
 .nav-tabs a {
   display: block;
   background: #3f6085;
-  color: #ccc;
+  color: #cccccc;
   padding: 10px 20px;
 }
 .nav-tabs a .subdued {
@@ -4644,7 +4586,6 @@ Provides styling for the Angular-UI tab HTML
 }
 .tooltip-inner {
   max-width: 200px;
-  padding: 3px 8px;
   color: #f1f1f1;
   text-align: center;
   text-decoration: none;
@@ -4733,7 +4674,7 @@ Provides styling for the Angular-UI tab HTML
   display: none;
   list-style: none;
   background: #ffffff;
-  border: 1px solid #ccc;
+  border: 1px solid #cccccc;
   padding: 6px 0;
   z-index: 3;
   max-height: 300px;
