@@ -4,13 +4,13 @@
 @red-100: #ffcdd2;
 @red-500: #f44336;
 @red-700: #d32f2f;
-@red-accent: #00e676;
+@red-accent: #eb4d5c;
 
 // ## Blues
 @blue-100: #bbdefb;
 @blue-500: #3391ff;
 @blue-700: #1976d2;
-@blue-accent: #82b1ff;
+@blue-accent: #00bdff;
 
 // ## Greens
 @green-100: #c8e6c9;
@@ -18,11 +18,11 @@
 @green-700: #2e7d32;
 @green-accent: #43b947;
 
-// ## Yellows
-@yellow-100: #ffecb3;
-@yellow-500: #ffc107;
-@yellow-700: #ff8f00;
-@yellow-accent: #ffd740;
+// ## Oranges
+@orange-100: #ffecb3;
+@orange-500: #ffc107;
+@orange-700: #ff8f00;
+@orange-accent: #ffd740;
 
 // ## Purples
 @purple-100: #4a5acc;
@@ -32,6 +32,7 @@
 
 // ## Grays
 @white: #ffffff;
+@gray-0: #ffffff;
 @gray-25: #fafafa;
 @gray-50: #f5f5f5;
 @gray-100: #eeeeee;
@@ -45,6 +46,7 @@
 @gray-900: #424242;
 @gray-950: #333333;
 @gray-975: #212121;
+@gray-1000: #000000;
 @black: #000000;
 
 // # 1.0 Color Palette
@@ -65,7 +67,7 @@
 @appBg: #f5f5f5;
 @appMenuBg: #1a1a1a;
 @siteBrandingBg: #06356b;
-@appHelpBg: #333;
+@appHelpBg: @gray-950;
 
 // ## Tables
 @tableHeaderBg: #878787;
@@ -81,7 +83,7 @@
 @buttonDefaultBgHover: lighten(@buttonDefaultBg, 10%);
 @buttonPositiveBg: #16b667;
 @buttonPositiveBgHover: lighten(@buttonPositiveBg, 6%);
-@buttonNegativeBg: #c00;
+@buttonNegativeBg: #cc0000;
 @buttonNegativeBgHover: lighten(@buttonNegativeBg, 10%);
 @buttonCancelBg: @cancel-gray;
 @buttonCancelBgHover: lighten(@buttonCancelBg, 10%);
@@ -132,7 +134,7 @@
 
 @wellText: #727272;
 
-@subduedText: #bbb;
+@subduedText: #bbbbbb;
 @subduedTextHover: darken(@subduedText, 15%);
 @subduedTitle: #989998;
 @closeText: #e5e5e5;
@@ -140,7 +142,7 @@
 
 // ## Tables
 @tableHeaderText: @white;
-@tableCellText: #555;
+@tableCellText: #555555;
 
 // # Measurements
 
@@ -165,15 +167,15 @@
 @inputNumberWidth: 150px;
 @inputLabelWidth: 110px;
 @inputColor: @appTextColor;
-@inputColorDisabled: #999;
+@inputColorDisabled: #999999;
 @inputColorError: @red;
 @inputLabelColor: @subduedTitle;
 @inputPlaceholderColor: #a9a9a9;
-@inputBackground: #fff;
+@inputBackground: @white;
 @inputBackgroundDisabled: @disabled-gray;
 @inputBackgroundError: @inputColorError;
 @inputBorderRadius: 0px;
-@inputBorderColor: #ccc;
+@inputBorderColor: #cccccc;
 @inputBorderColorInvalid: #ff2400;
 
 /*
@@ -184,7 +186,7 @@
 @rxForm-field-min-width: 250px;
 @rxForm-field-max-width: 400px;
 @rxForm-input-min-height: 26px;
-@rxForm-input-border-color: #ccc;
+@rxForm-input-border-color: #cccccc;
 @rxForm-gutter: 16px; // best if divisible by 4
 
 
@@ -225,10 +227,10 @@
  *  960  <= size < 1200    Tablet-Landscape
  *  1200 <= size           PC
  */
-@layout-gutter-width:      16px;
-@layout-breakpoint-sm:     600px;
-@layout-breakpoint-md:     960px;
-@layout-breakpoint-lg:     1200px;
+@layout-gutter-width: 16px;
+@layout-breakpoint-sm: 600px;
+@layout-breakpoint-md: 960px;
+@layout-breakpoint-lg: 1200px;
 
 /*
  * rxRadio
@@ -254,11 +256,11 @@
  */
 @rxCheckbox-size: 16px;
 @rxCheckbox-font-size: @rxCheckbox-size - 4px;
-@rxCheckbox-color: #fff;
+@rxCheckbox-color: @white;
 @rxCheckbox-background-color: @inputBackground;
-@rxCheckbox-color-selected: #fff;
+@rxCheckbox-color-selected: @white;
 @rxCheckbox-background-color-selected: @blue;
-@rxCheckbox-border-color: #ccc;
+@rxCheckbox-border-color: #cccccc;
 @rxCheckbox-border-color-selected: @rxCheckbox-background-color-selected;
 
 /*
@@ -267,8 +269,8 @@
 @rxSelect-min-width: 60px;
 @rxSelect-height: 26px;
 @rxSelect-color: @inputColor;
-@rxSelect-background: #fff;
-@rxSelect-trigger-background: #fff;
+@rxSelect-background: @white;
+@rxSelect-trigger-background: @white;
 @rxSelect-color-disabled: @inputColorDisabled;
 @rxSelect-background-disabled: @inputBackgroundDisabled;
 @rxSelect-border-color: @inputBorderColor;
@@ -277,7 +279,7 @@
 @rxSelect-border-radius: @inputBorderRadius;
 @rxSelect-border-width: 1px;
 @rxSelect-trigger-width: @rxSelect-height;
-@rxSelect-trigger-color: #aaa;
+@rxSelect-trigger-color: #aaaaaa;
 @rxSelect-trigger-color-invalid: @inputBorderColorInvalid;
 @rxSelect-trigger-color-disabled: @rxSelect-trigger-color;
 
@@ -303,15 +305,26 @@
 @rxTag-height: 24px;
 
 /*
- * Tooltip
+ * progressbar
  */
-@tooltip-z-index: 1070;
-@tooltip-font-size: @appFontSize;
-@tooltip-line-height: @appLineHeight;
-@tooltip-max-width: 200px;
-@tooltip-color: #f1f1f1;
-@tooltip-background-color: #878787;
-@tooltip-arrow-color: @tooltip-background-color;
-@tooltip-arrow-width: 5px;
-@tooltip-header-color: @white;
-@tooltip-opacity: 1;
+//** Background color of the whole progress component
+@progress-bg: #f5f5f5;
+//** Default progress bar color
+@progress-bar-bg: @light-blue;
+//** Secondary progress bar color
+@progress-bar-secondary-bg: @infoBlue;
+//** Tertiary progress bar color
+@progress-bar-tertiary-bg: @actionGreen;
+@font-size-base: @appFontSize;
+@font-size-large: ceil((@font-size-base * 1.25));
+@font-size-small: ceil((@font-size-base * 0.85));
+//** Unit-less `line-height` for use in components like buttons.
+@line-height-base: 1.428571429; // 20/14
+//** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
+@line-height-computed: floor((@font-size-base * @line-height-base)); // ~20px
+
+/*
+ * rxBreadcrumbs
+ */
+@breadcrumbHeight: 1.2em;
+@breadcrumbArrowWidth: 9px;

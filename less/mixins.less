@@ -1,91 +1,92 @@
 .opacity(@opacity: 0.5) {
-    -webkit-opacity: @opacity;
-     -khtml-opacity: @opacity;
-       -moz-opacity: @opacity;
-            opacity: @opacity;
-    @opperc: @opacity * 100;
-    -ms-filter: ~"progid:DXImageTransform.Microsoft.Alpha(opacity=@{opperc})";
-    filter: ~"alpha(opacity=@{opperc})";
+  -webkit-opacity: @opacity;
+  -khtml-opacity: @opacity;
+  -moz-opacity: @opacity;
+  opacity: @opacity;
+  @opperc: @opacity * 100;
+  -ms-filter: ~"progid:DXImageTransform.Microsoft.Alpha(opacity=@{opperc})";
+  filter: ~"alpha(opacity=@{opperc})";
 }
 
 .box-shadow(@arguments) {
-    -webkit-box-shadow: @arguments;
-       -moz-box-shadow: @arguments;
-        -ms-box-shadow: @arguments;
-            box-shadow: @arguments;
+  -webkit-box-shadow: @arguments;
+  -moz-box-shadow: @arguments;
+  -ms-box-shadow: @arguments;
+  box-shadow: @arguments;
 }
 
 .box-sizing(@type) {
-    -webkit-box-sizing: @type; /* Safari/Chrome, other WebKit */
-       -moz-box-sizing: @type; /* Firefox, other Gecko */
-            box-sizing: @type; /* Opera/IE 8+ */
+  -webkit-box-sizing: @type; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: @type; /* Firefox, other Gecko */
+  box-sizing: @type; /* Opera/IE 8+ */
 }
 
-.border-radius(...) {
-    -webkit-border-radius: @arguments;
-       -moz-border-radius: @arguments;
-            border-radius: @arguments;
-    .background-clip(padding-box);
+.border-radius(@arguments) {
+  -webkit-border-radius: @arguments;
+  -moz-border-radius: @arguments;
+  border-radius: @arguments;
+  .background-clip(padding-box);
 }
 
 .background-clip(@argument: padding-box) {
-    -webkit-background-clip: @argument;
-       -moz-background-clip: @argument;
-            background-clip: @argument;
+  -webkit-background-clip: @argument;
+  -moz-background-clip: @argument;
+  background-clip: @argument;
 }
 
-.transition(@duration:0.2s, @ease:ease-out) {
-    .transition-property(all, @duration, @ease);
+.transition(@duration: 0.2s; @ease: ease-out) {
+  .transition-property(all, @duration, @ease);
 }
 
-.transition-property(@property: all, @duration: 0.2s, @ease:ease-out, @delay: 0s) when (@delay > 0s) {
-    .transition-value(@property @duration @delay @ease);
+.transition-property(@property: all; @duration: 0.2s; @ease: ease-out; @delay: 0s) when (@delay > 0s) {
+  .transition-value(@property @duration @delay @ease);
 }
 
-.transition-property(@property: all, @duration: 0.2s, @ease:ease-out, @delay: 0s) when (@delay = 0s) {
-    .transition-value(@property @duration @ease);
+.transition-property(@property: all; @duration: 0.2s; @ease: ease-out; @delay: 0s) when (@delay = 0s) {
+  .transition-value(@property @duration @ease);
 }
+
 
 .transition-value(@value) {
-    -webkit-transition: @value;
-       -moz-transition: @value;
-         -o-transition: @value;
-            transition: @value;
+  -webkit-transition: @value;
+  -moz-transition: @value;
+  -o-transition: @value;
+  transition: @value;
 }
 
 .chevron-mixin(@state: 1) {
-    content: "\00bb";
-    -webkit-transform: rotate(90deg) scaleX(@state);
-            transform: rotate(90deg) scaleX(@state);
-    -webkit-transition: all .2s;
-            transition: all .2s;
+  content: "\00bb";
+  -webkit-transform: rotate(90deg) scaleX(@state);
+  transform: rotate(90deg) scaleX(@state);
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
 }
 
 .inputBorderPadding() {
-    border: 1px solid @inputBorderColor;
-    padding: 3px 5px;
+  border: 1px solid @inputBorderColor;
+  padding: 3px 5px;
 }
 
 .user-select(@select) {
-    -webkit-touch-callout: @select;
-    -webkit-user-select: @select;
-     -khtml-user-select: @select;
-       -moz-user-select: @select;
-        -ms-user-select: @select;
-            user-select: @select;
+  -webkit-touch-callout: @select;
+  -webkit-user-select: @select;
+  -khtml-user-select: @select;
+  -moz-user-select: @select;
+  -ms-user-select: @select;
+  user-select: @select;
 }
 
 // Reset native styling of form input elements
 .ResetFormInput() {
-    .box-sizing(border-box);
-    .background-clip(padding);
-    .border-radius(0px);
-    -webkit-appearance: none; // best-effort removal of native elements
-    background-color: #fff;
-    color: #000;
-    outline: none;
-    border: none;
-    margin: 0px;
-    padding: 0px;
-    text-align: left;
+  .box-sizing(border-box);
+  .background-clip(padding);
+  .border-radius(0);
+  -webkit-appearance: none; // best-effort removal of native elements
+  background-color: @white;
+  color: @black;
+  outline: none;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  text-align: left;
 }
