@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.37.0 - 2015-11-11
+ * Version: 1.37.1 - 2015-11-18
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.configs','encore.ui.grid','encore.ui.hotkeys','encore.ui.layout','encore.ui.metadata','encore.ui.progressbar','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxCheckbox','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxModalAction','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxMultiSelect','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.tabs','encore.ui.tooltips','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
@@ -209,7 +209,7 @@ angular.module('encore.ui.progressbar', []);
  * directly underneath the breadcrumbs. `rxPage` (through `rxApp`) integrates it
  * directly into its template, and you activate it by passing `account-number="..."`
  * to `<rx-page>`.
- * 
+ *
  * While you could theoretically use this component elsewhere, its design and style
  * were done with the intention of sitting underneath the breadcrumbs.
  *
@@ -226,7 +226,9 @@ angular.module('encore.ui.progressbar', []);
  * ## Directives
  * * {@link rxAccountInfo.directive:rxAccountInfo rxAccountInfo}
  */
-angular.module('encore.ui.rxAccountInfo', [])
+angular.module('encore.ui.rxAccountInfo', []);
+
+angular.module('encore.ui.rxAccountInfo')
 /**
  * @ngdoc directive
  * @name rxAccountInfo.directive:rxAccountInfo
@@ -328,7 +330,9 @@ angular.module('encore.ui.rxAccountInfo', [])
  * ## Directives
  * * {@link rxActionMenu.directive:rxActionMenu rxActionMenu}
  */
-angular.module('encore.ui.rxActionMenu', [])
+angular.module('encore.ui.rxActionMenu', []);
+
+angular.module('encore.ui.rxActionMenu')
 /**
  * @ngdoc directive
  * @name rxActionMenu.directive:rxActionMenu
@@ -1353,7 +1357,11 @@ angular.module('encore.ui.rxLocalStorage', [])
  * ## Services
  * * {@link rxSession.service:Session Session}
  */
-angular.module('encore.ui.rxSession', ['encore.ui.rxLocalStorage'])
+angular.module('encore.ui.rxSession', [
+    'encore.ui.rxLocalStorage'
+]);
+
+angular.module('encore.ui.rxSession')
 /**
  * @ngdoc service
  * @name rxSession.service:Session
@@ -3637,7 +3645,7 @@ angular.module('encore.ui.rxBulkSelect')
             };
             rxBulkSelectCtrl.registerForNumSelected(numSelectedChange);
 
-            if (!_.isUndefined(rxFloatingHeaderCtrl)) {
+            if (_.isObject(rxFloatingHeaderCtrl)) {
                 // When rxBatchActions lives inside of an rxFloatingHeader enabled table,
                 // the element will be cloned by rxFloatingHeader. The issue is that a normal
                 // .clone() does not clone Angular bindings, and thus the cloned element doesn't
@@ -10530,7 +10538,7 @@ angular.module('encore.ui.rxSearchBox', [])
         }],
         link: function (scope, element, attrs, controllers) {
             var rxFloatingHeaderCtrl = controllers[1];
-            if (!_.isUndefined(rxFloatingHeaderCtrl)) {
+            if (_.isObject(rxFloatingHeaderCtrl)) {
                 rxFloatingHeaderCtrl.update();
             }
         }
