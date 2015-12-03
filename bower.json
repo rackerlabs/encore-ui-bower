@@ -1,6 +1,6 @@
 {
   "name": "encore-ui",
-  "version": "1.37.1",
+  "version": "1.37.3",
   "main": [
     "./encore-ui-tpls.js",
     "./encore-ui.css"
@@ -23,5 +23,12 @@
     "angular-mocks": "1.2.28",
     "jquery": "2.0.3",
     "pure": "0.5.0"
+  },
+  "overrides": {
+      "font-awesome": {
+          "main": [
+              "css/font-awesome.css"
+          ]
+      }
   }
 }

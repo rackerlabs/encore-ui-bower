@@ -2,11 +2,11 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.37.1 - 2015-11-18
+ * Version: 1.37.3 - 2015-12-02
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.grid','encore.ui.hotkeys','encore.ui.layout','encore.ui.metadata','encore.ui.progressbar','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxEnvironment','encore.ui.rxAppRoutes','encore.ui.rxLocalStorage','encore.ui.rxSession','encore.ui.rxPermission','encore.ui.rxApp','encore.ui.rxAttributes','encore.ui.rxIdentity','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxCheckbox','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxSessionStorage','encore.ui.rxMisc','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxInfoPanel','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxModalAction','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxMultiSelect','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.tabs','encore.ui.tooltips','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
-angular.module('encore.ui.tpls', ['templates/rxAccountInfo.html','templates/rxAccountInfoBanner.html','templates/rxActionMenu.html','templates/rxActiveUrl.html','templates/rxPermission.html','templates/rxAccountSearch.html','templates/rxAccountUsers.html','templates/rxApp.html','templates/rxAppNav.html','templates/rxAppNavItem.html','templates/rxAppSearch.html','templates/rxBillingSearch.html','templates/rxPage.html','templates/rxBreadcrumbs.html','templates/rxBatchActions.html','templates/rxBulkSelectMessage.html','templates/rxButton.html','templates/rxCollapse.html','templates/feedbackForm.html','templates/rxFeedback.html','templates/rxFieldName.html','templates/rxFormFieldset.html','templates/rxFormItem.html','templates/rxInfoPanel.html','templates/rxMeta.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxModalFooters.html','templates/rxSelectFilter.html','templates/rxMultiSelect.html','templates/rxSelectOption.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxOptionTable.html','templates/rxPaginate.html','templates/rxSearchBox.html','templates/rxSortableColumn.html','templates/rxStatusColumn.html','templates/rxTags.html','templates/rxToggleSwitch.html']);
+angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.grid','encore.ui.hotkeys','encore.ui.layout','encore.ui.metadata','encore.ui.progressbar','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxApp','encore.ui.rxAppRoutes','encore.ui.rxAttributes','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCheckbox','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxEnvironment','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxIdentity','encore.ui.rxInfoPanel','encore.ui.rxLocalStorage','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.rxMultiSelect','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxPermission','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSession','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.tabs','encore.ui.tooltips','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui.tpls', ['templates/rxAccountInfo.html','templates/rxAccountInfoBanner.html','templates/rxActionMenu.html','templates/rxActiveUrl.html','templates/rxAccountSearch.html','templates/rxAccountUsers.html','templates/rxApp.html','templates/rxAppNav.html','templates/rxAppNavItem.html','templates/rxAppSearch.html','templates/rxBillingSearch.html','templates/rxPage.html','templates/rxBreadcrumbs.html','templates/rxBatchActions.html','templates/rxBulkSelectMessage.html','templates/rxButton.html','templates/rxCollapse.html','templates/feedbackForm.html','templates/rxFeedback.html','templates/rxFieldName.html','templates/rxFormFieldset.html','templates/rxFormItem.html','templates/rxInfoPanel.html','templates/rxMeta.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxModalFooters.html','templates/rxMultiSelect.html','templates/rxSelectOption.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxOptionTable.html','templates/rxPaginate.html','templates/rxPermission.html','templates/rxSearchBox.html','templates/rxSelectFilter.html','templates/rxSortableColumn.html','templates/rxStatusColumn.html','templates/rxTags.html','templates/rxToggleSwitch.html']);
 /**
  * @ngdoc overview
  * @name configs
@@ -413,7 +413,9 @@ angular.module('encore.ui.rxActionMenu')
  * ## Directives
  * * {@link rxActiveUrl.directive:rxActiveUrl rxActiveUrl}
  */
-angular.module('encore.ui.rxActiveUrl', [])
+angular.module('encore.ui.rxActiveUrl', []);
+
+angular.module('encore.ui.rxActiveUrl')
 /**
  * @ngdoc directive
  * @name rxActiveUrl.directive:rxActiveUrl
@@ -511,7 +513,8 @@ angular.module('encore.ui.rxActiveUrl', [])
  * display dates which is provided by Encore Framework.
  * 
  */
-angular.module('encore.ui.rxAge', [])
+angular.module('encore.ui.rxAge', []);
+angular.module('encore.ui.rxAge')
 // Another option
 // age.js -- https://github.rackspace.com/gist/roge5001/2417941
 // age.spec.js -- https://github.rackspace.com/gist/roge5001/2417940
@@ -578,1012 +581,6 @@ angular.module('encore.ui.rxAge', [])
                 return Math.floor(dateUnit.value) + dateUnit.suffix;
             }
         }).join((verbose) ? ', ' : ' ');
-    };
-});
-
-/**
- * @ngdoc overview
- * @name rxEnvironment
- * @description
- * # rxEnvironment Component
- *
- * Component built to detect and provide the current environment (e.g. dev, staging, prod)
- *
- * ## Current Environments ##
- *
- * This service defines the following Encore specific environments:
- *
- * * **local** - http://localhost:port and http://server:port
- * * **preprod** - http://preprod.encore.rackspace.com
- * * **unified-preprod** - https://*.encore.rackspace.com
- * * **unified** - All environments including https://encore.rackspace.com
- * * **unified-prod** - Only https://encore.rackspace.com
- *
- * Please note that we've made an assumption that staging/preprod/prod environments
- * will all end with `encore.rackspace.com`. Try to avoid using
- * `staging.encore.myNewProduct.rackspace.com` for new products, and instead set
- * up your system as `encore.rackspace.com/myNewProduct`.
- *
- * ## Checking Current Environment ##
- *
- * The `Environment` service contains methods for checking if we are currently in
- * one of the five listed environments, namely:
- *
- * * `Environment.isLocal()`
- * * `Environment.isPreProd()`
- * * `Environment.isUnifiedPreProd()`
- * * `Environment.isUnified()`
- * * `Environment.isUnifiedProd()`
- *
- * The normal procedure is to assume that your code is running in local or staging,
- * and take special actions if `Environment.isPreProd()` or
- * `Environment.isUnifiedProd()` are `true`.
- *
- * ## Overlapping Environments ##
- *
- * Keep in mind that the environments we define are not mutually exclusive. For
- * instance, if we're at `http://preprod.encore.rackspace.com`, then we are in
- * the `preprod` environment, the `unified-preprod` environment, and `unified-prod`.
- *
- * When you want to check if you're in one of the custom environments, you can
- * use `envCheck()`, i.e.: `Environment.envCheck('ghPages')`
- *
- * ## A Warning About rxEnvironmentUrl ##
- * `rxEnvironmentUrl` can be used for building full URLs, based on the current
- * environment. For now, you should consider it as deprecated. It has problems
- * with overlapping environments, and could potentially generate the wrong URL.
- *
- * ## A Warning About `Environment.get().name` ##
- * You might find older Encore code that uses `Environment.get().name` to get
- * the name of the current environment. This pattern should be avoided,
- * specifically because of the overlapping environment issue discussed above.
- * If you call `Environment.get().name`, it will just return the first matching
- * environment in the list of environments, even if we're overlapping and have
- * multiple environments. Instead, check explicitly with
- * `Environment.isLocal()`, `Environment.isPreProd()`, etc., or
- * use `Environment.envCheck('local')`
- *
- * ## Directives
- * * {@link rxEnvironment.directive:rxEnvironment rxEnvironment}
- *
- * ## Filters
- * * {@link rxEnvironment.filter:rxEnvironmentMatch rxEnvironmentMatch}
- * * {@link rxEnvironment.filter:rxEnvironmentUrl rxEnvironmentUrl}
- *
- * ## Services
- * * {@link rxEnvironment.service:Environment Environment}
- */
-angular.module('encore.ui.rxEnvironment', [
-    'ngSanitize'
-]);
-
-angular.module('encore.ui.rxEnvironment')
-/**
- * @ngdoc service
- * @name rxEnvironment.service:Environment
- * @description
- *
- * Allows defining environments and retrieving the current environment based on location
- *
- * ## Adding New Environments ##
- *
- * If necessary, you can add additional environments with `Environment.add()`.
- * This takes an object with three properties, `name`, `pattern` and `url`, where
- *
- * * name: The "friendly" name of your environment, like "local", "preprod", etc.
- * * pattern: A string or RegEx that the current path is matched against
- * * url: The URL pattern used to build URLs when using rxEnvironmentUrl
- *
- * As an example, if we didn't already have a `'preprod'` environment, we could
- * add it as follows:
- *
- * <pre>
- * Environment.add({
- *     // Matches only https://preprod.encore.rackspace.com
- *     name: 'preprod',
- *     pattern: /\/\/preprod.encore.rackspace.com/,
- *     url: '{{path}}'
- * });
- * </pre>
- *
- * For this demo application, we add a "Github Pages" environment, like this:
- *
- * <pre>
- * Environment.add({
- *     name: 'ghPages',
- *     pattern: '//rackerlabs.github.io',
- *     url: baseGithubUrl + '{{path}}'
- * });
- * </pre>
- *
- * @example
- * <pre>
- * Environment.get() // return environment object that matches current location
- * </pre>
- */
-.service('Environment', ["$location", "$rootScope", "$log", function ($location, $rootScope, $log) {
-    /*
-     * This array defines different environments to check against.
-     * It is prefilled with 'Encore' based environments
-     * It can be overwritten if necessary via the returned 'environments' property
-     *
-     * @property {string} name The 'friendly' name of the environment
-     * @property {string|RegEx} pattern The pattern to match the current path against
-     * @property {string} url The url pattern used to build out urls for that environment.
-     *                        See 'buildUrl' for more details
-     */
-    var environments = [{
-        // http://localhost:3000/
-        // http://localhost:9000/
-        // http://localhost/
-        // http://server/
-        name: 'local',
-        pattern: /\/\/(localhost|server)(:\d{1,4})?/,
-        url: '//localhost:' + $location.port() + '/{{path}}'
-    }, {
-        // Matches only https://preprod.encore.rackspace.com
-        name: 'preprod',
-        pattern: /\/\/preprod.encore.rackspace.com/,
-        url: '{{path}}'
-    }, {
-        // This is anything with a host preceeding encore.rackspace.com
-        // https://staging.encore.rackspace.com/
-        // https://preprod.encore.rackspace.com/
-        name: 'unified-preprod',
-        pattern: /\/\/(\w+\.)encore.rackspace.com/,
-        url: '{{path}}'
-    }, {
-        // This is *all* environments
-        // https://encore.rackspace.com/
-        // https://staging.encore.rackspace.com/
-        // https://preprod.encore.rackspace.com/
-        name: 'unified',
-        pattern: 'encore.rackspace.com',
-        url: '{{path}}'
-    }, {
-        // This is only https://encore.rackspace.com/
-        name: 'unified-prod',
-        pattern: /\/\/encore.rackspace.com/,
-        url: '{{path}}'
-    }];
-
-    /*
-     * Checks if an environment has valid properties
-     * @private
-     * @param {object} environment The environment object to check
-     * @returns {boolean} true if valid, false otherwise
-     */
-    var isValidEnvironment = function (environment) {
-        return _.isString(environment.name) &&
-            (_.isString(environment.pattern) || _.isRegExp(environment.pattern)) &&
-            _.isString(environment.url);
-    };
-
-    var environmentPatternMatch = function (href, pattern) {
-        if (_.isRegExp(pattern)) {
-            return pattern.test(href);
-        }
-
-        return _.contains(href, pattern);
-    };
-
-    /*
-     * Retrieves current environment
-     * @public
-     * @param {string} [href] The path to check the environment on. Defaults to $location.absUrl()
-     * @returns {Object} The current environment (if found), else 'localhost' environment.
-     */
-    this.get = function (href) {
-        // default to current location if href not provided
-        href = href || $location.absUrl();
-
-        var currentEnvironment = _.find(environments, function (environment) {
-            return environmentPatternMatch(href, environment.pattern);
-        });
-
-        if (_.isUndefined(currentEnvironment)) {
-            $log.warn('No environments match URL: ' + $location.absUrl());
-            // set to default/first environment to avoid errors
-            currentEnvironment = environments[0];
-        }
-
-        return currentEnvironment;
-    };
-
-    /*
-     * Adds an environment to the front of the stack, ensuring it will be matched first
-     * @public
-     * @param {object} environment The environment to add. See 'environments' array for required properties
-     */
-    this.add = function (environment) {
-        // do some sanity checks here
-        if (isValidEnvironment(environment)) {
-            // add environment, over riding all others created previously
-            environments.unshift(environment);
-        } else {
-            $log.error('Unable to add Environment: defined incorrectly');
-        }
-    };
-
-    /*
-     * Replaces current environments array with new one
-     * @public
-     * @param {array} newEnvironments New environments to use
-     */
-    this.setAll = function (newEnvironments) {
-        // validate that all new environments are valid
-        if (newEnvironments.length > 0 && _.every(environments, isValidEnvironment)) {
-            // overwrite old environments with new
-            environments = newEnvironments;
-        }
-    };
-
-    /*
-     * Given an environment name, check if any of our registered environments
-     * match it
-     * @public
-     * @param {string} [name] Environment name to check
-     * @param {string} [href] Optional href to check against. Defaults to $location.absUrl()
-     */
-    this.envCheck = function (name, href) {
-        href = href || $location.absUrl();
-        var matchingEnvironments = _.filter(environments, function (environment) {
-            return environmentPatternMatch(href, environment.pattern);
-        });
-        return _.contains(_.pluck(matchingEnvironments, 'name'), name);
-    };
-
-    var makeEnvCheck = function (name) {
-        return function (href) { return this.envCheck(name, href); };
-    };
-
-    /* Whether or not we're in the `preprod` environment
-     * @public
-     */
-    this.isPreProd = makeEnvCheck('preprod');
-
-    /* Whether or not we're in `local` environment
-     * @public
-     */
-    this.isLocal = makeEnvCheck('local');
-
-    /* Whether or not we're in the `unified-preprod` environment
-     * @public
-     */
-    this.isUnifiedPreProd = makeEnvCheck('unified-preprod');
-
-    /* Whether or not we're in the `unified` environment
-     * @public
-     */
-    this.isUnified = makeEnvCheck('unified');
-
-    /* Whether or not we're in the `unified-prod` environment
-     * @public
-     */
-    this.isUnifiedProd = makeEnvCheck('unified-prod');
-}]);
-
-angular.module('encore.ui.rxEnvironment')
-/**
- * @ngdoc filter
- * @name rxEnvironment.filter:rxEnvironmentMatch
- * @description
- * Checks if current environment matches target environment
- *
- * @example
- * <pre>
- * {{ 'production' | rxEnvironmentMatch }}
- * returns true if current environment is 'production', false otherwise
- *
- * {{ '!production' | rxEnvironmentMatch }}
- * returns false if current environment is 'production', true otherwise
- * </pre>
- */
-.filter('rxEnvironmentMatch', ["Environment", function (Environment) {
-    return function (environment) {
-        // check to see if first character is negation indicator
-        var isNegated = environment[0] === '!';
-
-        // get name of environment to look for
-        var targetEnvironmentName = isNegated ? environment.substr(1) : environment;
-
-        var environmentMatches = Environment.envCheck(targetEnvironmentName);
-        return isNegated ? !environmentMatches : environmentMatches;
-    };
-}]);
-
-angular.module('encore.ui.rxEnvironment')
-/**
- * @ngdoc filter
- * @name rxEnvironment.filter:rxEnvironmentUrl
- * @description
- * Builds a URL based on current environment.
- * Note: if value passed in isn't an object, it will simply return that value
- *
- * @example
- * <pre>
- * {{ { tld: 'cloudatlas', path: 'cbs/servers' } | rxEnvironmentUrl }}
- * Renders as '//staging.cloudatlas.encore.rackspace.com/cbs/servers' in staging
- *
- * {{ '/myPath' | rxEnvironmentUrl }}
- * Renders as '/myPath' regardless of environment, because value passed in was not an object
- * </pre>
- */
-.filter('rxEnvironmentUrl', ["Environment", "$interpolate", function (Environment, $interpolate) {
-    return function (details) {
-        var environment = Environment.get();
-
-        // convert url template into full path based on details provided (if details is an object)
-        return _.isObject(details) ? $interpolate(environment.url)(details) : details;
-    };
-}]);
-
-angular.module('encore.ui.rxEnvironment')
-/**
- * @ngdoc directive
- * @name rxEnvironment.directive:rxEnvironment
- * @restrict A
- * @requires rxEnvironment.service:Environment
- * @description
- * Show or hide content based on environment name
- *
- * @example
- * <pre>
- * <div rx-if-environment="unified-preprod">Show if staging</div>
- * <div rx-if-environment="!unified-prod">Show if not prod</div>
- * </pre>
- */
-.directive('rxIfEnvironment', ["$compile", function ($compile) {
-    return {
-        restrict: 'A',
-        terminal: true,
-        priority: 1000,
-        compile: function () {
-            return {
-                pre: function preLink (scope, element, attrs) {
-                    // add ng-show attr to element
-                    element.attr('ng-show', '\'' + attrs.rxIfEnvironment + '\'| rxEnvironmentMatch');
-
-                    //remove the attribute to avoid an indefinite loop
-                    element.removeAttr('rx-if-environment');
-                    element.removeAttr('data-rx-if-environment');
-
-                    // build the new element
-                    $compile(element)(scope);
-                }
-            };
-        }
-    };
-}]);
-
-/**
- * @ngdoc overview
- * @name rxAppRoutes
- * @description
- * # rxAppRoutes Component
- *
- * A component to manage app routes and states of routes
- *
- * ## Services
- * * {@link rxAppRoutes.service:rxAppRoutes rxAppRoutes}
- * * {@link rxAppRoutes.service:urlUtils urlUtils}
- */
-angular.module('encore.ui.rxAppRoutes', [
-    'encore.ui.rxEnvironment'
-]);
-
-angular.module('encore.ui.rxAppRoutes')
-/**
- * @ngdoc service
- * @name rxAppRoutes.service:rxAppRoutes
- * @description
- * Manages page routes, building urls and marking them as active on route change
- */
-.factory('rxAppRoutes', ["$rootScope", "$log", "urlUtils", "$q", function ($rootScope, $log, urlUtils, $q) {
-    var AppRoutes = function (routes) {
-        routes = routes || [];
-        // we need to get the current path on page load
-        var currentPathChunks = urlUtils.getCurrentPathChunks();
-        var loadingDeferred = $q.defer();
-
-        // if the routes were already passed in, then we can immediately
-        // resolve the promise
-        if (routes.length > 0) {
-            loadingDeferred.resolve(routes);
-        }
-
-        var setDynamicProperties = function (routes, extraUrlContext) {
-            _.each(routes, function (route) {
-                // build out url for current route
-                route.url = urlUtils.buildUrl(route.href, extraUrlContext);
-
-                // check if any children exist, if so, build their URLs as well
-                if (route.children) {
-                    route.children = setDynamicProperties(route.children, extraUrlContext);
-                }
-
-                // set active state (this needs to go after the recursion,
-                // so that the URL is built for all the children)
-                route.active = urlUtils.isActive(route, currentPathChunks);
-            });
-
-            return routes;
-        };
-
-        var getRouteIndex = function (key, routes) {
-            var routeIndex;
-            var routeAlreadyFound = false;
-
-            _.forEach(routes, function (route, index) {
-                var foundThisTime = false;
-                if (route.key === key) {
-                    routeIndex = [index];
-                    foundThisTime = true;
-                } else if ('children' in route) {
-                    // if there are children in the route, we need to search through them as well
-                    var childIndex = getRouteIndex(key, route.children);
-                    if (childIndex) {
-                        routeIndex = [index].concat(childIndex);
-                        foundThisTime = true;
-                    }
-                }
-                if (foundThisTime) {
-                    if (routeAlreadyFound) {
-                        $log.warn('Duplicate routes found for key: ' + key);
-                    } else {
-                        routeAlreadyFound = true;
-                    }
-                }
-            });
-
-            return routeIndex;
-        };
-
-        var updateRouteByIndex = function (indexes, routeInfo, routes, level) {
-            var route = routes[indexes[0]];
-
-            if (level < indexes.length - 1) {
-                // if there's more than one index, we need to recurse down a level
-                route.children = updateRouteByIndex(indexes.slice(1), routeInfo, route.children, level + 1);
-            } else {
-                _.assign(route, routeInfo);
-            }
-
-            return routes;
-        };
-
-        // Get the route for a given index
-        var getRouteByIndex = function (indexes, subRoutes) {
-            var i, route,
-                depth = indexes.length;
-            for (i = 0; i < depth; i++) {
-                route = subRoutes[indexes[i]];
-                subRoutes = route.children;
-            }
-            return route;
-        };
-
-        $rootScope.$on('$locationChangeSuccess', function () {
-            // NOTE: currentPath MUST be updated before routes
-            currentPathChunks = urlUtils.getCurrentPathChunks();
-
-            routes = setDynamicProperties(routes);
-        });
-
-        return {
-            /**
-             * Finds the indexes/path to a route. Will return last match if duplicate keys exist
-             * @see setRouteByKey for actual use
-             * @param  {string} key Route Key
-             * @example
-             *     var myRouteIndex = rxAppRoutes.getIndexByKey('myKey'); // [0, 2, 0]
-             * @return {array|undefined} array of indexes describing path to route (or undefined if not found)
-             */
-            getIndexByKey: function (key) {
-                return loadingDeferred.promise.then(function () {
-                    var routeIndex = getRouteIndex(key, routes);
-                    if (_.isUndefined(routeIndex)) {
-                        $log.debug('Could not find route by key: ', key);
-                        return $q.reject();
-                    }
-
-                    return routeIndex;
-                });
-            },
-
-            getRouteByKey: function (key) {
-                return this.getIndexByKey(key).then(function (index) {
-                    return getRouteByIndex(index, routes);
-                }, function () {
-                    return $q.reject();
-                });
-            },
-
-            isActiveByKey:  function (key) {
-                return this.getRouteByKey(key).then(function (route) {
-                    return urlUtils.isActive(route, urlUtils.getCurrentPathChunks());
-                }, function () {
-                    return $q.reject();
-                });
-
-            },
-            /**
-             * functionality to update routes based on their key
-             * @param {string} key Route key used to identify it in navigation
-             * @param {object} routeInfo Information used to overwrite original properties
-             * @return {boolean} true if successfully updated, false if key not found
-             */
-            setRouteByKey: function (key, routeInfo) {
-                return this.getIndexByKey(key).then(function (routeIndex) {
-                    routes = updateRouteByIndex(routeIndex, routeInfo, routes, 0);
-
-                    // now that we've updated the route info, we need to reset the dynamic properties
-                    routes = setDynamicProperties(routes);
-
-                    return routeIndex;
-                }, function () {
-                    return $q.reject();
-                });
-            },
-            getAll: function () {
-                return loadingDeferred.promise.then(function () {
-                    return routes;
-                });
-            },
-            setAll: function (newRoutes) {
-                // let's not mess with the original object
-                var routesToBe = _.clone(newRoutes, true);
-
-                routes = setDynamicProperties(routesToBe);
-                loadingDeferred.resolve();
-            },
-            rebuildUrls: function (extraUrlContext) {
-                setDynamicProperties(routes, extraUrlContext);
-            }
-        };
-    };
-
-    return AppRoutes;
-}]);
-
-angular.module('encore.ui.rxAppRoutes')
-/**
- * @ngdoc service
- * @name rxAppRoutes.service:urlUtils
- * @description
- *
- * Set of utility functions used by rxAppRoutes to break apart/compare URLs
- */
-.service('urlUtils', ["$location", "rxEnvironmentUrlFilter", "$interpolate", "$route", "$document", function ($location, rxEnvironmentUrlFilter, $interpolate, $route, $document) {
-    // remove any preceding # and / from the URL for cleaner comparison
-    this.stripLeadingChars = function (url) {
-        // http://regexr.com/39coc
-        var leadingChars = /^((?:\/|#)+)/;
-
-        return url.replace(leadingChars, '');
-    };
-
-    // remove any trailing /'s from the URL
-    this.stripTrailingSlash = function (url) {
-        // Match a forward slash / at the end of the string ($)
-        var trailingSlash = /\/$/;
-
-        return url.replace(trailingSlash, '');
-    };
-
-    // Given a URL, split it on '/' and return all the non-empty components
-    this.getChunks = function (url) {
-        if (!_.isString(url)) {
-            return [''];
-        }
-
-        return _.compact(url.split('/'));
-    };
-
-    // Get the current path. Knows how to work with the `base` tag
-    this.getFullPath = function () {
-        var base = $document.find('base');
-        var basePath = '';
-
-        if (base.length > 0) {
-            basePath = base[0].getAttribute('href');
-
-            // remove trailing '/' if present
-            basePath = this.stripTrailingSlash(basePath);
-        }
-
-        return basePath + $location.path();
-    };
-
-    // get the current path, adding the <base> path if neeeded
-    //
-    // @example
-    // if the current page url is 'http://localhost:9000/encore-ui/#/overviewPage#bookmark?book=harry%20potter'
-    // and the page contains a <base href="encore-ui"> tag
-    // getCurrentPath() would return '/encore-ui/overviewPage'
-    this.getCurrentPathChunks = function () {
-        var fullPath = this.stripLeadingChars(this.getFullPath());
-
-        return this.getChunks(fullPath);
-    };
-
-    // get the url defined in the route by removing the hash tag, leading slashes and query string
-    // e.g. '/#/my/url?param=1' -> 'my/url'
-    this.getItemUrl = function (item) {
-        if (!_.isString(item.url)) {
-            return undefined;
-        }
-
-        // remove query string
-        var itemUrl = item.url.split('?')[0];
-        itemUrl = this.stripLeadingChars(itemUrl);
-
-        return itemUrl;
-    };
-
-    // For a given route item, grab its defined URL, and see
-    // if it matches the currentPathChunks
-    this.isActive = function (item, currentPathChunks) {
-        var itemUrlChunks = this.getChunks(this.getItemUrl(item));
-        var numChunks = itemUrlChunks.length;
-
-        // check against the path and the hash
-        // (in case the difference is the 'hash' like on the encore-ui demo page)
-        var pathMatches = this.matchesSubChunks(currentPathChunks, itemUrlChunks, numChunks);
-        if (!pathMatches) {
-            pathMatches = this.matchesSubChunks(this.getChunks($location.hash()), itemUrlChunks, numChunks);
-        }
-
-        // if current item not active, check if any children are active
-        // This requires that `isActive` was called on all the children beforehand
-        if (!pathMatches && item.children) {
-            pathMatches = _.any(item.children, 'active');
-        }
-
-        return pathMatches;
-    };
-
-    // Given a URL string, interpolate it with $route.current.pathParams
-    // If the optional `extraContext` is passed in, then the URL will be interpolated
-    // with those values as well, with `extraContext` values taking precedence
-    this.buildUrl = function (url, extraContext) {
-        // sometimes links don't have URLs defined, so we need to exit before $interpolate throws an error
-        if (_.isUndefined(url)) {
-            return url;
-        }
-
-        // run the href through rxEnvironmentUrl in case it's defined as such
-        url = rxEnvironmentUrlFilter(url);
-
-        if ($route.current) {
-            // convert any nested expressions to defined route params
-            var finalContext = _.defaults(extraContext || {}, $route.current.pathParams);
-            url = $interpolate(url)(finalContext);
-        }
-
-        return url;
-    };
-
-    // Given two sets of chunks, check if the first `numChunks` of `firstChunks`
-    // matches all of `subChunks`
-    this.matchesSubChunks = function (firstChunks, subChunks, numChunks) {
-        return _.isEqual(firstChunks.slice(0, numChunks), subChunks);
-    };
-}]);
-
-/*jshint proto:true*/
-/**
- * @ngdoc overview
- * @name rxLocalStorage
- * @description
- * # rxLocalStorage Component
- *
- * Simple wrapper of the global session `localStorage` object for interacting with local storage in the browser.
- *
- * ## Services
- * * {@link rxLocalStorage.service:LocalStorage LocalStorage}
- */
-angular.module('encore.ui.rxLocalStorage', [])
-/**
- * @ngdoc service
- * @name rxLocalStorage.service:LocalStorage
- * @description
- * A simple wrapper for injecting the global variable `localStorage`
- * for storing values in the browser's local storage object. This service is similar to Angular's
- * `$window` and `$document` services.  The API works the same as the W3C's
- * specification provided at: http://dev.w3.org/html5/webstorage/#storage-0.
- * This service also includes helper functions for getting and setting objects.
- *
- * @example
- * <pre>
- * LocalStorage.setItem('Batman', 'Robin'); // no return value
- * LocalStorage.key(0); // returns 'Batman'
- * LocalStorage.getItem('Batman'); // returns 'Robin'
- * LocalStorage.removeItem('Batman'); // no return value
- * LocalStorage.setObject('hero', {name:'Batman'}); // no return value
- * LocalStorage.getObject('hero'); // returns { name: 'Batman'}
- * LocalStorage.clear(); // no return value
- * </pre>
- */
-.service('LocalStorage', ["$window", function ($window) {
-    this.setItem = function (key, value) {
-        $window.localStorage.setItem(key, value);
-    };
-
-    this.getItem = function (key) {
-        return $window.localStorage.getItem(key);
-    };
-
-    this.key = function (key) {
-        return $window.localStorage.key(key);
-    };
-
-    this.removeItem = function (key) {
-        $window.localStorage.removeItem(key);
-    };
-
-    this.clear = function () {
-        $window.localStorage.clear();
-    };
-
-    this.__defineGetter__('length', function () {
-        return $window.localStorage.length;
-    });
-
-    this.setObject = function (key, val) {
-        var value = _.isObject(val) || _.isArray(val) ? JSON.stringify(val) : val;
-        this.setItem(key, value);
-    };
-
-    this.getObject = function (key) {
-        var item = $window.localStorage.getItem(key);
-        try {
-            item = JSON.parse(item);
-        } catch (error) {
-            return item;
-        }
-
-        return item;
-    };
-}]);
-
-/**
- * @ngdoc overview
- * @name rxSession
- * @description
- * # rxSession Component
- *
- * A component that manages user session
- *
- * ## Services
- * * {@link rxSession.service:Session Session}
- */
-angular.module('encore.ui.rxSession', [
-    'encore.ui.rxLocalStorage'
-]);
-
-angular.module('encore.ui.rxSession')
-/**
- * @ngdoc service
- * @name rxSession.service:Session
- * @description
- *
- * Service for managing user session in encore-ui.
- *
- * @requires rxLocalStorage.service:LocalStorage
- *
- * @example
- * <pre>
- * Session.getToken(); // Returns the stored token
- * Session.storeToken(token); // Stores token
- * Session.logout(); // Logs user off
- * Session.isCurrent(); // Returns true/false if the token has expired.
- * Session.isAuthenticated(); // Returns true/false if the user token is valid.
- * </pre>
- */
-.factory('Session', ["LocalStorage", function (LocalStorage) {
-    var TOKEN_ID = 'encoreSessionToken';
-    var session = {};
-
-    /**
-    * Dot walks the token without throwing an error.
-    * If key exists, returns value otherwise returns undefined.
-    */
-    session.getByKey = function (key) {
-        var tokenValue,
-            token = session.getToken(),
-            keys = key ? key.split('.') : undefined;
-
-        if (_.isEmpty(token) || !keys) {
-            return;
-        }
-
-        tokenValue = _.reduce(keys, function (val, key) {
-            return val ? val[key] : undefined;
-        }, token);
-
-        return tokenValue;
-    };
-
-    session.getToken = function () {
-        return LocalStorage.getObject(TOKEN_ID);
-    };
-
-    session.getTokenId = function () {
-        return session.getByKey('access.token.id');
-    };
-
-    session.getUserId = function () {
-        return session.getByKey('access.user.id');
-    };
-
-    session.getUserName = function () {
-        return session.getByKey('access.user.name');
-    };
-
-    session.storeToken = function (token) {
-        LocalStorage.setObject(TOKEN_ID, token);
-    };
-
-    session.logout = function () {
-        LocalStorage.removeItem(TOKEN_ID);
-    };
-
-    session.isCurrent = function () {
-        var expireDate = session.getByKey('access.token.expires');
-
-        if (expireDate) {
-            return new Date(expireDate) > _.now();
-        }
-
-        return false;
-    };
-
-    session.isAuthenticated = function () {
-        var token = session.getToken();
-        return _.isEmpty(token) ? false : session.isCurrent();
-    };
-
-    return session;
-}]);
-
-/**
- * @ngdoc overview
- * @name rxPermission
- * @description
- * # rxPermission Component
- * The rxPermission component provides functionality to perform checks against existing user permissions in
- * EncoreUI.  It provides a {@link rxPermission.service:Permission Permission} service for working with roles, and
- * a {@link rxPermission.directive:rxPermission rxPermission} directive for excluding DOM content based on roles.
- *
- * ## Services
- * * {@link rxPermission.service:Permission Permission}
- *
- * ## Directives
- * * {@link rxPermission.directive:rxPermission rxPermission}
- */
-angular.module('encore.ui.rxPermission', [
-    'encore.ui.rxSession'
-]);
-
-angular.module('encore.ui.rxPermission')
-/**
- * @ngdoc service
- * @name rxPermission.service:Permission
- * @description
- * Simple service for accessing roles and permissions for a user.
- *
- * @requires rxSession.service:Session
- *
- * @example
- * <pre>
- * Permission.getRoles() //returns an array of roles for a user
- * Permission.hasRole(role) //returns true/false if user has specified role
- * </pre>
- */
-.factory('Permission', ["Session", function (Session) {
-    var permissionSvc = {};
-
-    var cleanRoles = function (roles) {
-        return roles.split(',').map(function (r) {
-            return r.trim();
-        });
-    };
-
-    var userRoles = function () {
-        return _.pluck(permissionSvc.getRoles(), 'name');
-    };
-
-    /**
-     * @description Takes a function and a list of roles, and returns the
-     * result of calling that function with `roles`, and comparing to userRoles().
-     *
-     * @param {function} fn - Comparison function to use. _.any, _.all, etc.
-     * @param {array} roles - List of desired roles
-     */
-    var checkRoles = function (roles, fn) {
-        // Some code expects to pass a comma-delimited string
-        // here, so turn that into an array
-        if (_.isString(roles)) {
-            roles = cleanRoles(roles);
-        }
-
-        var allUserRoles = userRoles();
-        return fn(roles, function (role) {
-            return _.contains(allUserRoles, role);
-        });
-    };
-
-    /**
-     * @name  getRoles
-     * @ngdoc method
-     * @methodOf rxPermission.service:Permission
-     * @description
-     * Fetch all the roles tied to the user (in the exact format available in their Session token).
-     *
-     * @returns {Array} List of all roles associated to the user.
-     */
-    permissionSvc.getRoles = function () {
-        var token = Session.getToken();
-        return (token && token.access && token.access.user && token.access.user.roles) ?
-            token.access.user.roles : [];
-    };
-
-    /**
-     * @name  hasRole
-     * @ngdoc method
-     * @methodOf rxPermission.service:Permission
-     * @description Check if user has at least _one_ of the given roles.
-     * @param {Array} roles List of roles to check against
-     * @returns {Boolean} True if user has at least _one_ of the given roles; otherwise, False.
-     */
-    permissionSvc.hasRole = function (roles) {
-        return checkRoles(roles, _.any);
-    };
-
-    /**
-     * @name  hasAllRoles
-     * @ngdoc method
-     * @methodOf rxPermission.service:Permission
-     * @description Checks if user has _every_ role in given list.
-     * @param {Array} roles List of roles to check against
-     * @returns {Boolean} True if user has _every_ role in given list; otherwise, False.
-     *
-     */
-    permissionSvc.hasAllRoles = function (roles) {
-        return checkRoles(roles, _.all);
-    };
-
-    return permissionSvc;
-}]);
-
-angular.module('encore.ui.rxPermission')
-/**
- * @ngdoc directive
- * @name rxPermission.directive:rxPermission
- * @restrict E
- * @scope
- * @description
- * Simple directive which will show or hide content based on whether or not the user has the specified role. See
- * the `rxPermission` component {@link /encore-ui/#/components/rxPermission demo} for an example.
- *
- * @requires rxPermission.service:Permission
- *
- * @param {String} role - Name of required role.
- */
-.directive('rxPermission', function () {
-    return {
-        restrict: 'E',
-        transclude: true,
-        scope: {
-            role: '@'
-        },
-        templateUrl: 'templates/rxPermission.html',
-        controller: ["$scope", "Permission", function ($scope, Permission) {
-            $scope.hasRole = function (roles) {
-                return Permission.hasRole(roles);
-            };
-        }]
     };
 });
 
@@ -3063,6 +2060,321 @@ angular.module('encore.ui.rxApp')
 
 /**
  * @ngdoc overview
+ * @name rxAppRoutes
+ * @description
+ * # rxAppRoutes Component
+ *
+ * A component to manage app routes and states of routes
+ *
+ * ## Services
+ * * {@link rxAppRoutes.service:rxAppRoutes rxAppRoutes}
+ * * {@link rxAppRoutes.service:urlUtils urlUtils}
+ */
+angular.module('encore.ui.rxAppRoutes', [
+    'encore.ui.rxEnvironment'
+]);
+
+angular.module('encore.ui.rxAppRoutes')
+/**
+ * @ngdoc service
+ * @name rxAppRoutes.service:rxAppRoutes
+ * @description
+ * Manages page routes, building urls and marking them as active on route change
+ */
+.factory('rxAppRoutes', ["$rootScope", "$log", "urlUtils", "$q", function ($rootScope, $log, urlUtils, $q) {
+    var AppRoutes = function (routes) {
+        routes = routes || [];
+        // we need to get the current path on page load
+        var currentPathChunks = urlUtils.getCurrentPathChunks();
+        var loadingDeferred = $q.defer();
+
+        // if the routes were already passed in, then we can immediately
+        // resolve the promise
+        if (routes.length > 0) {
+            loadingDeferred.resolve(routes);
+        }
+
+        var setDynamicProperties = function (routes, extraUrlContext) {
+            _.each(routes, function (route) {
+                // build out url for current route
+                route.url = urlUtils.buildUrl(route.href, extraUrlContext);
+
+                // check if any children exist, if so, build their URLs as well
+                if (route.children) {
+                    route.children = setDynamicProperties(route.children, extraUrlContext);
+                }
+
+                // set active state (this needs to go after the recursion,
+                // so that the URL is built for all the children)
+                route.active = urlUtils.isActive(route, currentPathChunks);
+            });
+
+            return routes;
+        };
+
+        var getRouteIndex = function (key, routes) {
+            var routeIndex;
+            var routeAlreadyFound = false;
+
+            _.forEach(routes, function (route, index) {
+                var foundThisTime = false;
+                if (route.key === key) {
+                    routeIndex = [index];
+                    foundThisTime = true;
+                } else if ('children' in route) {
+                    // if there are children in the route, we need to search through them as well
+                    var childIndex = getRouteIndex(key, route.children);
+                    if (childIndex) {
+                        routeIndex = [index].concat(childIndex);
+                        foundThisTime = true;
+                    }
+                }
+                if (foundThisTime) {
+                    if (routeAlreadyFound) {
+                        $log.warn('Duplicate routes found for key: ' + key);
+                    } else {
+                        routeAlreadyFound = true;
+                    }
+                }
+            });
+
+            return routeIndex;
+        };
+
+        var updateRouteByIndex = function (indexes, routeInfo, routes, level) {
+            var route = routes[indexes[0]];
+
+            if (level < indexes.length - 1) {
+                // if there's more than one index, we need to recurse down a level
+                route.children = updateRouteByIndex(indexes.slice(1), routeInfo, route.children, level + 1);
+            } else {
+                _.assign(route, routeInfo);
+            }
+
+            return routes;
+        };
+
+        // Get the route for a given index
+        var getRouteByIndex = function (indexes, subRoutes) {
+            var i, route,
+                depth = indexes.length;
+            for (i = 0; i < depth; i++) {
+                route = subRoutes[indexes[i]];
+                subRoutes = route.children;
+            }
+            return route;
+        };
+
+        $rootScope.$on('$locationChangeSuccess', function () {
+            // NOTE: currentPath MUST be updated before routes
+            currentPathChunks = urlUtils.getCurrentPathChunks();
+
+            routes = setDynamicProperties(routes);
+        });
+
+        return {
+            /**
+             * Finds the indexes/path to a route. Will return last match if duplicate keys exist
+             * @see setRouteByKey for actual use
+             * @param  {string} key Route Key
+             * @example
+             *     var myRouteIndex = rxAppRoutes.getIndexByKey('myKey'); // [0, 2, 0]
+             * @return {array|undefined} array of indexes describing path to route (or undefined if not found)
+             */
+            getIndexByKey: function (key) {
+                return loadingDeferred.promise.then(function () {
+                    var routeIndex = getRouteIndex(key, routes);
+                    if (_.isUndefined(routeIndex)) {
+                        $log.debug('Could not find route by key: ', key);
+                        return $q.reject();
+                    }
+
+                    return routeIndex;
+                });
+            },
+
+            getRouteByKey: function (key) {
+                return this.getIndexByKey(key).then(function (index) {
+                    return getRouteByIndex(index, routes);
+                }, function () {
+                    return $q.reject();
+                });
+            },
+
+            isActiveByKey:  function (key) {
+                return this.getRouteByKey(key).then(function (route) {
+                    return urlUtils.isActive(route, urlUtils.getCurrentPathChunks());
+                }, function () {
+                    return $q.reject();
+                });
+
+            },
+            /**
+             * functionality to update routes based on their key
+             * @param {string} key Route key used to identify it in navigation
+             * @param {object} routeInfo Information used to overwrite original properties
+             * @return {boolean} true if successfully updated, false if key not found
+             */
+            setRouteByKey: function (key, routeInfo) {
+                return this.getIndexByKey(key).then(function (routeIndex) {
+                    routes = updateRouteByIndex(routeIndex, routeInfo, routes, 0);
+
+                    // now that we've updated the route info, we need to reset the dynamic properties
+                    routes = setDynamicProperties(routes);
+
+                    return routeIndex;
+                }, function () {
+                    return $q.reject();
+                });
+            },
+            getAll: function () {
+                return loadingDeferred.promise.then(function () {
+                    return routes;
+                });
+            },
+            setAll: function (newRoutes) {
+                // let's not mess with the original object
+                var routesToBe = _.clone(newRoutes, true);
+
+                routes = setDynamicProperties(routesToBe);
+                loadingDeferred.resolve();
+            },
+            rebuildUrls: function (extraUrlContext) {
+                setDynamicProperties(routes, extraUrlContext);
+            }
+        };
+    };
+
+    return AppRoutes;
+}]);
+
+angular.module('encore.ui.rxAppRoutes')
+/**
+ * @ngdoc service
+ * @name rxAppRoutes.service:urlUtils
+ * @description
+ *
+ * Set of utility functions used by rxAppRoutes to break apart/compare URLs
+ */
+.service('urlUtils', ["$location", "rxEnvironmentUrlFilter", "$interpolate", "$route", "$document", function ($location, rxEnvironmentUrlFilter, $interpolate, $route, $document) {
+    // remove any preceding # and / from the URL for cleaner comparison
+    this.stripLeadingChars = function (url) {
+        // http://regexr.com/39coc
+        var leadingChars = /^((?:\/|#)+)/;
+
+        return url.replace(leadingChars, '');
+    };
+
+    // remove any trailing /'s from the URL
+    this.stripTrailingSlash = function (url) {
+        // Match a forward slash / at the end of the string ($)
+        var trailingSlash = /\/$/;
+
+        return url.replace(trailingSlash, '');
+    };
+
+    // Given a URL, split it on '/' and return all the non-empty components
+    this.getChunks = function (url) {
+        if (!_.isString(url)) {
+            return [''];
+        }
+
+        return _.compact(url.split('/'));
+    };
+
+    // Get the current path. Knows how to work with the `base` tag
+    this.getFullPath = function () {
+        var base = $document.find('base');
+        var basePath = '';
+
+        if (base.length > 0) {
+            basePath = base[0].getAttribute('href');
+
+            // remove trailing '/' if present
+            basePath = this.stripTrailingSlash(basePath);
+        }
+
+        return basePath + $location.path();
+    };
+
+    // get the current path, adding the <base> path if neeeded
+    //
+    // @example
+    // if the current page url is 'http://localhost:9000/encore-ui/#/overviewPage#bookmark?book=harry%20potter'
+    // and the page contains a <base href="encore-ui"> tag
+    // getCurrentPath() would return '/encore-ui/overviewPage'
+    this.getCurrentPathChunks = function () {
+        var fullPath = this.stripLeadingChars(this.getFullPath());
+
+        return this.getChunks(fullPath);
+    };
+
+    // get the url defined in the route by removing the hash tag, leading slashes and query string
+    // e.g. '/#/my/url?param=1' -> 'my/url'
+    this.getItemUrl = function (item) {
+        if (!_.isString(item.url)) {
+            return undefined;
+        }
+
+        // remove query string
+        var itemUrl = item.url.split('?')[0];
+        itemUrl = this.stripLeadingChars(itemUrl);
+
+        return itemUrl;
+    };
+
+    // For a given route item, grab its defined URL, and see
+    // if it matches the currentPathChunks
+    this.isActive = function (item, currentPathChunks) {
+        var itemUrlChunks = this.getChunks(this.getItemUrl(item));
+        var numChunks = itemUrlChunks.length;
+
+        // check against the path and the hash
+        // (in case the difference is the 'hash' like on the encore-ui demo page)
+        var pathMatches = this.matchesSubChunks(currentPathChunks, itemUrlChunks, numChunks);
+        if (!pathMatches) {
+            pathMatches = this.matchesSubChunks(this.getChunks($location.hash()), itemUrlChunks, numChunks);
+        }
+
+        // if current item not active, check if any children are active
+        // This requires that `isActive` was called on all the children beforehand
+        if (!pathMatches && item.children) {
+            pathMatches = _.any(item.children, 'active');
+        }
+
+        return pathMatches;
+    };
+
+    // Given a URL string, interpolate it with $route.current.pathParams
+    // If the optional `extraContext` is passed in, then the URL will be interpolated
+    // with those values as well, with `extraContext` values taking precedence
+    this.buildUrl = function (url, extraContext) {
+        // sometimes links don't have URLs defined, so we need to exit before $interpolate throws an error
+        if (_.isUndefined(url)) {
+            return url;
+        }
+
+        // run the href through rxEnvironmentUrl in case it's defined as such
+        url = rxEnvironmentUrlFilter(url);
+
+        if ($route.current) {
+            // convert any nested expressions to defined route params
+            var finalContext = _.defaults(extraContext || {}, $route.current.pathParams);
+            url = $interpolate(url)(finalContext);
+        }
+
+        return url;
+    };
+
+    // Given two sets of chunks, check if the first `numChunks` of `firstChunks`
+    // matches all of `subChunks`
+    this.matchesSubChunks = function (firstChunks, subChunks, numChunks) {
+        return _.isEqual(firstChunks.slice(0, numChunks), subChunks);
+    };
+}]);
+
+/**
+ * @ngdoc overview
  * @name rxAttributes
  * @description
  * # rxAttributes Component
@@ -3110,7 +2422,9 @@ angular.module('encore.ui.rxApp')
  * ## Directives
  * * {@link rxAttributes.directive:rxAttributes rxAttributes}
  */
-angular.module('encore.ui.rxAttributes', [])
+angular.module('encore.ui.rxAttributes', []);
+
+angular.module('encore.ui.rxAttributes')
 /**
  * @ngdoc directive
  * @name rxAttributes.directive:rxAttributes
@@ -3151,56 +2465,6 @@ angular.module('encore.ui.rxAttributes', [])
             };
         }
     };
-}]);
-
-/**
- * @ngdoc overview
- * @name rxIdentity
- * @description
- * # rxIdentity Component
- *
- * This is a component designed to aid interaction with Rackspace's Identity API.
- *
- * ## Services
- * * {@link rxIdentity.service:Identity Identity}
- */
-angular.module('encore.ui.rxIdentity', ['ngResource'])
-/**
-* @ngdoc service
-* @name rxIdentity.service:Identity
-* @description
-* This is a component designed to aid interaction with Rackspace's Identity API.
-*
-* @requires $resource
-*
-* @example
-* <pre>
-* Identity.loginWithJSON(json); //Returns a promise
-* Identity.login({username: '', password: '', successCallback, errorCallback}); // returns a promise
-* </pre>
-*/
-.factory('Identity', ["$resource", function ($resource) {
-    var authSvc = $resource('/api/identity/:action',
-        {},
-        {
-            loginWithJSON: { method: 'POST', isArray: false, params: { action: 'tokens' }},
-            validate: { method: 'GET', url: '/api/identity/login/session/:id', isArray: false }
-        });
-
-    authSvc.login = function (credentials, success, error) {
-        var body = {
-            auth: {
-                passwordCredentials: {
-                    username: credentials.username,
-                    password: credentials.password
-                }
-            }
-        };
-
-        return authSvc.loginWithJSON(body, success, error);
-    };
-
-    return authSvc;
 }]);
 
 /**
@@ -3396,106 +2660,6 @@ angular.module('encore.ui.rxBreadcrumbs')
 
     return breadcrumbsService;
 });
-
-/**
- * @ngdoc overview
- * @name rxCheckbox
- * @description
- * # rxCheckbox Component
- *
- * A component that wraps a native checkbox element in markup required for styling purposes.
- *
- * ## Styling
- *
- * Directive results in an **inline-block element**
- * You can style the output against decendents of the **`.rxCheckbox`** CSS class.
- *
- * ## Show/Hide
- *
- * If you wish to show/hide your `rxCheckbox` element (and its label), we recommend
- * placing the element (and its label) inside of a `<div>` or `<span>` wrapper,
- * and performing the show/hide logic on the wrapper.
- *
- * <pre>
- * <span ng-show="isShown">
- *     <input rx-checkbox id="chkDemo" ng-model="chkDemo" />
- *     <label for="chkDemo">Label for Demo Checkbox</label>
- * </span>
- * </pre>
- *
- * It is highly recommended that you use `ng-show` and `ng-hide` for purposes of
- * display logic. Because of the way that `ng-if` and `ng-switch` directives behave
- * with scope, they may introduce unnecessary complexity in your code.
- *
- * ## Directives
- * * {@link rxCheckbox.directive:rxCheckbox rxCheckbox}
- */
-angular.module('encore.ui.rxCheckbox', [])
-/**
- * @name rxCheckbox.directive:rxCheckbox
- * @ngdoc directive
- * @restrict A
- * @scope
- * @description
- * Attribute directive that wraps a native checkbox element in markup required for styling purposes.
- *
- * @example
- * <pre>
- * <input rx-checkbox ng-model="demoValue" />
- * </pre>
- *
- * @param {Boolean=} [ng-disabled=false] Determines if the control is disabled.
- */
-.directive('rxCheckbox', function () {
-    return {
-        restrict: 'A',
-        scope: {
-            ngDisabled: '=?'
-        },
-        compile: function (tElement, tAttrs) {
-            // automatically set input type
-            tElement.attr('type', 'checkbox');
-            tAttrs.type = 'checkbox';
-
-            return function (scope, element, attrs) {
-                var disabledClass = 'rx-disabled';
-                var wrapper = '<div class="rxCheckbox"></div>';
-                var fakeCheckbox = '<div class="fake-checkbox">' +
-                        '<div class="tick fa fa-check"></div>' +
-                    '</div>';
-
-                element.wrap(wrapper);
-                element.after(fakeCheckbox);
-                // must be defined AFTER the element is wrapped
-                var parent = element.parent();
-
-                // apply/remove disabled attribute so we can
-                // apply a CSS selector to style sibling elements
-                if (attrs.disabled) {
-                    parent.addClass(disabledClass);
-                }
-                if (_.has(attrs, 'ngDisabled')) {
-                    scope.$watch('ngDisabled', function (newVal) {
-                        if (newVal === true) {
-                            parent.addClass(disabledClass);
-                        } else {
-                            parent.removeClass(disabledClass);
-                        }
-                    });
-                }
-
-                var removeParent = function () {
-                    parent.remove();
-                };
-
-                // remove stylistic markup when element is destroyed
-                element.on('$destroy', function () {
-                    scope.$evalAsync(removeParent);
-                });
-            };
-        }//compile
-    };
-});//rxCheckbox
 
 /**
  * @ngdoc overview
@@ -4133,7 +3297,9 @@ angular.module('encore.ui.rxCapitalize')
  * ## Directives
  * * {@link rxCharacterCount.directive:rxCharacterCount rxCharacterCount}
  */
-angular.module('encore.ui.rxCharacterCount', [])
+angular.module('encore.ui.rxCharacterCount', []);
+
+angular.module('encore.ui.rxCharacterCount')
 /**
  * @ngdoc directive
  * @name rxCharacterCount.directive:rxCharacterCount
@@ -4312,6 +3478,108 @@ angular.module('encore.ui.rxCharacterCount', [])
 
 /**
  * @ngdoc overview
+ * @name rxCheckbox
+ * @description
+ * # rxCheckbox Component
+ *
+ * A component that wraps a native checkbox element in markup required for styling purposes.
+ *
+ * ## Styling
+ *
+ * Directive results in an **inline-block element**
+ * You can style the output against decendents of the **`.rxCheckbox`** CSS class.
+ *
+ * ## Show/Hide
+ *
+ * If you wish to show/hide your `rxCheckbox` element (and its label), we recommend
+ * placing the element (and its label) inside of a `<div>` or `<span>` wrapper,
+ * and performing the show/hide logic on the wrapper.
+ *
+ * <pre>
+ * <span ng-show="isShown">
+ *     <input rx-checkbox id="chkDemo" ng-model="chkDemo" />
+ *     <label for="chkDemo">Label for Demo Checkbox</label>
+ * </span>
+ * </pre>
+ *
+ * It is highly recommended that you use `ng-show` and `ng-hide` for purposes of
+ * display logic. Because of the way that `ng-if` and `ng-switch` directives behave
+ * with scope, they may introduce unnecessary complexity in your code.
+ *
+ * ## Directives
+ * * {@link rxCheckbox.directive:rxCheckbox rxCheckbox}
+ */
+angular.module('encore.ui.rxCheckbox', []);
+
+angular.module('encore.ui.rxCheckbox')
+/**
+ * @name rxCheckbox.directive:rxCheckbox
+ * @ngdoc directive
+ * @restrict A
+ * @scope
+ * @description
+ * Attribute directive that wraps a native checkbox element in markup required for styling purposes.
+ *
+ * @example
+ * <pre>
+ * <input rx-checkbox ng-model="demoValue" />
+ * </pre>
+ *
+ * @param {Boolean=} [ng-disabled=false] Determines if the control is disabled.
+ */
+.directive('rxCheckbox', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            ngDisabled: '=?'
+        },
+        compile: function (tElement, tAttrs) {
+            // automatically set input type
+            tElement.attr('type', 'checkbox');
+            tAttrs.type = 'checkbox';
+
+            return function (scope, element, attrs) {
+                var disabledClass = 'rx-disabled';
+                var wrapper = '<div class="rxCheckbox"></div>';
+                var fakeCheckbox = '<div class="fake-checkbox">' +
+                        '<div class="tick fa fa-check"></div>' +
+                    '</div>';
+
+                element.wrap(wrapper);
+                element.after(fakeCheckbox);
+                // must be defined AFTER the element is wrapped
+                var parent = element.parent();
+
+                // apply/remove disabled attribute so we can
+                // apply a CSS selector to style sibling elements
+                if (attrs.disabled) {
+                    parent.addClass(disabledClass);
+                }
+                if (_.has(attrs, 'ngDisabled')) {
+                    scope.$watch('ngDisabled', function (newVal) {
+                        if (newVal === true) {
+                            parent.addClass(disabledClass);
+                        } else {
+                            parent.removeClass(disabledClass);
+                        }
+                    });
+                }
+
+                var removeParent = function () {
+                    parent.remove();
+                };
+
+                // remove stylistic markup when element is destroyed
+                element.on('$destroy', function () {
+                    scope.$evalAsync(removeParent);
+                });
+            };
+        }//compile
+    };
+});//rxCheckbox
+
+/**
+ * @ngdoc overview
  * @name rxCollapse
  * @description
  * # rxCollapse Component
@@ -4321,7 +3589,9 @@ angular.module('encore.ui.rxCharacterCount', [])
  * ## Directives
  * * {@link rxCollapse.directive:rxCollapse rxCollapse}
  */
-angular.module('encore.ui.rxCollapse', [])
+angular.module('encore.ui.rxCollapse', []);
+
+angular.module('encore.ui.rxCollapse')
 /**
  * @ngdoc directive
  * @name rxCollapse.directive:rxCollapse
@@ -4329,21 +3599,21 @@ angular.module('encore.ui.rxCollapse', [])
  * @scope
  * @description
  * `rxCollapse` directive hides and shows an element with a transition.  It can be configured to show as either expanded
- * or collapsed on page load.  A double chevron(**>>**) is used to toggle between show and hide contents, while keeping 
+ * or collapsed on page load.  A double chevron(**>>**) is used to toggle between show and hide contents, while keeping
  * the header and border visible.
  *
  * ## Hide/Show Content
- * 
+ *
  * * This pattern was developed for areas displaying metadata that may be short on screen real estate, as a way to hide
- *  data on load that is not as important to the user in the context where they are presented.  `rxCollapse` toggles 
+ *  data on load that is not as important to the user in the context where they are presented.  `rxCollapse` toggles
  *  between the *optional* `title` parameter with "*See More*" or "*See Less*".
  * * This pattern is not very responsive-friendly, since as browser width decreases, columns will wrap. As columns wrap,
  *  the "*See More*" `rxCollapse` elements get lost in the new context, which is bad for user experience.
  * * To avoid the problem described above, "*See More*" `rxCollapse` elements should only be used at the end of the
- * final column present on the page, so that when the columns wrap via flexbox, "*See More*" is always last and doesn't 
+ * final column present on the page, so that when the columns wrap via flexbox, "*See More*" is always last and doesn't
  * get lost in between metadata key/value pairs.
  *
- * 
+ *
  * @param {String=} [title="See More/See Less"]
  * The title to display next to the toggle button. Default is "See More/See Less" toggle.
  * @param {Boolean=} [expanded='true']
@@ -4384,7 +3654,9 @@ angular.module('encore.ui.rxCollapse', [])
  * ## Directives
  * * {@link rxCompile.directive:rxCompile rxCompile}
  */
-angular.module('encore.ui.rxCompile', [])
+angular.module('encore.ui.rxCompile', []);
+
+angular.module('encore.ui.rxCompile')
 /**
  * @ngdoc directive
  * @name rxCompile.directive:rxCompile
@@ -4419,11 +3691,13 @@ angular.module('encore.ui.rxCompile', [])
  * # rxDiskSize Component
  *
  * Converts GB disk size into a more readable format (e.g. GBs, TBs, PBs)
- * 
+ *
  * ## Filters
  * * {@link rxDiskSize.filter:rxDiskSize rxDiskSize}
  */
-angular.module('encore.ui.rxDiskSize', [])
+angular.module('encore.ui.rxDiskSize', []);
+
+angular.module('encore.ui.rxDiskSize')
 /**
  * @ngdoc filter
  * @name rxDiskSize.filter:rxDiskSize
@@ -4431,7 +3705,7 @@ angular.module('encore.ui.rxDiskSize', [])
  *
  * Converts GB disk size into a more readable format (e.g. GBs, TBs, PBs)
  *
- * 
+ *
  * <pre>
  * 420 → 420 GB
  * 125000 → 125 TB
@@ -4458,6 +3732,381 @@ angular.module('encore.ui.rxDiskSize', [])
 
 /**
  * @ngdoc overview
+ * @name rxEnvironment
+ * @description
+ * # rxEnvironment Component
+ *
+ * Component built to detect and provide the current environment (e.g. dev, staging, prod)
+ *
+ * ## Current Environments ##
+ *
+ * This service defines the following Encore specific environments:
+ *
+ * * **local** - http://localhost:port and http://server:port
+ * * **preprod** - http://preprod.encore.rackspace.com
+ * * **unified-preprod** - https://*.encore.rackspace.com
+ * * **unified** - All environments including https://encore.rackspace.com
+ * * **unified-prod** - Only https://encore.rackspace.com
+ *
+ * Please note that we've made an assumption that staging/preprod/prod environments
+ * will all end with `encore.rackspace.com`. Try to avoid using
+ * `staging.encore.myNewProduct.rackspace.com` for new products, and instead set
+ * up your system as `encore.rackspace.com/myNewProduct`.
+ *
+ * ## Checking Current Environment ##
+ *
+ * The `Environment` service contains methods for checking if we are currently in
+ * one of the five listed environments, namely:
+ *
+ * * `Environment.isLocal()`
+ * * `Environment.isPreProd()`
+ * * `Environment.isUnifiedPreProd()`
+ * * `Environment.isUnified()`
+ * * `Environment.isUnifiedProd()`
+ *
+ * The normal procedure is to assume that your code is running in local or staging,
+ * and take special actions if `Environment.isPreProd()` or
+ * `Environment.isUnifiedProd()` are `true`.
+ *
+ * ## Overlapping Environments ##
+ *
+ * Keep in mind that the environments we define are not mutually exclusive. For
+ * instance, if we're at `http://preprod.encore.rackspace.com`, then we are in
+ * the `preprod` environment, the `unified-preprod` environment, and `unified-prod`.
+ *
+ * When you want to check if you're in one of the custom environments, you can
+ * use `envCheck()`, i.e.: `Environment.envCheck('ghPages')`
+ *
+ * ## A Warning About rxEnvironmentUrl ##
+ * `rxEnvironmentUrl` can be used for building full URLs, based on the current
+ * environment. For now, you should consider it as deprecated. It has problems
+ * with overlapping environments, and could potentially generate the wrong URL.
+ *
+ * ## A Warning About `Environment.get().name` ##
+ * You might find older Encore code that uses `Environment.get().name` to get
+ * the name of the current environment. This pattern should be avoided,
+ * specifically because of the overlapping environment issue discussed above.
+ * If you call `Environment.get().name`, it will just return the first matching
+ * environment in the list of environments, even if we're overlapping and have
+ * multiple environments. Instead, check explicitly with
+ * `Environment.isLocal()`, `Environment.isPreProd()`, etc., or
+ * use `Environment.envCheck('local')`
+ *
+ * ## Directives
+ * * {@link rxEnvironment.directive:rxEnvironment rxEnvironment}
+ *
+ * ## Filters
+ * * {@link rxEnvironment.filter:rxEnvironmentMatch rxEnvironmentMatch}
+ * * {@link rxEnvironment.filter:rxEnvironmentUrl rxEnvironmentUrl}
+ *
+ * ## Services
+ * * {@link rxEnvironment.service:Environment Environment}
+ */
+angular.module('encore.ui.rxEnvironment', [
+    'ngSanitize'
+]);
+
+angular.module('encore.ui.rxEnvironment')
+/**
+ * @ngdoc service
+ * @name rxEnvironment.service:Environment
+ * @description
+ *
+ * Allows defining environments and retrieving the current environment based on location
+ *
+ * ## Adding New Environments ##
+ *
+ * If necessary, you can add additional environments with `Environment.add()`.
+ * This takes an object with three properties, `name`, `pattern` and `url`, where
+ *
+ * * name: The "friendly" name of your environment, like "local", "preprod", etc.
+ * * pattern: A string or RegEx that the current path is matched against
+ * * url: The URL pattern used to build URLs when using rxEnvironmentUrl
+ *
+ * As an example, if we didn't already have a `'preprod'` environment, we could
+ * add it as follows:
+ *
+ * <pre>
+ * Environment.add({
+ *     // Matches only https://preprod.encore.rackspace.com
+ *     name: 'preprod',
+ *     pattern: /\/\/preprod.encore.rackspace.com/,
+ *     url: '{{path}}'
+ * });
+ * </pre>
+ *
+ * For this demo application, we add a "Github Pages" environment, like this:
+ *
+ * <pre>
+ * Environment.add({
+ *     name: 'ghPages',
+ *     pattern: '//rackerlabs.github.io',
+ *     url: baseGithubUrl + '{{path}}'
+ * });
+ * </pre>
+ *
+ * @example
+ * <pre>
+ * Environment.get() // return environment object that matches current location
+ * </pre>
+ */
+.service('Environment', ["$location", "$rootScope", "$log", function ($location, $rootScope, $log) {
+    /*
+     * This array defines different environments to check against.
+     * It is prefilled with 'Encore' based environments
+     * It can be overwritten if necessary via the returned 'environments' property
+     *
+     * @property {string} name The 'friendly' name of the environment
+     * @property {string|RegEx} pattern The pattern to match the current path against
+     * @property {string} url The url pattern used to build out urls for that environment.
+     *                        See 'buildUrl' for more details
+     */
+    var environments = [{
+        // http://localhost:3000/
+        // http://localhost:9000/
+        // http://localhost/
+        // http://server/
+        name: 'local',
+        pattern: /\/\/(localhost|server)(:\d{1,4})?/,
+        url: '//localhost:' + $location.port() + '/{{path}}'
+    }, {
+        // Matches only https://preprod.encore.rackspace.com
+        name: 'preprod',
+        pattern: /\/\/preprod.encore.rackspace.com/,
+        url: '{{path}}'
+    }, {
+        // This is anything with a host preceeding encore.rackspace.com
+        // https://staging.encore.rackspace.com/
+        // https://preprod.encore.rackspace.com/
+        name: 'unified-preprod',
+        pattern: /\/\/(\w+\.)encore.rackspace.com/,
+        url: '{{path}}'
+    }, {
+        // This is *all* environments
+        // https://encore.rackspace.com/
+        // https://staging.encore.rackspace.com/
+        // https://preprod.encore.rackspace.com/
+        name: 'unified',
+        pattern: 'encore.rackspace.com',
+        url: '{{path}}'
+    }, {
+        // This is only https://encore.rackspace.com/
+        name: 'unified-prod',
+        pattern: /\/\/encore.rackspace.com/,
+        url: '{{path}}'
+    }];
+
+    /*
+     * Checks if an environment has valid properties
+     * @private
+     * @param {object} environment The environment object to check
+     * @returns {boolean} true if valid, false otherwise
+     */
+    var isValidEnvironment = function (environment) {
+        return _.isString(environment.name) &&
+            (_.isString(environment.pattern) || _.isRegExp(environment.pattern)) &&
+            _.isString(environment.url);
+    };
+
+    var environmentPatternMatch = function (href, pattern) {
+        if (_.isRegExp(pattern)) {
+            return pattern.test(href);
+        }
+
+        return _.contains(href, pattern);
+    };
+
+    /*
+     * Retrieves current environment
+     * @public
+     * @param {string} [href] The path to check the environment on. Defaults to $location.absUrl()
+     * @returns {Object} The current environment (if found), else 'localhost' environment.
+     */
+    this.get = function (href) {
+        // default to current location if href not provided
+        href = href || $location.absUrl();
+
+        var currentEnvironment = _.find(environments, function (environment) {
+            return environmentPatternMatch(href, environment.pattern);
+        });
+
+        if (_.isUndefined(currentEnvironment)) {
+            $log.warn('No environments match URL: ' + $location.absUrl());
+            // set to default/first environment to avoid errors
+            currentEnvironment = environments[0];
+        }
+
+        return currentEnvironment;
+    };
+
+    /*
+     * Adds an environment to the front of the stack, ensuring it will be matched first
+     * @public
+     * @param {object} environment The environment to add. See 'environments' array for required properties
+     */
+    this.add = function (environment) {
+        // do some sanity checks here
+        if (isValidEnvironment(environment)) {
+            // add environment, over riding all others created previously
+            environments.unshift(environment);
+        } else {
+            $log.error('Unable to add Environment: defined incorrectly');
+        }
+    };
+
+    /*
+     * Replaces current environments array with new one
+     * @public
+     * @param {array} newEnvironments New environments to use
+     */
+    this.setAll = function (newEnvironments) {
+        // validate that all new environments are valid
+        if (newEnvironments.length > 0 && _.every(environments, isValidEnvironment)) {
+            // overwrite old environments with new
+            environments = newEnvironments;
+        }
+    };
+
+    /*
+     * Given an environment name, check if any of our registered environments
+     * match it
+     * @public
+     * @param {string} [name] Environment name to check
+     * @param {string} [href] Optional href to check against. Defaults to $location.absUrl()
+     */
+    this.envCheck = function (name, href) {
+        href = href || $location.absUrl();
+        var matchingEnvironments = _.filter(environments, function (environment) {
+            return environmentPatternMatch(href, environment.pattern);
+        });
+        return _.contains(_.pluck(matchingEnvironments, 'name'), name);
+    };
+
+    var makeEnvCheck = function (name) {
+        return function (href) { return this.envCheck(name, href); };
+    };
+
+    /* Whether or not we're in the `preprod` environment
+     * @public
+     */
+    this.isPreProd = makeEnvCheck('preprod');
+
+    /* Whether or not we're in `local` environment
+     * @public
+     */
+    this.isLocal = makeEnvCheck('local');
+
+    /* Whether or not we're in the `unified-preprod` environment
+     * @public
+     */
+    this.isUnifiedPreProd = makeEnvCheck('unified-preprod');
+
+    /* Whether or not we're in the `unified` environment
+     * @public
+     */
+    this.isUnified = makeEnvCheck('unified');
+
+    /* Whether or not we're in the `unified-prod` environment
+     * @public
+     */
+    this.isUnifiedProd = makeEnvCheck('unified-prod');
+}]);
+
+angular.module('encore.ui.rxEnvironment')
+/**
+ * @ngdoc filter
+ * @name rxEnvironment.filter:rxEnvironmentMatch
+ * @description
+ * Checks if current environment matches target environment
+ *
+ * @example
+ * <pre>
+ * {{ 'production' | rxEnvironmentMatch }}
+ * returns true if current environment is 'production', false otherwise
+ *
+ * {{ '!production' | rxEnvironmentMatch }}
+ * returns false if current environment is 'production', true otherwise
+ * </pre>
+ */
+.filter('rxEnvironmentMatch', ["Environment", function (Environment) {
+    return function (environment) {
+        // check to see if first character is negation indicator
+        var isNegated = environment[0] === '!';
+
+        // get name of environment to look for
+        var targetEnvironmentName = isNegated ? environment.substr(1) : environment;
+
+        var environmentMatches = Environment.envCheck(targetEnvironmentName);
+        return isNegated ? !environmentMatches : environmentMatches;
+    };
+}]);
+
+angular.module('encore.ui.rxEnvironment')
+/**
+ * @ngdoc filter
+ * @name rxEnvironment.filter:rxEnvironmentUrl
+ * @description
+ * Builds a URL based on current environment.
+ * Note: if value passed in isn't an object, it will simply return that value
+ *
+ * @example
+ * <pre>
+ * {{ { tld: 'cloudatlas', path: 'cbs/servers' } | rxEnvironmentUrl }}
+ * Renders as '//staging.cloudatlas.encore.rackspace.com/cbs/servers' in staging
+ *
+ * {{ '/myPath' | rxEnvironmentUrl }}
+ * Renders as '/myPath' regardless of environment, because value passed in was not an object
+ * </pre>
+ */
+.filter('rxEnvironmentUrl', ["Environment", "$interpolate", function (Environment, $interpolate) {
+    return function (details) {
+        var environment = Environment.get();
+
+        // convert url template into full path based on details provided (if details is an object)
+        return _.isObject(details) ? $interpolate(environment.url)(details) : details;
+    };
+}]);
+
+angular.module('encore.ui.rxEnvironment')
+/**
+ * @ngdoc directive
+ * @name rxEnvironment.directive:rxEnvironment
+ * @restrict A
+ * @requires rxEnvironment.service:Environment
+ * @description
+ * Show or hide content based on environment name
+ *
+ * @example
+ * <pre>
+ * <div rx-if-environment="unified-preprod">Show if staging</div>
+ * <div rx-if-environment="!unified-prod">Show if not prod</div>
+ * </pre>
+ */
+.directive('rxIfEnvironment', ["$compile", function ($compile) {
+    return {
+        restrict: 'A',
+        terminal: true,
+        priority: 1000,
+        compile: function () {
+            return {
+                pre: function preLink (scope, element, attrs) {
+                    // add ng-show attr to element
+                    element.attr('ng-show', '\'' + attrs.rxIfEnvironment + '\'| rxEnvironmentMatch');
+
+                    //remove the attribute to avoid an indefinite loop
+                    element.removeAttr('rx-if-environment');
+                    element.removeAttr('data-rx-if-environment');
+
+                    // build the new element
+                    $compile(element)(scope);
+                }
+            };
+        }
+    };
+}]);
+
+/**
+ * @ngdoc overview
  * @name rxFavicon
  * @description
  * # rxFavicon Component
@@ -4467,7 +4116,11 @@ angular.module('encore.ui.rxDiskSize', [])
  * ## Directives
  * * {@link rxFavicon.directive:rxFavicon rxFavicon}
  */
-angular.module('encore.ui.rxFavicon', ['encore.ui.rxEnvironment'])
+angular.module('encore.ui.rxFavicon', [
+    'encore.ui.rxEnvironment'
+]);
+
+angular.module('encore.ui.rxFavicon')
 /**
  * @ngdoc directive
  * @name rxFavicon.directive:rxFavicon
@@ -4894,894 +4547,6 @@ angular.module('encore.ui.rxFeedback')
     };
 }]);
 
-/*jshint proto:true*/
-/**
- * @ngdoc overview
- * @name rxSessionStorage
- * @description
- * # rxSessionStorage Component
- *
- * A component that provides a simple wrapper around the global
- * `sessionStorage` object for interacting with session storage.
- *
- * ## Services
- * * {@link rxSessionStorage.service:SessionStorage SessionStorage}
- */
-angular.module('encore.ui.rxSessionStorage', [])
-/**
- * @ngdoc service
- * @name rxSessionStorage.service:SessionStorage
- * @description
- *
- * A simple wrapper for injecting the global variable sessionStorage
- * for storing values in session storage. This service is similar to angular's
- * $window and $document services.  The API works the same as the W3C's
- * specification provided at: http://dev.w3.org/html5/webstorage/#storage-0.
- * Also includes to helper functions for getting and setting objects.
- *
- * @example
- * <pre>
- * SessionStorage.setItem('Batman', 'Robin'); // no return value
- * SessionStorage.key(0); // returns 'Batman'
- * SessionStorage.getItem('Batman'); // returns 'Robin'
- * SessionStorage.removeItem('Batman'); // no return value
- * SessionStorage.setObject('hero', {name:'Batman'}); // no return value
- * SessionStorage.getObject('hero'); // returns { name: 'Batman'}
- * SessionStorage.clear(); // no return value
- * </pre>
- */
-.service('SessionStorage', ["$window", function ($window) {
-    this.setItem = function (key, value) {
-        $window.sessionStorage.setItem(key, value);
-    };
-
-    this.getItem = function (key) {
-        return $window.sessionStorage.getItem(key);
-    };
-
-    this.key = function (key) {
-        return $window.sessionStorage.key(key);
-    };
-
-    this.removeItem = function (key) {
-        $window.sessionStorage.removeItem(key);
-    };
-
-    this.clear = function () {
-        $window.sessionStorage.clear();
-    };
-
-    this.__defineGetter__('length', function () {
-        return $window.sessionStorage.length;
-    });
-
-    this.setObject = function (key, val) {
-        var value = _.isObject(val) || _.isArray(val) ? JSON.stringify(val) : val;
-        this.setItem(key, value);
-    };
-
-    this.getObject = function (key) {
-        var item = $window.sessionStorage.getItem(key);
-        try {
-            item = JSON.parse(item);
-        } catch (error) {
-            return item;
-        }
-
-        return item;
-    };
-}]);
-
-/**
- * @ngdoc overview
- * @name rxMisc
- * @description
- * # rxMisc Component
- *
- * A module for shared functionality across framework components.
- *
- * ## Filters
- * * {@link rxMisc.filter:titleize titleize}
- *
- * ## Services
- * * {@link rxMisc.service:rxAutoSave rxAutoSave}
- * * {@link rxMisc.service:rxDOMHelper rxDOMHelper}
- * * {@link rxMisc.service:rxNestedElement rxNestedElement}
- */
-angular.module('encore.ui.rxMisc', [
-    'debounce',
-    'encore.ui.rxSessionStorage'
-]);
-
-angular.module('encore.ui.rxMisc')
-/**
- * @ngdoc service
- * @name rxMisc.service:rxAutoSave
- * @description
- * A factory that controllers can use to help automatically save and load
- * form data (via LocalStorage) on any given page.
- *
- * `rxAutoSave` provides a way to store values in a form for later. For instance, if a user is entering values into a
- * form, then accidentally navigate to a new page, we likely want the values to be present again when they click the
- * "Back" button in their browser. By correctly setting up an `rxAutoSave` instance for the form, this can happen
- * automatically. By default, all saved values will be cleared after two days.
- *
- * `rxAutoSave` is a service intended to be used in controllers. No directives are provided. The intent is that the
- * HTML forms themselves will have no knowledge that their values are being saved. `rxAutoSave` operates by doing a
- * `$watch` on the model values for a given form, storing those model values whenever they change, and loading them
- * on instantation.
- *
- * The stored data is keyed on the page URL. This means you can track the form state for multiple pages simultaneously.
- * For example, say you have an "Edit" form. The user has gone to edit some values for "Server1", at
- * `"/servers/server1/edit"`, and for "Server2" at `"/servers/server2/edit"`. The edit progress for both servers will
- * be saved independently of each other. `rxAutoSave` will also let you independently store values for multiple forms
- * appearing on the same page.
- *
- * By default, all values are stored in the browser's `LocalStorage`. This means that if a user logs into a different
- * computer, their stored values will not be present. Use of `SessionStorage` is also supported out-of-the-box. If you
- * wish to save form states elsewhere (for instance, to an API), see the "Storage Location" section below.
- *
- * ## Setting up your template
- *
- * Nothing explicit needs to be done in your templates to add support for `rxAutoSave`. The only requirement is that all
- * the `ng-model` values in a given form are stored within one object (`formData` below). For example, say you have the
- * following form in your template:
- *
- * <pre>
- *   <form name="demoForm" rx-form>
- *       <rx-form-section stacked>
- *           <rx-field>
- *               <rx-field-name>A checkbox field!:</rx-field-name>
- *               <rx-field-content>
- *                   <rx-input>
- *                       <input rx-checkbox id="chkCheckbox" ng-model="formData.checkbox" />
- *                       <label for="chkCheckbox">I likely don't disagree</label>
- *                   </rx-input>
- *               </rx-field-content>
- *           </rx-field>
- *
- *           <rx-field>
- *               <rx-field-name>Name:</rx-field-name>
- *               <rx-field-content>
- *                   <rx-input>
- *                       <input type="text" ng-model="formData.name" />
- *                   </rx-input>
- *               </rx-field-content>
- *           </rx-field>
- *
- *           <rx-field>
- *             <rx-field-name>Description:</rx-field-name>
- *             <rx-field-content>
- *                 <rx-input>
- *                     <textarea rows="10" ng-model="formData.description"></textarea>
- *                 </rx-input>
- *             </rx-field-content>
- *           </rx-field>
- *       </rx-form-section>
- *   </form>
- * </pre>
- *
- * **NOTE:** All the models for the form are attributes of the `formData` scope variable.
- *
- * ## Setting up your controller
- *
- * In your controller, you would have something like this in your initialization:
- *
- * <pre>
- *   $scope.formData = {
- *       checkbox: false,
- *       name: '',
- *       description: ''
- *   };
- * </pre>
- *
- * By default, every time this page was loaded, the form would be initialized with an unchecked checkbox, a blank
- * `Name` field and a blank `Description`.
- *
- * To have `rxAutoSave` automatically save values, first inject `rxAutoSave` into your controller, and modify
- * initialization as follows:
- *
- * <pre>
- *   $scope.formData = {
- *       checkbox: false,
- *       name: '',
- *       description: ''
- *   };
- *
- *   var autosave = rxAutoSave($scope, 'formData');
- * </pre>
- *
- * And that's it! Your `rxAutoSave` instance will watch for any change to `$scope.formData`, and will automatically
- * write those changes to `LocalStorage`.
- *
- * A third argument can be passed to `rxAutoSave`, specifying usage options. The default values for these options are:
- *
- * <pre>
- *   var autosave = rxAutoSave($scope, 'formData', {
- *     clearOnSuccess: null,        // Promise
- *     ttl: 172800,                 // Integer (seconds) - two days default
- *     load: true,                  // Boolean or Promise that will resolve with a Boolean
- *     save: true,                  // Boolean or Promise that will resolve with a Boolean
- *     exclude: [],                 // Array<String>
- *     storageBackend: LocalStorage // Object
- *   });
- * </pre>
- *
- * All of these options will be described below.
- *
- * ## Multiple Forms on one page
- *
- * `rxAutoSave` supports independently saving multiple forms on one page. To do this, have each form's model in its own
- * object, and create individual `rxAutoSave` instances for each. i.e.:
- *
- * <pre>
- *   $scope.form1Data = {
- *       checkbox: false,
- *       name: '',
- *       description: ''
- *   };
- *
- *   $scope.form2Data = {
- *       customerName: '',
- *       birthday: ''
- *   };
- *
- *   var autosave1 = rxAutoSave($scope, 'form1Data');
- *   var autosave2 = rxAutoSave($scope, 'form2Data');
- * </pre>
- *
- * ## Clearing values
- *
- * If you need to clear the stored values, you can call `autosave.clear()`. This will clear the values from
- * `LocalStorage`, but won't affect your `$scope.formData` values.
- *
- * More likely, rather than manually calling `autosave.clear()`, you'd like the values to be cleared on a "successful
- * submit". For example, if your user is editing the form described above, and they click a "Submit" button to send the
- * values to a server, `LocalStorage` should be cleared for this form if the server call is a success.
- *
- * To do this, pass an "options" parameter as the third argument to `rxAutoSave`, setting a promise on the
- * `clearOnSuccess` attribute, i.e.
- *
- * <pre>
- *   var autosave = rxAutoSave($scope, 'formData', { clearOnSuccess: serverSubmitPromise });
- * </pre>
- *
- * If the `serverSubmitPromise` resolves, then `rxAutoSave` will automatically clear the stored values for `formData` on
- * this page.
- *
- * When instantiating your controller, there's a good chance that the `clearOnSuccess` promise you are interested in
- * does not actually exist yet, i.e. if you want to clear on a successfull submit, you need the submit `promise`.
- * Instances of `rxAutoSave` provide a `clearOnSuccess()` method to accept this promise after instantiation:
- *
- * <pre>
- *   var autosave = rxAutoSave($scope, 'formData');
- *
- *   // Take some other actions
- *   ...
- *
- *   $scope.onSubmit = function () {
- *       // Server.save() is some $resource that returns a promise
- *       var promise = Server.save($scope.formData);
- *       autosave.clearOnSuccess(promise);
- *   }
- * </pre>
- *
- * ## Automatic expiry
- *
- * Another way to automatically clear values is to set an explict Time-To-Live (TTL) when instantiating your
- * `rxAutoSave` instance. This is done with the `ttl` property of the `opts` object,
- *
- * <pre>
- *   // Automatically expire after 24 hours
- *   var autosave = rxAutoSave($scope, 'formData', { ttl: 86400 });
- * </pre>
- *
- * By default, a `ttl` of `172800` (two days) is used.
- *
- * The `ttl` property takes a length of time in seconds. Whenever something in `formData` changes, the expiry time will
- * be freshly set. With the example above, whenever `formData` is changed, the new expiry time will be set to 24 hours
- * from the time of the change. In addition, we freshly set the expiry time whenever the data is loaded. If `formData`
- * is 12 hours away from expiring, and the user visits the page again, then the expiry will be freshly set to a new 24
- * hours, whether or not the user makes a change.
- *
- * If a user visits a page after the data has expired, the data will be cleared from storage and not automatically
- * loaded. (i.e. we're not running a continuous background process to look for expired data, we only check for
- * expiration the next time `rxAutoSave` tries to load the data).
- *
- * To turn off automatic expiry for a given form, pass a value of `{ ttl: 0 }`. In this case, the data will never
- * expire. You will have to clear it at an appropriate time by using one of the methods mentioned above.
- *
- * ## Preventing automatic loading
- *
- * If you need to prevent `rxAutoSave` from automatically loading stored values, you can again use the optional third
- * parameter, this time setting `load: false`, i.e.
- *
- * <pre>
- *   var autosave = rxAutoSave($scope, 'formData', { load: false });
- * </pre>
- *
- * `load:` will accept a boolean, or it can accept a promise that eventually resolves to a boolean. Accepting a promise
- * will let you delay your decision on whether or not to load (for example, asking a user if they want values loaded).
- * Note that if you use a promise, `rxAutoSave` will look at its resolved value. If the resolved value is `true`, then
- * the data will be loaded. If the resolved value is `false`, or the promise fails/rejects, then the data will not be
- * loaded.
- *
- * ## Excluding some values from loading/saving
- *
- * By default, `rxAutoSave` automatically loads and saves all the stored values for a form. If you want to prevent it
- * from loading/saving _some_ values, you can do:
- *
- * <pre>
- *   var autosave = rxAutoSave($scope, 'formData', { exclude: ['description'] });
- * </pre>
- *
- * This will tell `rxAutoSave` not to load from or save to the stored `description` value, but everything else in
- * `formData` will be loaded/saved.
- *
- * ## Manual saving
- *
- * It might be that you don't want your `rxAutoSave` instance to automatically save to the storage backend
- * automatically. In some cases, you might want to disable automatic saving and instead manually tell your instance
- * when it should save. To turn off automatic saving, set up your instance as follows:
- *
- * <pre>
- *   var manualsave = rxAutoSave($scope, 'formData', { save: false });
- * </pre>
- *
- * Then, whenever you want your `autosave` instance to commit the current model values to storage, do
- *
- * <pre>
- *   manualsave.save();
- * </pre>
- *
- * As with the `load` parameter, you can pass either a boolean or a promise to `save`.
- *
- * ## Storage location
- *
- * All values for `rxAutoSave` are by default stored in the browser's `LocalStorage`, and keyed on the URL of the page,
- * with a `rxAutoSave::` prefix. For example, if the above form were present at the URL `'users/JonnyRocket/edit'`,
- * then the form data would be saved into `LocalStorage` at location `'rxAutoSave::users/JonnyRocket/edit'`
- *
- * If you wish to use a different storage backend (`SessionStorage`, for instance), use the `storageBackend` parameter:
- *
- * <pre>
- *    var autosave = rxAutoSave($scope, 'formData', { storageBackend: SessionStorage });
- * </pre>
- *
- * `storageBackend` requires that you pass it an object which has `getObject(key)` and `setObject(key, val)` methods.
- * `LocalStorage` and `SessionStorage` are both provided by EncoreUI, and support this interface.
- *
- * You can use your own custom backends as well, as long as it supports `getObject(key)` and `setObject(key, val)`.
- *
- * ## Custom Storage Key Values
- *
- * Sometimes, it may be necessary to change how a key is formed for the specified `storageBackend`. As previously
- * stated, these are calculated by prepending `'rxAutoSave::'` before the url. You can override this by passing in a
- * `keyShaping` function to the options object.
- *
- * An example one would be as follows:
- *
- * <pre>
- *   var autosave = rxAutoSave($scope, 'formData', {
- *       keyShaping: function (key) {
- *           return key.replace('?cache=false', '');
- *       }
- *   });
- * </pre>
- *
- * The above example could be used to have the current url ignore any caching flags passed in. The `keyShaping`
- * function will receive the default calculated key (`rxAutoSave::` + $location.url()). By default, `keyShaping`
- * just returns the original calculated key.
- *
- *
- * @param {Object} scope scope to apply a `$watch` expression
- * @param {String} variable
- * variable name corresponding to an object on the given scope
- * @param {Object=} options usage options
- * @param {Promise} [options.clearOnSuccess=null] *optional* -
- * Clear saved data on successful resolution of given promise.
- *
- * @param {Function} [options.keyShaping]
- * Sometimes, it may be necessary to change how a key is formed for the specified
- * `storageBackend`.  Keys are calculated by prepending `'rxAutoSave::'` before the
- * url. Your custom `keyShaping` function will take one parameter (`key`), to which
- * you may modify to your specific needs.
- *
- * The below example will ignore any caching flags in the url.
- * <pre>
- * var autosave = rxAutoSave($scope, 'formData', {
- *     keyShaping: function (key) {
- *         return key.replace('?cache=false', '');
- *     }
- * });
- * </pre>
- *
- * @param {Integer} [options.ttl=172800] *optional* -
- * Time to Live (in seconds) - defaults to 2 days
- *
- * Whenever data changes in the watched variable, the expiry time will be freshly set
- * In addition, we freshly set the expiry time whenever the data is loaded. If the data
- * is 12 hours away from expiring and a user visits the page again, the expiry will be
- * freshly set to a new 48 hours, whether or not the user makes a change.
- *
- * If a user visits a page after the data has expired, the data will be cleared from
- * storage and not automatically loaded.
- * * A continuous background process is not running to look for expired data.
- * * We only check for expiration the next time `rxAutoSave` tries to load the data.
- *
- * To turn off automatic expiry for a given form, pass a value of `{ ttl: 0 }`.
- * In this case, the data will never expire and you will have to clear it manually at
- * an appropriate time by using one of the following:
- *
- * * `clear()`
- * * `clearOnSuccess()`
- *
- * @param {Boolean|Promise} [options.load=true] *optional* -
- * If false, will prevent data from being automatically loaded onto the scope.
- *
- * You may use a promise that resolves to a boolean, if desired.
- * @param {Boolean|Promise} [options.save=true] *optional* -
- * If false, will prevent data from being automatically saved on change.
- *
- * You may use a promise that resolves to a boolean, if desired.
- * @param {String[]} [options.exclude] *optional* -
- * A string of property names to exclude from automatic save. This is useful to
- * exclude saving any sensitive information like passwords, credit card numbers, etc.
- *
- * <pre>
- * var autosave = rxAutoSave($scope, 'formData', { exclude: ['password'] });
- * </pr>
- *
- * @param {Object} [options.storageBackend=LocalStorage] *optional* -
- * Must be an object which has `getObject(key)` and `setObject(key, val)` methods.
- * `LocalStorage` and `SessionStorage` are both provided by EncoreUI, and support
- * this interface.
- *
- * You can use your own custom backends as well, as long as it supports `getObject(key)`
- * and `setObject(key, val)`.
- */
-.factory('rxAutoSave', ["$location", "$q", "debounce", "LocalStorage", function ($location, $q, debounce, LocalStorage) {
-    /*
-     * We'll version the schema for the stored data, so if we need to change
-     * the schema in the future, we can do automatic migrations. Never
-     * delete any of these documented schemas. If you have to add a new version,
-     * then add it on top, but keep the documentation for the old one around.
-     * VERSION 1
-     *      'rxAutoSave::' + URL => {
-     *          pageConfig: {
-     *              version: 1
-     *          },
-     *          forms: {
-     *              "form1": {
-     *                   config: {
-     *                      expires: 0,
-     *                  },
-     *                  data: {
-     *                      // Serialized form data
-     *                  }
-     *              }
-     *              "form2": {
-     *                  config: {
-     *                      expires: 33421234322,
-     *                  }
-     *                  data: {
-     *                      // Serialized form data
-     *                  }
-     *              }
-     *          }
-     *      }
-    */
-    var version = 1;
-
-    // This will be used by the rxAutoSave instance to interact with
-    // LocalStorage.
-    //
-    // @param watchVar - the string name of the
-    //                   object that's being watched, representing the model for the form.
-    //                   StorageAPI is not publically exposed, it can only be used and accessed
-    //                   by the rxAutoSave instance
-    // @param [storageBackend] - Optional, defaults to LocalStorage. If you pass in a storage object,
-    //                           it must support both getObject(key) and setObject(key, val), matching
-    //                           the operations of LocalStorage and SessionStorage
-    // @param [keyShaping] - Optional, defaults to just returning the originally defined key value.
-    //                       It gets passed the original value defined ('rxAutoSave::' + $location.url())
-    //                       and is expected to return the new key that you wish to have used.
-    var StorageAPI = function (watchVar, storageBackend, keyShaping) {
-        this.key = keyShaping('rxAutoSave::' + $location.url());
-        this.watchVar = watchVar;
-        this.storage = storageBackend ? storageBackend : LocalStorage;
-    };
-
-    // Get all the saved data for this page. If none
-    // exists, then create an empty object that matches
-    // the current schema.
-    StorageAPI.prototype.getAll = function () {
-        return this.storage.getObject(this.key) || {
-            pageConfig: {
-                version: version,
-            },
-            forms: {
-            }
-        };
-    };
-
-    // Given a `watchVar`, return the corresponding
-    // `form` object from LocalStorage. This form object should include
-    // both `.data` and `.config` properties.
-    // If no form currently exists for `watchVar`, then an empty
-    // object will be created that matches the current schema
-    StorageAPI.prototype.getForm = function () {
-        var all = this.getAll();
-        if (!_.has(all.forms, this.watchVar)) {
-            all.forms[this.watchVar] = {
-                data: {},
-                config: {
-                    expires: 0
-                }
-            };
-        }
-        return all.forms[this.watchVar];
-    };
-
-    // Given a full form object, save it into LocalStorage,
-    // indexed into the forms[watchVar] location for this page
-    StorageAPI.prototype.setForm = function (form) {
-        var all = this.getAll();
-        all.forms[this.watchVar] = form;
-        this.storage.setObject(this.key, all);
-    };
-
-    // Get the current `config` object for a given watchVar
-    StorageAPI.prototype.getConfig = function () {
-        return this.getForm().config;
-    };
-
-    // Return the time that a given form is supposed to
-    // have its saved data expire
-    StorageAPI.prototype.getExpires = function () {
-        return this.getConfig().expires;
-    };
-
-    // For a given watchVar, set a new expiry time, and save
-    // into LocalStorage
-    StorageAPI.prototype.setExpiryTime = function (expiryTime) {
-        var form = this.getForm();
-        form.config.expires = expiryTime;
-        this.setForm(form);
-    };
-
-    // Force an expiration for a given watchVar. This will completely
-    // clear the saved data for this watchVar, and set the `expires`
-    // back to 0
-    StorageAPI.prototype.expire = function () {
-        var form = this.getForm();
-        form.data = {};
-        form.config.expires = 0;
-        this.setForm(form);
-    };
-
-    // Return the current saved data for a given watchVar
-    StorageAPI.prototype.getDataObject = function () {
-        return this.getForm().data || {};
-    };
-
-    // For a given watchVar, store `val` as its saved
-    // data, into LocalStorage
-    StorageAPI.prototype.setDataObject = function (val) {
-        var form = this.getForm();
-        form.data = val;
-        this.setForm(form);
-    };
-
-    // This is what we return from rxAutoSave, and calling this
-    // function will return an instance
-    return function (scope, watchVar, opts) {
-        opts = opts || {};
-        _.defaults(opts, {
-            load: true,
-            save: true,
-            clearOnSuccess: undefined,
-            exclude: [],
-            ttl: 172800,
-            keyShaping: _.identity,
-            storageBackend: LocalStorage
-        });
-
-        opts.ttl = opts.ttl * 1000; // convert back to milliseconds
-
-        var api = new StorageAPI(watchVar, opts.storageBackend, opts.keyShaping);
-
-        var updateExpiryTime = function () {
-            if (opts.ttl > 0) {
-                api.setExpiryTime(_.now() + opts.ttl);
-            }
-        };
-
-        // Responsible for loading the data from LocalStorage into the form
-        var load = function () {
-            var expires = api.getExpires();
-            if (expires > 0 && expires <= _.now()) {
-                // This data has expired. Make sure we clear it out
-                // of LocalStorage
-                api.expire();
-                return;
-            }
-
-            updateExpiryTime();
-
-            // Write all the storedObject values into scope[watchVar], except
-            // for any specified in opts.exclude
-            var storedObject = api.getDataObject();
-            _.assign(scope[watchVar], _.omit(storedObject, opts.exclude));
-        };
-
-        // This is the "instance" that is returned when someone
-        // calls rxAutoSave($scope, 'someWatchVar')
-        var autoSaveInstance = {
-            clear: function () {
-                api.expire();
-            },
-
-            clearOnSuccess: function (promise) {
-                promise.then(this.clear);
-            },
-
-            save: function () {
-                update(scope[watchVar]);
-            },
-
-            getStoredValue: function () {
-                return api.getDataObject();
-            }
-        };
-
-        _.bindAll(autoSaveInstance);
-
-        var update = function (newVal) {
-            // Get the current data stored for this watchVar
-            var data = api.getDataObject();
-
-            // Overwrite all properties in allWatchVars[watchVar] with properties from
-            // newVal, except for the properties in opts.exclude
-            _.assign(data, _.omit(newVal, opts.exclude));
-
-            // Store the newly changed data in LocalStorage
-            api.setDataObject(data);
-
-            // Update the expiry time whenever we modify data
-            updateExpiryTime();
-        };
-
-        // We don't want to write to LocalStorage every time the model changes,
-        // because that would turn typing into a textarea into an expensive operation.
-        // We'll instead debounce the the writes for 1 second
-        var debounced = debounce(update, 1000);
-
-        $q.when(opts.save).then(function (shouldSave) {
-            if (shouldSave) {
-                // The `true` third argument tells $watch to do a deep comparison
-                scope.$watch(watchVar, debounced, true);
-            }
-        });
-
-        $q.when(opts.load).then(function (shouldLoad) {
-            if (shouldLoad) {
-                load();
-            }
-        });
-
-        if (!_.isUndefined(opts.clearOnSuccess)) {
-            autoSaveInstance.clearOnSuccess(opts.clearOnSuccess);
-        }
-
-        return autoSaveInstance;
-    };
-}]);
-
-angular.module('encore.ui.rxMisc')
-/**
- * @ngdoc service
- * @name rxMisc.service:rxDOMHelper
- * @description
- * A small set of functions to provide some functionality
- * that isn't present in Angular's jQuery-lite, and other
- * DOM-related functions that are useful.
- *
- * All methods take jquery-lite wrapped elements as arguments.
- */
-.factory('rxDOMHelper', ["$document", "$window", function ($document, $window) {
-    var scrollTop = function () {
-        // Safari and Chrome both use body.scrollTop, but Firefox needs
-        // documentElement.scrollTop
-        var doc = $document[0];
-        var scrolltop = $window.pageYOffset || doc.body.scrollTop || doc.documentElement.scrollTop || 0;
-        return scrolltop;
-    };
-
-    var offset = function (elm) {
-        //http://cvmlrobotics.blogspot.co.at/2013/03/angularjs-get-element-offset-position.html
-        var rawDom = elm[0];
-        var _x = 0;
-        var _y = 0;
-        var doc = $document[0];
-        var body = doc.documentElement || doc.body;
-        var scrollX = $window.pageXOffset || body.scrollLeft;
-        var scrollY = scrollTop();
-        var rect = rawDom.getBoundingClientRect();
-        _x = rect.left + scrollX;
-        _y = rect.top + scrollY;
-        return { left: _x, top:_y };
-    };
-
-    var style = function (elem) {
-        if (elem instanceof angular.element) {
-            elem = elem[0];
-        }
-        return $window.getComputedStyle(elem);
-    };
-
-    var width = function (elem) {
-        return style(elem).width;
-    };
-
-    var height = function (elem) {
-        return style(elem).height;
-    };
-
-    var shouldFloat = function (elem, maxHeight) {
-        var elemOffset = offset(elem),
-            scrolltop = scrollTop();
-
-        return ((scrolltop > elemOffset.top) && (scrolltop < elemOffset.top + maxHeight));
-    };
-
-    // An implementation of wrapAll, based on
-    // http://stackoverflow.com/a/13169465
-    // Takes a raw DOM `newParent`, and moves all of `elms` (either
-    // a single element or an array of elements) into it. It then places
-    // `newParent` in the location that elms[0] was originally in
-    var wrapAll = function (newParent, elms) {
-        // Figure out if it's one element or an array
-        var isGroupParent = ['SELECT', 'FORM'].indexOf(elms.tagName) !== -1;
-        var el = (elms.length && !isGroupParent) ? elms[0] : elms;
-
-        // cache the current parent node and sibling
-        // of the first element
-        var parentNode = el.parentNode;
-        var sibling = el.nextSibling;
-
-        // wrap the first element. This automatically
-        // removes it from its parent
-        newParent.appendChild(el);
-
-        // If there are other elements, wrap them. Each time
-        // it will remove the element from its current parent,
-        // and also from the `elms` array
-        if (!isGroupParent) {
-            while (elms.length) {
-                newParent.appendChild(elms[0]);
-            }
-        }
-
-        // If there was a sibling to the first element,
-        // insert newParent right before it. Otherwise
-        // just add it to parentNode
-        if (sibling) {
-            parentNode.insertBefore(newParent, sibling);
-        } else {
-            parentNode.appendChild(newParent);
-        }
-    };
-
-    // bind `f` to the scroll event
-    var onscroll = function (f) {
-        angular.element($window).bind('scroll', f);
-    };
-
-    var find = function (elem, selector) {
-        return angular.element(elem[0].querySelector(selector));
-    };
-
-    return {
-        offset: offset,
-        scrollTop: scrollTop,
-        width: width,
-        height: height,
-        shouldFloat: shouldFloat,
-        onscroll: onscroll,
-        find: find,
-        wrapAll: wrapAll
-    };
-}]);
-
-angular.module('encore.ui.rxMisc')
-/**
- * @ngdoc service
- * @name rxMisc.service:rxNestedElement
- * @description
- * Helper function to aid in the creation of boilerplate DDO definitions
- * required to validate nested custom elements.
- *
- * @param {Object=} opts - Options to merge with default DDO definitions
- * @param {String} opts.parent - Parent directive name
- * (i.e. defined NestedElement is an immediate child of this parent element)
- *
- * @return {Object} Directive Definition Object for a rxNestedElement
- *
- * @example
- * <pre>
- * angular.module('myApp', [])
- * .directive('parentElement', function (rxNestedElement) {
- *   return rxNestedElement();
- * })
- * .directive('childElement', function (rxNestedElement) {
- *   return rxNestedElement({
- *      parent: 'parentElement'
- *   });
- * });
- * </pre>
- */
-.factory('rxNestedElement', function () {
-    return function (opts) {
-        opts = opts || {};
-
-        var defaults = {
-            restrict: 'E',
-            /*
-             * must be defined for a child element to verify
-             * correct hierarchy
-             */
-            controller: angular.noop
-        };
-
-        if (angular.isDefined(opts.parent)) {
-            opts.require = '^' + opts.parent;
-            /*
-             * bare minimum function definition needed for "require"
-             * validation logic
-             *
-             * NOTE: `angular.noop` and `_.noop` WILL NOT trigger validation
-             */
-            opts.link = function () {};
-        }
-
-        return _.defaults(opts, defaults);
-    };
-});
-
-angular.module('encore.ui.rxMisc')
-/**
- * @ngdoc filter
- * @name rxMisc.filter:titleize
- * @description
- * Convert a string to title case, stripping out underscores and capitalizing words.
- *
- * Credit where it's due: https://github.com/epeli/underscore.string/blob/master/titleize.js
- *
- * @param {String} inputString - The string to convert
- * @returns {String} The titleized version of the string
- *
- * @example
- * Both examples result in a string of `"A Simple String"`.
- * <pre>
- * {{ 'a simple_STRING' | titleize }}
- * </pre>
- *
- * <pre>
- * $filter('titleize')('a simple_STRING');
- * </pre>
- */
-.filter('titleize', function () {
-    return function (inputString) {
-        return inputString
-            .toLowerCase()
-            .replace(/_/g, ' ')
-            .replace(/(?:^|\s)\S/g, function (character) {
-                return character.toUpperCase();
-            });
-    };
-});
-
 /**
  * @ngdoc overview
  * @name rxFloatingHeader
@@ -5796,7 +4561,11 @@ angular.module('encore.ui.rxMisc')
  * ## Directives
  * * {@link rxFloatingHeader.directive:rxFloatingHeader rxFloatingHeader}
  */
-angular.module('encore.ui.rxFloatingHeader', ['encore.ui.rxMisc'])
+angular.module('encore.ui.rxFloatingHeader', [
+    'encore.ui.rxMisc'
+]);
+
+angular.module('encore.ui.rxFloatingHeader')
 /**
  * @ngdoc directive
  * @name rxFloatingHeader.directive:rxFloatingHeader
@@ -6987,6 +5756,60 @@ angular.module('encore.ui.rxForm')
 
 /**
  * @ngdoc overview
+ * @name rxIdentity
+ * @description
+ * # rxIdentity Component
+ *
+ * This is a component designed to aid interaction with Rackspace's Identity API.
+ *
+ * ## Services
+ * * {@link rxIdentity.service:Identity Identity}
+ */
+angular.module('encore.ui.rxIdentity', [
+    'ngResource'
+]);
+
+angular.module('encore.ui.rxIdentity')
+/**
+* @ngdoc service
+* @name rxIdentity.service:Identity
+* @description
+* This is a component designed to aid interaction with Rackspace's Identity API.
+*
+* @requires $resource
+*
+* @example
+* <pre>
+* Identity.loginWithJSON(json); //Returns a promise
+* Identity.login({username: '', password: '', successCallback, errorCallback}); // returns a promise
+* </pre>
+*/
+.factory('Identity', ["$resource", function ($resource) {
+    var authSvc = $resource('/api/identity/:action',
+        {},
+        {
+            loginWithJSON: { method: 'POST', isArray: false, params: { action: 'tokens' }},
+            validate: { method: 'GET', url: '/api/identity/login/session/:id', isArray: false }
+        });
+
+    authSvc.login = function (credentials, success, error) {
+        var body = {
+            auth: {
+                passwordCredentials: {
+                    username: credentials.username,
+                    password: credentials.password
+                }
+            }
+        };
+
+        return authSvc.loginWithJSON(body, success, error);
+    };
+
+    return authSvc;
+}]);
+
+/**
+ * @ngdoc overview
  * @name rxInfoPanel
  * @description
  * # rxInfoPanel Component
@@ -6996,7 +5819,9 @@ angular.module('encore.ui.rxForm')
  * ## Directives
  * * {@link rxInfoPanel.directive:rxInfoPanel rxInfoPanel}
  */
-angular.module('encore.ui.rxInfoPanel', [])
+angular.module('encore.ui.rxInfoPanel', []);
+
+angular.module('encore.ui.rxInfoPanel')
 /**
  * @ngdoc directive
  * @name rxInfoPanel.directive:rxInfoPanel
@@ -7024,6 +5849,84 @@ angular.module('encore.ui.rxInfoPanel', [])
     };
 });
 
+/*jshint proto:true*/
+/**
+ * @ngdoc overview
+ * @name rxLocalStorage
+ * @description
+ * # rxLocalStorage Component
+ *
+ * Simple wrapper of the global session `localStorage` object for interacting with local storage in the browser.
+ *
+ * ## Services
+ * * {@link rxLocalStorage.service:LocalStorage LocalStorage}
+ */
+angular.module('encore.ui.rxLocalStorage', []);
+
+angular.module('encore.ui.rxLocalStorage')
+/**
+ * @ngdoc service
+ * @name rxLocalStorage.service:LocalStorage
+ * @description
+ * A simple wrapper for injecting the global variable `localStorage`
+ * for storing values in the browser's local storage object. This service is similar to Angular's
+ * `$window` and `$document` services.  The API works the same as the W3C's
+ * specification provided at: http://dev.w3.org/html5/webstorage/#storage-0.
+ * This service also includes helper functions for getting and setting objects.
+ *
+ * @example
+ * <pre>
+ * LocalStorage.setItem('Batman', 'Robin'); // no return value
+ * LocalStorage.key(0); // returns 'Batman'
+ * LocalStorage.getItem('Batman'); // returns 'Robin'
+ * LocalStorage.removeItem('Batman'); // no return value
+ * LocalStorage.setObject('hero', {name:'Batman'}); // no return value
+ * LocalStorage.getObject('hero'); // returns { name: 'Batman'}
+ * LocalStorage.clear(); // no return value
+ * </pre>
+ */
+.service('LocalStorage', ["$window", function ($window) {
+    this.setItem = function (key, value) {
+        $window.localStorage.setItem(key, value);
+    };
+
+    this.getItem = function (key) {
+        return $window.localStorage.getItem(key);
+    };
+
+    this.key = function (key) {
+        return $window.localStorage.key(key);
+    };
+
+    this.removeItem = function (key) {
+        $window.localStorage.removeItem(key);
+    };
+
+    this.clear = function () {
+        $window.localStorage.clear();
+    };
+
+    this.__defineGetter__('length', function () {
+        return $window.localStorage.length;
+    });
+
+    this.setObject = function (key, val) {
+        var value = _.isObject(val) || _.isArray(val) ? JSON.stringify(val) : val;
+        this.setItem(key, value);
+    };
+
+    this.getObject = function (key) {
+        var item = $window.localStorage.getItem(key);
+        try {
+            item = JSON.parse(item);
+        } catch (error) {
+            return item;
+        }
+
+        return item;
+    };
+}]);
+
 /**
  * @ngdoc overview
  * @name rxLogout
@@ -7035,7 +5938,11 @@ angular.module('encore.ui.rxInfoPanel', [])
  * ## Directives
  * * {@link rxLogout.directive:rxLogout rxLogout}
  */
-angular.module('encore.ui.rxLogout', ['encore.ui.rxAuth'])
+angular.module('encore.ui.rxLogout', [
+    'encore.ui.rxAuth'
+]);
+
+angular.module('encore.ui.rxLogout')
 /**
  * @ngdoc directive
  * @name rxLogout.directive:rxLogout
@@ -7225,6 +6132,816 @@ angular.module('encore.ui.rxMetadata')
 .directive('rxMetadata', function () {
     return {
         restrict: 'E'
+    };
+});
+
+/**
+ * @ngdoc overview
+ * @name rxMisc
+ * @description
+ * # rxMisc Component
+ *
+ * A module for shared functionality across framework components.
+ *
+ * ## Filters
+ * * {@link rxMisc.filter:titleize titleize}
+ *
+ * ## Services
+ * * {@link rxMisc.service:rxAutoSave rxAutoSave}
+ * * {@link rxMisc.service:rxDOMHelper rxDOMHelper}
+ * * {@link rxMisc.service:rxNestedElement rxNestedElement}
+ */
+angular.module('encore.ui.rxMisc', [
+    'debounce',
+    'encore.ui.rxSessionStorage'
+]);
+
+angular.module('encore.ui.rxMisc')
+/**
+ * @ngdoc service
+ * @name rxMisc.service:rxAutoSave
+ * @description
+ * A factory that controllers can use to help automatically save and load
+ * form data (via LocalStorage) on any given page.
+ *
+ * `rxAutoSave` provides a way to store values in a form for later. For instance, if a user is entering values into a
+ * form, then accidentally navigate to a new page, we likely want the values to be present again when they click the
+ * "Back" button in their browser. By correctly setting up an `rxAutoSave` instance for the form, this can happen
+ * automatically. By default, all saved values will be cleared after two days.
+ *
+ * `rxAutoSave` is a service intended to be used in controllers. No directives are provided. The intent is that the
+ * HTML forms themselves will have no knowledge that their values are being saved. `rxAutoSave` operates by doing a
+ * `$watch` on the model values for a given form, storing those model values whenever they change, and loading them
+ * on instantation.
+ *
+ * The stored data is keyed on the page URL. This means you can track the form state for multiple pages simultaneously.
+ * For example, say you have an "Edit" form. The user has gone to edit some values for "Server1", at
+ * `"/servers/server1/edit"`, and for "Server2" at `"/servers/server2/edit"`. The edit progress for both servers will
+ * be saved independently of each other. `rxAutoSave` will also let you independently store values for multiple forms
+ * appearing on the same page.
+ *
+ * By default, all values are stored in the browser's `LocalStorage`. This means that if a user logs into a different
+ * computer, their stored values will not be present. Use of `SessionStorage` is also supported out-of-the-box. If you
+ * wish to save form states elsewhere (for instance, to an API), see the "Storage Location" section below.
+ *
+ * ## Setting up your template
+ *
+ * Nothing explicit needs to be done in your templates to add support for `rxAutoSave`. The only requirement is that all
+ * the `ng-model` values in a given form are stored within one object (`formData` below). For example, say you have the
+ * following form in your template:
+ *
+ * <pre>
+ *   <form name="demoForm" rx-form>
+ *       <rx-form-section stacked>
+ *           <rx-field>
+ *               <rx-field-name>A checkbox field!:</rx-field-name>
+ *               <rx-field-content>
+ *                   <rx-input>
+ *                       <input rx-checkbox id="chkCheckbox" ng-model="formData.checkbox" />
+ *                       <label for="chkCheckbox">I likely don't disagree</label>
+ *                   </rx-input>
+ *               </rx-field-content>
+ *           </rx-field>
+ *
+ *           <rx-field>
+ *               <rx-field-name>Name:</rx-field-name>
+ *               <rx-field-content>
+ *                   <rx-input>
+ *                       <input type="text" ng-model="formData.name" />
+ *                   </rx-input>
+ *               </rx-field-content>
+ *           </rx-field>
+ *
+ *           <rx-field>
+ *             <rx-field-name>Description:</rx-field-name>
+ *             <rx-field-content>
+ *                 <rx-input>
+ *                     <textarea rows="10" ng-model="formData.description"></textarea>
+ *                 </rx-input>
+ *             </rx-field-content>
+ *           </rx-field>
+ *       </rx-form-section>
+ *   </form>
+ * </pre>
+ *
+ * **NOTE:** All the models for the form are attributes of the `formData` scope variable.
+ *
+ * ## Setting up your controller
+ *
+ * In your controller, you would have something like this in your initialization:
+ *
+ * <pre>
+ *   $scope.formData = {
+ *       checkbox: false,
+ *       name: '',
+ *       description: ''
+ *   };
+ * </pre>
+ *
+ * By default, every time this page was loaded, the form would be initialized with an unchecked checkbox, a blank
+ * `Name` field and a blank `Description`.
+ *
+ * To have `rxAutoSave` automatically save values, first inject `rxAutoSave` into your controller, and modify
+ * initialization as follows:
+ *
+ * <pre>
+ *   $scope.formData = {
+ *       checkbox: false,
+ *       name: '',
+ *       description: ''
+ *   };
+ *
+ *   var autosave = rxAutoSave($scope, 'formData');
+ * </pre>
+ *
+ * And that's it! Your `rxAutoSave` instance will watch for any change to `$scope.formData`, and will automatically
+ * write those changes to `LocalStorage`.
+ *
+ * A third argument can be passed to `rxAutoSave`, specifying usage options. The default values for these options are:
+ *
+ * <pre>
+ *   var autosave = rxAutoSave($scope, 'formData', {
+ *     clearOnSuccess: null,        // Promise
+ *     ttl: 172800,                 // Integer (seconds) - two days default
+ *     load: true,                  // Boolean or Promise that will resolve with a Boolean
+ *     save: true,                  // Boolean or Promise that will resolve with a Boolean
+ *     exclude: [],                 // Array<String>
+ *     storageBackend: LocalStorage // Object
+ *   });
+ * </pre>
+ *
+ * All of these options will be described below.
+ *
+ * ## Multiple Forms on one page
+ *
+ * `rxAutoSave` supports independently saving multiple forms on one page. To do this, have each form's model in its own
+ * object, and create individual `rxAutoSave` instances for each. i.e.:
+ *
+ * <pre>
+ *   $scope.form1Data = {
+ *       checkbox: false,
+ *       name: '',
+ *       description: ''
+ *   };
+ *
+ *   $scope.form2Data = {
+ *       customerName: '',
+ *       birthday: ''
+ *   };
+ *
+ *   var autosave1 = rxAutoSave($scope, 'form1Data');
+ *   var autosave2 = rxAutoSave($scope, 'form2Data');
+ * </pre>
+ *
+ * ## Clearing values
+ *
+ * If you need to clear the stored values, you can call `autosave.clear()`. This will clear the values from
+ * `LocalStorage`, but won't affect your `$scope.formData` values.
+ *
+ * More likely, rather than manually calling `autosave.clear()`, you'd like the values to be cleared on a "successful
+ * submit". For example, if your user is editing the form described above, and they click a "Submit" button to send the
+ * values to a server, `LocalStorage` should be cleared for this form if the server call is a success.
+ *
+ * To do this, pass an "options" parameter as the third argument to `rxAutoSave`, setting a promise on the
+ * `clearOnSuccess` attribute, i.e.
+ *
+ * <pre>
+ *   var autosave = rxAutoSave($scope, 'formData', { clearOnSuccess: serverSubmitPromise });
+ * </pre>
+ *
+ * If the `serverSubmitPromise` resolves, then `rxAutoSave` will automatically clear the stored values for `formData` on
+ * this page.
+ *
+ * When instantiating your controller, there's a good chance that the `clearOnSuccess` promise you are interested in
+ * does not actually exist yet, i.e. if you want to clear on a successfull submit, you need the submit `promise`.
+ * Instances of `rxAutoSave` provide a `clearOnSuccess()` method to accept this promise after instantiation:
+ *
+ * <pre>
+ *   var autosave = rxAutoSave($scope, 'formData');
+ *
+ *   // Take some other actions
+ *   ...
+ *
+ *   $scope.onSubmit = function () {
+ *       // Server.save() is some $resource that returns a promise
+ *       var promise = Server.save($scope.formData);
+ *       autosave.clearOnSuccess(promise);
+ *   }
+ * </pre>
+ *
+ * ## Automatic expiry
+ *
+ * Another way to automatically clear values is to set an explict Time-To-Live (TTL) when instantiating your
+ * `rxAutoSave` instance. This is done with the `ttl` property of the `opts` object,
+ *
+ * <pre>
+ *   // Automatically expire after 24 hours
+ *   var autosave = rxAutoSave($scope, 'formData', { ttl: 86400 });
+ * </pre>
+ *
+ * By default, a `ttl` of `172800` (two days) is used.
+ *
+ * The `ttl` property takes a length of time in seconds. Whenever something in `formData` changes, the expiry time will
+ * be freshly set. With the example above, whenever `formData` is changed, the new expiry time will be set to 24 hours
+ * from the time of the change. In addition, we freshly set the expiry time whenever the data is loaded. If `formData`
+ * is 12 hours away from expiring, and the user visits the page again, then the expiry will be freshly set to a new 24
+ * hours, whether or not the user makes a change.
+ *
+ * If a user visits a page after the data has expired, the data will be cleared from storage and not automatically
+ * loaded. (i.e. we're not running a continuous background process to look for expired data, we only check for
+ * expiration the next time `rxAutoSave` tries to load the data).
+ *
+ * To turn off automatic expiry for a given form, pass a value of `{ ttl: 0 }`. In this case, the data will never
+ * expire. You will have to clear it at an appropriate time by using one of the methods mentioned above.
+ *
+ * ## Preventing automatic loading
+ *
+ * If you need to prevent `rxAutoSave` from automatically loading stored values, you can again use the optional third
+ * parameter, this time setting `load: false`, i.e.
+ *
+ * <pre>
+ *   var autosave = rxAutoSave($scope, 'formData', { load: false });
+ * </pre>
+ *
+ * `load:` will accept a boolean, or it can accept a promise that eventually resolves to a boolean. Accepting a promise
+ * will let you delay your decision on whether or not to load (for example, asking a user if they want values loaded).
+ * Note that if you use a promise, `rxAutoSave` will look at its resolved value. If the resolved value is `true`, then
+ * the data will be loaded. If the resolved value is `false`, or the promise fails/rejects, then the data will not be
+ * loaded.
+ *
+ * ## Excluding some values from loading/saving
+ *
+ * By default, `rxAutoSave` automatically loads and saves all the stored values for a form. If you want to prevent it
+ * from loading/saving _some_ values, you can do:
+ *
+ * <pre>
+ *   var autosave = rxAutoSave($scope, 'formData', { exclude: ['description'] });
+ * </pre>
+ *
+ * This will tell `rxAutoSave` not to load from or save to the stored `description` value, but everything else in
+ * `formData` will be loaded/saved.
+ *
+ * ## Manual saving
+ *
+ * It might be that you don't want your `rxAutoSave` instance to automatically save to the storage backend
+ * automatically. In some cases, you might want to disable automatic saving and instead manually tell your instance
+ * when it should save. To turn off automatic saving, set up your instance as follows:
+ *
+ * <pre>
+ *   var manualsave = rxAutoSave($scope, 'formData', { save: false });
+ * </pre>
+ *
+ * Then, whenever you want your `autosave` instance to commit the current model values to storage, do
+ *
+ * <pre>
+ *   manualsave.save();
+ * </pre>
+ *
+ * As with the `load` parameter, you can pass either a boolean or a promise to `save`.
+ *
+ * ## Storage location
+ *
+ * All values for `rxAutoSave` are by default stored in the browser's `LocalStorage`, and keyed on the URL of the page,
+ * with a `rxAutoSave::` prefix. For example, if the above form were present at the URL `'users/JonnyRocket/edit'`,
+ * then the form data would be saved into `LocalStorage` at location `'rxAutoSave::users/JonnyRocket/edit'`
+ *
+ * If you wish to use a different storage backend (`SessionStorage`, for instance), use the `storageBackend` parameter:
+ *
+ * <pre>
+ *    var autosave = rxAutoSave($scope, 'formData', { storageBackend: SessionStorage });
+ * </pre>
+ *
+ * `storageBackend` requires that you pass it an object which has `getObject(key)` and `setObject(key, val)` methods.
+ * `LocalStorage` and `SessionStorage` are both provided by EncoreUI, and support this interface.
+ *
+ * You can use your own custom backends as well, as long as it supports `getObject(key)` and `setObject(key, val)`.
+ *
+ * ## Custom Storage Key Values
+ *
+ * Sometimes, it may be necessary to change how a key is formed for the specified `storageBackend`. As previously
+ * stated, these are calculated by prepending `'rxAutoSave::'` before the url. You can override this by passing in a
+ * `keyShaping` function to the options object.
+ *
+ * An example one would be as follows:
+ *
+ * <pre>
+ *   var autosave = rxAutoSave($scope, 'formData', {
+ *       keyShaping: function (key) {
+ *           return key.replace('?cache=false', '');
+ *       }
+ *   });
+ * </pre>
+ *
+ * The above example could be used to have the current url ignore any caching flags passed in. The `keyShaping`
+ * function will receive the default calculated key (`rxAutoSave::` + $location.url()). By default, `keyShaping`
+ * just returns the original calculated key.
+ *
+ *
+ * @param {Object} scope scope to apply a `$watch` expression
+ * @param {String} variable
+ * variable name corresponding to an object on the given scope
+ * @param {Object=} options usage options
+ * @param {Promise} [options.clearOnSuccess=null] *optional* -
+ * Clear saved data on successful resolution of given promise.
+ *
+ * @param {Function} [options.keyShaping]
+ * Sometimes, it may be necessary to change how a key is formed for the specified
+ * `storageBackend`.  Keys are calculated by prepending `'rxAutoSave::'` before the
+ * url. Your custom `keyShaping` function will take one parameter (`key`), to which
+ * you may modify to your specific needs.
+ *
+ * The below example will ignore any caching flags in the url.
+ * <pre>
+ * var autosave = rxAutoSave($scope, 'formData', {
+ *     keyShaping: function (key) {
+ *         return key.replace('?cache=false', '');
+ *     }
+ * });
+ * </pre>
+ *
+ * @param {Integer} [options.ttl=172800] *optional* -
+ * Time to Live (in seconds) - defaults to 2 days
+ *
+ * Whenever data changes in the watched variable, the expiry time will be freshly set
+ * In addition, we freshly set the expiry time whenever the data is loaded. If the data
+ * is 12 hours away from expiring and a user visits the page again, the expiry will be
+ * freshly set to a new 48 hours, whether or not the user makes a change.
+ *
+ * If a user visits a page after the data has expired, the data will be cleared from
+ * storage and not automatically loaded.
+ * * A continuous background process is not running to look for expired data.
+ * * We only check for expiration the next time `rxAutoSave` tries to load the data.
+ *
+ * To turn off automatic expiry for a given form, pass a value of `{ ttl: 0 }`.
+ * In this case, the data will never expire and you will have to clear it manually at
+ * an appropriate time by using one of the following:
+ *
+ * * `clear()`
+ * * `clearOnSuccess()`
+ *
+ * @param {Boolean|Promise} [options.load=true] *optional* -
+ * If false, will prevent data from being automatically loaded onto the scope.
+ *
+ * You may use a promise that resolves to a boolean, if desired.
+ * @param {Boolean|Promise} [options.save=true] *optional* -
+ * If false, will prevent data from being automatically saved on change.
+ *
+ * You may use a promise that resolves to a boolean, if desired.
+ * @param {String[]} [options.exclude] *optional* -
+ * A string of property names to exclude from automatic save. This is useful to
+ * exclude saving any sensitive information like passwords, credit card numbers, etc.
+ *
+ * <pre>
+ * var autosave = rxAutoSave($scope, 'formData', { exclude: ['password'] });
+ * </pr>
+ *
+ * @param {Object} [options.storageBackend=LocalStorage] *optional* -
+ * Must be an object which has `getObject(key)` and `setObject(key, val)` methods.
+ * `LocalStorage` and `SessionStorage` are both provided by EncoreUI, and support
+ * this interface.
+ *
+ * You can use your own custom backends as well, as long as it supports `getObject(key)`
+ * and `setObject(key, val)`.
+ */
+.factory('rxAutoSave', ["$location", "$q", "debounce", "LocalStorage", function ($location, $q, debounce, LocalStorage) {
+    /*
+     * We'll version the schema for the stored data, so if we need to change
+     * the schema in the future, we can do automatic migrations. Never
+     * delete any of these documented schemas. If you have to add a new version,
+     * then add it on top, but keep the documentation for the old one around.
+     * VERSION 1
+     *      'rxAutoSave::' + URL => {
+     *          pageConfig: {
+     *              version: 1
+     *          },
+     *          forms: {
+     *              "form1": {
+     *                   config: {
+     *                      expires: 0,
+     *                  },
+     *                  data: {
+     *                      // Serialized form data
+     *                  }
+     *              }
+     *              "form2": {
+     *                  config: {
+     *                      expires: 33421234322,
+     *                  }
+     *                  data: {
+     *                      // Serialized form data
+     *                  }
+     *              }
+     *          }
+     *      }
+    */
+    var version = 1;
+
+    // This will be used by the rxAutoSave instance to interact with
+    // LocalStorage.
+    //
+    // @param watchVar - the string name of the
+    //                   object that's being watched, representing the model for the form.
+    //                   StorageAPI is not publically exposed, it can only be used and accessed
+    //                   by the rxAutoSave instance
+    // @param [storageBackend] - Optional, defaults to LocalStorage. If you pass in a storage object,
+    //                           it must support both getObject(key) and setObject(key, val), matching
+    //                           the operations of LocalStorage and SessionStorage
+    // @param [keyShaping] - Optional, defaults to just returning the originally defined key value.
+    //                       It gets passed the original value defined ('rxAutoSave::' + $location.url())
+    //                       and is expected to return the new key that you wish to have used.
+    var StorageAPI = function (watchVar, storageBackend, keyShaping) {
+        this.key = keyShaping('rxAutoSave::' + $location.url());
+        this.watchVar = watchVar;
+        this.storage = storageBackend ? storageBackend : LocalStorage;
+    };
+
+    // Get all the saved data for this page. If none
+    // exists, then create an empty object that matches
+    // the current schema.
+    StorageAPI.prototype.getAll = function () {
+        return this.storage.getObject(this.key) || {
+            pageConfig: {
+                version: version,
+            },
+            forms: {
+            }
+        };
+    };
+
+    // Given a `watchVar`, return the corresponding
+    // `form` object from LocalStorage. This form object should include
+    // both `.data` and `.config` properties.
+    // If no form currently exists for `watchVar`, then an empty
+    // object will be created that matches the current schema
+    StorageAPI.prototype.getForm = function () {
+        var all = this.getAll();
+        if (!_.has(all.forms, this.watchVar)) {
+            all.forms[this.watchVar] = {
+                data: {},
+                config: {
+                    expires: 0
+                }
+            };
+        }
+        return all.forms[this.watchVar];
+    };
+
+    // Given a full form object, save it into LocalStorage,
+    // indexed into the forms[watchVar] location for this page
+    StorageAPI.prototype.setForm = function (form) {
+        var all = this.getAll();
+        all.forms[this.watchVar] = form;
+        this.storage.setObject(this.key, all);
+    };
+
+    // Get the current `config` object for a given watchVar
+    StorageAPI.prototype.getConfig = function () {
+        return this.getForm().config;
+    };
+
+    // Return the time that a given form is supposed to
+    // have its saved data expire
+    StorageAPI.prototype.getExpires = function () {
+        return this.getConfig().expires;
+    };
+
+    // For a given watchVar, set a new expiry time, and save
+    // into LocalStorage
+    StorageAPI.prototype.setExpiryTime = function (expiryTime) {
+        var form = this.getForm();
+        form.config.expires = expiryTime;
+        this.setForm(form);
+    };
+
+    // Force an expiration for a given watchVar. This will completely
+    // clear the saved data for this watchVar, and set the `expires`
+    // back to 0
+    StorageAPI.prototype.expire = function () {
+        var form = this.getForm();
+        form.data = {};
+        form.config.expires = 0;
+        this.setForm(form);
+    };
+
+    // Return the current saved data for a given watchVar
+    StorageAPI.prototype.getDataObject = function () {
+        return this.getForm().data || {};
+    };
+
+    // For a given watchVar, store `val` as its saved
+    // data, into LocalStorage
+    StorageAPI.prototype.setDataObject = function (val) {
+        var form = this.getForm();
+        form.data = val;
+        this.setForm(form);
+    };
+
+    // This is what we return from rxAutoSave, and calling this
+    // function will return an instance
+    return function (scope, watchVar, opts) {
+        opts = opts || {};
+        _.defaults(opts, {
+            load: true,
+            save: true,
+            clearOnSuccess: undefined,
+            exclude: [],
+            ttl: 172800,
+            keyShaping: _.identity,
+            storageBackend: LocalStorage
+        });
+
+        opts.ttl = opts.ttl * 1000; // convert back to milliseconds
+
+        var api = new StorageAPI(watchVar, opts.storageBackend, opts.keyShaping);
+
+        var updateExpiryTime = function () {
+            if (opts.ttl > 0) {
+                api.setExpiryTime(_.now() + opts.ttl);
+            }
+        };
+
+        // Responsible for loading the data from LocalStorage into the form
+        var load = function () {
+            var expires = api.getExpires();
+            if (expires > 0 && expires <= _.now()) {
+                // This data has expired. Make sure we clear it out
+                // of LocalStorage
+                api.expire();
+                return;
+            }
+
+            updateExpiryTime();
+
+            // Write all the storedObject values into scope[watchVar], except
+            // for any specified in opts.exclude
+            var storedObject = api.getDataObject();
+            _.assign(scope[watchVar], _.omit(storedObject, opts.exclude));
+        };
+
+        // This is the "instance" that is returned when someone
+        // calls rxAutoSave($scope, 'someWatchVar')
+        var autoSaveInstance = {
+            clear: function () {
+                api.expire();
+            },
+
+            clearOnSuccess: function (promise) {
+                promise.then(this.clear);
+            },
+
+            save: function () {
+                update(scope[watchVar]);
+            },
+
+            getStoredValue: function () {
+                return api.getDataObject();
+            }
+        };
+
+        _.bindAll(autoSaveInstance);
+
+        var update = function (newVal) {
+            // Get the current data stored for this watchVar
+            var data = api.getDataObject();
+
+            // Overwrite all properties in allWatchVars[watchVar] with properties from
+            // newVal, except for the properties in opts.exclude
+            _.assign(data, _.omit(newVal, opts.exclude));
+
+            // Store the newly changed data in LocalStorage
+            api.setDataObject(data);
+
+            // Update the expiry time whenever we modify data
+            updateExpiryTime();
+        };
+
+        // We don't want to write to LocalStorage every time the model changes,
+        // because that would turn typing into a textarea into an expensive operation.
+        // We'll instead debounce the the writes for 1 second
+        var debounced = debounce(update, 1000);
+
+        $q.when(opts.save).then(function (shouldSave) {
+            if (shouldSave) {
+                // The `true` third argument tells $watch to do a deep comparison
+                scope.$watch(watchVar, debounced, true);
+            }
+        });
+
+        $q.when(opts.load).then(function (shouldLoad) {
+            if (shouldLoad) {
+                load();
+            }
+        });
+
+        if (!_.isUndefined(opts.clearOnSuccess)) {
+            autoSaveInstance.clearOnSuccess(opts.clearOnSuccess);
+        }
+
+        return autoSaveInstance;
+    };
+}]);
+
+angular.module('encore.ui.rxMisc')
+/**
+ * @ngdoc service
+ * @name rxMisc.service:rxDOMHelper
+ * @description
+ * A small set of functions to provide some functionality
+ * that isn't present in Angular's jQuery-lite, and other
+ * DOM-related functions that are useful.
+ *
+ * All methods take jquery-lite wrapped elements as arguments.
+ */
+.factory('rxDOMHelper', ["$document", "$window", function ($document, $window) {
+    var scrollTop = function () {
+        // Safari and Chrome both use body.scrollTop, but Firefox needs
+        // documentElement.scrollTop
+        var doc = $document[0];
+        var scrolltop = $window.pageYOffset || doc.body.scrollTop || doc.documentElement.scrollTop || 0;
+        return scrolltop;
+    };
+
+    var offset = function (elm) {
+        //http://cvmlrobotics.blogspot.co.at/2013/03/angularjs-get-element-offset-position.html
+        var rawDom = elm[0];
+        var _x = 0;
+        var _y = 0;
+        var doc = $document[0];
+        var body = doc.documentElement || doc.body;
+        var scrollX = $window.pageXOffset || body.scrollLeft;
+        var scrollY = scrollTop();
+        var rect = rawDom.getBoundingClientRect();
+        _x = rect.left + scrollX;
+        _y = rect.top + scrollY;
+        return { left: _x, top:_y };
+    };
+
+    var style = function (elem) {
+        if (elem instanceof angular.element) {
+            elem = elem[0];
+        }
+        return $window.getComputedStyle(elem);
+    };
+
+    var width = function (elem) {
+        return style(elem).width;
+    };
+
+    var height = function (elem) {
+        return style(elem).height;
+    };
+
+    var shouldFloat = function (elem, maxHeight) {
+        var elemOffset = offset(elem),
+            scrolltop = scrollTop();
+
+        return ((scrolltop > elemOffset.top) && (scrolltop < elemOffset.top + maxHeight));
+    };
+
+    // An implementation of wrapAll, based on
+    // http://stackoverflow.com/a/13169465
+    // Takes a raw DOM `newParent`, and moves all of `elms` (either
+    // a single element or an array of elements) into it. It then places
+    // `newParent` in the location that elms[0] was originally in
+    var wrapAll = function (newParent, elms) {
+        // Figure out if it's one element or an array
+        var isGroupParent = ['SELECT', 'FORM'].indexOf(elms.tagName) !== -1;
+        var el = (elms.length && !isGroupParent) ? elms[0] : elms;
+
+        // cache the current parent node and sibling
+        // of the first element
+        var parentNode = el.parentNode;
+        var sibling = el.nextSibling;
+
+        // wrap the first element. This automatically
+        // removes it from its parent
+        newParent.appendChild(el);
+
+        // If there are other elements, wrap them. Each time
+        // it will remove the element from its current parent,
+        // and also from the `elms` array
+        if (!isGroupParent) {
+            while (elms.length) {
+                newParent.appendChild(elms[0]);
+            }
+        }
+
+        // If there was a sibling to the first element,
+        // insert newParent right before it. Otherwise
+        // just add it to parentNode
+        if (sibling) {
+            parentNode.insertBefore(newParent, sibling);
+        } else {
+            parentNode.appendChild(newParent);
+        }
+    };
+
+    // bind `f` to the scroll event
+    var onscroll = function (f) {
+        angular.element($window).bind('scroll', f);
+    };
+
+    var find = function (elem, selector) {
+        return angular.element(elem[0].querySelector(selector));
+    };
+
+    return {
+        offset: offset,
+        scrollTop: scrollTop,
+        width: width,
+        height: height,
+        shouldFloat: shouldFloat,
+        onscroll: onscroll,
+        find: find,
+        wrapAll: wrapAll
+    };
+}]);
+
+angular.module('encore.ui.rxMisc')
+/**
+ * @ngdoc service
+ * @name rxMisc.service:rxNestedElement
+ * @description
+ * Helper function to aid in the creation of boilerplate DDO definitions
+ * required to validate nested custom elements.
+ *
+ * @param {Object=} opts - Options to merge with default DDO definitions
+ * @param {String} opts.parent - Parent directive name
+ * (i.e. defined NestedElement is an immediate child of this parent element)
+ *
+ * @return {Object} Directive Definition Object for a rxNestedElement
+ *
+ * @example
+ * <pre>
+ * angular.module('myApp', [])
+ * .directive('parentElement', function (rxNestedElement) {
+ *   return rxNestedElement();
+ * })
+ * .directive('childElement', function (rxNestedElement) {
+ *   return rxNestedElement({
+ *      parent: 'parentElement'
+ *   });
+ * });
+ * </pre>
+ */
+.factory('rxNestedElement', function () {
+    return function (opts) {
+        opts = opts || {};
+
+        var defaults = {
+            restrict: 'E',
+            /*
+             * must be defined for a child element to verify
+             * correct hierarchy
+             */
+            controller: angular.noop
+        };
+
+        if (angular.isDefined(opts.parent)) {
+            opts.require = '^' + opts.parent;
+            /*
+             * bare minimum function definition needed for "require"
+             * validation logic
+             *
+             * NOTE: `angular.noop` and `_.noop` WILL NOT trigger validation
+             */
+            opts.link = function () {};
+        }
+
+        return _.defaults(opts, defaults);
+    };
+});
+
+angular.module('encore.ui.rxMisc')
+/**
+ * @ngdoc filter
+ * @name rxMisc.filter:titleize
+ * @description
+ * Convert a string to title case, stripping out underscores and capitalizing words.
+ *
+ * Credit where it's due: https://github.com/epeli/underscore.string/blob/master/titleize.js
+ *
+ * @param {String} inputString - The string to convert
+ * @returns {String} The titleized version of the string
+ *
+ * @example
+ * Both examples result in a string of `"A Simple String"`.
+ * <pre>
+ * {{ 'a simple_STRING' | titleize }}
+ * </pre>
+ *
+ * <pre>
+ * $filter('titleize')('a simple_STRING');
+ * </pre>
+ */
+.filter('titleize', function () {
+    return function (inputString) {
+        return inputString
+            .toLowerCase()
+            .replace(/_/g, ' ')
+            .replace(/(?:^|\s)\S/g, function (character) {
+                return character.toUpperCase();
+            });
     };
 });
 
@@ -7609,384 +7326,6 @@ angular.module('encore.ui.rxModalAction')
             element.removeAttr('title');
         }
     };
-}]);
-
-/**
- * @ngdoc overview
- * @name rxSelect
- * @description
- * # rxSelect component
- *
- * A component that wraps a native `<select>` element in markup required for
- * styling purposes.
- *
- * ## Directives
- * * {@link rxSelect.directive:rxSelect rxSelect}
- */
-angular.module('encore.ui.rxSelect', [])
-/**
- * @ngdoc directive
- * @name rxSelect.directive:rxSelect
- * @restrict A
- * @scope
- * @description
- *
- * This directive is to apply styling to native `<select>` elements
- *
- * ## Styling
- *
- * Directive results in a **block element** that takes up the *full width of its
- * container*. You can style the output against decendents of the **`.rxSelect`**
- * CSS class.
- *
- * ## Show/Hide
- * If you wish to show/hide your `rxSelect` element, we recommend placing it
- * within a `<div>` or `<span>` wrapper, and performing the show/hide logic on
- * the wrapper.
- *
- * <pre>
- * <span ng-show="isShown">
- *     <select rx-select ng-model="selDemo">
- *         <option value="1">First</option>
- *         <option value="2">Second</option>
- *         <option value="3">Third</option>
- *     </select>
- * </span>
- * </pre>
- *
- * It is highly recommended that you use `ng-show` and `ng-hide` for display logic.
- * Because of the way that `ng-if` and `ng-switch` directives behave with scope,
- * they may introduce unnecessary complexity in your code.
- *
- * @example
- * <pre>
- * <select rx-select ng-model="demoItem">
- *   <option value="1">First</option>
- *   <option value="2">Second</option>
- *   <option value="3">Third</option>
- * </select>
- * </pre>
- *
- * @param {Boolean=} [ngDisabled=false] Determines if control is disabled.
- */
-.directive('rxSelect', function () {
-    return {
-        restrict: 'A',
-        scope: {
-            ngDisabled: '=?'
-        },
-        link: function (scope, element, attrs) {
-            var disabledClass = 'rx-disabled';
-            var wrapper = '<div class="rxSelect"></div>';
-            var fakeSelect = '<div class="fake-select">' +
-                    '<div class="select-trigger">' +
-                        '<i class="fa fa-fw fa-caret-down"></i>' +
-                    '</div>' +
-                '</div>';
-
-            element.wrap(wrapper);
-            element.after(fakeSelect);
-            // must be defined AFTER the element is wrapped
-            var parent = element.parent();
-
-            // apply/remove disabled class so we have the ability to
-            // apply a CSS selector for purposes of style sibling elements
-            if (_.has(attrs, 'disabled')) {
-                parent.addClass(disabledClass);
-            }
-            if (_.has(attrs, 'ngDisabled')) {
-                scope.$watch('ngDisabled', function (newVal) {
-                    if (newVal === true) {
-                        parent.addClass(disabledClass);
-                    } else {
-                        parent.removeClass(disabledClass);
-                    }
-                });
-            }
-
-            var removeParent = function () {
-                parent.remove();
-            };
-
-            // remove stylistic markup when element is destroyed
-            element.on('$destroy', function () {
-                scope.$evalAsync(removeParent);
-            });
-        }
-    };
-});
-
-/**
- * @ngdoc overview
- * @name rxSelectFilter
- * @description
- * # rxSelectFilter component
- *
- * A component that provides a multi-select dropdown interface intended for
- * table filtering.
- *
- * ## Directives
- * * {@link rxSelectFilter.directive:rxSelectFilter rxSelectFilter}
- *
- * ## Filters
- * * {@link rxSelectFilter.filter:Apply Apply}
- *
- * ## Services
- * * {@link rxSelectFilter.service:SelectFilter SelectFilter}
- */
-angular.module('encore.ui.rxSelectFilter', [
-    'encore.ui.rxMisc',
-    'encore.ui.rxSelect'
-]);
-
-angular.module('encore.ui.rxSelectFilter')
-/**
- * @ngdoc filter
- * @name rxSelectFilter.filter:Apply
- * @description
- * Used to apply an instance of SelectFilter to an array.
- *
- * Merely calls the `applyTo()` method of a `SelectFilter` instance to an
- * input array.
- * <pre>
- * <tr ng-repeat="item in list | Apply:filter">
- * </pre>
- *
- * @param {Array} list The list to be filtered.
- * @param {Object} filter An instance of SelectFilter
- *
- */
-.filter('Apply', function () {
-    return function (list, filter) {
-        return filter.applyTo(list);
-    };
-});
-
-angular.module('encore.ui.rxSelectFilter')
-/**
- * @ngdoc service
- * @name rxSelectFilter.service:SelectFilter
- * @description
- * A prototype for creating objects that can be used for filtering arrays.
- *
- * ## SelectFilter
- * This service exposes an object with single method, `create()`, used to
- * create instances of a `SelectFilter`. It is configurable via three options:
- * - `properties`: A list of the properties to create a filter control.
- * Assuming the source data is an array of objects, a property is equivalent to
- * an object's key.
- *
- * - `available` (optional): An object that tracks which options are available
- * for a property.
- * Note that the key of the object matches a value in the `properties` array.
- * - `selected` (optional): An object that tracks which options are selected
- * for a property. It has the same form as the `available` object, but the
- * arrays indicate which options are selected, and as such are strict subsets
- * of their `available` counterparts.
- *
- * ### Option Defaults
- * Every property that is listed in `properties` but not provided as a key
- * to `available` will be automatically populated the first time `applyTo()`
- * (see below) is called.
- * <pre>
- * var filter = SelectFilter.create({
- *   properties: ['year']
- * });
- *
- * filter.applyTo([{
- *   eventId: 1,
- *   year: 2013
- * }, {
- *   eventId: 2,
- *   year: 2014
- * }, {
- *   eventId: 3,
- *   year: 2013
- * }]);
- * // filter.available is { year: [2013, 2014] }
- * </pre>
- * **Note:** There is an implied requirement that, when relying on the
- * auto-populated filter, the input array will have at least one item for every
- * available option. For example, this may not be the case when used with
- * server-side pagination.
- *
- * Every property that is listed in `properties` but not provided as a key to
- * `selected` is initialized to have all options selected (by looking them up
- * in `available`).  If property is also not provided to `available`, its
- * initialization is delayed until the first call of `applyTo()`.
- *
- * <pre>
- * var filter = SelectFilter.create({
- *   properties: ['year'],
- *   available: {
- *       year: [2013, 2014, 2015]
- *   }
- * });
- * // filter.selected is { year: [2013, 2014, 2015] }
- * </pre>
- *
- * ### Instances
- * Instances of `SelectFilter` have an `applyTo()` method, which applies the
- * filter's internal state of selected options to the array. This will not
- * often be called directly, but instead used by the
- * {@link rxSelectFilter.filter:Apply Apply} filter. As stated previously,
- * the first call of `applyTo()` will initialize any
- * `properties` that have not been defined in `available` or `selected`.
- * <pre>
- * var filter = SelectFilter.create({
- *   properties: ['year'],
- *   selected: {
- *      year: [2014]
- *     }
- * });
- *
- * var filteredArray = filter.applyTo([{
- *   eventId: 1,
- *   year: 2013
- * }, {
- *   eventId: 2,
- *   year: 2014
- * }, {
- *   eventId: 3,
- *   year: 2013
- * }]);
- * // filteredArray is [{ eventId: 2, year: 2014 }]
- * </pre>
- *
- * The instance will also have all of the constructor options as public
- * properties, so that they can be watched or changed.
- *
- */
-.service('SelectFilter', function () {
-    return {
-       /**
-        * @ngdoc method
-        * @name create
-        * @methodOf rxSelectFilter.service:SelectFilter
-        * @param {Object} options
-        * Options object
-        * @param {Object} options.properties
-        * A list of the properties to create a filter control. Assuming the
-        * source data is an array of objects, a property is equivalent to an
-        * object's key.
-        * <pre>
-        * SelectFilter.create({
-        *      properties: ['year']
-        * });
-        * </pre>
-        * @param {Object=} options.available
-        * An object that tracks which options are available for a property.
-        * <pre>
-        * SelectFilter.create({
-        *     // other options...
-        *     available: {
-        *        year: [2013, 2014, 2015],
-        *       }
-        * });
-        * </pre>
-        * @param {Object=} options.selected
-        * An object that tracks which options are selected for a property.
-        * It has the same form as the `available` object, but the arrays indicate
-        * which options are selected, and as such are strict subsets of their
-        * `available` counterparts.
-        * <pre>
-        * SelectFilter.create({
-        *     // other options...
-        *     selected: {
-        *         year: [2014],
-        *       }
-        * });
-        * </pre>
-        */
-        create: function (options) {
-            options = _.defaults(options, {
-                properties: [],
-                available: {},
-                selected: _.isUndefined(options.available) ? {} : _.cloneDeep(options.available)
-            });
-
-            var filter = _.cloneDeep(options);
-
-            var firstRun = true;
-
-            function init (list) {
-                filter.properties.forEach(function (property) {
-                    if (_.isUndefined(filter.available[property])) {
-                        filter.available[property] = _.uniq(_.pluck(list, property));
-                    }
-
-                    // Check `options.selected` instead of `filter.selected` because the latter
-                    // is used as the model for `<rx-multi-select>`, which initializes its
-                    // model to an empty array. However, the intent is select all options
-                    // initially when left unspecified (preferred default behavior).
-                    if (_.isUndefined(options.selected[property])) {
-                        filter.selected[property] = _.clone(filter.available[property]);
-                    }
-                });
-            }
-
-            function isItemValid (item) {
-                return filter.properties.every(function (property) {
-                    return _.contains(filter.selected[property], item[property]);
-                });
-            }
-
-            filter.applyTo = function (list) {
-                if (firstRun) {
-                    firstRun = false;
-                    init(list);
-                }
-                return list.filter(isItemValid);
-            };
-
-            return filter;
-        }
-    };
-});
-
-angular.module('encore.ui.rxSelectFilter')
-/**
- * @ngdoc directive
- * @name rxSelectFilter.directive:rxSelectFilter
- * @restrict E
- * @scope
- * @description
- * Automatically creates the appropriate dropdowns to manage a filter object.
- *
- * **NOTE:** `rxSelectFilter` directive must be instaniated as a child of
- * {@link rxForm.directive:rxFormSection rxFormSection} directive.  The {@link rxForm} component
- * hierarchy validation enforces this relationship.
- *
- * ## rxSelectFilter
- * Uses an instance of `SelectFilter` to create a set of `<rx-multi-select>`'s
- * that modify the instance object.
- * <pre>
- * // In the controller
- * $scope.filter = SelectFilter.create({
- *   // options...
- * });
- * </pre>
- *
- * ## rxSelectFilter usage in rxForm
- * <pre>
- * // rxSelectFilter must be instantiated as a child of rxFormSection
- * <rx-form-section>
- *     <rx-select-filter filter="filter"></rx-select-filter>
- * </rx-form-section>
- * </pre>
- *
- * @param {Object} filter - An instance of SelectFilter
- *
- */
-.directive('rxSelectFilter', ["rxNestedElement", function (rxNestedElement) {
-    return rxNestedElement({
-        parent: 'rxFormSection',
-        restrict: 'E',
-        templateUrl: 'templates/rxSelectFilter.html',
-        scope: {
-            filter: '='
-        }
-    });
 }]);
 
 /**
@@ -10364,6 +9703,146 @@ angular.module('encore.ui.rxPaginate')
 
 /**
  * @ngdoc overview
+ * @name rxPermission
+ * @description
+ * # rxPermission Component
+ * The rxPermission component provides functionality to perform checks against existing user permissions in
+ * EncoreUI.  It provides a {@link rxPermission.service:Permission Permission} service for working with roles, and
+ * a {@link rxPermission.directive:rxPermission rxPermission} directive for excluding DOM content based on roles.
+ *
+ * ## Services
+ * * {@link rxPermission.service:Permission Permission}
+ *
+ * ## Directives
+ * * {@link rxPermission.directive:rxPermission rxPermission}
+ */
+angular.module('encore.ui.rxPermission', [
+    'encore.ui.rxSession'
+]);
+
+angular.module('encore.ui.rxPermission')
+/**
+ * @ngdoc service
+ * @name rxPermission.service:Permission
+ * @description
+ * Simple service for accessing roles and permissions for a user.
+ *
+ * @requires rxSession.service:Session
+ *
+ * @example
+ * <pre>
+ * Permission.getRoles() //returns an array of roles for a user
+ * Permission.hasRole(role) //returns true/false if user has specified role
+ * </pre>
+ */
+.factory('Permission', ["Session", function (Session) {
+    var permissionSvc = {};
+
+    var cleanRoles = function (roles) {
+        return roles.split(',').map(function (r) {
+            return r.trim();
+        });
+    };
+
+    var userRoles = function () {
+        return _.pluck(permissionSvc.getRoles(), 'name');
+    };
+
+    /**
+     * @description Takes a function and a list of roles, and returns the
+     * result of calling that function with `roles`, and comparing to userRoles().
+     *
+     * @param {function} fn - Comparison function to use. _.any, _.all, etc.
+     * @param {array} roles - List of desired roles
+     */
+    var checkRoles = function (roles, fn) {
+        // Some code expects to pass a comma-delimited string
+        // here, so turn that into an array
+        if (_.isString(roles)) {
+            roles = cleanRoles(roles);
+        }
+
+        var allUserRoles = userRoles();
+        return fn(roles, function (role) {
+            return _.contains(allUserRoles, role);
+        });
+    };
+
+    /**
+     * @name  getRoles
+     * @ngdoc method
+     * @methodOf rxPermission.service:Permission
+     * @description
+     * Fetch all the roles tied to the user (in the exact format available in their Session token).
+     *
+     * @returns {Array} List of all roles associated to the user.
+     */
+    permissionSvc.getRoles = function () {
+        var token = Session.getToken();
+        return (token && token.access && token.access.user && token.access.user.roles) ?
+            token.access.user.roles : [];
+    };
+
+    /**
+     * @name  hasRole
+     * @ngdoc method
+     * @methodOf rxPermission.service:Permission
+     * @description Check if user has at least _one_ of the given roles.
+     * @param {Array} roles List of roles to check against
+     * @returns {Boolean} True if user has at least _one_ of the given roles; otherwise, False.
+     */
+    permissionSvc.hasRole = function (roles) {
+        return checkRoles(roles, _.any);
+    };
+
+    /**
+     * @name  hasAllRoles
+     * @ngdoc method
+     * @methodOf rxPermission.service:Permission
+     * @description Checks if user has _every_ role in given list.
+     * @param {Array} roles List of roles to check against
+     * @returns {Boolean} True if user has _every_ role in given list; otherwise, False.
+     *
+     */
+    permissionSvc.hasAllRoles = function (roles) {
+        return checkRoles(roles, _.all);
+    };
+
+    return permissionSvc;
+}]);
+
+angular.module('encore.ui.rxPermission')
+/**
+ * @ngdoc directive
+ * @name rxPermission.directive:rxPermission
+ * @restrict E
+ * @scope
+ * @description
+ * Simple directive which will show or hide content based on whether or not the user has the specified role. See
+ * the `rxPermission` component {@link /encore-ui/#/components/rxPermission demo} for an example.
+ *
+ * @requires rxPermission.service:Permission
+ *
+ * @param {String} role - Name of required role.
+ */
+.directive('rxPermission', function () {
+    return {
+        restrict: 'E',
+        transclude: true,
+        scope: {
+            role: '@'
+        },
+        templateUrl: 'templates/rxPermission.html',
+        controller: ["$scope", "Permission", function ($scope, Permission) {
+            $scope.hasRole = function (roles) {
+                return Permission.hasRole(roles);
+            };
+        }]
+    };
+});
+
+/**
+ * @ngdoc overview
  * @name rxRadio
  * @description
  * # rxRadio Component
@@ -10373,7 +9852,9 @@ angular.module('encore.ui.rxPaginate')
  * ## Directives
  * * {@link rxRadio.directive:rxRadio rxRadio}
  */
-angular.module('encore.ui.rxRadio', [])
+angular.module('encore.ui.rxRadio', []);
+
+angular.module('encore.ui.rxRadio')
 /**
  * @name rxRadio.directive:rxRadio
  * @ngdoc directive
@@ -10473,7 +9954,8 @@ angular.module('encore.ui.rxRadio', [])
  * ## Directives
  * * {@link rxSearchBox.directive:rxSearchBox rxSearchBox}
  */
-angular.module('encore.ui.rxSearchBox', [])
+angular.module('encore.ui.rxSearchBox', []);
+angular.module('encore.ui.rxSearchBox')
 /**
  * @name rxSearchBox.directive:rxSearchBox
  * @ngdoc directive
@@ -10545,6 +10027,565 @@ angular.module('encore.ui.rxSearchBox', [])
         }
     };
 });
+
+/**
+ * @ngdoc overview
+ * @name rxSelect
+ * @description
+ * # rxSelect component
+ *
+ * A component that wraps a native `<select>` element in markup required for
+ * styling purposes.
+ *
+ * ## Directives
+ * * {@link rxSelect.directive:rxSelect rxSelect}
+ */
+angular.module('encore.ui.rxSelect', []);
+
+angular.module('encore.ui.rxSelect')
+/**
+ * @ngdoc directive
+ * @name rxSelect.directive:rxSelect
+ * @restrict A
+ * @scope
+ * @description
+ *
+ * This directive is to apply styling to native `<select>` elements
+ *
+ * ## Styling
+ *
+ * Directive results in a **block element** that takes up the *full width of its
+ * container*. You can style the output against decendents of the **`.rxSelect`**
+ * CSS class.
+ *
+ * ## Show/Hide
+ * If you wish to show/hide your `rxSelect` element, we recommend placing it
+ * within a `<div>` or `<span>` wrapper, and performing the show/hide logic on
+ * the wrapper.
+ *
+ * <pre>
+ * <span ng-show="isShown">
+ *     <select rx-select ng-model="selDemo">
+ *         <option value="1">First</option>
+ *         <option value="2">Second</option>
+ *         <option value="3">Third</option>
+ *     </select>
+ * </span>
+ * </pre>
+ *
+ * It is highly recommended that you use `ng-show` and `ng-hide` for display logic.
+ * Because of the way that `ng-if` and `ng-switch` directives behave with scope,
+ * they may introduce unnecessary complexity in your code.
+ *
+ * @example
+ * <pre>
+ * <select rx-select ng-model="demoItem">
+ *   <option value="1">First</option>
+ *   <option value="2">Second</option>
+ *   <option value="3">Third</option>
+ * </select>
+ * </pre>
+ *
+ * @param {Boolean=} [ngDisabled=false] Determines if control is disabled.
+ */
+.directive('rxSelect', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            ngDisabled: '=?'
+        },
+        link: function (scope, element, attrs) {
+            var disabledClass = 'rx-disabled';
+            var wrapper = '<div class="rxSelect"></div>';
+            var fakeSelect = '<div class="fake-select">' +
+                    '<div class="select-trigger">' +
+                        '<i class="fa fa-fw fa-caret-down"></i>' +
+                    '</div>' +
+                '</div>';
+
+            element.wrap(wrapper);
+            element.after(fakeSelect);
+            // must be defined AFTER the element is wrapped
+            var parent = element.parent();
+
+            // apply/remove disabled class so we have the ability to
+            // apply a CSS selector for purposes of style sibling elements
+            if (_.has(attrs, 'disabled')) {
+                parent.addClass(disabledClass);
+            }
+            if (_.has(attrs, 'ngDisabled')) {
+                scope.$watch('ngDisabled', function (newVal) {
+                    if (newVal === true) {
+                        parent.addClass(disabledClass);
+                    } else {
+                        parent.removeClass(disabledClass);
+                    }
+                });
+            }
+
+            var removeParent = function () {
+                parent.remove();
+            };
+
+            // remove stylistic markup when element is destroyed
+            element.on('$destroy', function () {
+                scope.$evalAsync(removeParent);
+            });
+        }
+    };
+});
+
+/**
+ * @ngdoc overview
+ * @name rxSelectFilter
+ * @description
+ * # rxSelectFilter component
+ *
+ * A component that provides a multi-select dropdown interface intended for
+ * table filtering.
+ *
+ * ## Directives
+ * * {@link rxSelectFilter.directive:rxSelectFilter rxSelectFilter}
+ *
+ * ## Filters
+ * * {@link rxSelectFilter.filter:Apply Apply}
+ *
+ * ## Services
+ * * {@link rxSelectFilter.service:SelectFilter SelectFilter}
+ */
+angular.module('encore.ui.rxSelectFilter', [
+    'encore.ui.rxMisc',
+    'encore.ui.rxSelect'
+]);
+
+angular.module('encore.ui.rxSelectFilter')
+/**
+ * @ngdoc filter
+ * @name rxSelectFilter.filter:Apply
+ * @description
+ * Used to apply an instance of SelectFilter to an array.
+ *
+ * Merely calls the `applyTo()` method of a `SelectFilter` instance to an
+ * input array.
+ * <pre>
+ * <tr ng-repeat="item in list | Apply:filter">
+ * </pre>
+ *
+ * @param {Array} list The list to be filtered.
+ * @param {Object} filter An instance of SelectFilter
+ *
+ */
+.filter('Apply', function () {
+    return function (list, filter) {
+        return filter.applyTo(list);
+    };
+});
+
+angular.module('encore.ui.rxSelectFilter')
+/**
+ * @ngdoc service
+ * @name rxSelectFilter.service:SelectFilter
+ * @description
+ * A prototype for creating objects that can be used for filtering arrays.
+ *
+ * ## SelectFilter
+ * This service exposes an object with single method, `create()`, used to
+ * create instances of a `SelectFilter`. It is configurable via three options:
+ * - `properties`: A list of the properties to create a filter control.
+ * Assuming the source data is an array of objects, a property is equivalent to
+ * an object's key.
+ *
+ * - `available` (optional): An object that tracks which options are available
+ * for a property.
+ * Note that the key of the object matches a value in the `properties` array.
+ * - `selected` (optional): An object that tracks which options are selected
+ * for a property. It has the same form as the `available` object, but the
+ * arrays indicate which options are selected, and as such are strict subsets
+ * of their `available` counterparts.
+ *
+ * ### Option Defaults
+ * Every property that is listed in `properties` but not provided as a key
+ * to `available` will be automatically populated the first time `applyTo()`
+ * (see below) is called.
+ * <pre>
+ * var filter = SelectFilter.create({
+ *   properties: ['year']
+ * });
+ *
+ * filter.applyTo([{
+ *   eventId: 1,
+ *   year: 2013
+ * }, {
+ *   eventId: 2,
+ *   year: 2014
+ * }, {
+ *   eventId: 3,
+ *   year: 2013
+ * }]);
+ * // filter.available is { year: [2013, 2014] }
+ * </pre>
+ * **Note:** There is an implied requirement that, when relying on the
+ * auto-populated filter, the input array will have at least one item for every
+ * available option. For example, this may not be the case when used with
+ * server-side pagination.
+ *
+ * Every property that is listed in `properties` but not provided as a key to
+ * `selected` is initialized to have all options selected (by looking them up
+ * in `available`).  If property is also not provided to `available`, its
+ * initialization is delayed until the first call of `applyTo()`.
+ *
+ * <pre>
+ * var filter = SelectFilter.create({
+ *   properties: ['year'],
+ *   available: {
+ *       year: [2013, 2014, 2015]
+ *   }
+ * });
+ * // filter.selected is { year: [2013, 2014, 2015] }
+ * </pre>
+ *
+ * ### Instances
+ * Instances of `SelectFilter` have an `applyTo()` method, which applies the
+ * filter's internal state of selected options to the array. This will not
+ * often be called directly, but instead used by the
+ * {@link rxSelectFilter.filter:Apply Apply} filter. As stated previously,
+ * the first call of `applyTo()` will initialize any
+ * `properties` that have not been defined in `available` or `selected`.
+ * <pre>
+ * var filter = SelectFilter.create({
+ *   properties: ['year'],
+ *   selected: {
+ *      year: [2014]
+ *     }
+ * });
+ *
+ * var filteredArray = filter.applyTo([{
+ *   eventId: 1,
+ *   year: 2013
+ * }, {
+ *   eventId: 2,
+ *   year: 2014
+ * }, {
+ *   eventId: 3,
+ *   year: 2013
+ * }]);
+ * // filteredArray is [{ eventId: 2, year: 2014 }]
+ * </pre>
+ *
+ * The instance will also have all of the constructor options as public
+ * properties, so that they can be watched or changed.
+ *
+ */
+.service('SelectFilter', function () {
+    return {
+       /**
+        * @ngdoc method
+        * @name create
+        * @methodOf rxSelectFilter.service:SelectFilter
+        * @param {Object} options
+        * Options object
+        * @param {Object} options.properties
+        * A list of the properties to create a filter control. Assuming the
+        * source data is an array of objects, a property is equivalent to an
+        * object's key.
+        * <pre>
+        * SelectFilter.create({
+        *      properties: ['year']
+        * });
+        * </pre>
+        * @param {Object=} options.available
+        * An object that tracks which options are available for a property.
+        * <pre>
+        * SelectFilter.create({
+        *     // other options...
+        *     available: {
+        *        year: [2013, 2014, 2015],
+        *       }
+        * });
+        * </pre>
+        * @param {Object=} options.selected
+        * An object that tracks which options are selected for a property.
+        * It has the same form as the `available` object, but the arrays indicate
+        * which options are selected, and as such are strict subsets of their
+        * `available` counterparts.
+        * <pre>
+        * SelectFilter.create({
+        *     // other options...
+        *     selected: {
+        *         year: [2014],
+        *       }
+        * });
+        * </pre>
+        */
+        create: function (options) {
+            options = _.defaults(options, {
+                properties: [],
+                available: {},
+                selected: _.isUndefined(options.available) ? {} : _.cloneDeep(options.available)
+            });
+
+            var filter = _.cloneDeep(options);
+
+            var firstRun = true;
+
+            function init (list) {
+                filter.properties.forEach(function (property) {
+                    if (_.isUndefined(filter.available[property])) {
+                        filter.available[property] = _.uniq(_.pluck(list, property));
+                    }
+
+                    // Check `options.selected` instead of `filter.selected` because the latter
+                    // is used as the model for `<rx-multi-select>`, which initializes its
+                    // model to an empty array. However, the intent is select all options
+                    // initially when left unspecified (preferred default behavior).
+                    if (_.isUndefined(options.selected[property])) {
+                        filter.selected[property] = _.clone(filter.available[property]);
+                    }
+                });
+            }
+
+            function isItemValid (item) {
+                return filter.properties.every(function (property) {
+                    return _.contains(filter.selected[property], item[property]);
+                });
+            }
+
+            filter.applyTo = function (list) {
+                if (firstRun) {
+                    firstRun = false;
+                    init(list);
+                }
+                return list.filter(isItemValid);
+            };
+
+            return filter;
+        }
+    };
+});
+
+angular.module('encore.ui.rxSelectFilter')
+/**
+ * @ngdoc directive
+ * @name rxSelectFilter.directive:rxSelectFilter
+ * @restrict E
+ * @scope
+ * @description
+ * Automatically creates the appropriate dropdowns to manage a filter object.
+ *
+ * **NOTE:** `rxSelectFilter` directive must be instaniated as a child of
+ * {@link rxForm.directive:rxFormSection rxFormSection} directive.  The {@link rxForm} component
+ * hierarchy validation enforces this relationship.
+ *
+ * ## rxSelectFilter
+ * Uses an instance of `SelectFilter` to create a set of `<rx-multi-select>`'s
+ * that modify the instance object.
+ * <pre>
+ * // In the controller
+ * $scope.filter = SelectFilter.create({
+ *   // options...
+ * });
+ * </pre>
+ *
+ * ## rxSelectFilter usage in rxForm
+ * <pre>
+ * // rxSelectFilter must be instantiated as a child of rxFormSection
+ * <rx-form-section>
+ *     <rx-select-filter filter="filter"></rx-select-filter>
+ * </rx-form-section>
+ * </pre>
+ *
+ * @param {Object} filter - An instance of SelectFilter
+ *
+ */
+.directive('rxSelectFilter', ["rxNestedElement", function (rxNestedElement) {
+    return rxNestedElement({
+        parent: 'rxFormSection',
+        restrict: 'E',
+        templateUrl: 'templates/rxSelectFilter.html',
+        scope: {
+            filter: '='
+        }
+    });
+}]);
+
+/**
+ * @ngdoc overview
+ * @name rxSession
+ * @description
+ * # rxSession Component
+ *
+ * A component that manages user session
+ *
+ * ## Services
+ * * {@link rxSession.service:Session Session}
+ */
+angular.module('encore.ui.rxSession', [
+    'encore.ui.rxLocalStorage'
+]);
+
+angular.module('encore.ui.rxSession')
+/**
+ * @ngdoc service
+ * @name rxSession.service:Session
+ * @description
+ *
+ * Service for managing user session in encore-ui.
+ *
+ * @requires rxLocalStorage.service:LocalStorage
+ *
+ * @example
+ * <pre>
+ * Session.getToken(); // Returns the stored token
+ * Session.storeToken(token); // Stores token
+ * Session.logout(); // Logs user off
+ * Session.isCurrent(); // Returns true/false if the token has expired.
+ * Session.isAuthenticated(); // Returns true/false if the user token is valid.
+ * </pre>
+ */
+.factory('Session', ["LocalStorage", function (LocalStorage) {
+    var TOKEN_ID = 'encoreSessionToken';
+    var session = {};
+
+    /**
+    * Dot walks the token without throwing an error.
+    * If key exists, returns value otherwise returns undefined.
+    */
+    session.getByKey = function (key) {
+        var tokenValue,
+            token = session.getToken(),
+            keys = key ? key.split('.') : undefined;
+
+        if (_.isEmpty(token) || !keys) {
+            return;
+        }
+
+        tokenValue = _.reduce(keys, function (val, key) {
+            return val ? val[key] : undefined;
+        }, token);
+
+        return tokenValue;
+    };
+
+    session.getToken = function () {
+        return LocalStorage.getObject(TOKEN_ID);
+    };
+
+    session.getTokenId = function () {
+        return session.getByKey('access.token.id');
+    };
+
+    session.getUserId = function () {
+        return session.getByKey('access.user.id');
+    };
+
+    session.getUserName = function () {
+        return session.getByKey('access.user.name');
+    };
+
+    session.storeToken = function (token) {
+        LocalStorage.setObject(TOKEN_ID, token);
+    };
+
+    session.logout = function () {
+        LocalStorage.removeItem(TOKEN_ID);
+    };
+
+    session.isCurrent = function () {
+        var expireDate = session.getByKey('access.token.expires');
+
+        if (expireDate) {
+            return new Date(expireDate) > _.now();
+        }
+
+        return false;
+    };
+
+    session.isAuthenticated = function () {
+        var token = session.getToken();
+        return _.isEmpty(token) ? false : session.isCurrent();
+    };
+
+    return session;
+}]);
+
+/*jshint proto:true*/
+/**
+ * @ngdoc overview
+ * @name rxSessionStorage
+ * @description
+ * # rxSessionStorage Component
+ *
+ * A component that provides a simple wrapper around the global
+ * `sessionStorage` object for interacting with session storage.
+ *
+ * ## Services
+ * * {@link rxSessionStorage.service:SessionStorage SessionStorage}
+ */
+angular.module('encore.ui.rxSessionStorage', []);
+angular.module('encore.ui.rxSessionStorage')
+/**
+ * @ngdoc service
+ * @name rxSessionStorage.service:SessionStorage
+ * @description
+ *
+ * A simple wrapper for injecting the global variable sessionStorage
+ * for storing values in session storage. This service is similar to angular's
+ * $window and $document services.  The API works the same as the W3C's
+ * specification provided at: http://dev.w3.org/html5/webstorage/#storage-0.
+ * Also includes to helper functions for getting and setting objects.
+ *
+ * @example
+ * <pre>
+ * SessionStorage.setItem('Batman', 'Robin'); // no return value
+ * SessionStorage.key(0); // returns 'Batman'
+ * SessionStorage.getItem('Batman'); // returns 'Robin'
+ * SessionStorage.removeItem('Batman'); // no return value
+ * SessionStorage.setObject('hero', {name:'Batman'}); // no return value
+ * SessionStorage.getObject('hero'); // returns { name: 'Batman'}
+ * SessionStorage.clear(); // no return value
+ * </pre>
+ */
+.service('SessionStorage', ["$window", function ($window) {
+    this.setItem = function (key, value) {
+        $window.sessionStorage.setItem(key, value);
+    };
+
+    this.getItem = function (key) {
+        return $window.sessionStorage.getItem(key);
+    };
+
+    this.key = function (key) {
+        return $window.sessionStorage.key(key);
+    };
+
+    this.removeItem = function (key) {
+        $window.sessionStorage.removeItem(key);
+    };
+
+    this.clear = function () {
+        $window.sessionStorage.clear();
+    };
+
+    this.__defineGetter__('length', function () {
+        return $window.sessionStorage.length;
+    });
+
+    this.setObject = function (key, val) {
+        var value = _.isObject(val) || _.isArray(val) ? JSON.stringify(val) : val;
+        this.setItem(key, value);
+    };
+
+    this.getObject = function (key) {
+        var item = $window.sessionStorage.getItem(key);
+        try {
+            item = JSON.parse(item);
+        } catch (error) {
+            return item;
+        }
+
+        return item;
+    };
+}]);
 
 /**
  * @ngdoc overview
@@ -10675,7 +10716,9 @@ angular.module('encore.ui.rxSortableColumn')
  * ## Directives
  * * {@link rxSpinner.directive:rxSpinner rxSpinner}
  */
-angular.module('encore.ui.rxSpinner', [])
+angular.module('encore.ui.rxSpinner', []);
+
+angular.module('encore.ui.rxSpinner')
 /**
  * @ngdoc directive
  * @name rxSpinner.directive:rxSpinner
@@ -11685,6 +11728,8 @@ angular.module('encore.ui.rxTags')
  * ## Directives
  * * {@link rxToggle.directive:rxToggle rxToggle}
  */
+angular.module('encore.ui.rxToggle', []);
+
 angular.module('encore.ui.rxToggle', [])
 /**
  * @ngdoc directive
@@ -11714,7 +11759,6 @@ angular.module('encore.ui.rxToggle', [])
         }
     };
 });
-
 /**
  * @ngdoc overview
  * @name rxToggleSwitch
@@ -11726,7 +11770,9 @@ angular.module('encore.ui.rxToggle', [])
  * ## Directives
  * {@link rxToggleSwitch.directive:rxToggleSwitch rxToggleSwitch}
  */
-angular.module('encore.ui.rxToggleSwitch', [])
+angular.module('encore.ui.rxToggleSwitch', []);
+
+angular.module('encore.ui.rxToggleSwitch')
 /**
  * @ngdoc directive
  * @name rxToggleSwitch.directive:rxToggleSwitch
@@ -11812,14 +11858,18 @@ angular.module('encore.ui.rxToggleSwitch', [])
  * @description
  * # rxTokenInterceptor Component
  *
- * The rxTokenInterceptor component adds an authorization token to all http requests.  This 
- * allows access to system services for authenticated users.
- *  
- * 
+ * The rxTokenInterceptor component adds an authorization token to all http requests.
+ * This allows access to system services for authenticated users.
+ *
+ *
  * ## Services
  * * {@link rxTokenInterceptor.service:TokenInterceptor TokenInterceptor}
  */
-angular.module('encore.ui.rxTokenInterceptor', ['encore.ui.rxSession'])
+angular.module('encore.ui.rxTokenInterceptor', [
+    'encore.ui.rxSession'
+]);
+
+angular.module('encore.ui.rxTokenInterceptor')
 /**
  * @ngdoc service
  * @name rxTokenInterceptor.service:TokenInterceptor
@@ -11878,7 +11928,11 @@ angular.module('encore.ui.rxTokenInterceptor', ['encore.ui.rxSession'])
  * ## Services
  * * {@link rxUnauthorizedInterceptor.service:UnauthorizedInterceptor UnauthorizedInterceptor}
  */
-angular.module('encore.ui.rxUnauthorizedInterceptor', ['encore.ui.rxSession'])
+angular.module('encore.ui.rxUnauthorizedInterceptor', [
+    'encore.ui.rxSession'
+]);
+
+angular.module('encore.ui.rxUnauthorizedInterceptor')
 /**
  * @ngdoc service
  * @name rxUnauthorizedInterceptor.service:UnauthorizedInterceptor
@@ -12005,7 +12059,11 @@ angular.module('encore.ui.tooltips', []);
  * for an example.
  *
  */
-angular.module('encore.ui.typeahead', ['ui.bootstrap'])
+angular.module('encore.ui.typeahead', [
+    'ui.bootstrap'
+]);
+
+angular.module('encore.ui.typeahead')
 .config(["$provide", function ($provide) {
     $provide.decorator('typeaheadDirective', ["$delegate", "$filter", function ($delegate, $filter) {
         var typeahead = $delegate[0];
@@ -12072,11 +12130,6 @@ angular.module("templates/rxActiveUrl.html", []).run(["$templateCache", function
     "<li ng-class=\"{ selected: navActive }\" ng-transclude></li>");
 }]);
 
-angular.module("templates/rxPermission.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("templates/rxPermission.html",
-    "<div class=\"rxPermission\" ng-if=\"hasRole(role)\" ng-transclude></div>");
-}]);
-
 angular.module("templates/rxAccountSearch.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxAccountSearch.html",
     "<div class=\"rx-app-search\"><form name=\"search\" role=\"search\" ng-submit=\"fetchAccount(model)\"><input type=\"text\" placeholder=\"Search by Account Number or Username...\" ng-model=\"model\" class=\"form-item search-input\" ng-required ng-pattern=\"/^([0-9a-zA-Z._ -]{2,})$/\"> <button type=\"submit\" class=\"search-action\" ng-disabled=\"!search.$valid\"><span class=\"visually-hidden\">Search</span></button></form></div>");
@@ -12084,7 +12137,7 @@ angular.module("templates/rxAccountSearch.html", []).run(["$templateCache", func
 
 angular.module("templates/rxAccountUsers.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxAccountUsers.html",
-    "<span ng-if=\"isCloudProduct\" class=\"account-users field-select\"><select ng-model=\"currentUser\" ng-options=\"user.username as user.username for user in users\" ng-change=\"switchUser(currentUser)\"></select></span>");
+    "<span ng-if=\"isCloudProduct\" class=\"account-users field-select\"><select rx-select ng-model=\"currentUser\" ng-options=\"user.username as user.username for user in users\" ng-change=\"switchUser(currentUser)\"></select></span>");
 }]);
 
 angular.module("templates/rxApp.html", []).run(["$templateCache", function($templateCache) {
@@ -12192,11 +12245,6 @@ angular.module("templates/rxModalFooters.html", []).run(["$templateCache", funct
     "<rx-modal-footer state=\"editing\" global><button class=\"button submit\" ng-click=\"submit()\" type=\"submit\" ng-disabled=\"$parent.modalActionForm.$invalid\">{{submitText || \"Submit\"}}</button> <button class=\"button cancel\" ng-click=\"cancel()\">{{cancelText || \"Cancel\"}}</button></rx-modal-footer><rx-modal-footer state=\"complete\" global><button class=\"button finish\" ng-click=\"cancel()\">{{returnText || \"Finish &amp; Close\"}}</button></rx-modal-footer>");
 }]);
 
-angular.module("templates/rxSelectFilter.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("templates/rxSelectFilter.html",
-    "<rx-field class=\"select-wrapper {{prop}}-filter\" ng-repeat=\"prop in filter.properties\"><rx-field-name>{{ prop | titleize }}</rx-field-name><rx-field-content><rx-input><rx-multi-select ng-model=\"filter.selected[prop]\" options=\"filter.available[prop]\"></rx-multi-select></rx-input></rx-field-content></rx-field>");
-}]);
-
 angular.module("templates/rxMultiSelect.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxMultiSelect.html",
     "<div class=\"rx-multi-select\" ng-click=\"toggleDisplay($event)\"><div class=\"preview\">{{ preview }}</div><ul ng-show=\"listDisplayed\"><rx-select-option value=\"all\">Select All</rx-select-option><rx-select-option value=\"{{option}}\" ng-repeat=\"option in options\"></rx-select-option><div ng-if=\"!options\" ng-transclude></div></ul></div>");
@@ -12227,9 +12275,19 @@ angular.module("templates/rxPaginate.html", []).run(["$templateCache", function(
     "<div class=\"rx-paginate\"><ul class=\"pagination\"><li><a tabindex=\"0\" ng-click=\"scrollToTop()\">Back to top</a></li><li>Showing {{ pageTracking | PaginatedItemsSummary}} items</li><span class=\"page-links\"><li ng-class=\"{disabled: pageTracking.isFirstPage()}\" class=\"pagination-first\"><a ng-click=\"pageTracking.goToFirstPage()\" ng-hide=\"pageTracking.isFirstPage()\">First</a> <span ng-show=\"pageTracking.isFirstPage()\">First</span></li><li ng-class=\"{disabled: pageTracking.isFirstPage()}\" class=\"pagination-prev\"><a ng-click=\"pageTracking.goToPrevPage()\" ng-hide=\"pageTracking.isFirstPage()\">« Prev</a> <span ng-show=\"pageTracking.isFirstPage()\">« Prev</span></li><li ng-repeat=\"n in pageTracking | Page\" ng-class=\"{active: pageTracking.isPage(n), 'page-number-last': pageTracking.isPageNTheLastPage(n)}\" class=\"pagination-page\"><a ng-click=\"pageTracking.goToPage(n)\">{{n + 1}}</a></li><li ng-class=\"{disabled: pageTracking.isLastPage() || pageTracking.isEmpty()}\" class=\"pagination-next\"><a ng-click=\"pageTracking.goToNextPage()\" ng-hide=\"pageTracking.isLastPage() || pageTracking.isEmpty()\">Next »</a> <span ng-show=\"pageTracking.isLastPage()\">Next »</span></li><li ng-class=\"{disabled: pageTracking.isLastPage()}\" class=\"pagination-last\"><a ng-click=\"pageTracking.goToLastPage()\" ng-hide=\"pageTracking.isLastPage()\">Last</a> <span ng-show=\"pageTracking.isLastPage()\">Last</span></li></span><li class=\"pagination-per-page\"><div>Show<ul><li ng-repeat=\"i in pageTracking.itemSizeList\"><button ng-disabled=\"pageTracking.isItemsPerPage(i)\" class=\"pagination-per-page-button\" ng-disabled=\"i == pageTracking.itemsPerPage\" ng-click=\"pageTracking.setItemsPerPage(i)\">{{ i }}</button></li></ul></div></li></ul></div>");
 }]);
 
+angular.module("templates/rxPermission.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/rxPermission.html",
+    "<div class=\"rxPermission\" ng-if=\"hasRole(role)\" ng-transclude></div>");
+}]);
+
 angular.module("templates/rxSearchBox.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxSearchBox.html",
     "<div class=\"rxSearchBox-wrapper\"><input type=\"text\" class=\"rxSearchBox-input\" placeholder=\"{{rxPlaceholder}}\" ng-disabled=\"{{isDisabled}}\" ng-model=\"searchVal\"> <span class=\"rxSearchBox-clear\" ng-if=\"isClearable\" ng-click=\"clearSearch()\"><i class=\"rxSearchBox-clear-icon fa fa-fw fa-times-circle\"></i></span></div>");
+}]);
+
+angular.module("templates/rxSelectFilter.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/rxSelectFilter.html",
+    "<rx-field class=\"select-wrapper {{prop}}-filter\" ng-repeat=\"prop in filter.properties\"><rx-field-name>{{ prop | titleize }}</rx-field-name><rx-field-content><rx-input><rx-multi-select ng-model=\"filter.selected[prop]\" options=\"filter.available[prop]\"></rx-multi-select></rx-input></rx-field-content></rx-field>");
 }]);
 
 angular.module("templates/rxSortableColumn.html", []).run(["$templateCache", function($templateCache) {

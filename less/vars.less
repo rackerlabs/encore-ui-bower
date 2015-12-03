@@ -14,6 +14,7 @@
 @blue-100: #bbdefb;
 @blue-500: #3391ff;
 @blue-700: #1976d2;
+@blue-900: #0d47a1;
 @blue-accent: #00bdff;
 
 // ## Greens
@@ -25,7 +26,7 @@
 // ## Oranges
 @orange-100: #ffecb3;
 @orange-500: #ffc107;
-@orange-700: #ff8f00;
+@orange-700: #d14904;
 @orange-accent: #ffd740;
 
 // ## Purples
@@ -80,19 +81,19 @@
 @tableRowSelected: #c6e4c8;
 
 // ## Buttons
-@optionHighlightBg: #007bff;
+@optionHighlightBg: @blue-500;
 @buttonColor: @white;
-@buttonColorDisabled: #f0efef;
-@buttonDefaultBg: #427fc4;
+@buttonColorDisabled: @gray-600;
+@buttonDefaultBg: @blue-700;
 @buttonDefaultBgHover: lighten(@buttonDefaultBg, 10%);
-@buttonPositiveBg: #16b667;
+@buttonPositiveBg: @green-700;
 @buttonPositiveBgHover: lighten(@buttonPositiveBg, 6%);
-@buttonNegativeBg: #cc0000;
+@buttonNegativeBg: @red-700;
 @buttonNegativeBgHover: lighten(@buttonNegativeBg, 10%);
-@buttonCancelBg: @cancel-gray;
+@buttonCancelBg: @gray-700;
 @buttonCancelBgHover: lighten(@buttonCancelBg, 10%);
-@buttonDisabledBg: #cfd2d4;
-@buttonSpinnerBg: @buttonColor;
+@buttonDisabledBg: @gray-300;
+@buttonSpinnerBg: @white;
 
 
 // # Borders
@@ -107,7 +108,7 @@
 @subtableBorder: #adadad;
 
 // ## Tabs and Account Info
-@tabBorder: #4480c1;
+@tabBorder: #4480c1; // Deprecated
 
 
 // # Text colors
@@ -119,14 +120,14 @@
 @menuLinkLightBlue: #97b1d0;
 @menuLinkOrange: #ffa61b;
 @menuRed: #f37a7c;
-@warnRed: #eb2124;
-@warnRedHover: saturate(@warnRed, 15%);
-@actionGreen: #3ab661;
-@actionGreenHover: saturate(@actionGreen, 15%);
-@infoOrange: #dd7800;
-@infoOrangeHover: saturate(@infoOrange, 15%);
-@infoBlue: #4580c2;
-@infoBlueHover: saturate(@infoBlue, 15%);
+@warnRed: #eb2124; // Deprecated
+@warnRedHover: saturate(@warnRed, 15%); // Deprecated
+@actionGreen: #3ab661; // Deprecated
+@actionGreenHover: saturate(@actionGreen, 15%); // Deprecated
+@infoOrange: #dd7800; // Deprecated
+@infoOrangeHover: saturate(@infoOrange, 15%); // Deprecated
+@infoBlue: #4580c2; // Deprecated
+@infoBlueHover: saturate(@infoBlue, 15%); // Deprecated
 
 // # PreProd warnings
 @preprodBackground: #aa161c;
@@ -331,6 +332,5 @@
 /*
  * rxBreadcrumbs
  */
-// TODO: rename with proper component prefix
-@breadcrumbHeight: 1.2em;
-@breadcrumbArrowWidth: 9px;
+@rxBreadcrumbs-height: 1.2em;
+@rxBreadcrumbs-arrow-width: 9px;
