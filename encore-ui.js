@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.37.3 - 2015-12-02
+ * Version: 1.40.0 - 2015-12-03
  * License: Apache License, Version 2.0
  */
 angular.module('encore.ui', ['encore.ui.configs','encore.ui.grid','encore.ui.hotkeys','encore.ui.layout','encore.ui.metadata','encore.ui.progressbar','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxApp','encore.ui.rxAppRoutes','encore.ui.rxAttributes','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCheckbox','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxEnvironment','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxIdentity','encore.ui.rxInfoPanel','encore.ui.rxLocalStorage','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.rxMultiSelect','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxPermission','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSession','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.tabs','encore.ui.tooltips','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
