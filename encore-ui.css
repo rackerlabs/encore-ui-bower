@@ -216,6 +216,89 @@ https://github.com/yui/pure/blob/master/LICENSE.md
 .pure-u-24-24 {
   width: 100%;
 }
+/*
+ * rxCheckbox
+ */
+.rxCheckbox {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  color: #ffffff;
+  background-color: #ffffff;
+  position: relative;
+}
+.rxCheckbox input[type="checkbox"],
+.rxCheckbox .fake-checkbox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+}
+.rxCheckbox .fake-checkbox {
+  box-sizing: border-box;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  border: 1px solid #bdbdbd;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  color: transparent;
+}
+.rxCheckbox .fake-checkbox .tick {
+  flex: 0 0 auto;
+  font-size: 12px;
+}
+.rxCheckbox.rx-disabled + label {
+  color: #9e9e9e;
+}
+.rxCheckbox input[type="checkbox"] {
+  z-index: 1;
+  height: 110%;
+  width: 110%;
+  opacity: 0;
+  cursor: pointer;
+}
+.rxCheckbox input[type="checkbox"]:checked + .fake-checkbox {
+  background-color: #3391ff;
+  color: #ffffff;
+  border: 0;
+}
+.rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty + .fake-checkbox {
+  background-color: #ffffff;
+  border: 2px solid #f44336;
+}
+.rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty:checked + .fake-checkbox {
+  background-color: #f44336;
+}
+.rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty[disabled] {
+  cursor: not-allowed;
+}
+.rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty[disabled] ~ .fake-checkbox {
+  background: #ffffff;
+  border: 1px solid #bdbdbd;
+}
+.rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty[disabled]:checked ~ .fake-checkbox {
+  background-color: #e0e0e0;
+  border: 0;
+}
+.rxCheckbox input[type="checkbox"][disabled] {
+  cursor: not-allowed;
+}
+.rxCheckbox input[type="checkbox"][disabled] ~ .fake-checkbox {
+  background: #ffffff;
+  border: 1px solid #bdbdbd;
+}
+.rxCheckbox input[type="checkbox"][disabled]:checked ~ .fake-checkbox {
+  background-color: #e0e0e0;
+  border: 0;
+}
 .pure-g.columns > div {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -232,29 +315,17 @@ https://github.com/yui/pure/blob/master/LICENSE.md
 /* ======================================== *\
    GLOBAL VARIABLES
 \* ======================================== */
-/*
- * Form Inputs
- */
 /* ======================================== *\
    COMPONENT VARIABLES
 \* ======================================== */
 /*
- * rxForm
- */
-/*
- * rxSearchBox
+ * Buttons
  */
 /*
  * Button Groups (rxButton)
  */
 /*
- * Layouts Module
- *
- * Sizes:
- *  0    <= size < 600     Phone
- *  600  <= size < 960     Tablet
- *  960  <= size < 1200    Tablet-Landscape
- *  1200 <= size           PC
+ * rxForm
  */
 /*
  * rxRadio
@@ -270,6 +341,18 @@ https://github.com/yui/pure/blob/master/LICENSE.md
  * rxFieldName
  */
 /*
+ * rxSearchBox
+ */
+/*
+ * Layouts Module
+ *
+ * Sizes:
+ *  0    <= size < 600     Phone
+ *  600  <= size < 960     Tablet
+ *  960  <= size < 1200    Tablet-Landscape
+ *  1200 <= size           PC
+ */
+/*
  * rxMetadata
  */
 /*
@@ -281,6 +364,12 @@ https://github.com/yui/pure/blob/master/LICENSE.md
 /*
  * rxBreadcrumbs
  */
+/*
+ * Modals *TODO* Rename variables based on component name
+ */
+/* ======================================== *\
+   FOR DEPRECATION
+\* ======================================== */
 /*
  * Layout
  */
@@ -905,15 +994,9 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   font-size: 18px;
   font-weight: 300;
 }
-.rx-page ul.account-info-text li .account-data .field-select {
+.rx-page ul.account-info-text li .account-data .rxSelect {
   width: 140px;
-}
-.rx-page ul.account-info-text li .account-data .field-select:before {
-  top: 4px;
-  height: 80%;
-}
-.rx-page ul.account-info-text li .account-data select {
-  font-size: 12px;
+  font-size: 13px;
 }
 .rx-page ul.account-info-text li .msg-warn {
   color: #d32f2f;
@@ -1787,6 +1870,9 @@ body:hover .visually-hidden button {
 .filter-box {
   font-style: italic;
 }
+.account-users {
+  box-sizing: border-box;
+}
 .rx-app {
   min-height: 100%;
   display: flex;
@@ -2049,6 +2135,31 @@ body:hover .visually-hidden button {
   color: #d5d5d3;
   font-size: 18px;
 }
+.rx-app .rx-app-nav-item .field-select select {
+  background: #404140;
+  border: 1px solid #3a3a3a;
+}
+.rx-app .rx-app-nav-item .field-select:before {
+  background: #404140;
+}
+.rx-app .rx-app-nav-item .field-select:after {
+  right: 10px;
+  top: 5px;
+}
+.rx-app .rx-app-nav-item .account-users {
+  float: right;
+  width: 50%;
+}
+.rx-app .rx-app-nav-item .account-users .rxSelect {
+  background: #404140;
+  color: #d5d5d3;
+}
+.rx-app .rx-app-nav-item .account-users .rxSelect .fake-select {
+  border-color: #3a3a3a;
+}
+.rx-app .rx-app-nav-item .account-users .rxSelect .fake-select .select-trigger {
+  background: #404140;
+}
 .rx-app .rx-app-nav-level-2 .item-link {
   background: #666766;
   border-top-color: #787878;
@@ -2157,7 +2268,7 @@ body:hover .visually-hidden button {
 .rx-app .rx-app-help .rx-feedback .modal-link {
   background: url(images/icon-feedback.png) no-repeat 20px calc(50% + 1px);
   vertical-align: middle;
-  color: #ffa61b;
+  color: #ffc107;
   padding: 0 21px 0 41px;
   float: right;
 }
@@ -2295,6 +2406,15 @@ a.disabled {
 .rx-breadcrumbs .status-tag.beta-status {
   margin-left: 6px;
   position: static;
+}
+.rxBulkSelect-demo .pending-status {
+  color: #db7820;
+}
+.rxBulkSelect-demo .success-status {
+  color: #24b56a;
+}
+.rxBulkSelect-demo .failure-status {
+  color: #fc0f1d;
 }
 /*
  * rxBulkSelect
@@ -2625,89 +2745,6 @@ thead th .btn-link:focus {
   color: #fc0f1d;
 }
 /*
- * rxCheckbox
- */
-.rxCheckbox {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  color: #ffffff;
-  background-color: #ffffff;
-  position: relative;
-}
-.rxCheckbox input[type="checkbox"],
-.rxCheckbox .fake-checkbox {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: block;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  outline: 0;
-}
-.rxCheckbox .fake-checkbox {
-  box-sizing: border-box;
-  z-index: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #ffffff;
-  border: 1px solid #cccccc;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: center;
-  color: transparent;
-}
-.rxCheckbox .fake-checkbox .tick {
-  flex: 0 0 auto;
-  font-size: 12px;
-}
-.rxCheckbox.rx-disabled + label {
-  color: #999999;
-}
-.rxCheckbox input[type="checkbox"] {
-  z-index: 1;
-  height: 110%;
-  width: 110%;
-  opacity: 0;
-  cursor: pointer;
-}
-.rxCheckbox input[type="checkbox"]:checked + .fake-checkbox {
-  background-color: #4881c0;
-  color: #ffffff;
-  border: 0;
-}
-.rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty + .fake-checkbox {
-  background-color: #ffffff;
-  border: 2px solid #fc0f1d;
-}
-.rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty:checked + .fake-checkbox {
-  background-color: #fc0f1d;
-}
-.rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty[disabled] {
-  cursor: not-allowed;
-}
-.rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty[disabled] ~ .fake-checkbox {
-  background: #ffffff;
-  border: 1px solid #cccccc;
-}
-.rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty[disabled]:checked ~ .fake-checkbox {
-  background-color: #dededd;
-  border: 0;
-}
-.rxCheckbox input[type="checkbox"][disabled] {
-  cursor: not-allowed;
-}
-.rxCheckbox input[type="checkbox"][disabled] ~ .fake-checkbox {
-  background: #ffffff;
-  border: 1px solid #cccccc;
-}
-.rxCheckbox input[type="checkbox"][disabled]:checked ~ .fake-checkbox {
-  background-color: #dededd;
-  border: 0;
-}
-/*
  * rxCollapse
  */
 rx-collapse {
@@ -2978,22 +3015,6 @@ thead .rx-floating-header:first-child {
   position: absolute;
   pointer-events: none;
 }
-.rx-app-nav-item .field-select select {
-  background: #404140;
-  border: 1px solid #3a3a3a;
-}
-.rx-app-nav-item .field-select:before {
-  background: #404140;
-}
-.rx-app-nav-item .field-select:after {
-  right: 10px;
-  top: 5px;
-}
-.account-users {
-  float: right;
-  box-sizing: border-box;
-  width: 50%;
-}
 /* Submit buttons */
 .form-actions {
   padding: 20px 0;
@@ -3086,7 +3107,7 @@ rx-help-text {
   padding: 0px;
 }
 rx-inline-error {
-  color: #fc0f1d;
+  color: #d32f2f;
   font-weight: 900;
 }
 rx-help-text {
@@ -3095,7 +3116,7 @@ rx-help-text {
   margin: 1em 0em;
 }
 rx-field-name {
-  color: #757575;
+  color: #616161;
   font-size: 12px;
 }
 rx-field-name .wrapper {
@@ -3105,7 +3126,7 @@ rx-field-name .wrapper {
 }
 rx-field-name .wrapper .required-symbol {
   font-weight: 900;
-  color: #fc0f1d;
+  color: #f44336;
 }
 [rx-form] {
   font-size: 13px;
@@ -3153,6 +3174,9 @@ rx-field-name .wrapper .required-symbol {
   align-items: stretch;
   /* ===== Other Directive Support ===== */
 }
+[rx-form] rx-form-section rx-field rx-field-content rx-input .button {
+  margin-bottom: 0px;
+}
 [rx-form] rx-form-section rx-field rx-field-content rx-input > input,
 [rx-form] rx-form-section rx-field rx-field-content rx-input > textarea {
   flex: 1 1 auto;
@@ -3163,25 +3187,25 @@ rx-field-name .wrapper .required-symbol {
 [rx-form] rx-form-section rx-field rx-field-content rx-input > input.ng-valid,
 [rx-form] rx-form-section rx-field rx-field-content rx-input > textarea.ng-valid {
   padding: 3px 5px;
-  border: 1px solid #d8d8d8;
+  border: 1px solid #bdbdbd;
 }
 [rx-form] rx-form-section rx-field rx-field-content rx-input > input.ng-invalid.ng-dirty,
 [rx-form] rx-form-section rx-field rx-field-content rx-input > textarea.ng-invalid.ng-dirty {
-  border: 2px solid #ff2400;
+  border: 2px solid #f44336;
   padding: 2px 4px;
 }
 [rx-form] rx-form-section rx-field rx-field-content rx-input > input.ng-invalid.ng-dirty[disabled],
 [rx-form] rx-form-section rx-field rx-field-content rx-input > textarea.ng-invalid.ng-dirty[disabled] {
-  border: 1px solid #d8d8d8;
-  color: #999999;
-  background: #dededd;
+  border: 1px solid #bdbdbd;
+  color: #9e9e9e;
+  background: #e0e0e0;
   cursor: not-allowed !important;
 }
 [rx-form] rx-form-section rx-field rx-field-content rx-input > input[disabled],
 [rx-form] rx-form-section rx-field rx-field-content rx-input > textarea[disabled] {
-  border: 1px solid #d8d8d8;
-  color: #999999;
-  background: #dededd;
+  border: 1px solid #bdbdbd;
+  color: #9e9e9e;
+  background: #e0e0e0;
   cursor: not-allowed !important;
 }
 [rx-form] rx-form-section rx-field rx-field-content rx-input rx-prefix,
@@ -3215,7 +3239,7 @@ rx-field-name .wrapper .required-symbol {
 [rx-form] rx-form-section rx-field rx-field-content rx-input .rxCheckbox[disabled] + label,
 [rx-form] rx-form-section rx-field rx-field-content rx-input .rxRadio[disabled] + label,
 [rx-form] rx-form-section rx-field rx-field-content rx-input rx-toggle-switch[disabled] + label {
-  color: #999999;
+  color: #9e9e9e;
 }
 [rx-form] rx-form-section rx-field rx-field-content rx-input .rx-option-table {
   table-layout: fixed;
@@ -3228,25 +3252,25 @@ rx-field-name .wrapper .required-symbol {
 [rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper textarea {
   width: 100%;
   padding: 3px 5px;
-  border: 1px solid #d8d8d8;
+  border: 1px solid #bdbdbd;
 }
 [rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper input.ng-invalid.ng-dirty,
 [rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper textarea.ng-invalid.ng-dirty {
-  border: 2px solid #ff2400;
+  border: 2px solid #f44336;
   padding: 2px 4px;
 }
 [rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper input.ng-invalid.ng-dirty[disabled],
 [rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper textarea.ng-invalid.ng-dirty[disabled] {
-  border: 1px solid #d8d8d8;
-  color: #999999;
-  background: #dededd;
+  border: 1px solid #bdbdbd;
+  color: #9e9e9e;
+  background: #e0e0e0;
   cursor: not-allowed !important;
 }
 [rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper input[disabled],
 [rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper textarea[disabled] {
-  border: 1px solid #d8d8d8;
-  color: #999999;
-  background: #dededd;
+  border: 1px solid #bdbdbd;
+  color: #9e9e9e;
+  background: #e0e0e0;
   cursor: not-allowed !important;
 }
 [rx-form] rx-form-section rx-field rx-field-content rx-input rx-search-box {
@@ -3313,7 +3337,7 @@ rx-metadata rx-meta {
   margin: 0 0 22px;
 }
 rx-metadata rx-meta .label {
-  color: #757575;
+  color: #616161;
   font-size: 13px;
   margin: 0 0 6px;
 }
@@ -3413,7 +3437,7 @@ rx-metadata section:last-child {
 }
 .modal-header {
   padding: 30px;
-  border-bottom: 1px solid #e6e6e5;
+  border-bottom: 1px solid #e7e7e7;
   position: relative;
 }
 .modal-header .modal-title {
@@ -3425,7 +3449,7 @@ rx-metadata section:last-child {
   line-height: 1.5;
   font-size: 1em;
   font-wieght: bold;
-  color: #989998;
+  color: #757575;
   margin: 0;
 }
 .modal-header .modal-close {
@@ -3436,11 +3460,11 @@ rx-metadata section:last-child {
   width: 1em;
   height: 1em;
   text-align: center;
-  color: #e5e5e5;
+  color: #9e9e9e;
 }
 .modal-header .modal-close:hover,
 .modal-header .modal-close:focus {
-  color: #cccccc;
+  color: #616161;
 }
 .modal-header .modal-close:before {
   content: "\00D7";
@@ -3467,7 +3491,7 @@ rx-metadata section:last-child {
 }
 .modal-footer {
   padding: 30px;
-  border-top: 1px solid #e6e6e5;
+  border-top: 1px solid #e7e7e7;
 }
 @media (max-width: 480px) {
   .modal {
@@ -3480,6 +3504,12 @@ rx-metadata section:last-child {
     padding: 10px;
     margin: -10px;
   }
+}
+.rxMultiSelect-demo .multi-select-container {
+  width: 200px;
+}
+.rxMultiSelect-demo .status-filter .rxSelect {
+  width: 180px;
 }
 /*
  * rxMultiSelect
@@ -3883,7 +3913,7 @@ rx-multi-select rx-select-option[value="all"] label {
   -moz-background-clip: padding-box;
   background-clip: padding-box;
   overflow: hidden;
-  border: 1px solid #cccccc;
+  border: 1px solid #bdbdbd;
   background-color: #ffffff;
   display: flex;
   flex-flow: row nowrap;
@@ -3909,7 +3939,7 @@ rx-multi-select rx-select-option[value="all"] label {
   background-color: transparent;
 }
 .rxRadio.rx-disabled + label {
-  color: #999999;
+  color: #9e9e9e;
 }
 .rxRadio input[type="radio"] {
   z-index: 1;
@@ -3919,13 +3949,13 @@ rx-multi-select rx-select-option[value="all"] label {
   cursor: pointer;
 }
 .rxRadio input[type="radio"]:checked + .fake-radio {
-  border-color: #4881c0;
+  border-color: #3391ff;
 }
 .rxRadio input[type="radio"]:checked + .fake-radio .tick {
-  background-color: #4881c0;
+  background-color: #3391ff;
 }
 .rxRadio input[type="radio"].ng-invalid.ng-dirty + .fake-radio {
-  border: 2px solid #fc0f1d;
+  border: 2px solid #f44336;
 }
 .rxRadio input[type="radio"].ng-invalid.ng-dirty + .fake-radio .tick {
   -webkit-border-radius: 4px;
@@ -3938,33 +3968,36 @@ rx-multi-select rx-select-option[value="all"] label {
   height: 8px;
 }
 .rxRadio input[type="radio"].ng-invalid.ng-dirty:checked + .fake-radio .tick {
-  background: #fc0f1d;
+  background: #f44336;
 }
 .rxRadio input[type="radio"].ng-invalid.ng-dirty[disabled] {
   cursor: not-allowed;
 }
 .rxRadio input[type="radio"].ng-invalid.ng-dirty[disabled] + .fake-radio {
-  border: 1px solid #dededd;
+  border: 1px solid #e0e0e0;
 }
 .rxRadio input[type="radio"].ng-invalid.ng-dirty[disabled] + .fake-radio .tick {
   width: 8px;
   height: 8px;
 }
 .rxRadio input[type="radio"].ng-invalid.ng-dirty[disabled]:checked + .fake-radio .tick {
-  background: #dededd;
+  background: #e0e0e0;
 }
 .rxRadio input[type="radio"][disabled] {
   cursor: not-allowed;
 }
 .rxRadio input[type="radio"][disabled] + .fake-radio {
-  border: 1px solid #dededd;
+  border: 1px solid #e0e0e0;
 }
 .rxRadio input[type="radio"][disabled] + .fake-radio .tick {
   width: 8px;
   height: 8px;
 }
 .rxRadio input[type="radio"][disabled]:checked + .fake-radio .tick {
-  background: #dededd;
+  background: #e0e0e0;
+}
+.rxSearchBox-demo .wide-search-box {
+  width: 100%;
 }
 /*
  * rxSearchBox
@@ -3981,7 +4014,7 @@ rx-search-box .rxSearchBox-wrapper {
   /* Firefox, other Gecko */
   box-sizing: border-box;
   /* Opera/IE 8+ */
-  border: 1px solid #cccccc;
+  border: 1px solid #bdbdbd;
   min-height: 26px;
   min-width: 120px;
   padding: 0;
@@ -4024,8 +4057,8 @@ rx-search-box .rxSearchBox-wrapper .rxSearchBox-input {
   min-width: 86px;
 }
 rx-search-box .rxSearchBox-wrapper .rxSearchBox-input[disabled] {
-  color: #999999;
-  background: #dededd;
+  color: #9e9e9e;
+  background: #e0e0e0;
   cursor: not-allowed;
 }
 rx-search-box .rxSearchBox-wrapper .rxSearchBox-clear {
@@ -4045,6 +4078,9 @@ rx-search-box .rxSearchBox-wrapper .rxSearchBox-clear {
 rx-search-box .rxSearchBox-wrapper .rxSearchBox-clear .rxSearchBox-clear-icon {
   min-width: 24px;
 }
+.rxSelect-demo .demoContainer {
+  width: 400px;
+}
 /*
  * rxSelect
  */
@@ -4059,9 +4095,9 @@ rx-search-box .rxSearchBox-wrapper .rxSearchBox-clear .rxSearchBox-clear-icon {
   position: relative;
   color: #404040;
   background: #ffffff;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  border-radius: 0px;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
   background-clip: padding-box;
@@ -4069,8 +4105,8 @@ rx-search-box .rxSearchBox-wrapper .rxSearchBox-clear .rxSearchBox-clear-icon {
   height: 26px;
 }
 .rxSelect.rx-disabled {
-  color: #999999;
-  background: #dededd;
+  color: #9e9e9e;
+  background: #e0e0e0;
 }
 .rxSelect select,
 .rxSelect rx-multi-select,
@@ -4102,17 +4138,17 @@ rx-search-box .rxSearchBox-wrapper .rxSearchBox-clear .rxSearchBox-clear-icon {
 }
 .rxSelect select + .fake-select,
 .rxSelect rx-multi-select + .fake-select {
-  border-color: #cccccc;
+  border-color: #bdbdbd;
   border-width: 1px;
 }
 .rxSelect select.ng-invalid.ng-dirty + .fake-select,
 .rxSelect rx-multi-select.ng-invalid.ng-dirty + .fake-select {
-  border-color: #ff2400;
+  border-color: #f44336;
   border-width: 2px;
 }
 .rxSelect select.ng-invalid.ng-dirty + .fake-select .select-trigger,
 .rxSelect rx-multi-select.ng-invalid.ng-dirty + .fake-select .select-trigger {
-  color: #ff2400;
+  color: #f44336;
 }
 .rxSelect select.ng-invalid.ng-dirty[disabled],
 .rxSelect rx-multi-select.ng-invalid.ng-dirty[disabled] {
@@ -4120,15 +4156,15 @@ rx-search-box .rxSearchBox-wrapper .rxSearchBox-clear .rxSearchBox-clear-icon {
 }
 .rxSelect select.ng-invalid.ng-dirty[disabled] + .fake-select,
 .rxSelect rx-multi-select.ng-invalid.ng-dirty[disabled] + .fake-select {
-  border-color: #cccccc;
+  border-color: #bdbdbd;
   border-width: 1px;
 }
 .rxSelect select.ng-invalid.ng-dirty[disabled] + .fake-select .select-trigger,
 .rxSelect rx-multi-select.ng-invalid.ng-dirty[disabled] + .fake-select .select-trigger {
-  background: #dededd;
+  background: #e0e0e0;
   border-left-width: 0px;
-  border-left-color: #999999;
-  color: #aaaaaa;
+  border-left-color: #9e9e9e;
+  color: #bdbdbd;
 }
 .rxSelect select[disabled],
 .rxSelect rx-multi-select[disabled] {
@@ -4136,23 +4172,23 @@ rx-search-box .rxSearchBox-wrapper .rxSearchBox-clear .rxSearchBox-clear-icon {
 }
 .rxSelect select[disabled] + .fake-select,
 .rxSelect rx-multi-select[disabled] + .fake-select {
-  border-color: #cccccc;
+  border-color: #bdbdbd;
   border-width: 1px;
 }
 .rxSelect select[disabled] + .fake-select .select-trigger,
 .rxSelect rx-multi-select[disabled] + .fake-select .select-trigger {
-  background: #dededd;
+  background: #e0e0e0;
   border-left-width: 0px;
-  border-left-color: #999999;
-  color: #aaaaaa;
+  border-left-color: #9e9e9e;
+  color: #bdbdbd;
 }
 .rxSelect .fake-select {
   z-index: 10;
-  border: 1px solid #cccccc;
+  border: 1px solid #bdbdbd;
   overflow: hidden;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  border-radius: 0px;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
   background-clip: padding-box;
@@ -4170,7 +4206,7 @@ rx-search-box .rxSearchBox-wrapper .rxSearchBox-clear .rxSearchBox-clear-icon {
   /* Opera/IE 8+ */
   width: 26px;
   background: #ffffff;
-  color: #aaaaaa;
+  color: #bdbdbd;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -4274,6 +4310,9 @@ rx-select-filter {
     transform: rotate(360deg);
   }
 }
+.rxStatusColumn-demo .demo-status-column-table {
+  max-width: 500px;
+}
 /*
  * rxStatusColumn
  */
@@ -4334,7 +4373,7 @@ rx-tags[disabled] .rx-tags:hover {
 }
 .rx-tags {
   background-color: #ffffff;
-  border: 1px solid #d8d8d8;
+  border: 1px solid #bdbdbd;
 }
 .rx-tags:hover {
   cursor: text;

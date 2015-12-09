@@ -2,11 +2,23 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.40.0 - 2015-12-03
+ * Version: 1.41.0-0 - 2015-12-09
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.configs','encore.ui.grid','encore.ui.hotkeys','encore.ui.layout','encore.ui.metadata','encore.ui.progressbar','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxApp','encore.ui.rxAppRoutes','encore.ui.rxAttributes','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.rxCheckbox','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxEnvironment','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxIdentity','encore.ui.rxInfoPanel','encore.ui.rxLocalStorage','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.rxMultiSelect','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxPermission','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSession','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.tabs','encore.ui.tooltips','encore.ui.typeahead', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.atoms','encore.ui.configs','encore.ui.grid','encore.ui.quarks','encore.ui.layout','encore.ui.metadata','encore.ui.molecules','encore.ui.progressbar','encore.ui.quarks','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxApp','encore.ui.rxAppRoutes','encore.ui.rxAttributes','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxEnvironment','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxIdentity','encore.ui.rxInfoPanel','encore.ui.rxLocalStorage','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.rxMultiSelect','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxPermission','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSession','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.tabs','encore.ui.tooltips','encore.ui.typeahead','encore.ui.quarks', 'cfp.hotkeys','ui.bootstrap']);
 angular.module('encore.ui.tpls', ['templates/rxAccountInfo.html','templates/rxAccountInfoBanner.html','templates/rxActionMenu.html','templates/rxActiveUrl.html','templates/rxAccountSearch.html','templates/rxAccountUsers.html','templates/rxApp.html','templates/rxAppNav.html','templates/rxAppNavItem.html','templates/rxAppSearch.html','templates/rxBillingSearch.html','templates/rxPage.html','templates/rxBreadcrumbs.html','templates/rxBatchActions.html','templates/rxBulkSelectMessage.html','templates/rxButton.html','templates/rxCollapse.html','templates/feedbackForm.html','templates/rxFeedback.html','templates/rxFieldName.html','templates/rxFormFieldset.html','templates/rxFormItem.html','templates/rxInfoPanel.html','templates/rxMeta.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxModalFooters.html','templates/rxMultiSelect.html','templates/rxSelectOption.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxOptionTable.html','templates/rxPaginate.html','templates/rxPermission.html','templates/rxSearchBox.html','templates/rxSelectFilter.html','templates/rxSortableColumn.html','templates/rxStatusColumn.html','templates/rxTags.html','templates/rxToggleSwitch.html']);
+/**
+ * @ngdoc overview
+ * @name atoms
+ * @description
+ * # Atoms
+ * Atoms are the basic building blocks for all UI elements.
+ *
+ * ## Atoms
+ * * {@link atoms.directive:rxCheckbox rxCheckbox}
+ */
+angular.module('encore.ui.atoms', []);
+
 /**
  * @ngdoc overview
  * @name configs
@@ -104,12 +116,12 @@ angular.module('encore.ui.configs')
 angular.module('encore.ui.grid', []);
 
 /**
- * @ngdoc overview
- * @name hotkeys
+ * @ngdoc service
+ * @name quarks.service:hotkeys
  * @description
- * # hotkeys Component
+ * # hotkeys
  *
- * This component is simply a reference guide to using
+ * This quark is simply a reference guide to using
  * [the angular-hotkeys plugin](http://chieffancypants.github.io/angular-hotkeys/)
  * from within EncoreUI.
  *
@@ -150,7 +162,6 @@ angular.module('encore.ui.grid', []);
  * help window.
  *
  */
-angular.module('encore.ui.hotkeys', []);
 
 /**
  * @ngdoc overview
@@ -188,6 +199,18 @@ angular.module('encore.ui.metadata', []);
 
 /**
  * @ngdoc overview
+ * @name molecules
+ * @description
+ * # Molecules
+ * Molecules are complex elements made up of various Atoms.
+ *
+ * ## Molecules
+ * * TBD
+ */
+angular.module('encore.ui.molecules', []);
+
+/**
+ * @ngdoc overview
  * @name progressbar
  * @description
  * # progressbar Component
@@ -199,6 +222,24 @@ angular.module('encore.ui.metadata', []);
  *
  */
 angular.module('encore.ui.progressbar', []);
+
+/**
+ * @ngdoc overview
+ * @name quarks
+ * @description
+ * # Quarks
+ * Quarks are non-visual elements that support Atoms and Molecules.
+ *
+ * ## Values & Constants
+ * * TBD
+ *
+ * ## Filters
+ * * {@link quarks.filter:xor xor}
+ *
+ * ## Services
+ * * {@link quarks.service:hotkeys hotkeys}
+ */
+angular.module('encore.ui.quarks', []);
 
 /**
  * @ngdoc overview
@@ -533,7 +574,7 @@ angular.module('encore.ui.rxAge')
         }
 
         var now = moment();
-        var date = moment(dateString);
+        var date = moment(new Date(dateString));
         var diff = now.diff(date);
         var duration = moment.duration(diff);
         var days = parseInt(duration.asDays(), 10);
@@ -2664,7 +2705,7 @@ angular.module('encore.ui.rxBreadcrumbs')
 /**
  * @ngdoc overview
  * @name rxBulkSelect
- * @requires rxCheckbox
+ * @requires atoms.directive:rxCheckbox
  * @description
  * # rxBulkSelect Component
  *
@@ -2682,7 +2723,7 @@ angular.module('encore.ui.rxBreadcrumbs')
  * * {@link rxBulkSelect.service:rxBulkSelectUtils rxBulkSelectUtils}
  */
 angular.module('encore.ui.rxBulkSelect', [
-    'encore.ui.rxCheckbox'
+    'encore.ui.atoms'
 ]);
 
 angular.module('encore.ui.rxBulkSelect')
@@ -3476,13 +3517,14 @@ angular.module('encore.ui.rxCharacterCount')
     };
 }]);
 
+angular.module('encore.ui.atoms')
 /**
- * @ngdoc overview
- * @name rxCheckbox
+ * @name atoms.directive:rxCheckbox
+ * @ngdoc directive
+ * @restrict A
+ * @scope
  * @description
- * # rxCheckbox Component
- *
- * A component that wraps a native checkbox element in markup required for styling purposes.
+ * Attribute directive that wraps a native checkbox element in markup required for styling purposes.
  *
  * ## Styling
  *
@@ -3505,20 +3547,6 @@ angular.module('encore.ui.rxCharacterCount')
  * It is highly recommended that you use `ng-show` and `ng-hide` for purposes of
  * display logic. Because of the way that `ng-if` and `ng-switch` directives behave
  * with scope, they may introduce unnecessary complexity in your code.
- *
- * ## Directives
- * * {@link rxCheckbox.directive:rxCheckbox rxCheckbox}
- */
-angular.module('encore.ui.rxCheckbox', []);
-
-angular.module('encore.ui.rxCheckbox')
-/**
- * @name rxCheckbox.directive:rxCheckbox
- * @ngdoc directive
- * @restrict A
- * @scope
- * @description
- * Attribute directive that wraps a native checkbox element in markup required for styling purposes.
  *
  * @example
  * <pre>
@@ -4863,7 +4891,7 @@ angular.module('encore.ui.rxFloatingHeader')
  *
  * * {@link rxButton}
  * * {@link rxCharacterCount}
- * * {@link rxCheckbox}
+ * * {@link atoms.directive:rxCheckbox rxCheckbox}
  * * {@link rxMultiSelect}
  * * {@link rxOptionTable}
  * * {@link rxRadio}
@@ -5031,7 +5059,7 @@ angular.module('encore.ui.rxFloatingHeader')
  * ### Related Directives
  * * {@link rxButton.directive:rxButton rxButton}
  * * {@link rxCharacterCount.directive:rxCharacterCount rxCharacterCount}
- * * {@link rxCheckbox.directive:rxCheckbox rxCheckbox}
+ * * {@link atoms.directive:rxCheckbox rxCheckbox}
  * * {@link rxOptionTable.directive:rxOptionTable rxOptionTable}
  * * {@link rxRadio.directive:rxRadio rxRadio}
  * * {@link rxSelect.directive:rxSelect rxSelect}
@@ -5608,7 +5636,7 @@ angular.module('encore.ui.rxForm')
  *     <ul>
  *       <li>{@link rxForm.directive:rxPrefix rxPrefix}</li>
  *       <li>{@link rxForm.directive:rxSuffix rxSuffix}</li>
- *       <li>{@link rxCheckbox.directive:rxCheckbox rxCheckbox}</li>
+ *       <li>{@link atoms.directive:rxCheckbox rxCheckbox}</li>
  *       <li>{@link rxRadio.directive:rxRadio rxRadio}</li>
  *       <li>{@link rxSelect.directive:rxSelect rxSelect}</li>
  *       <li>{@link rxToggleSwitch.directive:rxToggleSwitch rxToggleSwitch}</li>
@@ -8252,6 +8280,7 @@ angular.module('encore.ui.rxNotify')
  * * {@link rxOptionTable.directive:rxFormOptionTable rxFormOptionTable} (*deprecated*)
  */
 angular.module('encore.ui.rxOptionTable', [
+    'encore.ui.atoms',
     'ngSanitize'
 ]);
 
@@ -9536,7 +9565,7 @@ angular.module('encore.ui.rxPaginate')
  * @param {Number} numberOfPages This is the maximum number of pages that the
  * page object will display at a time.
  * @param {Object} [serverInterface] An object with a `getItems()` method. The requirements
- * of this method are described in the rxPaginate README
+ * of this method are described in the rxPaginate module documentation
  * @param {Object} [filterText] The model for the table filter input, if any. This directive
  * will watch that model for changes, and request new results from the paginated API, on change
  * @param {Object} [selections] The `selected` property of a SelectFilter instance, if one is being used.
@@ -11570,11 +11599,9 @@ angular.module('encore.ui.rxStatusColumn')
  * ## Directives
  * * {@link rxTags.directive:rxTags rxTags}
  *
- * ## Filters
- * * {@link rxTags.filter:xor xor}
- *
  */
 angular.module('encore.ui.rxTags', [
+    'encore.ui.quarks',
     'encore.ui.rxMisc',
     'ui.bootstrap'
 ]);
@@ -11697,23 +11724,6 @@ angular.module('encore.ui.rxTags')
         }
     };
 }]);
-
-angular.module('encore.ui.rxTags')
-/**
- * @ngdoc filter
- * @name rxTags.filter:xor
- * @description
- * Returns the exclusive or of two arrays.
- *
- * @param {Array} array The first input array
- * @param {Array} excluded The second input array
- * @returns {Array} - A new array of the unique elements in each array.
- */
-.filter('xor', function () {
-    return function () {
-        return _.xor.apply(_, arguments);
-    };
-});
 
 /**
  * @ngdoc overview
@@ -12110,6 +12120,23 @@ angular.module('encore.ui.typeahead')
     }]);
 }]);
 
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc filter
+ * @name quarks.filter:xor
+ * @description
+ * Returns the exclusive or of two arrays.
+ *
+ * @param {Array} array The first input array
+ * @param {Array} excluded The second input array
+ * @returns {Array} - A new array of the unique elements in each array.
+ */
+.filter('xor', function () {
+    return function () {
+        return _.xor.apply(_, arguments);
+    };
+});
+
 angular.module("templates/rxAccountInfo.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxAccountInfo.html",
     "<div class=\"rx-account-info\"><rx-info-panel panel-title=\"Account Info\"><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account Name</div><div class=\"account-info-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountName }}</a></div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account #</div><div class=\"account-info-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountNumber }}</a></div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Badges</div><div class=\"account-info-data\"><img ng-repeat=\"badge in badges\" ng-src=\"{{badge.url}}\" data-name=\"{{badge.name}}\" data-description=\"{{badge.description}}\" tooltip-html-unsafe=\"{{tooltipHtml(badge)}}\" tooltip-placement=\"bottom\"></div></div><div class=\"account-info-wrapper\" ng-transclude></div></rx-info-panel></div>");
@@ -12137,7 +12164,7 @@ angular.module("templates/rxAccountSearch.html", []).run(["$templateCache", func
 
 angular.module("templates/rxAccountUsers.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxAccountUsers.html",
-    "<span ng-if=\"isCloudProduct\" class=\"account-users field-select\"><select rx-select ng-model=\"currentUser\" ng-options=\"user.username as user.username for user in users\" ng-change=\"switchUser(currentUser)\"></select></span>");
+    "<span ng-if=\"isCloudProduct\" class=\"account-users\"><select rx-select ng-model=\"currentUser\" ng-options=\"user.username as user.username for user in users\" ng-change=\"switchUser(currentUser)\"></select></span>");
 }]);
 
 angular.module("templates/rxApp.html", []).run(["$templateCache", function($templateCache) {
