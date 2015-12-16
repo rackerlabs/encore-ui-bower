@@ -2,10 +2,10 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.41.0 - 2015-12-09
+ * Version: 1.41.1 - 2015-12-16
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.atoms','encore.ui.configs','encore.ui.grid','encore.ui.quarks','encore.ui.layout','encore.ui.metadata','encore.ui.molecules','encore.ui.progressbar','encore.ui.quarks','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxApp','encore.ui.rxAppRoutes','encore.ui.rxAttributes','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.rxCapitalize','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxEnvironment','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxIdentity','encore.ui.rxInfoPanel','encore.ui.rxLocalStorage','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.rxMultiSelect','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxPermission','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSession','encore.ui.rxSessionStorage','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.tabs','encore.ui.tooltips','encore.ui.typeahead','encore.ui.quarks', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.atoms','encore.ui.molecules','encore.ui.quarks','encore.ui.configs','encore.ui.grid','encore.ui.quarks','encore.ui.layout','encore.ui.metadata','encore.ui.progressbar','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxApp','encore.ui.rxAppRoutes','encore.ui.rxAttributes','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.quarks','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.quarks','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxEnvironment','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxIdentity','encore.ui.rxInfoPanel','encore.ui.rxLocalStorage','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.rxMultiSelect','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxPermission','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSession','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.quarks','encore.ui.tabs','encore.ui.tooltips','encore.ui.typeahead','encore.ui.quarks', 'cfp.hotkeys','ui.bootstrap']);
 angular.module('encore.ui.tpls', ['templates/rxAccountInfo.html','templates/rxAccountInfoBanner.html','templates/rxActionMenu.html','templates/rxActiveUrl.html','templates/rxAccountSearch.html','templates/rxAccountUsers.html','templates/rxApp.html','templates/rxAppNav.html','templates/rxAppNavItem.html','templates/rxAppSearch.html','templates/rxBillingSearch.html','templates/rxPage.html','templates/rxBreadcrumbs.html','templates/rxBatchActions.html','templates/rxBulkSelectMessage.html','templates/rxButton.html','templates/rxCollapse.html','templates/feedbackForm.html','templates/rxFeedback.html','templates/rxFieldName.html','templates/rxFormFieldset.html','templates/rxFormItem.html','templates/rxInfoPanel.html','templates/rxMeta.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxModalFooters.html','templates/rxMultiSelect.html','templates/rxSelectOption.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxOptionTable.html','templates/rxPaginate.html','templates/rxPermission.html','templates/rxSearchBox.html','templates/rxSelectFilter.html','templates/rxSortableColumn.html','templates/rxStatusColumn.html','templates/rxTags.html','templates/rxToggleSwitch.html']);
 /**
  * @ngdoc overview
@@ -18,6 +18,39 @@ angular.module('encore.ui.tpls', ['templates/rxAccountInfo.html','templates/rxAc
  * * {@link atoms.directive:rxCheckbox rxCheckbox}
  */
 angular.module('encore.ui.atoms', []);
+
+/**
+ * @ngdoc overview
+ * @name molecules
+ * @description
+ * # Molecules
+ * Molecules are complex elements made up of various Atoms.
+ *
+ * ## Molecules
+ * * TBD
+ */
+angular.module('encore.ui.molecules', []);
+
+/**
+ * @ngdoc overview
+ * @name quarks
+ * @description
+ * # Quarks
+ * Quarks are non-visual elements that support Atoms and Molecules.
+ *
+ * ## Values & Constants
+ * * TBD
+ *
+ * ## Filters
+ * * {@link quarks.filter:xor xor}
+ * * {@link quarks.filter:rxCapitalize rxCapitalize}
+ *
+ * ## Services
+ * * {@link quarks.service:hotkeys hotkeys}
+ * * {@link quarks.service:SessionStorage SessionStorage}
+ * * {@link quarks.service:rxBreadcrumbsSvc rxBreadcrumbsSvc}
+ */
+angular.module('encore.ui.quarks', []);
 
 /**
  * @ngdoc overview
@@ -199,18 +232,6 @@ angular.module('encore.ui.metadata', []);
 
 /**
  * @ngdoc overview
- * @name molecules
- * @description
- * # Molecules
- * Molecules are complex elements made up of various Atoms.
- *
- * ## Molecules
- * * TBD
- */
-angular.module('encore.ui.molecules', []);
-
-/**
- * @ngdoc overview
  * @name progressbar
  * @description
  * # progressbar Component
@@ -222,24 +243,6 @@ angular.module('encore.ui.molecules', []);
  *
  */
 angular.module('encore.ui.progressbar', []);
-
-/**
- * @ngdoc overview
- * @name quarks
- * @description
- * # Quarks
- * Quarks are non-visual elements that support Atoms and Molecules.
- *
- * ## Values & Constants
- * * TBD
- *
- * ## Filters
- * * {@link quarks.filter:xor xor}
- *
- * ## Services
- * * {@link quarks.service:hotkeys hotkeys}
- */
-angular.module('encore.ui.quarks', []);
 
 /**
  * @ngdoc overview
@@ -2572,9 +2575,6 @@ angular.module('encore.ui.rxAuth')
  *
  * ## Directives
  * * {@link rxBreadcrumbs.directive:rxBreadcrumbs rxBreadcrumbs}
- *
- * ## Services
- * * {@link rxBreadcrumbs.service:rxBreadcrumbsSvc rxBreadcrumbsSvc}
  */
 angular.module('encore.ui.rxBreadcrumbs', [
     'ngSanitize'
@@ -2591,7 +2591,7 @@ angular.module('encore.ui.rxBreadcrumbs')
  *
  *
  * By default, the first breadcrumb will always have an URL of `'/'` and a name of `'Home'`. This can be changed
- * with the `rxBreadcrumbsSvc.setHome` method (see {@link rxBreadcrumbs.service:rxBreadcrumbsSvc rxBreadcrumbsSvc}).
+ * with the `rxBreadcrumbsSvc.setHome` method (see {@link quarks.service:rxBreadcrumbsSvc rxBreadcrumbsSvc}).
  *
  * @param {String=} status
  * The tag to apply to any breadcrumbs with usePageStatusTag:true
@@ -2626,10 +2626,10 @@ angular.module('encore.ui.rxBreadcrumbs')
     };
 });
 
-angular.module('encore.ui.rxBreadcrumbs')
+angular.module('encore.ui.quarks')
 /**
  * @ngdoc service
- * @name rxBreadcrumbs.service:rxBreadcrumbsSvc
+ * @name quarks.service:rxBreadcrumbsSvc
  * @description
  * `rxBreadcrumbsSvc` provides various methods to manipulate breadcrumbs.
  *
@@ -2666,10 +2666,11 @@ angular.module('encore.ui.rxBreadcrumbs')
         }
         return copy;
     };
+
     /**
      * @ngdoc function
      * @name rxBreadcrumbsSvc.setHome
-     * @methodOf rxBreadcrumbs.service:rxBreadcrumbsSvc
+     * @methodOf quarks.service:rxBreadcrumbsSvc
      * @description
      * By default, the first breadcrumb will always have an URL of `'/'` and a name of `'Home'`.  This can be changed
      * with the `rxBreadcrumbsSvc.setHome` method.
@@ -3297,25 +3298,12 @@ angular.module('encore.ui.rxButton')
     };
 });
 
-/**
- * @ngdoc overview
- * @name rxCapitalize
- * @description
- * # rxCapitalize Component
- *
- * This component provides logic to capitalize the first word in a string via an Angular filter.
- *
- * ## Filters
- * * {@link rxCapitalize.filter:rxCapitalize rxCapitalize}
- */
-angular.module('encore.ui.rxCapitalize', []);
-
-angular.module('encore.ui.rxCapitalize')
+angular.module('encore.ui.quarks')
 /**
  * @ngdoc filter
- * @name rxCapitalize.filter:rxCapitalize
+ * @name quarks.filter:rxCapitalize
  * @description
- * The `rxCapitalize` filter capitalizes the first word in a string.
+ * The `rxCapitalize` filter capitalizes the first word in a string via an Angular filter.
  */
 .filter('rxCapitalize', function () {
     return function (input) {
@@ -6181,7 +6169,7 @@ angular.module('encore.ui.rxMetadata')
  */
 angular.module('encore.ui.rxMisc', [
     'debounce',
-    'encore.ui.rxSessionStorage'
+    'encore.ui.quarks'
 ]);
 
 angular.module('encore.ui.rxMisc')
@@ -10537,85 +10525,6 @@ angular.module('encore.ui.rxSession')
     return session;
 }]);
 
-/*jshint proto:true*/
-/**
- * @ngdoc overview
- * @name rxSessionStorage
- * @description
- * # rxSessionStorage Component
- *
- * A component that provides a simple wrapper around the global
- * `sessionStorage` object for interacting with session storage.
- *
- * ## Services
- * * {@link rxSessionStorage.service:SessionStorage SessionStorage}
- */
-angular.module('encore.ui.rxSessionStorage', []);
-angular.module('encore.ui.rxSessionStorage')
-/**
- * @ngdoc service
- * @name rxSessionStorage.service:SessionStorage
- * @description
- *
- * A simple wrapper for injecting the global variable sessionStorage
- * for storing values in session storage. This service is similar to angular's
- * $window and $document services.  The API works the same as the W3C's
- * specification provided at: http://dev.w3.org/html5/webstorage/#storage-0.
- * Also includes to helper functions for getting and setting objects.
- *
- * @example
- * <pre>
- * SessionStorage.setItem('Batman', 'Robin'); // no return value
- * SessionStorage.key(0); // returns 'Batman'
- * SessionStorage.getItem('Batman'); // returns 'Robin'
- * SessionStorage.removeItem('Batman'); // no return value
- * SessionStorage.setObject('hero', {name:'Batman'}); // no return value
- * SessionStorage.getObject('hero'); // returns { name: 'Batman'}
- * SessionStorage.clear(); // no return value
- * </pre>
- */
-.service('SessionStorage', ["$window", function ($window) {
-    this.setItem = function (key, value) {
-        $window.sessionStorage.setItem(key, value);
-    };
-
-    this.getItem = function (key) {
-        return $window.sessionStorage.getItem(key);
-    };
-
-    this.key = function (key) {
-        return $window.sessionStorage.key(key);
-    };
-
-    this.removeItem = function (key) {
-        $window.sessionStorage.removeItem(key);
-    };
-
-    this.clear = function () {
-        $window.sessionStorage.clear();
-    };
-
-    this.__defineGetter__('length', function () {
-        return $window.sessionStorage.length;
-    });
-
-    this.setObject = function (key, val) {
-        var value = _.isObject(val) || _.isArray(val) ? JSON.stringify(val) : val;
-        this.setItem(key, value);
-    };
-
-    this.getObject = function (key) {
-        var item = $window.sessionStorage.getItem(key);
-        try {
-            item = JSON.parse(item);
-        } catch (error) {
-            return item;
-        }
-
-        return item;
-    };
-}]);
-
 /**
  * @ngdoc overview
  * @name rxSortableColumn
@@ -11987,6 +11896,71 @@ angular.module('encore.ui.rxUnauthorizedInterceptor')
     };
 
     return svc;
+}]);
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc service
+ * @name quarks.service:SessionStorage
+ * @description
+ *
+ * A simple wrapper for injecting the global variable sessionStorage
+ * for storing values in session storage. This service is similar to angular's
+ * $window and $document services.  The API works the same as the W3C's
+ * specification provided at: http://dev.w3.org/html5/webstorage/#storage-0.
+ * Also includes to helper functions for getting and setting objects.
+ *
+ * @example
+ * <pre>
+ * SessionStorage.setItem('Batman', 'Robin'); // no return value
+ * SessionStorage.key(0); // returns 'Batman'
+ * SessionStorage.getItem('Batman'); // returns 'Robin'
+ * SessionStorage.removeItem('Batman'); // no return value
+ * SessionStorage.setObject('hero', {name:'Batman'}); // no return value
+ * SessionStorage.getObject('hero'); // returns { name: 'Batman'}
+ * SessionStorage.clear(); // no return value
+ * </pre>
+ */
+.service('SessionStorage', ["$window", function ($window) {
+    this.setItem = function (key, value) {
+        $window.sessionStorage.setItem(key, value);
+    };
+
+    this.getItem = function (key) {
+        return $window.sessionStorage.getItem(key);
+    };
+
+    this.key = function (key) {
+        return $window.sessionStorage.key(key);
+    };
+
+    this.removeItem = function (key) {
+        $window.sessionStorage.removeItem(key);
+    };
+
+    this.clear = function () {
+        $window.sessionStorage.clear();
+    };
+
+    this.__defineGetter__('length', function () {
+        return $window.sessionStorage.length;
+    });
+
+    this.setObject = function (key, val) {
+        var value = _.isObject(val) || _.isArray(val) ? JSON.stringify(val) : val;
+        this.setItem(key, value);
+    };
+
+    this.getObject = function (key) {
+        var item = $window.sessionStorage.getItem(key);
+        try {
+            item = JSON.parse(item);
+        } catch (error) {
+            return item;
+        }
+
+        return item;
+    };
 }]);
 
 /**

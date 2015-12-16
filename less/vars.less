@@ -202,7 +202,7 @@
 @rxSearchBox-width: @rxForm-input-width;
 @rxSearchBox-color: @rxForm-input-text-color;
 @rxSearchBox-color-disabled: @disabled-text-color;
-@rxSearchBox-color-icon: #a9a9a9;
+@rxSearchBox-color-icon: @gray-500;
 @rxSearchBox-background: @rxForm-input-background-color;
 @rxSearchBox-background-disabled: @disabled-background-color;
 @rxSearchBox-border: 1px solid @rxForm-input-border-color;
@@ -237,6 +237,21 @@
  * rxTags
  */
 @rxTag-height: 24px;
+
+/*
+ * rxToggleSwitch
+ */
+@rxToggleSwitch-off-state-color: @gray-700;
+@rxToggleSwitch-on-state-color: @green-700;
+@rxToggleSwitch-text-color: @white;
+@rxToggleSwitch-border-color: @gray-600;
+@rxToggleSwitch-knob-color: @white;
+@rxToggleSwitch-knob-border-color: @gray-200;
+@rxToggleSwitch-knob-size: 1.2em;
+@rxToggleSwitch-padding: @rxToggleSwitch-knob-size * 0.9;
+@rxToggleSwitch-line-height: @rxToggleSwitch-knob-size * 1.25;
+@rxToggleSwitch-blur-dist: @rxToggleSwitch-padding;
+@rxToggleSwitch-blur-spread: (@rxToggleSwitch-padding/3) * -1;
 
 /*
  * progressbar
