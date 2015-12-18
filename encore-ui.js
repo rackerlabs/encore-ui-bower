@@ -2,13 +2,14 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.41.1 - 2015-12-16
+ * Version: 1.42.0 - 2015-12-18
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.atoms','encore.ui.molecules','encore.ui.quarks','encore.ui.configs','encore.ui.grid','encore.ui.quarks','encore.ui.layout','encore.ui.metadata','encore.ui.progressbar','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.rxAge','encore.ui.rxApp','encore.ui.rxAppRoutes','encore.ui.rxAttributes','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.quarks','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.quarks','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.rxDiskSize','encore.ui.rxEnvironment','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxIdentity','encore.ui.rxInfoPanel','encore.ui.rxLocalStorage','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.rxMultiSelect','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxPermission','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSession','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.quarks','encore.ui.tabs','encore.ui.tooltips','encore.ui.typeahead','encore.ui.quarks', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui', ['encore.ui.atoms','encore.ui.molecules','encore.ui.quarks','encore.ui.configs','encore.ui.quarks','encore.ui.layout','encore.ui.metadata','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.quarks','encore.ui.rxApp','encore.ui.rxAppRoutes','encore.ui.rxAttributes','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.quarks','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.quarks','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.molecules','encore.ui.quarks','encore.ui.rxEnvironment','encore.ui.quarks','encore.ui.quarks','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxIdentity','encore.ui.rxInfoPanel','encore.ui.rxLocalStorage','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.rxMultiSelect','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxPermission','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSession','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.quarks','encore.ui.tabs','encore.ui.quarks','encore.ui.tooltips','encore.ui.typeahead','encore.ui.quarks', 'cfp.hotkeys','ui.bootstrap']);
 /**
  * @ngdoc overview
  * @name atoms
+ * @requires quarks
  * @description
  * # Atoms
  * Atoms are the basic building blocks for all UI elements.
@@ -16,19 +17,26 @@ angular.module('encore.ui', ['encore.ui.atoms','encore.ui.molecules','encore.ui.
  * ## Atoms
  * * {@link atoms.directive:rxCheckbox rxCheckbox}
  */
-angular.module('encore.ui.atoms', []);
+angular.module('encore.ui.atoms', [
+    'encore.ui.quarks'
+]);
 
 /**
  * @ngdoc overview
  * @name molecules
+ * @requires quarks
+ * @requires atoms
  * @description
  * # Molecules
  * Molecules are complex elements made up of various Atoms.
  *
- * ## Molecules
- * * TBD
+ * ## Directives
+ * * {@link molecules.directive:rxDatePicker rxDatePicker}
  */
-angular.module('encore.ui.molecules', []);
+angular.module('encore.ui.molecules', [
+    'encore.ui.quarks',
+    'encore.ui.atoms'
+]);
 
 /**
  * @ngdoc overview
@@ -43,6 +51,11 @@ angular.module('encore.ui.molecules', []);
  * ## Filters
  * * {@link quarks.filter:xor xor}
  * * {@link quarks.filter:rxCapitalize rxCapitalize}
+ * * {@link quarks.filter:rxDiskSize rxDiskSize}
+ * * {@link quarks.filter:rxAge rxAge}
+ * * {@link quarks.filter:titleize titleize}
+ * * {@link quarks.filter:rxEnvironmentMatch rxEnvironmentMatch}
+ * * {@link quarks.filter:rxEnvironmentUrl rxEnvironmentUrl}
  *
  * ## Services
  * * {@link quarks.service:hotkeys hotkeys}
@@ -137,17 +150,6 @@ angular.module('encore.ui.configs')
 });
 
 /**
- * @ngdoc overview
- * @name grid
- * @deprecated
- * @description
- * # grid Component
- *
- * **Deprecated**: Use {@link layout} instead.
- */
-angular.module('encore.ui.grid', []);
-
-/**
  * @ngdoc service
  * @name quarks.service:hotkeys
  * @description
@@ -228,20 +230,6 @@ angular.module('encore.ui.layout', []);
  * **Deprecated**: Use {@link rxMetadata} instead.
  */
 angular.module('encore.ui.metadata', []);
-
-/**
- * @ngdoc overview
- * @name progressbar
- * @description
- * # progressbar Component
- *
- * This component may be used to provide feedback on the progress of a workflow or action.
- *
- * Encore Framework utilizes Angular Bootstrap *progressbar*. See the
- * [Angular Bootstrap page](http://angular-ui.github.io/bootstrap/#/progressbar) for more details.
- *
- */
-angular.module('encore.ui.progressbar', []);
 
 /**
  * @ngdoc overview
@@ -490,19 +478,14 @@ angular.module('encore.ui.rxActiveUrl')
     };
 }]);
 
+angular.module('encore.ui.quarks')
 /**
- * @ngdoc overview
- * @name rxAge
+ * @ngdoc filter
+ * @name quarks.filter:rxAge
  * @description
- * # rxAge Component
+ * Several filters are available to parse dates.
  *
- * `rxAge` filters/parses dates.
- *
- * ## Filters
- * {@link rxAge.filter:rxAge rxAge}
- *
- *  ## Several filters are available to parse dates.
- *
+ * ## Two Digit Display
  * 1. You can just have it use the default abbreviated method and it truncates it
  *  to the two largest units.
  *  
@@ -514,7 +497,8 @@ angular.module('encore.ui.rxActiveUrl')
  *    </div>
  *  </pre>
  *  `Tue Sep 22 2015 00:44:00 GMT-0500 (CDT) → 10h 30m`
- *  
+ *
+ * ## Full Word Representation
  * 2. You can also pass in a second value of `true` and have it expand the units
  *  from the first letter to their full word representation.
  *  
@@ -526,7 +510,8 @@ angular.module('encore.ui.rxActiveUrl')
  *    </div>
  *  </pre>
  *  `Tue Sep 22 2015 00:35:30 GMT-0500 (CDT) → 10 hours, 33 minutes`
- *  
+ *
+ * ## Mulitple Digits
  * 3. Or you can pass in a number from `1` to `3` as the second value to allow for
  *  different amounts of units.
  *  
@@ -538,7 +523,8 @@ angular.module('encore.ui.rxActiveUrl')
  *    </div>
  *  </pre>
  *  `Sun Sep 07 2014 08:46:05 GMT-0500 (CDT) → 380d 2h 27m`
- *  
+ *
+ * ## Multiple Argument Usage
  * 4. **OR** you can pass in a number as the second argument and `true` as the
  *    third argument to combine these two effects.
  *    
@@ -554,18 +540,6 @@ angular.module('encore.ui.rxActiveUrl')
  * 
  * **NOTE:** This component requires [moment.js](http://momentjs.com/) to parse, manipulate, and 
  * display dates which is provided by Encore Framework.
- * 
- */
-angular.module('encore.ui.rxAge', []);
-angular.module('encore.ui.rxAge')
-// Another option
-// age.js -- https://github.rackspace.com/gist/roge5001/2417941
-// age.spec.js -- https://github.rackspace.com/gist/roge5001/2417940
-/**
- * @ngdoc filter
- * @name rxAge.filter:rxAge
- * @description
- * Several filters are available to parse dates.
  */
 .filter('rxAge', function () {
     return function (dateString, maxUnits, verbose) {
@@ -3699,23 +3673,184 @@ angular.module('encore.ui.rxCompile')
     };
 }]);
 
+angular.module('encore.ui.molecules')
 /**
- * @ngdoc overview
- * @name rxDiskSize
+ * @name molecules.directive:rxDatePicker
+ * @ngdoc directive
+ * @restrict E
+ * @scope
  * @description
- * # rxDiskSize Component
+ * Basic date picker.
  *
- * Converts GB disk size into a more readable format (e.g. GBs, TBs, PBs)
+ * ## Notice
+ * This molecule is designed to be used in conjunction with other picker
+ * molecules to compose a valid ISO 8601 DateTime string in the format of
+ * <code>YYYY-MM-DDTHH:mm:ssZ</code>.
  *
- * ## Filters
- * * {@link rxDiskSize.filter:rxDiskSize rxDiskSize}
+ * * This molecule will generate a **String** in the format of `YYYY-MM-DD`
+ *   to be used as the date portion of the ISO 8601 standard DateTime string
+ *   mentioned above.
+ * * This molecule will never generate anything other than a String.
+ *
+ * @param {expression} ngModel
+ * Expression that evaluates to a date string in `YYYY-MM-DD` format
+ *
+ * @return {String} **IMPORTANT** returns an ISO8601 standard date string in the
+ * formate of `YYYY-MM-DD`.
  */
-angular.module('encore.ui.rxDiskSize', []);
+.directive('rxDatePicker', function () {
+    return {
+        templateUrl: 'templates/rxDatePicker.html',
+        restrict: 'E',
+        require: 'ngModel',
+        scope: {
+            selected: '=ngModel'
+        },
+        link: function (scope, element, attrs, ngModelCtrl) {
+            var today = moment(new Date());
+            var isoFormat = 'YYYY-MM-DD';
 
-angular.module('encore.ui.rxDiskSize')
+            scope.calendarVisible = false;
+            // keep track of which month we're viewing in the popup (default to 1st of this month)
+            scope.calendarMonth = today.clone().startOf('month');
+
+            /* ===== "Public" Functions ===== */
+            scope.toggleCalendar = function () {
+                if (_.isUndefined(attrs.disabled)) {
+                    scope.calendarVisible = !scope.calendarVisible;
+                }
+            };//toggleCalendar()
+
+            /**
+             * @param {String} destination
+             * @description Modifies `scope.calendarMonth` to regenerate calendar
+             */
+            scope.navigate = function (destination) {
+                var newCalendarMonth = scope.calendarMonth.clone();
+                switch (destination) {
+                    case 'nextMonth': {
+                        newCalendarMonth.add(1, 'month');
+                        break;
+                    }
+                    case 'prevMonth': {
+                        newCalendarMonth.subtract(1, 'month');
+                        break;
+                    }
+                }
+                scope.calendarMonth = newCalendarMonth;
+            };//navigate
+
+            /**
+             * @param {Moment} date
+             */
+            scope.selectDate = function (date) {
+                scope.selected = date.format(isoFormat);
+                scope.calendarVisible = false;
+            };//selectDate()
+
+            /**
+             * @param {Moment} day
+             * @return {Boolean}
+             */
+            scope.isToday = function (day) {
+                return moment(day).isSame(today, 'day');
+            };//isToday()
+
+            /**
+             * @param {Moment} day
+             * @return {Boolean}
+             */
+            scope.isMonth = function (day) {
+                return moment(day).isSame(scope.calendarMonth, 'month');
+            };//isMonth()
+
+            /**
+             * @param {Moment} day
+             * @return {Boolean}
+             */
+            scope.isSelected = function (day) {
+                if (_.isUndefined(scope.selected)) {
+                    return false;
+                } else {
+                    return moment(day).isSame(scope.selected, 'day');
+                }
+            };//isSelected()
+
+            /* ===== OBSERVERS ===== */
+
+            // Set calendar month on change of selected date
+            scope.$watch('selected', function (newVal) {
+                if (!_.isEmpty(newVal)) {
+                    var parsed = moment(newVal, isoFormat);
+
+                    if (parsed.isValid()) {
+                        scope.calendarMonth = parsed.startOf('month');
+                    }
+                }
+            });
+
+            // Regenerate calendar if month changes
+            scope.$watch('calendarMonth', function (newVal) {
+                scope.calendarDays = buildCalendarDays(newVal);
+            });
+
+            ngModelCtrl.$formatters.push(function (modelVal) {
+                var parsed = moment(modelVal, isoFormat);
+                ngModelCtrl.$setValidity('date', parsed.isValid());
+
+                if (parsed.isValid()) {
+                    return parsed.format('MMMM DD, YYYY');
+                } else {
+                    return null;
+                }
+            });
+
+            ngModelCtrl.$render = function () {
+                scope.displayValue = ngModelCtrl.$viewValue;
+            };
+
+            /**
+             * @param {Moment} firstOfMonth
+             * @return {Array<Moment>}
+             * @description
+             * Generate an array of Moment objects representing the visible
+             * days on the calendar. This will automatically pad the calendar
+             * with dates from previous/next month to fill out the weeks.
+             */
+            function buildCalendarDays (firstOfMonth) {
+                var dateToken = firstOfMonth.clone().startOf('day');
+                var currentMonth = dateToken.month();
+                var days = [];
+                var prependDay, appendDay;
+
+                // add calendar month's days
+                while (dateToken.month() === currentMonth) {
+                    days.push(dateToken.clone());
+                    dateToken.add(1, 'day');
+                }
+
+                // until first item of array is Sunday, prepend earlier days to array
+                while (_.first(days).day() > 0) {
+                    prependDay = _.first(days).clone();
+                    days.unshift(prependDay.subtract(1, 'day'));
+                }
+
+                // until last item of array is Saturday, append later days to array
+                while (_.last(days).day() < 6) {
+                    appendDay = _.last(days).clone();
+                    days.push(appendDay.add(1, 'day'));
+                }
+
+                return days;
+            }//buildCalendarDays
+        }
+    };
+});
+
+angular.module('encore.ui.quarks')
 /**
  * @ngdoc filter
- * @name rxDiskSize.filter:rxDiskSize
+ * @name quarks.filter:rxDiskSize
  * @description
  *
  * Converts GB disk size into a more readable format (e.g. GBs, TBs, PBs)
@@ -3810,15 +3945,12 @@ angular.module('encore.ui.rxDiskSize')
  * ## Directives
  * * {@link rxEnvironment.directive:rxEnvironment rxEnvironment}
  *
- * ## Filters
- * * {@link rxEnvironment.filter:rxEnvironmentMatch rxEnvironmentMatch}
- * * {@link rxEnvironment.filter:rxEnvironmentUrl rxEnvironmentUrl}
- *
  * ## Services
  * * {@link rxEnvironment.service:Environment Environment}
  */
 angular.module('encore.ui.rxEnvironment', [
-    'ngSanitize'
+    'ngSanitize',
+    'encore.ui.quarks'
 ]);
 
 angular.module('encore.ui.rxEnvironment')
@@ -4029,61 +4161,6 @@ angular.module('encore.ui.rxEnvironment')
 
 angular.module('encore.ui.rxEnvironment')
 /**
- * @ngdoc filter
- * @name rxEnvironment.filter:rxEnvironmentMatch
- * @description
- * Checks if current environment matches target environment
- *
- * @example
- * <pre>
- * {{ 'production' | rxEnvironmentMatch }}
- * returns true if current environment is 'production', false otherwise
- *
- * {{ '!production' | rxEnvironmentMatch }}
- * returns false if current environment is 'production', true otherwise
- * </pre>
- */
-.filter('rxEnvironmentMatch', ["Environment", function (Environment) {
-    return function (environment) {
-        // check to see if first character is negation indicator
-        var isNegated = environment[0] === '!';
-
-        // get name of environment to look for
-        var targetEnvironmentName = isNegated ? environment.substr(1) : environment;
-
-        var environmentMatches = Environment.envCheck(targetEnvironmentName);
-        return isNegated ? !environmentMatches : environmentMatches;
-    };
-}]);
-
-angular.module('encore.ui.rxEnvironment')
-/**
- * @ngdoc filter
- * @name rxEnvironment.filter:rxEnvironmentUrl
- * @description
- * Builds a URL based on current environment.
- * Note: if value passed in isn't an object, it will simply return that value
- *
- * @example
- * <pre>
- * {{ { tld: 'cloudatlas', path: 'cbs/servers' } | rxEnvironmentUrl }}
- * Renders as '//staging.cloudatlas.encore.rackspace.com/cbs/servers' in staging
- *
- * {{ '/myPath' | rxEnvironmentUrl }}
- * Renders as '/myPath' regardless of environment, because value passed in was not an object
- * </pre>
- */
-.filter('rxEnvironmentUrl', ["Environment", "$interpolate", function (Environment, $interpolate) {
-    return function (details) {
-        var environment = Environment.get();
-
-        // convert url template into full path based on details provided (if details is an object)
-        return _.isObject(details) ? $interpolate(environment.url)(details) : details;
-    };
-}]);
-
-angular.module('encore.ui.rxEnvironment')
-/**
  * @ngdoc directive
  * @name rxEnvironment.directive:rxEnvironment
  * @restrict A
@@ -4117,6 +4194,61 @@ angular.module('encore.ui.rxEnvironment')
                 }
             };
         }
+    };
+}]);
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc filter
+ * @name quarks.filter:rxEnvironmentMatch
+ * @description
+ * Checks if current environment matches target environment
+ *
+ * @example
+ * <pre>
+ * {{ 'production' | rxEnvironmentMatch }}
+ * returns true if current environment is 'production', false otherwise
+ *
+ * {{ '!production' | rxEnvironmentMatch }}
+ * returns false if current environment is 'production', true otherwise
+ * </pre>
+ */
+.filter('rxEnvironmentMatch', ["Environment", function (Environment) {
+    return function (environment) {
+        // check to see if first character is negation indicator
+        var isNegated = environment[0] === '!';
+
+        // get name of environment to look for
+        var targetEnvironmentName = isNegated ? environment.substr(1) : environment;
+
+        var environmentMatches = Environment.envCheck(targetEnvironmentName);
+        return isNegated ? !environmentMatches : environmentMatches;
+    };
+}]);
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc filter
+ * @name quarks.filter:rxEnvironmentUrl
+ * @description
+ * Builds a URL based on current environment.
+ * Note: if value passed in isn't an object, it will simply return that value
+ *
+ * @example
+ * <pre>
+ * {{ { tld: 'cloudatlas', path: 'cbs/servers' } | rxEnvironmentUrl }}
+ * Renders as '//staging.cloudatlas.encore.rackspace.com/cbs/servers' in staging
+ *
+ * {{ '/myPath' | rxEnvironmentUrl }}
+ * Renders as '/myPath' regardless of environment, because value passed in was not an object
+ * </pre>
+ */
+.filter('rxEnvironmentUrl', ["Environment", "$interpolate", function (Environment, $interpolate) {
+    return function (details) {
+        var environment = Environment.get();
+
+        // convert url template into full path based on details provided (if details is an object)
+        return _.isObject(details) ? $interpolate(environment.url)(details) : details;
     };
 }]);
 
@@ -6158,9 +6290,6 @@ angular.module('encore.ui.rxMetadata')
  *
  * A module for shared functionality across framework components.
  *
- * ## Filters
- * * {@link rxMisc.filter:titleize titleize}
- *
  * ## Services
  * * {@link rxMisc.service:rxAutoSave rxAutoSave}
  * * {@link rxMisc.service:rxDOMHelper rxDOMHelper}
@@ -6924,39 +7053,6 @@ angular.module('encore.ui.rxMisc')
         }
 
         return _.defaults(opts, defaults);
-    };
-});
-
-angular.module('encore.ui.rxMisc')
-/**
- * @ngdoc filter
- * @name rxMisc.filter:titleize
- * @description
- * Convert a string to title case, stripping out underscores and capitalizing words.
- *
- * Credit where it's due: https://github.com/epeli/underscore.string/blob/master/titleize.js
- *
- * @param {String} inputString - The string to convert
- * @returns {String} The titleized version of the string
- *
- * @example
- * Both examples result in a string of `"A Simple String"`.
- * <pre>
- * {{ 'a simple_STRING' | titleize }}
- * </pre>
- *
- * <pre>
- * $filter('titleize')('a simple_STRING');
- * </pre>
- */
-.filter('titleize', function () {
-    return function (inputString) {
-        return inputString
-            .toLowerCase()
-            .replace(/_/g, ' ')
-            .replace(/(?:^|\s)\S/g, function (character) {
-                return character.toUpperCase();
-            });
     };
 });
 
@@ -11985,6 +12081,39 @@ angular.module('encore.ui.quarks')
  *
  */
 angular.module('encore.ui.tabs', []);
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc filter
+ * @name quarks.filter:titleize
+ * @description
+ * Convert a string to title case, stripping out underscores and capitalizing words.
+ *
+ * Credit where it's due: https://github.com/epeli/underscore.string/blob/master/titleize.js
+ *
+ * @param {String} inputString - The string to convert
+ * @returns {String} The titleized version of the string
+ *
+ * @example
+ * Both examples result in a string of `"A Simple String"`.
+ * <pre>
+ * {{ 'a simple_STRING' | titleize }}
+ * </pre>
+ *
+ * <pre>
+ * $filter('titleize')('a simple_STRING');
+ * </pre>
+ */
+.filter('titleize', function () {
+    return function (inputString) {
+        return inputString
+            .toLowerCase()
+            .replace(/_/g, ' ')
+            .replace(/(?:^|\s)\S/g, function (character) {
+                return character.toUpperCase();
+            });
+    };
+});
 
 /**
  * @ngdoc overview

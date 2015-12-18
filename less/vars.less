@@ -76,45 +76,96 @@
 @preprodActiveBackground: #d41f26;
 
 // ## Tables
-@tableHeaderBg: #878787;
+@tableHeaderBg: @gray-200;
 @tableBg: @white;
-@tableBgAlt: #f2f2f2;
-@tableRowSelected: #c6e4c8;
-@tableBorder: #e1e0df;
-@tableHeaderBorder: #6e6e6e;
-@subtableBorder: #adadad;
-@tableHeaderText: @white;
-@tableCellText: #555555;
+@tableBgAlt: @gray-25;
+@tableRowSelected: fade(@green-100, 30%);
+@tableBorder: @gray-200;
+@tableHeaderBorder: @gray-400;
+@subtableBorder: @gray-500;
+@tableHeaderText: @gray-900;
+@tableCellText: @gray-800;
 @tableCellPadding: 5px 10px;
-
 
 /* ======================================== *\
    COMPONENT VARIABLES
 \* ======================================== */
+#vars {
+  /*
+   * rxDatePicker
+   */
+  .rxDatePicker {
+    // Popup
+    @popup-background-color: @white;
+    @popup-border-color: @gray-400;
+    @popup-border-top-color: @blue-700;
+    @popup-width: (7 * @day-width);
+    @popup-z-index: 100;
+    // Nav
+    @nav-arrow-icon-color: @gray-700;
+    @nav-arrow-hover-icon-color: @gray-900;
+    @nav-arrow-width: 30px;
+    @nav-text-color: @gray-900;
+    @nav-font-size: 13px;
+    @nav-height: 40px;
+    // Header
+    @header-background-color: @gray-50;
+    @header-border-bottom-color: @gray-400;
+    @header-text-color: @gray-800;
+    @header-font-size: 10px;
+    @header-height: 20px;
+    // Day
+    @day-hover-background-color: @blue-100;
+    @day-hover-text-color: @gray-900;
+    @day-text-color: @gray-800;
+    @day-width: 30px;
+    @out-of-month-day-background-color: @gray-100;
+    @selected-day-background-color: @blue-700;
+    @selected-day-text-color: @white;
+    @today-border-color: @gray-700;
+    // Control
+    @control-background-color: @white;
+    @control-border-color: @gray-500;
+    @control-cursor: pointer;
+    @control-gutter: 3px;
+    @control-height: 26px;
+    @control-icon-color: @gray-700;
+    @control-icon-width: 15px;
+    @control-padding-x: 3px;
+    @control-padding-y: 5px;
+    @control-text-color: @gray-900;
+    @control-width: 150px;
+    @disabled-control-background-color: @gray-300;
+    @disabled-control-border-color: @control-border-color;
+    @disabled-control-cursor: not-allowed;
+    @disabled-control-icon-color: @gray-600;
+    @disabled-control-text-color: @gray-600;
+    @invalid-control-border-color: @red-500;
+    @invalid-control-icon-color: @red-500;
+  }//.rxDatePicker
+}//#vars
 
 /*
  * Buttons
  */
-@optionHighlightBg: @blue-500;
-@buttonColor: @white;
-@buttonColorDisabled: @gray-600;
-@buttonDefaultBg: @blue-700;
-@buttonDefaultBgHover: lighten(@buttonDefaultBg, 10%);
-@buttonPositiveBg: @green-700;
-@buttonPositiveBgHover: lighten(@buttonPositiveBg, 6%);
-@buttonNegativeBg: @red-700;
-@buttonNegativeBgHover: lighten(@buttonNegativeBg, 10%);
-@buttonCancelBg: @gray-700;
-@buttonCancelBgHover: lighten(@buttonCancelBg, 10%);
-@buttonDisabledBg: @gray-300;
-@buttonSpinnerBg: @white;
+@rxButton-default-text-color: @white;
+@rxButton-default-background-color: @blue-700; // TODO replace misused text colors and others in rxButton
+@rxButton-default-hover-background-color: lighten(@rxButton-default-background-color, 10%); // TODO replace misused text colors and others in rxButton
+@rxButton-positive-background-color: @green-700;
+@rxButton-positive-hover-background-color: lighten(@rxButton-positive-background-color, 6%);
+@rxButton-negative-background-color: @red-700;
+@rxButton-negative-hover-background-color: lighten(@rxButton-negative-background-color, 10%);
+@rxButton-cancel-background-color: @gray-700;
+@rxButton-cancel-hover-background-color: lighten(@rxButton-cancel-background-color, 10%);
+@rxButton-disabled-text-color: @gray-600;
+@rxButton-disabled-background-color: @gray-300; // TODO replace misused text colors
+@rxButton-spinner-background-color: @white;
 
 /*
  * Button Groups (rxButton)
  */
-// TODO: rename with proper component prefix
-@buttonGroupBorder: 2px solid #eaeaea;
-@buttonGroupBorderRadius: 4px;
+@rxButton-button-group-border: 2px solid @gray-200;
+@rxButton-button-group-border-radius: 4px;
 
 /*
  * rxForm
@@ -256,22 +307,25 @@
 /*
  * progressbar
  */
-// TODO: rename with proper component prefix
 //** Background color of the whole progress component
-@progress-bg: @gray-50;
-//** Default progress bar color
-@progress-bar-bg: @blue-100;
-//** Secondary progress bar color
-@progress-bar-secondary-bg: @blue-700;
-//** Tertiary progress bar color
-@progress-bar-tertiary-bg: @green-700;
-@font-size-base: @appFontSize;
-@font-size-large: ceil((@font-size-base * 1.25));
-@font-size-small: ceil((@font-size-base * 0.85));
+@progressbar-background-color: @gray-50;
+//** Default progress bar colors
+@progressbar-default-text-color: @gray-900;
+@progressbar-default-background-color: @blue-100;
+@progressbar-border-color: @gray-400;
+//** Secondary progress bar colors
+@progressbar-secondary-text-color: @white;
+@progressbar-secondary-background-color: @blue-700;
+//** Tertiary progress bar colors
+@progressbar-tertiary-text-color: @white;
+@progressbar-tertiary-background-color: @green-700;
+//** Font sizing for progress bar
+@progressbar-font-size-base: @appFontSize;
+@progressbar-font-size: 12px;
 //** Unit-less `line-height` for use in components like buttons.
-@line-height-base: 1.428571429; // 20/14
+@progressbar-line-height-base: 1.428571429; // 20/14
 //** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
-@line-height-computed: floor((@font-size-base * @line-height-base)); // ~20px
+@progressbar-line-height-computed: floor((@progressbar-font-size-base * @progressbar-line-height-base)); // ~20px
 
 /*
  * rxBreadcrumbs
@@ -280,10 +334,10 @@
 @rxBreadcrumbs-arrow-width: 9px;
 
 /*
- * Modals *TODO* Rename variables based on component name
+ * Modals
  */
-@modalPadding: 30px;
-@modalBodyPadding: 50px;
+@rxModalAction-padding: 30px;
+@rxModalAction-body-padding: 50px;
 
 
 /* ======================================== *\
@@ -357,3 +411,46 @@
 @inputColorError: @red; // replaced by @rxForm-error-text-color
 @inputBackgroundError: @inputColorError; // replaced by @rxForm-error-accent-color
 @rxCheckbox-color-selected: @white; // not used, replaced by @rxForm-input-background-color
+
+// Buttons
+// deprecated
+@optionHighlightBg: @blue-500;
+@buttonColor: @rxButton-default-text-color;
+@buttonColorDisabled: @rxButton-disabled-text-color;
+@buttonDefaultBg: @rxButton-default-background-color;
+@buttonDefaultBgHover: @rxButton-default-hover-background-color;
+@buttonPositiveBg: @rxButton-positive-background-color;
+@buttonPositiveBgHover: @rxButton-positive-hover-background-color;
+@buttonNegativeBg: @rxButton-negative-background-color;
+@buttonNegativeBgHover: @rxButton-negative-hover-background-color;
+@buttonCancelBg: @rxButton-cancel-background-color;
+@buttonCancelBgHover: @rxButton-cancel-hover-background-color;
+@buttonDisabledBg: @rxButton-disabled-background-color;
+@buttonSpinnerBg: @rxButton-spinner-background-color;
+
+// # Button Groups (rxButton)
+// deprecated
+@buttonGroupBorder: @rxButton-button-group-border;
+@buttonGroupBorderRadius: @rxButton-button-group-border-radius;
+
+// # Progressbar
+// deprecated
+@progress-bg: @progressbar-background-color;
+@progress-bar-bg: @progressbar-default-background-color;
+@progress-bar-secondary-bg: @progressbar-secondary-background-color;
+@progress-bar-tertiary-bg: @progressbar-tertiary-background-color;
+@font-size-base: @progressbar-font-size-base;
+@font-size-large: ceil((@font-size-base * 1.25));
+@font-size-small: ceil((@font-size-base * 0.85));
+@line-height-base: @progressbar-line-height-base;
+@line-height-computed: floor((@font-size-base * @line-height-base)); // ~20px
+
+// # Modals
+// deprecated
+@modalPadding: @rxModalAction-padding;
+@modalBodyPadding: @rxModalAction-body-padding;
+
+/*
+ * rxPaginate
+ */
+@paginationColor: @gray-700;
