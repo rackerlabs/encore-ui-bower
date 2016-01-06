@@ -7348,4 +7348,7 @@ rx-date-picker .popup .calendar .day:not(.selected):hover .circle {
   background-color: #bbdefb;
   color: #424242;
 }
+.rxStatusMappings-demo .demo-status-column-table {
+  max-width: 500px;
+}
 /*# sourceMappingURL=encore-ui-resp.css.map */

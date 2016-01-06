@@ -2,10 +2,10 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.42.0 - 2015-12-18
+ * Version: 1.42.2 - 2016-01-06
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.atoms','encore.ui.molecules','encore.ui.quarks','encore.ui.configs','encore.ui.quarks','encore.ui.layout','encore.ui.metadata','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.quarks','encore.ui.rxApp','encore.ui.rxAppRoutes','encore.ui.rxAttributes','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.quarks','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.quarks','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.molecules','encore.ui.quarks','encore.ui.rxEnvironment','encore.ui.quarks','encore.ui.quarks','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxIdentity','encore.ui.rxInfoPanel','encore.ui.rxLocalStorage','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.rxMultiSelect','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxPermission','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSession','encore.ui.rxSortableColumn','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.quarks','encore.ui.tabs','encore.ui.quarks','encore.ui.tooltips','encore.ui.typeahead','encore.ui.quarks', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui', ['encore.ui.atoms','encore.ui.molecules','encore.ui.quarks','encore.ui.quarks','encore.ui.configs','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.layout','encore.ui.metadata','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.quarks','encore.ui.rxApp','encore.ui.rxAppRoutes','encore.ui.rxAttributes','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.quarks','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.quarks','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.molecules','encore.ui.quarks','encore.ui.rxEnvironment','encore.ui.quarks','encore.ui.quarks','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxIdentity','encore.ui.rxInfoPanel','encore.ui.rxLocalStorage','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.rxMultiSelect','encore.ui.quarks','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxPermission','encore.ui.quarks','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSession','encore.ui.rxSortableColumn','encore.ui.quarks','encore.ui.quarks','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.quarks','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.tabs','encore.ui.quarks','encore.ui.tooltips','encore.ui.typeahead','encore.ui.quarks', 'cfp.hotkeys','ui.bootstrap']);
 /**
  * @ngdoc overview
  * @name atoms
@@ -46,7 +46,7 @@ angular.module('encore.ui.molecules', [
  * Quarks are non-visual elements that support Atoms and Molecules.
  *
  * ## Values & Constants
- * * TBD
+ * * {@link quarks.value:devicePaths devicePaths}
  *
  * ## Filters
  * * {@link quarks.filter:xor xor}
@@ -56,13 +56,43 @@ angular.module('encore.ui.molecules', [
  * * {@link quarks.filter:titleize titleize}
  * * {@link quarks.filter:rxEnvironmentMatch rxEnvironmentMatch}
  * * {@link quarks.filter:rxEnvironmentUrl rxEnvironmentUrl}
+ * * {@link quarks.filter:rxUnsafeRemoveHTML rxUnsafeRemoveHTML}
+ * * {@link quarks.filter:rxSortEmptyTop rxSortEmptyTop}
  *
  * ## Services
  * * {@link quarks.service:hotkeys hotkeys}
  * * {@link quarks.service:SessionStorage SessionStorage}
  * * {@link quarks.service:rxBreadcrumbsSvc rxBreadcrumbsSvc}
+ * * {@link quarks.service:SelectFilter SelectFilter}
+ * * {@link quarks.service:rxNestedElement rxNestedElement}
+ * * {@link quarks.service:Environment Environment}
+ * * {@link quarks.service:rxPromiseNotifications rxPromiseNotifications}
+ * * {@link quarks.service:rxSortUtil rxSortUtil}
  */
 angular.module('encore.ui.quarks', []);
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc filter
+ * @name quarks.filter:Apply
+ * @description
+ * Used to apply an instance of {@link quarks.service:SelectFilter SelectFilter} to an array.
+ *
+ * Merely calls the `applyTo()` method of a `SelectFilter` instance to an
+ * input array.
+ * <pre>
+ * <tr ng-repeat="item in list | Apply:filter">
+ * </pre>
+ *
+ * @param {Array} list The list to be filtered.
+ * @param {Object} filter An instance of SelectFilter
+ *
+ */
+.filter('Apply', function () {
+    return function (list, filter) {
+        return filter.applyTo(list);
+    };
+});
 
 /**
  * @ngdoc overview
@@ -102,23 +132,6 @@ angular.module('encore.ui.quarks', []);
 angular.module('encore.ui.configs', []);
 
 angular.module('encore.ui.configs')
-.value('devicePaths', [
-    { value: '/dev/xvdb', label: '/dev/xvdb' },
-    { value: '/dev/xvdd', label: '/dev/xvdd' },
-    { value: '/dev/xvde', label: '/dev/xvde' },
-    { value: '/dev/xvdf', label: '/dev/xvdf' },
-    { value: '/dev/xvdg', label: '/dev/xvdg' },
-    { value: '/dev/xvdh', label: '/dev/xvdh' },
-    { value: '/dev/xvdj', label: '/dev/xvdj' },
-    { value: '/dev/xvdk', label: '/dev/xvdk' },
-    { value: '/dev/xvdl', label: '/dev/xvdl' },
-    { value: '/dev/xvdm', label: '/dev/xvdm' },
-    { value: '/dev/xvdn', label: '/dev/xvdn' },
-    { value: '/dev/xvdo', label: '/dev/xvdo' },
-    { value: '/dev/xvdp', label: '/dev/xvdp' }
-]);
-
-angular.module('encore.ui.configs')
 .constant('feedbackApi', '/api/encore/feedback');
 
 angular.module('encore.ui.configs')
@@ -146,6 +159,291 @@ angular.module('encore.ui.configs')
             preprod: preprod,
             hasCustomURL: !_.isEmpty(this.customURL)
         };
+    };
+});
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc parameters
+ * @name quarks.value:devicePaths
+ * @description
+ * Provides configuration for device paths.
+ *
+ */
+.value('devicePaths', [
+    { value: '/dev/xvdb', label: '/dev/xvdb' },
+    { value: '/dev/xvdd', label: '/dev/xvdd' },
+    { value: '/dev/xvde', label: '/dev/xvde' },
+    { value: '/dev/xvdf', label: '/dev/xvdf' },
+    { value: '/dev/xvdg', label: '/dev/xvdg' },
+    { value: '/dev/xvdh', label: '/dev/xvdh' },
+    { value: '/dev/xvdj', label: '/dev/xvdj' },
+    { value: '/dev/xvdk', label: '/dev/xvdk' },
+    { value: '/dev/xvdl', label: '/dev/xvdl' },
+    { value: '/dev/xvdm', label: '/dev/xvdm' },
+    { value: '/dev/xvdn', label: '/dev/xvdn' },
+    { value: '/dev/xvdo', label: '/dev/xvdo' },
+    { value: '/dev/xvdp', label: '/dev/xvdp' }
+]);
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc service
+ * @name quarks.service:Environment
+ * @description
+ *
+ * Allows defining environments and retrieving the current environment based on location
+ *
+ * ## Adding New Environments ##
+ *
+ * If necessary, you can add additional environments with `Environment.add()`.
+ * This takes an object with three properties, `name`, `pattern` and `url`, where
+ *
+ * * name: The "friendly" name of your environment, like "local", "preprod", etc.
+ * * pattern: A string or RegEx that the current path is matched against
+ * * url: The URL pattern used to build URLs when using rxEnvironmentUrl
+ *
+ * As an example, if we didn't already have a `'preprod'` environment, we could
+ * add it as follows:
+ *
+ * <pre>
+ * Environment.add({
+ *     // Matches only https://preprod.encore.rackspace.com
+ *     name: 'preprod',
+ *     pattern: /\/\/preprod.encore.rackspace.com/,
+ *     url: '{{path}}'
+ * });
+ * </pre>
+ *
+ * For this demo application, we add a "Github Pages" environment, like this:
+ *
+ * <pre>
+ * Environment.add({
+ *     name: 'ghPages',
+ *     pattern: '//rackerlabs.github.io',
+ *     url: baseGithubUrl + '{{path}}'
+ * });
+ * </pre>
+ *
+ * @example
+ * <pre>
+ * Environment.get() // return environment object that matches current location
+ * </pre>
+ */
+.service('Environment', ["$location", "$rootScope", "$log", function ($location, $rootScope, $log) {
+    /*
+     * This array defines different environments to check against.
+     * It is prefilled with 'Encore' based environments
+     * It can be overwritten if necessary via the returned 'environments' property
+     *
+     * @property {string} name The 'friendly' name of the environment
+     * @property {string|RegEx} pattern The pattern to match the current path against
+     * @property {string} url The url pattern used to build out urls for that environment.
+     *                        See 'buildUrl' for more details
+     */
+    var environments = [{
+        // http://localhost:3000/
+        // http://localhost:9000/
+        // http://localhost/
+        // http://server/
+        name: 'local',
+        pattern: /\/\/(localhost|server)(:\d{1,4})?/,
+        url: '//localhost:' + $location.port() + '/{{path}}'
+    }, {
+        // Matches only https://preprod.encore.rackspace.com
+        name: 'preprod',
+        pattern: /\/\/preprod.encore.rackspace.com/,
+        url: '{{path}}'
+    }, {
+        // This is anything with a host preceeding encore.rackspace.com
+        // https://staging.encore.rackspace.com/
+        // https://preprod.encore.rackspace.com/
+        name: 'unified-preprod',
+        pattern: /\/\/(\w+\.)encore.rackspace.com/,
+        url: '{{path}}'
+    }, {
+        // This is *all* environments
+        // https://encore.rackspace.com/
+        // https://staging.encore.rackspace.com/
+        // https://preprod.encore.rackspace.com/
+        name: 'unified',
+        pattern: 'encore.rackspace.com',
+        url: '{{path}}'
+    }, {
+        // This is only https://encore.rackspace.com/
+        name: 'unified-prod',
+        pattern: /\/\/encore.rackspace.com/,
+        url: '{{path}}'
+    }];
+
+    /*
+     * Checks if an environment has valid properties
+     * @private
+     * @param {object} environment The environment object to check
+     * @returns {boolean} true if valid, false otherwise
+     */
+    var isValidEnvironment = function (environment) {
+        return _.isString(environment.name) &&
+            (_.isString(environment.pattern) || _.isRegExp(environment.pattern)) &&
+            _.isString(environment.url);
+    };
+
+    var environmentPatternMatch = function (href, pattern) {
+        if (_.isRegExp(pattern)) {
+            return pattern.test(href);
+        }
+
+        return _.contains(href, pattern);
+    };
+
+    /*
+     * Retrieves current environment
+     * @public
+     * @param {string} [href] The path to check the environment on. Defaults to $location.absUrl()
+     * @returns {Object} The current environment (if found), else 'localhost' environment.
+     */
+    this.get = function (href) {
+        // default to current location if href not provided
+        href = href || $location.absUrl();
+
+        var currentEnvironment = _.find(environments, function (environment) {
+            return environmentPatternMatch(href, environment.pattern);
+        });
+
+        if (_.isUndefined(currentEnvironment)) {
+            $log.warn('No environments match URL: ' + $location.absUrl());
+            // set to default/first environment to avoid errors
+            currentEnvironment = environments[0];
+        }
+
+        return currentEnvironment;
+    };
+
+    /*
+     * Adds an environment to the front of the stack, ensuring it will be matched first
+     * @public
+     * @param {object} environment The environment to add. See 'environments' array for required properties
+     */
+    this.add = function (environment) {
+        // do some sanity checks here
+        if (isValidEnvironment(environment)) {
+            // add environment, over riding all others created previously
+            environments.unshift(environment);
+        } else {
+            $log.error('Unable to add Environment: defined incorrectly');
+        }
+    };
+
+    /*
+     * Replaces current environments array with new one
+     * @public
+     * @param {array} newEnvironments New environments to use
+     */
+    this.setAll = function (newEnvironments) {
+        // validate that all new environments are valid
+        if (newEnvironments.length > 0 && _.every(environments, isValidEnvironment)) {
+            // overwrite old environments with new
+            environments = newEnvironments;
+        }
+    };
+
+    /*
+     * Given an environment name, check if any of our registered environments
+     * match it
+     * @public
+     * @param {string} [name] Environment name to check
+     * @param {string} [href] Optional href to check against. Defaults to $location.absUrl()
+     */
+    this.envCheck = function (name, href) {
+        href = href || $location.absUrl();
+        var matchingEnvironments = _.filter(environments, function (environment) {
+            return environmentPatternMatch(href, environment.pattern);
+        });
+        return _.contains(_.pluck(matchingEnvironments, 'name'), name);
+    };
+
+    var makeEnvCheck = function (name) {
+        return function (href) { return this.envCheck(name, href); };
+    };
+
+    /* Whether or not we're in the `preprod` environment
+     * @public
+     */
+    this.isPreProd = makeEnvCheck('preprod');
+
+    /* Whether or not we're in `local` environment
+     * @public
+     */
+    this.isLocal = makeEnvCheck('local');
+
+    /* Whether or not we're in the `unified-preprod` environment
+     * @public
+     */
+    this.isUnifiedPreProd = makeEnvCheck('unified-preprod');
+
+    /* Whether or not we're in the `unified` environment
+     * @public
+     */
+    this.isUnified = makeEnvCheck('unified');
+
+    /* Whether or not we're in the `unified-prod` environment
+     * @public
+     */
+    this.isUnifiedProd = makeEnvCheck('unified-prod');
+}]);
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc service
+ * @name quarks.service:ErrorFormatter
+ * @description
+ * Provides a helper method to parse error objects for `message` and format them
+ * as necessary for `Status.setError()`.  See {@link rxStatus.service:Status Status} Service
+ * for more information.  
+ * 
+ * # Error Messages Using ErrorFormatter
+ *
+ * `ErrorFormmatter` provides a specialized template `error` string
+ * with an `object:{}` as the second parameter containing the replacements for
+ * the template in the error string.  If in a proper format, the object can be
+ * automatically parsed using an `ErrorFormatter` and displayed to the user.
+ * 
+ * For example:
+ *
+ * <pre>
+ * Status.setError(
+ *     'Failed loading browsing history: ${message}',
+ *     {
+ *         message: 'User has previously cleared their history!'
+ *     }
+ * );
+ * </pre>
+ *
+ * Please note that the replacement variable `${message}` in the error string
+ * maps one-to-one to the keys provided in the the error object.
+ *  - One can specify any number of template variables to replace.
+ *  - Not providing a balanced list of variables and their replacements will result in a:
+ *
+ * <pre>
+ * ReferenceError: <replacement> is not defined
+ * </pre>
+ */
+.factory('ErrorFormatter', function () {
+    /*
+     * formatString is a string with ${message} in it somewhere, where ${message}
+     * will come from the `error` object. The `error` object either needs to have
+     * a `message` property, or a `statusText` property.
+     */
+    var buildErrorMsg = function (formatString, error) {
+        error = error || {};
+        if (!_.has(error, 'message')) {
+            error.message = _.has(error, 'statusText') ? error.statusText : 'Unknown error';
+        }
+        return _.template(formatString, error);
+    };
+
+    return {
+        buildErrorMsg: buildErrorMsg
     };
 });
 
@@ -3946,7 +4244,7 @@ angular.module('encore.ui.quarks')
  * * {@link rxEnvironment.directive:rxEnvironment rxEnvironment}
  *
  * ## Services
- * * {@link rxEnvironment.service:Environment Environment}
+ * * {@link quarks.service:Environment Environment}
  */
 angular.module('encore.ui.rxEnvironment', [
     'ngSanitize',
@@ -3955,216 +4253,10 @@ angular.module('encore.ui.rxEnvironment', [
 
 angular.module('encore.ui.rxEnvironment')
 /**
- * @ngdoc service
- * @name rxEnvironment.service:Environment
- * @description
- *
- * Allows defining environments and retrieving the current environment based on location
- *
- * ## Adding New Environments ##
- *
- * If necessary, you can add additional environments with `Environment.add()`.
- * This takes an object with three properties, `name`, `pattern` and `url`, where
- *
- * * name: The "friendly" name of your environment, like "local", "preprod", etc.
- * * pattern: A string or RegEx that the current path is matched against
- * * url: The URL pattern used to build URLs when using rxEnvironmentUrl
- *
- * As an example, if we didn't already have a `'preprod'` environment, we could
- * add it as follows:
- *
- * <pre>
- * Environment.add({
- *     // Matches only https://preprod.encore.rackspace.com
- *     name: 'preprod',
- *     pattern: /\/\/preprod.encore.rackspace.com/,
- *     url: '{{path}}'
- * });
- * </pre>
- *
- * For this demo application, we add a "Github Pages" environment, like this:
- *
- * <pre>
- * Environment.add({
- *     name: 'ghPages',
- *     pattern: '//rackerlabs.github.io',
- *     url: baseGithubUrl + '{{path}}'
- * });
- * </pre>
- *
- * @example
- * <pre>
- * Environment.get() // return environment object that matches current location
- * </pre>
- */
-.service('Environment', ["$location", "$rootScope", "$log", function ($location, $rootScope, $log) {
-    /*
-     * This array defines different environments to check against.
-     * It is prefilled with 'Encore' based environments
-     * It can be overwritten if necessary via the returned 'environments' property
-     *
-     * @property {string} name The 'friendly' name of the environment
-     * @property {string|RegEx} pattern The pattern to match the current path against
-     * @property {string} url The url pattern used to build out urls for that environment.
-     *                        See 'buildUrl' for more details
-     */
-    var environments = [{
-        // http://localhost:3000/
-        // http://localhost:9000/
-        // http://localhost/
-        // http://server/
-        name: 'local',
-        pattern: /\/\/(localhost|server)(:\d{1,4})?/,
-        url: '//localhost:' + $location.port() + '/{{path}}'
-    }, {
-        // Matches only https://preprod.encore.rackspace.com
-        name: 'preprod',
-        pattern: /\/\/preprod.encore.rackspace.com/,
-        url: '{{path}}'
-    }, {
-        // This is anything with a host preceeding encore.rackspace.com
-        // https://staging.encore.rackspace.com/
-        // https://preprod.encore.rackspace.com/
-        name: 'unified-preprod',
-        pattern: /\/\/(\w+\.)encore.rackspace.com/,
-        url: '{{path}}'
-    }, {
-        // This is *all* environments
-        // https://encore.rackspace.com/
-        // https://staging.encore.rackspace.com/
-        // https://preprod.encore.rackspace.com/
-        name: 'unified',
-        pattern: 'encore.rackspace.com',
-        url: '{{path}}'
-    }, {
-        // This is only https://encore.rackspace.com/
-        name: 'unified-prod',
-        pattern: /\/\/encore.rackspace.com/,
-        url: '{{path}}'
-    }];
-
-    /*
-     * Checks if an environment has valid properties
-     * @private
-     * @param {object} environment The environment object to check
-     * @returns {boolean} true if valid, false otherwise
-     */
-    var isValidEnvironment = function (environment) {
-        return _.isString(environment.name) &&
-            (_.isString(environment.pattern) || _.isRegExp(environment.pattern)) &&
-            _.isString(environment.url);
-    };
-
-    var environmentPatternMatch = function (href, pattern) {
-        if (_.isRegExp(pattern)) {
-            return pattern.test(href);
-        }
-
-        return _.contains(href, pattern);
-    };
-
-    /*
-     * Retrieves current environment
-     * @public
-     * @param {string} [href] The path to check the environment on. Defaults to $location.absUrl()
-     * @returns {Object} The current environment (if found), else 'localhost' environment.
-     */
-    this.get = function (href) {
-        // default to current location if href not provided
-        href = href || $location.absUrl();
-
-        var currentEnvironment = _.find(environments, function (environment) {
-            return environmentPatternMatch(href, environment.pattern);
-        });
-
-        if (_.isUndefined(currentEnvironment)) {
-            $log.warn('No environments match URL: ' + $location.absUrl());
-            // set to default/first environment to avoid errors
-            currentEnvironment = environments[0];
-        }
-
-        return currentEnvironment;
-    };
-
-    /*
-     * Adds an environment to the front of the stack, ensuring it will be matched first
-     * @public
-     * @param {object} environment The environment to add. See 'environments' array for required properties
-     */
-    this.add = function (environment) {
-        // do some sanity checks here
-        if (isValidEnvironment(environment)) {
-            // add environment, over riding all others created previously
-            environments.unshift(environment);
-        } else {
-            $log.error('Unable to add Environment: defined incorrectly');
-        }
-    };
-
-    /*
-     * Replaces current environments array with new one
-     * @public
-     * @param {array} newEnvironments New environments to use
-     */
-    this.setAll = function (newEnvironments) {
-        // validate that all new environments are valid
-        if (newEnvironments.length > 0 && _.every(environments, isValidEnvironment)) {
-            // overwrite old environments with new
-            environments = newEnvironments;
-        }
-    };
-
-    /*
-     * Given an environment name, check if any of our registered environments
-     * match it
-     * @public
-     * @param {string} [name] Environment name to check
-     * @param {string} [href] Optional href to check against. Defaults to $location.absUrl()
-     */
-    this.envCheck = function (name, href) {
-        href = href || $location.absUrl();
-        var matchingEnvironments = _.filter(environments, function (environment) {
-            return environmentPatternMatch(href, environment.pattern);
-        });
-        return _.contains(_.pluck(matchingEnvironments, 'name'), name);
-    };
-
-    var makeEnvCheck = function (name) {
-        return function (href) { return this.envCheck(name, href); };
-    };
-
-    /* Whether or not we're in the `preprod` environment
-     * @public
-     */
-    this.isPreProd = makeEnvCheck('preprod');
-
-    /* Whether or not we're in `local` environment
-     * @public
-     */
-    this.isLocal = makeEnvCheck('local');
-
-    /* Whether or not we're in the `unified-preprod` environment
-     * @public
-     */
-    this.isUnifiedPreProd = makeEnvCheck('unified-preprod');
-
-    /* Whether or not we're in the `unified` environment
-     * @public
-     */
-    this.isUnified = makeEnvCheck('unified');
-
-    /* Whether or not we're in the `unified-prod` environment
-     * @public
-     */
-    this.isUnifiedProd = makeEnvCheck('unified-prod');
-}]);
-
-angular.module('encore.ui.rxEnvironment')
-/**
  * @ngdoc directive
  * @name rxEnvironment.directive:rxEnvironment
  * @restrict A
- * @requires rxEnvironment.service:Environment
+ * @requires quarks.service:Environment
  * @description
  * Show or hide content based on environment name
  *
@@ -6293,7 +6385,6 @@ angular.module('encore.ui.rxMetadata')
  * ## Services
  * * {@link rxMisc.service:rxAutoSave rxAutoSave}
  * * {@link rxMisc.service:rxDOMHelper rxDOMHelper}
- * * {@link rxMisc.service:rxNestedElement rxNestedElement}
  */
 angular.module('encore.ui.rxMisc', [
     'debounce',
@@ -7001,61 +7092,6 @@ angular.module('encore.ui.rxMisc')
     };
 }]);
 
-angular.module('encore.ui.rxMisc')
-/**
- * @ngdoc service
- * @name rxMisc.service:rxNestedElement
- * @description
- * Helper function to aid in the creation of boilerplate DDO definitions
- * required to validate nested custom elements.
- *
- * @param {Object=} opts - Options to merge with default DDO definitions
- * @param {String} opts.parent - Parent directive name
- * (i.e. defined NestedElement is an immediate child of this parent element)
- *
- * @return {Object} Directive Definition Object for a rxNestedElement
- *
- * @example
- * <pre>
- * angular.module('myApp', [])
- * .directive('parentElement', function (rxNestedElement) {
- *   return rxNestedElement();
- * })
- * .directive('childElement', function (rxNestedElement) {
- *   return rxNestedElement({
- *      parent: 'parentElement'
- *   });
- * });
- * </pre>
- */
-.factory('rxNestedElement', function () {
-    return function (opts) {
-        opts = opts || {};
-
-        var defaults = {
-            restrict: 'E',
-            /*
-             * must be defined for a child element to verify
-             * correct hierarchy
-             */
-            controller: angular.noop
-        };
-
-        if (angular.isDefined(opts.parent)) {
-            opts.require = '^' + opts.parent;
-            /*
-             * bare minimum function definition needed for "require"
-             * validation logic
-             *
-             * NOTE: `angular.noop` and `_.noop` WILL NOT trigger validation
-             */
-            opts.link = function () {};
-        }
-
-        return _.defaults(opts, defaults);
-    };
-});
-
 /**
  * @ngdoc overview
  * @name rxModalAction
@@ -7668,6 +7704,61 @@ angular.module('encore.ui.rxMultiSelect')
     };
 }]);
 
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc service
+ * @name quarks.service:rxNestedElement
+ * @description
+ * Helper function to aid in the creation of boilerplate DDO definitions
+ * required to validate nested custom elements.
+ *
+ * @param {Object=} opts - Options to merge with default DDO definitions
+ * @param {String} opts.parent - Parent directive name
+ * (i.e. defined NestedElement is an immediate child of this parent element)
+ *
+ * @return {Object} Directive Definition Object for a rxNestedElement
+ *
+ * @example
+ * <pre>
+ * angular.module('myApp', [])
+ * .directive('parentElement', function (rxNestedElement) {
+ *   return rxNestedElement();
+ * })
+ * .directive('childElement', function (rxNestedElement) {
+ *   return rxNestedElement({
+ *      parent: 'parentElement'
+ *   });
+ * });
+ * </pre>
+ */
+.factory('rxNestedElement', function () {
+    return function (opts) {
+        opts = opts || {};
+
+        var defaults = {
+            restrict: 'E',
+            /*
+             * must be defined for a child element to verify
+             * correct hierarchy
+             */
+            controller: angular.noop
+        };
+
+        if (angular.isDefined(opts.parent)) {
+            opts.require = '^' + opts.parent;
+            /*
+             * bare minimum function definition needed for "require"
+             * validation logic
+             *
+             * NOTE: `angular.noop` and `_.noop` WILL NOT trigger validation
+             */
+            opts.link = function () {};
+        }
+
+        return _.defaults(opts, defaults);
+    };
+});
+
 /**
  * @ngdoc overview
  * @name rxNotify
@@ -7688,7 +7779,6 @@ angular.module('encore.ui.rxMultiSelect')
 
  * ## Services
  * * {@link rxNotify.service:rxNotify rxNotify}
- * * {@link rxNotify.service:rxPromiseNotifications rxPromiseNotifications}
  *
  * ## Directives
  * * {@link rxNotify.directive:rxNotification rxNotification}
@@ -7751,7 +7841,8 @@ angular.module('encore.ui.rxMultiSelect')
  */
 angular.module('encore.ui.rxNotify', [
     'ngSanitize',
-    'ngAnimate'
+    'ngAnimate',
+    'encore.ui.quarks'
 ]);
 
 angular.module('encore.ui.rxNotify')
@@ -8214,142 +8305,6 @@ angular.module('encore.ui.rxNotify')
     };
 }]);
 
-angular.module('encore.ui.rxNotify')
-/**
- * @ngdoc service
- * @name rxNotify.service:rxPromiseNotifications
- * @description Manages displaying messages for a promise
- *
- * It is a common pattern with API requests that you'll show a loading message, followed by either a success or failure
- * message depending on the result of the call.  `rxPromiseNotifications` is the service created for this pattern.
- *
- * @example
- * <pre>
- * rxPromiseNotifications.add($scope.deferred.promise, {
- *     loading: 'Loading Message',
- *     success: 'Success Message',
- *     error: 'Error Message'
- * });
- * </pre>
- */
-.factory('rxPromiseNotifications', ["rxNotify", "$rootScope", "$q", "$interpolate", function (rxNotify, $rootScope, $q, $interpolate) {
-    var scope = $rootScope.$new();
-
-    /**
-     * Removes 'loading' message from stack
-     * @private
-     * @this Scope used for storing messages data
-     */
-    var dismissLoading = function () {
-        if (this.loadingMsg) {
-            rxNotify.dismiss(this.loadingMsg);
-        }
-    };
-
-    /**
-     * shows either a success or error message
-     * @private
-     * @this Scope used for storing messages data
-     * @param {string} msgType Message type to be displayed
-     * @param {Object} response Data that's returned from the promise
-     */
-    var showMessage = function (msgType, response) {
-        if (msgType in this.msgs && !this.isCancelled) {
-            // convert any bound properties into a string based on obj from result
-            var exp = $interpolate(this.msgs[msgType]);
-            var msg = exp(response);
-
-            var msgOpts = {
-                type: msgType
-            };
-
-            // if a custom stack is passed in, specify that for the message options
-            if (this.stack) {
-                msgOpts.stack = this.stack;
-            }
-
-            rxNotify.add(msg, msgOpts);
-        }
-    };
-
-    /**
-     * cancels all messages from displaying
-     * @private
-     * @this Scope used for storing messages data
-     */
-    var cancelMessages = function () {
-        this.isCancelled = true;
-        this.deferred.reject();
-    };
-
-    /**
-     * @name add
-     * @ngdoc method
-     * @methodOf rxNotify.service:rxPromiseNotifications
-     * @description
-     * @param {Object} promise
-     * The promise to attach to for showing success/error messages
-     * @param {Object} msgs
-     * The messages to display. Can take in HTML/expressions
-     * @param {String} msgs.loading
-     * Loading message to show while promise is unresolved
-     * @param {String=} msgs.success
-     * Success message to show on successful promise resolve
-     * @param {String=} msgs.error
-     * Error message to show on promise rejection
-     * @param {String=} [stack='page']
-     * What stack to add to
-     */
-    var add = function (promise, msgs, stack) {
-        var deferred = $q.defer();
-
-        var uid = _.uniqueId('promise_');
-
-        scope[uid] = {
-            isCancelled: false,
-            msgs: msgs,
-            stack: stack
-        };
-
-        // add loading message to page
-        var loadingOpts = {
-            loading: true
-        };
-
-        if (stack) {
-            loadingOpts.stack = stack;
-        }
-
-        if (msgs.loading) {
-            scope[uid].loadingMsg = rxNotify.add(msgs.loading, loadingOpts);
-        }
-
-        // bind promise to show message actions
-        deferred.promise
-            .then(showMessage.bind(scope[uid], 'success'), showMessage.bind(scope[uid], 'error'))
-            .finally(dismissLoading.bind(scope[uid]));
-
-        // react based on promise passed in
-        promise.then(function (response) {
-            deferred.resolve(response);
-        }, function (reason) {
-            deferred.reject(reason);
-        });
-
-        // if page change, cancel everything
-        $rootScope.$on('$routeChangeStart', cancelMessages.bind(scope[uid]));
-
-        // attach deferred to scope for later access
-        scope[uid].deferred = deferred;
-
-        return scope[uid];
-    };
-
-    return {
-        add: add
-    };
-}]);
-
 /**
  * @ngdoc overview
  * @name rxOptionTable
@@ -8608,14 +8563,12 @@ angular.module('encore.ui.rxOptionTable')
  *
  * The rxPageTitle component manages page titles.
  *
- *
- * ## Filters
- * * {@link rxPageTitle.filter:rxUnsafeRemoveHTML rxUnsafeRemoveHTML}
- *
  * ## Services
  * * {@link rxPageTitle.service:rxPageTitle rxPageTitle}
  */
-angular.module('encore.ui.rxPageTitle', []);
+angular.module('encore.ui.rxPageTitle', [
+    'encore.ui.quarks'
+]);
 
 angular.module('encore.ui.rxPageTitle')
 /**
@@ -8679,33 +8632,6 @@ angular.module('encore.ui.rxPageTitle')
         getTitle: function () {
             return $document.prop('title');
         }
-    };
-}]);
-
-angular.module('encore.ui.rxPageTitle')
-/**
- * @ngdoc filter
- * @name rxPageTitle.filter:rxUnsafeRemoveHTML
- * @description
- * Given a string, it removes all HTML tags from the string, using the
- * browser's own parsing engine. Any content inside of tags will be kept.
- *
- * **NOTE:** You must only use this with **trusted text**. See this
- * {@link http://stackoverflow.com/a/5002618 StackOverflow} answer for more details.
- *
- * @param {String} htmlString The string to remove HTML from **trusted text**
- * @returns {String} Cleaned string
- */
-.filter('rxUnsafeRemoveHTML', ["$document", function ($document) {
-    return function (htmlString) {
-        // protect against null, which can crash some browsers
-        if (_.isEmpty(htmlString)) {
-            htmlString = '';
-        }
-
-        var div = $document[0].createElement('div');
-        div.innerHTML = htmlString;
-        return div.textContent || div.innerText || '';
     };
 }]);
 
@@ -9953,6 +9879,143 @@ angular.module('encore.ui.rxPermission')
     };
 });
 
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc service
+ * @name quarks.service:rxPromiseNotifications
+ * @description Manages displaying messages for a promise.
+ *
+ * It is a common pattern with API requests that you show a loading message when an action is requested, followed
+ * by either a _success_ or _failure_ message depending on the result of the call.  `rxPromiseNotifications` is the
+ * service created for this pattern.
+ *
+ * @example
+ * <pre>
+ * rxPromiseNotifications.add($scope.deferred.promise, {
+ *     loading: 'Loading Message',
+ *     success: 'Success Message',
+ *     error: 'Error Message'
+ * });
+ * </pre>
+ */
+.factory('rxPromiseNotifications', ["rxNotify", "$rootScope", "$q", "$interpolate", function (rxNotify, $rootScope, $q, $interpolate) {
+    var scope = $rootScope.$new();
+
+    /**
+     * Removes 'loading' message from stack
+     * @private
+     * @this Scope used for storing messages data
+     */
+    var dismissLoading = function () {
+        if (this.loadingMsg) {
+            rxNotify.dismiss(this.loadingMsg);
+        }
+    };
+
+    /**
+     * Shows either a success or error message
+     * @private
+     * @this Scope used for storing messages data
+     * @param {string} msgType Message type to be displayed
+     * @param {Object} response Data that's returned from the promise
+     */
+    var showMessage = function (msgType, response) {
+        if (msgType in this.msgs && !this.isCancelled) {
+            // convert any bound properties into a string based on obj from result
+            var exp = $interpolate(this.msgs[msgType]);
+            var msg = exp(response);
+
+            var msgOpts = {
+                type: msgType
+            };
+
+            // if a custom stack is passed in, specify that for the message options
+            if (this.stack) {
+                msgOpts.stack = this.stack;
+            }
+
+            rxNotify.add(msg, msgOpts);
+        }
+    };
+
+    /**
+     * Cancels all messages from displaying
+     * @private
+     * @this Scope used for storing messages data
+     */
+    var cancelMessages = function () {
+        this.isCancelled = true;
+        this.deferred.reject();
+    };
+
+    /**
+     * @name add
+     * @ngdoc method
+     * @methodOf quarks.service:rxPromiseNotifications
+     * @description
+     * @param {Object} promise
+     * The promise to attach to for showing success/error messages
+     * @param {Object} msgs
+     * The messages to display. Can take in HTML/expressions
+     * @param {String} msgs.loading
+     * Loading message to show while promise is unresolved
+     * @param {String=} msgs.success
+     * Success message to show on successful promise resolve
+     * @param {String=} msgs.error
+     * Error message to show on promise rejection
+     * @param {String=} [stack='page']
+     * What stack to add to
+     */
+    var add = function (promise, msgs, stack) {
+        var deferred = $q.defer();
+
+        var uid = _.uniqueId('promise_');
+
+        scope[uid] = {
+            isCancelled: false,
+            msgs: msgs,
+            stack: stack
+        };
+
+        // add loading message to page
+        var loadingOpts = {
+            loading: true
+        };
+
+        if (stack) {
+            loadingOpts.stack = stack;
+        }
+
+        if (msgs.loading) {
+            scope[uid].loadingMsg = rxNotify.add(msgs.loading, loadingOpts);
+        }
+
+        // bind promise to show message actions
+        deferred.promise
+            .then(showMessage.bind(scope[uid], 'success'), showMessage.bind(scope[uid], 'error'))
+            .finally(dismissLoading.bind(scope[uid]));
+
+        // react based on promise passed in
+        promise.then(function (response) {
+            deferred.resolve(response);
+        }, function (reason) {
+            deferred.reject(reason);
+        });
+
+        // if page change, cancel everything
+        $rootScope.$on('$routeChangeStart', cancelMessages.bind(scope[uid]));
+
+        // attach deferred to scope for later access
+        scope[uid].deferred = deferred;
+
+        return scope[uid];
+    };
+
+    return {
+        add: add
+    };
+}]);
+
 /**
  * @ngdoc overview
  * @name rxRadio
@@ -10258,222 +10321,12 @@ angular.module('encore.ui.rxSelect')
  *
  * ## Directives
  * * {@link rxSelectFilter.directive:rxSelectFilter rxSelectFilter}
- *
- * ## Filters
- * * {@link rxSelectFilter.filter:Apply Apply}
- *
- * ## Services
- * * {@link rxSelectFilter.service:SelectFilter SelectFilter}
  */
 angular.module('encore.ui.rxSelectFilter', [
+    'encore.ui.quarks',
     'encore.ui.rxMisc',
     'encore.ui.rxSelect'
 ]);
-
-angular.module('encore.ui.rxSelectFilter')
-/**
- * @ngdoc filter
- * @name rxSelectFilter.filter:Apply
- * @description
- * Used to apply an instance of SelectFilter to an array.
- *
- * Merely calls the `applyTo()` method of a `SelectFilter` instance to an
- * input array.
- * <pre>
- * <tr ng-repeat="item in list | Apply:filter">
- * </pre>
- *
- * @param {Array} list The list to be filtered.
- * @param {Object} filter An instance of SelectFilter
- *
- */
-.filter('Apply', function () {
-    return function (list, filter) {
-        return filter.applyTo(list);
-    };
-});
-
-angular.module('encore.ui.rxSelectFilter')
-/**
- * @ngdoc service
- * @name rxSelectFilter.service:SelectFilter
- * @description
- * A prototype for creating objects that can be used for filtering arrays.
- *
- * ## SelectFilter
- * This service exposes an object with single method, `create()`, used to
- * create instances of a `SelectFilter`. It is configurable via three options:
- * - `properties`: A list of the properties to create a filter control.
- * Assuming the source data is an array of objects, a property is equivalent to
- * an object's key.
- *
- * - `available` (optional): An object that tracks which options are available
- * for a property.
- * Note that the key of the object matches a value in the `properties` array.
- * - `selected` (optional): An object that tracks which options are selected
- * for a property. It has the same form as the `available` object, but the
- * arrays indicate which options are selected, and as such are strict subsets
- * of their `available` counterparts.
- *
- * ### Option Defaults
- * Every property that is listed in `properties` but not provided as a key
- * to `available` will be automatically populated the first time `applyTo()`
- * (see below) is called.
- * <pre>
- * var filter = SelectFilter.create({
- *   properties: ['year']
- * });
- *
- * filter.applyTo([{
- *   eventId: 1,
- *   year: 2013
- * }, {
- *   eventId: 2,
- *   year: 2014
- * }, {
- *   eventId: 3,
- *   year: 2013
- * }]);
- * // filter.available is { year: [2013, 2014] }
- * </pre>
- * **Note:** There is an implied requirement that, when relying on the
- * auto-populated filter, the input array will have at least one item for every
- * available option. For example, this may not be the case when used with
- * server-side pagination.
- *
- * Every property that is listed in `properties` but not provided as a key to
- * `selected` is initialized to have all options selected (by looking them up
- * in `available`).  If property is also not provided to `available`, its
- * initialization is delayed until the first call of `applyTo()`.
- *
- * <pre>
- * var filter = SelectFilter.create({
- *   properties: ['year'],
- *   available: {
- *       year: [2013, 2014, 2015]
- *   }
- * });
- * // filter.selected is { year: [2013, 2014, 2015] }
- * </pre>
- *
- * ### Instances
- * Instances of `SelectFilter` have an `applyTo()` method, which applies the
- * filter's internal state of selected options to the array. This will not
- * often be called directly, but instead used by the
- * {@link rxSelectFilter.filter:Apply Apply} filter. As stated previously,
- * the first call of `applyTo()` will initialize any
- * `properties` that have not been defined in `available` or `selected`.
- * <pre>
- * var filter = SelectFilter.create({
- *   properties: ['year'],
- *   selected: {
- *      year: [2014]
- *     }
- * });
- *
- * var filteredArray = filter.applyTo([{
- *   eventId: 1,
- *   year: 2013
- * }, {
- *   eventId: 2,
- *   year: 2014
- * }, {
- *   eventId: 3,
- *   year: 2013
- * }]);
- * // filteredArray is [{ eventId: 2, year: 2014 }]
- * </pre>
- *
- * The instance will also have all of the constructor options as public
- * properties, so that they can be watched or changed.
- *
- */
-.service('SelectFilter', function () {
-    return {
-       /**
-        * @ngdoc method
-        * @name create
-        * @methodOf rxSelectFilter.service:SelectFilter
-        * @param {Object} options
-        * Options object
-        * @param {Object} options.properties
-        * A list of the properties to create a filter control. Assuming the
-        * source data is an array of objects, a property is equivalent to an
-        * object's key.
-        * <pre>
-        * SelectFilter.create({
-        *      properties: ['year']
-        * });
-        * </pre>
-        * @param {Object=} options.available
-        * An object that tracks which options are available for a property.
-        * <pre>
-        * SelectFilter.create({
-        *     // other options...
-        *     available: {
-        *        year: [2013, 2014, 2015],
-        *       }
-        * });
-        * </pre>
-        * @param {Object=} options.selected
-        * An object that tracks which options are selected for a property.
-        * It has the same form as the `available` object, but the arrays indicate
-        * which options are selected, and as such are strict subsets of their
-        * `available` counterparts.
-        * <pre>
-        * SelectFilter.create({
-        *     // other options...
-        *     selected: {
-        *         year: [2014],
-        *       }
-        * });
-        * </pre>
-        */
-        create: function (options) {
-            options = _.defaults(options, {
-                properties: [],
-                available: {},
-                selected: _.isUndefined(options.available) ? {} : _.cloneDeep(options.available)
-            });
-
-            var filter = _.cloneDeep(options);
-
-            var firstRun = true;
-
-            function init (list) {
-                filter.properties.forEach(function (property) {
-                    if (_.isUndefined(filter.available[property])) {
-                        filter.available[property] = _.uniq(_.pluck(list, property));
-                    }
-
-                    // Check `options.selected` instead of `filter.selected` because the latter
-                    // is used as the model for `<rx-multi-select>`, which initializes its
-                    // model to an empty array. However, the intent is select all options
-                    // initially when left unspecified (preferred default behavior).
-                    if (_.isUndefined(options.selected[property])) {
-                        filter.selected[property] = _.clone(filter.available[property]);
-                    }
-                });
-            }
-
-            function isItemValid (item) {
-                return filter.properties.every(function (property) {
-                    return _.contains(filter.selected[property], item[property]);
-                });
-            }
-
-            filter.applyTo = function (list) {
-                if (firstRun) {
-                    firstRun = false;
-                    init(list);
-                }
-                return list.filter(isItemValid);
-            };
-
-            return filter;
-        }
-    };
-});
 
 angular.module('encore.ui.rxSelectFilter')
 /**
@@ -10631,80 +10484,8 @@ angular.module('encore.ui.rxSession')
  *
  * ## Directives
  * * {@link rxSortableColumn.directive:rxSortableColumn rxSortableColumn}
- *
- * ## Filters
- * * {@link rxSortableColumn.filter:rxSortEmptyTop rxSortEmptyTop}
- *
- * ## Services
- * * {@link rxSortableColumn.service:rxSortUtil rxSortUtil}
  */
 angular.module('encore.ui.rxSortableColumn', []);
-
-angular.module('encore.ui.rxSortableColumn')
-/**
- * @ngdoc filter
- * @name rxSortableColumn.filter:rxSortEmptyTop
- * @description
- *
- * Filter that moves rows with an empty predicate to the top of the column in
- * ascending order, and to the bottom in descending order.
- *
- * @example
- * <pre>
- * [{ name: { firstName: 'Adam' } }, { }] | rxSortEmptyTop 'name.firstName':false
- * Will sort as [{}, { name: { firstName: 'Adam' } }].
- *
- * [{ name: { firstName: 'Adam' } }, { name: { firstName: null } ] | rxSortEmptyTop 'name.firstName':true
- * Will sort as [{ name: { firstName: 'Adam' } }, {}]
- * </pre>
- */
-.filter('rxSortEmptyTop', ['$filter', '$parse', function ($filter, $parse) {
-    return function (array, key, reverse) {
-
-        var predicateGetter = $parse(key);
-
-        var sortFn = function (item) {
-            return predicateGetter(item) || '';
-        };
-
-        return $filter('orderBy')(array, sortFn, reverse);
-    };
-}]);
-
-angular.module('encore.ui.rxSortableColumn')
-/**
- * @ngdoc service
- * @name rxSortableColumn.service:rxSortUtil
- * @description
- * Service which provided utility methods for sorting collections.
- *
- * @example
- * <pre>
- * rxSortUtil.getDefault() // returns a sort object with name as the default.
- * rxSortUtil.sortCol($scope, 'name') // sorts the collection based on the predicate
- * </pre>
- */
-.factory('rxSortUtil', function () {
-    var util = {};
-
-    util.getDefault = function (property, reversed) {
-        return { predicate: property, reverse: reversed };
-    };
-
-    util.sortCol = function ($scope, predicate) {
-        var reverse = ($scope.sort.predicate === predicate) ? !$scope.sort.reverse : false;
-        $scope.sort = { reverse: reverse, predicate: predicate };
-
-        // This execution should be moved outside of the scope for rxSortUtil
-        // already rxSortUtil.sortCol has to be wrapped, and can be implemented there
-        // rather than have rxSortUtil.sortCol check/expect for a pager to be present.
-        if ($scope.pager) {
-            $scope.pager.pageNumber = 0;
-        }
-    };
-
-    return util;
-});
 
 angular.module('encore.ui.rxSortableColumn')
 /**
@@ -10736,6 +10517,84 @@ angular.module('encore.ui.rxSortableColumn')
             reverse: '='
         }
     };
+});
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc filter
+ * @name quarks.filter:rxSortEmptyTop
+ * @description
+ *
+ * Filter that moves rows with an empty predicate to the top of the column in
+ * ascending order, and to the bottom in descending order.
+ *
+ * @example
+ * ### Empty Sort
+ * <pre>
+ * var emptySort = [
+ *     { name: { firstName: 'Adam' } }, 
+ *     { }
+ * ];	
+ * emptySort | rxSortEmptyTop 'name.firstName':false
+ * </pre>
+ * Will sort as [{}, { name: { firstName: 'Adam' } }].
+ *
+ * ### Null Sort
+ * <pre>
+ * var nullSort = [
+ *     { name: { firstName: 'Adam' } }, 
+ *     { name: { firstName: null }
+ * ];
+ * nullSort | rxSortEmptyTop 'name.firstName':true
+ * </pre>
+ * Will sort as [{ name: { firstName: 'Adam' } }, {}]
+ */
+.filter('rxSortEmptyTop', ['$filter', '$parse', function ($filter, $parse) {
+    return function (array, key, reverse) {
+
+        var predicateGetter = $parse(key);
+
+        var sortFn = function (item) {
+            return predicateGetter(item) || '';
+        };
+
+        return $filter('orderBy')(array, sortFn, reverse);
+    };
+}]);
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc service
+ * @name quarks.service:rxSortUtil
+ * @description
+ * Service which provided utility methods for sorting collections.
+ *
+ * @example
+ * <pre>
+ * rxSortUtil.getDefault() // returns a sort object with name as the default.
+ * rxSortUtil.sortCol($scope, 'name') // sorts the collection based on the predicate
+ * </pre>
+ */
+.factory('rxSortUtil', function () {
+    var util = {};
+
+    util.getDefault = function (property, reversed) {
+        return { predicate: property, reverse: reversed };
+    };
+
+    util.sortCol = function ($scope, predicate) {
+        var reverse = ($scope.sort.predicate === predicate) ? !$scope.sort.reverse : false;
+        $scope.sort = { reverse: reverse, predicate: predicate };
+
+        // This execution should be moved outside of the scope for rxSortUtil
+        // already rxSortUtil.sortCol has to be wrapped, and can be implemented there
+        // rather than have rxSortUtil.sortCol check/expect for a pager to be present.
+        if ($scope.pager) {
+            $scope.pager.pageNumber = 0;
+        }
+    };
+
+    return util;
 });
 
 /**
@@ -10796,40 +10655,13 @@ angular.module('encore.ui.rxSpinner')
  * A component that manages notifications for rxNotify
  *
  * ## Services
- * * {@link rxStatus.service:ErrorFormatter ErrorFormatter}
  * * {@link rxStatus.service:Status Status}
  * * {@link rxStatus.service:StatusUtil StatusUtil}
  */
 angular.module('encore.ui.rxStatus', [
+    'encore.ui.quarks',    
     'encore.ui.rxNotify'
 ]);
-
-angular.module('encore.ui.rxStatus')
-/**
- * @ngdoc service
- * @name rxStatus.service:ErrorFormatter
- * @description
- * Provides a helper method to parse error objects for 'message' and format them
- * as necessary for Status.setError()
- */
-.factory('ErrorFormatter', function () {
-    /*
-     * formatString is a string with ${message} in it somewhere, where ${message}
-     * will come from the `error` object. The `error` object either needs to have
-     * a `message` property, or a `statusText` property.
-     */
-    var buildErrorMsg = function (formatString, error) {
-        error = error || {};
-        if (!_.has(error, 'message')) {
-            error.message = _.has(error, 'statusText') ? error.statusText : 'Unknown error';
-        }
-        return _.template(formatString, error);
-    };
-
-    return {
-        buildErrorMsg: buildErrorMsg
-    };
-});
 
 angular.module('encore.ui.rxStatus')
 /**
@@ -11217,11 +11049,10 @@ angular.module('encore.ui.rxStatus')
  *
  * ## Objects/Values
  * * {@link rxStatusColumn.object:rxStatusColumnIcons rxStatusColumnIcons}
- *
- * ## Services
- * * {@link rxStatusColumn.service:rxStatusMappings rxStatusMappings}
  */
-angular.module('encore.ui.rxStatusColumn', []);
+angular.module('encore.ui.rxStatusColumn', [
+    'encore.ui.quarks'
+]);
 
 angular.module('encore.ui.rxStatusColumn')
 /**
@@ -11383,10 +11214,10 @@ angular.module('encore.ui.rxStatusColumn')
     };
 });
 
-angular.module('encore.ui.rxStatusColumn')
+angular.module('encore.ui.quarks')
 /**
  * @ngdoc service
- * @name rxStatusColumn.service:rxStatusMappings
+ * @name quarks.service:rxStatusMappings
  * @description
  *
  * A set of methods for creating mappings between a product's notion
@@ -11459,7 +11290,7 @@ angular.module('encore.ui.rxStatusColumn')
     /**
      * @ngdoc function
      * @name rxStatusMappings.addGlobal
-     * @methodOf rxStatusColumn.service:rxStatusMappings
+     * @methodOf quarks.service:rxStatusMappings
      * @description
      *
      * Takes a full set of mappings to be used globally
@@ -11489,7 +11320,7 @@ angular.module('encore.ui.rxStatusColumn')
     /**
      * @ngdoc function
      * @name rxStatusMappings.addAPI
-     * @methodOf rxStatusColumn.service:rxStatusMappings
+     * @methodOf quarks.service:rxStatusMappings
      * @description
      *
      * Create a mapping specific to a particular API. This will
@@ -11565,7 +11396,7 @@ angular.module('encore.ui.rxStatusColumn')
     /**
      * @ngdoc function
      * @name rxStatusMappings.getInternalMapping
-     * @methodOf rxStatusColumn.service:rxStatusMappings
+     * @methodOf quarks.service:rxStatusMappings
      * @description
      *
      * `rxStatusMappings` defines a `getInternalMapping(statusString, api)` method,
@@ -11992,6 +11823,215 @@ angular.module('encore.ui.rxUnauthorizedInterceptor')
 
     return svc;
 }]);
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc filter
+ * @name quarks.filter:rxUnsafeRemoveHTML
+ * @description
+ * Given a string, it removes all HTML tags from the string, using the
+ * browser's own parsing engine. Any content inside of tags will be kept.
+ *
+ * **NOTE:** You must only use this with **trusted text**. See this
+ * {@link http://stackoverflow.com/a/5002618 StackOverflow} answer for more details.
+ *
+ * @param {String} htmlString The string to remove HTML from **trusted text**
+ * @returns {String} Cleaned string
+ */
+.filter('rxUnsafeRemoveHTML', ["$document", function ($document) {
+    return function (htmlString) {
+        // protect against null, which can crash some browsers
+        if (_.isEmpty(htmlString)) {
+            htmlString = '';
+        }
+
+        var div = $document[0].createElement('div');
+        div.innerHTML = htmlString;
+        return div.textContent || div.innerText || '';
+    };
+}]);
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc service
+ * @name quarks.service:SelectFilter
+ * @description
+ * A prototype for creating objects that can be used for filtering arrays.
+ *
+ * ## SelectFilter
+ * This service exposes an object with single method, `create()`, used to
+ * create instances of a `SelectFilter`. It is configurable via three options:
+ * - `properties`: A list of the properties to create a filter control.
+ * Assuming the source data is an array of objects, a property is equivalent to
+ * an object's key.
+ *
+ * - `available` (optional): An object that tracks which options are available
+ * for a property.
+ * Note that the key of the object matches a value in the `properties` array.
+ * - `selected` (optional): An object that tracks which options are selected
+ * for a property. It has the same form as the `available` object, but the
+ * arrays indicate which options are selected, and as such are strict subsets
+ * of their `available` counterparts.
+ *
+ * ### Option Defaults
+ * Every property that is listed in `properties` but not provided as a key
+ * to `available` will be automatically populated the first time `applyTo()`
+ * (see below) is called.
+ * <pre>
+ * var filter = SelectFilter.create({
+ *   properties: ['year']
+ * });
+ *
+ * filter.applyTo([{
+ *   eventId: 1,
+ *   year: 2013
+ * }, {
+ *   eventId: 2,
+ *   year: 2014
+ * }, {
+ *   eventId: 3,
+ *   year: 2013
+ * }]);
+ * // filter.available is { year: [2013, 2014] }
+ * </pre>
+ * **Note:** There is an implied requirement that, when relying on the
+ * auto-populated filter, the input array will have at least one item for every
+ * available option. For example, this may not be the case when used with
+ * server-side pagination.
+ *
+ * Every property that is listed in `properties` but not provided as a key to
+ * `selected` is initialized to have all options selected (by looking them up
+ * in `available`).  If property is also not provided to `available`, its
+ * initialization is delayed until the first call of `applyTo()`.
+ *
+ * <pre>
+ * var filter = SelectFilter.create({
+ *   properties: ['year'],
+ *   available: {
+ *       year: [2013, 2014, 2015]
+ *   }
+ * });
+ * // filter.selected is { year: [2013, 2014, 2015] }
+ * </pre>
+ *
+ * ### Instances
+ * Instances of `SelectFilter` have an `applyTo()` method, which applies the
+ * filter's internal state of selected options to the array. This will not
+ * often be called directly, but instead used by the
+ * {@link quarks.filter:Apply Apply} filter. As stated previously,
+ * the first call of `applyTo()` will initialize any
+ * `properties` that have not been defined in `available` or `selected`.
+ * <pre>
+ * var filter = SelectFilter.create({
+ *   properties: ['year'],
+ *   selected: {
+ *      year: [2014]
+ *     }
+ * });
+ *
+ * var filteredArray = filter.applyTo([{
+ *   eventId: 1,
+ *   year: 2013
+ * }, {
+ *   eventId: 2,
+ *   year: 2014
+ * }, {
+ *   eventId: 3,
+ *   year: 2013
+ * }]);
+ * // filteredArray is [{ eventId: 2, year: 2014 }]
+ * </pre>
+ *
+ * The instance will also have all of the constructor options as public
+ * properties, so that they can be watched or changed.
+ *
+ */
+.service('SelectFilter', function () {
+    return {
+       /**
+        * @ngdoc method
+        * @name create
+        * @methodOf quarks.service:SelectFilter
+        * @param {Object} options
+        * Options object
+        * @param {Object} options.properties
+        * A list of the properties to create a filter control. Assuming the
+        * source data is an array of objects, a property is equivalent to an
+        * object's key.
+        * <pre>
+        * SelectFilter.create({
+        *      properties: ['year']
+        * });
+        * </pre>
+        * @param {Object=} options.available
+        * An object that tracks which options are available for a property.
+        * <pre>
+        * SelectFilter.create({
+        *     // other options...
+        *     available: {
+        *        year: [2013, 2014, 2015],
+        *       }
+        * });
+        * </pre>
+        * @param {Object=} options.selected
+        * An object that tracks which options are selected for a property.
+        * It has the same form as the `available` object, but the arrays indicate
+        * which options are selected, and as such are strict subsets of their
+        * `available` counterparts.
+        * <pre>
+        * SelectFilter.create({
+        *     // other options...
+        *     selected: {
+        *         year: [2014],
+        *       }
+        * });
+        * </pre>
+        */
+        create: function (options) {
+            options = _.defaults(options, {
+                properties: [],
+                available: {},
+                selected: _.isUndefined(options.available) ? {} : _.cloneDeep(options.available)
+            });
+
+            var filter = _.cloneDeep(options);
+
+            var firstRun = true;
+
+            function init (list) {
+                filter.properties.forEach(function (property) {
+                    if (_.isUndefined(filter.available[property])) {
+                        filter.available[property] = _.uniq(_.pluck(list, property));
+                    }
+
+                    // Check `options.selected` instead of `filter.selected` because the latter
+                    // is used as the model for `<rx-multi-select>`, which initializes its
+                    // model to an empty array. However, the intent is select all options
+                    // initially when left unspecified (preferred default behavior).
+                    if (_.isUndefined(options.selected[property])) {
+                        filter.selected[property] = _.clone(filter.available[property]);
+                    }
+                });
+            }
+
+            function isItemValid (item) {
+                return filter.properties.every(function (property) {
+                    return _.contains(filter.selected[property], item[property]);
+                });
+            }
+
+            filter.applyTo = function (list) {
+                if (firstRun) {
+                    firstRun = false;
+                    init(list);
+                }
+                return list.filter(isItemValid);
+            };
+
+            return filter;
+        }
+    };
+});
 
 angular.module('encore.ui.quarks')
 /**
