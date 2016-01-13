@@ -55,20 +55,64 @@
 @black: #000000;
 
 // # Text colors
-@disabled-text-color: @gray-600;
+@app-headers-text-color: @gray-900;
+@app-body-text-color: @gray-800;
 @disabled-background-color: @gray-300;
-@linkColor: @blue-700; // *TODO* convert var name to kebab?
-@linkColorHover: saturate(@linkColor, 15%); // *TODO* convert var name to kebab?
+@disabled-text-color: @gray-600;
+@app-disabled-icon-color: @gray-600;
+@link-color: @blue-700;
+@link-hover-color: saturate(@link-color, 15%);
+
+// # App Global Form Vars
+@app-label-font-size:12px;
+@app-label-text-color: @gray-800;
+@app-required-symbol-color: @red-500;
+
+// # App Default Borders
+@app-default-border-color: @gray-400;
+
+// # App Margin and Padding
+@app-default-row-margin: 0;
+@app-default-row-padding: 0;
+@app-default-column-margin: 0;
+@app-default-column-padding: 0;
+
+// # App UX Interactive States
+@app-default-selected-background-color: @blue-700;
+@app-default-selected-text-color: @white;
+@app-default-hover-background-color: @blue-100;
+@app-default-hover-text-color: @gray-900;
+
+// # Notifications
+@app-active-alert-background-color: @green-100;
+@app-active-alert-text-color: @gray-950;
+@app-active-alert-icon-color: @gray-950;
+@app-pending-alert-background-color: @orange-100;
+@app-pending-alert-text-color: @gray-950;
+@app-pending-alert-icon-color: @gray-950;
+@app-warning-alert-background-color: @orange-100;
+@app-warning-alert-text-color: @gray-950;
+@app-warning-alert-icon-color: @gray-950;
+@app-error-alert-background-color: @red-700;
+@app-error-alert-text-color: @white;
+@app-error-alert-icon-color: @white;
+@app-info-alert-background-color: @blue-100;
+@app-info-alert-text-color: @gray-950;
+@app-info-alert-icon-color: @gray-950;
+@app-disabled-alert-background-color: @disabled-background-color;
+@app-disabled-alert-text-color: @disabled-text-color;
+@app-disabled-alert-icon-color: @app-disabled-icon-color;
 
 // # Fonts
-// *TODO* These are used in very few places. Consider deleting
-// or adding vars to include mono font
-@appFont: "Roboto", sans-serif;
-@appLineHeight: 1.2;
-@appFontSize: 13px;
+@app-font: "Roboto", sans-serif;
+@app-line-height: 1.2;
+@app-font-size: 13px;
+@app-sans-serif-font-family: "Roboto", Helvetica, Arial, sans-serif;
+@app-monospace-font-family: "Roboto Mono", Courier New, Courier, monospace;
+@app-header-font-family: @app-sans-serif-font-family;
+@app-body-font-family: @app-sans-serif-font-family;
 
 // # PreProd warnings
-// TODO: update these to 2.0 colors
 @preprodBackground: #aa161c;
 @preprodBorderTop: #bd1b22;
 @preprodBorderBottom: #991016;
@@ -149,8 +193,8 @@
  * Buttons
  */
 @rxButton-default-text-color: @white;
-@rxButton-default-background-color: @blue-700; // TODO replace misused text colors and others in rxButton
-@rxButton-default-hover-background-color: lighten(@rxButton-default-background-color, 10%); // TODO replace misused text colors and others in rxButton
+@rxButton-default-background-color: @blue-700;
+@rxButton-default-hover-background-color: lighten(@rxButton-default-background-color, 10%);
 @rxButton-positive-background-color: @green-700;
 @rxButton-positive-hover-background-color: lighten(@rxButton-positive-background-color, 6%);
 @rxButton-negative-background-color: @red-700;
@@ -158,7 +202,7 @@
 @rxButton-cancel-background-color: @gray-700;
 @rxButton-cancel-hover-background-color: lighten(@rxButton-cancel-background-color, 10%);
 @rxButton-disabled-text-color: @gray-600;
-@rxButton-disabled-background-color: @gray-300; // TODO replace misused text colors
+@rxButton-disabled-background-color: @gray-300;
 @rxButton-spinner-background-color: @white;
 
 /*
@@ -171,22 +215,20 @@
  * rxForm
  */
 @rxForm-font-size: 13px;
-@rxForm-gutter: 16px; // best if divisible by 4
-@rxForm-section-min-width: 400px;
+@rxForm-gutter: 16px;
 @rxForm-field-min-width: 250px;
 @rxForm-field-max-width: 400px;
 @rxForm-input-border-color: @gray-500;
-@rxForm-input-border-color-invalid: @red-500; // *TODO*
-@rxForm-input-text-color: @appTextColor; // *TODO*
+@rxForm-input-border-color-invalid: @red-500;
+@rxForm-input-text-color: @appTextColor;
 @rxForm-input-border-radius: 0;
 @rxForm-input-background-color: @white;
 @rxForm-input-min-height: 26px;
 @rxForm-input-width: 250px;
-@rxForm-input-number-width: 150px;
 @rxForm-error-text-color: @red-700;
 @rxForm-error-accent-color: @red-500;
 @rxForm-selected-accent-color: @blue-500;
-@rxForm-placeholder-color: #a9a9a9; // *TODO*
+@rxForm-placeholder-color: #a9a9a9;
 
 /*
  * rxRadio
@@ -194,7 +236,6 @@
 @rxRadio-size: 16px;
 @rxRadio-background-color: @rxForm-input-background-color;
 @rxRadio-color-selected: @rxForm-selected-accent-color;
-@rxRadio-color-disabled: @disabled-background-color;
 @rxRadio-color-error: @rxForm-error-accent-color;
 @rxRadio-border-width: 1px;
 @rxRadio-border-width-invalid: 2px;
@@ -215,7 +256,6 @@
 @rxCheckbox-background-color: @rxForm-input-background-color;
 @rxCheckbox-background-color-selected: @rxForm-selected-accent-color;
 @rxCheckbox-border-color: @rxForm-input-border-color;
-@rxCheckbox-border-color-selected: @rxCheckbox-background-color-selected;
 
 /*
  * rxSelect
@@ -240,9 +280,7 @@
 /*
  * rxFieldName
  */
-@rxFieldName-color: @gray-800;
-@rxFieldName-symbol-color: @red-500;
-@rxFieldName-font-size: 12px;
+ // These Component Vars Have Been Replaced with New Global "@app-" Form Vars
 
 /*
  * rxSearchBox
@@ -257,7 +295,6 @@
 @rxSearchBox-background: @rxForm-input-background-color;
 @rxSearchBox-background-disabled: @disabled-background-color;
 @rxSearchBox-border: 1px solid @rxForm-input-border-color;
-@rxSearchBox-border-radius: @rxForm-input-border-radius;
 @rxSearchBox-padding-vertical: 3px;
 @rxSearchBox-padding-horizontal: 5px;
 
@@ -270,6 +307,7 @@
  *  960  <= size < 1200    Tablet-Landscape
  *  1200 <= size           PC
  */
+ // All Used In: Responsive.less
 @layout-gutter-width: 16px;
 @layout-breakpoint-sm: 600px;
 @layout-breakpoint-md: 960px;
@@ -320,12 +358,12 @@
 @progressbar-tertiary-text-color: @white;
 @progressbar-tertiary-background-color: @green-700;
 //** Font sizing for progress bar
-@progressbar-font-size-base: @appFontSize;
 @progressbar-font-size: 12px;
+
 //** Unit-less `line-height` for use in components like buttons.
 @progressbar-line-height-base: 1.428571429; // 20/14
 //** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
-@progressbar-line-height-computed: floor((@progressbar-font-size-base * @progressbar-line-height-base)); // ~20px
+@progressbar-line-height-computed: floor((@app-font-size * @progressbar-line-height-base)); // ~20px
 
 /*
  * rxBreadcrumbs
@@ -339,6 +377,10 @@
 @rxModalAction-padding: 30px;
 @rxModalAction-body-padding: 50px;
 
+/*
+ * rxPaginate
+ */
+@rxPaginate-pagination-text-color: @gray-700;
 
 /* ======================================== *\
    FOR DEPRECATION
@@ -355,6 +397,17 @@
 @cancel-gray: #898989;
 @orange: #db7820;
 @red: #fc0f1d;
+
+// # Fonts
+// deprecated
+@appFont: @app-font;
+@appLineHeight: @app-line-height;
+@appFontSize: @app-font-size;
+
+// # Text Colors
+// deprecated
+@linkColor: @link-color;
+@linkColorHover: @link-hover-color;
 
 // # Backgrounds
 // deprecated
@@ -439,7 +492,8 @@
 @progress-bar-bg: @progressbar-default-background-color;
 @progress-bar-secondary-bg: @progressbar-secondary-background-color;
 @progress-bar-tertiary-bg: @progressbar-tertiary-background-color;
-@font-size-base: @progressbar-font-size-base;
+@font-size-base: @app-font-size;
+@progressbar-font-size-base: @app-font-size;
 @font-size-large: ceil((@font-size-base * 1.25));
 @font-size-small: ceil((@font-size-base * 0.85));
 @line-height-base: @progressbar-line-height-base;
@@ -451,6 +505,40 @@
 @modalBodyPadding: @rxModalAction-body-padding;
 
 /*
+ * rxForm
+ */
+ // deprecated
+@rxForm-section-min-width: 400px;
+@rxForm-input-number-width: 150px;
+
+/*
+ * rxFieldName
+ */
+ // deprecated
+@rxFieldName-color: @app-label-text-color;
+@rxFieldName-symbol-color: @app-required-symbol-color;
+@rxFieldName-font-size: @app-label-font-size;
+
+/*
+ * rxRadio
+ */
+ // deprecated
+@rxRadio-color-disabled: @disabled-background-color;
+
+/*
+ * rxCheckbox
+ */
+ // deprecated
+@rxCheckbox-border-color-selected: @rxCheckbox-background-color-selected;
+
+/*
+ * rxSearchBox
+ */
+ // deprecated
+@rxSearchBox-border-radius: @rxForm-input-border-radius;
+
+/*
  * rxPaginate
  */
-@paginationColor: @gray-700;
+ // deprecated
+@paginationColor: @rxPaginate-pagination-text-color;

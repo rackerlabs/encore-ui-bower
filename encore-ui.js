@@ -2,10 +2,10 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.42.2 - 2016-01-06
+ * Version: 1.43.2 - 2016-01-13
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.atoms','encore.ui.molecules','encore.ui.quarks','encore.ui.quarks','encore.ui.configs','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.layout','encore.ui.metadata','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.quarks','encore.ui.rxApp','encore.ui.rxAppRoutes','encore.ui.rxAttributes','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.quarks','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.quarks','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.molecules','encore.ui.quarks','encore.ui.rxEnvironment','encore.ui.quarks','encore.ui.quarks','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.rxIdentity','encore.ui.rxInfoPanel','encore.ui.rxLocalStorage','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.rxMultiSelect','encore.ui.quarks','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxPermission','encore.ui.quarks','encore.ui.rxRadio','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSession','encore.ui.rxSortableColumn','encore.ui.quarks','encore.ui.quarks','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.quarks','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.tabs','encore.ui.quarks','encore.ui.tooltips','encore.ui.typeahead','encore.ui.quarks', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui', ['encore.ui.atoms','encore.ui.molecules','encore.ui.quarks','encore.ui.quarks','encore.ui.configs','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.layout','encore.ui.metadata','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.quarks','encore.ui.rxApp','encore.ui.rxAppRoutes','encore.ui.rxAttributes','encore.ui.rxAuth','encore.ui.rxBreadcrumbs','encore.ui.quarks','encore.ui.rxBulkSelect','encore.ui.rxButton','encore.ui.quarks','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.molecules','encore.ui.quarks','encore.ui.quarks','encore.ui.rxEnvironment','encore.ui.quarks','encore.ui.quarks','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.quarks','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.quarks','encore.ui.rxInfoPanel','encore.ui.rxLocalStorage','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.rxMultiSelect','encore.ui.quarks','encore.ui.rxNotify','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxPermission','encore.ui.quarks','encore.ui.rxRadio','encore.ui.quarks','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSession','encore.ui.rxSortableColumn','encore.ui.quarks','encore.ui.quarks','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.quarks','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.tabs','encore.ui.quarks','encore.ui.tooltips','encore.ui.typeahead','encore.ui.quarks', 'cfp.hotkeys','ui.bootstrap']);
 /**
  * @ngdoc overview
  * @name atoms
@@ -68,8 +68,15 @@ angular.module('encore.ui.molecules', [
  * * {@link quarks.service:Environment Environment}
  * * {@link quarks.service:rxPromiseNotifications rxPromiseNotifications}
  * * {@link quarks.service:rxSortUtil rxSortUtil}
+ * * {@link quarks.service:Identity Identity}
+ * * {@link quarks.service:rxStatusMappings rxStatusMappings}
+ * * {$link quarks.service:ErrorFormatter ErrorFormatter}
+ * * {$link quarks.service:rxFeedbackSvc rxFeedbackSvc}
+ * * {$link quarks.service:rxNotify rxNotify}
  */
-angular.module('encore.ui.quarks', []);
+angular.module('encore.ui.quarks', [
+    'ngResource',
+]);
 
 angular.module('encore.ui.quarks')
 /**
@@ -495,6 +502,45 @@ angular.module('encore.ui.quarks')
  *
  */
 
+angular.module('encore.ui.quarks')
+/**
+* @ngdoc service
+* @name quarks.service:Identity
+* @description
+* This is a component designed to aid interaction with Rackspace's Identity API.
+*
+* @requires $resource
+*
+* @example
+* <pre>
+* Identity.loginWithJSON(json); //Returns a promise
+* Identity.login({username: '', password: '', successCallback, errorCallback}); // returns a promise
+* </pre>
+*/
+.factory('Identity', ["$resource", function ($resource) {
+    var authSvc = $resource('/api/identity/:action',
+        {},
+        {
+            loginWithJSON: { method: 'POST', isArray: false, params: { action: 'tokens' }},
+            validate: { method: 'GET', url: '/api/identity/login/session/:id', isArray: false }
+        });
+
+    authSvc.login = function (credentials, success, error) {
+        var body = {
+            auth: {
+                passwordCredentials: {
+                    username: credentials.username,
+                    password: credentials.password
+                }
+            }
+        };
+
+        return authSvc.loginWithJSON(body, success, error);
+    };
+
+    return authSvc;
+}]);
+
 /**
  * @ngdoc overview
  * @name layout
@@ -617,8 +663,8 @@ angular.module('encore.ui.rxAccountInfo')
                 });
             });
 
-            if (!_.isEmpty(scope.teamId) && (_.isNumber(_.parseInt(scope.teamId)))) {
-                Teams.badges({ id: scope.teamId }).$promise.then(function (badges) {
+            var fetchTeamBadges = function (teamId) {
+                Teams.badges({ id: teamId }).$promise.then(function (badges) {
                     scope.badges = scope.badges.concat(badges);
                 }, function () {
                     rxNotify.add('Error retrieving badges for this team', {
@@ -626,9 +672,24 @@ angular.module('encore.ui.rxAccountInfo')
                         stack: notifyStack
                     });
                 });
+            };
+
+            if (!_.isEmpty(scope.teamId) && (_.isNumber(_.parseInt(scope.teamId)))) {
+                fetchTeamBadges(scope.teamId);
             }
 
             Encore.getAccount({ id: scope.accountNumber }, function (account) {
+                // Only attempt if no teamId is passed to directive
+                if (_.isEmpty(scope.teamId)) {
+                    var primaryTeam = _.find(account.teams, function (team) {
+                        return _.contains(team.flags, 'primary');
+                    });
+
+                    if (primaryTeam) {
+                        fetchTeamBadges(primaryTeam.id);
+                    }
+                }
+
                 scope.accountName = account.name;
                 scope.accountStatus = account.status;
                 scope.accountAccessPolicy = account.accessPolicy;
@@ -2794,7 +2855,7 @@ angular.module('encore.ui.rxAttributes')
  * * {@link rxAuth.service:Auth Auth}
  */
 angular.module('encore.ui.rxAuth', [
-    'encore.ui.rxIdentity',
+    'encore.ui.quarks',
     'encore.ui.rxSession',
     'encore.ui.rxPermission'
 ]);
@@ -2809,7 +2870,7 @@ angular.module('encore.ui.rxAuth')
  * Permission services.  These services were broken into smaller components to facilitate
  * customization and re-use.
  *
- * @requires rxIdentity.service:Identity
+ * @requires quarks.service:Identity
  * @requires rxSession.service:Session
  * @requires rxPermission.service:Permission
  *
@@ -4178,6 +4239,122 @@ angular.module('encore.ui.quarks')
     };
 });
 
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc service
+ * @name quarks.service:rxDOMHelper
+ * @description
+ * A small set of functions to provide some functionality
+ * that isn't present in [Angular's jQuery-lite](https://docs.angularjs.org/api/ng/function/angular.element), 
+ * and other DOM-related functions that are useful.
+ *
+ * **NOTE:** All methods take jQuery-lite wrapped elements as arguments.
+ */
+.factory('rxDOMHelper', ["$document", "$window", function ($document, $window) {
+    var scrollTop = function () {
+        // Safari and Chrome both use body.scrollTop, but Firefox needs
+        // documentElement.scrollTop
+        var doc = $document[0];
+        var scrolltop = $window.pageYOffset || doc.body.scrollTop || doc.documentElement.scrollTop || 0;
+        return scrolltop;
+    };
+
+    var offset = function (elm) {
+        //http://cvmlrobotics.blogspot.co.at/2013/03/angularjs-get-element-offset-position.html
+        var rawDom = elm[0];
+        var _x = 0;
+        var _y = 0;
+        var doc = $document[0];
+        var body = doc.documentElement || doc.body;
+        var scrollX = $window.pageXOffset || body.scrollLeft;
+        var scrollY = scrollTop();
+        var rect = rawDom.getBoundingClientRect();
+        _x = rect.left + scrollX;
+        _y = rect.top + scrollY;
+        return { left: _x, top:_y };
+    };
+
+    var style = function (elem) {
+        if (elem instanceof angular.element) {
+            elem = elem[0];
+        }
+        return $window.getComputedStyle(elem);
+    };
+
+    var width = function (elem) {
+        return style(elem).width;
+    };
+
+    var height = function (elem) {
+        return style(elem).height;
+    };
+
+    var shouldFloat = function (elem, maxHeight) {
+        var elemOffset = offset(elem),
+            scrolltop = scrollTop();
+
+        return ((scrolltop > elemOffset.top) && (scrolltop < elemOffset.top + maxHeight));
+    };
+
+    // An implementation of wrapAll, based on
+    // http://stackoverflow.com/a/13169465
+    // Takes a raw DOM `newParent`, and moves all of `elms` (either
+    // a single element or an array of elements) into it. It then places
+    // `newParent` in the location that elms[0] was originally in
+    var wrapAll = function (newParent, elms) {
+        // Figure out if it's one element or an array
+        var isGroupParent = ['SELECT', 'FORM'].indexOf(elms.tagName) !== -1;
+        var el = (elms.length && !isGroupParent) ? elms[0] : elms;
+
+        // cache the current parent node and sibling
+        // of the first element
+        var parentNode = el.parentNode;
+        var sibling = el.nextSibling;
+
+        // wrap the first element. This automatically
+        // removes it from its parent
+        newParent.appendChild(el);
+
+        // If there are other elements, wrap them. Each time
+        // it will remove the element from its current parent,
+        // and also from the `elms` array
+        if (!isGroupParent) {
+            while (elms.length) {
+                newParent.appendChild(elms[0]);
+            }
+        }
+
+        // If there was a sibling to the first element,
+        // insert newParent right before it. Otherwise
+        // just add it to parentNode
+        if (sibling) {
+            parentNode.insertBefore(newParent, sibling);
+        } else {
+            parentNode.appendChild(newParent);
+        }
+    };
+
+    // bind `f` to the scroll event
+    var onscroll = function (f) {
+        angular.element($window).bind('scroll', f);
+    };
+
+    var find = function (elem, selector) {
+        return angular.element(elem[0].querySelector(selector));
+    };
+
+    return {
+        offset: offset,
+        scrollTop: scrollTop,
+        width: width,
+        height: height,
+        shouldFloat: shouldFloat,
+        onscroll: onscroll,
+        find: find,
+        wrapAll: wrapAll
+    };
+}]);
+
 /**
  * @ngdoc overview
  * @name rxEnvironment
@@ -4550,11 +4727,11 @@ angular.module('encore.ui.rxFavicon')
  * * {@link rxFeedback.directive:rxFeedback rxFeedback}
  *
  * ## Services
- * * {@link rxFeedback.service:rxFeedbackSvc rxFeedbackSvc}
  * * {@link rxFeedback.service:rxScreenshotSvc rxScreenshotSvc}
  */
 angular.module('encore.ui.rxFeedback', [
-    'ngResource'
+    'ngResource',
+    'encore.ui.quarks'
 ]);
 
 angular.module('encore.ui.rxFeedback')
@@ -4704,10 +4881,10 @@ angular.module('encore.ui.rxFeedback')
     }
 }]);
 
-angular.module('encore.ui.rxFeedback')
+angular.module('encore.ui.quarks')
 /**
  * @ngdoc service
- * @name rxFeedback.service:rxFeedbackSvc
+ * @name quarks.service:rxFeedbackSvc
  * @description
  * `rxFeedbackSvc` service supports `rxFeedback` directive functionality.  A `custom endpoint` may be set to override
  * the `default` endpoint.
@@ -4745,45 +4922,6 @@ angular.module('encore.ui.rxFeedback')
     };
 
     return container;
-}]);
-
-angular.module('encore.ui.rxFeedback')
-/**
- * @ngdoc service
- * @name rxFeedback.service:rxScreenshotSvc
- * @description
- * Captures a screenshot for `rxFeedback` submission form.
- *
- * **NOTE:** Requires `html2canvas` which Encore Framework provides by default.
- */
-.service('rxScreenshotSvc', ["$log", "$q", function ($log, $q) {
-    // double check that html2canvas is loaded
-    var hasDependencies = function () {
-        var hasHtml2Canvas = typeof html2canvas == 'function';
-
-        return hasHtml2Canvas;
-    };
-
-    return {
-        capture: function (target) {
-            var deferred = $q.defer();
-
-            if (!hasDependencies()) {
-                $log.warn('rxScreenshotSvc: no screenshot captured, missing html2canvas dependency');
-                deferred.reject('html2canvas not loaded');
-            } else {
-                html2canvas(target, {
-                    onrendered: function (canvas) {
-                        var imgData = canvas.toDataURL('image/png');
-
-                        deferred.resolve(imgData);
-                    }
-                });
-            }
-
-            return deferred.promise;
-        }
-    };
 }]);
 
 /**
@@ -5250,9 +5388,6 @@ angular.module('encore.ui.rxFloatingHeader')
  * </form>
  * </pre>
  *
- * ## Services
- * * {@link rxForm.service:rxFormUtils rxFormUtils}
- *
  * ## Hierarchical Directives
  * * {@link rxForm.directive:rxForm rxForm}
  * * {@link rxForm.directive:rxFormSection rxFormSection}
@@ -5686,62 +5821,6 @@ angular.module('encore.ui.rxForm')
 
 angular.module('encore.ui.rxForm')
 /**
- * @name rxForm.service:rxFormUtils
- * @ngdoc service
- *
- * @description
- * Set of utility functions used by rxForm to access form data
- *
- * @example
- * <pre>
- * // Returns the selected option for the rxFormOptionTable with id tableId
- * // [{ tableId: 'tableId', fieldId: 'fieldId', rowId: 'rowId' }]
- * getSelectedOptionForTable(tableId)
-
- * // Returns the selected option for the rxFormOptionTable in the tabset with id tabsetId
- * // [{ tableId: 'tableId', fieldId: 'fieldId', rowId: 'rowId' }]
- * getSelectedOptionForTabSet(tabsetId)
- * </pre>
- */
-.factory('rxFormUtils', ["$document", function ($document) {
-    var rxFormUtils = {};
-
-    // Returns the selected option for the rxFormOptionTable with id: tableId
-    // and fieldId: fieldId (optional)
-    // @param {String} tableId - The id of the table
-    // @returns {object} The rowId of the selected option
-    rxFormUtils.getSelectedOptionForTable = function (tableId) {
-        var selectedRow;
-        var row = $document[0].querySelector('rx-form-option-table#' + tableId + ' .selected input');
-
-        if (_.isObject(row) && 'value' in row) {
-            selectedRow = { rowId: row.value };
-        }
-        return selectedRow;
-    };
-
-    // Returns the selected option within the tabset
-    // @param {String} tabsetId - The id of the tabset
-    // @returns {object} The tableId, fieldId, and rowId of the selected option
-    rxFormUtils.getSelectedOptionForTabSet = function (tabsetId) {
-        var selectedOption;
-        var xpathToTable = '//div[@id="' + tabsetId +
-            '"]//tr[contains(@class, "selected")]//ancestor::rx-form-option-table';
-        var result = $document[0].evaluate(xpathToTable, $document[0], null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
-        if (result.singleNodeValue) {
-            var table = result.singleNodeValue;
-            var fieldId = table.getAttribute('field-id');
-            var rowId = rxFormUtils.getSelectedOptionForTable(table.id).rowId;
-            selectedOption = { tableId: table.id, fieldId: fieldId, rowId: rowId };
-        }
-        return selectedOption;
-    };
-
-    return rxFormUtils;
-}]);
-
-angular.module('encore.ui.rxForm')
-/**
  * @name rxForm.directive:rxHelpText
  * @ngdoc directive
  * @restrict E
@@ -5993,58 +6072,60 @@ angular.module('encore.ui.rxForm')
     });
 }]);
 
+angular.module('encore.ui.quarks')
 /**
- * @ngdoc overview
- * @name rxIdentity
+ * @name quarks.service:rxFormUtils
+ * @ngdoc service
+ *
  * @description
- * # rxIdentity Component
+ * Set of utility functions used by rxForm to access form data.
  *
- * This is a component designed to aid interaction with Rackspace's Identity API.
- *
- * ## Services
- * * {@link rxIdentity.service:Identity Identity}
+ * @example
+ * <pre>
+ * // Returns the selected option for the rxFormOptionTable with id tableId
+ * // [{ tableId: 'tableId', fieldId: 'fieldId', rowId: 'rowId' }]
+ * getSelectedOptionForTable(tableId)
+
+ * // Returns the selected option for the rxFormOptionTable in the tabset with id tabsetId
+ * // [{ tableId: 'tableId', fieldId: 'fieldId', rowId: 'rowId' }]
+ * getSelectedOptionForTabSet(tabsetId)
+ * </pre>
  */
-angular.module('encore.ui.rxIdentity', [
-    'ngResource'
-]);
+.factory('rxFormUtils', ["$document", function ($document) {
+    var rxFormUtils = {};
 
-angular.module('encore.ui.rxIdentity')
-/**
-* @ngdoc service
-* @name rxIdentity.service:Identity
-* @description
-* This is a component designed to aid interaction with Rackspace's Identity API.
-*
-* @requires $resource
-*
-* @example
-* <pre>
-* Identity.loginWithJSON(json); //Returns a promise
-* Identity.login({username: '', password: '', successCallback, errorCallback}); // returns a promise
-* </pre>
-*/
-.factory('Identity', ["$resource", function ($resource) {
-    var authSvc = $resource('/api/identity/:action',
-        {},
-        {
-            loginWithJSON: { method: 'POST', isArray: false, params: { action: 'tokens' }},
-            validate: { method: 'GET', url: '/api/identity/login/session/:id', isArray: false }
-        });
+    // Returns the selected option for the rxFormOptionTable with id: tableId
+    // and fieldId: fieldId (optional)
+    // @param {String} tableId - The id of the table
+    // @returns {object} The rowId of the selected option
+    rxFormUtils.getSelectedOptionForTable = function (tableId) {
+        var selectedRow;
+        var row = $document[0].querySelector('rx-form-option-table#' + tableId + ' .selected input');
 
-    authSvc.login = function (credentials, success, error) {
-        var body = {
-            auth: {
-                passwordCredentials: {
-                    username: credentials.username,
-                    password: credentials.password
-                }
-            }
-        };
-
-        return authSvc.loginWithJSON(body, success, error);
+        if (_.isObject(row) && 'value' in row) {
+            selectedRow = { rowId: row.value };
+        }
+        return selectedRow;
     };
 
-    return authSvc;
+    // Returns the selected option within the tabset
+    // @param {String} tabsetId - The id of the tabset
+    // @returns {object} The tableId, fieldId, and rowId of the selected option
+    rxFormUtils.getSelectedOptionForTabSet = function (tabsetId) {
+        var selectedOption;
+        var xpathToTable = '//div[@id="' + tabsetId +
+            '"]//tr[contains(@class, "selected")]//ancestor::rx-form-option-table';
+        var result = $document[0].evaluate(xpathToTable, $document[0], null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
+        if (result.singleNodeValue) {
+            var table = result.singleNodeValue;
+            var fieldId = table.getAttribute('field-id');
+            var rowId = rxFormUtils.getSelectedOptionForTable(table.id).rowId;
+            selectedOption = { tableId: table.id, fieldId: fieldId, rowId: rowId };
+        }
+        return selectedOption;
+    };
+
+    return rxFormUtils;
 }]);
 
 /**
@@ -6384,7 +6465,6 @@ angular.module('encore.ui.rxMetadata')
  *
  * ## Services
  * * {@link rxMisc.service:rxAutoSave rxAutoSave}
- * * {@link rxMisc.service:rxDOMHelper rxDOMHelper}
  */
 angular.module('encore.ui.rxMisc', [
     'debounce',
@@ -6973,122 +7053,6 @@ angular.module('encore.ui.rxMisc')
         }
 
         return autoSaveInstance;
-    };
-}]);
-
-angular.module('encore.ui.rxMisc')
-/**
- * @ngdoc service
- * @name rxMisc.service:rxDOMHelper
- * @description
- * A small set of functions to provide some functionality
- * that isn't present in Angular's jQuery-lite, and other
- * DOM-related functions that are useful.
- *
- * All methods take jquery-lite wrapped elements as arguments.
- */
-.factory('rxDOMHelper', ["$document", "$window", function ($document, $window) {
-    var scrollTop = function () {
-        // Safari and Chrome both use body.scrollTop, but Firefox needs
-        // documentElement.scrollTop
-        var doc = $document[0];
-        var scrolltop = $window.pageYOffset || doc.body.scrollTop || doc.documentElement.scrollTop || 0;
-        return scrolltop;
-    };
-
-    var offset = function (elm) {
-        //http://cvmlrobotics.blogspot.co.at/2013/03/angularjs-get-element-offset-position.html
-        var rawDom = elm[0];
-        var _x = 0;
-        var _y = 0;
-        var doc = $document[0];
-        var body = doc.documentElement || doc.body;
-        var scrollX = $window.pageXOffset || body.scrollLeft;
-        var scrollY = scrollTop();
-        var rect = rawDom.getBoundingClientRect();
-        _x = rect.left + scrollX;
-        _y = rect.top + scrollY;
-        return { left: _x, top:_y };
-    };
-
-    var style = function (elem) {
-        if (elem instanceof angular.element) {
-            elem = elem[0];
-        }
-        return $window.getComputedStyle(elem);
-    };
-
-    var width = function (elem) {
-        return style(elem).width;
-    };
-
-    var height = function (elem) {
-        return style(elem).height;
-    };
-
-    var shouldFloat = function (elem, maxHeight) {
-        var elemOffset = offset(elem),
-            scrolltop = scrollTop();
-
-        return ((scrolltop > elemOffset.top) && (scrolltop < elemOffset.top + maxHeight));
-    };
-
-    // An implementation of wrapAll, based on
-    // http://stackoverflow.com/a/13169465
-    // Takes a raw DOM `newParent`, and moves all of `elms` (either
-    // a single element or an array of elements) into it. It then places
-    // `newParent` in the location that elms[0] was originally in
-    var wrapAll = function (newParent, elms) {
-        // Figure out if it's one element or an array
-        var isGroupParent = ['SELECT', 'FORM'].indexOf(elms.tagName) !== -1;
-        var el = (elms.length && !isGroupParent) ? elms[0] : elms;
-
-        // cache the current parent node and sibling
-        // of the first element
-        var parentNode = el.parentNode;
-        var sibling = el.nextSibling;
-
-        // wrap the first element. This automatically
-        // removes it from its parent
-        newParent.appendChild(el);
-
-        // If there are other elements, wrap them. Each time
-        // it will remove the element from its current parent,
-        // and also from the `elms` array
-        if (!isGroupParent) {
-            while (elms.length) {
-                newParent.appendChild(elms[0]);
-            }
-        }
-
-        // If there was a sibling to the first element,
-        // insert newParent right before it. Otherwise
-        // just add it to parentNode
-        if (sibling) {
-            parentNode.insertBefore(newParent, sibling);
-        } else {
-            parentNode.appendChild(newParent);
-        }
-    };
-
-    // bind `f` to the scroll event
-    var onscroll = function (f) {
-        angular.element($window).bind('scroll', f);
-    };
-
-    var find = function (elem, selector) {
-        return angular.element(elem[0].querySelector(selector));
-    };
-
-    return {
-        offset: offset,
-        scrollTop: scrollTop,
-        width: width,
-        height: height,
-        shouldFloat: shouldFloat,
-        onscroll: onscroll,
-        find: find,
-        wrapAll: wrapAll
     };
 }]);
 
@@ -10116,6 +10080,46 @@ angular.module('encore.ui.rxRadio')
         }//compile
     };
 });
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc service
+ * @name quarks.service:rxScreenshotSvc
+ * @description
+ * Captures a screenshot for `rxFeedback` submission form.
+ *
+ * **NOTE:** [html2canvas](https://github.com/niklasvh/html2canvas) is required by `rxScreenshotSvc`.
+ * `EncoreUI Framework` provides it by default.
+ */
+.service('rxScreenshotSvc', ["$log", "$q", function ($log, $q) {
+    // double check that html2canvas is loaded
+    var hasDependencies = function () {
+        var hasHtml2Canvas = typeof html2canvas == 'function';
+
+        return hasHtml2Canvas;
+    };
+
+    return {
+        capture: function (target) {
+            var deferred = $q.defer();
+
+            if (!hasDependencies()) {
+                $log.warn('rxScreenshotSvc: no screenshot captured, missing html2canvas dependency');
+                deferred.reject('html2canvas not loaded');
+            } else {
+                html2canvas(target, {
+                    onrendered: function (canvas) {
+                        var imgData = canvas.toDataURL('image/png');
+
+                        deferred.resolve(imgData);
+                    }
+                });
+            }
+
+            return deferred.promise;
+        }
+    };
+}]);
 
 /**
  * @ngdoc overview
