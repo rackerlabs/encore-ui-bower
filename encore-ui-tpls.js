@@ -2,10 +2,10 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.44.0 - 2016-01-20
+ * Version: 2.0.0-0 - 2016-01-22
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.atoms','encore.ui.molecules','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.layout','encore.ui.metadata','encore.ui.quarks','encore.ui.quarks','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.quarks','encore.ui.rxApp','encore.ui.rxAppRoutes','encore.ui.rxAttributes','encore.ui.rxAuth','encore.ui.quarks','encore.ui.rxBreadcrumbs','encore.ui.quarks','encore.ui.rxBulkSelect','encore.ui.quarks','encore.ui.rxButton','encore.ui.quarks','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.molecules','encore.ui.quarks','encore.ui.quarks','encore.ui.rxEnvironment','encore.ui.quarks','encore.ui.quarks','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.quarks','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.quarks','encore.ui.rxInfoPanel','encore.ui.quarks','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.rxMultiSelect','encore.ui.quarks','encore.ui.rxNotify','encore.ui.quarks','encore.ui.rxOptionTable','encore.ui.rxPageTitle','encore.ui.rxPaginate','encore.ui.rxPermission','encore.ui.quarks','encore.ui.rxRadio','encore.ui.quarks','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSession','encore.ui.rxSortableColumn','encore.ui.quarks','encore.ui.quarks','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.quarks','encore.ui.quarks','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.tabs','encore.ui.quarks','encore.ui.tooltips','encore.ui.typeahead','encore.ui.quarks', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.atoms','encore.ui.molecules','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.layout','encore.ui.metadata','encore.ui.quarks','encore.ui.quarks','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.quarks','encore.ui.rxApp','encore.ui.rxAppRoutes','encore.ui.rxAttributes','encore.ui.rxAuth','encore.ui.quarks','encore.ui.rxBreadcrumbs','encore.ui.quarks','encore.ui.rxBulkSelect','encore.ui.quarks','encore.ui.rxButton','encore.ui.quarks','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.molecules','encore.ui.quarks','encore.ui.quarks','encore.ui.rxEnvironment','encore.ui.quarks','encore.ui.quarks','encore.ui.rxFavicon','encore.ui.rxFeedback','encore.ui.quarks','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.quarks','encore.ui.rxInfoPanel','encore.ui.quarks','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.rxMultiSelect','encore.ui.quarks','encore.ui.rxNotify','encore.ui.quarks','encore.ui.rxOptionTable','encore.ui.quarks','encore.ui.rxPaginate','encore.ui.rxPermission','encore.ui.quarks','encore.ui.rxRadio','encore.ui.quarks','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSession','encore.ui.rxSortableColumn','encore.ui.quarks','encore.ui.quarks','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.quarks','encore.ui.quarks','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.tabs','encore.ui.quarks','encore.ui.tooltips','encore.ui.typeahead','encore.ui.quarks', 'cfp.hotkeys','ui.bootstrap']);
 angular.module('encore.ui.tpls', ['templates/rxAccountInfo.html','templates/rxAccountInfoBanner.html','templates/rxActionMenu.html','templates/rxActiveUrl.html','templates/rxAccountSearch.html','templates/rxAccountUsers.html','templates/rxApp.html','templates/rxAppNav.html','templates/rxAppNavItem.html','templates/rxAppSearch.html','templates/rxBillingSearch.html','templates/rxPage.html','templates/rxBreadcrumbs.html','templates/rxBatchActions.html','templates/rxBulkSelectMessage.html','templates/rxButton.html','templates/rxCollapse.html','templates/rxDatePicker.html','templates/feedbackForm.html','templates/rxFeedback.html','templates/rxFieldName.html','templates/rxFormFieldset.html','templates/rxFormItem.html','templates/rxInfoPanel.html','templates/rxMeta.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxModalFooters.html','templates/rxMultiSelect.html','templates/rxSelectOption.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxOptionTable.html','templates/rxPaginate.html','templates/rxPermission.html','templates/rxSearchBox.html','templates/rxSelectFilter.html','templates/rxSortableColumn.html','templates/rxStatusColumn.html','templates/rxTags.html','templates/rxToggleSwitch.html']);
 /**
  * @ngdoc overview
@@ -48,35 +48,41 @@ angular.module('encore.ui.molecules', [
  *
  * ## Values & Constants
  * * {@link quarks.value:devicePaths devicePaths}
+ * * {@link quarks.constant:feedbackApi feedbackApi}
+ * * {@link quarks.object:rxStatusColumnIcons rxStatusColumnIcons}
  *
  * ## Filters
- * * {@link quarks.filter:xor xor}
+ * * {@link quarks.filter:rxAge rxAge}
  * * {@link quarks.filter:rxCapitalize rxCapitalize}
  * * {@link quarks.filter:rxDiskSize rxDiskSize}
- * * {@link quarks.filter:rxAge rxAge}
- * * {@link quarks.filter:titleize titleize}
  * * {@link quarks.filter:rxEnvironmentMatch rxEnvironmentMatch}
  * * {@link quarks.filter:rxEnvironmentUrl rxEnvironmentUrl}
- * * {@link quarks.filter:rxUnsafeRemoveHTML rxUnsafeRemoveHTML}
  * * {@link quarks.filter:rxSortEmptyTop rxSortEmptyTop}
+ * * {@link quarks.filter:rxUnsafeRemoveHTML rxUnsafeRemoveHTML}
+ * * {@link quarks.filter:titleize titleize}
+ * * {@link quarks.filter:xor xor}
  *
  * ## Services
- * * {@link quarks.service:hotkeys hotkeys}
- * * {@link quarks.service:SessionStorage SessionStorage}
- * * {@link quarks.service:rxBreadcrumbsSvc rxBreadcrumbsSvc}
- * * {@link quarks.service:SelectFilter SelectFilter}
- * * {@link quarks.service:rxNestedElement rxNestedElement}
  * * {@link quarks.service:Environment Environment}
- * * {@link quarks.service:rxPromiseNotifications rxPromiseNotifications}
- * * {@link quarks.service:rxSortUtil rxSortUtil}
- * * {@link quarks.service:Identity Identity}
- * * {@link quarks.service:rxStatusMappings rxStatusMappings}
  * * {@link quarks.service:ErrorFormatter ErrorFormatter}
- * * {@link quarks.service:rxFeedbackSvc rxFeedbackSvc}
- * * {@link quarks.service:rxLocalStorage rxLocalStorage}
+ * * {@link quarks.service:hotkeys hotkeys}
+ * * {@link quarks.service:Identity Identity}
+ * * {@link quarks.service:NotifyProperties NotifyProperties}
+ * * {@link quarks.service:routesCdnPath routesCdnPath}
  * * {@link quarks.service:rxAutoSave rxAutoSave}
+ * * {@link quarks.service:rxBreadcrumbsSvc rxBreadcrumbsSvc}
+ * * {@link quarks.service:rxBulkSelectUtils rxBulkSelectUtils}
  * * {@link quarks.service:rxDOMHelper rxDOMHelper}
+ * * {@link quarks.service:rxFeedbackSvc rxFeedbackSvc}
+ * * {@link quarks.service:rxFormUtils rxFormUtils}
+ * * {@link quarks.service:rxLocalStorage rxLocalStorage}
+ * * {@link quarks.service:rxNestedElement rxNestedElement}
+ * * {@link quarks.service:rxNotify rxNotify}
+ * * {@link quarks.service:rxPageTitle rxPageTitle}
+ * * {@link quarks.service:rxPromiseNotifications rxPromiseNotifications}
  * * {@link quarks.service:rxScreenshotSvc rxScreenshotSvc}
+ * * {@link quarks.service:rxSortUtil rxSortUtil}
+ * * {@link quarks.service:rxStatusMappings rxStatusMappings}
  */
 angular.module('encore.ui.quarks', [
     'ngResource',
@@ -7644,8 +7650,8 @@ angular.module('encore.ui.rxMultiSelect')
         link: function (scope, element, attrs, selectCtrl) {
             scope.transclusion = rxDOMHelper.find(element, '[ng-transclude] > *').length > 0;
 
-            scope.toggle = function () {
-                if (scope.isSelected) {
+            scope.toggle = function (isSelected) {
+                if (isSelected) {
                     selectCtrl.unselect(scope.value);
                 } else {
                     selectCtrl.select(scope.value);
@@ -8516,25 +8522,10 @@ angular.module('encore.ui.rxOptionTable')
     };
 }]);
 
-/**
- * @ngdoc overview
- * @name rxPageTitle
- * @description
- * # rxPageTitle Component
- *
- * The rxPageTitle component manages page titles.
- *
- * ## Services
- * * {@link rxPageTitle.service:rxPageTitle rxPageTitle}
- */
-angular.module('encore.ui.rxPageTitle', [
-    'encore.ui.quarks'
-]);
-
-angular.module('encore.ui.rxPageTitle')
+angular.module('encore.ui.quarks')
 /**
  * @ngdoc service
- * @name rxPageTitle.service:rxPageTitle
+ * @name quarks.service:rxPageTitle
  * @description
  *  `rxPageTitle` service manages page titles.
  *
@@ -10188,7 +10179,7 @@ angular.module('encore.ui.rxSearchBox')
                 if ($scope.isDisabled) {
                     $scope.isClearable = false;
                 } else {
-                    $scope.isClearable = newVal.toString() !== '';
+                    $scope.isClearable = (newVal.toString() !== '');
                 }
             });
 
@@ -11529,14 +11520,21 @@ angular.module('encore.ui.rxTags')
             };
 
             scope.add = function (tag) {
-                scope.tags.push(tag);
-                ngModelCtrl.$setViewValue(scope.tags);
-                scope.newTag = '';
+                /*
+                 * See https://code.angularjs.org/1.3.20/docs/api/ng/type/ngModel.NgModelController#$setViewValue
+                 * We have to use `concat` to create a new array to trigger $parsers
+                 */
+                var updatedTags = scope.tags.concat([tag]);
+                // sets ngModelCtrl.$viewValue then $$debounceViewValueCommit()
+                ngModelCtrl.$setViewValue(updatedTags);
+                scope.tags = updatedTags;
+                scope.newTag = ''; // reset new tag input
             };
 
             scope.remove = function (tag) {
-                _.remove(scope.tags, tag);
-                ngModelCtrl.$setViewValue(scope.tags);
+                var updatedTags = _.without(scope.tags, tag);
+                ngModelCtrl.$setViewValue(updatedTags);
+                scope.tags = updatedTags;
                 input.focus();
             };
 
@@ -12222,7 +12220,8 @@ angular.module('encore.ui.typeahead')
         var lowercase = $filter('lowercase');
 
         typeahead.compile = function () {
-            return function (scope, element, attrs, ngModelCtrl) {
+            return function (scope, element, attrs, ctrls) {
+                var ngModelCtrl = ctrls[0]; // won't work in 1.2 (not backward compatible)
                 link.apply(this, arguments);
 
                 if (/allowEmpty/.test(attrs.typeahead)) {
@@ -12243,6 +12242,8 @@ angular.module('encore.ui.typeahead')
 
                     element.on('click', function () {
                         scope.$apply(function () {
+                            // quick change to null and back to trigger parsers
+                            ngModelCtrl.$setViewValue(null);
                             ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
                         });
                     });
@@ -12280,12 +12281,12 @@ angular.module('encore.ui.quarks')
 
 angular.module("templates/rxAccountInfo.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxAccountInfo.html",
-    "<div class=\"rx-account-info\"><rx-info-panel panel-title=\"Account Info\"><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account Name</div><div class=\"account-info-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountName }}</a></div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account #</div><div class=\"account-info-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountNumber }}</a></div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Badges</div><div class=\"account-info-data\"><img ng-repeat=\"badge in badges\" ng-src=\"{{badge.url}}\" data-name=\"{{badge.name}}\" data-description=\"{{badge.description}}\" tooltip-html-unsafe=\"{{tooltipHtml(badge)}}\" tooltip-placement=\"bottom\"></div></div><div class=\"account-info-wrapper\" ng-transclude></div></rx-info-panel></div>");
+    "<div class=\"rx-account-info\"><rx-info-panel panel-title=\"Account Info\"><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account Name</div><div class=\"account-info-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountName }}</a></div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account #</div><div class=\"account-info-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountNumber }}</a></div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Badges</div><div class=\"account-info-data\"><img ng-repeat=\"badge in badges\" ng-src=\"{{badge.url}}\" data-name=\"{{badge.name}}\" data-description=\"{{badge.description}}\" tooltip-html=\"tooltipHtml(badge)\" tooltip-placement=\"bottom\"></div></div><div class=\"account-info-wrapper\" ng-transclude></div></rx-info-panel></div>");
 }]);
 
 angular.module("templates/rxAccountInfoBanner.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxAccountInfoBanner.html",
-    "<div class=\"account-info-banner\"><ul class=\"account-info-text\"><li><div class=\"label\">Account Name:</div><div class=\"account-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountName }}</a></div></li><li><div class=\"label\">Account #:</div><div class=\"account-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountNumber }}</a></div></li><li><div class=\"label\">Account Status:</div><div class=\"account-data {{ statusClass }} account-status\">{{ accountStatus }}</div></li><li><div class=\"label\">Access Policy:</div><div class=\"account-data\">{{ accountAccessPolicy }}</div></li><li ng-if=\"showCurrentUser\"><div class=\"label\">Current User:</div><div class=\"account-data\"><rx-account-users></rx-account-users></div></li><li class=\"badges\" ng-repeat=\"badge in badges\"><div class=\"account-info-badge\"><img ng-src=\"{{badge.url}}\" data-name=\"{{badge.name}}\" data-description=\"{{badge.description}}\" tooltip-html-unsafe=\"{{tooltipHtml(badge)}}\" tooltip-placement=\"bottom\"></div></li></ul></div>");
+    "<div class=\"account-info-banner\"><ul class=\"account-info-text\"><li><div class=\"label\">Account Name:</div><div class=\"account-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountName }}</a></div></li><li><div class=\"label\">Account #:</div><div class=\"account-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountNumber }}</a></div></li><li><div class=\"label\">Account Status:</div><div class=\"account-data {{ statusClass }} account-status\">{{ accountStatus }}</div></li><li><div class=\"label\">Access Policy:</div><div class=\"account-data\">{{ accountAccessPolicy }}</div></li><li ng-if=\"showCurrentUser\"><div class=\"label\">Current User:</div><div class=\"account-data\"><rx-account-users></rx-account-users></div></li><li class=\"badges\" ng-repeat=\"badge in badges\"><div class=\"account-info-badge\"><img ng-src=\"{{badge.url}}\" data-name=\"{{badge.name}}\" data-description=\"{{badge.description}}\" tooltip-html=\"tooltipHtml(badge)\" tooltip-placement=\"bottom\"></div></li></ul></div>");
 }]);
 
 angular.module("templates/rxActionMenu.html", []).run(["$templateCache", function($templateCache) {
@@ -12425,7 +12426,7 @@ angular.module("templates/rxMultiSelect.html", []).run(["$templateCache", functi
 
 angular.module("templates/rxSelectOption.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxSelectOption.html",
-    "<li class=\"rx-select-option\"><label><input rx-checkbox ng-model=\"isSelected\" ng-click=\"toggle()\"> <span ng-if=\"!transclusion\">{{value | titleize}}</span> <span ng-transclude></span></label></li>");
+    "<li class=\"rx-select-option\"><label><input rx-checkbox ng-model=\"isSelected\" ng-click=\"toggle(!isSelected)\"> <span ng-if=\"!transclusion\">{{value | titleize}}</span> <span ng-transclude></span></label></li>");
 }]);
 
 angular.module("templates/rxNotification.html", []).run(["$templateCache", function($templateCache) {
