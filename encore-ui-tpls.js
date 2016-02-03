@@ -2,10 +2,10 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.44.2 - 2016-01-28
+ * Version: 1.45.0-0 - 2016-02-03
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.atoms','encore.ui.molecules','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.layout','encore.ui.metadata','encore.ui.quarks','encore.ui.quarks','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.quarks','encore.ui.rxApp','encore.ui.rxAppRoutes','encore.ui.rxAttributes','encore.ui.rxAuth','encore.ui.quarks','encore.ui.rxBreadcrumbs','encore.ui.quarks','encore.ui.rxBulkSelect','encore.ui.quarks','encore.ui.rxButton','encore.ui.quarks','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.molecules','encore.ui.quarks','encore.ui.quarks','encore.ui.rxEnvironment','encore.ui.quarks','encore.ui.quarks','encore.ui.atoms','encore.ui.rxFeedback','encore.ui.quarks','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.quarks','encore.ui.rxInfoPanel','encore.ui.quarks','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.rxMultiSelect','encore.ui.quarks','encore.ui.rxNotify','encore.ui.quarks','encore.ui.rxOptionTable','encore.ui.quarks','encore.ui.rxPaginate','encore.ui.rxPermission','encore.ui.quarks','encore.ui.rxRadio','encore.ui.quarks','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSession','encore.ui.rxSortableColumn','encore.ui.quarks','encore.ui.quarks','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.quarks','encore.ui.quarks','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.tabs','encore.ui.quarks','encore.ui.tooltips','encore.ui.typeahead','encore.ui.quarks', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.atoms','encore.ui.molecules','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.layout','encore.ui.metadata','encore.ui.quarks','encore.ui.quarks','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.quarks','encore.ui.rxApp','encore.ui.rxAppRoutes','encore.ui.rxAttributes','encore.ui.rxAuth','encore.ui.quarks','encore.ui.rxBreadcrumbs','encore.ui.quarks','encore.ui.rxBulkSelect','encore.ui.quarks','encore.ui.rxButton','encore.ui.quarks','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.molecules','encore.ui.quarks','encore.ui.quarks','encore.ui.rxEnvironment','encore.ui.quarks','encore.ui.quarks','encore.ui.atoms','encore.ui.rxFeedback','encore.ui.quarks','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.quarks','encore.ui.quarks','encore.ui.rxInfoPanel','encore.ui.quarks','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.rxMultiSelect','encore.ui.quarks','encore.ui.rxNotify','encore.ui.quarks','encore.ui.rxOptionTable','encore.ui.quarks','encore.ui.rxPaginate','encore.ui.rxPermission','encore.ui.quarks','encore.ui.rxRadio','encore.ui.quarks','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.quarks','encore.ui.quarks','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.quarks','encore.ui.quarks','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.tabs','encore.ui.quarks','encore.ui.tooltips','encore.ui.typeahead','encore.ui.quarks', 'cfp.hotkeys','ui.bootstrap']);
 angular.module('encore.ui.tpls', ['templates/rxAccountInfo.html','templates/rxAccountInfoBanner.html','templates/rxActionMenu.html','templates/rxActiveUrl.html','templates/rxAccountSearch.html','templates/rxAccountUsers.html','templates/rxApp.html','templates/rxAppNav.html','templates/rxAppNavItem.html','templates/rxAppSearch.html','templates/rxBillingSearch.html','templates/rxPage.html','templates/rxBreadcrumbs.html','templates/rxBatchActions.html','templates/rxBulkSelectMessage.html','templates/rxButton.html','templates/rxCollapse.html','templates/rxDatePicker.html','templates/feedbackForm.html','templates/rxFeedback.html','templates/rxFieldName.html','templates/rxFormFieldset.html','templates/rxFormItem.html','templates/rxInfoPanel.html','templates/rxMeta.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxModalFooters.html','templates/rxMultiSelect.html','templates/rxSelectOption.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxOptionTable.html','templates/rxPaginate.html','templates/rxPermission.html','templates/rxSearchBox.html','templates/rxSelectFilter.html','templates/rxSortableColumn.html','templates/rxStatusColumn.html','templates/rxTags.html','templates/rxToggleSwitch.html']);
 /**
  * @ngdoc overview
@@ -1144,8 +1144,6 @@ angular.module('encore.ui.quarks')
  *
  * ## Services
  * * {@link rxApp.service:encoreRoutes encoreRoutes}
- * * {@link rxApp.service:rxHideIfUkAccount rxHideIfUkAccount}
- * * {@link rxApp.service:rxVisibility rxVisibility}
  * * {@link rxApp.service:rxVisibilityPathParams rxVisibilityPathParams}
  * * {@link rxApp.service:rxStatusTags rxStatusTags}
  */
@@ -1155,7 +1153,6 @@ angular.module('encore.ui.rxApp', [
     'encore.ui.rxAppRoutes',
     'encore.ui.rxEnvironment',
     'encore.ui.rxPermission',
-    'encore.ui.rxSession',
     'ngRoute',
     'ngSanitize'
 ]);
@@ -2147,27 +2144,6 @@ angular.module('encore.ui.rxApp')
 
 angular.module('encore.ui.rxApp')
 /**
- * @ngdoc service
- * @name rxApp.service:rxHideIfUkAccount
- * @description
- * Check if account number in URL is of the UK origin
- *
- * @return {Boolean} false if account number matches UK pattern
- * Use it as `visibility: [ 'rxHideIfUkAccount' ]`
- */
-.factory('rxHideIfUkAccount', ["$routeParams", function ($routeParams) {
-    var isUkAccount = {
-        name: 'rxHideIfUkAccount',
-        method: function () {
-            return $routeParams.accountNumber < 10000000;
-        }
-    };
-
-    return isUkAccount;
-}]);
-
-angular.module('encore.ui.rxApp')
-/**
  * @ngdoc directive
  * @name rxApp.directive:rxPage
  * @restrict E
@@ -2442,48 +2418,6 @@ angular.module('encore.ui.rxApp')
                 // TODO do something here
             };
         }
-    };
-});
-
-angular.module('encore.ui.rxApp')
-/**
- * @ngdoc service
- * @name rxApp.service:rxVisibility
- * @description
- * Provides an interface for adding new `visibility` methods for nav menus.
- * Methods added via `addMethod` should have a `function (scope, args)` interface
- * When you do `visibility: [ "someMethodName", { foo: 1, bar: 2} ]` in
- * a nav menu definition, the (optional) object will be passed to your method as the
- * second argument `args`, i.e. function (scope, args) {}
- */
-.factory('rxVisibility', function () {
-    var methods = {};
-
-    var addMethod = function (methodName, method) {
-        methods[methodName] = method;
-    };
-
-    var getMethod = function (methodName) {
-        return methods[methodName];
-    };
-
-    var hasMethod = function (methodName) {
-        return _.has(methods, methodName);
-    };
-
-    /* This is a convenience wrapper around `addMethod`, for
-     * objects that define both `name` and `method` properties
-     */
-    var addVisibilityObj = function (obj) {
-        addMethod(obj.name, obj.method);
-    };
-
-    return {
-        addMethod: addMethod,
-        getMethod: getMethod,
-        hasMethod: hasMethod,
-        addVisibilityObj: addVisibilityObj
-
     };
 });
 
@@ -2932,7 +2866,6 @@ angular.module('encore.ui.rxAttributes')
  */
 angular.module('encore.ui.rxAuth', [
     'encore.ui.quarks',
-    'encore.ui.rxSession',
     'encore.ui.rxPermission'
 ]);
 
@@ -6709,6 +6642,27 @@ angular.module('encore.ui.quarks')
     return rxFormUtils;
 }]);
 
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc service
+ * @name quarks.service:rxHideIfUkAccount
+ * @description
+ * Check if account number in the URL is of UK origin.
+ *
+ * @return {Boolean} false if account number matches UK pattern
+ * Use it as `visibility: [ 'rxHideIfUkAccount' ]`
+ */
+.factory('rxHideIfUkAccount', ["$routeParams", function ($routeParams) {
+    var isUkAccount = {
+        name: 'rxHideIfUkAccount',
+        method: function () {
+            return $routeParams.accountNumber < 10000000;
+        }
+    };
+
+    return isUkAccount;
+}]);
+
 /**
  * @ngdoc overview
  * @name rxInfoPanel
@@ -9694,7 +9648,7 @@ angular.module('encore.ui.rxPaginate')
  * * {@link rxPermission.directive:rxPermission rxPermission}
  */
 angular.module('encore.ui.rxPermission', [
-    'encore.ui.rxSession'
+    'encore.ui.quarks',
 ]);
 
 angular.module('encore.ui.rxPermission')
@@ -10350,106 +10304,6 @@ angular.module('encore.ui.rxSelectFilter')
             filter: '='
         }
     });
-}]);
-
-/**
- * @ngdoc overview
- * @name rxSession
- * @description
- * # rxSession Component
- *
- * A component that manages user session
- *
- * ## Services
- * * {@link rxSession.service:Session Session}
- */
-angular.module('encore.ui.rxSession', [
-    'encore.ui.quarks',
-]);
-
-angular.module('encore.ui.rxSession')
-/**
- * @ngdoc service
- * @name rxSession.service:Session
- * @description
- *
- * Service for managing user session in encore-ui.
- *
- * @requires quarks.service:rxLocalStorage
- *
- * @example
- * <pre>
- * Session.getToken(); // Returns the stored token
- * Session.storeToken(token); // Stores token
- * Session.logout(); // Logs user off
- * Session.isCurrent(); // Returns true/false if the token has expired.
- * Session.isAuthenticated(); // Returns true/false if the user token is valid.
- * </pre>
- */
-.factory('Session', ["rxLocalStorage", function (rxLocalStorage) {
-    var TOKEN_ID = 'encoreSessionToken';
-    var session = {};
-
-    /**
-    * Dot walks the token without throwing an error.
-    * If key exists, returns value otherwise returns undefined.
-    */
-    session.getByKey = function (key) {
-        var tokenValue,
-            token = session.getToken(),
-            keys = key ? key.split('.') : undefined;
-
-        if (_.isEmpty(token) || !keys) {
-            return;
-        }
-
-        tokenValue = _.reduce(keys, function (val, key) {
-            return val ? val[key] : undefined;
-        }, token);
-
-        return tokenValue;
-    };
-
-    session.getToken = function () {
-        return rxLocalStorage.getObject(TOKEN_ID);
-    };
-
-    session.getTokenId = function () {
-        return session.getByKey('access.token.id');
-    };
-
-    session.getUserId = function () {
-        return session.getByKey('access.user.id');
-    };
-
-    session.getUserName = function () {
-        return session.getByKey('access.user.name');
-    };
-
-    session.storeToken = function (token) {
-        rxLocalStorage.setObject(TOKEN_ID, token);
-    };
-
-    session.logout = function () {
-        rxLocalStorage.removeItem(TOKEN_ID);
-    };
-
-    session.isCurrent = function () {
-        var expireDate = session.getByKey('access.token.expires');
-
-        if (expireDate) {
-            return new Date(expireDate) > _.now();
-        }
-
-        return false;
-    };
-
-    session.isAuthenticated = function () {
-        var token = session.getToken();
-        return _.isEmpty(token) ? false : session.isCurrent();
-    };
-
-    return session;
 }]);
 
 /**
@@ -11687,7 +11541,7 @@ angular.module('encore.ui.rxToggleSwitch')
  * * {@link rxTokenInterceptor.service:TokenInterceptor TokenInterceptor}
  */
 angular.module('encore.ui.rxTokenInterceptor', [
-    'encore.ui.rxSession'
+    'encore.ui.quarks'
 ]);
 
 angular.module('encore.ui.rxTokenInterceptor')
@@ -11750,7 +11604,7 @@ angular.module('encore.ui.rxTokenInterceptor')
  * * {@link rxUnauthorizedInterceptor.service:UnauthorizedInterceptor UnauthorizedInterceptor}
  */
 angular.module('encore.ui.rxUnauthorizedInterceptor', [
-    'encore.ui.rxSession'
+    'encore.ui.quarks'
 ]);
 
 angular.module('encore.ui.rxUnauthorizedInterceptor')
@@ -11826,6 +11680,55 @@ angular.module('encore.ui.quarks')
         return div.textContent || div.innerText || '';
     };
 }]);
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc service
+ * @name quarks.service:rxVisibility
+ * @description
+ * Provides an interface for adding new `visibility` methods for nav menus.  Methods added via `addMethod` should 
+ * have a `function (scope, args)` interface.
+ * 
+ * When you do:
+ * <pre>
+ * visibility: [ "someMethodName", { foo: 1, bar: 2} ]
+ * </pre>
+ * in a nav menu definition, the (optional) object will be passed to your method as the
+ * second argument `args`, i.e.:
+ * <pre>
+ * function (scope, args) {}
+ * </pre>
+ */
+.factory('rxVisibility', function () {
+    var methods = {};
+
+    var addMethod = function (methodName, method) {
+        methods[methodName] = method;
+    };
+
+    var getMethod = function (methodName) {
+        return methods[methodName];
+    };
+
+    var hasMethod = function (methodName) {
+        return _.has(methods, methodName);
+    };
+
+    /* This is a convenience wrapper around `addMethod`, for
+     * objects that define both `name` and `method` properties
+     */
+    var addVisibilityObj = function (obj) {
+        addMethod(obj.name, obj.method);
+    };
+
+    return {
+        addMethod: addMethod,
+        getMethod: getMethod,
+        hasMethod: hasMethod,
+        addVisibilityObj: addVisibilityObj
+
+    };
+});
 
 angular.module('encore.ui.quarks')
 /**
@@ -12008,6 +11911,91 @@ angular.module('encore.ui.quarks')
         }
     };
 });
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc service
+ * @name quarks.service:Session
+ * @description
+ *
+ * Service for managing user session in encore-ui.
+ *
+ * @requires quarks.service:rxLocalStorage
+ *
+ * @example
+ * <pre>
+ * Session.getToken(); // Returns the stored token
+ * Session.storeToken(token); // Stores token
+ * Session.logout(); // Logs user off
+ * Session.isCurrent(); // Returns true/false if the token has expired.
+ * Session.isAuthenticated(); // Returns true/false if the user token is valid.
+ * </pre>
+ */
+.factory('Session', ["rxLocalStorage", function (rxLocalStorage) {
+    var TOKEN_ID = 'encoreSessionToken';
+    var session = {};
+
+    /**
+    * Dot walks the token without throwing an error.
+    * If key exists, returns value otherwise returns undefined.
+    */
+    session.getByKey = function (key) {
+        var tokenValue,
+            token = session.getToken(),
+            keys = key ? key.split('.') : undefined;
+
+        if (_.isEmpty(token) || !keys) {
+            return;
+        }
+
+        tokenValue = _.reduce(keys, function (val, key) {
+            return val ? val[key] : undefined;
+        }, token);
+
+        return tokenValue;
+    };
+
+    session.getToken = function () {
+        return rxLocalStorage.getObject(TOKEN_ID);
+    };
+
+    session.getTokenId = function () {
+        return session.getByKey('access.token.id');
+    };
+
+    session.getUserId = function () {
+        return session.getByKey('access.user.id');
+    };
+
+    session.getUserName = function () {
+        return session.getByKey('access.user.name');
+    };
+
+    session.storeToken = function (token) {
+        rxLocalStorage.setObject(TOKEN_ID, token);
+    };
+
+    session.logout = function () {
+        rxLocalStorage.removeItem(TOKEN_ID);
+    };
+
+    session.isCurrent = function () {
+        var expireDate = session.getByKey('access.token.expires');
+
+        if (expireDate) {
+            return new Date(expireDate) > _.now();
+        }
+
+        return false;
+    };
+
+    session.isAuthenticated = function () {
+        var token = session.getToken();
+        return _.isEmpty(token) ? false : session.isCurrent();
+    };
+
+    return session;
+}]);
 
 angular.module('encore.ui.quarks')
 /**

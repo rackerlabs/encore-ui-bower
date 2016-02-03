@@ -113,11 +113,16 @@
 @app-body-font-family: @app-sans-serif-font-family;
 
 // # PreProd warnings
-@preprodBackground: #aa161c;
-@preprodBorderTop: #bd1b22;
-@preprodBorderBottom: #991016;
-@preprodBackgroundFocus: #be1c22;
-@preprodActiveBackground: #d41f26;
+@preprod-background-color: @red-700;
+@preprod-border-top-color: @red-500;
+@preprod-border-bottom-color: darken(@preprod-background-color, 10%);
+@preprod-focus-background-color: desaturate(@preprod-background-color, 25%);
+@preprod-focus-border-top-color: darken(@preprod-background-color, 10%);
+@preprod-focus-border-bottom-color: darken(@preprod-background-color, 10%);
+@preprod-active-menu-background-color: @red-500;
+@preprod-active-item-background-color: @orange-500;
+@preprod-active-item-text-color: @black;
+@preprod-active-item-arrow-color: @orange-500;
 
 // ## Tables
 @tableHeaderBg: @gray-200;
@@ -204,6 +209,11 @@
 @rxButton-disabled-text-color: @gray-600;
 @rxButton-disabled-background-color: @gray-300;
 @rxButton-spinner-background-color: @white;
+@rxButton-finish-text-color: @blue-700;
+@rxButton-finish-hover-text-color: lighten(@rxButton-finish-text-color, 10%);
+@rxButton-finish-background-color: @white;
+@rxButton-finish-outline-color: @blue-700; // Color of Inset Line For Button
+@rxButton-finish-hover-outline-color: lighten(@rxButton-finish-outline-color, 10%);
 
 /*
  * Button Groups (rxButton)
@@ -424,6 +434,14 @@
 @appFont: @app-font;
 @appLineHeight: @app-line-height;
 @appFontSize: @app-font-size;
+
+// # PreProd warnings
+// deprecated
+@preprodBackground: @preprod-background-color;
+@preprodBorderTop: @preprod-border-top-color;
+@preprodBorderBottom: @preprod-border-bottom-color;
+@preprodBackgroundFocus: @preprod-focus-background-color;
+@preprodActiveBackground: @preprod-active-menu-background-color;
 
 // # Text Colors
 // deprecated

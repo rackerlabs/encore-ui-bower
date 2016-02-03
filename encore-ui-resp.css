@@ -4430,33 +4430,39 @@ body:hover .visually-hidden button {
   width: 100%;
 }
 .rx-app.warning-bar.preprod .rx-app-menu {
-  background: #aa161c;
-}
-.rx-app.warning-bar.preprod .rx-app-nav-item.active:not(.has-children) > .item-link {
-  border-top-color: #bd1b22;
+  background: #d32f2f;
 }
 .rx-app.warning-bar.preprod .rx-app-nav-item .item-link {
-  background: #aa161c;
-  border-top: 1px solid #bd1b22;
-  border-bottom: 1px solid #991016;
+  background: #d32f2f;
+  border-top: 1px solid #f44336;
+  border-bottom: 1px solid #ab2424;
 }
 .rx-app.warning-bar.preprod .rx-app-nav-item .item-link:hover,
 .rx-app.warning-bar.preprod .rx-app-nav-item .item-link:focus {
-  background: #be1c22;
-  border-top: 1px solid #991016;
-  border-bottom: 1px solid #991016;
+  background: #b34f4f;
+  border-top: 1px solid #ab2424;
+  border-bottom: 1px solid #ab2424;
+}
+.rx-app.warning-bar.preprod .rx-app-nav-item.active:not(.has-children) > .item-link {
+  border-color: transparent;
+  background: #ffc107;
+  color: #000000;
+}
+.rx-app.warning-bar.preprod .rx-app-nav-item.active:not(.has-children) > .item-link:after {
+  right: -6px;
+  border-left-color: #ffc107;
 }
 .rx-app.warning-bar.preprod .rx-app-nav-item.active.has-children > .item-link {
-  border-top-color: #bd1b22;
+  border-top-color: #f44336;
 }
 .rx-app.warning-bar.preprod .rx-app-nav-item.active.has-children > .item-link:before {
-  background: #d41f26;
+  background: #f44336;
 }
 .rx-app.warning-bar.preprod .rx-app-nav-item.active.has-children > .item-link .item-content {
   border-bottom: 1px solid #000000;
 }
 .rx-app.warning-bar.preprod .rx-app-nav-item .item-content {
-  background: #d41f26;
+  background: #f44336;
 }
 .rx-app .rx-app-nav {
   clear: both;
@@ -4712,7 +4718,7 @@ body:hover .visually-hidden button {
   text-shadow: 1px 1px 0px rgba(26, 26, 26, 0.2);
 }
 .rx-app .rx-app-help .rx-feedback .modal-link {
-  background: url(images/icon-feedback.png) no-repeat 20px calc(50% + 1px);
+  background: url("images/icon-feedback.png") no-repeat 20px calc(50% + 1px);
   vertical-align: middle;
   color: #ffc107;
   padding: 0 21px 0 41px;
@@ -5005,7 +5011,7 @@ thead th[rx-bulk-select-header-check] {
   background: #dc5959;
 }
 .button.finish {
-  background: #fff;
+  background: #ffffff;
   color: #1976d2;
   -webkit-box-shadow: inset 0 0 0 2px #1976d2;
   -moz-box-shadow: inset 0 0 0 2px #1976d2;
