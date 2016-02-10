@@ -2,10 +2,10 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 2.0.0-1 - 2016-02-03
+ * Version: 1.45.1-0 - 2016-02-10
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.atoms','encore.ui.molecules','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.layout','encore.ui.metadata','encore.ui.quarks','encore.ui.quarks','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.quarks','encore.ui.rxApp','encore.ui.rxAppRoutes','encore.ui.rxAttributes','encore.ui.rxAuth','encore.ui.quarks','encore.ui.rxBreadcrumbs','encore.ui.quarks','encore.ui.rxBulkSelect','encore.ui.quarks','encore.ui.rxButton','encore.ui.quarks','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.molecules','encore.ui.quarks','encore.ui.quarks','encore.ui.rxEnvironment','encore.ui.quarks','encore.ui.quarks','encore.ui.atoms','encore.ui.rxFeedback','encore.ui.quarks','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.quarks','encore.ui.quarks','encore.ui.rxInfoPanel','encore.ui.quarks','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.rxMultiSelect','encore.ui.quarks','encore.ui.rxNotify','encore.ui.quarks','encore.ui.rxOptionTable','encore.ui.quarks','encore.ui.rxPaginate','encore.ui.rxPermission','encore.ui.quarks','encore.ui.rxRadio','encore.ui.quarks','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.quarks','encore.ui.quarks','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.quarks','encore.ui.quarks','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.rxTokenInterceptor','encore.ui.rxUnauthorizedInterceptor','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.tabs','encore.ui.quarks','encore.ui.tooltips','encore.ui.typeahead','encore.ui.quarks', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui', ['encore.ui.atoms','encore.ui.molecules','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.layout','encore.ui.metadata','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.quarks','encore.ui.rxApp','encore.ui.quarks','encore.ui.rxAttributes','encore.ui.rxAuth','encore.ui.quarks','encore.ui.rxBreadcrumbs','encore.ui.quarks','encore.ui.rxBulkSelect','encore.ui.quarks','encore.ui.rxButton','encore.ui.quarks','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.molecules','encore.ui.quarks','encore.ui.quarks','encore.ui.rxEnvironment','encore.ui.quarks','encore.ui.quarks','encore.ui.atoms','encore.ui.rxFeedback','encore.ui.quarks','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.quarks','encore.ui.quarks','encore.ui.rxInfoPanel','encore.ui.quarks','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.rxMultiSelect','encore.ui.quarks','encore.ui.rxNotify','encore.ui.quarks','encore.ui.rxOptionTable','encore.ui.quarks','encore.ui.rxPaginate','encore.ui.quarks','encore.ui.rxPermission','encore.ui.quarks','encore.ui.rxRadio','encore.ui.quarks','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.quarks','encore.ui.quarks','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.tabs','encore.ui.quarks','encore.ui.quarks','encore.ui.tooltips','encore.ui.typeahead','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks', 'cfp.hotkeys','ui.bootstrap']);
 /**
  * @ngdoc overview
  * @name atoms
@@ -75,6 +75,7 @@ angular.module('encore.ui.molecules', [
  * * {@link quarks.service:rxDOMHelper rxDOMHelper}
  * * {@link quarks.service:rxFeedbackSvc rxFeedbackSvc}
  * * {@link quarks.service:rxFormUtils rxFormUtils}
+ * * {@link quarks.service:rxHideIfUkAccount rxHideIfUkAccount}
  * * {@link quarks.service:rxLocalStorage rxLocalStorage}
  * * {@link quarks.service:rxNestedElement rxNestedElement}
  * * {@link quarks.service:rxNotify rxNotify}
@@ -83,6 +84,8 @@ angular.module('encore.ui.molecules', [
  * * {@link quarks.service:rxScreenshotSvc rxScreenshotSvc}
  * * {@link quarks.service:rxSortUtil rxSortUtil}
  * * {@link quarks.service:rxStatusMappings rxStatusMappings}
+ * * {@link quarks.service:rxVisibility rxVisibility}
+ * * {@link quarks.service:Session Session}
  */
 angular.module('encore.ui.quarks', [
     'ngResource',
@@ -135,6 +138,86 @@ angular.module('encore.ui.quarks')
     { value: '/dev/xvdo', label: '/dev/xvdo' },
     { value: '/dev/xvdp', label: '/dev/xvdp' }
 ]);
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc service
+ * @name quarks.service:encoreRoutes
+ * @description
+ * Creates a shared instance of `AppRoutes` that is used for the Encore App nav.
+ * This allows apps to make updates to the nav via `encoreRoutes`.
+ *
+ * @return {Object} Instance of rxAppRoutes with `fetchRoutes` method added
+ */
+.factory('encoreRoutes', ["rxAppRoutes", "routesCdnPath", "rxNotify", "$q", "$http", "rxVisibilityPathParams", "rxVisibility", "Environment", "rxHideIfUkAccount", "LocalStorage", function (rxAppRoutes, routesCdnPath, rxNotify, $q, $http,
+                                   rxVisibilityPathParams, rxVisibility, Environment,
+                                   rxHideIfUkAccount, LocalStorage) {
+
+    // We use rxVisibility in the nav menu at routesCdnPath, so ensure it's ready
+    // before loading from the CDN
+    rxVisibility.addVisibilityObj(rxVisibilityPathParams);
+    rxVisibility.addVisibilityObj(rxHideIfUkAccount);
+
+    var encoreRoutes = new rxAppRoutes();
+
+    var setWarningMessage = function () {
+        rxNotify.add('There was a problem loading the navigation, so a cached version has been loaded for display.', {
+            type: 'warning'
+        });
+    };
+
+    var setFailureMessage = function () {
+        rxNotify.add('Error loading site navigation', {
+            type: 'error'
+        });
+    };
+
+    var url, suffix;
+    switch (true) {
+        case Environment.isUnifiedProd(): {
+            url = routesCdnPath.production;
+            suffix = 'prod';
+            break;
+        }
+        case Environment.isPreProd(): {
+            url = routesCdnPath.preprod;
+            suffix = 'preprod';
+            break;
+        }
+        case routesCdnPath.hasCustomURL: {
+            url = routesCdnPath.staging;
+            suffix = 'custom';
+            break;
+        }
+        default: {
+            url = routesCdnPath.staging;
+            suffix = 'staging';
+        }
+    }
+
+    encoreRoutes.fetchRoutes = function () {
+        var routesKey = 'encoreRoutes-' + suffix;
+        var cachedRoutes = LocalStorage.getObject(routesKey);
+
+        $http.get(url)
+            .success(function (routes) {
+                encoreRoutes.setAll(routes);
+                LocalStorage.setObject(routesKey, routes);
+            })
+            .error(function () {
+                if (cachedRoutes) {
+                    encoreRoutes.setAll(cachedRoutes);
+                    setWarningMessage();
+                } else {
+                    setFailureMessage();
+                }
+            });
+
+        return cachedRoutes || [];
+    };
+
+    return encoreRoutes;
+}]);
 
 angular.module('encore.ui.quarks')
 /**
@@ -597,6 +680,440 @@ angular.module('encore.ui.quarks')
     };
 
     return NotifyProperties;
+}]);
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc filter
+ * @name quarks.filter:Page
+ * @description
+ * This is the pagination filter that is used to limit the number of pages
+ * shown.
+ *
+ * @param {Object} pager The instance of the PageTracking service. If not
+ * specified, a new one will be created.
+ *
+ * @returns {Array} The list of page numbers that will be displayed.
+ */
+.filter('Page', ["PageTracking", function (PageTracking) {
+    return function (pager) {
+        if (!pager) {
+            pager = PageTracking.createInstance();
+        }
+
+        var displayPages = [],
+            // the next four variables determine the number of pages to show ahead of and behind the current page
+            pagesToShow = pager.pagesToShow || 5,
+            pageDelta = (pagesToShow - 1) / 2,
+            pagesAhead = Math.ceil(pageDelta),
+            pagesBehind = Math.floor(pageDelta);
+
+        if (pager && pager.length !== 0) {
+                // determine starting page based on (current page - (1/2 of pagesToShow))
+            var pageStart = Math.max(Math.min(pager.pageNumber - pagesBehind, pager.totalPages - pagesToShow), 0),
+
+                // determine ending page based on (current page + (1/2 of pagesToShow))
+                pageEnd = Math.min(Math.max(pager.pageNumber + pagesAhead, pagesToShow - 1), pager.totalPages - 1);
+
+            for (pageStart; pageStart <= pageEnd; pageStart++) {
+                // create array of page indexes
+                displayPages.push(pageStart);
+            }
+        }
+
+        return displayPages;
+    };
+}]);
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc service
+ * @name quarks.service:PageTracking
+ * @description
+ * This is the data service that can be used in conjunction with the pagination
+ * objects to store/control page display of data tables and other items.
+ *
+ * @example
+ * <pre>
+ * PageTracking.createInstance({showAll: true, itemsPerPage: 15});
+ * </pre>
+ */
+.factory('PageTracking', ["$q", "LocalStorage", "rxPaginateUtils", function ($q, LocalStorage, rxPaginateUtils) {
+    function PageTrackingObject (opts) {
+        var pager = _.defaults(_.cloneDeep(opts), {
+            itemsPerPage: 200,
+            persistItemsPerPage: true,
+            pagesToShow: 5,
+            pageNumber: 0,
+            pageInit: false,
+            total: 0,
+            showAll: false,
+            itemSizeList: [50, 200, 350, 500]
+        });
+
+        // This holds all the items we've received. For UI pagination,
+        // this will be the entire set. For API pagination, this will be
+        // whatever chunk of data the API decided to send us
+        pager.localItems = [];
+
+        var itemsPerPage = pager.itemsPerPage;
+        var itemSizeList = pager.itemSizeList;
+
+        // If itemSizeList doesn't contain the desired itemsPerPage,
+        // then find the right spot in itemSizeList and insert the
+        // itemsPerPage value
+        if (!_.contains(itemSizeList, itemsPerPage)) {
+            var index = _.sortedIndex(itemSizeList, itemsPerPage);
+            itemSizeList.splice(index, 0, itemsPerPage);
+        }
+
+        var selectedItemsPerPage = parseInt(LocalStorage.getItem('rxItemsPerPage'));
+
+        // If the user has chosen a desired itemsPerPage, make sure we're respecting that
+        // However, a value specified in the options will take precedence
+        if (!opts.itemsPerPage && !_.isNaN(selectedItemsPerPage) && _.contains(itemSizeList, selectedItemsPerPage)) {
+            pager.itemsPerPage = selectedItemsPerPage;
+        }
+
+        Object.defineProperties(pager, {
+            'items': {
+                // This returns the slice of data for whatever current page the user is on.
+                // It is used for server-side pagination.
+                get: function () {
+                    var info = rxPaginateUtils.firstAndLast(pager.pageNumber, pager.itemsPerPage, pager.total);
+                    return pager.localItems.slice(info.first - pager.cacheOffset, info.last - pager.cacheOffset);
+                }
+            },
+
+            'totalPages': {
+                get: function () { return Math.ceil(pager.total / pager.itemsPerPage); }
+            }
+        });
+
+        function updateCache (pager, pageNumber, localItems) {
+            var numberOfPages = Math.floor(localItems.length / pager.itemsPerPage);
+            var cachedPages = numberOfPages ? _.range(pageNumber, pageNumber + numberOfPages) : [pageNumber];
+            pager.cachedPages = !_.isEmpty(cachedPages) ? cachedPages : [pageNumber];
+            pager.cacheOffset = pager.cachedPages[0] * pager.itemsPerPage;
+        }
+
+        updateCache(pager, 0, pager.localItems);
+
+        var updateItems = function (pageNumber) {
+            // This is the function that gets used when doing UI pagination,
+            // thus we're not waiting for the pageNumber to come back from a service,
+            // so we should set it right away. We can also return an empty items list,
+            // because for UI pagination, the items themselves come in through the Pagination
+            // filter
+            pager.pageNumber = pageNumber;
+            var data = {
+                items: [],
+                pageNumber: pageNumber,
+                totalNumberOfItems: pager.total
+            };
+            return $q.when(data);
+        };
+        pager.updateItemsFn = function (fn) {
+            updateItems = fn;
+        };
+
+        // Used by rxPaginate to tell the pager that it should grab
+        // new items from itemsPromise, where itemsPromise is the promise
+        // returned by a product's getItems() method.
+        // Set shouldUpdateCache to false if the pager should not update its cache with these values
+        pager.newItems = function (itemsPromise, shouldUpdateCache) {
+            if (_.isUndefined(shouldUpdateCache)) {
+                shouldUpdateCache = true;
+            }
+            return itemsPromise.then(function (data) {
+                pager.pageNumber = data.pageNumber;
+                pager.localItems = data.items;
+                pager.total = data.totalNumberOfItems;
+                if (shouldUpdateCache) {
+                    updateCache(pager, pager.pageNumber, data.items);
+                }
+                return data;
+            });
+        };
+
+        // 0-based page number
+        // opts: An object containing:
+        //  forceCacheUpdate: true/false, whether or not to flush the cache
+        //  itemsPerPage: If specificed, request this many items for the page, instead of
+        //                using pager.itemsPerPage
+        pager.goToPage = function (n, opts) {
+            opts = opts || {};
+            var shouldUpdateCache = true;
+
+            // If the desired page number is currently cached, then just reuse
+            // our `localItems` cache, rather than going back to the API.
+            // By setting `updateCache` to false, it ensures that the current
+            // pager.cacheOffset and pager.cachedPages values stay the
+            // same
+            if (!opts.forceCacheUpdate && _.contains(pager.cachedPages, n)) {
+                shouldUpdateCache = false;
+                return pager.newItems($q.when({
+                    pageNumber: n,
+                    items: pager.localItems,
+                    totalNumberOfItems: pager.total
+                }), shouldUpdateCache);
+            }
+
+            var itemsPerPage = opts.itemsPerPage || pager.itemsPerPage;
+            return pager.newItems(updateItems(n, itemsPerPage), shouldUpdateCache);
+        };
+
+        // This tells the pager to go to the current page, but ensure no cached
+        // values are used. Can be used by page controllers when they want
+        // to force an update
+        pager.refresh = function (stayOnCurrentPage) {
+            var pageNumber = stayOnCurrentPage ? pager.currentPage() : 0;
+            return pager.goToPage(pageNumber, { forceCacheUpdate: true });
+        };
+
+        pager.isFirstPage = function () {
+            return pager.isPage(0);
+        };
+
+        pager.isLastPage = function () {
+            return pager.isPage(_.max([0, pager.totalPages - 1]));
+        };
+
+        pager.isPage = function (n) {
+            return pager.pageNumber === n;
+        };
+
+        pager.isPageNTheLastPage = function (n) {
+            return pager.totalPages - 1 === n;
+        };
+
+        pager.currentPage = function () {
+            return pager.pageNumber;
+        };
+
+        pager.goToFirstPage = function () {
+            pager.goToPage(0);
+        };
+
+        pager.goToLastPage = function () {
+            pager.goToPage(_.max([0, pager.totalPages - 1]));
+        };
+
+        pager.goToPrevPage = function () {
+            pager.goToPage(pager.currentPage() - 1);
+        };
+
+        pager.goToNextPage = function () {
+            pager.goToPage(pager.currentPage() + 1);
+        };
+
+        pager.isEmpty = function () {
+            return pager.total === 0;
+        };
+
+        pager.setItemsPerPage = function (numItems) {
+            var opts = {
+                forceCacheUpdate: true,
+                itemsPerPage: numItems
+            };
+            return pager.goToPage(0, opts).then(function (data) {
+                // Wait until we get the data back from the API before we
+                // update itemsPerPage. This ensures that we don't show
+                // a "weird" number of items in a table
+                pager.itemsPerPage = numItems;
+                // Now that we've "officially" changed the itemsPerPage,
+                // we have to update all the cache values
+                updateCache(pager, data.pageNumber, data.items);
+
+                // Persist this itemsPerPage as the new global value
+                if (pager.persistItemsPerPage) {
+                    PageTracking.userSelectedItemsPerPage(numItems);
+                }
+            });
+        };
+
+        pager.isItemsPerPage = function (numItems) {
+            return pager.itemsPerPage === numItems;
+        };
+
+        this.pager = pager;
+
+        pager.goToPage(pager.pageNumber);
+
+    }
+
+    var PageTracking = {
+        /**
+        * @property {number} itemsPerPage This is the current setting for the number
+        * of items to display per page.
+        * @property {boolean} [persistItemsPerPage=true] Whether or not a change to this pager's itemsPerPage
+        * should be persisted globally to all other pagers
+        * @property {number} pagesToShow This is the number of pages to show
+        * in the pagination controls
+        * @property {number} pageNumber This is where the current page number is
+        * stored.
+        * @property {boolean} pageInit This is used to determine if the page has been
+        * initialzed before.
+        * @property {number} total This is the total number of items that are in the
+        * data set
+        * @property {boolean} showAll This is used to determine whether or not to use
+        * the pagination or not.
+        *
+        * @method createInstance This is used to generate the instance of the
+        * PageTracking object. Enables the ability to override default pager.
+        * If you choose to override the default `itemsPerPage`, and it isn't
+        * a value in itemSizeList, then it will automatically be added to itemSizeList
+        * at the right spot.
+        */
+        createInstance: function (options) {
+            options = options ? options : {};
+            var tracking = new PageTrackingObject(options);
+            return tracking.pager;
+        },
+
+        /*
+        * @method userSelectedItemsPerPage This method sets a new global itemsPerPage value
+        */
+        userSelectedItemsPerPage: function (itemsPerPage) {
+            LocalStorage.setItem('rxItemsPerPage', itemsPerPage);
+        }
+    };
+
+    return PageTracking;
+}]);
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc filter
+ * @name quarks.filter:Paginate
+ * @description
+ * This is the pagination filter that is used to calculate the division in the
+ * items list for the paging.
+ *
+ * @param {Object} items The list of items that are to be sliced into pages
+ * @param {Object} pager The instance of the PageTracking service. If not
+ * specified, a new one will be created.
+ *
+ * @returns {Object} The list of items for the current page in the PageTracking object
+ */
+.filter('Paginate', ["PageTracking", "rxPaginateUtils", function (PageTracking, rxPaginateUtils) {
+    return function (items, pager) {
+        if (!pager) {
+            pager = PageTracking.createInstance();
+        }
+        if (pager.showAll) {
+            pager.total = items.length;
+            return items;
+        }
+        if (items) {
+
+            pager.total = items.length;
+            // We were previously on the last page, but enough items were deleted
+            // to reduce the total number of pages. We should now jump to whatever the
+            // new last page is
+            // When loading items over the network, our first few times through here
+            // will have totalPages===0. We do the _.max to ensure that
+            // we never set pageNumber to -1
+            if (pager.pageNumber + 1 > pager.totalPages) {
+                if (!pager.isLastPage()) {
+                    pager.goToLastPage();
+                }
+            }
+            var firstLast = rxPaginateUtils.firstAndLast(pager.currentPage(), pager.itemsPerPage, items.length);
+            return items.slice(firstLast.first, firstLast.last);
+        }
+    };
+}]);
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc service
+ * @name quarks.service:Permission
+ * @description
+ * Simple service for accessing roles and permissions for a user.
+ *
+ * @requires quarks.service:Session
+ *
+ * @example
+ * <pre>
+ * Permission.getRoles() //returns an array of roles for a user
+ * Permission.hasRole(role) //returns true/false if user has specified role
+ * </pre>
+ */
+.factory('Permission', ["Session", function (Session) {
+    var permissionSvc = {};
+
+    var cleanRoles = function (roles) {
+        return roles.split(',').map(function (r) {
+            return r.trim();
+        });
+    };
+
+    var userRoles = function () {
+        return _.pluck(permissionSvc.getRoles(), 'name');
+    };
+
+    /**
+     * @description Takes a function and a list of roles, and returns the
+     * result of calling that function with `roles`, and comparing to userRoles().
+     *
+     * @param {function} fn - Comparison function to use. _.any, _.all, etc.
+     * @param {array} roles - List of desired roles
+     */
+    var checkRoles = function (roles, fn) {
+        // Some code expects to pass a comma-delimited string
+        // here, so turn that into an array
+        if (_.isString(roles)) {
+            roles = cleanRoles(roles);
+        }
+
+        var allUserRoles = userRoles();
+        return fn(roles, function (role) {
+            return _.contains(allUserRoles, role);
+        });
+    };
+
+    /**
+     * @name  getRoles
+     * @ngdoc method
+     * @methodOf quarks.service:Permission
+     * @description
+     * Fetch all the roles tied to the user (in the exact format available in their Session token).
+     *
+     * @returns {Array} List of all roles associated to the user.
+     */
+    permissionSvc.getRoles = function () {
+        var token = Session.getToken();
+        return (token && token.access && token.access.user && token.access.user.roles) ?
+            token.access.user.roles : [];
+    };
+
+    /**
+     * @name  hasRole
+     * @ngdoc method
+     * @methodOf quarks.service:Permission
+     * @description Check if user has at least _one_ of the given roles.
+     * @param {Array} roles List of roles to check against
+     * @returns {Boolean} True if user has at least _one_ of the given roles; otherwise, False.
+     */
+    permissionSvc.hasRole = function (roles) {
+        return checkRoles(roles, _.any);
+    };
+
+    /**
+     * @name  hasAllRoles
+     * @ngdoc method
+     * @methodOf quarks.service:Permission
+     * @description Checks if user has _every_ role in given list.
+     * @param {Array} roles List of roles to check against
+     * @returns {Boolean} True if user has _every_ role in given list; otherwise, False.
+     *
+     */
+    permissionSvc.hasAllRoles = function (roles) {
+        return checkRoles(roles, _.all);
+    };
+
+    return permissionSvc;
 }]);
 
 angular.module('encore.ui.quarks')
@@ -1093,9 +1610,9 @@ angular.module('encore.ui.quarks')
  * ## Dynamically updating the menu
  *
  * By default, rxApp will create the navigation menu based on the routes defined
- * in the 'encoreNav' value. This menu is built using the rxAppRoutes service.
+ * in the 'encoreNav' value. This menu is built using the {@link quarks.service:rxAppRoutes rxAppRoutes} service.
  *
- * To update a route, use the `setRouteByKey` function on the rxAppRoutes service:
+ * To update a route, use the `setRouteByKey` function on the `rxAppRoutes` service:
  *
  * <pre>
  * rxAppRoutes.setRouteByKey('myKey', {
@@ -1140,101 +1657,15 @@ angular.module('encore.ui.quarks')
  * * {@link rxApp.directive:rxPage rxPage}
  * * {@link rxApp.directive:rxStatusTag rxStatusTag}
  * * {@link rxApp.directive:rxTicketSearch rxTicketSearch}
- *
- * ## Services
- * * {@link rxApp.service:encoreRoutes encoreRoutes}
- * * {@link rxApp.service:rxVisibilityPathParams rxVisibilityPathParams}
- * * {@link rxApp.service:rxStatusTags rxStatusTags}
  */
 angular.module('encore.ui.rxApp', [
     'cfp.hotkeys',
     'encore.ui.quarks',
-    'encore.ui.rxAppRoutes',
     'encore.ui.rxEnvironment',
     'encore.ui.rxPermission',
     'ngRoute',
     'ngSanitize'
 ]);
-
-angular.module('encore.ui.rxApp')
-/**
- * @ngdoc service
- * @name rxApp.service:encoreRoutes
- * @description
- * Creates a shared instance of AppRoutes that is used for the Encore App nav.
- * This allows apps to make updates to the nav via `encoreRoutes`.
- *
- * @return {Object} Instance of rxAppRoutes with `fetchRoutes` method added
- */
-.factory('encoreRoutes', ["rxAppRoutes", "routesCdnPath", "rxNotify", "$q", "$http", "rxVisibilityPathParams", "rxVisibility", "Environment", "rxHideIfUkAccount", "LocalStorage", function (rxAppRoutes, routesCdnPath, rxNotify, $q, $http,
-                                   rxVisibilityPathParams, rxVisibility, Environment,
-                                   rxHideIfUkAccount, LocalStorage) {
-
-    // We use rxVisibility in the nav menu at routesCdnPath, so ensure it's ready
-    // before loading from the CDN
-    rxVisibility.addVisibilityObj(rxVisibilityPathParams);
-    rxVisibility.addVisibilityObj(rxHideIfUkAccount);
-
-    var encoreRoutes = new rxAppRoutes();
-
-    var setWarningMessage = function () {
-        rxNotify.add('There was a problem loading the navigation, so a cached version has been loaded for display.', {
-            type: 'warning'
-        });
-    };
-
-    var setFailureMessage = function () {
-        rxNotify.add('Error loading site navigation', {
-            type: 'error'
-        });
-    };
-
-    var url, suffix;
-    switch (true) {
-        case Environment.isUnifiedProd(): {
-            url = routesCdnPath.production;
-            suffix = 'prod';
-            break;
-        }
-        case Environment.isPreProd(): {
-            url = routesCdnPath.preprod;
-            suffix = 'preprod';
-            break;
-        }
-        case routesCdnPath.hasCustomURL: {
-            url = routesCdnPath.staging;
-            suffix = 'custom';
-            break;
-        }
-        default: {
-            url = routesCdnPath.staging;
-            suffix = 'staging';
-        }
-    }
-
-    encoreRoutes.fetchRoutes = function () {
-        var routesKey = 'encoreRoutes-' + suffix;
-        var cachedRoutes = LocalStorage.getObject(routesKey);
-
-        $http.get(url)
-            .success(function (routes) {
-                encoreRoutes.setAll(routes);
-                LocalStorage.setObject(routesKey, routes);
-            })
-            .error(function () {
-                if (cachedRoutes) {
-                    encoreRoutes.setAll(cachedRoutes);
-                    setWarningMessage();
-                } else {
-                    setFailureMessage();
-                }
-            });
-
-        return cachedRoutes || [];
-    };
-
-    return encoreRoutes;
-}]);
 
 angular.module('encore.ui.rxApp')
 /**
@@ -1358,7 +1789,7 @@ angular.module('encore.ui.rxApp')
  * @param {array} [menu] Menu items used for left-hand navigation
  * @param {string} [collapsibleNav] Set to 'true' if the navigation menu should be collapsible
  * @param {string} [collapsedNav] Binding for the collapsed state of the menu.
- * @param {boolean} [newInstance] Whether the menu items should be a new instance of rxAppRoutes
+ * @param {boolean} [newInstance] Whether the menu items should be a new instance of `rxAppRoutes`
  * @param {boolean} [hideFeeback] Whether to hide the 'feedback' link or not (defaults to show it)
  * @param {string} [logoutUrl] URL to pass to rx-logout
  *
@@ -2351,56 +2782,6 @@ angular.module('encore.ui.rxApp')
 
 angular.module('encore.ui.rxApp')
 /**
- * @ngdoc service
- * @name rxApp.service:rxStatusTags
- * @description
- * This provider is primarily used for applications to specify custom status
- * tags, for use with the `status` attributes of `rx-page` and of breadcrumb
- * objects.
- *
- * It also contains getTag and hasTag run time (vs. config time) methods, but
- * these should rarely, if ever, be needed outside of the framework.
- */
-.provider('rxStatusTags', function () {
-    var allTags = {
-        alpha: {
-            class: 'alpha-status',
-            text: 'Alpha'
-        },
-        beta: {
-            class: 'beta-status',
-            text: 'Beta'
-        },
-    };
-    // Takes an object with `key`, `text` and `class` attributes,
-    // and adds it to to the existing set of status values
-    this.addStatus = function (config) {
-        allTags[config.key] = {
-            text: config.text,
-            'class': config['class']
-        };
-    };
-
-    this.$get = function () {
-        return {
-            // Given a status tag key, return the `text` and `class` specified
-            // for the tag
-            getTag: function (key) {
-                if (_.has(allTags, key)) {
-                    return allTags[key];
-                }
-                return { class: '', text: '' };
-            },
-
-            hasTag: function (key) {
-                return _.has(allTags, key);
-            }
-        };
-    };
-});
-
-angular.module('encore.ui.rxApp')
-/**
  * @ngdoc directive
  * @name rxApp.directive:rxTicketSearch
  * @restrict E
@@ -2420,51 +2801,12 @@ angular.module('encore.ui.rxApp')
     };
 });
 
-angular.module('encore.ui.rxApp')
+angular.module('encore.ui.quarks')
 /**
  * @ngdoc service
- * @name rxApp.service:rxVisibilityPathParams
+ * @name quarks.service:rxAppRoutes
  * @description
- * Returns an object with `name` and `method` params that can
- * be passed to `rxVisibility.addMethod()`. We use register this by
- * default, as it's used by the nav menu we keep in routesCdnPath.
- * The method is used to check if {param: 'someParamName'} is present
- * in the current route
- * Use it as `visibility: [ 'rxPathParams', { param: 'userName' } ]`
- */
-.factory('rxVisibilityPathParams', ["$routeParams", function ($routeParams) {
-    var pathParams = {
-        name:'rxPathParams',
-        method: function (scope, args) {
-            return !_.isUndefined($routeParams[args.param]);
-        }
-    };
-
-    return pathParams;
-}]);
-
-/**
- * @ngdoc overview
- * @name rxAppRoutes
- * @description
- * # rxAppRoutes Component
- *
- * A component to manage app routes and states of routes
- *
- * ## Services
- * * {@link rxAppRoutes.service:rxAppRoutes rxAppRoutes}
- * * {@link rxAppRoutes.service:urlUtils urlUtils}
- */
-angular.module('encore.ui.rxAppRoutes', [
-    'encore.ui.rxEnvironment'
-]);
-
-angular.module('encore.ui.rxAppRoutes')
-/**
- * @ngdoc service
- * @name rxAppRoutes.service:rxAppRoutes
- * @description
- * Manages page routes, building urls and marking them as active on route change
+ * Manages page routes, building urls and marking them as active on route change.
  */
 .factory('rxAppRoutes', ["$rootScope", "$log", "urlUtils", "$q", function ($rootScope, $log, urlUtils, $q) {
     var AppRoutes = function (routes) {
@@ -2631,131 +2973,6 @@ angular.module('encore.ui.rxAppRoutes')
     };
 
     return AppRoutes;
-}]);
-
-angular.module('encore.ui.rxAppRoutes')
-/**
- * @ngdoc service
- * @name rxAppRoutes.service:urlUtils
- * @description
- *
- * Set of utility functions used by rxAppRoutes to break apart/compare URLs
- */
-.service('urlUtils', ["$location", "rxEnvironmentUrlFilter", "$interpolate", "$route", "$document", function ($location, rxEnvironmentUrlFilter, $interpolate, $route, $document) {
-    // remove any preceding # and / from the URL for cleaner comparison
-    this.stripLeadingChars = function (url) {
-        // http://regexr.com/39coc
-        var leadingChars = /^((?:\/|#)+)/;
-
-        return url.replace(leadingChars, '');
-    };
-
-    // remove any trailing /'s from the URL
-    this.stripTrailingSlash = function (url) {
-        // Match a forward slash / at the end of the string ($)
-        var trailingSlash = /\/$/;
-
-        return url.replace(trailingSlash, '');
-    };
-
-    // Given a URL, split it on '/' and return all the non-empty components
-    this.getChunks = function (url) {
-        if (!_.isString(url)) {
-            return [''];
-        }
-
-        return _.compact(url.split('/'));
-    };
-
-    // Get the current path. Knows how to work with the `base` tag
-    this.getFullPath = function () {
-        var base = $document.find('base');
-        var basePath = '';
-
-        if (base.length > 0) {
-            basePath = base[0].getAttribute('href');
-
-            // remove trailing '/' if present
-            basePath = this.stripTrailingSlash(basePath);
-        }
-
-        return basePath + $location.path();
-    };
-
-    // get the current path, adding the <base> path if neeeded
-    //
-    // @example
-    // if the current page url is 'http://localhost:9000/encore-ui/#/overviewPage#bookmark?book=harry%20potter'
-    // and the page contains a <base href="encore-ui"> tag
-    // getCurrentPath() would return '/encore-ui/overviewPage'
-    this.getCurrentPathChunks = function () {
-        var fullPath = this.stripLeadingChars(this.getFullPath());
-
-        return this.getChunks(fullPath);
-    };
-
-    // get the url defined in the route by removing the hash tag, leading slashes and query string
-    // e.g. '/#/my/url?param=1' -> 'my/url'
-    this.getItemUrl = function (item) {
-        if (!_.isString(item.url)) {
-            return undefined;
-        }
-
-        // remove query string
-        var itemUrl = item.url.split('?')[0];
-        itemUrl = this.stripLeadingChars(itemUrl);
-
-        return itemUrl;
-    };
-
-    // For a given route item, grab its defined URL, and see
-    // if it matches the currentPathChunks
-    this.isActive = function (item, currentPathChunks) {
-        var itemUrlChunks = this.getChunks(this.getItemUrl(item));
-        var numChunks = itemUrlChunks.length;
-
-        // check against the path and the hash
-        // (in case the difference is the 'hash' like on the encore-ui demo page)
-        var pathMatches = this.matchesSubChunks(currentPathChunks, itemUrlChunks, numChunks);
-        if (!pathMatches) {
-            pathMatches = this.matchesSubChunks(this.getChunks($location.hash()), itemUrlChunks, numChunks);
-        }
-
-        // if current item not active, check if any children are active
-        // This requires that `isActive` was called on all the children beforehand
-        if (!pathMatches && item.children) {
-            pathMatches = _.any(item.children, 'active');
-        }
-
-        return pathMatches;
-    };
-
-    // Given a URL string, interpolate it with $route.current.pathParams
-    // If the optional `extraContext` is passed in, then the URL will be interpolated
-    // with those values as well, with `extraContext` values taking precedence
-    this.buildUrl = function (url, extraContext) {
-        // sometimes links don't have URLs defined, so we need to exit before $interpolate throws an error
-        if (_.isUndefined(url)) {
-            return url;
-        }
-
-        // run the href through rxEnvironmentUrl in case it's defined as such
-        url = rxEnvironmentUrlFilter(url);
-
-        if ($route.current) {
-            // convert any nested expressions to defined route params
-            var finalContext = _.defaults(extraContext || {}, $route.current.pathParams);
-            url = $interpolate(url)(finalContext);
-        }
-
-        return url;
-    };
-
-    // Given two sets of chunks, check if the first `numChunks` of `firstChunks`
-    // matches all of `subChunks`
-    this.matchesSubChunks = function (firstChunks, subChunks, numChunks) {
-        return _.isEqual(firstChunks.slice(0, numChunks), subChunks);
-    };
 }]);
 
 /**
@@ -7589,8 +7806,8 @@ angular.module('encore.ui.rxMultiSelect')
         link: function (scope, element, attrs, selectCtrl) {
             scope.transclusion = rxDOMHelper.find(element, '[ng-transclude] > *').length > 0;
 
-            scope.toggle = function (isSelected) {
-                if (isSelected) {
+            scope.toggle = function () {
+                if (scope.isSelected) {
                     selectCtrl.unselect(scope.value);
                 } else {
                     selectCtrl.select(scope.value);
@@ -9012,362 +9229,11 @@ angular.module('encore.ui.quarks')
  * ## Directives
  * * {@link rxPaginate.directive:rxLoadingOverlay rxLoadingOverlay}
  * * {@link rxPaginate.directive:rxPaginate rxPaginate}
- *
- * ## Filters
- * * {@link rxPaginate.filter:Page Page}
- * * {@link rxPaginate.filter:Paginate Paginate}
- *
- * ## Services
- * * {@link rxPaginate.service:PageTracking PageTracking}
- * * {@link rxPaginate.service:rxPaginateUtils rxPaginateUtils}
  */
 angular.module('encore.ui.rxPaginate', [
     'encore.ui.quarks',
     'debounce'
 ]);
-
-angular.module('encore.ui.rxPaginate')
-/**
- * @ngdoc filter
- * @name rxPaginate.filter:Page
- * @description
- * This is the pagination filter that is used to limit the number of pages
- * shown
- *
- * @param {Object} pager The instance of the PageTracking service. If not
- * specified, a new one will be created.
- *
- * @returns {Array} The list of page numbers that will be displayed.
- */
-.filter('Page', ["PageTracking", function (PageTracking) {
-    return function (pager) {
-        if (!pager) {
-            pager = PageTracking.createInstance();
-        }
-
-        var displayPages = [],
-            // the next four variables determine the number of pages to show ahead of and behind the current page
-            pagesToShow = pager.pagesToShow || 5,
-            pageDelta = (pagesToShow - 1) / 2,
-            pagesAhead = Math.ceil(pageDelta),
-            pagesBehind = Math.floor(pageDelta);
-
-        if (pager && pager.length !== 0) {
-                // determine starting page based on (current page - (1/2 of pagesToShow))
-            var pageStart = Math.max(Math.min(pager.pageNumber - pagesBehind, pager.totalPages - pagesToShow), 0),
-
-                // determine ending page based on (current page + (1/2 of pagesToShow))
-                pageEnd = Math.min(Math.max(pager.pageNumber + pagesAhead, pagesToShow - 1), pager.totalPages - 1);
-
-            for (pageStart; pageStart <= pageEnd; pageStart++) {
-                // create array of page indexes
-                displayPages.push(pageStart);
-            }
-        }
-
-        return displayPages;
-    };
-}]);
-
-angular.module('encore.ui.rxPaginate')
-/**
- * @ngdoc service
- * @name rxPaginate.service:PageTracking
- * @description
- * This is the data service that can be used in conjunction with the pagination
- * objects to store/control page display of data tables and other items.
- *
- * @example
- * <pre>
- * PageTracking.createInstance({showAll: true, itemsPerPage: 15});
- * </pre>
- */
-.factory('PageTracking', ["$q", "LocalStorage", "rxPaginateUtils", function ($q, LocalStorage, rxPaginateUtils) {
-    function PageTrackingObject (opts) {
-        var pager = _.defaults(_.cloneDeep(opts), {
-            itemsPerPage: 200,
-            persistItemsPerPage: true,
-            pagesToShow: 5,
-            pageNumber: 0,
-            pageInit: false,
-            total: 0,
-            showAll: false,
-            itemSizeList: [50, 200, 350, 500]
-        });
-
-        // This holds all the items we've received. For UI pagination,
-        // this will be the entire set. For API pagination, this will be
-        // whatever chunk of data the API decided to send us
-        pager.localItems = [];
-
-        var itemsPerPage = pager.itemsPerPage;
-        var itemSizeList = pager.itemSizeList;
-
-        // If itemSizeList doesn't contain the desired itemsPerPage,
-        // then find the right spot in itemSizeList and insert the
-        // itemsPerPage value
-        if (!_.contains(itemSizeList, itemsPerPage)) {
-            var index = _.sortedIndex(itemSizeList, itemsPerPage);
-            itemSizeList.splice(index, 0, itemsPerPage);
-        }
-
-        var selectedItemsPerPage = parseInt(LocalStorage.getItem('rxItemsPerPage'));
-
-        // If the user has chosen a desired itemsPerPage, make sure we're respecting that
-        // However, a value specified in the options will take precedence
-        if (!opts.itemsPerPage && !_.isNaN(selectedItemsPerPage) && _.contains(itemSizeList, selectedItemsPerPage)) {
-            pager.itemsPerPage = selectedItemsPerPage;
-        }
-
-        Object.defineProperties(pager, {
-            'items': {
-                // This returns the slice of data for whatever current page the user is on.
-                // It is used for server-side pagination.
-                get: function () {
-                    var info = rxPaginateUtils.firstAndLast(pager.pageNumber, pager.itemsPerPage, pager.total);
-                    return pager.localItems.slice(info.first - pager.cacheOffset, info.last - pager.cacheOffset);
-                }
-            },
-
-            'totalPages': {
-                get: function () { return Math.ceil(pager.total / pager.itemsPerPage); }
-            }
-        });
-
-        function updateCache (pager, pageNumber, localItems) {
-            var numberOfPages = Math.floor(localItems.length / pager.itemsPerPage);
-            var cachedPages = numberOfPages ? _.range(pageNumber, pageNumber + numberOfPages) : [pageNumber];
-            pager.cachedPages = !_.isEmpty(cachedPages) ? cachedPages : [pageNumber];
-            pager.cacheOffset = pager.cachedPages[0] * pager.itemsPerPage;
-        }
-
-        updateCache(pager, 0, pager.localItems);
-
-        var updateItems = function (pageNumber) {
-            // This is the function that gets used when doing UI pagination,
-            // thus we're not waiting for the pageNumber to come back from a service,
-            // so we should set it right away. We can also return an empty items list,
-            // because for UI pagination, the items themselves come in through the Pagination
-            // filter
-            pager.pageNumber = pageNumber;
-            var data = {
-                items: [],
-                pageNumber: pageNumber,
-                totalNumberOfItems: pager.total
-            };
-            return $q.when(data);
-        };
-        pager.updateItemsFn = function (fn) {
-            updateItems = fn;
-        };
-
-        // Used by rxPaginate to tell the pager that it should grab
-        // new items from itemsPromise, where itemsPromise is the promise
-        // returned by a product's getItems() method.
-        // Set shouldUpdateCache to false if the pager should not update its cache with these values
-        pager.newItems = function (itemsPromise, shouldUpdateCache) {
-            if (_.isUndefined(shouldUpdateCache)) {
-                shouldUpdateCache = true;
-            }
-            return itemsPromise.then(function (data) {
-                pager.pageNumber = data.pageNumber;
-                pager.localItems = data.items;
-                pager.total = data.totalNumberOfItems;
-                if (shouldUpdateCache) {
-                    updateCache(pager, pager.pageNumber, data.items);
-                }
-                return data;
-            });
-        };
-
-        // 0-based page number
-        // opts: An object containing:
-        //  forceCacheUpdate: true/false, whether or not to flush the cache
-        //  itemsPerPage: If specificed, request this many items for the page, instead of
-        //                using pager.itemsPerPage
-        pager.goToPage = function (n, opts) {
-            opts = opts || {};
-            var shouldUpdateCache = true;
-
-            // If the desired page number is currently cached, then just reuse
-            // our `localItems` cache, rather than going back to the API.
-            // By setting `updateCache` to false, it ensures that the current
-            // pager.cacheOffset and pager.cachedPages values stay the
-            // same
-            if (!opts.forceCacheUpdate && _.contains(pager.cachedPages, n)) {
-                shouldUpdateCache = false;
-                return pager.newItems($q.when({
-                    pageNumber: n,
-                    items: pager.localItems,
-                    totalNumberOfItems: pager.total
-                }), shouldUpdateCache);
-            }
-
-            var itemsPerPage = opts.itemsPerPage || pager.itemsPerPage;
-            return pager.newItems(updateItems(n, itemsPerPage), shouldUpdateCache);
-        };
-
-        // This tells the pager to go to the current page, but ensure no cached
-        // values are used. Can be used by page controllers when they want
-        // to force an update
-        pager.refresh = function (stayOnCurrentPage) {
-            var pageNumber = stayOnCurrentPage ? pager.currentPage() : 0;
-            return pager.goToPage(pageNumber, { forceCacheUpdate: true });
-        };
-
-        pager.isFirstPage = function () {
-            return pager.isPage(0);
-        };
-
-        pager.isLastPage = function () {
-            return pager.isPage(_.max([0, pager.totalPages - 1]));
-        };
-
-        pager.isPage = function (n) {
-            return pager.pageNumber === n;
-        };
-
-        pager.isPageNTheLastPage = function (n) {
-            return pager.totalPages - 1 === n;
-        };
-
-        pager.currentPage = function () {
-            return pager.pageNumber;
-        };
-
-        pager.goToFirstPage = function () {
-            pager.goToPage(0);
-        };
-
-        pager.goToLastPage = function () {
-            pager.goToPage(_.max([0, pager.totalPages - 1]));
-        };
-
-        pager.goToPrevPage = function () {
-            pager.goToPage(pager.currentPage() - 1);
-        };
-
-        pager.goToNextPage = function () {
-            pager.goToPage(pager.currentPage() + 1);
-        };
-
-        pager.isEmpty = function () {
-            return pager.total === 0;
-        };
-
-        pager.setItemsPerPage = function (numItems) {
-            var opts = {
-                forceCacheUpdate: true,
-                itemsPerPage: numItems
-            };
-            return pager.goToPage(0, opts).then(function (data) {
-                // Wait until we get the data back from the API before we
-                // update itemsPerPage. This ensures that we don't show
-                // a "weird" number of items in a table
-                pager.itemsPerPage = numItems;
-                // Now that we've "officially" changed the itemsPerPage,
-                // we have to update all the cache values
-                updateCache(pager, data.pageNumber, data.items);
-
-                // Persist this itemsPerPage as the new global value
-                if (pager.persistItemsPerPage) {
-                    PageTracking.userSelectedItemsPerPage(numItems);
-                }
-            });
-        };
-
-        pager.isItemsPerPage = function (numItems) {
-            return pager.itemsPerPage === numItems;
-        };
-
-        this.pager = pager;
-
-        pager.goToPage(pager.pageNumber);
-
-    }
-
-    var PageTracking = {
-        /**
-        * @property {number} itemsPerPage This is the current setting for the number
-        * of items to display per page.
-        * @property {boolean} [persistItemsPerPage=true] Whether or not a change to this pager's itemsPerPage
-        * should be persisted globally to all other pagers
-        * @property {number} pagesToShow This is the number of pages to show
-        * in the pagination controls
-        * @property {number} pageNumber This is where the current page number is
-        * stored.
-        * @property {boolean} pageInit This is used to determine if the page has been
-        * initialzed before.
-        * @property {number} total This is the total number of items that are in the
-        * data set
-        * @property {boolean} showAll This is used to determine whether or not to use
-        * the pagination or not.
-        *
-        * @method createInstance This is used to generate the instance of the
-        * PageTracking object. Enables the ability to override default pager.
-        * If you choose to override the default `itemsPerPage`, and it isn't
-        * a value in itemSizeList, then it will automatically be added to itemSizeList
-        * at the right spot.
-        */
-        createInstance: function (options) {
-            options = options ? options : {};
-            var tracking = new PageTrackingObject(options);
-            return tracking.pager;
-        },
-
-        /*
-        * @method userSelectedItemsPerPage This method sets a new global itemsPerPage value
-        */
-        userSelectedItemsPerPage: function (itemsPerPage) {
-            LocalStorage.setItem('rxItemsPerPage', itemsPerPage);
-        }
-    };
-
-    return PageTracking;
-}]);
-
-angular.module('encore.ui.rxPaginate')
-/**
- * @ngdoc filter
- * @name rxPaginate.filter:Paginate
- * @description
- * This is the pagination filter that is used to calculate the division in the
- * items list for the paging.
- *
- * @param {Object} items The list of items that are to be sliced into pages
- * @param {Object} pager The instance of the PageTracking service. If not
- * specified, a new one will be created.
- *
- * @returns {Object} The list of items for the current page in the PageTracking object
- */
-.filter('Paginate', ["PageTracking", "rxPaginateUtils", function (PageTracking, rxPaginateUtils) {
-    return function (items, pager) {
-        if (!pager) {
-            pager = PageTracking.createInstance();
-        }
-        if (pager.showAll) {
-            pager.total = items.length;
-            return items;
-        }
-        if (items) {
-
-            pager.total = items.length;
-            // We were previously on the last page, but enough items were deleted
-            // to reduce the total number of pages. We should now jump to whatever the
-            // new last page is
-            // When loading items over the network, our first few times through here
-            // will have totalPages===0. We do the _.max to ensure that
-            // we never set pageNumber to -1
-            if (pager.pageNumber + 1 > pager.totalPages) {
-                if (!pager.isLastPage()) {
-                    pager.goToLastPage();
-                }
-            }
-            var firstLast = rxPaginateUtils.firstAndLast(pager.currentPage(), pager.itemsPerPage, items.length);
-            return items.slice(firstLast.first, firstLast.last);
-        }
-    };
-}]);
 
 angular.module('encore.ui.rxPaginate')
 /**
@@ -9591,10 +9457,10 @@ angular.module('encore.ui.rxPaginate')
     };
 }]);
 
-angular.module('encore.ui.rxPaginate')
+angular.module('encore.ui.quarks')
 /**
  * @ngdoc service
- * @name rxPaginate.service:rxPaginateUtils
+ * @name quarks.service:rxPaginateUtils
  * @description
  * A few utilities to calculate first, last, and number of items.
  */
@@ -9637,11 +9503,8 @@ angular.module('encore.ui.rxPaginate')
  * @description
  * # rxPermission Component
  * The rxPermission component provides functionality to perform checks against existing user permissions in
- * EncoreUI.  It provides a {@link rxPermission.service:Permission Permission} service for working with roles, and
+ * EncoreUI.  It provides a {@link quarks.service:Permission Permission} service for working with roles, and
  * a {@link rxPermission.directive:rxPermission rxPermission} directive for excluding DOM content based on roles.
- *
- * ## Services
- * * {@link rxPermission.service:Permission Permission}
  *
  * ## Directives
  * * {@link rxPermission.directive:rxPermission rxPermission}
@@ -9649,97 +9512,6 @@ angular.module('encore.ui.rxPaginate')
 angular.module('encore.ui.rxPermission', [
     'encore.ui.quarks',
 ]);
-
-angular.module('encore.ui.rxPermission')
-/**
- * @ngdoc service
- * @name rxPermission.service:Permission
- * @description
- * Simple service for accessing roles and permissions for a user.
- *
- * @requires rxSession.service:Session
- *
- * @example
- * <pre>
- * Permission.getRoles() //returns an array of roles for a user
- * Permission.hasRole(role) //returns true/false if user has specified role
- * </pre>
- */
-.factory('Permission', ["Session", function (Session) {
-    var permissionSvc = {};
-
-    var cleanRoles = function (roles) {
-        return roles.split(',').map(function (r) {
-            return r.trim();
-        });
-    };
-
-    var userRoles = function () {
-        return _.pluck(permissionSvc.getRoles(), 'name');
-    };
-
-    /**
-     * @description Takes a function and a list of roles, and returns the
-     * result of calling that function with `roles`, and comparing to userRoles().
-     *
-     * @param {function} fn - Comparison function to use. _.any, _.all, etc.
-     * @param {array} roles - List of desired roles
-     */
-    var checkRoles = function (roles, fn) {
-        // Some code expects to pass a comma-delimited string
-        // here, so turn that into an array
-        if (_.isString(roles)) {
-            roles = cleanRoles(roles);
-        }
-
-        var allUserRoles = userRoles();
-        return fn(roles, function (role) {
-            return _.contains(allUserRoles, role);
-        });
-    };
-
-    /**
-     * @name  getRoles
-     * @ngdoc method
-     * @methodOf rxPermission.service:Permission
-     * @description
-     * Fetch all the roles tied to the user (in the exact format available in their Session token).
-     *
-     * @returns {Array} List of all roles associated to the user.
-     */
-    permissionSvc.getRoles = function () {
-        var token = Session.getToken();
-        return (token && token.access && token.access.user && token.access.user.roles) ?
-            token.access.user.roles : [];
-    };
-
-    /**
-     * @name  hasRole
-     * @ngdoc method
-     * @methodOf rxPermission.service:Permission
-     * @description Check if user has at least _one_ of the given roles.
-     * @param {Array} roles List of roles to check against
-     * @returns {Boolean} True if user has at least _one_ of the given roles; otherwise, False.
-     */
-    permissionSvc.hasRole = function (roles) {
-        return checkRoles(roles, _.any);
-    };
-
-    /**
-     * @name  hasAllRoles
-     * @ngdoc method
-     * @methodOf rxPermission.service:Permission
-     * @description Checks if user has _every_ role in given list.
-     * @param {Array} roles List of roles to check against
-     * @returns {Boolean} True if user has _every_ role in given list; otherwise, False.
-     *
-     */
-    permissionSvc.hasAllRoles = function (roles) {
-        return checkRoles(roles, _.all);
-    };
-
-    return permissionSvc;
-}]);
 
 angular.module('encore.ui.rxPermission')
 /**
@@ -10118,7 +9890,7 @@ angular.module('encore.ui.rxSearchBox')
                 if ($scope.isDisabled) {
                     $scope.isClearable = false;
                 } else {
-                    $scope.isClearable = (newVal.toString() !== '');
+                    $scope.isClearable = newVal.toString() !== '';
                 }
             });
 
@@ -11252,6 +11024,56 @@ angular.module('encore.ui.quarks')
     return rxStatusMappings;
 });
 
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc service
+ * @name quarks.service:rxStatusTags
+ * @description
+ * This provider is primarily used for applications to specify custom status
+ * tags, for use with the `status` attributes of `rx-page` and of breadcrumb
+ * objects.
+ *
+ * It also contains `getTag` and `hasTag` run time (vs. config time) methods, but
+ * these should rarely, if ever, be needed outside of the framework.
+ */
+.provider('rxStatusTags', function () {
+    var allTags = {
+        alpha: {
+            class: 'alpha-status',
+            text: 'Alpha'
+        },
+        beta: {
+            class: 'beta-status',
+            text: 'Beta'
+        },
+    };
+    // Takes an object with `key`, `text` and `class` attributes,
+    // and adds it to to the existing set of status values
+    this.addStatus = function (config) {
+        allTags[config.key] = {
+            text: config.text,
+            'class': config['class']
+        };
+    };
+
+    this.$get = function () {
+        return {
+            // Given a status tag key, return the `text` and `class` specified
+            // for the tag
+            getTag: function (key) {
+                if (_.has(allTags, key)) {
+                    return allTags[key];
+                }
+                return { class: '', text: '' };
+            },
+
+            hasTag: function (key) {
+                return _.has(allTags, key);
+            }
+        };
+    };
+});
+
 /**
  * @ngdoc overview
  * @name rxTags
@@ -11359,21 +11181,14 @@ angular.module('encore.ui.rxTags')
             };
 
             scope.add = function (tag) {
-                /*
-                 * See https://code.angularjs.org/1.3.20/docs/api/ng/type/ngModel.NgModelController#$setViewValue
-                 * We have to use `concat` to create a new array to trigger $parsers
-                 */
-                var updatedTags = scope.tags.concat([tag]);
-                // sets ngModelCtrl.$viewValue then $$debounceViewValueCommit()
-                ngModelCtrl.$setViewValue(updatedTags);
-                scope.tags = updatedTags;
-                scope.newTag = ''; // reset new tag input
+                scope.tags.push(tag);
+                ngModelCtrl.$setViewValue(scope.tags);
+                scope.newTag = '';
             };
 
             scope.remove = function (tag) {
-                var updatedTags = _.without(scope.tags, tag);
-                ngModelCtrl.$setViewValue(updatedTags);
-                scope.tags = updatedTags;
+                _.remove(scope.tags, tag);
+                ngModelCtrl.$setViewValue(scope.tags);
                 input.focus();
             };
 
@@ -11533,133 +11348,6 @@ angular.module('encore.ui.rxToggleSwitch')
     };
 });
 
-/**
- * @ngdoc overview
- * @name rxTokenInterceptor
- * @description
- * # rxTokenInterceptor Component
- *
- * The rxTokenInterceptor component adds an authorization token to all http requests.
- * This allows access to system services for authenticated users.
- *
- *
- * ## Services
- * * {@link rxTokenInterceptor.service:TokenInterceptor TokenInterceptor}
- */
-angular.module('encore.ui.rxTokenInterceptor', [
-    'encore.ui.quarks'
-]);
-
-angular.module('encore.ui.rxTokenInterceptor')
-/**
- * @ngdoc service
- * @name rxTokenInterceptor.service:TokenInterceptor
- * @description
- * Simple $http injector which will intercept http request and inject the
- * Rackspace Identity's token into every http request.
- *
- * @requires rxSession.service:Session
- *
- * @example
- * <pre>
- * angular.module('encoreApp', ['encore.ui'])
- *     .config(function ($httpProvider) {
- *         $httpProvider.interceptors.push('TokenInterceptor');
- *     });
- * </pre>
- */
-.provider('TokenInterceptor', function () {
-    var exclusionList = this.exclusionList = [ 'rackcdn.com' ];
-
-    this.$get = ["Session", "$document", function (Session, $document) {
-        var url = $document[0].createElement('a');
-        return {
-            request: function (config) {
-                // Don't add the X-Auth-Token if the request URL matches
-                // something in exclusionList
-                // We're specifically looking at hostnames, so we have to
-                // do the `createElement('a')` trick to turn the config.url
-                // into something with a `.hostname`
-                url.href = config.url;
-                var exclude = _.some(exclusionList, function (item) {
-                    if (_.contains(url.hostname, item)) {
-                        return true;
-                    }
-                });
-
-                if (!exclude) {
-                    config.headers['X-Auth-Token'] = Session.getTokenId();
-                }
-
-                return config;
-            }
-        };
-    }];
-});
-
-/**
- * @ngdoc overview
- * @name rxUnauthorizedInterceptor
- * @description
- * # rxUnauthorizedInterceptor Component
- *
- * The rxUnauthorizedInterceptor component redirects users to the login page, 
- * when user authentication fails during a system service request.
- * 
- * ## Services
- * * {@link rxUnauthorizedInterceptor.service:UnauthorizedInterceptor UnauthorizedInterceptor}
- */
-angular.module('encore.ui.rxUnauthorizedInterceptor', [
-    'encore.ui.quarks'
-]);
-
-angular.module('encore.ui.rxUnauthorizedInterceptor')
-/**
- * @ngdoc service
- * @name rxUnauthorizedInterceptor.service:UnauthorizedInterceptor
- * @description
- * Simple injector which will intercept HTTP responses. If a HTTP 401 response error code is returned,
- * the ui redirects to `/login`.
- *
- * @requires $q
- * @requires @window
- * @requires rxSession.service:Session
- *
- * @example
- * <pre>
- * angular.module('encoreApp', ['encore.ui'])
- *     .config(function ($httpProvider) {
- *         $httpProvider.interceptors.push('UnauthorizedInterceptor');
- *     });
- * </pre>
- */
-.factory('UnauthorizedInterceptor', ["$q", "$window", "Session", function ($q, $window, Session) {
-    var svc = {
-        redirectPath: function () {
-            // This brings in the entire relative URI (including the path
-            // specified in a <base /> tag), along with query params as a
-            // string.
-            // e.g https://www.google.com/search?q=woody+wood+pecker
-            // window.location.pathname = /search?q=woody+wood+pecker
-            return $window.location.pathname;
-        },
-        redirect: function (loginPath) {
-            loginPath = loginPath ? loginPath : '/login?redirect=';
-            $window.location = loginPath + encodeURIComponent(svc.redirectPath());
-        },
-        responseError: function (response) {
-            if (response.status === 401) {
-                Session.logout(); // Logs out user by removing token
-                svc.redirect();
-            }
-
-            return $q.reject(response);
-        }
-    };
-
-    return svc;
-}]);
-
 angular.module('encore.ui.quarks')
 /**
  * @ngdoc filter
@@ -11735,6 +11423,35 @@ angular.module('encore.ui.quarks')
 
     };
 });
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc service
+ * @name quarks.service:rxVisibilityPathParams
+ * @description
+ * Returns an object with `name` and `method` params that can
+ * be passed to
+ * [rxVisibility.addMethod()](https://github.com/rackerlabs/encore-ui/blob/master/src/quarks/rxVisibility
+ * /scripts/rxVisibility.js#L22).
+ * We register this by default, as it's used by the nav menu we keep in 
+ * {@link quarks.service:routesCdnPath routesCdnPath}.
+ * 
+ * The method is used to check if `{param: 'someParamName'}` is present in the current route.
+ * Use it as:
+ * <pre>
+ * visibility: [ 'rxPathParams', { param: 'userName' } ]
+ * </pre>
+ */
+.factory('rxVisibilityPathParams', ["$routeParams", function ($routeParams) {
+    var pathParams = {
+        name:'rxPathParams',
+        method: function (scope, args) {
+            return !_.isUndefined($routeParams[args.param]);
+        }
+    };
+
+    return pathParams;
+}]);
 
 angular.module('encore.ui.quarks')
 /**
@@ -12125,6 +11842,53 @@ angular.module('encore.ui.quarks')
     };
 });
 
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc service
+ * @name quarks.service:TokenInterceptor
+ * @description
+ * Simple $http injector which will intercept http request and inject the
+ * Rackspace Identity's token into every http request.
+ *
+ * @requires rxSession.service:Session
+ *
+ * @example
+ * <pre>
+ * angular.module('encoreApp', ['encore.ui'])
+ *     .config(function ($httpProvider) {
+ *         $httpProvider.interceptors.push('TokenInterceptor');
+ *     });
+ * </pre>
+ */
+.provider('TokenInterceptor', function () {
+    var exclusionList = this.exclusionList = [ 'rackcdn.com' ];
+
+    this.$get = ["Session", "$document", function (Session, $document) {
+        var url = $document[0].createElement('a');
+        return {
+            request: function (config) {
+                // Don't add the X-Auth-Token if the request URL matches
+                // something in exclusionList
+                // We're specifically looking at hostnames, so we have to
+                // do the `createElement('a')` trick to turn the config.url
+                // into something with a `.hostname`
+                url.href = config.url;
+                var exclude = _.some(exclusionList, function (item) {
+                    if (_.contains(url.hostname, item)) {
+                        return true;
+                    }
+                });
+
+                if (!exclude) {
+                    config.headers['X-Auth-Token'] = Session.getTokenId();
+                }
+
+                return config;
+            }
+        };
+    }];
+});
+
 /**
  * @ngdoc overview
  * @name tooltips
@@ -12193,8 +11957,7 @@ angular.module('encore.ui.typeahead')
         var lowercase = $filter('lowercase');
 
         typeahead.compile = function () {
-            return function (scope, element, attrs, ctrls) {
-                var ngModelCtrl = ctrls[0]; // won't work in 1.2 (not backward compatible)
+            return function (scope, element, attrs, ngModelCtrl) {
                 link.apply(this, arguments);
 
                 if (/allowEmpty/.test(attrs.typeahead)) {
@@ -12215,8 +11978,6 @@ angular.module('encore.ui.typeahead')
 
                     element.on('click', function () {
                         scope.$apply(function () {
-                            // quick change to null and back to trigger parsers
-                            ngModelCtrl.$setViewValue(null);
                             ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
                         });
                     });
@@ -12233,6 +11994,178 @@ angular.module('encore.ui.typeahead')
 
         return $delegate;
     }]);
+}]);
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc service
+ * @name quarks.service:UnauthorizedInterceptor
+ * @description
+ * Simple injector which will intercept HTTP responses. If a HTTP 401 response error code is returned,
+ * the ui redirects to `/login`.
+ *
+ * @requires $q
+ * @requires @window
+ * @requires quarks.service:Session
+ *
+ * @example
+ * <pre>
+ * angular.module('encoreApp', ['encore.ui'])
+ *     .config(function ($httpProvider) {
+ *         $httpProvider.interceptors.push('UnauthorizedInterceptor');
+ *     });
+ * </pre>
+ */
+.factory('UnauthorizedInterceptor', ["$q", "$window", "Session", function ($q, $window, Session) {
+    var svc = {
+        redirectPath: function () {
+            // This brings in the entire relative URI (including the path
+            // specified in a <base /> tag), along with query params as a
+            // string.
+            // e.g https://www.google.com/search?q=woody+wood+pecker
+            // window.location.pathname = /search?q=woody+wood+pecker
+            return $window.location.pathname;
+        },
+        redirect: function (loginPath) {
+            loginPath = loginPath ? loginPath : '/login?redirect=';
+            $window.location = loginPath + encodeURIComponent(svc.redirectPath());
+        },
+        responseError: function (response) {
+            if (response.status === 401) {
+                Session.logout(); // Logs out user by removing token
+                svc.redirect();
+            }
+
+            return $q.reject(response);
+        }
+    };
+
+    return svc;
+}]);
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc service
+ * @name quarks.service:urlUtils
+ * @description
+ *
+ * Set of utility functions to break apart/compare URLs.
+ */
+.service('urlUtils', ["$location", "rxEnvironmentUrlFilter", "$interpolate", "$route", "$document", function ($location, rxEnvironmentUrlFilter, $interpolate, $route, $document) {
+    // remove any preceding # and / from the URL for cleaner comparison
+    this.stripLeadingChars = function (url) {
+        // http://regexr.com/39coc
+        var leadingChars = /^((?:\/|#)+)/;
+
+        return url.replace(leadingChars, '');
+    };
+
+    // remove any trailing /'s from the URL
+    this.stripTrailingSlash = function (url) {
+        // Match a forward slash / at the end of the string ($)
+        var trailingSlash = /\/$/;
+
+        return url.replace(trailingSlash, '');
+    };
+
+    // Given a URL, split it on '/' and return all the non-empty components
+    this.getChunks = function (url) {
+        if (!_.isString(url)) {
+            return [''];
+        }
+
+        return _.compact(url.split('/'));
+    };
+
+    // Get the current path. Knows how to work with the `base` tag
+    this.getFullPath = function () {
+        var base = $document.find('base');
+        var basePath = '';
+
+        if (base.length > 0) {
+            basePath = base[0].getAttribute('href');
+
+            // remove trailing '/' if present
+            basePath = this.stripTrailingSlash(basePath);
+        }
+
+        return basePath + $location.path();
+    };
+
+    // get the current path, adding the <base> path if neeeded
+    //
+    // @example
+    // if the current page url is 'http://localhost:9000/encore-ui/#/overviewPage#bookmark?book=harry%20potter'
+    // and the page contains a <base href="encore-ui"> tag
+    // getCurrentPath() would return '/encore-ui/overviewPage'
+    this.getCurrentPathChunks = function () {
+        var fullPath = this.stripLeadingChars(this.getFullPath());
+
+        return this.getChunks(fullPath);
+    };
+
+    // get the url defined in the route by removing the hash tag, leading slashes and query string
+    // e.g. '/#/my/url?param=1' -> 'my/url'
+    this.getItemUrl = function (item) {
+        if (!_.isString(item.url)) {
+            return undefined;
+        }
+
+        // remove query string
+        var itemUrl = item.url.split('?')[0];
+        itemUrl = this.stripLeadingChars(itemUrl);
+
+        return itemUrl;
+    };
+
+    // For a given route item, grab its defined URL, and see
+    // if it matches the currentPathChunks
+    this.isActive = function (item, currentPathChunks) {
+        var itemUrlChunks = this.getChunks(this.getItemUrl(item));
+        var numChunks = itemUrlChunks.length;
+
+        // check against the path and the hash
+        // (in case the difference is the 'hash' like on the encore-ui demo page)
+        var pathMatches = this.matchesSubChunks(currentPathChunks, itemUrlChunks, numChunks);
+        if (!pathMatches) {
+            pathMatches = this.matchesSubChunks(this.getChunks($location.hash()), itemUrlChunks, numChunks);
+        }
+
+        // if current item not active, check if any children are active
+        // This requires that `isActive` was called on all the children beforehand
+        if (!pathMatches && item.children) {
+            pathMatches = _.any(item.children, 'active');
+        }
+
+        return pathMatches;
+    };
+
+    // Given a URL string, interpolate it with $route.current.pathParams
+    // If the optional `extraContext` is passed in, then the URL will be interpolated
+    // with those values as well, with `extraContext` values taking precedence
+    this.buildUrl = function (url, extraContext) {
+        // sometimes links don't have URLs defined, so we need to exit before $interpolate throws an error
+        if (_.isUndefined(url)) {
+            return url;
+        }
+
+        // run the href through rxEnvironmentUrl in case it's defined as such
+        url = rxEnvironmentUrlFilter(url);
+
+        if ($route.current) {
+            // convert any nested expressions to defined route params
+            var finalContext = _.defaults(extraContext || {}, $route.current.pathParams);
+            url = $interpolate(url)(finalContext);
+        }
+
+        return url;
+    };
+
+    // Given two sets of chunks, check if the first `numChunks` of `firstChunks`
+    // matches all of `subChunks`
+    this.matchesSubChunks = function (firstChunks, subChunks, numChunks) {
+        return _.isEqual(firstChunks.slice(0, numChunks), subChunks);
+    };
 }]);
 
 angular.module('encore.ui.quarks')
