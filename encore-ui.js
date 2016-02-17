@@ -2,10 +2,10 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.45.1 - 2016-02-10
+ * Version: 1.45.2-0 - 2016-02-17
  * License: Apache License, Version 2.0
  */
-angular.module('encore.ui', ['encore.ui.atoms','encore.ui.molecules','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.layout','encore.ui.metadata','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.quarks','encore.ui.rxApp','encore.ui.quarks','encore.ui.rxAttributes','encore.ui.rxAuth','encore.ui.quarks','encore.ui.rxBreadcrumbs','encore.ui.quarks','encore.ui.rxBulkSelect','encore.ui.quarks','encore.ui.rxButton','encore.ui.quarks','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.molecules','encore.ui.quarks','encore.ui.quarks','encore.ui.rxEnvironment','encore.ui.quarks','encore.ui.quarks','encore.ui.atoms','encore.ui.rxFeedback','encore.ui.quarks','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.quarks','encore.ui.quarks','encore.ui.rxInfoPanel','encore.ui.quarks','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.rxMultiSelect','encore.ui.quarks','encore.ui.rxNotify','encore.ui.quarks','encore.ui.rxOptionTable','encore.ui.quarks','encore.ui.rxPaginate','encore.ui.quarks','encore.ui.rxPermission','encore.ui.quarks','encore.ui.rxRadio','encore.ui.quarks','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.quarks','encore.ui.quarks','encore.ui.rxSpinner','encore.ui.rxStatus','encore.ui.rxStatusColumn','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.tabs','encore.ui.quarks','encore.ui.quarks','encore.ui.tooltips','encore.ui.typeahead','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui', ['encore.ui.atoms','encore.ui.molecules','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.layout','encore.ui.metadata','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.quarks','encore.ui.rxApp','encore.ui.quarks','encore.ui.rxAttributes','encore.ui.quarks','encore.ui.rxBreadcrumbs','encore.ui.quarks','encore.ui.rxBulkSelect','encore.ui.quarks','encore.ui.quarks','encore.ui.rxButton','encore.ui.quarks','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.molecules','encore.ui.quarks','encore.ui.quarks','encore.ui.rxEnvironment','encore.ui.quarks','encore.ui.quarks','encore.ui.atoms','encore.ui.rxFeedback','encore.ui.quarks','encore.ui.quarks','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.quarks','encore.ui.quarks','encore.ui.rxInfoPanel','encore.ui.quarks','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.quarks','encore.ui.quarks','encore.ui.rxMultiSelect','encore.ui.quarks','encore.ui.rxNotify','encore.ui.quarks','encore.ui.rxOptionTable','encore.ui.quarks','encore.ui.rxPaginate','encore.ui.quarks','encore.ui.rxPermission','encore.ui.quarks','encore.ui.rxRadio','encore.ui.quarks','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.quarks','encore.ui.quarks','encore.ui.rxSpinner','encore.ui.rxStatusColumn','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.tabs','encore.ui.quarks','encore.ui.quarks','encore.ui.tooltips','encore.ui.typeahead','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks', 'cfp.hotkeys','ui.bootstrap']);
 /**
  * @ngdoc overview
  * @name atoms
@@ -49,9 +49,18 @@ angular.module('encore.ui.molecules', [
  * ## Values & Constants
  * * {@link quarks.value:devicePaths devicePaths}
  * * {@link quarks.constant:feedbackApi feedbackApi}
+ * * {@link quarks.value:feedbackTypes feedbackTypes}
  * * {@link quarks.object:rxStatusColumnIcons rxStatusColumnIcons}
  *
+ * ## Controllers
+ * * {@link quarks.controller:rxBulkSelectController rxBulkSelectController}
+ * * {@link quarks.controller:rxFeedbackController rxFeedbackController}
+ * * {@link quarks.controller:rxModalCtrl rxModalCtrl}
+ * 
  * ## Filters
+ * * {@link quarks.filter:Page Page}
+ * * {@link quarks.filter:Paginate Paginate}
+ * * {@link quarks.filter:PaginatedItemsSummary PaginatedItemsSummary}
  * * {@link quarks.filter:rxAge rxAge}
  * * {@link quarks.filter:rxCapitalize rxCapitalize}
  * * {@link quarks.filter:rxDiskSize rxDiskSize}
@@ -63,12 +72,17 @@ angular.module('encore.ui.molecules', [
  * * {@link quarks.filter:xor xor}
  *
  * ## Services
+ * * {@link quarks.service:Auth Auth}
+ * * {@link quarks.service:encoreRoutes encoreRoutes}
  * * {@link quarks.service:Environment Environment}
  * * {@link quarks.service:ErrorFormatter ErrorFormatter}
  * * {@link quarks.service:hotkeys hotkeys}
  * * {@link quarks.service:Identity Identity}
  * * {@link quarks.service:NotifyProperties NotifyProperties}
+ * * {@link quarks.service:PageTracking PageTracking}
+ * * {@link quarks.service:Permission Permission}
  * * {@link quarks.service:routesCdnPath routesCdnPath}
+ * * {@link quarks.service:rxAppRoutes rxAppRoutes}
  * * {@link quarks.service:rxAutoSave rxAutoSave}
  * * {@link quarks.service:rxBreadcrumbsSvc rxBreadcrumbsSvc}
  * * {@link quarks.service:rxBulkSelectUtils rxBulkSelectUtils}
@@ -77,15 +91,24 @@ angular.module('encore.ui.molecules', [
  * * {@link quarks.service:rxFormUtils rxFormUtils}
  * * {@link quarks.service:rxHideIfUkAccount rxHideIfUkAccount}
  * * {@link quarks.service:rxLocalStorage rxLocalStorage}
+ * * {@link quarks.service:rxModalFooterTemplates rxModalFooterTemplates}
  * * {@link quarks.service:rxNestedElement rxNestedElement}
  * * {@link quarks.service:rxNotify rxNotify}
  * * {@link quarks.service:rxPageTitle rxPageTitle}
+ * * {@link quarks.service:rxPaginateUtils rxPaginateUtils}
  * * {@link quarks.service:rxPromiseNotifications rxPromiseNotifications}
  * * {@link quarks.service:rxScreenshotSvc rxScreenshotSvc}
  * * {@link quarks.service:rxSortUtil rxSortUtil}
  * * {@link quarks.service:rxStatusMappings rxStatusMappings}
+ * * {@link quarks.service:rxStatusTags rxStatusTags}
  * * {@link quarks.service:rxVisibility rxVisibility}
+ * * {@link quarks.service:rxVisibilityPathParams rxVisibilityPathParams}
  * * {@link quarks.service:Session Session}
+ * * {@link quarks.service:Status Status}
+ * * {@link quarks.service:StatusUtil StatusUtil}
+ * * {@link quarks.service:TokenInterceptor TokenInterceptor}
+ * * {@link quarks.service:UnauthorizedInterceptor UnauthorizedInterceptor}
+ * * {@link quarks.service:urlUtils urlUtils}
  */
 angular.module('encore.ui.quarks', [
     'ngResource',
@@ -114,6 +137,43 @@ angular.module('encore.ui.quarks')
         return filter.applyTo(list);
     };
 });
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc service
+ * @name quarks.service:Auth
+ * @description
+ * Service which provides an entire solution for authenticating, user session management
+ * and permissions in the UI.  The Auth service is a wrapper for the Identity, Session and
+ * Permission services.  These services were broken into smaller components to facilitate
+ * customization and re-use.
+ *
+ * @requires quarks.service:Identity
+ * @requires quarks.service:Session
+ * @requires quarks.service:Permission
+ *
+ * @example
+ * <pre>
+ * Auth.loginWithJSON(json); // Returns a promise
+ * Auth.login({username: '', password: '', successCallback, errorCallback}); // Returns a promise
+ * Auth.getToken(); // Returns the stored token
+ * Auth.storeToken(token); // Stores token
+ * Auth.logout(); // Logs user off
+ * Auth.isCurrent(); // Returns true/false if the token has expired.
+ * Auth.isAuthenticated(); // Returns true/false if the user token is valid.
+ * Auth.getRoles() // Returns an array of roles for a user
+ * Auth.hasRole(role) // Returns true/false if user has specified role
+ * </pre>
+ */
+.factory('Auth', ["Identity", "Session", "Permission", function (Identity, Session, Permission) {
+    var svc = {};
+
+    _.assign(svc, Identity);
+    _.assign(svc, Session);
+    _.assign(svc, Permission);
+
+    return svc;
+}]);
 
 angular.module('encore.ui.quarks')
 /**
@@ -431,7 +491,7 @@ angular.module('encore.ui.quarks')
  * @name quarks.service:ErrorFormatter
  * @description
  * Provides a helper method to parse error objects for `message` and format them
- * as necessary for `Status.setError()`.  See {@link rxStatus.service:Status Status} Service
+ * as necessary for `Status.setError()`.  See {@link quarks.service:Status Status} Service
  * for more information.  
  * 
  * # Error Messages Using ErrorFormatter
@@ -488,6 +548,37 @@ angular.module('encore.ui.quarks')
  * Provides the feedback URL.
  */
 .constant('feedbackApi', '/api/encore/feedback');
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc parameters
+ * @name quarks.value:feedbackTypes
+ * @description
+ * Provides default feedback types with placeholder text. 
+ */
+.value('feedbackTypes', [
+    {
+        label: 'Software Bug',
+        prompt: 'Bug Description',
+        placeholder: 'Please be as descriptive as possible so we can track it down for you.'
+    },
+    {
+        label: 'Incorrect Data',
+        prompt: 'Problem Description',
+        placeholder: 'Please be as descriptive as possible so we can figure it out for you.'
+    },
+    {
+        label: 'Feature Request',
+        prompt: 'Feature Description',
+        placeholder: 'Please be as descriptive as possible so we can make your feature awesome.'
+    },
+    {
+        label: 'Kudos',
+        prompt: 'What made you happy?',
+        placeholder: 'We love to hear that you\'re enjoying Encore! Tell us what you like, and what we can do ' +
+            'to make it even better'
+    }
+]);
 
 /**
  * @ngdoc service
@@ -1022,6 +1113,34 @@ angular.module('encore.ui.quarks')
             var firstLast = rxPaginateUtils.firstAndLast(pager.currentPage(), pager.itemsPerPage, items.length);
             return items.slice(firstLast.first, firstLast.last);
         }
+    };
+}]);
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc filter
+ * @name quarks.filter:PaginatedItemsSummary
+ * @description
+ * Given an active pager (i.e. the result of PageTracking.createInstance()),
+ * return a string like "26-50 of 500", when on the second page of a list of
+ * 500 items, where we are displaying 25 items per page
+ *
+ * @param {Object} pager The instance of the PageTracking service. If not
+ *
+ * @returns {String} The list of page numbers that will be displayed.
+ */
+.filter('PaginatedItemsSummary', ["rxPaginateUtils", function (rxPaginateUtils) {
+    return function (pager) {
+        var template = '<%= first %>-<%= last %> of <%= total %>';
+        if (pager.showAll || pager.itemsPerPage > pager.total) {
+            template = '<%= total %>';
+        }
+        var firstAndLast = rxPaginateUtils.firstAndLast(pager.currentPage(), pager.itemsPerPage, pager.total);
+        return _.template(template, {
+            first: firstAndLast.first + 1,
+            last: firstAndLast.last,
+            total: pager.total
+        });
     };
 }]);
 
@@ -3069,59 +3188,6 @@ angular.module('encore.ui.rxAttributes')
     };
 }]);
 
-/**
- * @ngdoc overview
- * @name rxAuth
- * @description
- * # rxAuth Component
- *
- * The `rxAuth` component provides logic for authenticating, validating permissions, and managing sessions.
- *
- * ## Services
- * * {@link rxAuth.service:Auth Auth}
- */
-angular.module('encore.ui.rxAuth', [
-    'encore.ui.quarks',
-    'encore.ui.rxPermission'
-]);
-
-angular.module('encore.ui.rxAuth')
-/**
- * @ngdoc service
- * @name rxAuth.service:Auth
- * @description
- * Service which provides an entire solution for authenticating, user session management
- * and permissions in the UI.  The Auth service is a wrapper for the Identity, Session and
- * Permission services.  These services were broken into smaller components to facilitate
- * customization and re-use.
- *
- * @requires quarks.service:Identity
- * @requires rxSession.service:Session
- * @requires rxPermission.service:Permission
- *
- * @example
- * <pre>
- * Auth.loginWithJSON(json); // Returns a promise
- * Auth.login({username: '', password: '', successCallback, errorCallback}); // Returns a promise
- * Auth.getToken(); // Returns the stored token
- * Auth.storeToken(token); // Stores token
- * Auth.logout(); // Logs user off
- * Auth.isCurrent(); // Returns true/false if the token has expired.
- * Auth.isAuthenticated(); // Returns true/false if the user token is valid.
- * Auth.getRoles() // Returns an array of roles for a user
- * Auth.hasRole(role) // Returns true/false if user has specified role
- * </pre>
- */
-.factory('Auth', ["Identity", "Session", "Permission", function (Identity, Session, Permission) {
-    var svc = {};
-
-    _.assign(svc, Identity);
-    _.assign(svc, Session);
-    _.assign(svc, Permission);
-
-    return svc;
-}]);
-
 angular.module('encore.ui.quarks')
 /**
  * @ngdoc service
@@ -4003,89 +4069,6 @@ angular.module('encore.ui.rxBulkSelect')
 });
 
 angular.module('encore.ui.rxBulkSelect')
-.controller('rxBulkSelectController', ["$scope", "NotifyProperties", "rxBulkSelectUtils", function ($scope, NotifyProperties, rxBulkSelectUtils) {
-    $scope.showMessage = false;
-
-    var uncheckHeaderFn = _.noop,
-        messageStats = {
-            // jscs:disable disallowDanglingUnderscores
-            _numSelected: 0,
-            _total: 0
-        };
-
-    this.registerForNumSelected = NotifyProperties.registrationFn(messageStats, 'numSelected', '_numSelected');
-    this.registerForTotal = NotifyProperties.registrationFn(messageStats, 'total', '_total');
-
-    this.messageStats = messageStats;
-
-    var numSelected = function () {
-        var selected = _.where($scope.bulkSource, $scope.selectedKey);
-        return selected.length;
-    };
-
-    var updateMessageStats = function () {
-        messageStats.numSelected = numSelected();
-        messageStats.total = $scope.bulkSource.length;
-    };
-
-    this.key = function () {
-        return $scope.selectedKey;
-    };
-
-    var setAllVisibleRows = function (state) {
-        rxBulkSelectUtils.setAllVisibleRows(state, $scope.tableElement, $scope.selectedKey);
-    };
-
-    var setAllRows = function (state) {
-        _.each($scope.bulkSource, function (item) {
-            item[$scope.selectedKey] = state;
-        });
-    };
-
-    this.selectAllVisibleRows = function () {
-        setAllVisibleRows(true);
-        updateMessageStats();
-    };
-
-    this.deselectAllVisibleRows = function () {
-        setAllVisibleRows(false);
-        updateMessageStats();
-        uncheckHeaderFn();
-    };
-
-    this.selectEverything = function () {
-        setAllRows(true);
-        updateMessageStats();
-    };
-
-    this.deselectEverything = function () {
-        setAllRows(false);
-        updateMessageStats();
-        uncheckHeaderFn();
-    };
-
-    $scope.$watch('bulkSource.length', function (newTotal) {
-        if (newTotal !== messageStats.total) {
-            updateMessageStats();
-        }
-    });
-
-    this.increment = function () {
-        messageStats.numSelected += 1;
-    };
-
-    this.decrement = function () {
-        messageStats.numSelected -= 1;
-    };
-
-    this.registerHeader = function (uncheck) {
-        if (_.isFunction(uncheck)) {
-            uncheckHeaderFn = uncheck;
-        }
-    };
-}]);
-
-angular.module('encore.ui.rxBulkSelect')
 /**
  * @ngdoc directive
  * @name rxBulkSelect.directive:rxBulkSelectHeaderCheck
@@ -4288,6 +4271,96 @@ angular.module('encore.ui.rxBulkSelect')
         }
     };
 });
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc controller
+ * @name quarks.controller:rxBulkSelectController
+ * @scope
+ * @description
+ * Provides controller logic for {@link rxBulkSelect}.
+ */
+.controller('rxBulkSelectController', ["$scope", "NotifyProperties", "rxBulkSelectUtils", function ($scope, NotifyProperties, rxBulkSelectUtils) {
+    $scope.showMessage = false;
+
+    var uncheckHeaderFn = _.noop,
+        messageStats = {
+            // jscs:disable disallowDanglingUnderscores
+            _numSelected: 0,
+            _total: 0
+        };
+
+    this.registerForNumSelected = NotifyProperties.registrationFn(messageStats, 'numSelected', '_numSelected');
+    this.registerForTotal = NotifyProperties.registrationFn(messageStats, 'total', '_total');
+
+    this.messageStats = messageStats;
+
+    var numSelected = function () {
+        var selected = _.where($scope.bulkSource, $scope.selectedKey);
+        return selected.length;
+    };
+
+    var updateMessageStats = function () {
+        messageStats.numSelected = numSelected();
+        messageStats.total = $scope.bulkSource.length;
+    };
+
+    this.key = function () {
+        return $scope.selectedKey;
+    };
+
+    var setAllVisibleRows = function (state) {
+        rxBulkSelectUtils.setAllVisibleRows(state, $scope.tableElement, $scope.selectedKey);
+    };
+
+    var setAllRows = function (state) {
+        _.each($scope.bulkSource, function (item) {
+            item[$scope.selectedKey] = state;
+        });
+    };
+
+    this.selectAllVisibleRows = function () {
+        setAllVisibleRows(true);
+        updateMessageStats();
+    };
+
+    this.deselectAllVisibleRows = function () {
+        setAllVisibleRows(false);
+        updateMessageStats();
+        uncheckHeaderFn();
+    };
+
+    this.selectEverything = function () {
+        setAllRows(true);
+        updateMessageStats();
+    };
+
+    this.deselectEverything = function () {
+        setAllRows(false);
+        updateMessageStats();
+        uncheckHeaderFn();
+    };
+
+    $scope.$watch('bulkSource.length', function (newTotal) {
+        if (newTotal !== messageStats.total) {
+            updateMessageStats();
+        }
+    });
+
+    this.increment = function () {
+        messageStats.numSelected += 1;
+    };
+
+    this.decrement = function () {
+        messageStats.numSelected -= 1;
+    };
+
+    this.registerHeader = function (uncheck) {
+        if (_.isFunction(uncheck)) {
+            uncheckHeaderFn = uncheck;
+        }
+    };
+}]);
 
 angular.module('encore.ui.quarks')
 /**
@@ -5167,9 +5240,6 @@ angular.module('encore.ui.quarks')
  *
  * ## Directives
  * * {@link rxEnvironment.directive:rxEnvironment rxEnvironment}
- *
- * ## Services
- * * {@link quarks.service:Environment Environment}
  */
 angular.module('encore.ui.rxEnvironment', [
     'ngSanitize',
@@ -5465,31 +5535,6 @@ angular.module('encore.ui.rxFeedback', [
 ]);
 
 angular.module('encore.ui.rxFeedback')
-.value('feedbackTypes', [
-    {
-        label: 'Software Bug',
-        prompt: 'Bug Description',
-        placeholder: 'Please be as descriptive as possible so we can track it down for you.'
-    },
-    {
-        label: 'Incorrect Data',
-        prompt: 'Problem Description',
-        placeholder: 'Please be as descriptive as possible so we can figure it out for you.'
-    },
-    {
-        label: 'Feature Request',
-        prompt: 'Feature Description',
-        placeholder: 'Please be as descriptive as possible so we can make your feature awesome.'
-    },
-    {
-        label: 'Kudos',
-        prompt: 'What made you happy?',
-        placeholder: 'We love to hear that you\'re enjoying Encore! Tell us what you like, and what we can do ' +
-            'to make it even better'
-    }
-]);
-
-angular.module('encore.ui.rxFeedback')
 /**
  * @ngdoc directive
  * @name rxFeedback.directive:rxFeedback
@@ -5586,10 +5631,10 @@ angular.module('encore.ui.rxFeedback')
     };
 }]);
 
-angular.module('encore.ui.rxFeedback')
+angular.module('encore.ui.quarks')
 /**
  * @ngdoc controller
- * @name rxFeedback.controller:rxFeedbackController
+ * @name quarks.controller:rxFeedbackController
  * @scope
  * @description
  * Allows the customization of the feedback modal via `$scope` and `$modalInstance`.
@@ -7009,7 +7054,7 @@ angular.module('encore.ui.quarks')
  * * {@link rxLogout.directive:rxLogout rxLogout}
  */
 angular.module('encore.ui.rxLogout', [
-    'encore.ui.rxAuth'
+    'encore.ui.quarks'
 ]);
 
 angular.module('encore.ui.rxLogout')
@@ -7237,9 +7282,6 @@ angular.module('encore.ui.rxMisc', [
  * * {@link rxModalAction.directive:rxModalAction rxModalAction}
  * * {@link rxModalAction.directive:rxModalFooter rxModalFooter}
  * * {@link rxModalAction.directive:rxModalForm rxModalForm}
- *
- * ## Services
- * * {@link rxModalAction.service:rxModalFooterTemplates rxModalFooterTemplates}
  */
 angular.module('encore.ui.rxModalAction', [
     'ui.bootstrap'
@@ -7399,19 +7441,6 @@ angular.module('encore.ui.rxModalAction')
 }]);
 
 angular.module('encore.ui.rxModalAction')
-.controller('rxModalCtrl', ["$scope", "$modalInstance", "$rootScope", function ($scope, $modalInstance, $rootScope) {
-    // define a controller for the modal to use
-    $scope.submit = function () {
-        $modalInstance.close($scope);
-    };
-
-    $scope.cancel = $modalInstance.dismiss;
-
-    // cancel out of the modal if the route is changed
-    $rootScope.$on('$routeChangeSuccess', $modalInstance.dismiss);
-}]);
-
-angular.module('encore.ui.rxModalAction')
 /**
  * @ngdoc directive
  * @name rxModalAction.directive:rxModalFooter
@@ -7463,56 +7492,6 @@ angular.module('encore.ui.rxModalAction')
         }
     };
 }]);
-
-angular.module('encore.ui.rxModalAction')
-/**
- * @ngdoc service
- * @name rxModalAction.service:rxModalFooterTemplates
- * @description
- * A cache for storing the modal footer templates
- * This is used internally by rxModalFooter, which is preferred
- * for registering templates over direct calling of this api.
- *
- * @example
- * <pre>
- * rxModalFooterTemplates.add("step1", "<p>Step 1 Body</p>");
- * rxModalFooterTemplates.flush(); // returns html string to be inserted into DOM
- * </pre>
- */
-.factory('rxModalFooterTemplates', function () {
-    var globals = {};
-    var locals = {};
-
-    return {
-        /*
-         * Concatenates all the registered templates and clears the local template cache.
-         * @public
-         * @returns {string} The concatenated templates wrapped in an ng-switch.
-         */
-        flush: function () {
-            var states = _.assign({}, globals, locals);
-            locals = {};
-            return _.values(states).reduce(function (html, template) {
-                return html + template;
-            }, '<div ng-switch="state">') + '</div>';
-        },
-        /*
-         * Register a template with an associated state.
-         * @public
-         * @param {string} The state being registered.
-         * @param {string} The template assicated with the state.
-         * @param [object} options
-         * @param {boolean} options.global Indicates if the template is used in other modals.
-         */
-        add: function (state, template, options) {
-            if (options.global) {
-                globals[state] = template;
-            } else {
-                locals[state] = template;
-            }
-        }
-    };
-});
 
 angular.module('encore.ui.rxModalAction')
 /**
@@ -7600,6 +7579,76 @@ angular.module('encore.ui.rxModalAction')
         }
     };
 }]);
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc controller
+ * @name quarks.controller:rxModalCtrl
+ * @scope
+ * @description
+ * Provides a controller for `rxModalAction` to use.
+ */
+.controller('rxModalCtrl', ["$scope", "$modalInstance", "$rootScope", function ($scope, $modalInstance, $rootScope) {
+    // define a controller for the modal to use
+    $scope.submit = function () {
+        $modalInstance.close($scope);
+    };
+
+    $scope.cancel = $modalInstance.dismiss;
+
+    // cancel out of the modal if the route is changed
+    $rootScope.$on('$routeChangeSuccess', $modalInstance.dismiss);
+}]);
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc service
+ * @name quarks.service:rxModalFooterTemplates
+ * @description
+ * A cache for storing the modal footer templates
+ * This is used internally by rxModalFooter, which is preferred
+ * for registering templates over direct calling of this api.
+ *
+ * @example
+ * <pre>
+ * rxModalFooterTemplates.add("step1", "<p>Step 1 Body</p>");
+ * rxModalFooterTemplates.flush(); // returns html string to be inserted into DOM
+ * </pre>
+ */
+.factory('rxModalFooterTemplates', function () {
+    var globals = {};
+    var locals = {};
+
+    return {
+        /*
+         * Concatenates all the registered templates and clears the local template cache.
+         * @public
+         * @returns {string} The concatenated templates wrapped in an `ng-switch`.
+         */
+        flush: function () {
+            var states = _.assign({}, globals, locals);
+            locals = {};
+            return _.values(states).reduce(function (html, template) {
+                return html + template;
+            }, '<div ng-switch="state">') + '</div>';
+        },
+        /*
+         * Register a template with an associated state.
+         * @public
+         * @param {string} The state being registered.
+         * @param {string} The template associated with the state.
+         * @param [object} options
+         * @param {boolean} options.global Indicates if the template is used in other modals.
+         */
+        add: function (state, template, options) {
+            if (options.global) {
+                globals[state] = template;
+            } else {
+                locals[state] = template;
+            }
+        }
+    };
+});
 
 /**
  * @ngdoc overview
@@ -9237,34 +9286,6 @@ angular.module('encore.ui.rxPaginate', [
 
 angular.module('encore.ui.rxPaginate')
 /**
- * @ngdoc filter
- * @name rxPaginate.filter:PaginatedItemsSummary
- * @description
- * Given an active pager (i.e. the result of PageTracking.createInstance()),
- * return a string like "26-50 of 500", when on the second page of a list of
- * 500 items, where we are displaying 25 items per page
- *
- * @param {Object} pager The instance of the PageTracking service. If not
- *
- * @returns {String} The list of page numbers that will be displayed.
- */
-.filter('PaginatedItemsSummary', ["rxPaginateUtils", function (rxPaginateUtils) {
-    return function (pager) {
-        var template = '<%= first %>-<%= last %> of <%= total %>';
-        if (pager.showAll || pager.itemsPerPage > pager.total) {
-            template = '<%= total %>';
-        }
-        var firstAndLast = rxPaginateUtils.firstAndLast(pager.currentPage(), pager.itemsPerPage, pager.total);
-        return _.template(template, {
-            first: firstAndLast.first + 1,
-            last: firstAndLast.last,
-            total: pager.total
-        });
-    };
-}]);
-
-angular.module('encore.ui.rxPaginate')
-/**
  * @ngdoc directive
  * @name rxPaginate.directive:rxLoadingOverlay
  * @restrict A
@@ -10249,394 +10270,6 @@ angular.module('encore.ui.rxSpinner')
         }
     };
 });
-
-/**
- * @ngdoc overview
- * @name rxStatus
- * @description
- * # rxStatus Component
- *
- * A component that manages notifications for rxNotify
- *
- * ## Services
- * * {@link rxStatus.service:Status Status}
- * * {@link rxStatus.service:StatusUtil StatusUtil}
- */
-angular.module('encore.ui.rxStatus', [
-    'encore.ui.quarks',    
-    'encore.ui.rxNotify'
-]);
-
-angular.module('encore.ui.rxStatus')
-/**
- * @ngdoc service
- * @name rxStatus.service:Status
- * @description
- *
- * Manages notifications for rxNotify with an abstracted set of functions for
- * ease of use.
- *
- * This service is provided as a compliment to the `rxNotify`.  It abstracts out
- * some of the raw functionality provided by `rxNotify` to make the addition and
- * removal of single messages easier.
- *
- * ## Preparation
- *
- * In order to use the `Status` service, one has to instantiate it with a proper
- * `$scope` object to keep track of a running state. `rxNotify` indirectly makes
- * use of the `$scope` variable when a message can be auto-dismissed.  In order
- * to keep the interface for the wrapper functions coherent, the `$scope` variable
- * must be provided before use.  This can be accomplished as follows:
- *
- * <pre>
- * Status.setupScope($scope);
- * </pre>
- *
- * ## Success cases
- *
- * The `Status` service is provided as a wrapper to `rxNotify`.  As such, the
- * status types supported by `rxNotify` are still used and have been wrapped into
- * utility functions.  For example, on page load it is usually necessary to inform
- * the user of pending data retrieval.  This can be accomplished by:
- *
- * <pre>
- * Status.setLoading('Retrieving users');
- * </pre>
- *
- * This will call `rxNotify` in the following manner:
- *
- * <pre>
- * rxNotify.add('Retrieving users', {
- *     stack: 'page',
- *     dismiss: [scope, 'loaded'],
- *     loading: true
- * });
- * </pre>
- *
- * Similarly, the following call using the `Status` service:
- *
- * <pre>
- * Status.setSuccess('Successfully deleted questionable ' +
- *     'browsing history');
- * </pre>
- *
- * results in a call to `rxNotify` as such:
- *
- * <pre>
- * rxNotify.add('Successfully deleted questionable ' +
- *     'browsing history',
- *     {
- *         stack: 'page',
- *         show: 'next'
- *      }
- * );
- * </pre>
- *
- * Note: For `success` and `error` messages, the `repeat` attribute is set to
- * false. Messages of `success` will also automatically timeout after 5 seconds.
- * Both of these defaults were design decisions made at this level for usability
- * and consistency across all Encore products.
- *
- * Each of the wrapper functions to the different `rxNotify` message types support
- * receiving an `options:{}` parameter that can override defaults for the respective
- * wrapper. For example, instead of showing a success message on next route change,
- * it can be shown immediately:
- *
- * <pre>
- * Status.setSuccess('Please show immediately', {
- *     show: 'immediate'
- * });
- * </pre>
- *
- * Please note that the `options` are of the same type as one would provide to
- * `rxNotify`.  This should allow for maximum flexibility when necessary.
- * However, as a bonus, some common behaviours expected to be overriden have
- * been provided as their own wrapper functions.  For example:
- *
- * <pre>
- * Status.setSuccessImmediate('Please show immediately')
- * </pre>
- *
- * is the equivalent of calling `Status.setSuccess()` with the
- * `{ show: 'immediate' }` parameter.  Please note, there isn't much fault
- * checking in place, so the following behaviour although permitted, is not
- * advised:
- *
- * <pre>
- * Status.setSuccessImmediate('Please show immediately', {
- *     show: 'next'
- * });
- * </pre>
- *
- * ## Error cases
- *
- * The `{ type: 'error' }` wrapper is a unique one.  It allows for a string to be
- * passed as an error message, just like the wrappers before.  For example:
- *
- * <pre>
- * Status.setError('This is an error!');
- * </pre>
- *
- * It also allows for a specialized template to be specified as the error string
- * with an `object:{}` as the second parameter containing the replacements for
- * the template in the error string.  If in a proper format, the object can be
- * automatically parsed using an `ErrorFormatter` and displayed to the user.
- * For example:
- *
- * <pre>
- * Status.setError(
- *     'Failed loading browsing history: ${message}',
- *     {
- *         message: 'User has previously cleared their history!'
- *     }
- * );
- * </pre>
- *
- * Please note that the replacement variable `${message}` in the error string
- * maps one-to-one to the keys provided in the the error object.  One can specify
- * any number of template variables to replace.  Not providing a balanced list
- * of variables and their replacements will result in a
- * `ReferenceError: <replacement> is not defined`.
- *
- * The following wrapper functions are available today.  Their names should be
- * self explanatory:
- *
- * * setLoading
- * * setSuccess
- * * setSuccessNext
- * * setSuccessImmediate
- * * setWarning
- * * setInfo
- * * setError
- * * complete &rarr; setSuccessImmediate
- *
- * The following are used to programmatically remove notifications from the
- * screen:
- *
- * * dismiss
- * * clear
- *
- * # Utilities
- *
- * The `Status` service requires that one provide a `$scope` object to keep
- * tracking of state before any of the wrapper functions can be utilized. Since
- * it is expected that almost all pages will make use of notifications, one can
- * place the repeated setup of the `Status` service in a page load event handler.
- * This will allow all pages to gain an already setup `Status` service for
- * immediate use.  For example:
- *
- * <pre>
- * .run(function ($rootScope, StatusUtil) {
- *     $rootScope.$on('$routeChangeSuccess', function () {
- *         Status.setupScope($rootScope);
- *     });
- * });
- * </pre>
- *
- * Although hidden away in the app's bootstrap code, the above makes for a less
- * repetitive call to `Status.setScope()` at the beginning of each use.
- *
- */
-.service('Status', ["$rootScope", "rxNotify", "ErrorFormatter", function ($rootScope, rxNotify, ErrorFormatter) {
-    var stack = 'page';
-    var scope;
-    var status = {
-        LOADING: function () {
-            return {
-                loaded: false,
-                loading: true,
-                prop: 'loaded'
-            };
-        },
-        SUCCESS: function () {
-            return {
-                loaded: true,
-                loading: false,
-                success: true,
-                type: 'success',
-                prop: 'loaded',
-                repeat: false,
-                timeout: 5
-            };
-        },
-        ERROR: function () {
-            return {
-                loaded: true,
-                loading: false,
-                success: false,
-                type: 'error',
-                prop: 'loaded',
-                repeat: false
-            };
-        },
-        WARNING: function () {
-            return {
-                loaded: true,
-                loading: false,
-                success: true,
-                type: 'warning',
-                prop: 'loaded'
-            };
-        },
-        INFO: function () {
-            return {
-                loaded: true,
-                loading: false,
-                success: true,
-                type: 'info',
-                prop: 'loaded'
-            };
-        },
-        CLEAR: function () {
-            return {
-                loading: false,
-                prop: 'loaded'
-            };
-        },
-    };
-
-    // States that specify a type cannot be dismissed (have to be approved by user)
-    var isDismissable = function (state) {
-        return _.has(state, 'loading') && !_.has(state, 'type');
-    };
-
-    // Given an options object, check if scope[options.prop] exists,
-    // and set it to `val` if so. `val` defaults to true if not
-    // supplied
-    var setDoneLoadingProp = function (options, val) {
-        val = _.isUndefined(val) ? true : val;
-        if (_.has(options, 'prop') && _.has(scope, options.prop)) {
-            scope[options.prop] = val;
-        }
-    };
-
-    // If the stack is overridden in a given controller, it needs to be refreshed
-    // for any subsequent controllers since a Service is loaded by Angular only once
-    $rootScope.$on('$routeChangeStart', function () {
-        status.setStack('page');
-    });
-
-    status.setStack = function (s) {
-        stack = s;
-    };
-
-    status.setScope = function ($scope) {
-        scope = $scope;
-        scope.loaded = false;
-    };
-
-    status.setStatus = function (msg, state) {
-        state.stack = stack;
-
-        if (!_.has(state, 'dismiss') && isDismissable(state)) {
-            // state.prop defaults to 'loaded', per status.LOADING
-            // However, if a promise is passed in, we use the $resolved
-            // property instead of the default loaded or passed in value
-            if (_.has(scope[state.prop], '$resolved')) {
-                state.prop = state.prop + '.$resolved';
-            }
-            state.dismiss = [scope, state.prop];
-        }
-
-        if (state.type === 'success') {
-            state.show = state.show || 'next';
-        }
-
-        setDoneLoadingProp(state, _.has(state, 'loading') ? !state.loading : true);
-        scope.status = state;
-        return rxNotify.add(msg, state);
-    };
-
-    status.setLoading = function (msg, options) {
-        options = _.defaults(options ? options : {}, status.LOADING());
-
-        // prop is the variable on scope that stores whether this loading is complete
-        // By default is uses $scope.loaded, but individual messages should be able to
-        // use their own property
-        var prop = options.prop;
-        if (!_.has(scope, prop)) {
-            scope[prop] = false;
-        }
-        return status.setStatus(msg || '', options);
-    };
-
-    status.setSuccess = function (msg, options) {
-        options = _.defaults(options ? options : {}, status.SUCCESS());
-        return status.setStatus(msg || '', options);
-    };
-
-    status.setSuccessNext = function (msg, options) {
-        var next = { 'show': 'next' };
-        options = _.defaults(options ? options : {}, next);
-        return status.setSuccess(msg, options);
-    };
-
-    status.setSuccessImmediate = function (msg, options) {
-        var immediate = { 'show': 'immediate' };
-        options = _.defaults(options ? options : {}, immediate);
-        return status.setSuccess(msg, options);
-    };
-
-    status.setWarning = function (msg, options) {
-        options = _.defaults(options ? options : {}, status.WARNING());
-        return status.setStatus(msg, options);
-    };
-
-    status.setInfo = function (msg, options) {
-        options = _.merge(options ? options : {}, status.INFO());
-        return status.setStatus(msg, options);
-    };
-
-    /*
-     * `msg` - can be a plain string, or it can be a string template with ${message} in it
-     * `error` - An optional error object. Should have a `message` or `statusText` property
-     * `options` - A usual options object
-     */
-    status.setError = function (msg, error, options) {
-        options = _.defaults(options ? options : {}, status.ERROR());
-        msg = ErrorFormatter.buildErrorMsg(msg || '', error);
-        return status.setStatus(msg, options);
-    };
-
-    status.complete = function (options) {
-        return status.setSuccessImmediate('', _.defaults(options ? options : {}, status.SUCCESS()));
-    };
-
-    status.dismiss = function (obj) {
-        scope.status = status.CLEAR();
-        return rxNotify.dismiss(obj);
-    };
-
-    status.clear = function (st) {
-        scope.status = status.CLEAR();
-        return rxNotify.clear(st || stack);
-    };
-
-    return status;
-}]);
-
-angular.module('encore.ui.rxStatus')
-/**
- * @ngdoc service
- * @name rxStatus.service:StatusUtil
- * @description
- * Manipulates references to needed $scope input for proper notification functionality
- *
- * @example
- * <pre>
- * $rootScope.$on('$routeChangeSuccess', function () {
- *     Status.setScope(); // no input results in $rootScope being used
- *     Status.setUtil($rootScope); // forcibly set $rootScope as the scope to be used
- * });
- * </pre>
- */
-.service('StatusUtil', ["$route", "$rootScope", "Status", function ($route, $rootScope, Status) {
-    return {
-        setupScope: function (scope) {
-            Status.setScope(scope || $rootScope);
-        }
-    };
-}]);
 
 /**
  * @ngdoc overview
@@ -11782,6 +11415,377 @@ angular.module('encore.ui.quarks')
         }
 
         return item;
+    };
+}]);
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc service
+ * @name quarks.service:Status
+ * @description
+ *
+ * Manages notifications for rxNotify with an abstracted set of functions for
+ * ease of use.
+ *
+ * This service is provided as a compliment to {@link rxNotify}.  It abstracts out
+ * some of the raw functionality provided by `rxNotify` to make the addition and
+ * removal of single messages easier.
+ *
+ * ## Preparation
+ *
+ * In order to use the `Status` service, one has to instantiate it with a proper
+ * `$scope` object to keep track of a running state. `rxNotify` indirectly makes
+ * use of the `$scope` variable when a message can be auto-dismissed.  In order
+ * to keep the interface for the wrapper functions coherent, the `$scope` variable
+ * must be provided before use.  This can be accomplished as follows:
+ *
+ * <pre>
+ * Status.setupScope($scope);
+ * </pre>
+ *
+ * ## Success cases
+ *
+ * The `Status` service is provided as a wrapper to `rxNotify`.  As such, the
+ * status types supported by `rxNotify` are still used and have been wrapped into
+ * utility functions.  For example, on page load it is usually necessary to inform
+ * the user of pending data retrieval.  This can be accomplished by:
+ *
+ * <pre>
+ * Status.setLoading('Retrieving users');
+ * </pre>
+ *
+ * This will call `rxNotify` in the following manner:
+ *
+ * <pre>
+ * rxNotify.add('Retrieving users', {
+ *     stack: 'page',
+ *     dismiss: [scope, 'loaded'],
+ *     loading: true
+ * });
+ * </pre>
+ *
+ * Similarly, the following call using the `Status` service:
+ *
+ * <pre>
+ * Status.setSuccess('Successfully deleted questionable ' +
+ *     'browsing history');
+ * </pre>
+ *
+ * results in a call to `rxNotify` as such:
+ *
+ * <pre>
+ * rxNotify.add('Successfully deleted questionable ' +
+ *     'browsing history',
+ *     {
+ *         stack: 'page',
+ *         show: 'next'
+ *      }
+ * );
+ * </pre>
+ *
+ * Note: For `success` and `error` messages, the `repeat` attribute is set to
+ * false. Messages of `success` will also automatically timeout after 5 seconds.
+ * Both of these defaults were design decisions made at this level for usability
+ * and consistency across all Encore products.
+ *
+ * Each of the wrapper functions to the different `rxNotify` message types support
+ * receiving an `options:{}` parameter that can override defaults for the respective
+ * wrapper. For example, instead of showing a success message on next route change,
+ * it can be shown immediately:
+ *
+ * <pre>
+ * Status.setSuccess('Please show immediately', {
+ *     show: 'immediate'
+ * });
+ * </pre>
+ *
+ * Please note that the `options` are of the same type as one would provide to
+ * `rxNotify`.  This should allow for maximum flexibility when necessary.
+ * However, as a bonus, some common behaviours expected to be overriden have
+ * been provided as their own wrapper functions.  For example:
+ *
+ * <pre>
+ * Status.setSuccessImmediate('Please show immediately')
+ * </pre>
+ *
+ * is the equivalent of calling `Status.setSuccess()` with the
+ * `{ show: 'immediate' }` parameter.  Please note, there isn't much fault
+ * checking in place, so the following behaviour although permitted, is not
+ * advised:
+ *
+ * <pre>
+ * Status.setSuccessImmediate('Please show immediately', {
+ *     show: 'next'
+ * });
+ * </pre>
+ *
+ * ## Error cases
+ *
+ * The `{ type: 'error' }` wrapper is a unique one.  It allows for a string to be
+ * passed as an error message, just like the wrappers before.  For example:
+ *
+ * <pre>
+ * Status.setError('This is an error!');
+ * </pre>
+ *
+ * It also allows for a specialized template to be specified as the error string
+ * with an `object:{}` as the second parameter containing the replacements for
+ * the template in the error string.  If in a proper format, the object can be
+ * automatically parsed using an `ErrorFormatter` and displayed to the user.
+ * For example:
+ *
+ * <pre>
+ * Status.setError(
+ *     'Failed loading browsing history: ${message}',
+ *     {
+ *         message: 'User has previously cleared their history!'
+ *     }
+ * );
+ * </pre>
+ *
+ * Please note that the replacement variable `${message}` in the error string
+ * maps one-to-one to the keys provided in the the error object.  One can specify
+ * any number of template variables to replace.  Not providing a balanced list
+ * of variables and their replacements will result in a
+ * `ReferenceError: <replacement> is not defined`.
+ *
+ * The following wrapper functions are available today.  Their names should be
+ * self explanatory:
+ *
+ * * setLoading
+ * * setSuccess
+ * * setSuccessNext
+ * * setSuccessImmediate
+ * * setWarning
+ * * setInfo
+ * * setError
+ * * complete &rarr; setSuccessImmediate
+ *
+ * The following are used to programmatically remove notifications from the
+ * screen:
+ *
+ * * dismiss
+ * * clear
+ *
+ * # Utilities
+ *
+ * The `Status` service requires that one provide a `$scope` object to keep
+ * tracking of state before any of the wrapper functions can be utilized. Since
+ * it is expected that almost all pages will make use of notifications, one can
+ * place the repeated setup of the `Status` service in a page load event handler.
+ * This will allow all pages to gain an already setup `Status` service for
+ * immediate use.  For example:
+ *
+ * <pre>
+ * .run(function ($rootScope, StatusUtil) {
+ *     $rootScope.$on('$routeChangeSuccess', function () {
+ *         Status.setupScope($rootScope);
+ *     });
+ * });
+ * </pre>
+ *
+ * Although hidden away in the app's bootstrap code, the above makes for a less
+ * repetitive call to `Status.setScope()` at the beginning of each use.
+ *
+ */
+.service('Status', ["$rootScope", "rxNotify", "ErrorFormatter", function ($rootScope, rxNotify, ErrorFormatter) {
+    var stack = 'page';
+    var scope;
+    var status = {
+        LOADING: function () {
+            return {
+                loaded: false,
+                loading: true,
+                prop: 'loaded'
+            };
+        },
+        SUCCESS: function () {
+            return {
+                loaded: true,
+                loading: false,
+                success: true,
+                type: 'success',
+                prop: 'loaded',
+                repeat: false,
+                timeout: 5
+            };
+        },
+        ERROR: function () {
+            return {
+                loaded: true,
+                loading: false,
+                success: false,
+                type: 'error',
+                prop: 'loaded',
+                repeat: false
+            };
+        },
+        WARNING: function () {
+            return {
+                loaded: true,
+                loading: false,
+                success: true,
+                type: 'warning',
+                prop: 'loaded'
+            };
+        },
+        INFO: function () {
+            return {
+                loaded: true,
+                loading: false,
+                success: true,
+                type: 'info',
+                prop: 'loaded'
+            };
+        },
+        CLEAR: function () {
+            return {
+                loading: false,
+                prop: 'loaded'
+            };
+        },
+    };
+
+    // States that specify a type cannot be dismissed (have to be approved by user)
+    var isDismissable = function (state) {
+        return _.has(state, 'loading') && !_.has(state, 'type');
+    };
+
+    // Given an options object, check if scope[options.prop] exists,
+    // and set it to `val` if so. `val` defaults to true if not
+    // supplied
+    var setDoneLoadingProp = function (options, val) {
+        val = _.isUndefined(val) ? true : val;
+        if (_.has(options, 'prop') && _.has(scope, options.prop)) {
+            scope[options.prop] = val;
+        }
+    };
+
+    // If the stack is overridden in a given controller, it needs to be refreshed
+    // for any subsequent controllers since a Service is loaded by Angular only once
+    $rootScope.$on('$routeChangeStart', function () {
+        status.setStack('page');
+    });
+
+    status.setStack = function (s) {
+        stack = s;
+    };
+
+    status.setScope = function ($scope) {
+        scope = $scope;
+        scope.loaded = false;
+    };
+
+    status.setStatus = function (msg, state) {
+        state.stack = stack;
+
+        if (!_.has(state, 'dismiss') && isDismissable(state)) {
+            // state.prop defaults to 'loaded', per status.LOADING
+            // However, if a promise is passed in, we use the $resolved
+            // property instead of the default loaded or passed in value
+            if (_.has(scope[state.prop], '$resolved')) {
+                state.prop = state.prop + '.$resolved';
+            }
+            state.dismiss = [scope, state.prop];
+        }
+
+        if (state.type === 'success') {
+            state.show = state.show || 'next';
+        }
+
+        setDoneLoadingProp(state, _.has(state, 'loading') ? !state.loading : true);
+        scope.status = state;
+        return rxNotify.add(msg, state);
+    };
+
+    status.setLoading = function (msg, options) {
+        options = _.defaults(options ? options : {}, status.LOADING());
+
+        // prop is the variable on scope that stores whether this loading is complete
+        // By default is uses $scope.loaded, but individual messages should be able to
+        // use their own property
+        var prop = options.prop;
+        if (!_.has(scope, prop)) {
+            scope[prop] = false;
+        }
+        return status.setStatus(msg || '', options);
+    };
+
+    status.setSuccess = function (msg, options) {
+        options = _.defaults(options ? options : {}, status.SUCCESS());
+        return status.setStatus(msg || '', options);
+    };
+
+    status.setSuccessNext = function (msg, options) {
+        var next = { 'show': 'next' };
+        options = _.defaults(options ? options : {}, next);
+        return status.setSuccess(msg, options);
+    };
+
+    status.setSuccessImmediate = function (msg, options) {
+        var immediate = { 'show': 'immediate' };
+        options = _.defaults(options ? options : {}, immediate);
+        return status.setSuccess(msg, options);
+    };
+
+    status.setWarning = function (msg, options) {
+        options = _.defaults(options ? options : {}, status.WARNING());
+        return status.setStatus(msg, options);
+    };
+
+    status.setInfo = function (msg, options) {
+        options = _.merge(options ? options : {}, status.INFO());
+        return status.setStatus(msg, options);
+    };
+
+    /*
+     * `msg` - can be a plain string, or it can be a string template with ${message} in it
+     * `error` - An optional error object. Should have a `message` or `statusText` property
+     * `options` - A usual options object
+     */
+    status.setError = function (msg, error, options) {
+        options = _.defaults(options ? options : {}, status.ERROR());
+        msg = ErrorFormatter.buildErrorMsg(msg || '', error);
+        return status.setStatus(msg, options);
+    };
+
+    status.complete = function (options) {
+        return status.setSuccessImmediate('', _.defaults(options ? options : {}, status.SUCCESS()));
+    };
+
+    status.dismiss = function (obj) {
+        scope.status = status.CLEAR();
+        return rxNotify.dismiss(obj);
+    };
+
+    status.clear = function (st) {
+        scope.status = status.CLEAR();
+        return rxNotify.clear(st || stack);
+    };
+
+    return status;
+}]);
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc service
+ * @name quarks.service:StatusUtil
+ * @description
+ * Manipulates required references to $scope input for proper notification functionality.
+ *
+ * @example
+ * <pre>
+ * $rootScope.$on('$routeChangeSuccess', function () {
+ *     Status.setScope(); // no input results in $rootScope being used
+ *     Status.setScope($rootScope); // forcibly set $rootScope as the scope to be used
+ * });
+ * </pre>
+ */
+.service('StatusUtil', ["$route", "$rootScope", "Status", function ($route, $rootScope, Status) {
+    return {
+        setupScope: function (scope) {
+            Status.setScope(scope || $rootScope);
+        }
     };
 }]);
 

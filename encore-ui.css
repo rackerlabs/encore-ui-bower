@@ -344,6 +344,9 @@ https://github.com/yui/pure/blob/master/LICENSE.md
  * rxSelect
  */
 /*
+ * rxBulkSelect
+ */
+/*
  * rxFieldName
  */
 /*
@@ -1517,12 +1520,12 @@ p {
 }
 a {
   text-decoration: none;
-  color: #1976d2;
+  color: #0d74d1;
 }
 a:hover,
 a:focus {
   text-decoration: underline;
-  color: #0776e4;
+  color: #0075de;
 }
 table {
   clear: both;
@@ -1727,13 +1730,13 @@ h6 {
 }
 .msg-info-blue,
 .msg-info-blue a {
-  color: #1976d2;
+  color: #0d74d1;
 }
 .msg-info-blue:hover,
 .msg-info-blue a:hover,
 .msg-info-blue:focus,
 .msg-info-blue a:focus {
-  color: #0776e4;
+  color: #0075de;
 }
 .list li,
 .list .item {
@@ -1871,8 +1874,8 @@ body:hover .visually-hidden button {
   font-size: inherit;
 }
 .rx-app .site-branding {
-  border-top: 1px solid #1976d2;
-  border-bottom: 1px solid #1976d2;
+  border-top: 1px solid #0d74d1;
+  border-bottom: 1px solid #0d74d1;
   padding: 5px 20px;
   overflow: hidden;
   background: #0d47a1;
@@ -2056,11 +2059,11 @@ body:hover .visually-hidden button {
 }
 .rx-app .rx-app-nav-item.active:not(.has-children) > .item-link {
   border-color: transparent;
-  background: #1976d2;
+  background: #0d74d1;
 }
 .rx-app .rx-app-nav-item.active:not(.has-children) > .item-link:after {
   right: -6px;
-  border-left-color: #1976d2;
+  border-left-color: #0d74d1;
 }
 .rx-app .rx-app-nav-item.has-children > .item-link:after {
   font-size: 2em;
@@ -2409,13 +2412,13 @@ thead th[rx-bulk-select-header-check] {
   width: 16px;
 }
 .header-button.btn-link {
-  color: #1976d2;
+  color: #0d74d1;
 }
 .header-button.btn-link:focus {
-  color: #1976d2;
+  color: #0d74d1;
 }
 .header-button.btn-link:hover {
-  color: #0776e4;
+  color: #0075de;
 }
 .batch-action-menu-container {
   position: relative;
@@ -2488,7 +2491,7 @@ thead th[rx-bulk-select-header-check] {
  */
 .button {
   display: inline-block;
-  background: #1976d2;
+  background: #0d74d1;
   color: #ffffff;
   border: 0;
   font-size: 14px;
@@ -2498,7 +2501,7 @@ thead th[rx-bulk-select-header-check] {
 }
 .button:hover,
 .button:focus {
-  background: #378fe7;
+  background: #208ef1;
   cursor: pointer;
   color: #ffffff;
   text-decoration: none;
@@ -2539,19 +2542,19 @@ thead th[rx-bulk-select-header-check] {
 }
 .button.finish {
   background: #ffffff;
-  color: #1976d2;
-  -webkit-box-shadow: inset 0 0 0 2px #1976d2;
-  -moz-box-shadow: inset 0 0 0 2px #1976d2;
-  -ms-box-shadow: inset 0 0 0 2px #1976d2;
-  box-shadow: inset 0 0 0 2px #1976d2;
+  color: #0d74d1;
+  -webkit-box-shadow: inset 0 0 0 2px #0d74d1;
+  -moz-box-shadow: inset 0 0 0 2px #0d74d1;
+  -ms-box-shadow: inset 0 0 0 2px #0d74d1;
+  box-shadow: inset 0 0 0 2px #0d74d1;
 }
 .button.finish:hover,
 .button.finish:focus {
-  color: #378fe7;
-  -webkit-box-shadow: inset 0 0 0 2px #378fe7;
-  -moz-box-shadow: inset 0 0 0 2px #378fe7;
-  -ms-box-shadow: inset 0 0 0 2px #378fe7;
-  box-shadow: inset 0 0 0 2px #378fe7;
+  color: #208ef1;
+  -webkit-box-shadow: inset 0 0 0 2px #208ef1;
+  -moz-box-shadow: inset 0 0 0 2px #208ef1;
+  -ms-box-shadow: inset 0 0 0 2px #208ef1;
+  box-shadow: inset 0 0 0 2px #208ef1;
 }
 .button.cancel {
   background: #757575;
@@ -2622,7 +2625,7 @@ thead th[rx-bulk-select-header-check] {
   }
 }
 .btn-link {
-  color: #1976d2;
+  color: #0d74d1;
   background: none;
   border: 0;
   padding: 0;
@@ -3289,14 +3292,14 @@ rx-field-name .wrapper .required-symbol {
 .info-panel {
   clear: both;
   background: #ffffff;
-  border-color: #1976d2;
+  border-color: #0d74d1;
   border-width: 0 5px 5px 5px;
   border-style: solid;
   padding: 0 10px 10px 10px;
   overflow: hidden;
 }
 .info-panel .info-title {
-  background: #1976d2;
+  background: #0d74d1;
   color: #ffffff;
   width: 100%;
   padding: 8px 10px;
@@ -3741,7 +3744,7 @@ rx-multi-select rx-select-option[value="all"] label {
 .rx-paginate .pagination > li:first-child > a,
 .rx-paginate .pagination > li:first-child > span {
   padding-left: 30px;
-  color: #1976d2;
+  color: #0d74d1;
   background: transparent;
 }
 .rx-paginate .pagination > li:first-child > a:before,
@@ -3753,7 +3756,7 @@ rx-multi-select rx-select-option[value="all"] label {
   display: block;
   position: absolute;
   border: 6px solid transparent;
-  border-bottom-color: #1976d2;
+  border-bottom-color: #0d74d1;
   border-top: 0;
   left: 10px;
   top: 55%;
@@ -3787,7 +3790,7 @@ rx-multi-select rx-select-option[value="all"] label {
   padding: 0;
   border: 0;
   background: transparent;
-  color: #1976d2;
+  color: #0d74d1;
 }
 .rx-paginate .pagination > li > div > ul span {
   float: none;
@@ -4373,7 +4376,7 @@ rx-tags[disabled] .rx-tags:hover {
   cursor: default;
 }
 .rx-tags .tag:focus {
-  background-color: #1976d2;
+  background-color: #0d74d1;
   outline: none;
 }
 .rx-tags .tag:focus .fa,
@@ -4484,7 +4487,7 @@ rx-tags[disabled] .rx-tags:hover {
 }
 .nav-tabs {
   display: flex;
-  border-bottom: 9px solid #1976d2;
+  border-bottom: 9px solid #0d74d1;
   clear: both;
 }
 .nav-tabs li {
@@ -4512,7 +4515,7 @@ rx-tags[disabled] .rx-tags:hover {
   color: #bdbdbd;
 }
 .nav-tabs .active a {
-  background: #1976d2;
+  background: #0d74d1;
   color: #ffffff;
 }
 .nav-tabs .active a .subdued {
@@ -4523,9 +4526,9 @@ rx-tags[disabled] .rx-tags:hover {
   display: none;
   background: #ffffff;
   padding: 10px;
-  border-left: 2px solid #1976d2;
-  border-right: 2px solid #1976d2;
-  border-bottom: 2px solid #1976d2;
+  border-left: 2px solid #0d74d1;
+  border-right: 2px solid #0d74d1;
+  border-bottom: 2px solid #0d74d1;
 }
 .tab-pane.active {
   display: block;
@@ -4681,7 +4684,7 @@ rx-tags[disabled] .rx-tags:hover {
   color: #424242;
 }
 .dropdown-menu .active a {
-  background: #1976d2;
+  background: #0d74d1;
   color: #ffffff;
 }
 @-webkit-keyframes progress-bar-stripes {
@@ -4736,7 +4739,7 @@ rx-tags[disabled] .rx-tags:hover {
   animation: progress-bar-stripes 2s linear infinite;
 }
 .progress-bar-secondary {
-  background-color: #1976d2;
+  background-color: #0d74d1;
   color: #ffffff;
 }
 .progress-striped .progress-bar-secondary {
@@ -4806,7 +4809,7 @@ rx-date-picker .popup {
   border-color: #d8d8d8;
   border-style: solid;
   border-width: 5px 1px 1px;
-  border-top-color: #1976d2;
+  border-top-color: #0d74d1;
   margin: 0;
   padding: 0;
   position: absolute;
@@ -4905,7 +4908,7 @@ rx-date-picker .popup .calendar .day.today .circle {
   border-color: #757575;
 }
 rx-date-picker .popup .calendar .day.selected .circle {
-  background-color: #1976d2;
+  background-color: #0d74d1;
   border-color: transparent;
   color: #ffffff;
 }

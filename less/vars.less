@@ -13,7 +13,7 @@
 // ## Blues
 @blue-100: #bbdefb;
 @blue-500: #3391ff;
-@blue-700: #1976d2;
+@blue-700: #0d74d1;
 @blue-900: #0d47a1;
 @blue-accent: #00bdff;
 
@@ -64,7 +64,7 @@
 @app-link-hover-text-color: saturate(@app-link-text-color, 15%);
 
 // # App Global Form Vars
-@app-label-font-size:12px;
+@app-label-font-size: 12px;
 @app-label-text-color: @gray-800;
 @app-required-symbol-color: @red-500;
 
@@ -125,16 +125,19 @@
 @preprod-active-item-arrow-color: @orange-500;
 
 // ## Tables
-@tableHeaderBg: @gray-200;
-@tableBg: @white;
-@tableBgAlt: @gray-25;
-@tableRowSelected: fade(@green-100, 30%);
-@tableBorder: @gray-200;
-@tableHeaderBorder: @gray-400;
-@subtableBorder: @gray-500;
-@tableHeaderText: @gray-900;
-@tableCellText: @gray-800;
-@tableCellPadding: 5px 10px;
+@app-table-border-color: @gray-200;
+@app-table-expanded-chevron-background-color: @gray-200;
+@app-table-expanded-chevron-border-color: @gray-200;
+@app-table-header-background-color: @gray-200;
+@app-table-header-border-color: @app-default-border-color;
+@app-table-header-text-color: @app-headers-text-color;
+@app-table-cell-text-color: @app-body-text-color;
+@app-table-cell-padding: 5px 10px;
+
+// # Global Vars for Table, rxBulkSelect and Other Data Row Layouts
+@app-default-row-background-color: @white;
+@app-striped-row-background-color: @gray-25;
+@app-selected-row-background-color: fade(@green-100, 30%);
 
 /* ======================================== *\
    COMPONENT VARIABLES
@@ -286,6 +289,11 @@
 @rxSelect-trigger-color: @rxForm-input-border-color;
 @rxSelect-trigger-color-invalid: @rxForm-input-border-color-invalid;
 @rxSelect-trigger-color-disabled: @rxSelect-border-color-disabled;
+
+/*
+ * rxBulkSelect
+ */
+@rxBulkSelect-header-text-color: @app-body-text-color;
 
 /*
  * rxFieldName
@@ -507,6 +515,19 @@
 @inputColorError: @red; // replaced by @rxForm-error-text-color
 @inputBackgroundError: @inputColorError; // replaced by @rxForm-error-accent-color
 @rxCheckbox-color-selected: @white; // not used, replaced by @rxForm-input-background-color
+
+// ## Tables
+// deprecated
+@tableHeaderBg: @app-table-header-background-color;
+@tableBg: @app-default-row-background-color;
+@tableBgAlt: @app-striped-row-background-color;
+@tableRowSelected: @app-selected-row-background-color;
+@tableBorder: @app-table-border-color;
+@tableHeaderBorder: @app-table-header-border-color;
+@subtableBorder: @gray-500;
+@tableHeaderText: @app-table-header-text-color;
+@tableCellText: @app-table-cell-text-color;
+@tableCellPadding: @app-table-cell-padding;
 
 // Buttons
 // deprecated
