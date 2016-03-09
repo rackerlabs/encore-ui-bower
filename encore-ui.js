@@ -2,10 +2,10 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.45.2 - 2016-02-17
- * License: Apache License, Version 2.0
+ * Version: 1.46.0-0 - 2016-03-09
+ * License: Apache-2.0
  */
-angular.module('encore.ui', ['encore.ui.atoms','encore.ui.molecules','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.layout','encore.ui.metadata','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.quarks','encore.ui.rxApp','encore.ui.quarks','encore.ui.rxAttributes','encore.ui.quarks','encore.ui.rxBreadcrumbs','encore.ui.quarks','encore.ui.rxBulkSelect','encore.ui.quarks','encore.ui.quarks','encore.ui.rxButton','encore.ui.quarks','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.molecules','encore.ui.quarks','encore.ui.quarks','encore.ui.rxEnvironment','encore.ui.quarks','encore.ui.quarks','encore.ui.atoms','encore.ui.rxFeedback','encore.ui.quarks','encore.ui.quarks','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.quarks','encore.ui.quarks','encore.ui.rxInfoPanel','encore.ui.quarks','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.quarks','encore.ui.quarks','encore.ui.rxMultiSelect','encore.ui.quarks','encore.ui.rxNotify','encore.ui.quarks','encore.ui.rxOptionTable','encore.ui.quarks','encore.ui.rxPaginate','encore.ui.quarks','encore.ui.rxPermission','encore.ui.quarks','encore.ui.rxRadio','encore.ui.quarks','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.quarks','encore.ui.quarks','encore.ui.rxSpinner','encore.ui.rxStatusColumn','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.rxTags','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.tabs','encore.ui.quarks','encore.ui.quarks','encore.ui.tooltips','encore.ui.typeahead','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui', ['encore.ui.atoms','encore.ui.molecules','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.layout','encore.ui.metadata','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.quarks','encore.ui.rxApp','encore.ui.quarks','encore.ui.rxAttributes','encore.ui.quarks','encore.ui.rxBreadcrumbs','encore.ui.quarks','encore.ui.rxBulkSelect','encore.ui.quarks','encore.ui.quarks','encore.ui.atoms','encore.ui.quarks','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.molecules','encore.ui.quarks','encore.ui.quarks','encore.ui.rxEnvironment','encore.ui.quarks','encore.ui.quarks','encore.ui.atoms','encore.ui.rxFeedback','encore.ui.quarks','encore.ui.quarks','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.quarks','encore.ui.quarks','encore.ui.rxInfoPanel','encore.ui.quarks','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.quarks','encore.ui.quarks','encore.ui.rxMultiSelect','encore.ui.quarks','encore.ui.rxNotify','encore.ui.quarks','encore.ui.rxOptionTable','encore.ui.quarks','encore.ui.rxPaginate','encore.ui.quarks','encore.ui.rxPermission','encore.ui.quarks','encore.ui.rxRadio','encore.ui.quarks','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.quarks','encore.ui.quarks','encore.ui.rxSpinner','encore.ui.rxStatusColumn','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.rxTags','encore.ui.molecules','encore.ui.quarks','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.tabs','encore.ui.quarks','encore.ui.quarks','encore.ui.tooltips','encore.ui.typeahead','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks', 'cfp.hotkeys','ui.bootstrap']);
 /**
  * @ngdoc overview
  * @name atoms
@@ -4386,49 +4386,42 @@ angular.module('encore.ui.quarks')
     return rxBulkSelectUtils;
 });
 
-/**
- * @ngdoc overview
- * @name rxButton
- * @description
- * # rxButton Component
- *
- * `rxButton` is used to create buttons with a dynamically-displayed loading indicator. This is used as a replacement
- *  for `<button>` elements in scenarios where the button has multiple states.
- *
- * ## Styling
- *
- * There are several styles of buttons available, and they are documented in the
- *  [Encore Framework Styleguide](/encore-ui/#/styles/buttons).
- * Any classes that need to be added to the button should be passed to the `classes` attribute.
- *
- * ## Directives
- * * {@link rxButton.directive:rxButton rxButton}
- */
-angular.module('encore.ui.rxButton', []);
-
-angular.module('encore.ui.rxButton')
+angular.module('encore.ui.atoms')
 /**
  * @ngdoc directive
- * @name rxButton.directive:rxButton
+ * @name atoms.directive:rxButton
  * @restrict E
  * @scope
  * @description
  * Renders a button which will disable when clicked and show a loading message,
- * and re-enable when the operation is complete. If you set `classes` attributes `<rx-button>`,
- * those will get passed to the `<button>` instance as `class`.
+ * and re-enable when the operation is complete. If you set `classes` attributes
+ * `<rx-button>`, those will get passed to the `<button>` instance as `class`.
+ *
+ * `rxButton` is used to create buttons with a dynamically-displayed loading
+ * indicator. This is meant to be used as a replacement for `<button>` elements
+ * in scenarios where the button has multiple states.
  *
  * ## Button State
  *
- * The state of the button is controlled via the `toggle` attribute, which disables the button and replaces the
- * `default-msg` with the `toggle-msg` as the button's text.  There are no defaults for these messages, so they must
- * be defined if the toggle behavior is desired.  While the button is in the toggled state, it is also disabled (no
- * matter what the value of `disable` is.
+ * The state of the button is controlled via the `toggle` attribute, which
+ * disables the button and replaces the `default-msg` with the `toggle-msg` as
+ * the button's text.  There are no defaults for these messages, so they must
+ * be defined if the toggle behavior is desired.  While the button is in the
+ * toggled state, it is also disabled (no matter what the value of `disable` is).
  *
- * The button does not modify the variable passed to `toggle`; it should be modified in the handler provided to
- * `ng-click`.  Usually, the handler will set the variable to `true` immediately, and then to `false` once the the
+ * The button does not modify the variable passed to `toggle`; it should be
+ * modified in the handler provided to `ng-click`.  Usually, the handler will
+ * set the variable to `true` immediately, and then to `false` once the the
  * process (e.g. an API call) is complete.
  *
- * To disable the button, use the `disable` attribute instead of the normal `ng-disabled` - the behavior is the same.
+ * To disable the button, use the `disable` attribute instead of the normal
+ * `ng-disabled` - the behavior is the same.
+ *
+ * ## Styling
+ *
+ * There are several styles of buttons available, and they are documented in the
+ * [Buttons Styleguide](/encore-ui/#/atoms/buttons). Any classes that need to be
+ * added to the button should be passed to the `classes` attribute.
  *
  * @param {String} loadingMsg Text to be displayed when an operation is in progress.
  * @param {String} defaultMsg Text to be displayed by default when no operation is in progress.
@@ -4865,7 +4858,7 @@ angular.module('encore.ui.molecules')
  * ## Notice
  * This molecule is designed to be used in conjunction with other picker
  * molecules to compose a valid ISO 8601 DateTime string in the format of
- * <code>YYYY-MM-DDTHH:mm:ssZ</code>.
+ * <code>YYYY-MM-DDTHH:mmZ</code>.
  *
  * * This molecule will generate a **String** in the format of `YYYY-MM-DD`
  *   to be used as the date portion of the ISO 8601 standard DateTime string
@@ -4875,8 +4868,8 @@ angular.module('encore.ui.molecules')
  * @param {expression} ngModel
  * Expression that evaluates to a date string in `YYYY-MM-DD` format
  *
- * @return {String} **IMPORTANT** returns an ISO8601 standard date string in the
- * formate of `YYYY-MM-DD`.
+ * @return {String} **IMPORTANT** returns an ISO 8601 standard date string in the
+ * format of `YYYY-MM-DD`.
  */
 .directive('rxDatePicker', function () {
     return {
@@ -6000,6 +5993,7 @@ angular.module('encore.ui.rxFloatingHeader')
  *        * {@link rxForm.directive:rxFieldContent rxFieldContent} (0..1)
  *          * {@link rxForm.directive:rxInput rxInput} (0..N)
  *            * {@link rxForm.directive:rxPrefix rxPrefix} (0..1)
+ *            * {@link rxForm.directive:rxInfix rxInfix} (0..1)
  *            * {@link rxForm.directive:rxSuffix rxSuffix} (0..1)
  *
  * ## Free-Range Directives
@@ -6010,10 +6004,10 @@ angular.module('encore.ui.rxFloatingHeader')
  * * {@link rxForm.directive:rxInlineError rxInlineError}
  *   * Designed to style form control error messages.
  *
- * ## Compatible Components
- * These components work well with rxForm.
+ * ## Compatible Modules
+ * These modules work well with rxForm.
  *
- * * {@link rxButton}
+ * * {@link atoms.directive:rxButton rxButton}
  * * {@link rxCharacterCount}
  * * {@link atoms.directive:rxCheckbox rxCheckbox}
  * * {@link rxMultiSelect}
@@ -6178,7 +6172,7 @@ angular.module('encore.ui.rxFloatingHeader')
  * * {@link rxForm.directive:rxInlineError rxInlineError}
  *
  * ### Related Directives
- * * {@link rxButton.directive:rxButton rxButton}
+ * * {@link atoms.directive:rxButton rxButton}
  * * {@link rxCharacterCount.directive:rxCharacterCount rxCharacterCount}
  * * {@link atoms.directive:rxCheckbox rxCheckbox}
  * * {@link rxOptionTable.directive:rxOptionTable rxOptionTable}
@@ -6638,6 +6632,61 @@ angular.module('encore.ui.rxForm')
 
 angular.module('encore.ui.rxForm')
 /**
+ * @name rxForm.directive:rxInfix
+ * @ngdoc directive
+ * @restrict E
+ * @description
+ * Structural element directive used to wrap content to be placed
+ * inline with a form control element.
+ *
+ * <dl>
+ *   <dt>Display:</dt>
+ *   <dd>**inline block** *(only as wide as necessary for content)*</dd>
+ *
+ *   <dt>Parent:</dt>
+ *   <dd>{@link rxForm.directive:rxInput rxInput}</dd>
+ *
+ *   <dt>Siblings:</dt>
+ *   <dd>
+ *     <ul>
+ *       <li>{@link rxForm.directive:rxPrefix rxPrefix}</li>
+ *       <li>{@link rxForm.directive:rxSuffix rxSuffix}</li>
+ *       <li>Any HTML Element</li>
+ *     </ul>
+ *   </dd>
+ *
+ *   <dt>Children:</dt>
+ *   <dd>Any HTML Element</dd>
+ * </dl>
+ *
+ * @example
+ * <pre>
+ * ...
+ * <form rx-form>
+ *   <rx-form-section>
+ *     <rx-field>
+ *       <rx-field-name>Time of Day:</rx-field-name>
+ *       <rx-field-content>
+ *         <rx-input>
+ *           <input type="number" name="hours" />
+ *           <rx-infix>:</rx-infix>
+ *           <input type="number" name="minutes" />
+ *         </rx-input>
+ *       </rx-field-content>
+ *     </rx-field>
+ *   </rx-form-section>
+ * </form>
+ * ...
+ * </pre>
+ */
+.directive('rxInfix', ["rxNestedElement", function (rxNestedElement) {
+    return rxNestedElement({
+        parent: 'rxInput'
+    });
+}]);
+
+angular.module('encore.ui.rxForm')
+/**
  * @name rxForm.directive:rxInlineError
  * @ngdoc directive
  * @restrict E
@@ -6756,6 +6805,7 @@ angular.module('encore.ui.rxForm')
  *   <dt>Siblings:</dt>
  *   <dd>
  *     <ul>
+ *       <li>{@link rxForm.directive:rxInfix rxInfix}</li>
  *       <li>{@link rxForm.directive:rxSuffix rxSuffix}</li>
  *       <li>Any HTML Element</li>
  *     </ul>
@@ -6813,6 +6863,7 @@ angular.module('encore.ui.rxForm')
  *   <dd>
  *     <ul>
  *       <li>{@link rxForm.directive:rxPrefix rxPrefix}</li>
+ *       <li>{@link rxForm.directive:rxInfix rxInfix}</li>
  *       <li>Any HTML Element</li>
  *     </ul>
  *   </dd>
@@ -9908,7 +9959,7 @@ angular.module('encore.ui.rxSearchBox')
             $scope.rxPlaceholder = $scope.rxPlaceholder || 'Search...';
 
             $scope.$watch('searchVal', function (newVal) {
-                if ($scope.isDisabled) {
+                if (!newVal || $scope.isDisabled) {
                     $scope.isClearable = false;
                 } else {
                     $scope.isClearable = newVal.toString() !== '';
@@ -10843,6 +10894,236 @@ angular.module('encore.ui.rxTags')
         }
     };
 }]);
+
+angular.module('encore.ui.molecules')
+/**
+ * @name molecules.directive:rxTimePicker
+ * @ngdoc directive
+ * @restrict E
+ * @scope
+ * @requires quarks.service:rxTimePickerUtil
+ * @requires quarks.constant:UtcOffsets
+ * @requires atoms.directive:rxButton
+ * @description Time Picker
+ *
+ * ## Notice
+ * This molecule is designed to be used in conjunction with other picker
+ * molecules to compose a valid ISO 8601 DateTime string in the format of
+ * <code>YYYY-MM-DDTHH:mmZ</code>.
+ *
+ * * This molecule will generate a **String** in the format of `HH:mmZ`
+ *   to be used as the time portion of the ISO 8601 standard DateTime string
+ *   mentioned above.
+ * * This molecule will never generate anything other than a String.
+ *
+ * @param {expression} ngModel
+ * Expression that evaluates to a time string in `HH:mmZ` format, where `Z`
+ * should match `/[-+]\d{2}:\d{2}/`.
+ *
+ * @return {String} **IMPORTANT** returns an ISO 8601 standard time string in the
+ * format of `HH:mmZ`.
+ */
+.directive('rxTimePicker', ["rxTimePickerUtil", "UtcOffsets", function (rxTimePickerUtil, UtcOffsets) {
+    return {
+        restrict: 'E',
+        require: 'ngModel',
+        scope: {
+            modelValue: '=ngModel',
+            isDisabled: '=ngDisabled'
+        },
+        templateUrl: 'templates/rxTimePicker.html',
+        link: function (scope, el, attrs, ngModelCtrl) {
+            var pickerUtil = rxTimePickerUtil;
+
+            scope.availableUtcOffsets = UtcOffsets;
+
+            scope.isPickerVisible = false;
+
+            scope.openPopup = function () {
+                scope.isPickerVisible = true;
+
+                // default
+                scope.hour = '';
+                scope.minutes = '';
+                scope.period = 'AM';
+                scope.offset = '+00:00';
+
+                if (!_.isEmpty(scope.modelValue)) {
+                    var parsed = pickerUtil.modelToObject(scope.modelValue);
+                    scope.hour = parsed.hour;
+                    scope.minutes = parsed.minutes;
+                    scope.period = parsed.period;
+                    scope.offset = parsed.offset;
+                }
+            };//openPopup
+
+            scope.closePopup = function () {
+                scope.isPickerVisible = false;
+            };
+
+            /**
+             * Toggle the popup and initialize form values.
+             */
+            scope.togglePopup = function () {
+                if (!scope.isDisabled) {
+                    if (scope.isPickerVisible) {
+                        scope.closePopup();
+                    } else {
+                        scope.openPopup();
+                    }
+                }
+            };//togglePopup()
+
+            /**
+             * Apply the popup selections to the $viewValue.
+             */
+            scope.submitPopup = function () {
+                var time = moment([
+                    (scope.hour + ':' + scope.minutes),
+                    scope.period,
+                    scope.offset
+                ].join(' '), 'hh:mm A Z');
+
+                // ensure moment is in expected timezone
+                time.utcOffset(scope.offset);
+
+                ngModelCtrl.$setViewValue(time.format(pickerUtil.viewFormat));
+
+                // update the view
+                ngModelCtrl.$render();
+
+                scope.closePopup();
+            };//submitPopup()
+
+            /* Model -> View */
+            ngModelCtrl.$formatters.push(function (modelVal) {
+                var momentValue = moment(modelVal, pickerUtil.modelFormat);
+
+                if (momentValue.isValid()) {
+                    var offset = pickerUtil.parseUtcOffset(modelVal);
+
+                    // change offset of moment to that of model value
+                    // without this, moment will default to local offset
+                    // (CST = -06:00) and the formatted output will be incorrect
+                    momentValue.utcOffset(offset);
+
+                    // Ensure that display value is in proper format
+                    return momentValue.format(pickerUtil.viewFormat);
+                } else {
+                    return modelVal;
+                }
+            });
+
+            /* View -> Model */
+            ngModelCtrl.$parsers.push(function (viewVal) {
+                var momentValue = moment(viewVal, pickerUtil.viewFormat);
+
+                if (momentValue.isValid()) {
+                    var offset = pickerUtil.parseUtcOffset(viewVal);
+
+                    // change offset of moment to that of view value
+                    // without this, moment will default to local offset
+                    // (CST = -06:00) and the formatted output will be incorrect
+                    momentValue.utcOffset(offset);
+
+                    // Ensure that model value is in proper format
+                    return momentValue.format(pickerUtil.modelFormat);
+                } else {
+                    return viewVal;
+                }
+            });
+
+            ngModelCtrl.$render = function () {
+                scope.displayValue = ngModelCtrl.$viewValue || '';
+            };
+        }//link
+    };
+}]);
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc service
+ * @name quarks.service:rxTimePickerUtil
+ *
+ * @description
+ * Utility service used by {@link molecules.directive:rxTimePicker rxTimePicker}.
+ */
+.factory('rxTimePickerUtil', function () {
+    /**
+     * @ngdoc property
+     * @propertyOf quarks.service:rxTimePickerUtil
+     * @name modelFormat
+     * @description formatting mask for Time model/data values
+     */
+    var modelFormat = 'HH:mmZ';
+
+    /**
+     * @ngdoc property
+     * @propertyOf quarks.service:rxTimePickerUtil
+     * @name viewFormat
+     * @description formatting mask for Time view/display values
+     */
+    var viewFormat = 'HH:mm (UTCZZ)';
+
+    /**
+     * @ngdoc method
+     * @methodOf quarks.service:rxTimePickerUtil
+     * @name parseUtcOffset
+     * @param {String} stringValue string containing UTC offset
+     * @return {String} UTC Offset value
+     *
+     * @description parse offset value from given string, if present
+     *
+     * **NOTE:** Logic in this function must match the logic in
+     * the page object.
+     */
+    function parseUtcOffset (stringValue) {
+        var regex = /([-+]\d{2}:?\d{2})/;
+        var matched = stringValue.match(regex);
+        return (matched ? matched[0] : '');
+    }//parseUtcOffset()
+
+    /**
+     * @ngdoc method
+     * @methodOf quarks.service:rxTimePickerUtil
+     * @name modelToObject
+     * @param {String} stringValue time in `HH:mmZ` format
+     * @return {Object} parsed data object
+     *
+     * @description
+     * Parse the model value to fetch hour, minutes, period, and offset
+     * to populate the picker form with appropriate values.
+     */
+    function modelToObject (stringValue) {
+        var momentValue = moment(stringValue, modelFormat);
+        var offset = parseUtcOffset(stringValue);
+        var parsed = {
+            hour: '',
+            minutes: '',
+            period: 'AM',
+            offset: (_.isEmpty(offset) ? '+0000' : offset)
+        };
+
+        if (!_.isEmpty(offset)) {
+            momentValue.utcOffset(offset);
+        }
+
+        if (momentValue.isValid()) {
+            parsed.hour = momentValue.format('h');
+            parsed.minutes = momentValue.format('mm');
+            parsed.period = momentValue.format('A');
+        }
+
+        return parsed;
+    }//modelToObject()
+
+    return {
+        parseUtcOffset: parseUtcOffset,
+        modelToObject: modelToObject,
+        modelFormat: modelFormat,
+        viewFormat: viewFormat,
+    };
+});//rxTimePickerUtil
 
 /**
  * @ngdoc overview
@@ -12171,6 +12452,58 @@ angular.module('encore.ui.quarks')
         return _.isEqual(firstChunks.slice(0, numChunks), subChunks);
     };
 }]);
+
+angular.module('encore.ui.quarks')
+/**
+ * @ngdoc parameters
+ * @name quarks.constant:UtcOffsets
+ *
+ * @description
+ * List of known UTC Offset Values
+ * See https://en.wikipedia.org/wiki/List_of_UTC_time_offsets
+ */
+.constant('UtcOffsets', [
+    '-12:00',
+    '-11:00',
+    '-10:00',
+    '-09:30',
+    '-09:00',
+    '-08:00',
+    '-07:00',
+    '-06:00',
+    '-05:00',
+    '-04:30',
+    '-04:00',
+    '-03:30',
+    '-03:00',
+    '-02:00',
+    '-01:00',
+    '+00:00',
+    '+01:00',
+    '+02:00',
+    '+03:00',
+    '+03:30',
+    '+04:00',
+    '+04:30',
+    '+05:00',
+    '+05:30',
+    '+05:45',
+    '+06:00',
+    '+06:30',
+    '+07:00',
+    '+08:00',
+    '+08:30',
+    '+08:45',
+    '+09:00',
+    '+09:30',
+    '+10:00',
+    '+10:30',
+    '+11:00',
+    '+12:00',
+    '+12:45',
+    '+13:00',
+    '+14:00',
+]);
 
 angular.module('encore.ui.quarks')
 /**

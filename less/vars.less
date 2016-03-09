@@ -195,6 +195,34 @@
     @invalid-control-border-color: @red-500;
     @invalid-control-icon-color: @red-500;
   }//.rxDatePicker
+
+  .rxTimePicker {
+    // Popup
+    @popup-background-color: @white;
+    @popup-border-color: @gray-400;
+    @popup-border-top-color: @blue-700;
+    @popup-width: 300px;
+    @popup-z-index: 100;
+    // Control
+    @control-background-color: @white;
+    @control-border-color: @gray-500;
+    @control-cursor: pointer;
+    @control-gutter: 3px;
+    @control-height: 26px;
+    @control-icon-color: @gray-500;
+    @control-icon-width: 15px;
+    @control-padding-x: 3px;
+    @control-padding-y: 5px;
+    @control-text-color: @gray-900;
+    @control-width: 150px;
+    @disabled-control-background-color: @gray-300;
+    @disabled-control-border-color: @control-border-color;
+    @disabled-control-cursor: not-allowed;
+    @disabled-control-icon-color: @gray-600;
+    @disabled-control-text-color: @gray-600;
+    @invalid-control-border-color: @red-500;
+    @invalid-control-icon-color: @red-500;
+  }//.rxTimePicker
 }//#vars
 
 /*
@@ -358,7 +386,7 @@
 @rxToggleSwitch-padding: @rxToggleSwitch-knob-size * 0.9;
 @rxToggleSwitch-line-height: @rxToggleSwitch-knob-size * 1.25;
 @rxToggleSwitch-blur-dist: @rxToggleSwitch-padding;
-@rxToggleSwitch-blur-spread: (@rxToggleSwitch-padding/3) * -1;
+@rxToggleSwitch-blur-spread: (@rxToggleSwitch-padding / 3) * -1;
 
 /*
  * progressbar
