@@ -3209,6 +3209,9 @@ rx-field-name .wrapper .required-symbol {
 [rx-form] rx-form-section rx-field rx-field-content rx-input .rxSelect {
   flex: 1 1 auto;
 }
+[rx-form] rx-form-section rx-field rx-field-content rx-input rx-multi-select {
+  flex: 1 1 auto;
+}
 [rx-form] rx-form-section rx-field rx-field-content rx-input rx-date-picker {
   flex: 0 0 auto;
 }
@@ -3494,26 +3497,51 @@ rx-metadata section:last-child {
 .rxMultiSelect-demo .multi-select-container {
   width: 200px;
 }
-.rxMultiSelect-demo .status-filter .rxSelect {
-  width: 180px;
+.rxMultiSelect-demo table {
+  table-layout: fixed;
 }
 /*
  * rxMultiSelect
  */
 rx-multi-select {
-  z-index: auto !important;
+  z-index: auto;
+  box-sizing: border-box;
+  display: block;
+  color: #616161;
+  background: #ffffff;
+  position: relative;
+  min-width: 60px;
+  border: 1px solid #bdbdbd;
 }
-rx-multi-select[disabled] .preview {
-  pointer-events: none;
+rx-multi-select .control {
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: row no-wrap;
+  justify-content: space-around;
+  align-items: stretch;
+  height: 26px;
+  cursor: pointer;
 }
-rx-multi-select .preview {
-  padding: 5px;
+rx-multi-select .control .preview {
+  flex: 1 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 0 5px;
   overflow: hidden;
   white-space: nowrap;
 }
-rx-multi-select ul {
+rx-multi-select .control .select-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 26px;
+  color: #bdbdbd;
+}
+rx-multi-select .menu {
   z-index: 100;
   position: absolute;
+  cursor: pointer;
   top: -1px;
   left: -1px;
   width: 100%;
@@ -3521,8 +3549,48 @@ rx-multi-select ul {
   background: #ffffff;
   box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.35);
 }
+rx-multi-select.ng-invalid.ng-dirty {
+  border-color: #f44336;
+  border-width: 2px;
+}
+rx-multi-select.ng-invalid.ng-dirty .select-trigger {
+  color: #f44336;
+}
+rx-multi-select.ng-invalid.ng-dirty[disabled] {
+  color: #9e9e9e;
+  cursor: not-allowed;
+  border-color: #bdbdbd;
+  border-width: 1px;
+  background: #e0e0e0;
+}
+rx-multi-select.ng-invalid.ng-dirty[disabled] .select-trigger {
+  background: #e0e0e0;
+  border-left-color: #bdbdbd;
+  color: #bdbdbd;
+}
+rx-multi-select[disabled] {
+  color: #9e9e9e;
+  cursor: not-allowed;
+  border-color: #bdbdbd;
+  border-width: 1px;
+  background: #e0e0e0;
+}
+rx-multi-select[disabled] .select-trigger {
+  background: #e0e0e0;
+  border-left-color: #bdbdbd;
+  color: #bdbdbd;
+}
 rx-multi-select rx-select-option[value="all"] label {
   border-bottom: 1px solid #bdbdbd;
+}
+rx-multi-select .backdrop {
+  z-index: 90;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
 }
 .rx-select-option label {
   display: block;
@@ -4095,7 +4163,6 @@ rx-search-box .rxSearchBox-wrapper .rxSearchBox-clear .rxSearchBox-clear-icon {
   background: #e0e0e0;
 }
 .rxSelect select,
-.rxSelect rx-multi-select,
 .rxSelect .fake-select {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -4109,60 +4176,49 @@ rx-search-box .rxSearchBox-wrapper .rxSearchBox-clear .rxSearchBox-clear-icon {
   width: 100%;
   height: 100%;
 }
-.rxSelect select,
-.rxSelect rx-multi-select {
+.rxSelect select {
   z-index: 0;
   cursor: pointer;
   border: 0 !important;
   outline: none !important;
   background: transparent;
 }
-.rxSelect select:-moz-focusring,
-.rxSelect rx-multi-select:-moz-focusring {
+.rxSelect select:-moz-focusring {
   color: transparent;
   text-shadow: 0 0 0 #404040;
 }
-.rxSelect select + .fake-select,
-.rxSelect rx-multi-select + .fake-select {
+.rxSelect select + .fake-select {
   border-color: #bdbdbd;
   border-width: 1px;
 }
-.rxSelect select.ng-invalid.ng-dirty + .fake-select,
-.rxSelect rx-multi-select.ng-invalid.ng-dirty + .fake-select {
+.rxSelect select.ng-invalid.ng-dirty + .fake-select {
   border-color: #f44336;
   border-width: 2px;
 }
-.rxSelect select.ng-invalid.ng-dirty + .fake-select .select-trigger,
-.rxSelect rx-multi-select.ng-invalid.ng-dirty + .fake-select .select-trigger {
+.rxSelect select.ng-invalid.ng-dirty + .fake-select .select-trigger {
   color: #f44336;
 }
-.rxSelect select.ng-invalid.ng-dirty[disabled],
-.rxSelect rx-multi-select.ng-invalid.ng-dirty[disabled] {
+.rxSelect select.ng-invalid.ng-dirty[disabled] {
   cursor: not-allowed;
 }
-.rxSelect select.ng-invalid.ng-dirty[disabled] + .fake-select,
-.rxSelect rx-multi-select.ng-invalid.ng-dirty[disabled] + .fake-select {
+.rxSelect select.ng-invalid.ng-dirty[disabled] + .fake-select {
   border-color: #bdbdbd;
   border-width: 1px;
 }
-.rxSelect select.ng-invalid.ng-dirty[disabled] + .fake-select .select-trigger,
-.rxSelect rx-multi-select.ng-invalid.ng-dirty[disabled] + .fake-select .select-trigger {
+.rxSelect select.ng-invalid.ng-dirty[disabled] + .fake-select .select-trigger {
   background: #e0e0e0;
   border-left-width: 0px;
   border-left-color: #9e9e9e;
   color: #bdbdbd;
 }
-.rxSelect select[disabled],
-.rxSelect rx-multi-select[disabled] {
+.rxSelect select[disabled] {
   cursor: not-allowed;
 }
-.rxSelect select[disabled] + .fake-select,
-.rxSelect rx-multi-select[disabled] + .fake-select {
+.rxSelect select[disabled] + .fake-select {
   border-color: #bdbdbd;
   border-width: 1px;
 }
-.rxSelect select[disabled] + .fake-select .select-trigger,
-.rxSelect rx-multi-select[disabled] + .fake-select .select-trigger {
+.rxSelect select[disabled] + .fake-select .select-trigger {
   background: #e0e0e0;
   border-left-width: 0px;
   border-left-color: #9e9e9e;

@@ -2,14 +2,14 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.46.0 - 2016-03-09
+ * Version: 1.46.1-0 - 2016-03-30
  * License: Apache-2.0
  */
-angular.module('encore.ui', ['encore.ui.atoms','encore.ui.molecules','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.layout','encore.ui.metadata','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.quarks','encore.ui.rxApp','encore.ui.quarks','encore.ui.rxAttributes','encore.ui.quarks','encore.ui.rxBreadcrumbs','encore.ui.quarks','encore.ui.rxBulkSelect','encore.ui.quarks','encore.ui.quarks','encore.ui.atoms','encore.ui.quarks','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.molecules','encore.ui.quarks','encore.ui.quarks','encore.ui.rxEnvironment','encore.ui.quarks','encore.ui.quarks','encore.ui.atoms','encore.ui.rxFeedback','encore.ui.quarks','encore.ui.quarks','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.quarks','encore.ui.quarks','encore.ui.rxInfoPanel','encore.ui.quarks','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.quarks','encore.ui.quarks','encore.ui.rxMultiSelect','encore.ui.quarks','encore.ui.rxNotify','encore.ui.quarks','encore.ui.rxOptionTable','encore.ui.quarks','encore.ui.rxPaginate','encore.ui.quarks','encore.ui.rxPermission','encore.ui.quarks','encore.ui.rxRadio','encore.ui.quarks','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.quarks','encore.ui.quarks','encore.ui.rxSpinner','encore.ui.rxStatusColumn','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.rxTags','encore.ui.molecules','encore.ui.quarks','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.tabs','encore.ui.quarks','encore.ui.quarks','encore.ui.tooltips','encore.ui.typeahead','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks','encore.ui.quarks', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui', ['encore.ui.atoms','encore.ui.elements','encore.ui.molecules','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.layout','encore.ui.metadata','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.utilities','encore.ui.rxApp','encore.ui.utilities','encore.ui.rxAttributes','encore.ui.utilities','encore.ui.rxBreadcrumbs','encore.ui.utilities','encore.ui.rxBulkSelect','encore.ui.utilities','encore.ui.utilities','encore.ui.atoms','encore.ui.utilities','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.molecules','encore.ui.utilities','encore.ui.utilities','encore.ui.rxEnvironment','encore.ui.utilities','encore.ui.utilities','encore.ui.atoms','encore.ui.rxFeedback','encore.ui.utilities','encore.ui.utilities','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.utilities','encore.ui.utilities','encore.ui.rxInfoPanel','encore.ui.utilities','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.utilities','encore.ui.utilities','encore.ui.rxMultiSelect','encore.ui.utilities','encore.ui.rxNotify','encore.ui.utilities','encore.ui.rxOptionTable','encore.ui.utilities','encore.ui.rxPaginate','encore.ui.utilities','encore.ui.rxPermission','encore.ui.utilities','encore.ui.rxRadio','encore.ui.utilities','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.rxSpinner','encore.ui.rxStatusColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxTags','encore.ui.molecules','encore.ui.utilities','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.tabs','encore.ui.utilities','encore.ui.utilities','encore.ui.tooltips','encore.ui.typeahead','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities', 'cfp.hotkeys','ui.bootstrap']);
 /**
  * @ngdoc overview
  * @name atoms
- * @requires quarks
+ * @requires utilities
  * @description
  * # Atoms
  * Atoms are the basic building blocks for all UI elements.
@@ -19,13 +19,25 @@ angular.module('encore.ui', ['encore.ui.atoms','encore.ui.molecules','encore.ui.
  * * {@link atoms.directive:rxFavicon rxFavicon}
  */
 angular.module('encore.ui.atoms', [
-    'encore.ui.quarks'
+    'encore.ui.utilities'
+]);
+
+/**
+ * @ngdoc overview
+ * @name elements
+ * @requires utilities
+ * @description
+ * # Elements
+ * Elements are visual directives.
+ */
+angular.module('encore.ui.elements', [
+    'encore.ui.utilities'
 ]);
 
 /**
  * @ngdoc overview
  * @name molecules
- * @requires quarks
+ * @requires utilities
  * @requires atoms
  * @description
  * # Molecules
@@ -33,94 +45,101 @@ angular.module('encore.ui.atoms', [
  *
  * ## Directives
  * * {@link molecules.directive:rxDatePicker rxDatePicker}
+ * * {@link molecules.directive:rxTimePicker rxTimePicker}
  */
 angular.module('encore.ui.molecules', [
-    'encore.ui.quarks',
+    'encore.ui.utilities',
     'encore.ui.atoms'
 ]);
 
 /**
  * @ngdoc overview
- * @name quarks
+ * @name utilities
  * @description
- * # Quarks
- * Quarks are non-visual elements that support Atoms and Molecules.
+ * # Utilities
+ * Utilities are modules related to:
+ *
+ * * business logic
+ *   * values, constants, controllers, services
+ * * display logic & application flow control
+ *   * convenience, "if"-like, and "switch"-like directives
+ *   * filters
  *
  * ## Values & Constants
- * * {@link quarks.value:devicePaths devicePaths}
- * * {@link quarks.constant:feedbackApi feedbackApi}
- * * {@link quarks.value:feedbackTypes feedbackTypes}
- * * {@link quarks.object:rxStatusColumnIcons rxStatusColumnIcons}
+ * * {@link utilities.value:devicePaths devicePaths}
+ * * {@link utilities.constant:feedbackApi feedbackApi}
+ * * {@link utilities.value:feedbackTypes feedbackTypes}
+ * * {@link utilities.object:rxStatusColumnIcons rxStatusColumnIcons}
  *
  * ## Controllers
- * * {@link quarks.controller:rxBulkSelectController rxBulkSelectController}
- * * {@link quarks.controller:rxFeedbackController rxFeedbackController}
- * * {@link quarks.controller:rxModalCtrl rxModalCtrl}
- * 
+ * * {@link utilities.controller:rxBulkSelectController rxBulkSelectController}
+ * * {@link utilities.controller:rxFeedbackController rxFeedbackController}
+ * * {@link utilities.controller:rxModalCtrl rxModalCtrl}
+ *
  * ## Filters
- * * {@link quarks.filter:Page Page}
- * * {@link quarks.filter:Paginate Paginate}
- * * {@link quarks.filter:PaginatedItemsSummary PaginatedItemsSummary}
- * * {@link quarks.filter:rxAge rxAge}
- * * {@link quarks.filter:rxCapitalize rxCapitalize}
- * * {@link quarks.filter:rxDiskSize rxDiskSize}
- * * {@link quarks.filter:rxEnvironmentMatch rxEnvironmentMatch}
- * * {@link quarks.filter:rxEnvironmentUrl rxEnvironmentUrl}
- * * {@link quarks.filter:rxSortEmptyTop rxSortEmptyTop}
- * * {@link quarks.filter:rxUnsafeRemoveHTML rxUnsafeRemoveHTML}
- * * {@link quarks.filter:titleize titleize}
- * * {@link quarks.filter:xor xor}
+ * * {@link utilities.filter:Page Page}
+ * * {@link utilities.filter:Paginate Paginate}
+ * * {@link utilities.filter:PaginatedItemsSummary PaginatedItemsSummary}
+ * * {@link utilities.filter:rxAge rxAge}
+ * * {@link utilities.filter:rxCapitalize rxCapitalize}
+ * * {@link utilities.filter:rxDiskSize rxDiskSize}
+ * * {@link utilities.filter:rxEnvironmentMatch rxEnvironmentMatch}
+ * * {@link utilities.filter:rxEnvironmentUrl rxEnvironmentUrl}
+ * * {@link utilities.filter:rxSortEmptyTop rxSortEmptyTop}
+ * * {@link utilities.filter:rxUnsafeRemoveHTML rxUnsafeRemoveHTML}
+ * * {@link utilities.filter:titleize titleize}
+ * * {@link utilities.filter:xor xor}
  *
  * ## Services
- * * {@link quarks.service:Auth Auth}
- * * {@link quarks.service:encoreRoutes encoreRoutes}
- * * {@link quarks.service:Environment Environment}
- * * {@link quarks.service:ErrorFormatter ErrorFormatter}
- * * {@link quarks.service:hotkeys hotkeys}
- * * {@link quarks.service:Identity Identity}
- * * {@link quarks.service:NotifyProperties NotifyProperties}
- * * {@link quarks.service:PageTracking PageTracking}
- * * {@link quarks.service:Permission Permission}
- * * {@link quarks.service:routesCdnPath routesCdnPath}
- * * {@link quarks.service:rxAppRoutes rxAppRoutes}
- * * {@link quarks.service:rxAutoSave rxAutoSave}
- * * {@link quarks.service:rxBreadcrumbsSvc rxBreadcrumbsSvc}
- * * {@link quarks.service:rxBulkSelectUtils rxBulkSelectUtils}
- * * {@link quarks.service:rxDOMHelper rxDOMHelper}
- * * {@link quarks.service:rxFeedbackSvc rxFeedbackSvc}
- * * {@link quarks.service:rxFormUtils rxFormUtils}
- * * {@link quarks.service:rxHideIfUkAccount rxHideIfUkAccount}
- * * {@link quarks.service:rxLocalStorage rxLocalStorage}
- * * {@link quarks.service:rxModalFooterTemplates rxModalFooterTemplates}
- * * {@link quarks.service:rxNestedElement rxNestedElement}
- * * {@link quarks.service:rxNotify rxNotify}
- * * {@link quarks.service:rxPageTitle rxPageTitle}
- * * {@link quarks.service:rxPaginateUtils rxPaginateUtils}
- * * {@link quarks.service:rxPromiseNotifications rxPromiseNotifications}
- * * {@link quarks.service:rxScreenshotSvc rxScreenshotSvc}
- * * {@link quarks.service:rxSortUtil rxSortUtil}
- * * {@link quarks.service:rxStatusMappings rxStatusMappings}
- * * {@link quarks.service:rxStatusTags rxStatusTags}
- * * {@link quarks.service:rxVisibility rxVisibility}
- * * {@link quarks.service:rxVisibilityPathParams rxVisibilityPathParams}
- * * {@link quarks.service:Session Session}
- * * {@link quarks.service:Status Status}
- * * {@link quarks.service:StatusUtil StatusUtil}
- * * {@link quarks.service:TokenInterceptor TokenInterceptor}
- * * {@link quarks.service:UnauthorizedInterceptor UnauthorizedInterceptor}
- * * {@link quarks.service:urlUtils urlUtils}
+ * * {@link utilities.service:Auth Auth}
+ * * {@link utilities.service:encoreRoutes encoreRoutes}
+ * * {@link utilities.service:Environment Environment}
+ * * {@link utilities.service:ErrorFormatter ErrorFormatter}
+ * * {@link utilities.service:hotkeys hotkeys}
+ * * {@link utilities.service:Identity Identity}
+ * * {@link utilities.service:NotifyProperties NotifyProperties}
+ * * {@link utilities.service:PageTracking PageTracking}
+ * * {@link utilities.service:Permission Permission}
+ * * {@link utilities.service:routesCdnPath routesCdnPath}
+ * * {@link utilities.service:rxAppRoutes rxAppRoutes}
+ * * {@link utilities.service:rxAutoSave rxAutoSave}
+ * * {@link utilities.service:rxBreadcrumbsSvc rxBreadcrumbsSvc}
+ * * {@link utilities.service:rxBulkSelectUtils rxBulkSelectUtils}
+ * * {@link utilities.service:rxDOMHelper rxDOMHelper}
+ * * {@link utilities.service:rxFeedbackSvc rxFeedbackSvc}
+ * * {@link utilities.service:rxFormUtils rxFormUtils}
+ * * {@link utilities.service:rxHideIfUkAccount rxHideIfUkAccount}
+ * * {@link utilities.service:rxLocalStorage rxLocalStorage}
+ * * {@link utilities.service:rxModalFooterTemplates rxModalFooterTemplates}
+ * * {@link utilities.service:rxNestedElement rxNestedElement}
+ * * {@link utilities.service:rxNotify rxNotify}
+ * * {@link utilities.service:rxPageTitle rxPageTitle}
+ * * {@link utilities.service:rxPaginateUtils rxPaginateUtils}
+ * * {@link utilities.service:rxPromiseNotifications rxPromiseNotifications}
+ * * {@link utilities.service:rxScreenshotSvc rxScreenshotSvc}
+ * * {@link utilities.service:rxSortUtil rxSortUtil}
+ * * {@link utilities.service:rxStatusMappings rxStatusMappings}
+ * * {@link utilities.service:rxStatusTags rxStatusTags}
+ * * {@link utilities.service:rxVisibility rxVisibility}
+ * * {@link utilities.service:rxVisibilityPathParams rxVisibilityPathParams}
+ * * {@link utilities.service:Session Session}
+ * * {@link utilities.service:Status Status}
+ * * {@link utilities.service:StatusUtil StatusUtil}
+ * * {@link utilities.service:TokenInterceptor TokenInterceptor}
+ * * {@link utilities.service:UnauthorizedInterceptor UnauthorizedInterceptor}
+ * * {@link utilities.service:urlUtils urlUtils}
  */
-angular.module('encore.ui.quarks', [
+angular.module('encore.ui.utilities', [
     'ngResource',
     'debounce',
 ]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc filter
- * @name quarks.filter:Apply
+ * @name utilities.filter:Apply
  * @description
- * Used to apply an instance of {@link quarks.service:SelectFilter SelectFilter} to an array.
+ * Used to apply an instance of {@link utilities.service:SelectFilter SelectFilter} to an array.
  *
  * Merely calls the `applyTo()` method of a `SelectFilter` instance to an
  * input array.
@@ -138,19 +157,19 @@ angular.module('encore.ui.quarks')
     };
 });
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:Auth
+ * @name utilities.service:Auth
  * @description
  * Service which provides an entire solution for authenticating, user session management
  * and permissions in the UI.  The Auth service is a wrapper for the Identity, Session and
  * Permission services.  These services were broken into smaller components to facilitate
  * customization and re-use.
  *
- * @requires quarks.service:Identity
- * @requires quarks.service:Session
- * @requires quarks.service:Permission
+ * @requires utilities.service:Identity
+ * @requires utilities.service:Session
+ * @requires utilities.service:Permission
  *
  * @example
  * <pre>
@@ -175,10 +194,10 @@ angular.module('encore.ui.quarks')
     return svc;
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc parameters
- * @name quarks.value:devicePaths
+ * @name utilities.value:devicePaths
  * @description
  * Provides configuration for device paths.
  *
@@ -199,10 +218,10 @@ angular.module('encore.ui.quarks')
     { value: '/dev/xvdp', label: '/dev/xvdp' }
 ]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:encoreRoutes
+ * @name utilities.service:encoreRoutes
  * @description
  * Creates a shared instance of `AppRoutes` that is used for the Encore App nav.
  * This allows apps to make updates to the nav via `encoreRoutes`.
@@ -279,10 +298,10 @@ angular.module('encore.ui.quarks')
     return encoreRoutes;
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:Environment
+ * @name utilities.service:Environment
  * @description
  *
  * Allows defining environments and retrieving the current environment based on location
@@ -485,22 +504,22 @@ angular.module('encore.ui.quarks')
     this.isUnifiedProd = makeEnvCheck('unified-prod');
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:ErrorFormatter
+ * @name utilities.service:ErrorFormatter
  * @description
  * Provides a helper method to parse error objects for `message` and format them
- * as necessary for `Status.setError()`.  See {@link quarks.service:Status Status} Service
- * for more information.  
- * 
+ * as necessary for `Status.setError()`.  See {@link utilities.service:Status Status} Service
+ * for more information.
+ *
  * # Error Messages Using ErrorFormatter
  *
  * `ErrorFormmatter` provides a specialized template `error` string
  * with an `object:{}` as the second parameter containing the replacements for
  * the template in the error string.  If in a proper format, the object can be
  * automatically parsed using an `ErrorFormatter` and displayed to the user.
- * 
+ *
  * For example:
  *
  * <pre>
@@ -540,21 +559,21 @@ angular.module('encore.ui.quarks')
     };
 });
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc parameters
- * @name quarks.constant:feedbackApi
+ * @name utilities.constant:feedbackApi
  * @description
  * Provides the feedback URL.
  */
 .constant('feedbackApi', '/api/encore/feedback');
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc parameters
- * @name quarks.value:feedbackTypes
+ * @name utilities.value:feedbackTypes
  * @description
- * Provides default feedback types with placeholder text. 
+ * Provides default feedback types with placeholder text.
  */
 .value('feedbackTypes', [
     {
@@ -582,11 +601,11 @@ angular.module('encore.ui.quarks')
 
 /**
  * @ngdoc service
- * @name quarks.service:hotkeys
+ * @name utilities.service:hotkeys
  * @description
  * # hotkeys
  *
- * This quark is simply a reference guide to using
+ * This utility is simply a reference guide to using
  * [the angular-hotkeys plugin](http://chieffancypants.github.io/angular-hotkeys/)
  * from within EncoreUI.
  *
@@ -628,10 +647,10 @@ angular.module('encore.ui.quarks')
  *
  */
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
 * @ngdoc service
-* @name quarks.service:Identity
+* @name utilities.service:Identity
 * @description
 * This is a component designed to aid interaction with Rackspace's Identity API.
 *
@@ -701,10 +720,10 @@ angular.module('encore.ui.layout', []);
  */
 angular.module('encore.ui.metadata', []);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:NotifyProperties
+ * @name utilities.service:NotifyProperties
  * @description
  *
  * This factory provides functionality for abstracting "properties", and allowing
@@ -773,10 +792,10 @@ angular.module('encore.ui.quarks')
     return NotifyProperties;
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc filter
- * @name quarks.filter:Page
+ * @name utilities.filter:Page
  * @description
  * This is the pagination filter that is used to limit the number of pages
  * shown.
@@ -816,10 +835,10 @@ angular.module('encore.ui.quarks')
     };
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:PageTracking
+ * @name utilities.service:PageTracking
  * @description
  * This is the data service that can be used in conjunction with the pagination
  * objects to store/control page display of data tables and other items.
@@ -830,6 +849,43 @@ angular.module('encore.ui.quarks')
  * </pre>
  */
 .factory('PageTracking', ["$q", "LocalStorage", "rxPaginateUtils", function ($q, LocalStorage, rxPaginateUtils) {
+    var PageTracking = {
+        /**
+        * @property {number} itemsPerPage This is the current setting for the number
+        * of items to display per page.
+        * @property {boolean} [persistItemsPerPage=true] Whether or not a change to this pager's itemsPerPage
+        * should be persisted globally to all other pagers
+        * @property {number} pagesToShow This is the number of pages to show
+        * in the pagination controls
+        * @property {number} pageNumber This is where the current page number is
+        * stored.
+        * @property {boolean} pageInit This is used to determine if the page has been
+        * initialzed before.
+        * @property {number} total This is the total number of items that are in the
+        * data set
+        * @property {boolean} showAll This is used to determine whether or not to use
+        * the pagination or not.
+        *
+        * @method createInstance This is used to generate the instance of the
+        * PageTracking object. Enables the ability to override default pager.
+        * If you choose to override the default `itemsPerPage`, and it isn't
+        * a value in itemSizeList, then it will automatically be added to itemSizeList
+        * at the right spot.
+        */
+        createInstance: function (options) {
+            options = options ? options : {};
+            var tracking = new PageTrackingObject(options);
+            return tracking.pager;
+        },
+
+        /*
+        * @method userSelectedItemsPerPage This method sets a new global itemsPerPage value
+        */
+        userSelectedItemsPerPage: function (itemsPerPage) {
+            LocalStorage.setItem('rxItemsPerPage', itemsPerPage);
+        }
+    };
+
     function PageTrackingObject (opts) {
         var pager = _.defaults(_.cloneDeep(opts), {
             itemsPerPage: 200,
@@ -1033,50 +1089,13 @@ angular.module('encore.ui.quarks')
 
     }
 
-    var PageTracking = {
-        /**
-        * @property {number} itemsPerPage This is the current setting for the number
-        * of items to display per page.
-        * @property {boolean} [persistItemsPerPage=true] Whether or not a change to this pager's itemsPerPage
-        * should be persisted globally to all other pagers
-        * @property {number} pagesToShow This is the number of pages to show
-        * in the pagination controls
-        * @property {number} pageNumber This is where the current page number is
-        * stored.
-        * @property {boolean} pageInit This is used to determine if the page has been
-        * initialzed before.
-        * @property {number} total This is the total number of items that are in the
-        * data set
-        * @property {boolean} showAll This is used to determine whether or not to use
-        * the pagination or not.
-        *
-        * @method createInstance This is used to generate the instance of the
-        * PageTracking object. Enables the ability to override default pager.
-        * If you choose to override the default `itemsPerPage`, and it isn't
-        * a value in itemSizeList, then it will automatically be added to itemSizeList
-        * at the right spot.
-        */
-        createInstance: function (options) {
-            options = options ? options : {};
-            var tracking = new PageTrackingObject(options);
-            return tracking.pager;
-        },
-
-        /*
-        * @method userSelectedItemsPerPage This method sets a new global itemsPerPage value
-        */
-        userSelectedItemsPerPage: function (itemsPerPage) {
-            LocalStorage.setItem('rxItemsPerPage', itemsPerPage);
-        }
-    };
-
     return PageTracking;
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc filter
- * @name quarks.filter:Paginate
+ * @name utilities.filter:Paginate
  * @description
  * This is the pagination filter that is used to calculate the division in the
  * items list for the paging.
@@ -1116,10 +1135,10 @@ angular.module('encore.ui.quarks')
     };
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc filter
- * @name quarks.filter:PaginatedItemsSummary
+ * @name utilities.filter:PaginatedItemsSummary
  * @description
  * Given an active pager (i.e. the result of PageTracking.createInstance()),
  * return a string like "26-50 of 500", when on the second page of a list of
@@ -1144,14 +1163,14 @@ angular.module('encore.ui.quarks')
     };
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:Permission
+ * @name utilities.service:Permission
  * @description
  * Simple service for accessing roles and permissions for a user.
  *
- * @requires quarks.service:Session
+ * @requires utilities.service:Session
  *
  * @example
  * <pre>
@@ -1195,7 +1214,7 @@ angular.module('encore.ui.quarks')
     /**
      * @name  getRoles
      * @ngdoc method
-     * @methodOf quarks.service:Permission
+     * @methodOf utilities.service:Permission
      * @description
      * Fetch all the roles tied to the user (in the exact format available in their Session token).
      *
@@ -1210,7 +1229,7 @@ angular.module('encore.ui.quarks')
     /**
      * @name  hasRole
      * @ngdoc method
-     * @methodOf quarks.service:Permission
+     * @methodOf utilities.service:Permission
      * @description Check if user has at least _one_ of the given roles.
      * @param {Array} roles List of roles to check against
      * @returns {Boolean} True if user has at least _one_ of the given roles; otherwise, False.
@@ -1222,7 +1241,7 @@ angular.module('encore.ui.quarks')
     /**
      * @name  hasAllRoles
      * @ngdoc method
-     * @methodOf quarks.service:Permission
+     * @methodOf utilities.service:Permission
      * @description Checks if user has _every_ role in given list.
      * @param {Array} roles List of roles to check against
      * @returns {Boolean} True if user has _every_ role in given list; otherwise, False.
@@ -1235,10 +1254,10 @@ angular.module('encore.ui.quarks')
     return permissionSvc;
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:routesCdnPath
+ * @name utilities.service:routesCdnPath
  * @description
  * `routesCdnPath` is configured as a `.provider`. This is to allow users to override the URL used when in a
  * local/staging environment.
@@ -1548,17 +1567,17 @@ angular.module('encore.ui.rxActiveUrl')
     };
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc filter
- * @name quarks.filter:rxAge
+ * @name utilities.filter:rxAge
  * @description
  * Several filters are available to parse dates.
  *
  * ## Two Digit Display
  * 1. You can just have it use the default abbreviated method and it truncates it
  *  to the two largest units.
- *  
+ *
  *  <pre>
  *    <div ng-controller="rxAgeCtrl">
  *      <ul>
@@ -1571,7 +1590,7 @@ angular.module('encore.ui.quarks')
  * ## Full Word Representation
  * 2. You can also pass in a second value of `true` and have it expand the units
  *  from the first letter to their full word representation.
- *  
+ *
  *  <pre>
  *    <div ng-controller="rxAgeCtrl">
  *      <ul>
@@ -1584,7 +1603,7 @@ angular.module('encore.ui.quarks')
  * ## Mulitple Digits
  * 3. Or you can pass in a number from `1` to `3` as the second value to allow for
  *  different amounts of units.
- *  
+ *
  *  <pre>
  *    <div ng-controller="rxAgeCtrl">
  *      <ul>
@@ -1597,7 +1616,7 @@ angular.module('encore.ui.quarks')
  * ## Multiple Argument Usage
  * 4. **OR** you can pass in a number as the second argument and `true` as the
  *    third argument to combine these two effects.
- *    
+ *
  *  <pre>
  *    <div ng-controller="rxAgeCtrl">
  *      <ul>
@@ -1607,8 +1626,8 @@ angular.module('encore.ui.quarks')
  *  </pre>
  *  `Thu Aug 13 2015 06:22:05 GMT-0500 (CDT) → 40 days, 4 hours, 49 minutes`
  *
- * 
- * **NOTE:** This component requires [moment.js](http://momentjs.com/) to parse, manipulate, and 
+ *
+ * **NOTE:** This component requires [moment.js](http://momentjs.com/) to parse, manipulate, and
  * display dates which is provided by Encore Framework.
  */
 .filter('rxAge', function () {
@@ -1729,7 +1748,7 @@ angular.module('encore.ui.quarks')
  * ## Dynamically updating the menu
  *
  * By default, rxApp will create the navigation menu based on the routes defined
- * in the 'encoreNav' value. This menu is built using the {@link quarks.service:rxAppRoutes rxAppRoutes} service.
+ * in the 'encoreNav' value. This menu is built using the {@link utilities.service:rxAppRoutes rxAppRoutes} service.
  *
  * To update a route, use the `setRouteByKey` function on the `rxAppRoutes` service:
  *
@@ -1779,7 +1798,7 @@ angular.module('encore.ui.quarks')
  */
 angular.module('encore.ui.rxApp', [
     'cfp.hotkeys',
-    'encore.ui.quarks',
+    'encore.ui.utilities',
     'encore.ui.rxEnvironment',
     'encore.ui.rxPermission',
     'ngRoute',
@@ -1839,7 +1858,7 @@ angular.module('encore.ui.rxApp')
             // the former is always available, while $routeParams only gets populated
             // after the route has successfully resolved. See the Angular docs on $routeParams
             // for more details.
-            var loadUsers = function () {
+            function loadUsers () {
                 var success = function (account) {
 
                     // Sort the list so admins are at the top of the array
@@ -1865,7 +1884,7 @@ angular.module('encore.ui.rxApp')
                 if (accountNumber) {
                     Encore.getAccountUsers({ id: accountNumber }, success);
                 }
-            };
+            }
 
             checkCloud();
 
@@ -2920,10 +2939,10 @@ angular.module('encore.ui.rxApp')
     };
 });
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:rxAppRoutes
+ * @name utilities.service:rxAppRoutes
  * @description
  * Manages page routes, building urls and marking them as active on route change.
  */
@@ -3047,7 +3066,7 @@ angular.module('encore.ui.quarks')
                 });
             },
 
-            isActiveByKey:  function (key) {
+            isActiveByKey: function (key) {
                 return this.getRouteByKey(key).then(function (route) {
                     return urlUtils.isActive(route, urlUtils.getCurrentPathChunks());
                 }, function () {
@@ -3188,10 +3207,10 @@ angular.module('encore.ui.rxAttributes')
     };
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:rxAutoSave
+ * @name utilities.service:rxAutoSave
  * @description
  * A factory that controllers can use to help automatically save and load
  * form data (via rxLocalStorage) on any given page.
@@ -3212,7 +3231,7 @@ angular.module('encore.ui.quarks')
  * be saved independently of each other. `rxAutoSave` will also let you independently store values for multiple forms
  * appearing on the same page.
  *
- * By default, all values are stored in {@link quarks.service:rxLocalStorage rxLocalStoage} which interfaces with the
+ * By default, all values are stored in {@link utilities.service:rxLocalStorage rxLocalStoage} which interfaces with the
  * browser's `LocalStorage` object. This means that if a user logs into a different computer, their stored values will
  * not be present.  Use of `SessionStorage` is also supported out-of-the-box. If you wish to save form states elsewhere
  * (for instance, to an API), see the "Storage Location" section below.
@@ -3434,8 +3453,8 @@ angular.module('encore.ui.quarks')
  *
  * ## Storage location
  *
- * All values for `rxAutoSave` are by default stored in the browser's `LocalStorage` through the `rxLocalStorage` 
- * service, and keyed on the URL of the page, with a `rxAutoSave::` prefix. For example, if the above form were 
+ * All values for `rxAutoSave` are by default stored in the browser's `LocalStorage` through the `rxLocalStorage`
+ * service, and keyed on the URL of the page, with a `rxAutoSave::` prefix. For example, if the above form were
  * present at the URL `'users/JonnyRocket/edit'`, then the form data would be saved into the browser's `LocalStorage`
  * at location `'rxAutoSave::users/JonnyRocket/edit'`.
  *
@@ -3734,7 +3753,7 @@ angular.module('encore.ui.quarks')
 
         _.bindAll(autoSaveInstance);
 
-        var update = function (newVal) {
+        function update (newVal) {
             // Get the current data stored for this watchVar
             var data = api.getDataObject();
 
@@ -3747,7 +3766,7 @@ angular.module('encore.ui.quarks')
 
             // Update the expiry time whenever we modify data
             updateExpiryTime();
-        };
+        }
 
         // We don't want to write to the browser's LocalStorage every time the model changes,
         // because that would turn typing into a textarea into an expensive operation.
@@ -3801,7 +3820,7 @@ angular.module('encore.ui.rxBreadcrumbs')
  *
  *
  * By default, the first breadcrumb will always have an URL of `'/'` and a name of `'Home'`. This can be changed
- * with the `rxBreadcrumbsSvc.setHome` method (see {@link quarks.service:rxBreadcrumbsSvc rxBreadcrumbsSvc}).
+ * with the `rxBreadcrumbsSvc.setHome` method (see {@link utilities.service:rxBreadcrumbsSvc rxBreadcrumbsSvc}).
  *
  * @param {String=} status
  * The tag to apply to any breadcrumbs with usePageStatusTag:true
@@ -3836,10 +3855,10 @@ angular.module('encore.ui.rxBreadcrumbs')
     };
 });
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:rxBreadcrumbsSvc
+ * @name utilities.service:rxBreadcrumbsSvc
  * @description
  * `rxBreadcrumbsSvc` provides various methods to manipulate breadcrumbs.
  *
@@ -3880,7 +3899,7 @@ angular.module('encore.ui.quarks')
     /**
      * @ngdoc function
      * @name rxBreadcrumbsSvc.setHome
-     * @methodOf quarks.service:rxBreadcrumbsSvc
+     * @methodOf utilities.service:rxBreadcrumbsSvc
      * @description
      * By default, the first breadcrumb will always have an URL of `'/'` and a name of `'Home'`.  This can be changed
      * with the `rxBreadcrumbsSvc.setHome` method.
@@ -3930,7 +3949,7 @@ angular.module('encore.ui.quarks')
  * * {@link rxBulkSelect.directive:rxBulkSelectValidate rxBulkSelectValidate}
  */
 angular.module('encore.ui.rxBulkSelect', [
-    'encore.ui.quarks',
+    'encore.ui.utilities',
     'encore.ui.atoms'
 ]);
 
@@ -4154,6 +4173,8 @@ angular.module('encore.ui.rxBulkSelect')
 
             var rxBulkSelectCtrl = controllers[0],
                 // Optional controller, so mock it out if it's not present
+                // https://github.com/eslint/eslint/issues/5537
+                // eslint-disable-next-line object-curly-spacing
                 rxFloatingHeaderCtrl = controllers[1] || { update: function () {} };
 
             scope.selectAll = function () {
@@ -4272,10 +4293,10 @@ angular.module('encore.ui.rxBulkSelect')
     };
 });
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc controller
- * @name quarks.controller:rxBulkSelectController
+ * @name utilities.controller:rxBulkSelectController
  * @scope
  * @description
  * Provides controller logic for {@link rxBulkSelect}.
@@ -4362,10 +4383,10 @@ angular.module('encore.ui.quarks')
     };
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:rxBulkSelectUtils
+ * @name utilities.service:rxBulkSelectUtils
  * @description
  * Selects or deselects all visible rows. Support function for `rxBulkSelect`.
  */
@@ -4444,10 +4465,10 @@ angular.module('encore.ui.atoms')
     };
 });
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc filter
- * @name quarks.filter:rxCapitalize
+ * @name utilities.filter:rxCapitalize
  * @description
  * The `rxCapitalize` filter capitalizes the first word in a string via an Angular filter.
  */
@@ -5020,10 +5041,10 @@ angular.module('encore.ui.molecules')
     };
 });
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc filter
- * @name quarks.filter:rxDiskSize
+ * @name utilities.filter:rxDiskSize
  * @description
  *
  * Converts GB disk size into a more readable format (e.g. GBs, TBs, PBs)
@@ -5053,13 +5074,13 @@ angular.module('encore.ui.quarks')
     };
 });
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:rxDOMHelper
+ * @name utilities.service:rxDOMHelper
  * @description
  * A small set of functions to provide some functionality
- * that isn't present in [Angular's jQuery-lite](https://docs.angularjs.org/api/ng/function/angular.element), 
+ * that isn't present in [Angular's jQuery-lite](https://docs.angularjs.org/api/ng/function/angular.element),
  * and other DOM-related functions that are useful.
  *
  * **NOTE:** All methods take jQuery-lite wrapped elements as arguments.
@@ -5085,7 +5106,7 @@ angular.module('encore.ui.quarks')
         var rect = rawDom.getBoundingClientRect();
         _x = rect.left + scrollX;
         _y = rect.top + scrollY;
-        return { left: _x, top:_y };
+        return { left: _x, top: _y };
     };
 
     var style = function (elem) {
@@ -5236,7 +5257,7 @@ angular.module('encore.ui.quarks')
  */
 angular.module('encore.ui.rxEnvironment', [
     'ngSanitize',
-    'encore.ui.quarks'
+    'encore.ui.utilities'
 ]);
 
 angular.module('encore.ui.rxEnvironment')
@@ -5244,7 +5265,7 @@ angular.module('encore.ui.rxEnvironment')
  * @ngdoc directive
  * @name rxEnvironment.directive:rxEnvironment
  * @restrict A
- * @requires quarks.service:Environment
+ * @requires utilities.service:Environment
  * @description
  * Show or hide content based on environment name
  *
@@ -5277,10 +5298,10 @@ angular.module('encore.ui.rxEnvironment')
     };
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc filter
- * @name quarks.filter:rxEnvironmentMatch
+ * @name utilities.filter:rxEnvironmentMatch
  * @description
  * Checks if current environment matches target environment
  *
@@ -5306,10 +5327,10 @@ angular.module('encore.ui.quarks')
     };
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc filter
- * @name quarks.filter:rxEnvironmentUrl
+ * @name utilities.filter:rxEnvironmentUrl
  * @description
  * Builds a URL based on current environment.
  * Note: if value passed in isn't an object, it will simply return that value
@@ -5524,7 +5545,7 @@ angular.module('encore.ui.atoms')
  */
 angular.module('encore.ui.rxFeedback', [
     'ngResource',
-    'encore.ui.quarks'
+    'encore.ui.utilities'
 ]);
 
 angular.module('encore.ui.rxFeedback')
@@ -5624,10 +5645,10 @@ angular.module('encore.ui.rxFeedback')
     };
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc controller
- * @name quarks.controller:rxFeedbackController
+ * @name utilities.controller:rxFeedbackController
  * @scope
  * @description
  * Allows the customization of the feedback modal via `$scope` and `$modalInstance`.
@@ -5649,10 +5670,10 @@ angular.module('encore.ui.quarks')
     }
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:rxFeedbackSvc
+ * @name utilities.service:rxFeedbackSvc
  * @description
  * `rxFeedbackSvc` service supports `rxFeedback` directive functionality.  A `custom endpoint` may be set to override
  * the `default` endpoint.
@@ -5716,21 +5737,21 @@ angular.module('encore.ui.rxFloatingHeader')
  * @name rxFloatingHeader.directive:rxFloatingHeader
  * @restrict A
  * @description
- * 
- *`rxFloatingHeader` is an attribute directive that turns a tableheader into a floating persistent header so that names 
- * of columns are still visible, even as a user scrolls down the page. This is based off of the example at 
+ *
+ *`rxFloatingHeader` is an attribute directive that turns a tableheader into a floating persistent header so that names
+ * of columns are still visible, even as a user scrolls down the page. This is based off of the example at
  * http://css-tricks.com/persistent-headers/
  *
  * * To use it, add an `rx-floating-header` attribute to a `table` element.
  *
  * * A common pattern in our products is to place an `<input>` filter at the top of the table, to restrict the items
- * that are displayed. We support this as well, by placing the `<input>` directly inside of the `<thead>` in its 
+ * that are displayed. We support this as well, by placing the `<input>` directly inside of the `<thead>` in its
  * own `<tr><th></th></tr>`.
  *
  * * Make sure you set the `colspan` attribute on the filter's `<th>`, to match the number of columns you have.
  *
  * * `rxFloatingHeader` is also fully compatible with {@link rxSortableColumn} and {@link rxPaginate}.
- * 
+ *
  * @example
  * <pre>
  * <table rx-floating-header>
@@ -5780,27 +5801,26 @@ angular.module('encore.ui.rxFloatingHeader')
                         clone.remove();
                     });
                 }
-                state = 'fixed',
-                seenFirstScroll = false,
+                state = 'fixed';
+                seenFirstScroll = false;
 
                 // The original <tr> elements
-                trs = [],
+                trs = [];
 
                 // The original <th> elements
-                ths = [],
+                ths = [];
 
                 // All <th> elements that are the *only* <th> in their row
-                singleThs = [],
+                singleThs = [];
 
                 // The maximum width we could find for a <th>
-                maxThWidth = 0,
+                maxThWidth = 0;
 
                 // Clones of the <tr> elements
-                clones = [],
+                clones = [];
 
                 // any <input> elements in the <thead>
-                inputs = [],
-                maxHeight,
+                inputs = [];
                 header = angular.element(table.find('thead'));
 
                 // Are we currently floating?
@@ -6898,9 +6918,9 @@ angular.module('encore.ui.rxForm')
     });
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
- * @name quarks.service:rxFormUtils
+ * @name utilities.service:rxFormUtils
  * @ngdoc service
  *
  * @description
@@ -6954,10 +6974,10 @@ angular.module('encore.ui.quarks')
     return rxFormUtils;
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:rxHideIfUkAccount
+ * @name utilities.service:rxHideIfUkAccount
  * @description
  * Check if account number in the URL is of UK origin.
  *
@@ -7016,23 +7036,23 @@ angular.module('encore.ui.rxInfoPanel')
     };
 });
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:LocalStorage
+ * @name utilities.service:LocalStorage
  * @deprecated
  * @description
- * **NOTICE:** This service has be deprecated in favor of the 
- * {@link quarks.service:rxLocalStorage rxLocalStorage} service.
+ * **NOTICE:** This service has be deprecated in favor of the
+ * {@link utilities.service:rxLocalStorage rxLocalStorage} service.
  */
 .service('LocalStorage', ["rxLocalStorage", function (rxLocalStorage) {
     return rxLocalStorage;
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:rxLocalStorage
+ * @name utilities.service:rxLocalStorage
  * @description
  * A simple wrapper for injecting the global variable `localStorage`
  * for storing values in the browser's local storage object. This service is similar to Angular's
@@ -7105,7 +7125,7 @@ angular.module('encore.ui.quarks')
  * * {@link rxLogout.directive:rxLogout rxLogout}
  */
 angular.module('encore.ui.rxLogout', [
-    'encore.ui.quarks'
+    'encore.ui.utilities'
 ]);
 
 angular.module('encore.ui.rxLogout')
@@ -7307,11 +7327,11 @@ angular.module('encore.ui.rxMetadata')
  * @description
  * # rxMisc Component
  *
- * **NOTE:** Marked for DEPRECATION.  All `rxMisc` components refactored to `Quarks`. 
+ * **NOTE:** Marked for DEPRECATION.  All `rxMisc` components refactored to `Utilities`.
  */
 angular.module('encore.ui.rxMisc', [
     'debounce',
-    'encore.ui.quarks'
+    'encore.ui.utilities'
 ]);
 
 /**
@@ -7534,7 +7554,7 @@ angular.module('encore.ui.rxModalAction')
                 .attr('ng-switch-when', attrs.state);
 
             rxModalFooterTemplates.add(attrs.state, footer[0].outerHTML, {
-               global: attrs.global !== undefined
+                global: attrs.global !== undefined
             });
 
             return function (scope, el) {
@@ -7631,10 +7651,10 @@ angular.module('encore.ui.rxModalAction')
     };
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc controller
- * @name quarks.controller:rxModalCtrl
+ * @name utilities.controller:rxModalCtrl
  * @scope
  * @description
  * Provides a controller for `rxModalAction` to use.
@@ -7651,10 +7671,10 @@ angular.module('encore.ui.quarks')
     $rootScope.$on('$routeChangeSuccess', $modalInstance.dismiss);
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:rxModalFooterTemplates
+ * @name utilities.service:rxModalFooterTemplates
  * @description
  * A cache for storing the modal footer templates
  * This is used internally by rxModalFooter, which is preferred
@@ -7709,18 +7729,14 @@ angular.module('encore.ui.quarks')
  * This component is a multi-select dropdown with checkboxes for each option.
  * It is a replacement for `<select multiple>` when space is an issue, such as
  * in the header of a table.
- * ## Services
- * * Links to service APIs provided by rxMultiSelect component.
  *
  * ## Directives
  * * {@link rxMultiSelect.directive:rxMultiSelect rxMultiSelect}
  * * {@link rxMultiSelect.directive:rxSelectOption rxSelectOption}
  *
- * ## Related Directives (if applicable)
- * * Links to directive APIs provided by other components.
  */
 angular.module('encore.ui.rxMultiSelect', [
-    'encore.ui.rxSelectFilter'
+    'encore.ui.utilities'
 ]);
 
 angular.module('encore.ui.rxMultiSelect')
@@ -7729,6 +7745,7 @@ angular.module('encore.ui.rxMultiSelect')
  * @name rxMultiSelect.directive:rxMultiSelect
  * @restrict E
  * @scope
+ * @requires rxMultiSelect.directive:rxSelectOption
  * @description
  * This component is a multi-select dropdown with checkboxes for each option.
  * It is a replacement for `<select multiple>` when space is an issue, such as
@@ -7739,11 +7756,12 @@ angular.module('encore.ui.rxMultiSelect')
  * set as the first option for the dropdown, which allows all options to be
  * toggled at once.
  *
- * The following two dropdowns are equivalent.
+ * The following two dropdowns are equivalent:
  * <pre>
  * <!-- $scope.available = [2014, 2015] -->
  * <rx-multi-select ng-model="selected" options="available"></rx-multi-select>
- *
+ *</pre>
+ *<pre>
  * <rx-multi-select ng-model="selected">
  *   <rx-select-option value="2014"></rx-select-option>
  *   <rx-select-option value="2015"></rx-select-option>
@@ -7764,15 +7782,19 @@ angular.module('encore.ui.rxMultiSelect')
  * @param {String} ng-model The scope property that stores the value of the input
  * @param {Array=} options A list of the options for the dropdown
  */
-.directive('rxMultiSelect', ["$document", "rxDOMHelper", "rxSelectDirective", function ($document, rxDOMHelper, rxSelectDirective) {
+.directive('rxMultiSelect', ["$document", "rxDOMHelper", function ($document, rxDOMHelper) {
     return {
         restrict: 'E',
         templateUrl: 'templates/rxMultiSelect.html',
         transclude: true,
-        require: ['rxMultiSelect', 'ngModel'],
+        require: [
+            'rxMultiSelect',
+            'ngModel'
+        ],
         scope: {
             selected: '=ngModel',
             options: '=?',
+            isDisabled: '=ngDisabled',
         },
         controller: ["$scope", function ($scope) {
             if (_.isUndefined($scope.selected)) {
@@ -7815,30 +7837,16 @@ angular.module('encore.ui.rxMultiSelect')
             };
         }],
         link: function (scope, element, attrs, controllers) {
-            rxSelectDirective[0].link.apply(this, arguments);
+            scope.listDisplayed = false;
 
-            var previewElement = rxDOMHelper.find(element, '.preview')[0];
-
-            var documentClickHandler = function (event) {
-                if (event.target !== previewElement) {
-                    scope.listDisplayed = false;
-                    scope.$apply();
+            scope.toggleMenu = function () {
+                if (!scope.isDisabled) {
+                    scope.listDisplayed = !scope.listDisplayed;
                 }
             };
 
-            $document.on('click', documentClickHandler);
-            scope.$on('$destroy', function () {
-                $document.off('click', documentClickHandler);
-            });
-
-            scope.listDisplayed = false;
-
-            scope.toggleDisplay = function (event) {
-                if (event.target === previewElement) {
-                    scope.listDisplayed = !scope.listDisplayed;
-                } else {
-                    event.stopPropagation();
-                }
+            scope.closeMenu = function () {
+                scope.listDisplayed = false;
             };
 
             var selectCtrl = controllers[0];
@@ -7878,6 +7886,7 @@ angular.module('encore.ui.rxMultiSelect')
  * @ngdoc directive
  * @name rxMultiSelect.directive:rxSelectOption
  * @restrict E
+ * @requires atoms.directive:rxCheckbox
  * @description
  * A single option for use within rxMultiSelect.
  *
@@ -7930,10 +7939,10 @@ angular.module('encore.ui.rxMultiSelect')
     };
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:rxNestedElement
+ * @name utilities.service:rxNestedElement
  * @description
  * Helper function to aid in the creation of boilerplate DDO definitions
  * required to validate nested custom elements.
@@ -8001,8 +8010,8 @@ angular.module('encore.ui.quarks')
  * differs from {@link rxNotify.directive:rxNotifications rxNotifications} (plural).
  *
  * The type attribute can be any type supported by `options.type` for the `rxNotify.add()` function in
- * the {@link quarks.service:rxNotify rxNotify} service.
- * 
+ * the {@link utilities.service:rxNotify rxNotify} service.
+ *
  * ## Directives
  * * {@link rxNotify.directive:rxNotification rxNotification}
  * * {@link rxNotify.directive:rxNotifications rxNotifications}
@@ -8065,7 +8074,7 @@ angular.module('encore.ui.quarks')
 angular.module('encore.ui.rxNotify', [
     'ngSanitize',
     'ngAnimate',
-    'encore.ui.quarks'
+    'encore.ui.utilities'
 ]);
 
 angular.module('encore.ui.rxNotify')
@@ -8175,10 +8184,10 @@ angular.module('encore.ui.rxNotify')
     };
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:rxNotify
+ * @name utilities.service:rxNotify
  * @description
  * Manages page messages for an application.
  *
@@ -8308,14 +8317,14 @@ angular.module('encore.ui.quarks')
      *
      * @param {Object} message The message object to remove.
      */
-    var dismissAfterTimeout = function (message) {
+    function dismissAfterTimeout (message) {
         // convert seconds to milliseconds
         var timeoutMs = message.timeout * 1000;
 
         $interval(function () {
             dismiss(message);
         }, timeoutMs, 1);
-    };
+    }
 
     /**
      * @function
@@ -8383,7 +8392,7 @@ angular.module('encore.ui.quarks')
     /**
      * @name clear
      * @ngdoc method
-     * @methodOf quarks.service:rxNotify
+     * @methodOf utilities.service:rxNotify
      * @description deletes all messages in a stack
      *
      * @param {String} stack The name of the stack to clear
@@ -8398,12 +8407,12 @@ angular.module('encore.ui.quarks')
     /**
      * @name dismiss
      * @ngdoc method
-     * @methodOf quarks.service:rxNotify
+     * @methodOf utilities.service:rxNotify
      * @description removes a specific message from a stack
      *
      * @param {Object} msg Message object to remove
      */
-    var dismiss = function (msg) {
+    function dismiss (msg) {
         // remove message by id
         stacks[msg.stack] = _.reject(stacks[msg.stack], { 'id': msg.id });
 
@@ -8412,12 +8421,12 @@ angular.module('encore.ui.quarks')
                 msg.ondismiss(msg);
             }, 0, 1);
         }
-    };//dismiss()
+    }//dismiss()
 
     /**
      * @name add
      * @ngdoc method
-     * @methodOf quarks.service:rxNotify
+     * @methodOf utilities.service:rxNotify
      * @description adds a message to a stack
      *
      * @param {String} text Message text
@@ -8638,6 +8647,7 @@ angular.module('encore.ui.rxOptionTable')
             disableFn: '&?'
         },
         link: function (scope, element) {
+            var boxesChecked = 0;
             scope.selectAllModel = false;
 
             scope.$watchCollection('modelProxy', function (newValue) {
@@ -8727,7 +8737,6 @@ angular.module('encore.ui.rxOptionTable')
             // If we are using checkboxes and the required attribute is set, then we
             // need an array to store the indexes of checked boxes. ng-required is
             // specifically set if required is true and the array is empty.
-            var boxesChecked = 0;
             _.forEach(scope.modelProxy, function (el) {
                 if (el) {
                     boxesChecked += 1;
@@ -8778,10 +8787,10 @@ angular.module('encore.ui.rxOptionTable')
     };
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:rxPageTitle
+ * @name utilities.service:rxPageTitle
  * @description
  *  `rxPageTitle` service manages page titles.
  *
@@ -8902,7 +8911,7 @@ angular.module('encore.ui.quarks')
  * ## Persistence
  *
  * The user's preference for the number of items to display per page will be persisted across applications
- * using {@link quarks.service:rxLocalStorage rxLocalStorage}. This preference is set whenever the user selects 
+ * using {@link utilities.service:rxLocalStorage rxLocalStorage}. This preference is set whenever the user selects
  * a new number to show.
  *
  * This applies to both UI-based pagination and API-based pagination.
@@ -9331,7 +9340,7 @@ angular.module('encore.ui.quarks')
  * * {@link rxPaginate.directive:rxPaginate rxPaginate}
  */
 angular.module('encore.ui.rxPaginate', [
-    'encore.ui.quarks',
+    'encore.ui.utilities',
     'debounce'
 ]);
 
@@ -9529,10 +9538,10 @@ angular.module('encore.ui.rxPaginate')
     };
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:rxPaginateUtils
+ * @name utilities.service:rxPaginateUtils
  * @description
  * A few utilities to calculate first, last, and number of items.
  */
@@ -9575,14 +9584,14 @@ angular.module('encore.ui.quarks')
  * @description
  * # rxPermission Component
  * The rxPermission component provides functionality to perform checks against existing user permissions in
- * EncoreUI.  It provides a {@link quarks.service:Permission Permission} service for working with roles, and
+ * EncoreUI.  It provides a {@link utilities.service:Permission Permission} service for working with roles, and
  * a {@link rxPermission.directive:rxPermission rxPermission} directive for excluding DOM content based on roles.
  *
  * ## Directives
  * * {@link rxPermission.directive:rxPermission rxPermission}
  */
 angular.module('encore.ui.rxPermission', [
-    'encore.ui.quarks',
+    'encore.ui.utilities',
 ]);
 
 angular.module('encore.ui.rxPermission')
@@ -9615,10 +9624,10 @@ angular.module('encore.ui.rxPermission')
     };
 });
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:rxPromiseNotifications
+ * @name utilities.service:rxPromiseNotifications
  * @description Manages displaying messages for a promise.
  *
  * It is a common pattern with API requests that you show a loading message when an action is requested, followed
@@ -9687,7 +9696,7 @@ angular.module('encore.ui.quarks')
     /**
      * @name add
      * @ngdoc method
-     * @methodOf quarks.service:rxPromiseNotifications
+     * @methodOf utilities.service:rxPromiseNotifications
      * @description
      * @param {Object} promise
      * The promise to attach to for showing success/error messages
@@ -9853,10 +9862,10 @@ angular.module('encore.ui.rxRadio')
     };
 });
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:rxScreenshotSvc
+ * @name utilities.service:rxScreenshotSvc
  * @description
  * Captures a screenshot for `rxFeedback` submission form.
  *
@@ -9906,6 +9915,7 @@ angular.module('encore.ui.quarks')
  * * {@link rxSearchBox.directive:rxSearchBox rxSearchBox}
  */
 angular.module('encore.ui.rxSearchBox', []);
+
 angular.module('encore.ui.rxSearchBox')
 /**
  * @name rxSearchBox.directive:rxSearchBox
@@ -10099,7 +10109,7 @@ angular.module('encore.ui.rxSelect')
  * * {@link rxSelectFilter.directive:rxSelectFilter rxSelectFilter}
  */
 angular.module('encore.ui.rxSelectFilter', [
-    'encore.ui.quarks',
+    'encore.ui.utilities',
     'encore.ui.rxMisc',
     'encore.ui.rxSelect'
 ]);
@@ -10195,10 +10205,10 @@ angular.module('encore.ui.rxSortableColumn')
     };
 });
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc filter
- * @name quarks.filter:rxSortEmptyTop
+ * @name utilities.filter:rxSortEmptyTop
  * @description
  *
  * Filter that moves rows with an empty predicate to the top of the column in
@@ -10208,9 +10218,9 @@ angular.module('encore.ui.quarks')
  * ### Empty Sort
  * <pre>
  * var emptySort = [
- *     { name: { firstName: 'Adam' } }, 
+ *     { name: { firstName: 'Adam' } },
  *     { }
- * ];	
+ * ];
  * emptySort | rxSortEmptyTop 'name.firstName':false
  * </pre>
  * Will sort as [{}, { name: { firstName: 'Adam' } }].
@@ -10218,7 +10228,7 @@ angular.module('encore.ui.quarks')
  * ### Null Sort
  * <pre>
  * var nullSort = [
- *     { name: { firstName: 'Adam' } }, 
+ *     { name: { firstName: 'Adam' } },
  *     { name: { firstName: null }
  * ];
  * nullSort | rxSortEmptyTop 'name.firstName':true
@@ -10238,10 +10248,10 @@ angular.module('encore.ui.quarks')
     };
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:rxSortUtil
+ * @name utilities.service:rxSortUtil
  * @description
  * Service which provided utility methods for sorting collections.
  *
@@ -10336,7 +10346,7 @@ angular.module('encore.ui.rxSpinner')
  * * {@link rxStatusColumn.directive:rxStatusHeader rxStatusHeader}
  */
 angular.module('encore.ui.rxStatusColumn', [
-    'encore.ui.quarks'
+    'encore.ui.utilities'
 ]);
 
 angular.module('encore.ui.rxStatusColumn')
@@ -10484,10 +10494,10 @@ angular.module('encore.ui.rxStatusColumn')
     };
 });
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc object
- * @name quarks.object:rxStatusColumnIcons
+ * @name utilities.object:rxStatusColumnIcons
  * @description
  *
  * Mapping of internal statuses to FontAwesome icons.
@@ -10499,10 +10509,10 @@ angular.module('encore.ui.quarks')
     'INFO': 'fa-info-circle',
 });
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:rxStatusMappings
+ * @name utilities.service:rxStatusMappings
  * @description
  *
  * A set of methods for creating mappings between a product's notion
@@ -10575,7 +10585,7 @@ angular.module('encore.ui.quarks')
     /**
      * @ngdoc function
      * @name rxStatusMappings.addGlobal
-     * @methodOf quarks.service:rxStatusMappings
+     * @methodOf utilities.service:rxStatusMappings
      * @description
      *
      * Takes a full set of mappings to be used globally
@@ -10605,7 +10615,7 @@ angular.module('encore.ui.quarks')
     /**
      * @ngdoc function
      * @name rxStatusMappings.addAPI
-     * @methodOf quarks.service:rxStatusMappings
+     * @methodOf utilities.service:rxStatusMappings
      * @description
      *
      * Create a mapping specific to a particular API. This will
@@ -10681,7 +10691,7 @@ angular.module('encore.ui.quarks')
     /**
      * @ngdoc function
      * @name rxStatusMappings.getInternalMapping
-     * @methodOf quarks.service:rxStatusMappings
+     * @methodOf utilities.service:rxStatusMappings
      * @description
      *
      * `rxStatusMappings` defines a `getInternalMapping(statusString, api)` method,
@@ -10708,10 +10718,10 @@ angular.module('encore.ui.quarks')
     return rxStatusMappings;
 });
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:rxStatusTags
+ * @name utilities.service:rxStatusTags
  * @description
  * This provider is primarily used for applications to specify custom status
  * tags, for use with the `status` attributes of `rx-page` and of breadcrumb
@@ -10771,7 +10781,7 @@ angular.module('encore.ui.quarks')
  *
  */
 angular.module('encore.ui.rxTags', [
-    'encore.ui.quarks',
+    'encore.ui.utilities',
     'encore.ui.rxMisc',
     'ui.bootstrap'
 ]);
@@ -10901,8 +10911,8 @@ angular.module('encore.ui.molecules')
  * @ngdoc directive
  * @restrict E
  * @scope
- * @requires quarks.service:rxTimePickerUtil
- * @requires quarks.constant:UtcOffsets
+ * @requires utilities.service:rxTimePickerUtil
+ * @requires utilities.constant:UtcOffsets
  * @requires atoms.directive:rxButton
  * @description Time Picker
  *
@@ -11040,10 +11050,10 @@ angular.module('encore.ui.molecules')
     };
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:rxTimePickerUtil
+ * @name utilities.service:rxTimePickerUtil
  *
  * @description
  * Utility service used by {@link molecules.directive:rxTimePicker rxTimePicker}.
@@ -11051,7 +11061,7 @@ angular.module('encore.ui.quarks')
 .factory('rxTimePickerUtil', function () {
     /**
      * @ngdoc property
-     * @propertyOf quarks.service:rxTimePickerUtil
+     * @propertyOf utilities.service:rxTimePickerUtil
      * @name modelFormat
      * @description formatting mask for Time model/data values
      */
@@ -11059,7 +11069,7 @@ angular.module('encore.ui.quarks')
 
     /**
      * @ngdoc property
-     * @propertyOf quarks.service:rxTimePickerUtil
+     * @propertyOf utilities.service:rxTimePickerUtil
      * @name viewFormat
      * @description formatting mask for Time view/display values
      */
@@ -11067,7 +11077,7 @@ angular.module('encore.ui.quarks')
 
     /**
      * @ngdoc method
-     * @methodOf quarks.service:rxTimePickerUtil
+     * @methodOf utilities.service:rxTimePickerUtil
      * @name parseUtcOffset
      * @param {String} stringValue string containing UTC offset
      * @return {String} UTC Offset value
@@ -11085,7 +11095,7 @@ angular.module('encore.ui.quarks')
 
     /**
      * @ngdoc method
-     * @methodOf quarks.service:rxTimePickerUtil
+     * @methodOf utilities.service:rxTimePickerUtil
      * @name modelToObject
      * @param {String} stringValue time in `HH:mmZ` format
      * @return {Object} parsed data object
@@ -11169,6 +11179,7 @@ angular.module('encore.ui.rxToggle', [])
         }
     };
 });
+
 /**
  * @ngdoc overview
  * @name rxToggleSwitch
@@ -11262,10 +11273,10 @@ angular.module('encore.ui.rxToggleSwitch')
     };
 });
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc filter
- * @name quarks.filter:rxUnsafeRemoveHTML
+ * @name utilities.filter:rxUnsafeRemoveHTML
  * @description
  * Given a string, it removes all HTML tags from the string, using the
  * browser's own parsing engine. Any content inside of tags will be kept.
@@ -11289,14 +11300,14 @@ angular.module('encore.ui.quarks')
     };
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:rxVisibility
+ * @name utilities.service:rxVisibility
  * @description
- * Provides an interface for adding new `visibility` methods for nav menus.  Methods added via `addMethod` should 
+ * Provides an interface for adding new `visibility` methods for nav menus.  Methods added via `addMethod` should
  * have a `function (scope, args)` interface.
- * 
+ *
  * When you do:
  * <pre>
  * visibility: [ "someMethodName", { foo: 1, bar: 2} ]
@@ -11338,18 +11349,18 @@ angular.module('encore.ui.quarks')
     };
 });
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:rxVisibilityPathParams
+ * @name utilities.service:rxVisibilityPathParams
  * @description
  * Returns an object with `name` and `method` params that can
  * be passed to
- * [rxVisibility.addMethod()](https://github.com/rackerlabs/encore-ui/blob/master/src/quarks/rxVisibility
+ * [rxVisibility.addMethod()](https://github.com/rackerlabs/encore-ui/blob/master/src/utilities/rxVisibility
  * /scripts/rxVisibility.js#L22).
- * We register this by default, as it's used by the nav menu we keep in 
- * {@link quarks.service:routesCdnPath routesCdnPath}.
- * 
+ * We register this by default, as it's used by the nav menu we keep in
+ * {@link utilities.service:routesCdnPath routesCdnPath}.
+ *
  * The method is used to check if `{param: 'someParamName'}` is present in the current route.
  * Use it as:
  * <pre>
@@ -11358,7 +11369,7 @@ angular.module('encore.ui.quarks')
  */
 .factory('rxVisibilityPathParams', ["$routeParams", function ($routeParams) {
     var pathParams = {
-        name:'rxPathParams',
+        name: 'rxPathParams',
         method: function (scope, args) {
             return !_.isUndefined($routeParams[args.param]);
         }
@@ -11367,10 +11378,10 @@ angular.module('encore.ui.quarks')
     return pathParams;
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:SelectFilter
+ * @name utilities.service:SelectFilter
  * @description
  * A prototype for creating objects that can be used for filtering arrays.
  *
@@ -11434,7 +11445,7 @@ angular.module('encore.ui.quarks')
  * Instances of `SelectFilter` have an `applyTo()` method, which applies the
  * filter's internal state of selected options to the array. This will not
  * often be called directly, but instead used by the
- * {@link quarks.filter:Apply Apply} filter. As stated previously,
+ * {@link utilities.filter:Apply Apply} filter. As stated previously,
  * the first call of `applyTo()` will initialize any
  * `properties` that have not been defined in `available` or `selected`.
  * <pre>
@@ -11467,7 +11478,7 @@ angular.module('encore.ui.quarks')
        /**
         * @ngdoc method
         * @name create
-        * @methodOf quarks.service:SelectFilter
+        * @methodOf utilities.service:SelectFilter
         * @param {Object} options
         * Options object
         * @param {Object} options.properties
@@ -11549,15 +11560,15 @@ angular.module('encore.ui.quarks')
     };
 });
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:Session
+ * @name utilities.service:Session
  * @description
  *
  * Service for managing user session in encore-ui.
  *
- * @requires quarks.service:rxLocalStorage
+ * @requires utilities.service:rxLocalStorage
  *
  * @example
  * <pre>
@@ -11634,10 +11645,10 @@ angular.module('encore.ui.quarks')
     return session;
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:SessionStorage
+ * @name utilities.service:SessionStorage
  * @description
  *
  * A simple wrapper for injecting the global variable sessionStorage
@@ -11699,10 +11710,10 @@ angular.module('encore.ui.quarks')
     };
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:Status
+ * @name utilities.service:Status
  * @description
  *
  * Manages notifications for rxNotify with an abstracted set of functions for
@@ -12047,10 +12058,10 @@ angular.module('encore.ui.quarks')
     return status;
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:StatusUtil
+ * @name utilities.service:StatusUtil
  * @description
  * Manipulates required references to $scope input for proper notification functionality.
  *
@@ -12094,10 +12105,10 @@ angular.module('encore.ui.quarks')
  */
 angular.module('encore.ui.tabs', []);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc filter
- * @name quarks.filter:titleize
+ * @name utilities.filter:titleize
  * @description
  * Convert a string to title case, stripping out underscores and capitalizing words.
  *
@@ -12127,10 +12138,10 @@ angular.module('encore.ui.quarks')
     };
 });
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:TokenInterceptor
+ * @name utilities.service:TokenInterceptor
  * @description
  * Simple $http injector which will intercept http request and inject the
  * Rackspace Identity's token into every http request.
@@ -12281,17 +12292,17 @@ angular.module('encore.ui.typeahead')
     }]);
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:UnauthorizedInterceptor
+ * @name utilities.service:UnauthorizedInterceptor
  * @description
  * Simple injector which will intercept HTTP responses. If a HTTP 401 response error code is returned,
  * the ui redirects to `/login`.
  *
  * @requires $q
  * @requires @window
- * @requires quarks.service:Session
+ * @requires utilities.service:Session
  *
  * @example
  * <pre>
@@ -12328,10 +12339,10 @@ angular.module('encore.ui.quarks')
     return svc;
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
- * @name quarks.service:urlUtils
+ * @name utilities.service:urlUtils
  * @description
  *
  * Set of utility functions to break apart/compare URLs.
@@ -12453,10 +12464,10 @@ angular.module('encore.ui.quarks')
     };
 }]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc parameters
- * @name quarks.constant:UtcOffsets
+ * @name utilities.constant:UtcOffsets
  *
  * @description
  * List of known UTC Offset Values
@@ -12505,10 +12516,10 @@ angular.module('encore.ui.quarks')
     '+14:00',
 ]);
 
-angular.module('encore.ui.quarks')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc filter
- * @name quarks.filter:xor
+ * @name utilities.filter:xor
  * @description
  * Returns the exclusive or of two arrays.
  *

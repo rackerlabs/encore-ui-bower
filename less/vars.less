@@ -223,6 +223,28 @@
     @invalid-control-border-color: @red-500;
     @invalid-control-icon-color: @red-500;
   }//.rxTimePicker
+
+  .rxMultiSelect {
+    // Container
+    @container-min-width: 60px;
+    @container-height: 26px;
+    @container-background-color: @white;
+    @container-border-color: @gray-500;
+    @container-disabled-background-color: @app-disabled-background-color;
+    @container-invalid-border-color: @red-500;
+    @container-disabled-border-color: @container-border-color;
+    @container-border-width: 1px;
+    // List Items
+    @container-list-text-color: @app-body-text-color;
+    @container-list-disabled-text-color: @app-disabled-text-color;
+    // Trigger
+    @trigger-background-color: @container-background-color;
+    @trigger-disabled-background-color: @container-disabled-background-color;
+    @trigger-width: @container-height;
+    @trigger-color: @container-border-color;
+    @trigger-invalid-color: @container-invalid-border-color;
+    @trigger-disabled-color: @container-disabled-border-color;
+  }//.rxMultiSelect
 }//#vars
 
 /*
