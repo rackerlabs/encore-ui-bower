@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.46.1 - 2016-03-30
+ * Version: 2.0.0-2 - 2016-03-30
  * License: Apache-2.0
  */
 angular.module('encore.ui', ['encore.ui.atoms','encore.ui.elements','encore.ui.molecules','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.layout','encore.ui.metadata','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.utilities','encore.ui.rxApp','encore.ui.utilities','encore.ui.rxAttributes','encore.ui.utilities','encore.ui.rxBreadcrumbs','encore.ui.utilities','encore.ui.rxBulkSelect','encore.ui.utilities','encore.ui.utilities','encore.ui.atoms','encore.ui.utilities','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.molecules','encore.ui.utilities','encore.ui.utilities','encore.ui.rxEnvironment','encore.ui.utilities','encore.ui.utilities','encore.ui.atoms','encore.ui.rxFeedback','encore.ui.utilities','encore.ui.utilities','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.utilities','encore.ui.utilities','encore.ui.rxInfoPanel','encore.ui.utilities','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.utilities','encore.ui.utilities','encore.ui.rxMultiSelect','encore.ui.utilities','encore.ui.rxNotify','encore.ui.utilities','encore.ui.rxOptionTable','encore.ui.utilities','encore.ui.rxPaginate','encore.ui.utilities','encore.ui.rxPermission','encore.ui.utilities','encore.ui.rxRadio','encore.ui.utilities','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.rxSpinner','encore.ui.rxStatusColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxTags','encore.ui.molecules','encore.ui.utilities','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.tabs','encore.ui.utilities','encore.ui.utilities','encore.ui.tooltips','encore.ui.typeahead','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities', 'cfp.hotkeys','ui.bootstrap']);
@@ -7915,8 +7915,8 @@ angular.module('encore.ui.rxMultiSelect')
         link: function (scope, element, attrs, selectCtrl) {
             scope.transclusion = rxDOMHelper.find(element, '[ng-transclude] > *').length > 0;
 
-            scope.toggle = function () {
-                if (scope.isSelected) {
+            scope.toggle = function (isSelected) {
+                if (isSelected) {
                     selectCtrl.unselect(scope.value);
                 } else {
                     selectCtrl.select(scope.value);
@@ -9972,7 +9972,7 @@ angular.module('encore.ui.rxSearchBox')
                 if (!newVal || $scope.isDisabled) {
                     $scope.isClearable = false;
                 } else {
-                    $scope.isClearable = newVal.toString() !== '';
+                    $scope.isClearable = (newVal.toString() !== '');
                 }
             });
 
@@ -10875,14 +10875,21 @@ angular.module('encore.ui.rxTags')
             };
 
             scope.add = function (tag) {
-                scope.tags.push(tag);
-                ngModelCtrl.$setViewValue(scope.tags);
-                scope.newTag = '';
+                /*
+                 * See https://code.angularjs.org/1.3.20/docs/api/ng/type/ngModel.NgModelController#$setViewValue
+                 * We have to use `concat` to create a new array to trigger $parsers
+                 */
+                var updatedTags = scope.tags.concat([tag]);
+                // sets ngModelCtrl.$viewValue then $$debounceViewValueCommit()
+                ngModelCtrl.$setViewValue(updatedTags);
+                scope.tags = updatedTags;
+                scope.newTag = ''; // reset new tag input
             };
 
             scope.remove = function (tag) {
-                _.remove(scope.tags, tag);
-                ngModelCtrl.$setViewValue(scope.tags);
+                var updatedTags = _.without(scope.tags, tag);
+                ngModelCtrl.$setViewValue(updatedTags);
+                scope.tags = updatedTags;
                 input.focus();
             };
 
@@ -12253,7 +12260,8 @@ angular.module('encore.ui.typeahead')
         var lowercase = $filter('lowercase');
 
         typeahead.compile = function () {
-            return function (scope, element, attrs, ngModelCtrl) {
+            return function (scope, element, attrs, ctrls) {
+                var ngModelCtrl = ctrls[0];
                 link.apply(this, arguments);
 
                 if (/allowEmpty/.test(attrs.typeahead)) {
@@ -12274,6 +12282,8 @@ angular.module('encore.ui.typeahead')
 
                     element.on('click', function () {
                         scope.$apply(function () {
+                            // quick change to null and back to trigger parsers
+                            ngModelCtrl.$setViewValue(null);
                             ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
                         });
                     });
