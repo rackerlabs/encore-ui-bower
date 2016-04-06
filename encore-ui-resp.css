@@ -7217,6 +7217,9 @@ rx-tags[disabled] .rx-tags:hover {
   background: #0d74d1;
   color: #ffffff;
 }
+.collapsible-filter-example-form {
+  width: 400px;
+}
 @-webkit-keyframes progress-bar-stripes {
   from {
     background-position: 40px 0;
