@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.46.2 - 2016-04-06
+ * Version: 2.0.0-3 - 2016-04-06
  * License: Apache-2.0
  */
 angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.atoms','encore.ui.elements','encore.ui.molecules','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.layout','encore.ui.metadata','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.utilities','encore.ui.rxApp','encore.ui.utilities','encore.ui.rxAttributes','encore.ui.utilities','encore.ui.rxBreadcrumbs','encore.ui.utilities','encore.ui.rxBulkSelect','encore.ui.utilities','encore.ui.utilities','encore.ui.atoms','encore.ui.utilities','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.molecules','encore.ui.utilities','encore.ui.utilities','encore.ui.rxEnvironment','encore.ui.utilities','encore.ui.utilities','encore.ui.atoms','encore.ui.rxFeedback','encore.ui.utilities','encore.ui.utilities','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.utilities','encore.ui.utilities','encore.ui.rxInfoPanel','encore.ui.utilities','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.utilities','encore.ui.utilities','encore.ui.rxMultiSelect','encore.ui.utilities','encore.ui.rxNotify','encore.ui.utilities','encore.ui.rxOptionTable','encore.ui.utilities','encore.ui.rxPaginate','encore.ui.utilities','encore.ui.rxPermission','encore.ui.utilities','encore.ui.rxRadio','encore.ui.utilities','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.rxSpinner','encore.ui.rxStatusColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxTags','encore.ui.molecules','encore.ui.utilities','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.tabs','encore.ui.utilities','encore.ui.utilities','encore.ui.tooltips','encore.ui.typeahead','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities', 'cfp.hotkeys','ui.bootstrap']);
@@ -7916,8 +7916,8 @@ angular.module('encore.ui.rxMultiSelect')
         link: function (scope, element, attrs, selectCtrl) {
             scope.transclusion = rxDOMHelper.find(element, '[ng-transclude] > *').length > 0;
 
-            scope.toggle = function () {
-                if (scope.isSelected) {
+            scope.toggle = function (isSelected) {
+                if (isSelected) {
                     selectCtrl.unselect(scope.value);
                 } else {
                     selectCtrl.select(scope.value);
@@ -9973,7 +9973,7 @@ angular.module('encore.ui.rxSearchBox')
                 if (!newVal || $scope.isDisabled) {
                     $scope.isClearable = false;
                 } else {
-                    $scope.isClearable = newVal.toString() !== '';
+                    $scope.isClearable = (newVal.toString() !== '');
                 }
             });
 
@@ -10876,14 +10876,21 @@ angular.module('encore.ui.rxTags')
             };
 
             scope.add = function (tag) {
-                scope.tags.push(tag);
-                ngModelCtrl.$setViewValue(scope.tags);
-                scope.newTag = '';
+                /*
+                 * See https://code.angularjs.org/1.3.20/docs/api/ng/type/ngModel.NgModelController#$setViewValue
+                 * We have to use `concat` to create a new array to trigger $parsers
+                 */
+                var updatedTags = scope.tags.concat([tag]);
+                // sets ngModelCtrl.$viewValue then $$debounceViewValueCommit()
+                ngModelCtrl.$setViewValue(updatedTags);
+                scope.tags = updatedTags;
+                scope.newTag = ''; // reset new tag input
             };
 
             scope.remove = function (tag) {
-                _.remove(scope.tags, tag);
-                ngModelCtrl.$setViewValue(scope.tags);
+                var updatedTags = _.without(scope.tags, tag);
+                ngModelCtrl.$setViewValue(updatedTags);
+                scope.tags = updatedTags;
                 input.focus();
             };
 
@@ -12254,7 +12261,8 @@ angular.module('encore.ui.typeahead')
         var lowercase = $filter('lowercase');
 
         typeahead.compile = function () {
-            return function (scope, element, attrs, ngModelCtrl) {
+            return function (scope, element, attrs, ctrls) {
+                var ngModelCtrl = ctrls[0];
                 link.apply(this, arguments);
 
                 if (/allowEmpty/.test(attrs.typeahead)) {
@@ -12275,6 +12283,8 @@ angular.module('encore.ui.typeahead')
 
                     element.on('click', function () {
                         scope.$apply(function () {
+                            // quick change to null and back to trigger parsers
+                            ngModelCtrl.$setViewValue(null);
                             ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
                         });
                     });
@@ -12536,12 +12546,12 @@ angular.module('encore.ui.utilities')
 
 angular.module("templates/rxAccountInfo.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxAccountInfo.html",
-    "<div class=\"rx-account-info\"><rx-info-panel panel-title=\"Account Info\"><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account Name</div><div class=\"account-info-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountName }}</a></div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account #</div><div class=\"account-info-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountNumber }}</a></div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Badges</div><div class=\"account-info-data\"><img ng-repeat=\"badge in badges\" ng-src=\"{{badge.url}}\" data-name=\"{{badge.name}}\" data-description=\"{{badge.description}}\" tooltip-html-unsafe=\"{{tooltipHtml(badge)}}\" tooltip-placement=\"bottom\"></div></div><div class=\"account-info-wrapper\" ng-transclude></div></rx-info-panel></div>");
+    "<div class=\"rx-account-info\"><rx-info-panel panel-title=\"Account Info\"><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account Name</div><div class=\"account-info-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountName }}</a></div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account #</div><div class=\"account-info-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountNumber }}</a></div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Badges</div><div class=\"account-info-data\"><img ng-repeat=\"badge in badges\" ng-src=\"{{badge.url}}\" data-name=\"{{badge.name}}\" data-description=\"{{badge.description}}\" tooltip-html=\"tooltipHtml(badge)\" tooltip-placement=\"bottom\"></div></div><div class=\"account-info-wrapper\" ng-transclude></div></rx-info-panel></div>");
 }]);
 
 angular.module("templates/rxAccountInfoBanner.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxAccountInfoBanner.html",
-    "<div class=\"account-info-banner\"><ul class=\"account-info-text\"><li><div class=\"label\">Account Name:</div><div class=\"account-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountName || 'N/A' }}</a></div></li><li><div class=\"label\">Account #:</div><div class=\"account-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountNumber }}</a></div></li><li><div class=\"label\">Account Status:</div><div class=\"account-data {{ statusClass }} account-status\">{{ accountStatus || 'N/A' }}</div></li><li><div class=\"label\">Access Policy:</div><div class=\"account-data\">{{ accountAccessPolicy || 'N/A' }}</div></li><li ng-if=\"showCurrentUser\"><div class=\"label\">Current User:</div><div class=\"account-data\"><rx-account-users></rx-account-users></div></li><li class=\"badges\" ng-repeat=\"badge in badges\"><div class=\"account-info-badge\"><img ng-src=\"{{badge.url}}\" data-name=\"{{badge.name}}\" data-description=\"{{badge.description}}\" tooltip-html-unsafe=\"{{tooltipHtml(badge)}}\" tooltip-placement=\"bottom\"></div></li></ul></div>");
+    "<div class=\"account-info-banner\"><ul class=\"account-info-text\"><li><div class=\"label\">Account Name:</div><div class=\"account-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountName || 'N/A' }}</a></div></li><li><div class=\"label\">Account #:</div><div class=\"account-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountNumber }}</a></div></li><li><div class=\"label\">Account Status:</div><div class=\"account-data {{ statusClass }} account-status\">{{ accountStatus || 'N/A' }}</div></li><li><div class=\"label\">Access Policy:</div><div class=\"account-data\">{{ accountAccessPolicy || 'N/A' }}</div></li><li ng-if=\"showCurrentUser\"><div class=\"label\">Current User:</div><div class=\"account-data\"><rx-account-users></rx-account-users></div></li><li class=\"badges\" ng-repeat=\"badge in badges\"><div class=\"account-info-badge\"><img ng-src=\"{{badge.url}}\" data-name=\"{{badge.name}}\" data-description=\"{{badge.description}}\" tooltip-html=\"tooltipHtml(badge)\" tooltip-placement=\"bottom\"></div></li></ul></div>");
 }]);
 
 angular.module("templates/rxActionMenu.html", []).run(["$templateCache", function($templateCache) {
@@ -12681,7 +12691,7 @@ angular.module("templates/rxMultiSelect.html", []).run(["$templateCache", functi
 
 angular.module("templates/rxSelectOption.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxSelectOption.html",
-    "<li class=\"rx-select-option\"><label><input rx-checkbox ng-model=\"isSelected\" ng-click=\"toggle()\"> <span ng-if=\"!transclusion\">{{value | titleize}}</span> <span ng-transclude></span></label></li>");
+    "<li class=\"rx-select-option\"><label><input rx-checkbox ng-model=\"isSelected\" ng-click=\"toggle(!isSelected)\"> <span ng-if=\"!transclusion\">{{value | titleize}}</span> <span ng-transclude></span></label></li>");
 }]);
 
 angular.module("templates/rxNotification.html", []).run(["$templateCache", function($templateCache) {
