@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 2.0.0-3 - 2016-04-06
+ * Version: 1.46.3-0 - 2016-04-11
  * License: Apache-2.0
  */
 angular.module('encore.ui', ['encore.ui.atoms','encore.ui.elements','encore.ui.molecules','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.layout','encore.ui.metadata','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.utilities','encore.ui.rxApp','encore.ui.utilities','encore.ui.rxAttributes','encore.ui.utilities','encore.ui.rxBreadcrumbs','encore.ui.utilities','encore.ui.rxBulkSelect','encore.ui.utilities','encore.ui.utilities','encore.ui.atoms','encore.ui.utilities','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.molecules','encore.ui.utilities','encore.ui.utilities','encore.ui.rxEnvironment','encore.ui.utilities','encore.ui.utilities','encore.ui.atoms','encore.ui.rxFeedback','encore.ui.utilities','encore.ui.utilities','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.utilities','encore.ui.utilities','encore.ui.rxInfoPanel','encore.ui.utilities','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.utilities','encore.ui.utilities','encore.ui.rxMultiSelect','encore.ui.utilities','encore.ui.rxNotify','encore.ui.utilities','encore.ui.rxOptionTable','encore.ui.utilities','encore.ui.rxPaginate','encore.ui.utilities','encore.ui.rxPermission','encore.ui.utilities','encore.ui.rxRadio','encore.ui.utilities','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.rxSpinner','encore.ui.rxStatusColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxTags','encore.ui.molecules','encore.ui.utilities','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.tabs','encore.ui.utilities','encore.ui.utilities','encore.ui.tooltips','encore.ui.typeahead','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities', 'cfp.hotkeys','ui.bootstrap']);
@@ -1936,8 +1936,8 @@ angular.module('encore.ui.rxApp')
  * <rx-app site-title="Custom Title"></rx-app>
  * </pre>
  */
-.directive('rxApp', ["encoreRoutes", "rxAppRoutes", "hotkeys", "Environment", "routesCdnPath", "Session", function (encoreRoutes, rxAppRoutes, hotkeys,
-                              Environment, routesCdnPath, Session) {
+.directive('rxApp', ["encoreRoutes", "rxAppRoutes", "hotkeys", "Environment", "routesCdnPath", "Session", "$window", function (encoreRoutes, rxAppRoutes, hotkeys,
+                              Environment, routesCdnPath, Session, $window) {
     return {
         restrict: 'E',
         transclude: true,
@@ -1959,6 +1959,8 @@ angular.module('encore.ui.rxApp')
             scope.isLocalNav = routesCdnPath.hasCustomURL && (Environment.isLocal());
 
             scope.isWarning = scope.isPreProd || scope.isLocalNav;
+
+            scope.isEmbedded = $window.self !== $window.top;
 
             if (scope.isPreProd) {
                 scope.warningMessage =
@@ -7915,8 +7917,8 @@ angular.module('encore.ui.rxMultiSelect')
         link: function (scope, element, attrs, selectCtrl) {
             scope.transclusion = rxDOMHelper.find(element, '[ng-transclude] > *').length > 0;
 
-            scope.toggle = function (isSelected) {
-                if (isSelected) {
+            scope.toggle = function () {
+                if (scope.isSelected) {
                     selectCtrl.unselect(scope.value);
                 } else {
                     selectCtrl.select(scope.value);
@@ -9360,7 +9362,7 @@ angular.module('encore.ui.rxPaginate')
  * hides it when the given promise either resolves or rejects
  */
 .directive('rxLoadingOverlay', ["$compile", function ($compile) {
-    var loadingBlockHTML = '<div ng-show="showLoadingOverlay" class="loading-overlay">' +
+    var loadingBlockHTML = '<div ng-show="_rxLoadingOverlayVisible" class="loading-overlay">' +
                                 '<div class="loading-text-wrapper">' +
                                     '<i class="fa fa-fw fa-lg fa-spin fa-circle-o-notch"></i>' +
                                     '<div class="loading-text">Loading...</div>' +
@@ -9369,14 +9371,13 @@ angular.module('encore.ui.rxPaginate')
 
     return {
         restrict: 'A',
-        scope: true,
         controller: ["$scope", function ($scope) {
             this.show = function () {
-                $scope.showLoadingOverlay = true;
+                $scope._rxLoadingOverlayVisible = true;
             };
 
             this.hide = function () {
-                $scope.showLoadingOverlay = false;
+                $scope._rxLoadingOverlayVisible = false;
             };
 
             this.showAndHide = function (promise) {
@@ -9388,7 +9389,7 @@ angular.module('encore.ui.rxPaginate')
             // This target element has to have `position: relative` otherwise the overlay
             // will not sit on top of it
             element.css({ position: 'relative' });
-            scope.showLoadingOverlay = false;
+            scope._rxLoadingOverlayVisible = false;
 
             $compile(loadingBlockHTML)(scope, function (clone) {
                 element.append(clone);
@@ -9972,7 +9973,7 @@ angular.module('encore.ui.rxSearchBox')
                 if (!newVal || $scope.isDisabled) {
                     $scope.isClearable = false;
                 } else {
-                    $scope.isClearable = (newVal.toString() !== '');
+                    $scope.isClearable = newVal.toString() !== '';
                 }
             });
 
@@ -10875,21 +10876,14 @@ angular.module('encore.ui.rxTags')
             };
 
             scope.add = function (tag) {
-                /*
-                 * See https://code.angularjs.org/1.3.20/docs/api/ng/type/ngModel.NgModelController#$setViewValue
-                 * We have to use `concat` to create a new array to trigger $parsers
-                 */
-                var updatedTags = scope.tags.concat([tag]);
-                // sets ngModelCtrl.$viewValue then $$debounceViewValueCommit()
-                ngModelCtrl.$setViewValue(updatedTags);
-                scope.tags = updatedTags;
-                scope.newTag = ''; // reset new tag input
+                scope.tags.push(tag);
+                ngModelCtrl.$setViewValue(scope.tags);
+                scope.newTag = '';
             };
 
             scope.remove = function (tag) {
-                var updatedTags = _.without(scope.tags, tag);
-                ngModelCtrl.$setViewValue(updatedTags);
-                scope.tags = updatedTags;
+                _.remove(scope.tags, tag);
+                ngModelCtrl.$setViewValue(scope.tags);
                 input.focus();
             };
 
@@ -12260,8 +12254,7 @@ angular.module('encore.ui.typeahead')
         var lowercase = $filter('lowercase');
 
         typeahead.compile = function () {
-            return function (scope, element, attrs, ctrls) {
-                var ngModelCtrl = ctrls[0];
+            return function (scope, element, attrs, ngModelCtrl) {
                 link.apply(this, arguments);
 
                 if (/allowEmpty/.test(attrs.typeahead)) {
@@ -12282,8 +12275,6 @@ angular.module('encore.ui.typeahead')
 
                     element.on('click', function () {
                         scope.$apply(function () {
-                            // quick change to null and back to trigger parsers
-                            ngModelCtrl.$setViewValue(null);
                             ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
                         });
                     });
