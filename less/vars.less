@@ -79,6 +79,8 @@
 
 // # App UX Interactive States
 @app-default-selected-background-color: @blue-700;
+@app-default-selected-accent-color: @blue-500;
+@app-default-error-accent-color: @red-500;
 @app-default-selected-text-color: @white;
 @app-default-hover-background-color: @blue-100;
 @app-default-hover-text-color: @gray-900;
@@ -123,6 +125,19 @@
 @preprod-active-item-background-color: @orange-500;
 @preprod-active-item-text-color: @black;
 @preprod-active-item-arrow-color: @orange-500;
+
+// App Global Inputs
+@app-input-border-color: @gray-500;
+@app-invalid-input-border-color: @red-500;
+@app-disabled-input-border-color: @gray-500;
+@app-input-text-color: @app-body-text-color;
+@app-input-border-radius: 0;
+@app-input-background-color: @white;
+@app-input-min-height: 26px;
+@app-input-width: 250px;
+@app-error-text-color: @red-700;
+@app-input-placeholder-text-color: @gray-600;
+@app-invalid-input-background-color: @red-500;
 
 // ## Tables
 @app-table-border-color: @gray-200;
@@ -277,68 +292,82 @@
 /*
  * rxForm
  */
-@rxForm-font-size: 13px;
+@rxForm-font-size: @app-font-size;
 @rxForm-gutter: 16px;
 @rxForm-field-min-width: 250px;
 @rxForm-field-max-width: 400px;
-@rxForm-input-border-color: @gray-500;
-@rxForm-input-border-color-invalid: @red-500;
-@rxForm-input-text-color: @appTextColor;
-@rxForm-input-border-radius: 0;
-@rxForm-input-background-color: @white;
-@rxForm-input-min-height: 26px;
-@rxForm-input-width: 250px;
-@rxForm-error-text-color: @red-700;
-@rxForm-error-accent-color: @red-500;
-@rxForm-selected-accent-color: @blue-500;
-@rxForm-placeholder-color: #a9a9a9;
+@rxForm-input-border-color: @app-input-border-color;
+@rxForm-invalid-input-border-color: @app-invalid-input-border-color;
+@rxForm-input-text-color: @app-input-text-color;
+@rxForm-input-border-radius: @app-input-border-radius;
+@rxForm-input-background-color: @app-input-background-color;
+@rxForm-input-min-height: @app-input-min-height;
+@rxForm-input-width: @app-input-width;
+@rxForm-error-text-color: @app-error-text-color;
+@rxForm-placeholder-color: @app-input-placeholder-text-color;
+
+/*
+ * rxAccountInfo
+ */
+@rxAccountInfo-font-size: @app-font-size;
+
+/*
+ * rxCharacterCount
+ */
+@rxCharacterCount-input-background-color: @app-input-background-color;
+@rxCharacterCount-highlight-background-color: @red-700;
+@rxCharacterCount-error-countdown-text-color: @app-error-text-color;
 
 /*
  * rxRadio
  */
 @rxRadio-size: 16px;
-@rxRadio-background-color: @rxForm-input-background-color;
-@rxRadio-color-selected: @rxForm-selected-accent-color;
-@rxRadio-color-error: @rxForm-error-accent-color;
+@rxRadio-background-color: @app-input-background-color;
+@rxRadio-border-color: @app-input-border-color;
+@rxRadio-selected-border-color: @app-default-selected-accent-color;
+@rxRadio-selected-background-color: @app-default-selected-accent-color;
+@rxRadio-invalid-border-color: @app-invalid-input-border-color;
+@rxRadio-invalid-background-color: @app-invalid-input-background-color;
 @rxRadio-border-width: 1px;
-@rxRadio-border-width-invalid: 2px;
+@rxRadio-invalid-border-width: 2px;
 @rxRadio-tick-margin: 3px;
-@rxRadio-tick-margin-invalid: (@rxRadio-tick-margin - (@rxRadio-border-width-invalid - @rxRadio-border-width));
+@rxRadio-invalid-tick-margin: (@rxRadio-tick-margin - (@rxRadio-invalid-border-width - @rxRadio-border-width));
 /* Size and radius must be calculated. Percentages are not consistent across browsers. */
 @rxRadio-tick-size: (@rxRadio-size - (2 * @rxRadio-border-width) - (2 * @rxRadio-tick-margin));
-@rxRadio-tick-size-invalid: (@rxRadio-size - (2 * @rxRadio-border-width-invalid) - (2 * @rxRadio-tick-margin-invalid));
+@rxRadio-invalid-tick-size: (@rxRadio-size - (2 * @rxRadio-invalid-border-width) - (2 * @rxRadio-invalid-tick-margin));
 @rxRadio-tick-border-radius: (@rxRadio-tick-size / 2);
-@rxRadio-tick-border-radius-invalid: (@rxRadio-tick-size-invalid / 2);
+@rxRadio-invalid-tick-border-radius: (@rxRadio-invalid-tick-size / 2);
 
 /*
  * rxCheckbox
  */
 @rxCheckbox-size: 16px;
 @rxCheckbox-font-size: @rxCheckbox-size - 4px;
-@rxCheckbox-color: @white;
-@rxCheckbox-background-color: @rxForm-input-background-color;
-@rxCheckbox-background-color-selected: @rxForm-selected-accent-color;
-@rxCheckbox-border-color: @rxForm-input-border-color;
+@rxCheckbox-text-color: @white;
+@rxCheckbox-background-color: @app-input-background-color;
+@rxCheckbox-selected-background-color: @app-default-selected-accent-color;
+@rxCheckbox-border-color: @app-input-border-color;
+@rxCheckbox-invalid-input-border-color: @app-invalid-input-border-color;
+@rxCheckbox-invalid-input-background-color: @app-invalid-input-background-color;
 
 /*
  * rxSelect
  */
 @rxSelect-min-width: 60px;
 @rxSelect-height: 26px;
-@rxSelect-color: @rxForm-input-text-color;
-@rxSelect-background: @rxForm-input-background-color;
-@rxSelect-trigger-background: @rxForm-input-background-color;
-@rxSelect-color-disabled: @app-disabled-text-color;
-@rxSelect-background-disabled: @app-disabled-background-color;
-@rxSelect-border-color: @rxForm-input-border-color;
-@rxSelect-border-color-invalid: @rxForm-input-border-color-invalid;
-@rxSelect-border-color-disabled: @rxForm-input-border-color;
-@rxSelect-border-radius: @rxForm-input-border-radius;
+@rxSelect-text-color: @app-input-text-color;
+@rxSelect-background-color: @app-input-background-color;
+@rxSelect-disabled-text-color: @app-disabled-text-color;
+@rxSelect-disabled-background-color: @app-disabled-background-color;
+@rxSelect-border-color: @app-input-border-color;
+@rxSelect-invalid-border-color: @app-invalid-input-border-color;
+@rxSelect-disabled-border-color: @app-disabled-input-border-color;
+@rxSelect-border-radius: @app-input-border-radius;
 @rxSelect-border-width: 1px;
 @rxSelect-trigger-width: @rxSelect-height;
-@rxSelect-trigger-color: @rxForm-input-border-color;
-@rxSelect-trigger-color-invalid: @rxForm-input-border-color-invalid;
-@rxSelect-trigger-color-disabled: @rxSelect-border-color-disabled;
+@rxSelect-trigger-color: @app-input-border-color;
+@rxSelect-invalid-trigger-color: @app-invalid-input-border-color;
+@rxSelect-disabled-trigger-color: @rxSelect-disabled-border-color;
 
 /*
  * rxBulkSelect
@@ -355,14 +384,14 @@
  */
 @rxSearchBox-clear-width: 24px;
 @rxSearchBox-min-width: 5 * @rxSearchBox-clear-width;
-@rxSearchBox-min-height: @rxForm-input-min-height;
-@rxSearchBox-width: @rxForm-input-width;
-@rxSearchBox-color: @rxForm-input-text-color;
-@rxSearchBox-color-disabled: @app-disabled-text-color;
-@rxSearchBox-color-icon: @gray-500;
-@rxSearchBox-background: @rxForm-input-background-color;
-@rxSearchBox-background-disabled: @app-disabled-background-color;
-@rxSearchBox-border: 1px solid @rxForm-input-border-color;
+@rxSearchBox-min-height: @app-input-min-height;
+@rxSearchBox-width: @app-input-width;
+@rxSearchBox-text-color: @app-input-text-color;
+@rxSearchBox-disabled-text-color: @app-disabled-text-color;
+@rxSearchBox-icon-color: @gray-500;
+@rxSearchBox-background-color: @app-input-background-color;
+@rxSearchBox-disabled-background-color: @app-disabled-background-color;
+@rxSearchBox-border: 1px solid @app-input-border-color;
 @rxSearchBox-padding-vertical: 3px;
 @rxSearchBox-padding-horizontal: 5px;
 
@@ -393,7 +422,8 @@
 /*
  * rxTags
  */
-@rxTag-height: 24px;
+@rxTags-height: 24px;
+@rxTags-border-color: @app-input-border-color;
 
 /*
  * rxToggleSwitch
@@ -624,6 +654,9 @@
  // deprecated
 @rxForm-section-min-width: 400px;
 @rxForm-input-number-width: 150px;
+@rxForm-input-border-color-invalid: @rxForm-invalid-input-border-color;
+@rxForm-selected-accent-color: @app-default-selected-accent-color;
+@rxForm-error-accent-color: @app-default-error-accent-color;
 
 /*
  * rxFieldName
@@ -638,18 +671,54 @@
  */
  // deprecated
 @rxRadio-color-disabled: @app-disabled-background-color;
+@rxRadio-color-selected: @app-default-selected-accent-color;
+@rxRadio-selected-color: @app-default-selected-accent-color;
+@rxRadio-color-error: @app-default-error-accent-color;
+@rxRadio-border-width-invalid: @rxRadio-invalid-border-width;
+@rxRadio-tick-margin-invalid: @rxRadio-invalid-tick-margin;
+@rxRadio-tick-size-invalid: @rxRadio-invalid-tick-size;
+@rxRadio-tick-border-radius-invalid: @rxRadio-invalid-tick-border-radius;
 
 /*
  * rxCheckbox
  */
  // deprecated
-@rxCheckbox-border-color-selected: @rxCheckbox-background-color-selected;
+@rxCheckbox-color: @rxCheckbox-text-color;
+@rxCheckbox-border-color-selected: @rxCheckbox-selected-background-color;
+@rxCheckbox-background-color-selected: @rxCheckbox-selected-background-color;
+
+/*
+ * rxSelect
+ */
+ // deprecated
+@rxSelect-color: @rxSelect-text-color;
+@rxSelect-background: @rxSelect-background-color;
+@rxSelect-color-disabled: @rxSelect-disabled-text-color;
+@rxSelect-background-disabled: @rxSelect-disabled-background-color;
+@rxSelect-border-color-invalid: @rxSelect-invalid-border-color;
+@rxSelect-border-color-disabled: @rxSelect-disabled-border-color;
+@rxSelect-trigger-background-color: @rxSelect-background-color;
+@rxSelect-trigger-background: @rxSelect-trigger-background-color;
+@rxSelect-trigger-color-invalid: @rxSelect-invalid-trigger-color;
+@rxSelect-trigger-color-disabled: @rxSelect-disabled-trigger-color;
 
 /*
  * rxSearchBox
  */
  // deprecated
-@rxSearchBox-border-radius: @rxForm-input-border-radius;
+@rxSearchBox-border-radius: @app-input-border-radius;
+@rxSearchBox-color: @rxSearchBox-text-color;
+@rxSearchBox-color-disabled: @rxSearchBox-disabled-text-color;
+@rxSearchBox-color-icon: @rxSearchBox-icon-color;
+@rxSearchBox-background: @rxSearchBox-background-color;
+@rxSearchBox-background-disabled: @rxSearchBox-disabled-background-color;
+
+/*
+ * rxTags
+ */
+ // deprecated
+@rxTag-height: @rxTags-height;
+@rxTag-border-color: @rxTags-border-color;
 
 /*
  * rxPaginate

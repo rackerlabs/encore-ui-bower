@@ -2,11 +2,11 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 1.46.3 - 2016-04-11
+ * Version: 1.47.0-0 - 2016-04-20
  * License: Apache-2.0
  */
-angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.atoms','encore.ui.elements','encore.ui.molecules','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.layout','encore.ui.metadata','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.utilities','encore.ui.rxApp','encore.ui.utilities','encore.ui.rxAttributes','encore.ui.utilities','encore.ui.rxBreadcrumbs','encore.ui.utilities','encore.ui.rxBulkSelect','encore.ui.utilities','encore.ui.utilities','encore.ui.atoms','encore.ui.utilities','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.molecules','encore.ui.utilities','encore.ui.utilities','encore.ui.rxEnvironment','encore.ui.utilities','encore.ui.utilities','encore.ui.atoms','encore.ui.rxFeedback','encore.ui.utilities','encore.ui.utilities','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.utilities','encore.ui.utilities','encore.ui.rxInfoPanel','encore.ui.utilities','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.utilities','encore.ui.utilities','encore.ui.rxMultiSelect','encore.ui.utilities','encore.ui.rxNotify','encore.ui.utilities','encore.ui.rxOptionTable','encore.ui.utilities','encore.ui.rxPaginate','encore.ui.utilities','encore.ui.rxPermission','encore.ui.utilities','encore.ui.rxRadio','encore.ui.utilities','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.rxSpinner','encore.ui.rxStatusColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxTags','encore.ui.molecules','encore.ui.utilities','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.tabs','encore.ui.utilities','encore.ui.utilities','encore.ui.tooltips','encore.ui.typeahead','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities', 'cfp.hotkeys','ui.bootstrap']);
-angular.module('encore.ui.tpls', ['templates/rxAccountInfo.html','templates/rxAccountInfoBanner.html','templates/rxActionMenu.html','templates/rxActiveUrl.html','templates/rxAccountSearch.html','templates/rxAccountUsers.html','templates/rxApp.html','templates/rxAppNav.html','templates/rxAppNavItem.html','templates/rxAppSearch.html','templates/rxBillingSearch.html','templates/rxPage.html','templates/rxBreadcrumbs.html','templates/rxBatchActions.html','templates/rxBulkSelectMessage.html','templates/rxButton.html','templates/rxCollapse.html','templates/rxDatePicker.html','templates/feedbackForm.html','templates/rxFeedback.html','templates/rxFieldName.html','templates/rxFormFieldset.html','templates/rxFormItem.html','templates/rxInfoPanel.html','templates/rxMeta.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxModalFooters.html','templates/rxMultiSelect.html','templates/rxSelectOption.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxOptionTable.html','templates/rxPaginate.html','templates/rxPermission.html','templates/rxSearchBox.html','templates/rxSelectFilter.html','templates/rxSortableColumn.html','templates/rxStatusColumn.html','templates/rxTags.html','templates/rxTimePicker.html','templates/rxToggleSwitch.html']);
+angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.atoms','encore.ui.elements','encore.ui.molecules','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.layout','encore.ui.metadata','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.utilities','encore.ui.rxApp','encore.ui.utilities','encore.ui.rxAttributes','encore.ui.utilities','encore.ui.rxBreadcrumbs','encore.ui.utilities','encore.ui.rxBulkSelect','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.molecules','encore.ui.utilities','encore.ui.utilities','encore.ui.rxEnvironment','encore.ui.utilities','encore.ui.utilities','encore.ui.atoms','encore.ui.rxFeedback','encore.ui.utilities','encore.ui.utilities','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.utilities','encore.ui.utilities','encore.ui.rxInfoPanel','encore.ui.utilities','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.utilities','encore.ui.utilities','encore.ui.rxMultiSelect','encore.ui.utilities','encore.ui.rxNotify','encore.ui.utilities','encore.ui.rxOptionTable','encore.ui.utilities','encore.ui.rxPaginate','encore.ui.utilities','encore.ui.rxPermission','encore.ui.utilities','encore.ui.rxRadio','encore.ui.utilities','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.rxSpinner','encore.ui.rxStatusColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxTags','encore.ui.molecules','encore.ui.utilities','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.tabs','encore.ui.utilities','encore.ui.utilities','encore.ui.tooltips','encore.ui.typeahead','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui.tpls', ['templates/rxButton.html','templates/rxAccountInfo.html','templates/rxAccountInfoBanner.html','templates/rxActionMenu.html','templates/rxActiveUrl.html','templates/rxAccountSearch.html','templates/rxAccountUsers.html','templates/rxApp.html','templates/rxAppNav.html','templates/rxAppNavItem.html','templates/rxAppSearch.html','templates/rxBillingSearch.html','templates/rxPage.html','templates/rxBreadcrumbs.html','templates/rxBatchActions.html','templates/rxBulkSelectMessage.html','templates/rxCollapse.html','templates/rxDatePicker.html','templates/feedbackForm.html','templates/rxFeedback.html','templates/rxFieldName.html','templates/rxFormFieldset.html','templates/rxFormItem.html','templates/rxInfoPanel.html','templates/rxMeta.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxModalFooters.html','templates/rxMultiSelect.html','templates/rxSelectOption.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxOptionTable.html','templates/rxPaginate.html','templates/rxPermission.html','templates/rxSearchBox.html','templates/rxSelectFilter.html','templates/rxSortableColumn.html','templates/rxStatusColumn.html','templates/rxTags.html','templates/rxTimePicker.html','templates/rxToggleSwitch.html']);
 /**
  * @ngdoc overview
  * @name atoms
@@ -30,6 +30,9 @@ angular.module('encore.ui.atoms', [
  * @description
  * # Elements
  * Elements are visual directives.
+ *
+ * ## Directives
+ * * {@link elements.directive:rxButton rxButton}
  */
 angular.module('encore.ui.elements', [
     'encore.ui.utilities'
@@ -194,6 +197,64 @@ angular.module('encore.ui.utilities')
 
     return svc;
 }]);
+
+angular.module('encore.ui.elements')
+/**
+ * @ngdoc directive
+ * @name elements.directive:rxButton
+ * @restrict E
+ * @scope
+ * @description
+ * Renders a button which will disable when clicked and show a loading message,
+ * and re-enable when the operation is complete. If you set `classes` attributes
+ * `<rx-button>`, those will get passed to the `<button>` instance as `class`.
+ *
+ * `rxButton` is used to create buttons with a dynamically-displayed loading
+ * indicator. This is meant to be used as a replacement for `<button>` elements
+ * in scenarios where the button has multiple states.
+ *
+ * ## Button State
+ *
+ * The state of the button is controlled via the `toggle` attribute, which
+ * disables the button and replaces the `default-msg` with the `toggle-msg` as
+ * the button's text.  There are no defaults for these messages, so they must
+ * be defined if the toggle behavior is desired.  While the button is in the
+ * toggled state, it is also disabled (no matter what the value of `disable` is).
+ *
+ * The button does not modify the variable passed to `toggle`; it should be
+ * modified in the handler provided to `ng-click`.  Usually, the handler will
+ * set the variable to `true` immediately, and then to `false` once the the
+ * process (e.g. an API call) is complete.
+ *
+ * To disable the button, use the `disable` attribute instead of the normal
+ * `ng-disabled` - the behavior is the same.
+ *
+ * ## Styling
+ *
+ * There are several styles of buttons available, and they are documented in the
+ * [Buttons Styleguide](/encore-ui/#/elements/Buttons). Any classes that need to be
+ * added to the button should be passed to the `classes` attribute.
+ *
+ * @param {String} loadingMsg Text to be displayed when an operation is in progress.
+ * @param {String} defaultMsg Text to be displayed by default when no operation is in progress.
+ * @param {Boolean=} [toggle=false] When true, the button will display the loading text.
+ * @param {Boolean=} [disable=false] When true, the button will be disabled.
+ * @param {String=} [classes=""] The class names to be applied to the button.
+ *
+ */
+.directive('rxButton', function () {
+    return {
+        templateUrl: 'templates/rxButton.html',
+        restrict: 'E',
+        scope: {
+            toggleMsg: '@',
+            defaultMsg: '@',
+            toggle: '=',
+            disable: '=?',
+            classes: '@?'
+        },
+    };
+});
 
 angular.module('encore.ui.utilities')
 /**
@@ -843,35 +904,42 @@ angular.module('encore.ui.utilities')
  * @description
  * This is the data service that can be used in conjunction with the pagination
  * objects to store/control page display of data tables and other items.
+ * This is intended to be used with {@link rxPaginate.directive:rxPaginate}
+ * @namespace PageTracking
  *
  * @example
  * <pre>
- * PageTracking.createInstance({showAll: true, itemsPerPage: 15});
+ * $scope.pager = PageTracking.createInstance({showAll: true, itemsPerPage: 15});
+ * </pre>
+ * <pre>
+ * <rx-paginate page-tracking="pager"></rx-paginate>
  * </pre>
  */
 .factory('PageTracking', ["$q", "LocalStorage", "rxPaginateUtils", function ($q, LocalStorage, rxPaginateUtils) {
     var PageTracking = {
         /**
-        * @property {number} itemsPerPage This is the current setting for the number
-        * of items to display per page.
-        * @property {boolean} [persistItemsPerPage=true] Whether or not a change to this pager's itemsPerPage
+        * @ngdoc method
+        * @name utilities.service:PageTracking#createInstance
+        * @methodOf utilities.service:PageTracking
+        * @param {Object} options Configuration options for the pager
+        * @param {number} [options.itemsPerPage=200] The default number of items to display per page.
+        * If you choose a value * that is not in the default set ot itemsPerPage options (50, 200, 350, 500),
+        * then that value will be inserted into that list in the appropriate place
+        * @param {number[]} [options.itemSizeList=(50, 200, 350, 500)] The "items per page" options to give to the user.
+        * As these * same values are used all throughout Encore, you probably should not alter them for your table.
+        * @param {boolean} [options.persistItemsPerPage=true] Whether or not a change to this pager's itemsPerPage
         * should be persisted globally to all other pagers
-        * @property {number} pagesToShow This is the number of pages to show
+        * @param {number} [options.pagesToShow=5] This is the number of page numbers to show
         * in the pagination controls
-        * @property {number} pageNumber This is where the current page number is
-        * stored.
-        * @property {boolean} pageInit This is used to determine if the page has been
-        * initialzed before.
-        * @property {number} total This is the total number of items that are in the
-        * data set
-        * @property {boolean} showAll This is used to determine whether or not to use
-        * the pagination or not.
+        * @param {boolean} [options.showAll=false] This is used to determine whether or not to use
+        * the pagination. If `true`, then all items will be displayed, i.e. pagination will not be used
         *
-        * @method createInstance This is used to generate the instance of the
-        * PageTracking object. Enables the ability to override default pager.
-        * If you choose to override the default `itemsPerPage`, and it isn't
-        * a value in itemSizeList, then it will automatically be added to itemSizeList
-        * at the right spot.
+        * @description This is used to generate the instance of the
+        * PageTracking object. It takes an optional `options` object, allowing you to customize the default
+        * pager behaviour.
+        *
+        * @return {Object} A new pager instance to be passed to the `page-tracking` attribute of `<rx-paginate>`
+        * (see {@link rxPaginate.directive:rxPaginate})
         */
         createInstance: function (options) {
             options = options ? options : {};
@@ -4410,64 +4478,6 @@ angular.module('encore.ui.utilities')
     return rxBulkSelectUtils;
 });
 
-angular.module('encore.ui.atoms')
-/**
- * @ngdoc directive
- * @name atoms.directive:rxButton
- * @restrict E
- * @scope
- * @description
- * Renders a button which will disable when clicked and show a loading message,
- * and re-enable when the operation is complete. If you set `classes` attributes
- * `<rx-button>`, those will get passed to the `<button>` instance as `class`.
- *
- * `rxButton` is used to create buttons with a dynamically-displayed loading
- * indicator. This is meant to be used as a replacement for `<button>` elements
- * in scenarios where the button has multiple states.
- *
- * ## Button State
- *
- * The state of the button is controlled via the `toggle` attribute, which
- * disables the button and replaces the `default-msg` with the `toggle-msg` as
- * the button's text.  There are no defaults for these messages, so they must
- * be defined if the toggle behavior is desired.  While the button is in the
- * toggled state, it is also disabled (no matter what the value of `disable` is).
- *
- * The button does not modify the variable passed to `toggle`; it should be
- * modified in the handler provided to `ng-click`.  Usually, the handler will
- * set the variable to `true` immediately, and then to `false` once the the
- * process (e.g. an API call) is complete.
- *
- * To disable the button, use the `disable` attribute instead of the normal
- * `ng-disabled` - the behavior is the same.
- *
- * ## Styling
- *
- * There are several styles of buttons available, and they are documented in the
- * [Buttons Styleguide](/encore-ui/#/atoms/buttons). Any classes that need to be
- * added to the button should be passed to the `classes` attribute.
- *
- * @param {String} loadingMsg Text to be displayed when an operation is in progress.
- * @param {String} defaultMsg Text to be displayed by default when no operation is in progress.
- * @param {Boolean=} [toggle=false] When true, the button will display the loading text.
- * @param {Boolean=} [disable=false] When true, the button will be disabled.
- * @param {String=} [classes=""] The class names to be applied to the button.
- *
- */
-.directive('rxButton', function () {
-    return {
-        templateUrl: 'templates/rxButton.html',
-        restrict: 'E',
-        scope: {
-            toggleMsg: '@',
-            defaultMsg: '@',
-            toggle: '=',
-            disable: '=?',
-            classes: '@?'
-        },
-    };
-});
-
 angular.module('encore.ui.utilities')
 /**
  * @ngdoc filter
@@ -4572,7 +4582,7 @@ angular.module('encore.ui.rxCharacterCount')
  * <textarea ng-model="model" rx-character-count></textarea>
  * </pre>
  */
-.directive('rxCharacterCount', ["$compile", function ($compile) {
+.directive('rxCharacterCount', ["$compile", "$timeout", function ($compile, $timeout) {
     var counterStart = '<div class="character-countdown" ';
     var counterEnd =   'ng-class="{ \'near-limit\': nearLimit, \'over-limit\': overLimit }"' +
                   '>{{ remaining }}</div>';
@@ -4668,9 +4678,18 @@ angular.module('encore.ui.rxCharacterCount')
             }
 
             scope.$on('$destroy', function () {
-                element.off('input', writeLimitText);
-                wrapper.remove();
+                element.off('input');
+                $timeout(function () {
+                    // When the element containing the rx-character-count is removed, we have to
+                    // ensure we also remove the `wrapper`, which we created. We have to manually
+                    // destroy its scope and remove the element itself. All of this has to happen
+                    // in a $timeout() to ensure it occurs on the next $digest cycle, otherwise
+                    // we go into an infinite loop
+                    wrapper.scope().$destroy();
+                    wrapper.remove();
+                });
             });
+
         }
     };
 }]);
@@ -4884,6 +4903,9 @@ angular.module('encore.ui.molecules')
  * molecules to compose a valid ISO 8601 DateTime string in the format of
  * <code>YYYY-MM-DDTHH:mmZ</code>.
  *
+ * `rxDatePicker` provides the user a 10-year range before and after the selected date,
+ * if present.  Otherwise, the range is calculated from today's date.
+ *
  * * This molecule will generate a **String** in the format of `YYYY-MM-DD`
  *   to be used as the date portion of the ISO 8601 standard DateTime string
  *   mentioned above.
@@ -4896,6 +4918,64 @@ angular.module('encore.ui.molecules')
  * format of `YYYY-MM-DD`.
  */
 .directive('rxDatePicker', function () {
+    var isoFormat = 'YYYY-MM-DD';
+    const YEAR_RANGE = 10;
+
+    /**
+     * @param {Moment} firstOfMonth
+     * @return {Array<Moment>}
+     * @description
+     * Generate an array of Moment objects representing the visible
+     * days on the calendar. This will automatically pad the calendar
+     * with dates from previous/next month to fill out the weeks.
+     */
+    function buildCalendarDays (firstOfMonth) {
+        var dateToken = firstOfMonth.clone().startOf('day');
+        var currentMonth = dateToken.month();
+        var days = [];
+        var prependDay, appendDay;
+
+        // add calendar month's days
+        while (dateToken.month() === currentMonth) {
+            days.push(dateToken.clone());
+            dateToken.add(1, 'day');
+        }
+
+        // until first item of array is Sunday, prepend earlier days to array
+        while (_.first(days).day() > 0) {
+            prependDay = _.first(days).clone();
+            days.unshift(prependDay.subtract(1, 'day'));
+        }
+
+        // until last item of array is Saturday, append later days to array
+        while (_.last(days).day() < 6) {
+            appendDay = _.last(days).clone();
+            days.push(appendDay.add(1, 'day'));
+        }
+
+        return days;
+    }//buildCalendarDays
+
+    /**
+     * @param {Moment} midpoint
+     * @return {Array<ISO 8601 Year> }
+     * @description
+     * Generate an array of ISO 8601 Year (format "YYYY") years.
+     */
+    function generateCalendarYears (midpoint) {
+        var calendarYears = [];
+        var iterator = midpoint.clone().subtract(YEAR_RANGE, 'years');
+        var limit = midpoint.clone().add(YEAR_RANGE, 'years');
+
+        while (iterator.year() <= limit.year()) {
+            calendarYears.push(iterator.year());
+
+            iterator.add(1, 'year');
+        }
+
+        return calendarYears;
+    }//generateCalendarYears
+
     return {
         templateUrl: 'templates/rxDatePicker.html',
         restrict: 'E',
@@ -4905,7 +4985,6 @@ angular.module('encore.ui.molecules')
         },
         link: function (scope, element, attrs, ngModelCtrl) {
             var today = moment(new Date());
-            var isoFormat = 'YYYY-MM-DD';
 
             scope.calendarVisible = false;
             // keep track of which month we're viewing in the popup (default to 1st of this month)
@@ -4917,6 +4996,10 @@ angular.module('encore.ui.molecules')
                     scope.calendarVisible = !scope.calendarVisible;
                 }
             };//toggleCalendar()
+
+            scope.closeCalendar = function () {
+                scope.calendarVisible = false;
+            };
 
             /**
              * @param {String} destination
@@ -4977,7 +5060,9 @@ angular.module('encore.ui.molecules')
 
             // Set calendar month on change of selected date
             scope.$watch('selected', function (newVal) {
-                if (!_.isEmpty(newVal)) {
+                if (_.isEmpty(newVal)) {
+                    scope.calendarMonth = today.clone().startOf('month');
+                } else {
                     var parsed = moment(newVal, isoFormat);
 
                     if (parsed.isValid()) {
@@ -4989,6 +5074,31 @@ angular.module('encore.ui.molecules')
             // Regenerate calendar if month changes
             scope.$watch('calendarMonth', function (newVal) {
                 scope.calendarDays = buildCalendarDays(newVal);
+                scope.currentMonth = newVal.format('MM');
+                scope.currentYear = newVal.format('YYYY');
+                scope.calendarYears = generateCalendarYears(newVal);
+            });
+
+            scope.$watch('currentMonth', function (newVal) {
+                if (!_.isEmpty(newVal)) {
+                    var dateString = [scope.currentYear, newVal, '01'].join('-');
+                    var parsed = moment(dateString, isoFormat);
+
+                    if (parsed.isValid()) {
+                        scope.calendarMonth = parsed;
+                    }
+                }
+            });
+
+            scope.$watch('currentYear', function (newVal) {
+                if (!_.isEmpty(newVal)) {
+                    var dateString = [newVal, scope.currentMonth, '01'].join('-');
+                    var parsed = moment(dateString, isoFormat);
+
+                    if (parsed.isValid()) {
+                        scope.calendarMonth = parsed;
+                    }
+                }
             });
 
             ngModelCtrl.$formatters.push(function (modelVal) {
@@ -5005,41 +5115,6 @@ angular.module('encore.ui.molecules')
             ngModelCtrl.$render = function () {
                 scope.displayValue = ngModelCtrl.$viewValue;
             };
-
-            /**
-             * @param {Moment} firstOfMonth
-             * @return {Array<Moment>}
-             * @description
-             * Generate an array of Moment objects representing the visible
-             * days on the calendar. This will automatically pad the calendar
-             * with dates from previous/next month to fill out the weeks.
-             */
-            function buildCalendarDays (firstOfMonth) {
-                var dateToken = firstOfMonth.clone().startOf('day');
-                var currentMonth = dateToken.month();
-                var days = [];
-                var prependDay, appendDay;
-
-                // add calendar month's days
-                while (dateToken.month() === currentMonth) {
-                    days.push(dateToken.clone());
-                    dateToken.add(1, 'day');
-                }
-
-                // until first item of array is Sunday, prepend earlier days to array
-                while (_.first(days).day() > 0) {
-                    prependDay = _.first(days).clone();
-                    days.unshift(prependDay.subtract(1, 'day'));
-                }
-
-                // until last item of array is Saturday, append later days to array
-                while (_.last(days).day() < 6) {
-                    appendDay = _.last(days).clone();
-                    days.push(appendDay.add(1, 'day'));
-                }
-
-                return days;
-            }//buildCalendarDays
         }
     };
 });
@@ -6030,7 +6105,7 @@ angular.module('encore.ui.rxFloatingHeader')
  * ## Compatible Modules
  * These modules work well with rxForm.
  *
- * * {@link atoms.directive:rxButton rxButton}
+ * * {@link elements.directive:rxButton rxButton}
  * * {@link rxCharacterCount}
  * * {@link atoms.directive:rxCheckbox rxCheckbox}
  * * {@link rxMultiSelect}
@@ -6195,7 +6270,7 @@ angular.module('encore.ui.rxFloatingHeader')
  * * {@link rxForm.directive:rxInlineError rxInlineError}
  *
  * ### Related Directives
- * * {@link atoms.directive:rxButton rxButton}
+ * * {@link elements.directive:rxButton rxButton}
  * * {@link rxCharacterCount.directive:rxCharacterCount rxCharacterCount}
  * * {@link atoms.directive:rxCheckbox rxCheckbox}
  * * {@link rxOptionTable.directive:rxOptionTable rxOptionTable}
@@ -9411,7 +9486,7 @@ angular.module('encore.ui.rxPaginate')
  * object if you instead intend to use a paginated server-side API
  *
  * @param {Object} pageTracking This is the page tracking service instance to
- * be used for this directive
+ * be used for this directive. See {@link utilities.service:PageTracking}
  * @param {Number} numberOfPages This is the maximum number of pages that the
  * page object will display at a time.
  * @param {Object} [serverInterface] An object with a `getItems()` method. The requirements
@@ -10915,7 +10990,7 @@ angular.module('encore.ui.molecules')
  * @scope
  * @requires utilities.service:rxTimePickerUtil
  * @requires utilities.constant:UtcOffsets
- * @requires atoms.directive:rxButton
+ * @requires elements.directive:rxButton
  * @description Time Picker
  *
  * ## Notice
@@ -12535,6 +12610,11 @@ angular.module('encore.ui.utilities')
     };
 });
 
+angular.module("templates/rxButton.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/rxButton.html",
+    "<button type=\"submit\" class=\"button rx-button {{classes}}\" ng-disabled=\"toggle || disable\">{{ toggle ? toggleMsg : defaultMsg }}<div class=\"spinner\" ng-show=\"toggle\"><i class=\"pos1\"></i> <i class=\"pos2\"></i> <i class=\"pos3\"></i></div></button>");
+}]);
+
 angular.module("templates/rxAccountInfo.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxAccountInfo.html",
     "<div class=\"rx-account-info\"><rx-info-panel panel-title=\"Account Info\"><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account Name</div><div class=\"account-info-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountName }}</a></div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account #</div><div class=\"account-info-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountNumber }}</a></div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Badges</div><div class=\"account-info-data\"><img ng-repeat=\"badge in badges\" ng-src=\"{{badge.url}}\" data-name=\"{{badge.name}}\" data-description=\"{{badge.description}}\" tooltip-html-unsafe=\"{{tooltipHtml(badge)}}\" tooltip-placement=\"bottom\"></div></div><div class=\"account-info-wrapper\" ng-transclude></div></rx-info-panel></div>");
@@ -12610,11 +12690,6 @@ angular.module("templates/rxBulkSelectMessage.html", []).run(["$templateCache", 
     "<th class=\"bulk-select-header\" colspan=\"1000\"><span>{{ numSelected }} {{ resourceName }}{{ plural }} {{ isOrAre }} selected.</span> <button ng-click=\"selectAll()\" class=\"btn-link header-button\">Select all {{ total }} {{ resourceName }}s.</button> <button ng-click=\"deselectAll()\" class=\"pull-right btn-link header-button\">Clear all selected rows</button></th>");
 }]);
 
-angular.module("templates/rxButton.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("templates/rxButton.html",
-    "<button type=\"submit\" class=\"button rx-button {{classes}}\" ng-disabled=\"toggle || disable\">{{ toggle ? toggleMsg : defaultMsg }}<div class=\"spinner\" ng-show=\"toggle\"><i class=\"pos1\"></i> <i class=\"pos2\"></i> <i class=\"pos3\"></i></div></button>");
-}]);
-
 angular.module("templates/rxCollapse.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxCollapse.html",
     "<div class=\"collapse-container\" ng-class=\"{'hide-border': !title}\"><div ng-if=\"title\" class=\"collapse-title-wrap collapse-title-wrap-custom\"><div class=\"double-chevron-cell\" ng-class=\"{ expanded: isExpanded }\" ng-click=\"toggleExpanded()\"><a class=\"double-chevron\"></a></div><h3 class=\"rx-collapse-title title\">{{title}}</h3></div><div ng-show=\"isExpanded\" ng-class=\"{'collapse-body':title}\" ng-transclude></div><div ng-if=\"!title\" ng-class=\"{ expanded: isExpanded }\" class=\"collapse-title-wrap collapse-title-wrap-default\" ng-click=\"toggleExpanded()\"><span ng-if=\"!isExpanded\" class=\"sml-title\"><span class=\"toggle-title\">See More</span> <i class=\"fa fa-angle-double-down\"></i></span> <span ng-if=\"isExpanded\" class=\"sml-title\"><span class=\"toggle-title\">See Less</span> <i class=\"fa fa-angle-double-up\"></i></span></div></div>");
@@ -12622,7 +12697,7 @@ angular.module("templates/rxCollapse.html", []).run(["$templateCache", function(
 
 angular.module("templates/rxDatePicker.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxDatePicker.html",
-    "<div class=\"rxDatePicker wrapper\"><div class=\"control\" ng-click=\"toggleCalendar()\"><span class=\"displayValue\">{{ displayValue }}</span> <i class=\"icon fa fa-fw fa-calendar\"></i></div><div class=\"popup\" ng-if=\"calendarVisible\"><nav><span class=\"arrow prev fa fa-lg fa-angle-double-left\" ng-click=\"navigate('prevMonth')\"></span> <span class=\"currentMonth\">{{ calendarMonth.format('MMMM YYYY') }}</span> <span class=\"arrow next fa fa-lg fa-angle-double-right\" ng-click=\"navigate('nextMonth')\"></span></nav><div class=\"calendar\"><header><h6>S</h6><h6>M</h6><h6>T</h6><h6>W</h6><h6>T</h6><h6>F</h6><h6>S</h6></header><div class=\"day {{ isMonth(day) ? 'inMonth' : 'outOfMonth' }}\" data-date=\"{{day.format('YYYY-MM-DD')}}\" ng-class=\"{ today: isToday(day), selected: isSelected(day) }\" ng-repeat=\"day in calendarDays\" ng-switch=\"isMonth(day)\"><span class=\"circle\" ng-switch-when=\"true\" ng-click=\"selectDate(day)\">{{ day.date() }}</span> <span ng-switch-when=\"false\">{{ day.date() }}</span></div></div></div></div>");
+    "<div class=\"rxDatePicker wrapper\"><div class=\"control\" ng-click=\"toggleCalendar()\"><span class=\"displayValue\">{{ displayValue }}</span> <i class=\"icon fa fa-fw fa-calendar\"></i></div><div class=\"backdrop\" ng-click=\"closeCalendar()\" ng-if=\"calendarVisible\"></div><div class=\"popup\" ng-show=\"calendarVisible\"><nav><span class=\"arrow prev fa fa-lg fa-angle-double-left\" ng-click=\"navigate('prevMonth')\"></span> <span class=\"month-wrapper\"><select rx-select class=\"month\" ng-model=\"currentMonth\" ng-selected=\"{{month = currentMonth}}\"><option value=\"01\">Jan</option><option value=\"02\">Feb</option><option value=\"03\">Mar</option><option value=\"04\">Apr</option><option value=\"05\">May</option><option value=\"06\">Jun</option><option value=\"07\">Jul</option><option value=\"08\">Aug</option><option value=\"09\">Sep</option><option value=\"10\">Oct</option><option value=\"11\">Nov</option><option value=\"12\">Dec</option></select></span> <span class=\"year-wrapper\"><select rx-select class=\"year\" ng-model=\"currentYear\" ng-selected=\"{{year = currentYear}}\"><option ng-repeat=\"year in calendarYears\">{{year}}</option></select></span> <span class=\"arrow next fa fa-lg fa-angle-double-right\" ng-click=\"navigate('nextMonth')\"></span></nav><div class=\"calendar\"><header><h6>S</h6><h6>M</h6><h6>T</h6><h6>W</h6><h6>T</h6><h6>F</h6><h6>S</h6></header><div class=\"day {{ isMonth(day) ? 'inMonth' : 'outOfMonth' }}\" data-date=\"{{day.format('YYYY-MM-DD')}}\" ng-class=\"{ today: isToday(day), selected: isSelected(day) }\" ng-repeat=\"day in calendarDays\" ng-switch=\"isMonth(day)\"><span class=\"circle\" ng-switch-when=\"true\" ng-click=\"selectDate(day)\">{{ day.date() }}</span> <span ng-switch-when=\"false\">{{ day.date() }}</span></div></div></div></div>");
 }]);
 
 angular.module("templates/feedbackForm.html", []).run(["$templateCache", function($templateCache) {
