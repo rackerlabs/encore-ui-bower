@@ -2,10 +2,10 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 2.0.0-4 - 2016-04-20
+ * Version: 1.47.1-0 - 2016-05-04
  * License: Apache-2.0
  */
-angular.module('encore.ui', ['encore.ui.atoms','encore.ui.elements','encore.ui.molecules','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.layout','encore.ui.metadata','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.utilities','encore.ui.rxApp','encore.ui.utilities','encore.ui.rxAttributes','encore.ui.utilities','encore.ui.rxBreadcrumbs','encore.ui.utilities','encore.ui.rxBulkSelect','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.molecules','encore.ui.utilities','encore.ui.utilities','encore.ui.rxEnvironment','encore.ui.utilities','encore.ui.utilities','encore.ui.atoms','encore.ui.rxFeedback','encore.ui.utilities','encore.ui.utilities','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.utilities','encore.ui.utilities','encore.ui.rxInfoPanel','encore.ui.utilities','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.utilities','encore.ui.utilities','encore.ui.rxMultiSelect','encore.ui.utilities','encore.ui.rxNotify','encore.ui.utilities','encore.ui.rxOptionTable','encore.ui.utilities','encore.ui.rxPaginate','encore.ui.utilities','encore.ui.rxPermission','encore.ui.utilities','encore.ui.rxRadio','encore.ui.utilities','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.rxSpinner','encore.ui.rxStatusColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxTags','encore.ui.molecules','encore.ui.utilities','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.tabs','encore.ui.utilities','encore.ui.utilities','encore.ui.tooltips','encore.ui.typeahead','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui', ['encore.ui.atoms','encore.ui.elements','encore.ui.molecules','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.layout','encore.ui.metadata','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.utilities','encore.ui.rxApp','encore.ui.utilities','encore.ui.rxAttributes','encore.ui.utilities','encore.ui.rxBreadcrumbs','encore.ui.utilities','encore.ui.rxBulkSelect','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.molecules','encore.ui.utilities','encore.ui.utilities','encore.ui.rxEnvironment','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxFeedback','encore.ui.utilities','encore.ui.utilities','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.utilities','encore.ui.utilities','encore.ui.rxInfoPanel','encore.ui.utilities','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.utilities','encore.ui.utilities','encore.ui.rxMultiSelect','encore.ui.utilities','encore.ui.rxNotify','encore.ui.utilities','encore.ui.rxOptionTable','encore.ui.utilities','encore.ui.rxPaginate','encore.ui.utilities','encore.ui.rxPermission','encore.ui.utilities','encore.ui.rxRadio','encore.ui.utilities','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.rxSpinner','encore.ui.rxStatusColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxTags','encore.ui.molecules','encore.ui.utilities','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.tabs','encore.ui.utilities','encore.ui.utilities','encore.ui.tooltips','encore.ui.typeahead','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities', 'cfp.hotkeys','ui.bootstrap']);
 /**
  * @ngdoc overview
  * @name atoms
@@ -16,7 +16,6 @@ angular.module('encore.ui', ['encore.ui.atoms','encore.ui.elements','encore.ui.m
  *
  * ## Atoms
  * * {@link atoms.directive:rxCheckbox rxCheckbox}
- * * {@link atoms.directive:rxFavicon rxFavicon}
  */
 angular.module('encore.ui.atoms', [
     'encore.ui.utilities'
@@ -78,6 +77,9 @@ angular.module('encore.ui.molecules', [
  * * {@link utilities.controller:rxBulkSelectController rxBulkSelectController}
  * * {@link utilities.controller:rxFeedbackController rxFeedbackController}
  * * {@link utilities.controller:rxModalCtrl rxModalCtrl}
+ *
+ * ## Directives
+ * * {@link utilities.directive:rxFavicon rxFavicon}
  *
  * ## Filters
  * * {@link utilities.filter:Page Page}
@@ -289,9 +291,9 @@ angular.module('encore.ui.utilities')
  *
  * @return {Object} Instance of rxAppRoutes with `fetchRoutes` method added
  */
-.factory('encoreRoutes', ["rxAppRoutes", "routesCdnPath", "rxNotify", "$q", "$http", "rxVisibilityPathParams", "rxVisibility", "Environment", "rxHideIfUkAccount", "rxLocalStorage", function (rxAppRoutes, routesCdnPath, rxNotify, $q, $http,
+.factory('encoreRoutes', ["rxAppRoutes", "routesCdnPath", "rxNotify", "$q", "$http", "rxVisibilityPathParams", "rxVisibility", "Environment", "rxHideIfUkAccount", "LocalStorage", function (rxAppRoutes, routesCdnPath, rxNotify, $q, $http,
                                    rxVisibilityPathParams, rxVisibility, Environment,
-                                   rxHideIfUkAccount, rxLocalStorage) {
+                                   rxHideIfUkAccount, LocalStorage) {
 
     // We use rxVisibility in the nav menu at routesCdnPath, so ensure it's ready
     // before loading from the CDN
@@ -337,12 +339,12 @@ angular.module('encore.ui.utilities')
 
     encoreRoutes.fetchRoutes = function () {
         var routesKey = 'encoreRoutes-' + suffix;
-        var cachedRoutes = rxLocalStorage.getObject(routesKey);
+        var cachedRoutes = LocalStorage.getObject(routesKey);
 
         $http.get(url)
             .success(function (routes) {
                 encoreRoutes.setAll(routes);
-                rxLocalStorage.setObject(routesKey, routes);
+                LocalStorage.setObject(routesKey, routes);
             })
             .error(function () {
                 if (cachedRoutes) {
@@ -914,7 +916,7 @@ angular.module('encore.ui.utilities')
  * <rx-paginate page-tracking="pager"></rx-paginate>
  * </pre>
  */
-.factory('PageTracking', ["$q", "rxLocalStorage", "rxPaginateUtils", function ($q, rxLocalStorage, rxPaginateUtils) {
+.factory('PageTracking', ["$q", "LocalStorage", "rxPaginateUtils", function ($q, LocalStorage, rxPaginateUtils) {
     var PageTracking = {
         /**
         * @ngdoc method
@@ -950,7 +952,7 @@ angular.module('encore.ui.utilities')
         * @method userSelectedItemsPerPage This method sets a new global itemsPerPage value
         */
         userSelectedItemsPerPage: function (itemsPerPage) {
-            rxLocalStorage.setItem('rxItemsPerPage', itemsPerPage);
+            LocalStorage.setItem('rxItemsPerPage', itemsPerPage);
         }
     };
 
@@ -982,7 +984,7 @@ angular.module('encore.ui.utilities')
             itemSizeList.splice(index, 0, itemsPerPage);
         }
 
-        var selectedItemsPerPage = parseInt(rxLocalStorage.getItem('rxItemsPerPage'));
+        var selectedItemsPerPage = parseInt(LocalStorage.getItem('rxItemsPerPage'));
 
         // If the user has chosen a desired itemsPerPage, make sure we're respecting that
         // However, a value specified in the options will take precedence
@@ -3302,7 +3304,7 @@ angular.module('encore.ui.utilities')
  * appearing on the same page.
  *
  * By default, all values are stored in {@link utilities.service:rxLocalStorage rxLocalStoage} which interfaces with the
- * browser's `localStorage` object. This means that if a user logs into a different computer, their stored values will
+ * browser's `LocalStorage` object. This means that if a user logs into a different computer, their stored values will
  * not be present.  Use of `SessionStorage` is also supported out-of-the-box. If you wish to save form states elsewhere
  * (for instance, to an API), see the "Storage Location" section below.
  *
@@ -3523,9 +3525,9 @@ angular.module('encore.ui.utilities')
  *
  * ## Storage location
  *
- * All values for `rxAutoSave` are by default stored in the browser's `localStorage` through the `rxLocalStorage`
+ * All values for `rxAutoSave` are by default stored in the browser's `LocalStorage` through the `rxLocalStorage`
  * service, and keyed on the URL of the page, with a `rxAutoSave::` prefix. For example, if the above form were
- * present at the URL `'users/JonnyRocket/edit'`, then the form data would be saved into the browser's `localStorage`
+ * present at the URL `'users/JonnyRocket/edit'`, then the form data would be saved into the browser's `LocalStorage`
  * at location `'rxAutoSave::users/JonnyRocket/edit'`.
  *
  * If you wish to use a different storage backend (`SessionStorage`, for instance), use the `storageBackend` parameter:
@@ -3783,12 +3785,12 @@ angular.module('encore.ui.utilities')
             }
         };
 
-        // Responsible for loading the data from the browser's localStorage into the form
+        // Responsible for loading the data from the browser's LocalStorage into the form
         var load = function () {
             var expires = api.getExpires();
             if (expires > 0 && expires <= _.now()) {
                 // This data has expired. Make sure we clear it out
-                // of the browser's localStorage
+                // of the browser's LocalStorage
                 api.expire();
                 return;
             }
@@ -3838,7 +3840,7 @@ angular.module('encore.ui.utilities')
             updateExpiryTime();
         }
 
-        // We don't want to write to the browser's localStorage every time the model changes,
+        // We don't want to write to the browser's LocalStorage every time the model changes,
         // because that would turn typing into a textarea into an expensive operation.
         // We'll instead debounce the the writes for 1 second
         var debounced = debounce(update, 1000);
@@ -5430,10 +5432,10 @@ angular.module('encore.ui.utilities')
     };
 }]);
 
-angular.module('encore.ui.atoms')
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc directive
- * @name atoms.directive:rxFavicon
+ * @name utilities.directive:rxFavicon
  * @restrict A
  * @scope
  * @description
@@ -6161,6 +6163,9 @@ angular.module('encore.ui.rxFloatingHeader')
  * **The following directives have been deprecated and *will be removed* in a future release of the EncoreUI
  * framework.** They are still functional, but **WILL display a warning in the javascript console** to let you know
  * you should upgrade your code.
+ *
+ * ### **rxFormOptionTable**
+ * Please use {@link rxOptionTable} as a stand-in replacement.
  *
  * ### **rxFormItem**
  * See "Before & After" below
@@ -6998,16 +7003,15 @@ angular.module('encore.ui.utilities')
  * @ngdoc service
  *
  * @description
- * Set of utility functions used by rxForm to access form data in 
- * {@link rxOptionTable.directive:rxOptionTable rxOptionTable}.
+ * Set of utility functions used by rxForm to access form data.
  *
+ * @example
  * <pre>
- * // Returns the selected option for the rxOptionTable with id tableId
+ * // Returns the selected option for the rxFormOptionTable with id tableId
  * // [{ tableId: 'tableId', fieldId: 'fieldId', rowId: 'rowId' }]
  * getSelectedOptionForTable(tableId)
- * </pre>
- * <pre>
- * // Returns the selected option for the rxOptionTable in the tabset with id tabsetId
+
+ * // Returns the selected option for the rxFormOptionTable in the tabset with id tabsetId
  * // [{ tableId: 'tableId', fieldId: 'fieldId', rowId: 'rowId' }]
  * getSelectedOptionForTabSet(tabsetId)
  * </pre>
@@ -7015,19 +7019,13 @@ angular.module('encore.ui.utilities')
 .factory('rxFormUtils', ["$document", function ($document) {
     var rxFormUtils = {};
 
-    /**
-     * @ngdoc function
-     * @name  rxFormUtils.getSelectedOptionForTable
-     * @methodOf utilities.service:rxFormUtils
-     * @description
-     * Returns the selected option for the {@link rxOptionTable.directive:rxOptionTable rxOptionTable} with
-     * `id`: tableId and `fieldId`: fieldId (optional).
-     * @param {String} tableId - The id of the table
-     * @returns {object} The rowId of the selected option
-     */
+    // Returns the selected option for the rxFormOptionTable with id: tableId
+    // and fieldId: fieldId (optional)
+    // @param {String} tableId - The id of the table
+    // @returns {object} The rowId of the selected option
     rxFormUtils.getSelectedOptionForTable = function (tableId) {
         var selectedRow;
-        var row = $document[0].querySelector('rx-option-table#' + tableId + ' .selected input');
+        var row = $document[0].querySelector('rx-form-option-table#' + tableId + ' .selected input');
 
         if (_.isObject(row) && 'value' in row) {
             selectedRow = { rowId: row.value };
@@ -7035,19 +7033,13 @@ angular.module('encore.ui.utilities')
         return selectedRow;
     };
 
-    /**
-     * @ngdoc function
-     * @name  rxFormUtils.getSelectedOptionForTabSet
-     * @methodOf utilities.service:rxFormUtils
-     * @description
-     * Returns the selected option within the tabset.
-     * @param {String} tabsetId - The id of the tabset
-     * @returns {object} The tableId, fieldId, and rowId of the selected option
-     */
+    // Returns the selected option within the tabset
+    // @param {String} tabsetId - The id of the tabset
+    // @returns {object} The tableId, fieldId, and rowId of the selected option
     rxFormUtils.getSelectedOptionForTabSet = function (tabsetId) {
         var selectedOption;
         var xpathToTable = '//div[@id="' + tabsetId +
-            '"]//tr[contains(@class, "selected")]//ancestor::rx-option-table';
+            '"]//tr[contains(@class, "selected")]//ancestor::rx-form-option-table';
         var result = $document[0].evaluate(xpathToTable, $document[0], null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
         if (result.singleNodeValue) {
             var table = result.singleNodeValue;
@@ -7122,6 +7114,19 @@ angular.module('encore.ui.rxInfoPanel')
         }
     };
 });
+
+angular.module('encore.ui.utilities')
+/**
+ * @ngdoc service
+ * @name utilities.service:LocalStorage
+ * @deprecated
+ * @description
+ * **NOTICE:** This service has be deprecated in favor of the
+ * {@link utilities.service:rxLocalStorage rxLocalStorage} service.
+ */
+.service('LocalStorage', ["rxLocalStorage", function (rxLocalStorage) {
+    return rxLocalStorage;
+}]);
 
 angular.module('encore.ui.utilities')
 /**
@@ -7989,8 +7994,8 @@ angular.module('encore.ui.rxMultiSelect')
         link: function (scope, element, attrs, selectCtrl) {
             scope.transclusion = rxDOMHelper.find(element, '[ng-transclude] > *').length > 0;
 
-            scope.toggle = function (isSelected) {
-                if (isSelected) {
+            scope.toggle = function () {
+                if (scope.isSelected) {
                     selectCtrl.unselect(scope.value);
                 } else {
                     selectCtrl.select(scope.value);
@@ -8621,11 +8626,30 @@ angular.module('encore.ui.utilities')
  *
  * ## Directives
  * * {@link rxOptionTable.directive:rxOptionTable rxOptionTable}
+ * * {@link rxOptionTable.directive:rxFormOptionTable rxFormOptionTable} (*deprecated*)
  */
 angular.module('encore.ui.rxOptionTable', [
     'encore.ui.atoms',
     'ngSanitize'
 ]);
+
+angular.module('encore.ui.rxOptionTable')
+/**
+ * @deprecated
+ * @ngdoc directive
+ * @restrict E
+ * @name rxOptionTable.directive:rxFormOptionTable
+ * @description
+ * **DEPRECATED**: Please use **{@link rxOptionTable.directive:rxOptionTable rxOptionTable}**
+ * as a stand-in-replacement.
+ */
+.directive('rxFormOptionTable', ["rxOptionTableDirective", function (rxOptionTableDirective) {
+    var warnMsg = 'DEPRECATION WARNING: rxFormOptionTable has been marked as deprecated ' +
+        'and will be removed in a future release of the EncoreUI framework. ' +
+        'Please use rxOptionTable as a stand-in replacement.';
+    console.warn(warnMsg); // jshint ignore:line
+    return rxOptionTableDirective[0];
+}]);
 
 angular.module('encore.ui.rxOptionTable')
 /**
@@ -8777,7 +8801,8 @@ angular.module('encore.ui.rxOptionTable')
             };
 
             // Because of a bug in Angular 1.2.x, we can't use `required` and
-            // ngTrueValue/ngFalseValue simultaneously. We'll
+            // ngTrueValue/ngFalseValue simultaneously. We don't want to affect
+            // people that were already using rxFormOptionTable, so instead we'll
             // build a `modelProxy` which is simply a mapping of $scope.model to
             // an array of `true` / `false` values. We then have to take care
             // of updating the actual $scope.model ourselves in `updateCheckboxes`
@@ -10025,7 +10050,7 @@ angular.module('encore.ui.rxSearchBox')
                 if (!newVal || $scope.isDisabled) {
                     $scope.isClearable = false;
                 } else {
-                    $scope.isClearable = (newVal.toString() !== '');
+                    $scope.isClearable = newVal.toString() !== '';
                 }
             });
 
@@ -10928,21 +10953,14 @@ angular.module('encore.ui.rxTags')
             };
 
             scope.add = function (tag) {
-                /*
-                 * See https://code.angularjs.org/1.3.20/docs/api/ng/type/ngModel.NgModelController#$setViewValue
-                 * We have to use `concat` to create a new array to trigger $parsers
-                 */
-                var updatedTags = scope.tags.concat([tag]);
-                // sets ngModelCtrl.$viewValue then $$debounceViewValueCommit()
-                ngModelCtrl.$setViewValue(updatedTags);
-                scope.tags = updatedTags;
-                scope.newTag = ''; // reset new tag input
+                scope.tags.push(tag);
+                ngModelCtrl.$setViewValue(scope.tags);
+                scope.newTag = '';
             };
 
             scope.remove = function (tag) {
-                var updatedTags = _.without(scope.tags, tag);
-                ngModelCtrl.$setViewValue(updatedTags);
-                scope.tags = updatedTags;
+                _.remove(scope.tags, tag);
+                ngModelCtrl.$setViewValue(scope.tags);
                 input.focus();
             };
 
@@ -12313,8 +12331,7 @@ angular.module('encore.ui.typeahead')
         var lowercase = $filter('lowercase');
 
         typeahead.compile = function () {
-            return function (scope, element, attrs, ctrls) {
-                var ngModelCtrl = ctrls[0];
+            return function (scope, element, attrs, ngModelCtrl) {
                 link.apply(this, arguments);
 
                 if (/allowEmpty/.test(attrs.typeahead)) {
@@ -12335,8 +12352,6 @@ angular.module('encore.ui.typeahead')
 
                     element.on('click', function () {
                         scope.$apply(function () {
-                            // quick change to null and back to trigger parsers
-                            ngModelCtrl.$setViewValue(null);
                             ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
                         });
                     });
