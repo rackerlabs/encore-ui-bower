@@ -1,11 +1,11 @@
-@import url("https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic");
-@import url("https://fonts.googleapis.com/css?family=Roboto+Mono:400,100,100italic,300,300italic,400italic,700,700italic");
 /*!
 Pure v0.5.0
 Copyright 2014 Yahoo! Inc. All rights reserved.
 Licensed under the BSD License.
 https://github.com/yui/pure/blob/master/LICENSE.md
 */
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic");
+@import url("https://fonts.googleapis.com/css?family=Roboto+Mono:400,100,100italic,300,300italic,400italic,700,700italic");
 .pure-g {
   letter-spacing: -0.31em;
   *letter-spacing: normal;
@@ -215,89 +215,6 @@ https://github.com/yui/pure/blob/master/LICENSE.md
 .pure-u-5-5,
 .pure-u-24-24 {
   width: 100%;
-}
-/*
- * rxCheckbox
- */
-.rxCheckbox {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  color: #ffffff;
-  background-color: #ffffff;
-  position: relative;
-}
-.rxCheckbox input[type="checkbox"],
-.rxCheckbox .fake-checkbox {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: block;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  outline: 0;
-}
-.rxCheckbox .fake-checkbox {
-  box-sizing: border-box;
-  z-index: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #ffffff;
-  border: 1px solid #bdbdbd;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: center;
-  color: transparent;
-}
-.rxCheckbox .fake-checkbox .tick {
-  flex: 0 0 auto;
-  font-size: 12px;
-}
-.rxCheckbox.rx-disabled + label {
-  color: #9e9e9e;
-}
-.rxCheckbox input[type="checkbox"] {
-  z-index: 1;
-  height: 110%;
-  width: 110%;
-  opacity: 0;
-  cursor: pointer;
-}
-.rxCheckbox input[type="checkbox"]:checked + .fake-checkbox {
-  background-color: #3391ff;
-  color: #ffffff;
-  border: 0;
-}
-.rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty + .fake-checkbox {
-  background-color: #ffffff;
-  border: 2px solid #f44336;
-}
-.rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty:checked + .fake-checkbox {
-  background-color: #f44336;
-}
-.rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty[disabled] {
-  cursor: not-allowed;
-}
-.rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty[disabled] ~ .fake-checkbox {
-  background: #ffffff;
-  border: 1px solid #bdbdbd;
-}
-.rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty[disabled]:checked ~ .fake-checkbox {
-  background-color: #e0e0e0;
-  border: 0;
-}
-.rxCheckbox input[type="checkbox"][disabled] {
-  cursor: not-allowed;
-}
-.rxCheckbox input[type="checkbox"][disabled] ~ .fake-checkbox {
-  background: #ffffff;
-  border: 1px solid #bdbdbd;
-}
-.rxCheckbox input[type="checkbox"][disabled]:checked ~ .fake-checkbox {
-  background-color: #e0e0e0;
-  border: 0;
 }
 /* DEPRECATED */
 .pure-g.columns > div {
@@ -3512,132 +3429,92 @@ rx-multi-select .backdrop {
 /*
  * rxPaginate
  */
-.paginate-area {
-  text-align: center;
-}
-.paginate-area td {
-  padding: 0;
-  background: #ffffff;
-}
-.rx-paginate .pagination {
-  display: flex;
-  flex-flow: row nowrap;
-  padding-left: 0;
-  width: 100%;
-}
-.rx-paginate .pagination li {
-  display: inline;
-}
-.rx-paginate .pagination li a {
-  cursor: pointer;
-}
-.rx-paginate .pagination li a,
-.rx-paginate .pagination li span {
-  position: relative;
-  float: left;
-  padding: 6px 12px;
-  margin-left: -1px;
-  text-decoration: none;
-  background: #ffffff;
-  border-top: 2px solid transparent;
-  color: #757575;
-}
-.rx-paginate .pagination > li:first-child {
-  order: 1;
-}
-.rx-paginate .pagination > li:first-child > a,
-.rx-paginate .pagination > li:first-child > span {
-  padding-left: 30px;
+.back-to-top {
+  padding: 10px 20px;
   color: #0d74d1;
   background: transparent;
+  position: relative;
 }
-.rx-paginate .pagination > li:first-child > a:before,
-.rx-paginate .pagination > li:first-child > span:before {
+.back-to-top:before {
   content: ".";
-  width: 0;
-  height: 0;
   font-size: 0;
-  display: block;
   position: absolute;
   border: 6px solid transparent;
   border-bottom-color: #0d74d1;
   border-top: 0;
-  left: 10px;
+  left: 0;
   top: 55%;
   margin-top: -4px;
 }
-.rx-paginate .pagination > li:nth-child(2) {
-  order: 2;
+.page-links > div > a {
   padding: 6px 12px;
+  text-decoration: none;
   border-top: 2px solid transparent;
   color: #757575;
 }
-.rx-paginate .pagination > .page-links {
-  order: 3;
-  margin: auto;
-  align-self: center;
-}
-.rx-paginate .pagination > li:last-child {
-  order: 4;
-  border-top: 2px solid transparent;
-  padding: 6px 12px;
-  color: #757575;
-}
-.rx-paginate .pagination > li:last-child button[disabled] {
-  color: #757575;
-}
-.rx-paginate .pagination > li > div > ul {
-  float: right;
-  padding-left: 5px;
-}
-.rx-paginate .pagination > li > div > ul button {
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: #0d74d1;
-}
-.rx-paginate .pagination > li > div > ul span {
-  float: none;
-  background: transparent;
-}
-.rx-paginate .pagination > li > div > ul li + li::before {
-  content: " | ";
-  margin: 0 1em;
-}
-.rx-paginate .pagination > .page-links > li > a:hover,
-.rx-paginate .pagination > .page-links > li > span:hover,
-.rx-paginate .pagination > .page-links > li > a:focus,
-.rx-paginate .pagination > .page-links > li > span:focus {
+.page-links > div > a:hover,
+.page-links > div > span:hover,
+.page-links > div > a:focus,
+.page-links > div > span:focus {
   border-top: 2px solid #e0e0e0;
+  padding-top: 3px;
+  cursor: pointer;
 }
-.rx-paginate .pagination > .page-links > .active > a,
-.rx-paginate .pagination > .page-links > .active > span,
-.rx-paginate .pagination > .page-links > .active > a:hover,
-.rx-paginate .pagination > .page-links > .active > span:hover,
-.rx-paginate .pagination > .page-links > .active > a:focus,
-.rx-paginate .pagination > .page-links > .active > span:focus {
+.page-links > .active > a,
+.page-links > .active > a:hover,
+.page-links > .active > a:focus {
   cursor: default;
   border-top-color: #000000;
   color: #000000;
-  background: #ffffff;
+  padding-top: 3px;
+  cursor: pointer;
 }
-.rx-paginate .pagination .disabled > span,
-.rx-paginate .pagination .disabled > span:hover,
-.rx-paginate .pagination .disabled > span:focus,
-.rx-paginate .pagination .disabled > a,
-.rx-paginate .pagination .disabled > a:hover,
-.rx-paginate .pagination .disabled > a:focus {
+.pagination .disabled > span,
+.pagination .disabled > span:hover,
+.pagination .disabled > span:focus,
+.pagination .disabled > a,
+.pagination .disabled > a:hover,
+.pagination .disabled > a:focus {
   visibility: hidden;
 }
-.rx-paginate .pagination-lg > li > a,
-.rx-paginate .pagination-lg > li > span {
-  padding: 10px 16px;
-  font-size: 18px;
+.pagination-next,
+.pagination-prev,
+.pagination-first,
+div.pagination-last {
+  white-space: nowrap;
 }
-.rx-paginate .pagination-sm > li > a,
-.rx-paginate .pagination-sm > li > span {
-  padding: 5px 10px;
-  font-size: 12px;
+.pagination-next a,
+.pagination-prev a,
+.pagination-first a,
+div.pagination-last a {
+  padding: 6px 2px;
+}
+.pagination-per-page {
+  padding-top: 10px;
+}
+.pagination-per-page button {
+  border: 0;
+  background: transparent;
+  color: #0d74d1;
+  padding: 0 6px;
+}
+.pagination-per-page button[disabled] {
+  color: #757575;
+}
+.pagination-per-page div:last-child button {
+  padding: 0 0 0 6px;
+}
+.pagination-per-page div:nth-child(n+3):before {
+  content: " | ";
+}
+@media (min-width: 960px) {
+  .pagination-per-page {
+    padding-top: 0;
+  }
+  .back-to-top {
+    padding: 0 20px;
+    cursor: pointer;
+  }
 }
 .loading-overlay {
   z-index: 100;
@@ -4267,57 +4144,6 @@ rx-tags[disabled] .rx-tags:hover {
   box-shadow: 0 0 1.08em -0.36em rgba(0, 0, 0, 0.55);
   overflow: hidden;
 }
-.nav-tabs {
-  display: flex;
-  border-bottom: 9px solid #0d74d1;
-  clear: both;
-}
-.nav-tabs li {
-  flex: 0 0 auto;
-  font-size: 14px;
-  margin-right: 1px;
-}
-.nav-tabs a {
-  display: block;
-  background: #0d47a1;
-  color: #e0e0e0;
-  padding: 10px 20px;
-}
-.nav-tabs a .subdued {
-  color: #bdbdbd;
-}
-.nav-tabs a:hover:not(.active),
-.nav-tabs a:focus:not(.active) {
-  cursor: pointer;
-  color: #ffffff;
-  text-decoration: none;
-}
-.nav-tabs a:hover:not(.active) .subdued,
-.nav-tabs a:focus:not(.active) .subdued {
-  color: #bdbdbd;
-}
-.nav-tabs .active a {
-  background: #0d74d1;
-  color: #ffffff;
-}
-.nav-tabs .active a .subdued {
-  color: #bdbdbd;
-}
-.tab-pane {
-  clear: both;
-  display: none;
-  background: #ffffff;
-  padding: 10px;
-  border-left: 2px solid #0d74d1;
-  border-right: 2px solid #0d74d1;
-  border-bottom: 2px solid #0d74d1;
-}
-.tab-pane.active {
-  display: block;
-}
-.tab-pane .title:first-child {
-  margin-top: 0;
-}
 .tooltip {
   position: absolute;
   z-index: 1070;
@@ -4469,7 +4295,7 @@ rx-tags[disabled] .rx-tags:hover {
   background: #0d74d1;
   color: #ffffff;
 }
-.button-group.example {
+.button-group.demo-button-width {
   width: 250px;
 }
 /*
@@ -4670,161 +4496,88 @@ thead th .btn-link:focus {
   color: #ffffff;
   background: #757575;
 }
-.link-action,
-.link-action a,
-.link-warn,
-.link-warn a {
-  font-size: 1.2em;
-  cursor: pointer;
+/*
+ * rxCheckbox
+ */
+.rxCheckbox {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  color: #ffffff;
+  background-color: #ffffff;
+  position: relative;
 }
-.link-action:before,
-.link-action a:before {
-  content: "+ ";
+.rxCheckbox input[type="checkbox"],
+.rxCheckbox .fake-checkbox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
 }
-.link-warn:before,
-.link-warn a:before {
-  content: "- ";
+.rxCheckbox .fake-checkbox {
+  box-sizing: border-box;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  border: 1px solid #bdbdbd;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  color: transparent;
 }
-/* Disabled link styles */
-.link-disabled {
-  pointer-events: none;
+.rxCheckbox .fake-checkbox .tick {
+  flex: 0 0 auto;
+  font-size: 12px;
 }
-.link-disabled a {
+.rxCheckbox.rx-disabled + label {
   color: #9e9e9e;
 }
-.link-disabled .rx-spinner {
-  margin-left: 10px;
-  border-bottom-color: #9e9e9e;
-  border-right-color: #9e9e9e;
+.rxCheckbox input[type="checkbox"] {
+  z-index: 1;
+  height: 110%;
+  width: 110%;
+  opacity: 0;
+  cursor: pointer;
 }
-.msg-action,
-.msg-action a {
-  color: #2e7d32;
-}
-.msg-action:hover,
-.msg-action a:hover,
-.msg-action:focus,
-.msg-action a:focus {
-  color: #218a26;
-}
-.msg-warn,
-.msg-warn a {
-  color: #d32f2f;
-}
-.msg-warn:hover,
-.msg-warn a:hover,
-.msg-warn:focus,
-.msg-warn a:focus {
-  color: #e61c1c;
-}
-.msg-info,
-.msg-info a {
-  color: #d14904;
-}
-.msg-info:hover,
-.msg-info a:hover,
-.msg-info:focus,
-.msg-info a:focus {
-  color: #d54800;
-}
-.msg-info-blue,
-.msg-info-blue a {
-  color: #0d74d1;
-}
-.msg-info-blue:hover,
-.msg-info-blue a:hover,
-.msg-info-blue:focus,
-.msg-info-blue a:focus {
-  color: #0075de;
-}
-.list li,
-.list .item {
-  display: list-item;
-  margin: 5px 0 0 30px;
-}
-ul.list li,
-.list.bulleted li,
-ul.list .item,
-.list.bulleted .item {
-  list-style: disc;
-}
-ol.list li,
-.list.decimal li,
-ol.list .item,
-.list.decimal .item {
-  list-style: decimal;
-}
-.collapsible-filter-example-form {
-  width: 400px;
-}
-@-webkit-keyframes progress-bar-stripes {
-  from {
-    background-position: 40px 0;
-  }
-  to {
-    background-position: 0 0;
-  }
-}
-@keyframes progress-bar-stripes {
-  from {
-    background-position: 40px 0;
-  }
-  to {
-    background-position: 0 0;
-  }
-}
-.progress {
-  overflow: hidden;
-  height: 18px;
-  margin-bottom: 18px;
-  background-color: #f5f5f5;
-  border: 1px solid #d8d8d8;
-  padding: 1px;
-}
-.progress-bar {
-  float: left;
-  width: 0%;
-  height: 100%;
-  font-size: 12px;
-  line-height: 18px;
-  color: #424242;
-  text-align: center;
-  background-color: #bbdefb;
-  -webkit-transition: all width 0.6s ease ease-out;
-  -moz-transition: all width 0.6s ease ease-out;
-  -o-transition: all width 0.6s ease ease-out;
-  transition: all width 0.6s ease ease-out;
-}
-.progress-striped .progress-bar,
-.progress-bar-striped {
-  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
-  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
-  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
-  background-size: 40px 40px;
-}
-.progress.active .progress-bar,
-.progress-bar.active {
-  -webkit-animation: progress-bar-stripes 2s linear infinite;
-  -o-animation: progress-bar-stripes 2s linear infinite;
-  animation: progress-bar-stripes 2s linear infinite;
-}
-.progress-bar-secondary {
-  background-color: #0d74d1;
+.rxCheckbox input[type="checkbox"]:checked + .fake-checkbox {
+  background-color: #3391ff;
   color: #ffffff;
+  border: 0;
 }
-.progress-striped .progress-bar-secondary {
-  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
-  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
-  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+.rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty + .fake-checkbox {
+  background-color: #ffffff;
+  border: 2px solid #f44336;
 }
-.progress-bar-tertiary {
-  background-color: #2e7d32;
-  color: #ffffff;
+.rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty:checked + .fake-checkbox {
+  background-color: #f44336;
 }
-.progress-striped .progress-bar-tertiary {
-  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
-  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
-  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+.rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty[disabled] {
+  cursor: not-allowed;
+}
+.rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty[disabled] ~ .fake-checkbox {
+  background: #ffffff;
+  border: 1px solid #bdbdbd;
+}
+.rxCheckbox input[type="checkbox"].ng-invalid.ng-dirty[disabled]:checked ~ .fake-checkbox {
+  background-color: #e0e0e0;
+  border: 0;
+}
+.rxCheckbox input[type="checkbox"][disabled] {
+  cursor: not-allowed;
+}
+.rxCheckbox input[type="checkbox"][disabled] ~ .fake-checkbox {
+  background: #ffffff;
+  border: 1px solid #bdbdbd;
+}
+.rxCheckbox input[type="checkbox"][disabled]:checked ~ .fake-checkbox {
+  background-color: #e0e0e0;
+  border: 0;
 }
 rx-date-picker {
   box-sizing: border-box;
@@ -5084,6 +4837,213 @@ rx-time-picker .popup .offsetWrapper {
 rx-time-picker .popup .actions div {
   margin-top: 0;
   margin-bottom: 0;
+}
+.link-action,
+.link-action a,
+.link-warn,
+.link-warn a {
+  font-size: 1.2em;
+  cursor: pointer;
+}
+.link-action:before,
+.link-action a:before {
+  content: "+ ";
+}
+.link-warn:before,
+.link-warn a:before {
+  content: "- ";
+}
+/* Disabled link styles */
+.link-disabled {
+  pointer-events: none;
+}
+.link-disabled a {
+  color: #9e9e9e;
+}
+.link-disabled .rx-spinner {
+  margin-left: 10px;
+  border-bottom-color: #9e9e9e;
+  border-right-color: #9e9e9e;
+}
+.msg-action,
+.msg-action a {
+  color: #2e7d32;
+}
+.msg-action:hover,
+.msg-action a:hover,
+.msg-action:focus,
+.msg-action a:focus {
+  color: #218a26;
+}
+.msg-warn,
+.msg-warn a {
+  color: #d32f2f;
+}
+.msg-warn:hover,
+.msg-warn a:hover,
+.msg-warn:focus,
+.msg-warn a:focus {
+  color: #e61c1c;
+}
+.msg-info,
+.msg-info a {
+  color: #d14904;
+}
+.msg-info:hover,
+.msg-info a:hover,
+.msg-info:focus,
+.msg-info a:focus {
+  color: #d54800;
+}
+.msg-info-blue,
+.msg-info-blue a {
+  color: #0d74d1;
+}
+.msg-info-blue:hover,
+.msg-info-blue a:hover,
+.msg-info-blue:focus,
+.msg-info-blue a:focus {
+  color: #0075de;
+}
+.list li,
+.list .item {
+  display: list-item;
+  margin: 5px 0 0 30px;
+}
+ul.list li,
+.list.bulleted li,
+ul.list .item,
+.list.bulleted .item {
+  list-style: disc;
+}
+ol.list li,
+.list.decimal li,
+ol.list .item,
+.list.decimal .item {
+  list-style: decimal;
+}
+.collapsible-filter-example-form {
+  width: 400px;
+}
+.nav-tabs {
+  display: flex;
+  border-bottom: 9px solid #0d74d1;
+  clear: both;
+}
+.nav-tabs li {
+  flex: 0 0 auto;
+  font-size: 14px;
+  margin-right: 1px;
+}
+.nav-tabs a {
+  display: block;
+  background: #0d47a1;
+  color: #e0e0e0;
+  padding: 10px 20px;
+}
+.nav-tabs a .subdued {
+  color: #bdbdbd;
+}
+.nav-tabs a:hover:not(.active),
+.nav-tabs a:focus:not(.active) {
+  cursor: pointer;
+  color: #ffffff;
+  text-decoration: none;
+}
+.nav-tabs a:hover:not(.active) .subdued,
+.nav-tabs a:focus:not(.active) .subdued {
+  color: #bdbdbd;
+}
+.nav-tabs .active a {
+  background: #0d74d1;
+  color: #ffffff;
+}
+.nav-tabs .active a .subdued {
+  color: #bdbdbd;
+}
+.tab-pane {
+  clear: both;
+  display: none;
+  background: #ffffff;
+  padding: 10px;
+  border-left: 2px solid #0d74d1;
+  border-right: 2px solid #0d74d1;
+  border-bottom: 2px solid #0d74d1;
+}
+.tab-pane.active {
+  display: block;
+}
+.tab-pane .title:first-child {
+  margin-top: 0;
+}
+@-webkit-keyframes progress-bar-stripes {
+  from {
+    background-position: 40px 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+@keyframes progress-bar-stripes {
+  from {
+    background-position: 40px 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+.progress {
+  overflow: hidden;
+  height: 18px;
+  margin-bottom: 18px;
+  background-color: #f5f5f5;
+  border: 1px solid #d8d8d8;
+  padding: 1px;
+}
+.progress-bar {
+  float: left;
+  width: 0%;
+  height: 100%;
+  font-size: 12px;
+  line-height: 18px;
+  color: #424242;
+  text-align: center;
+  background-color: #bbdefb;
+  -webkit-transition: all width 0.6s ease ease-out;
+  -moz-transition: all width 0.6s ease ease-out;
+  -o-transition: all width 0.6s ease ease-out;
+  transition: all width 0.6s ease ease-out;
+}
+.progress-striped .progress-bar,
+.progress-bar-striped {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-size: 40px 40px;
+}
+.progress.active .progress-bar,
+.progress-bar.active {
+  -webkit-animation: progress-bar-stripes 2s linear infinite;
+  -o-animation: progress-bar-stripes 2s linear infinite;
+  animation: progress-bar-stripes 2s linear infinite;
+}
+.progress-bar-secondary {
+  background-color: #0d74d1;
+  color: #ffffff;
+}
+.progress-striped .progress-bar-secondary {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+.progress-bar-tertiary {
+  background-color: #2e7d32;
+  color: #ffffff;
+}
+.progress-striped .progress-bar-tertiary {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
 }
 .rxStatusMappings-demo .demo-status-column-table {
   max-width: 500px;

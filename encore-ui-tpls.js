@@ -2,26 +2,11 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 2.0.0-5 - 2016-05-09
+ * Version: 1.48.0-0 - 2016-05-18
  * License: Apache-2.0
  */
-angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.atoms','encore.ui.elements','encore.ui.molecules','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.layout','encore.ui.metadata','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.utilities','encore.ui.rxApp','encore.ui.utilities','encore.ui.rxAttributes','encore.ui.utilities','encore.ui.rxBreadcrumbs','encore.ui.utilities','encore.ui.rxBulkSelect','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxCharacterCount','encore.ui.atoms','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.molecules','encore.ui.utilities','encore.ui.utilities','encore.ui.rxEnvironment','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxFeedback','encore.ui.utilities','encore.ui.utilities','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.utilities','encore.ui.rxInfoPanel','encore.ui.utilities','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.utilities','encore.ui.utilities','encore.ui.rxMultiSelect','encore.ui.utilities','encore.ui.rxNotify','encore.ui.utilities','encore.ui.rxOptionTable','encore.ui.utilities','encore.ui.rxPaginate','encore.ui.utilities','encore.ui.rxPermission','encore.ui.utilities','encore.ui.rxRadio','encore.ui.utilities','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.rxSpinner','encore.ui.rxStatusColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxTags','encore.ui.molecules','encore.ui.utilities','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.tabs','encore.ui.utilities','encore.ui.utilities','encore.ui.tooltips','encore.ui.typeahead','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities', 'cfp.hotkeys','ui.bootstrap']);
-angular.module('encore.ui.tpls', ['templates/rxButton.html','templates/rxAccountInfo.html','templates/rxAccountInfoBanner.html','templates/rxActionMenu.html','templates/rxActiveUrl.html','templates/rxAccountSearch.html','templates/rxAccountUsers.html','templates/rxApp.html','templates/rxAppNav.html','templates/rxAppNavItem.html','templates/rxAppSearch.html','templates/rxBillingSearch.html','templates/rxPage.html','templates/rxBreadcrumbs.html','templates/rxBatchActions.html','templates/rxBulkSelectMessage.html','templates/rxCollapse.html','templates/rxDatePicker.html','templates/feedbackForm.html','templates/rxFeedback.html','templates/rxFieldName.html','templates/rxFormFieldset.html','templates/rxFormItem.html','templates/rxInfoPanel.html','templates/rxMeta.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxModalFooters.html','templates/rxMultiSelect.html','templates/rxSelectOption.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxOptionTable.html','templates/rxPaginate.html','templates/rxPermission.html','templates/rxSearchBox.html','templates/rxSelectFilter.html','templates/rxSortableColumn.html','templates/rxStatusColumn.html','templates/rxTags.html','templates/rxTimePicker.html','templates/rxToggleSwitch.html']);
-/**
- * @ngdoc overview
- * @name atoms
- * @requires utilities
- * @description
- * # Atoms
- * Atoms are the basic building blocks for all UI elements.
- *
- * ## Atoms
- * * {@link atoms.directive:rxCheckbox rxCheckbox}
- */
-angular.module('encore.ui.atoms', [
-    'encore.ui.utilities'
-]);
-
+angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.layout','encore.ui.metadata','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.utilities','encore.ui.rxApp','encore.ui.utilities','encore.ui.rxAttributes','encore.ui.utilities','encore.ui.rxBreadcrumbs','encore.ui.utilities','encore.ui.rxBulkSelect','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.utilities','encore.ui.utilities','encore.ui.rxEnvironment','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxFeedback','encore.ui.utilities','encore.ui.utilities','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.utilities','encore.ui.utilities','encore.ui.rxInfoPanel','encore.ui.utilities','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.utilities','encore.ui.utilities','encore.ui.rxMultiSelect','encore.ui.utilities','encore.ui.rxNotify','encore.ui.utilities','encore.ui.rxOptionTable','encore.ui.utilities','encore.ui.rxPaginate','encore.ui.utilities','encore.ui.rxPermission','encore.ui.utilities','encore.ui.rxRadio','encore.ui.utilities','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.rxSpinner','encore.ui.rxStatusColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxTags','encore.ui.utilities','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.tooltips','encore.ui.typeahead','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui.tpls', ['templates/rxButton.html','templates/rxDatePicker.html','templates/rxTimePicker.html','templates/rxAccountInfo.html','templates/rxAccountInfoBanner.html','templates/rxActionMenu.html','templates/rxActiveUrl.html','templates/rxAccountSearch.html','templates/rxAccountUsers.html','templates/rxApp.html','templates/rxAppNav.html','templates/rxAppNavItem.html','templates/rxAppSearch.html','templates/rxBillingSearch.html','templates/rxPage.html','templates/rxBreadcrumbs.html','templates/rxBatchActions.html','templates/rxBulkSelectMessage.html','templates/rxCollapse.html','templates/feedbackForm.html','templates/rxFeedback.html','templates/rxFieldName.html','templates/rxFormFieldset.html','templates/rxFormItem.html','templates/rxInfoPanel.html','templates/rxMeta.html','templates/rxModalAction.html','templates/rxModalActionForm.html','templates/rxModalFooters.html','templates/rxMultiSelect.html','templates/rxSelectOption.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxNotification.html','templates/rxNotifications.html','templates/rxOptionTable.html','templates/rxPaginate.html','templates/rxPermission.html','templates/rxSearchBox.html','templates/rxSelectFilter.html','templates/rxSortableColumn.html','templates/rxStatusColumn.html','templates/rxTags.html','templates/rxToggleSwitch.html']);
 /**
  * @ngdoc overview
  * @name elements
@@ -32,27 +17,11 @@ angular.module('encore.ui.atoms', [
  *
  * ## Directives
  * * {@link elements.directive:rxButton rxButton}
+ * * {@link elements.directive:rxCheckbox rxCheckbox}
+ * * {@link elements.directive:rxTimePicker rxTimePicker}
  */
 angular.module('encore.ui.elements', [
     'encore.ui.utilities'
-]);
-
-/**
- * @ngdoc overview
- * @name molecules
- * @requires utilities
- * @requires atoms
- * @description
- * # Molecules
- * Molecules are complex elements made up of various Atoms.
- *
- * ## Directives
- * * {@link molecules.directive:rxDatePicker rxDatePicker}
- * * {@link molecules.directive:rxTimePicker rxTimePicker}
- */
-angular.module('encore.ui.molecules', [
-    'encore.ui.utilities',
-    'encore.ui.atoms'
 ]);
 
 /**
@@ -114,6 +83,7 @@ angular.module('encore.ui.molecules', [
  * * {@link utilities.service:rxDOMHelper rxDOMHelper}
  * * {@link utilities.service:rxFeedbackSvc rxFeedbackSvc}
  * * {@link utilities.service:rxFormUtils rxFormUtils}
+ * * {@link utilities.service:rxHideIfUkAccount rxHideIfUkAccount}
  * * {@link utilities.service:rxLocalStorage rxLocalStorage}
  * * {@link utilities.service:rxModalFooterTemplates rxModalFooterTemplates}
  * * {@link utilities.service:rxNestedElement rxNestedElement}
@@ -291,13 +261,14 @@ angular.module('encore.ui.utilities')
  *
  * @return {Object} Instance of rxAppRoutes with `fetchRoutes` method added
  */
-.factory('encoreRoutes', ["rxAppRoutes", "routesCdnPath", "rxNotify", "$q", "$http", "rxVisibilityPathParams", "rxVisibility", "Environment", "rxLocalStorage", function (rxAppRoutes, routesCdnPath, rxNotify, $q, $http,
+.factory('encoreRoutes', ["rxAppRoutes", "routesCdnPath", "rxNotify", "$q", "$http", "rxVisibilityPathParams", "rxVisibility", "Environment", "rxHideIfUkAccount", "LocalStorage", function (rxAppRoutes, routesCdnPath, rxNotify, $q, $http,
                                    rxVisibilityPathParams, rxVisibility, Environment,
-                                   rxLocalStorage) {
+                                   rxHideIfUkAccount, LocalStorage) {
 
     // We use rxVisibility in the nav menu at routesCdnPath, so ensure it's ready
     // before loading from the CDN
     rxVisibility.addVisibilityObj(rxVisibilityPathParams);
+    rxVisibility.addVisibilityObj(rxHideIfUkAccount);
 
     var encoreRoutes = new rxAppRoutes();
 
@@ -338,12 +309,12 @@ angular.module('encore.ui.utilities')
 
     encoreRoutes.fetchRoutes = function () {
         var routesKey = 'encoreRoutes-' + suffix;
-        var cachedRoutes = rxLocalStorage.getObject(routesKey);
+        var cachedRoutes = LocalStorage.getObject(routesKey);
 
         $http.get(url)
             .success(function (routes) {
                 encoreRoutes.setAll(routes);
-                rxLocalStorage.setObject(routesKey, routes);
+                LocalStorage.setObject(routesKey, routes);
             })
             .error(function () {
                 if (cachedRoutes) {
@@ -661,6 +632,470 @@ angular.module('encore.ui.utilities')
     }
 ]);
 
+angular.module('encore.ui.elements')
+/**
+ * @name elements.directive:rxCheckbox
+ * @ngdoc directive
+ * @restrict A
+ * @scope
+ * @description
+ * Attribute directive that wraps a native checkbox element in markup required for styling purposes.
+ *
+ * ## Styling
+ *
+ * Directive results in an **inline-block element**
+ * You can style the output against decendents of the **`.rxCheckbox`** CSS class.
+ *
+ * ## Show/Hide
+ *
+ * If you wish to show/hide your `rxCheckbox` element (and its label), we recommend
+ * placing the element (and its label) inside of a `<div>` or `<span>` wrapper,
+ * and performing the show/hide logic on the wrapper.
+ *
+ * <pre>
+ * <span ng-show="isShown">
+ *     <input rx-checkbox id="chkDemo" ng-model="chkDemo" />
+ *     <label for="chkDemo">Label for Demo Checkbox</label>
+ * </span>
+ * </pre>
+ *
+ * It is highly recommended that you use `ng-show` and `ng-hide` for purposes of
+ * display logic. Because of the way that `ng-if` and `ng-switch` directives behave
+ * with scope, they may introduce unnecessary complexity in your code.
+ *
+ * @example
+ * <pre>
+ * <input rx-checkbox ng-model="demoValue" />
+ * </pre>
+ *
+ * @param {Boolean=} [ng-disabled=false] Determines if the control is disabled.
+ */
+.directive('rxCheckbox', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            ngDisabled: '=?'
+        },
+        compile: function (tElement, tAttrs) {
+            // automatically set input type
+            tElement.attr('type', 'checkbox');
+            tAttrs.type = 'checkbox';
+
+            return function (scope, element, attrs) {
+                var disabledClass = 'rx-disabled';
+                var wrapper = '<div class="rxCheckbox"></div>';
+                var fakeCheckbox = '<div class="fake-checkbox">' +
+                        '<div class="tick fa fa-check"></div>' +
+                    '</div>';
+
+                element.wrap(wrapper);
+                element.after(fakeCheckbox);
+                // must be defined AFTER the element is wrapped
+                var parent = element.parent();
+
+                // apply/remove disabled attribute so we can
+                // apply a CSS selector to style sibling elements
+                if (attrs.disabled) {
+                    parent.addClass(disabledClass);
+                }
+                if (_.has(attrs, 'ngDisabled')) {
+                    scope.$watch('ngDisabled', function (newVal) {
+                        if (newVal === true) {
+                            parent.addClass(disabledClass);
+                        } else {
+                            parent.removeClass(disabledClass);
+                        }
+                    });
+                }
+
+                var removeParent = function () {
+                    parent.remove();
+                };
+
+                // remove stylistic markup when element is destroyed
+                element.on('$destroy', function () {
+                    scope.$evalAsync(removeParent);
+                });
+            };
+        }//compile
+    };
+});//rxCheckbox
+
+angular.module('encore.ui.elements')
+/**
+ * @name elements.directive:rxDatePicker
+ * @ngdoc directive
+ * @restrict E
+ * @scope
+ * @description
+ * Basic date picker.
+ *
+ * ## Notice
+ * This element is designed to be used in conjunction with other picker
+ * elements to compose a valid ISO 8601 DateTime string in the format of
+ * <code>YYYY-MM-DDTHH:mmZ</code>.
+ *
+ * `rxDatePicker` provides the user a 10-year range before and after the selected date,
+ * if present.  Otherwise, the range is calculated from today's date.
+ *
+ * * This element will generate a **String** in the format of `YYYY-MM-DD`
+ *   to be used as the date portion of the ISO 8601 standard DateTime string
+ *   mentioned above.
+ * * This element will never generate anything other than a String.
+ *
+ * @param {expression} ngModel
+ * Expression that evaluates to a date string in `YYYY-MM-DD` format
+ *
+ * @return {String} **IMPORTANT** returns an ISO 8601 standard date string in the
+ * format of `YYYY-MM-DD`.
+ */
+.directive('rxDatePicker', function () {
+    var isoFormat = 'YYYY-MM-DD';
+    const YEAR_RANGE = 10;
+
+    /**
+     * @param {Moment} firstOfMonth
+     * @return {Array<Moment>}
+     * @description
+     * Generate an array of Moment objects representing the visible
+     * days on the calendar. This will automatically pad the calendar
+     * with dates from previous/next month to fill out the weeks.
+     */
+    function buildCalendarDays (firstOfMonth) {
+        var dateToken = firstOfMonth.clone().startOf('day');
+        var currentMonth = dateToken.month();
+        var days = [];
+        var prependDay, appendDay;
+
+        // add calendar month's days
+        while (dateToken.month() === currentMonth) {
+            days.push(dateToken.clone());
+            dateToken.add(1, 'day');
+        }
+
+        // until first item of array is Sunday, prepend earlier days to array
+        while (_.first(days).day() > 0) {
+            prependDay = _.first(days).clone();
+            days.unshift(prependDay.subtract(1, 'day'));
+        }
+
+        // until last item of array is Saturday, append later days to array
+        while (_.last(days).day() < 6) {
+            appendDay = _.last(days).clone();
+            days.push(appendDay.add(1, 'day'));
+        }
+
+        return days;
+    }//buildCalendarDays
+
+    /**
+     * @param {Moment} midpoint
+     * @return {Array<ISO 8601 Year> }
+     * @description
+     * Generate an array of ISO 8601 Year (format "YYYY") years.
+     */
+    function generateCalendarYears (midpoint) {
+        var calendarYears = [];
+        var iterator = midpoint.clone().subtract(YEAR_RANGE, 'years');
+        var limit = midpoint.clone().add(YEAR_RANGE, 'years');
+
+        while (iterator.year() <= limit.year()) {
+            calendarYears.push(iterator.year());
+
+            iterator.add(1, 'year');
+        }
+
+        return calendarYears;
+    }//generateCalendarYears
+
+    return {
+        templateUrl: 'templates/rxDatePicker.html',
+        restrict: 'E',
+        require: 'ngModel',
+        scope: {
+            selected: '=ngModel'
+        },
+        link: function (scope, element, attrs, ngModelCtrl) {
+            var today = moment(new Date());
+
+            scope.calendarVisible = false;
+            // keep track of which month we're viewing in the popup (default to 1st of this month)
+            scope.calendarMonth = today.clone().startOf('month');
+
+            /* ===== "Public" Functions ===== */
+            scope.toggleCalendar = function () {
+                if (_.isUndefined(attrs.disabled)) {
+                    scope.calendarVisible = !scope.calendarVisible;
+                }
+            };//toggleCalendar()
+
+            scope.closeCalendar = function () {
+                scope.calendarVisible = false;
+            };
+
+            /**
+             * @param {String} destination
+             * @description Modifies `scope.calendarMonth` to regenerate calendar
+             */
+            scope.navigate = function (destination) {
+                var newCalendarMonth = scope.calendarMonth.clone();
+                switch (destination) {
+                    case 'nextMonth': {
+                        newCalendarMonth.add(1, 'month');
+                        break;
+                    }
+                    case 'prevMonth': {
+                        newCalendarMonth.subtract(1, 'month');
+                        break;
+                    }
+                }
+                scope.calendarMonth = newCalendarMonth;
+            };//navigate
+
+            /**
+             * @param {Moment} date
+             */
+            scope.selectDate = function (date) {
+                scope.selected = date.format(isoFormat);
+                scope.calendarVisible = false;
+            };//selectDate()
+
+            /**
+             * @param {Moment} day
+             * @return {Boolean}
+             */
+            scope.isToday = function (day) {
+                return moment(day).isSame(today, 'day');
+            };//isToday()
+
+            /**
+             * @param {Moment} day
+             * @return {Boolean}
+             */
+            scope.isMonth = function (day) {
+                return moment(day).isSame(scope.calendarMonth, 'month');
+            };//isMonth()
+
+            /**
+             * @param {Moment} day
+             * @return {Boolean}
+             */
+            scope.isSelected = function (day) {
+                if (_.isUndefined(scope.selected)) {
+                    return false;
+                } else {
+                    return moment(day).isSame(scope.selected, 'day');
+                }
+            };//isSelected()
+
+            /* ===== OBSERVERS ===== */
+
+            // Set calendar month on change of selected date
+            scope.$watch('selected', function (newVal) {
+                if (_.isEmpty(newVal)) {
+                    scope.calendarMonth = today.clone().startOf('month');
+                } else {
+                    var parsed = moment(newVal, isoFormat);
+
+                    if (parsed.isValid()) {
+                        scope.calendarMonth = parsed.startOf('month');
+                    }
+                }
+            });
+
+            // Regenerate calendar if month changes
+            scope.$watch('calendarMonth', function (newVal) {
+                scope.calendarDays = buildCalendarDays(newVal);
+                scope.currentMonth = newVal.format('MM');
+                scope.currentYear = newVal.format('YYYY');
+                scope.calendarYears = generateCalendarYears(newVal);
+            });
+
+            scope.$watch('currentMonth', function (newVal) {
+                if (!_.isEmpty(newVal)) {
+                    var dateString = [scope.currentYear, newVal, '01'].join('-');
+                    var parsed = moment(dateString, isoFormat);
+
+                    if (parsed.isValid()) {
+                        scope.calendarMonth = parsed;
+                    }
+                }
+            });
+
+            scope.$watch('currentYear', function (newVal) {
+                if (!_.isEmpty(newVal)) {
+                    var dateString = [newVal, scope.currentMonth, '01'].join('-');
+                    var parsed = moment(dateString, isoFormat);
+
+                    if (parsed.isValid()) {
+                        scope.calendarMonth = parsed;
+                    }
+                }
+            });
+
+            ngModelCtrl.$formatters.push(function (modelVal) {
+                var parsed = moment(modelVal, isoFormat);
+                ngModelCtrl.$setValidity('date', parsed.isValid());
+
+                if (parsed.isValid()) {
+                    return parsed.format('MMMM DD, YYYY');
+                } else {
+                    return null;
+                }
+            });
+
+            ngModelCtrl.$render = function () {
+                scope.displayValue = ngModelCtrl.$viewValue;
+            };
+        }
+    };
+});
+
+angular.module('encore.ui.elements')
+/**
+ * @name elements.directive:rxTimePicker
+ * @ngdoc directive
+ * @restrict E
+ * @scope
+ * @requires utilities.service:rxTimePickerUtil
+ * @requires utilities.constant:UtcOffsets
+ * @requires elements.directive:rxButton
+ * @description Time Picker
+ *
+ * ## Notice
+ * This element is designed to be used in conjunction with other picker
+ * elements to compose a valid ISO 8601 DateTime string in the format of
+ * <code>YYYY-MM-DDTHH:mmZ</code>.
+ *
+ * * This element will generate a **String** in the format of `HH:mmZ`
+ *   to be used as the time portion of the ISO 8601 standard DateTime string
+ *   mentioned above.
+ * * This element will never generate anything other than a String.
+ *
+ * @param {expression} ngModel
+ * Expression that evaluates to a time string in `HH:mmZ` format, where `Z`
+ * should match `/[-+]\d{2}:\d{2}/`.
+ *
+ * @return {String} **IMPORTANT** returns an ISO 8601 standard time string in the
+ * format of `HH:mmZ`.
+ */
+.directive('rxTimePicker', ["rxTimePickerUtil", "UtcOffsets", function (rxTimePickerUtil, UtcOffsets) {
+    return {
+        restrict: 'E',
+        require: 'ngModel',
+        scope: {
+            modelValue: '=ngModel',
+            isDisabled: '=ngDisabled'
+        },
+        templateUrl: 'templates/rxTimePicker.html',
+        link: function (scope, el, attrs, ngModelCtrl) {
+            var pickerUtil = rxTimePickerUtil;
+
+            scope.availableUtcOffsets = UtcOffsets;
+
+            scope.isPickerVisible = false;
+
+            scope.openPopup = function () {
+                scope.isPickerVisible = true;
+
+                // default
+                scope.hour = '';
+                scope.minutes = '';
+                scope.period = 'AM';
+                scope.offset = '+00:00';
+
+                if (!_.isEmpty(scope.modelValue)) {
+                    var parsed = pickerUtil.modelToObject(scope.modelValue);
+                    scope.hour = parsed.hour;
+                    scope.minutes = parsed.minutes;
+                    scope.period = parsed.period;
+                    scope.offset = parsed.offset;
+                }
+            };//openPopup
+
+            scope.closePopup = function () {
+                scope.isPickerVisible = false;
+            };
+
+            /**
+             * Toggle the popup and initialize form values.
+             */
+            scope.togglePopup = function () {
+                if (!scope.isDisabled) {
+                    if (scope.isPickerVisible) {
+                        scope.closePopup();
+                    } else {
+                        scope.openPopup();
+                    }
+                }
+            };//togglePopup()
+
+            /**
+             * Apply the popup selections to the $viewValue.
+             */
+            scope.submitPopup = function () {
+                var time = moment([
+                    (scope.hour + ':' + scope.minutes),
+                    scope.period,
+                    scope.offset
+                ].join(' '), 'hh:mm A Z');
+
+                // ensure moment is in expected timezone
+                time.utcOffset(scope.offset);
+
+                ngModelCtrl.$setViewValue(time.format(pickerUtil.viewFormat));
+
+                // update the view
+                ngModelCtrl.$render();
+
+                scope.closePopup();
+            };//submitPopup()
+
+            /* Model -> View */
+            ngModelCtrl.$formatters.push(function (modelVal) {
+                var momentValue = moment(modelVal, pickerUtil.modelFormat);
+
+                if (momentValue.isValid()) {
+                    var offset = pickerUtil.parseUtcOffset(modelVal);
+
+                    // change offset of moment to that of model value
+                    // without this, moment will default to local offset
+                    // (CST = -06:00) and the formatted output will be incorrect
+                    momentValue.utcOffset(offset);
+
+                    // Ensure that display value is in proper format
+                    return momentValue.format(pickerUtil.viewFormat);
+                } else {
+                    return modelVal;
+                }
+            });
+
+            /* View -> Model */
+            ngModelCtrl.$parsers.push(function (viewVal) {
+                var momentValue = moment(viewVal, pickerUtil.viewFormat);
+
+                if (momentValue.isValid()) {
+                    var offset = pickerUtil.parseUtcOffset(viewVal);
+
+                    // change offset of moment to that of view value
+                    // without this, moment will default to local offset
+                    // (CST = -06:00) and the formatted output will be incorrect
+                    momentValue.utcOffset(offset);
+
+                    // Ensure that model value is in proper format
+                    return momentValue.format(pickerUtil.modelFormat);
+                } else {
+                    return viewVal;
+                }
+            });
+
+            ngModelCtrl.$render = function () {
+                scope.displayValue = ngModelCtrl.$viewValue || '';
+            };
+        }//link
+    };
+}]);
+
 /**
  * @ngdoc service
  * @name utilities.service:hotkeys
@@ -915,7 +1350,7 @@ angular.module('encore.ui.utilities')
  * <rx-paginate page-tracking="pager"></rx-paginate>
  * </pre>
  */
-.factory('PageTracking', ["$q", "rxLocalStorage", "rxPaginateUtils", function ($q, rxLocalStorage, rxPaginateUtils) {
+.factory('PageTracking', ["$q", "LocalStorage", "rxPaginateUtils", function ($q, LocalStorage, rxPaginateUtils) {
     var PageTracking = {
         /**
         * @ngdoc method
@@ -951,7 +1386,7 @@ angular.module('encore.ui.utilities')
         * @method userSelectedItemsPerPage This method sets a new global itemsPerPage value
         */
         userSelectedItemsPerPage: function (itemsPerPage) {
-            rxLocalStorage.setItem('rxItemsPerPage', itemsPerPage);
+            LocalStorage.setItem('rxItemsPerPage', itemsPerPage);
         }
     };
 
@@ -983,7 +1418,7 @@ angular.module('encore.ui.utilities')
             itemSizeList.splice(index, 0, itemsPerPage);
         }
 
-        var selectedItemsPerPage = parseInt(rxLocalStorage.getItem('rxItemsPerPage'));
+        var selectedItemsPerPage = parseInt(LocalStorage.getItem('rxItemsPerPage'));
 
         // If the user has chosen a desired itemsPerPage, make sure we're respecting that
         // However, a value specified in the options will take precedence
@@ -1735,7 +2170,7 @@ angular.module('encore.ui.utilities')
             suffixes = [' day', ' hour', ' minute'];
 
             _.forEach(suffixes, function (suffix, index) {
-                suffixes[index] += ((dateUnits[index] != 1) ? 's' : '');
+                suffixes[index] += ((dateUnits[index] !== 1) ? 's' : '');
             });
         }
 
@@ -1750,7 +2185,7 @@ angular.module('encore.ui.utilities')
         age.push({ value: mins - (60 * hours), suffix: suffixes[2] });
 
         return _.map(age.slice(0, maxUnits), function (dateUnit, index, listOfAges) {
-            if (index == listOfAges.length - 1) {
+            if (index === listOfAges.length - 1) {
                 return Math.round(dateUnit.value) + dateUnit.suffix;
             } else {
                 return Math.floor(dateUnit.value) + dateUnit.suffix;
@@ -2347,7 +2782,8 @@ angular.module('encore.ui.rxApp')
  * environment is not necessary.
  *
  * Another technique for visibility is to use a predefined set of visibility
- * functions that exist in the framework—`rxPathParams`, for example.
+ * functions that exist in the framework. These include `rxPathParams` and
+ * `rxHideIfUkAccount`.
  *
  * To use these, you pass an array to `visibility`, with the first argument being
  * the name of the function to use (as a string), and the second argument as an
@@ -3302,7 +3738,7 @@ angular.module('encore.ui.utilities')
  * appearing on the same page.
  *
  * By default, all values are stored in {@link utilities.service:rxLocalStorage rxLocalStoage} which interfaces with the
- * browser's `localStorage` object. This means that if a user logs into a different computer, their stored values will
+ * browser's `LocalStorage` object. This means that if a user logs into a different computer, their stored values will
  * not be present.  Use of `SessionStorage` is also supported out-of-the-box. If you wish to save form states elsewhere
  * (for instance, to an API), see the "Storage Location" section below.
  *
@@ -3523,9 +3959,9 @@ angular.module('encore.ui.utilities')
  *
  * ## Storage location
  *
- * All values for `rxAutoSave` are by default stored in the browser's `localStorage` through the `rxLocalStorage`
+ * All values for `rxAutoSave` are by default stored in the browser's `LocalStorage` through the `rxLocalStorage`
  * service, and keyed on the URL of the page, with a `rxAutoSave::` prefix. For example, if the above form were
- * present at the URL `'users/JonnyRocket/edit'`, then the form data would be saved into the browser's `localStorage`
+ * present at the URL `'users/JonnyRocket/edit'`, then the form data would be saved into the browser's `LocalStorage`
  * at location `'rxAutoSave::users/JonnyRocket/edit'`.
  *
  * If you wish to use a different storage backend (`SessionStorage`, for instance), use the `storageBackend` parameter:
@@ -3783,12 +4219,12 @@ angular.module('encore.ui.utilities')
             }
         };
 
-        // Responsible for loading the data from the browser's localStorage into the form
+        // Responsible for loading the data from the browser's LocalStorage into the form
         var load = function () {
             var expires = api.getExpires();
             if (expires > 0 && expires <= _.now()) {
                 // This data has expired. Make sure we clear it out
-                // of the browser's localStorage
+                // of the browser's LocalStorage
                 api.expire();
                 return;
             }
@@ -3838,7 +4274,7 @@ angular.module('encore.ui.utilities')
             updateExpiryTime();
         }
 
-        // We don't want to write to the browser's localStorage every time the model changes,
+        // We don't want to write to the browser's LocalStorage every time the model changes,
         // because that would turn typing into a textarea into an expensive operation.
         // We'll instead debounce the the writes for 1 second
         var debounced = debounce(update, 1000);
@@ -4005,7 +4441,7 @@ angular.module('encore.ui.utilities')
 /**
  * @ngdoc overview
  * @name rxBulkSelect
- * @requires atoms.directive:rxCheckbox
+ * @requires elements.directive:rxCheckbox
  * @description
  * # rxBulkSelect Component
  *
@@ -4020,7 +4456,7 @@ angular.module('encore.ui.utilities')
  */
 angular.module('encore.ui.rxBulkSelect', [
     'encore.ui.utilities',
-    'encore.ui.atoms'
+    'encore.ui.elements'
 ]);
 
 angular.module('encore.ui.rxBulkSelect')
@@ -4478,6 +4914,55 @@ angular.module('encore.ui.utilities')
 });
 
 angular.module('encore.ui.utilities')
+
+/**
+ * @ngdoc filter
+ * @name utilities.filter:rxByteSize
+ * @description
+ *
+ * Converts Byte disk size into a more readable format (e.g. MBs, GBs, TBs, PBs)
+ *
+ *
+ * <pre>
+ * 1000 → 1 KB
+ * 12000000 → 12 MB
+ * </pre>
+ **/
+.filter('rxBytesConvert', function () {
+    return function (bytes, unit) {
+        var units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+        var index;
+
+        // check if unit is in the list of units
+        if (_.isUndefined(unit) || _.indexOf(units, unit.toUpperCase()) === -1) {
+            // determine closest unit
+            if (bytes > 0) {
+                index = Math.floor(Math.log(bytes) / Math.log(1000));
+                if (index > 5) {
+                    index = 5; // if the data is too large, default PB
+                }
+            } else {
+                index = 0;
+                bytes = 0;
+            }
+        } else {
+            index = _.indexOf(units, unit.toUpperCase());
+        }
+
+        // calculate result in exected unit
+        var result = bytes / Math.pow(1000, index);
+        // check if result is integer (karma doesn't know Number.isInteger())
+        // https://github.com/ariya/phantomjs/issues/14014
+        if (result % 1 === 0) {
+            return result + ' ' + units[index];
+        } else {
+            return result.toFixed(2) + ' ' + units[index];
+        }
+    };
+});
+
+
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc filter
  * @name utilities.filter:rxCapitalize
@@ -4693,95 +5178,6 @@ angular.module('encore.ui.rxCharacterCount')
     };
 }]);
 
-angular.module('encore.ui.atoms')
-/**
- * @name atoms.directive:rxCheckbox
- * @ngdoc directive
- * @restrict A
- * @scope
- * @description
- * Attribute directive that wraps a native checkbox element in markup required for styling purposes.
- *
- * ## Styling
- *
- * Directive results in an **inline-block element**
- * You can style the output against decendents of the **`.rxCheckbox`** CSS class.
- *
- * ## Show/Hide
- *
- * If you wish to show/hide your `rxCheckbox` element (and its label), we recommend
- * placing the element (and its label) inside of a `<div>` or `<span>` wrapper,
- * and performing the show/hide logic on the wrapper.
- *
- * <pre>
- * <span ng-show="isShown">
- *     <input rx-checkbox id="chkDemo" ng-model="chkDemo" />
- *     <label for="chkDemo">Label for Demo Checkbox</label>
- * </span>
- * </pre>
- *
- * It is highly recommended that you use `ng-show` and `ng-hide` for purposes of
- * display logic. Because of the way that `ng-if` and `ng-switch` directives behave
- * with scope, they may introduce unnecessary complexity in your code.
- *
- * @example
- * <pre>
- * <input rx-checkbox ng-model="demoValue" />
- * </pre>
- *
- * @param {Boolean=} [ng-disabled=false] Determines if the control is disabled.
- */
-.directive('rxCheckbox', function () {
-    return {
-        restrict: 'A',
-        scope: {
-            ngDisabled: '=?'
-        },
-        compile: function (tElement, tAttrs) {
-            // automatically set input type
-            tElement.attr('type', 'checkbox');
-            tAttrs.type = 'checkbox';
-
-            return function (scope, element, attrs) {
-                var disabledClass = 'rx-disabled';
-                var wrapper = '<div class="rxCheckbox"></div>';
-                var fakeCheckbox = '<div class="fake-checkbox">' +
-                        '<div class="tick fa fa-check"></div>' +
-                    '</div>';
-
-                element.wrap(wrapper);
-                element.after(fakeCheckbox);
-                // must be defined AFTER the element is wrapped
-                var parent = element.parent();
-
-                // apply/remove disabled attribute so we can
-                // apply a CSS selector to style sibling elements
-                if (attrs.disabled) {
-                    parent.addClass(disabledClass);
-                }
-                if (_.has(attrs, 'ngDisabled')) {
-                    scope.$watch('ngDisabled', function (newVal) {
-                        if (newVal === true) {
-                            parent.addClass(disabledClass);
-                        } else {
-                            parent.removeClass(disabledClass);
-                        }
-                    });
-                }
-
-                var removeParent = function () {
-                    parent.remove();
-                };
-
-                // remove stylistic markup when element is destroyed
-                element.on('$destroy', function () {
-                    scope.$evalAsync(removeParent);
-                });
-            };
-        }//compile
-    };
-});//rxCheckbox
-
 /**
  * @ngdoc overview
  * @name rxCollapse
@@ -4887,236 +5283,6 @@ angular.module('encore.ui.rxCompile')
         );
     };
 }]);
-
-angular.module('encore.ui.molecules')
-/**
- * @name molecules.directive:rxDatePicker
- * @ngdoc directive
- * @restrict E
- * @scope
- * @description
- * Basic date picker.
- *
- * ## Notice
- * This molecule is designed to be used in conjunction with other picker
- * molecules to compose a valid ISO 8601 DateTime string in the format of
- * <code>YYYY-MM-DDTHH:mmZ</code>.
- *
- * `rxDatePicker` provides the user a 10-year range before and after the selected date,
- * if present.  Otherwise, the range is calculated from today's date.
- *
- * * This molecule will generate a **String** in the format of `YYYY-MM-DD`
- *   to be used as the date portion of the ISO 8601 standard DateTime string
- *   mentioned above.
- * * This molecule will never generate anything other than a String.
- *
- * @param {expression} ngModel
- * Expression that evaluates to a date string in `YYYY-MM-DD` format
- *
- * @return {String} **IMPORTANT** returns an ISO 8601 standard date string in the
- * format of `YYYY-MM-DD`.
- */
-.directive('rxDatePicker', function () {
-    var isoFormat = 'YYYY-MM-DD';
-    const YEAR_RANGE = 10;
-
-    /**
-     * @param {Moment} firstOfMonth
-     * @return {Array<Moment>}
-     * @description
-     * Generate an array of Moment objects representing the visible
-     * days on the calendar. This will automatically pad the calendar
-     * with dates from previous/next month to fill out the weeks.
-     */
-    function buildCalendarDays (firstOfMonth) {
-        var dateToken = firstOfMonth.clone().startOf('day');
-        var currentMonth = dateToken.month();
-        var days = [];
-        var prependDay, appendDay;
-
-        // add calendar month's days
-        while (dateToken.month() === currentMonth) {
-            days.push(dateToken.clone());
-            dateToken.add(1, 'day');
-        }
-
-        // until first item of array is Sunday, prepend earlier days to array
-        while (_.first(days).day() > 0) {
-            prependDay = _.first(days).clone();
-            days.unshift(prependDay.subtract(1, 'day'));
-        }
-
-        // until last item of array is Saturday, append later days to array
-        while (_.last(days).day() < 6) {
-            appendDay = _.last(days).clone();
-            days.push(appendDay.add(1, 'day'));
-        }
-
-        return days;
-    }//buildCalendarDays
-
-    /**
-     * @param {Moment} midpoint
-     * @return {Array<ISO 8601 Year> }
-     * @description
-     * Generate an array of ISO 8601 Year (format "YYYY") years.
-     */
-    function generateCalendarYears (midpoint) {
-        var calendarYears = [];
-        var iterator = midpoint.clone().subtract(YEAR_RANGE, 'years');
-        var limit = midpoint.clone().add(YEAR_RANGE, 'years');
-
-        while (iterator.year() <= limit.year()) {
-            calendarYears.push(iterator.year());
-
-            iterator.add(1, 'year');
-        }
-
-        return calendarYears;
-    }//generateCalendarYears
-
-    return {
-        templateUrl: 'templates/rxDatePicker.html',
-        restrict: 'E',
-        require: 'ngModel',
-        scope: {
-            selected: '=ngModel'
-        },
-        link: function (scope, element, attrs, ngModelCtrl) {
-            var today = moment(new Date());
-
-            scope.calendarVisible = false;
-            // keep track of which month we're viewing in the popup (default to 1st of this month)
-            scope.calendarMonth = today.clone().startOf('month');
-
-            /* ===== "Public" Functions ===== */
-            scope.toggleCalendar = function () {
-                if (_.isUndefined(attrs.disabled)) {
-                    scope.calendarVisible = !scope.calendarVisible;
-                }
-            };//toggleCalendar()
-
-            scope.closeCalendar = function () {
-                scope.calendarVisible = false;
-            };
-
-            /**
-             * @param {String} destination
-             * @description Modifies `scope.calendarMonth` to regenerate calendar
-             */
-            scope.navigate = function (destination) {
-                var newCalendarMonth = scope.calendarMonth.clone();
-                switch (destination) {
-                    case 'nextMonth': {
-                        newCalendarMonth.add(1, 'month');
-                        break;
-                    }
-                    case 'prevMonth': {
-                        newCalendarMonth.subtract(1, 'month');
-                        break;
-                    }
-                }
-                scope.calendarMonth = newCalendarMonth;
-            };//navigate
-
-            /**
-             * @param {Moment} date
-             */
-            scope.selectDate = function (date) {
-                scope.selected = date.format(isoFormat);
-                scope.calendarVisible = false;
-            };//selectDate()
-
-            /**
-             * @param {Moment} day
-             * @return {Boolean}
-             */
-            scope.isToday = function (day) {
-                return moment(day).isSame(today, 'day');
-            };//isToday()
-
-            /**
-             * @param {Moment} day
-             * @return {Boolean}
-             */
-            scope.isMonth = function (day) {
-                return moment(day).isSame(scope.calendarMonth, 'month');
-            };//isMonth()
-
-            /**
-             * @param {Moment} day
-             * @return {Boolean}
-             */
-            scope.isSelected = function (day) {
-                if (_.isUndefined(scope.selected)) {
-                    return false;
-                } else {
-                    return moment(day).isSame(scope.selected, 'day');
-                }
-            };//isSelected()
-
-            /* ===== OBSERVERS ===== */
-
-            // Set calendar month on change of selected date
-            scope.$watch('selected', function (newVal) {
-                if (_.isEmpty(newVal)) {
-                    scope.calendarMonth = today.clone().startOf('month');
-                } else {
-                    var parsed = moment(newVal, isoFormat);
-
-                    if (parsed.isValid()) {
-                        scope.calendarMonth = parsed.startOf('month');
-                    }
-                }
-            });
-
-            // Regenerate calendar if month changes
-            scope.$watch('calendarMonth', function (newVal) {
-                scope.calendarDays = buildCalendarDays(newVal);
-                scope.currentMonth = newVal.format('MM');
-                scope.currentYear = newVal.format('YYYY');
-                scope.calendarYears = generateCalendarYears(newVal);
-            });
-
-            scope.$watch('currentMonth', function (newVal) {
-                if (!_.isEmpty(newVal)) {
-                    var dateString = [scope.currentYear, newVal, '01'].join('-');
-                    var parsed = moment(dateString, isoFormat);
-
-                    if (parsed.isValid()) {
-                        scope.calendarMonth = parsed;
-                    }
-                }
-            });
-
-            scope.$watch('currentYear', function (newVal) {
-                if (!_.isEmpty(newVal)) {
-                    var dateString = [newVal, scope.currentMonth, '01'].join('-');
-                    var parsed = moment(dateString, isoFormat);
-
-                    if (parsed.isValid()) {
-                        scope.calendarMonth = parsed;
-                    }
-                }
-            });
-
-            ngModelCtrl.$formatters.push(function (modelVal) {
-                var parsed = moment(modelVal, isoFormat);
-                ngModelCtrl.$setValidity('date', parsed.isValid());
-
-                if (parsed.isValid()) {
-                    return parsed.format('MMMM DD, YYYY');
-                } else {
-                    return null;
-                }
-            });
-
-            ngModelCtrl.$render = function () {
-                scope.displayValue = ngModelCtrl.$viewValue;
-            };
-        }
-    };
-});
 
 angular.module('encore.ui.utilities')
 /**
@@ -5490,8 +5656,6 @@ angular.module('encore.ui.utilities')
         }
     };
 }]);
-
-/* jshint maxlen: false */
 
 /**
  * @ngdoc overview
@@ -6106,7 +6270,7 @@ angular.module('encore.ui.rxFloatingHeader')
  *
  * * {@link elements.directive:rxButton rxButton}
  * * {@link rxCharacterCount}
- * * {@link atoms.directive:rxCheckbox rxCheckbox}
+ * * {@link elements.directive:rxCheckbox rxCheckbox}
  * * {@link rxMultiSelect}
  * * {@link rxOptionTable}
  * * {@link rxRadio}
@@ -6161,6 +6325,9 @@ angular.module('encore.ui.rxFloatingHeader')
  * **The following directives have been deprecated and *will be removed* in a future release of the EncoreUI
  * framework.** They are still functional, but **WILL display a warning in the javascript console** to let you know
  * you should upgrade your code.
+ *
+ * ### **rxFormOptionTable**
+ * Please use {@link rxOptionTable} as a stand-in replacement.
  *
  * ### **rxFormItem**
  * See "Before & After" below
@@ -6268,7 +6435,7 @@ angular.module('encore.ui.rxFloatingHeader')
  * ### Related Directives
  * * {@link elements.directive:rxButton rxButton}
  * * {@link rxCharacterCount.directive:rxCharacterCount rxCharacterCount}
- * * {@link atoms.directive:rxCheckbox rxCheckbox}
+ * * {@link elements.directive:rxCheckbox rxCheckbox}
  * * {@link rxOptionTable.directive:rxOptionTable rxOptionTable}
  * * {@link rxRadio.directive:rxRadio rxRadio}
  * * {@link rxSelect.directive:rxSelect rxSelect}
@@ -6520,7 +6687,7 @@ angular.module('encore.ui.rxForm')
     var warnMsg = 'DEPRECATION WARNING: rxFormFieldset has been marked as deprecated ' +
         'and will be removed in a future release of the EncoreUI framework. ' +
         'Please see current rxForm documentation for updated functionality.';
-    console.warn(warnMsg); // jshint ignore:line
+    console.warn(warnMsg);
 
     return {
         restrict: 'E',
@@ -6558,7 +6725,7 @@ angular.module('encore.ui.rxForm')
     var warnMsg = 'DEPRECATION WARNING: rxFormItem has been marked as deprecated ' +
         'and will be removed in a future release of the EncoreUI framework. ' +
         'Please see current rxForm documentation for updated functionality.';
-    console.warn(warnMsg); // jshint ignore:line
+    console.warn(warnMsg);
 
     return {
         restrict: 'E',
@@ -6844,7 +7011,7 @@ angular.module('encore.ui.rxForm')
  *     <ul>
  *       <li>{@link rxForm.directive:rxPrefix rxPrefix}</li>
  *       <li>{@link rxForm.directive:rxSuffix rxSuffix}</li>
- *       <li>{@link atoms.directive:rxCheckbox rxCheckbox}</li>
+ *       <li>{@link elements.directive:rxCheckbox rxCheckbox}</li>
  *       <li>{@link rxRadio.directive:rxRadio rxRadio}</li>
  *       <li>{@link rxSelect.directive:rxSelect rxSelect}</li>
  *       <li>{@link rxToggleSwitch.directive:rxToggleSwitch rxToggleSwitch}</li>
@@ -6998,16 +7165,15 @@ angular.module('encore.ui.utilities')
  * @ngdoc service
  *
  * @description
- * Set of utility functions used by rxForm to access form data in 
- * {@link rxOptionTable.directive:rxOptionTable rxOptionTable}.
+ * Set of utility functions used by rxForm to access form data.
  *
+ * @example
  * <pre>
- * // Returns the selected option for the rxOptionTable with id tableId
+ * // Returns the selected option for the rxFormOptionTable with id tableId
  * // [{ tableId: 'tableId', fieldId: 'fieldId', rowId: 'rowId' }]
  * getSelectedOptionForTable(tableId)
- * </pre>
- * <pre>
- * // Returns the selected option for the rxOptionTable in the tabset with id tabsetId
+
+ * // Returns the selected option for the rxFormOptionTable in the tabset with id tabsetId
  * // [{ tableId: 'tableId', fieldId: 'fieldId', rowId: 'rowId' }]
  * getSelectedOptionForTabSet(tabsetId)
  * </pre>
@@ -7015,19 +7181,13 @@ angular.module('encore.ui.utilities')
 .factory('rxFormUtils', ["$document", function ($document) {
     var rxFormUtils = {};
 
-    /**
-     * @ngdoc function
-     * @name  rxFormUtils.getSelectedOptionForTable
-     * @methodOf utilities.service:rxFormUtils
-     * @description
-     * Returns the selected option for the {@link rxOptionTable.directive:rxOptionTable rxOptionTable} with
-     * `id`: tableId and `fieldId`: fieldId (optional).
-     * @param {String} tableId - The id of the table
-     * @returns {object} The rowId of the selected option
-     */
+    // Returns the selected option for the rxFormOptionTable with id: tableId
+    // and fieldId: fieldId (optional)
+    // @param {String} tableId - The id of the table
+    // @returns {object} The rowId of the selected option
     rxFormUtils.getSelectedOptionForTable = function (tableId) {
         var selectedRow;
-        var row = $document[0].querySelector('rx-option-table#' + tableId + ' .selected input');
+        var row = $document[0].querySelector('rx-form-option-table#' + tableId + ' .selected input');
 
         if (_.isObject(row) && 'value' in row) {
             selectedRow = { rowId: row.value };
@@ -7035,19 +7195,13 @@ angular.module('encore.ui.utilities')
         return selectedRow;
     };
 
-    /**
-     * @ngdoc function
-     * @name  rxFormUtils.getSelectedOptionForTabSet
-     * @methodOf utilities.service:rxFormUtils
-     * @description
-     * Returns the selected option within the tabset.
-     * @param {String} tabsetId - The id of the tabset
-     * @returns {object} The tableId, fieldId, and rowId of the selected option
-     */
+    // Returns the selected option within the tabset
+    // @param {String} tabsetId - The id of the tabset
+    // @returns {object} The tableId, fieldId, and rowId of the selected option
     rxFormUtils.getSelectedOptionForTabSet = function (tabsetId) {
         var selectedOption;
         var xpathToTable = '//div[@id="' + tabsetId +
-            '"]//tr[contains(@class, "selected")]//ancestor::rx-option-table';
+            '"]//tr[contains(@class, "selected")]//ancestor::rx-form-option-table';
         var result = $document[0].evaluate(xpathToTable, $document[0], null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
         if (result.singleNodeValue) {
             var table = result.singleNodeValue;
@@ -7059,6 +7213,27 @@ angular.module('encore.ui.utilities')
     };
 
     return rxFormUtils;
+}]);
+
+angular.module('encore.ui.utilities')
+/**
+ * @ngdoc service
+ * @name utilities.service:rxHideIfUkAccount
+ * @description
+ * Check if account number in the URL is of UK origin.
+ *
+ * @return {Boolean} false if account number matches UK pattern
+ * Use it as `visibility: [ 'rxHideIfUkAccount' ]`
+ */
+.factory('rxHideIfUkAccount', ["$routeParams", function ($routeParams) {
+    var isUkAccount = {
+        name: 'rxHideIfUkAccount',
+        method: function () {
+            return $routeParams.accountNumber < 10000000;
+        }
+    };
+
+    return isUkAccount;
 }]);
 
 /**
@@ -7101,6 +7276,19 @@ angular.module('encore.ui.rxInfoPanel')
         }
     };
 });
+
+angular.module('encore.ui.utilities')
+/**
+ * @ngdoc service
+ * @name utilities.service:LocalStorage
+ * @deprecated
+ * @description
+ * **NOTICE:** This service has be deprecated in favor of the
+ * {@link utilities.service:rxLocalStorage rxLocalStorage} service.
+ */
+.service('LocalStorage', ["rxLocalStorage", function (rxLocalStorage) {
+    return rxLocalStorage;
+}]);
 
 angular.module('encore.ui.utilities')
 /**
@@ -7939,7 +8127,7 @@ angular.module('encore.ui.rxMultiSelect')
  * @ngdoc directive
  * @name rxMultiSelect.directive:rxSelectOption
  * @restrict E
- * @requires atoms.directive:rxCheckbox
+ * @requires elements.directive:rxCheckbox
  * @description
  * A single option for use within rxMultiSelect.
  *
@@ -7968,8 +8156,8 @@ angular.module('encore.ui.rxMultiSelect')
         link: function (scope, element, attrs, selectCtrl) {
             scope.transclusion = rxDOMHelper.find(element, '[ng-transclude] > *').length > 0;
 
-            scope.toggle = function (isSelected) {
-                if (isSelected) {
+            scope.toggle = function () {
+                if (scope.isSelected) {
                     selectCtrl.unselect(scope.value);
                 } else {
                     selectCtrl.select(scope.value);
@@ -8158,7 +8346,6 @@ angular.module('encore.ui.rxNotify')
             // Transclude returns a jqLite object of the content in the directive pre transclusion into the template.
             pre: function (scope, el, attrs, ctrl, transclude) {
                 if (!_.isEmpty(attrs.stack)) {
-                    /* jshint maxlen:false */
                     /**
                      * transclude().parent() - returns a jqLite instance of the parent (this directive as defined
                      *                           in the template pre-rendering).
@@ -8396,9 +8583,9 @@ angular.module('encore.ui.utilities')
         var cb;
 
         // switch which function to call based on type
-        if (changeType == 'show') {
+        if (changeType === 'show') {
             cb = addToStack;
-        } else if (changeType == 'dismiss') {
+        } else if (changeType === 'dismiss') {
             cb = dismiss;
 
             // add a listener to dismiss message if scope is destroyed
@@ -8563,9 +8750,9 @@ angular.module('encore.ui.utilities')
         }
 
         // add message to stack immediately if has default show value
-        if (message.show == messageDefaults.show) {
+        if (message.show === messageDefaults.show) {
             addToStack(message);
-        } else if (message.show == 'next') {
+        } else if (message.show === 'next') {
             nextQueue.push(message);
         } else if (_.isArray(message.show)) {
             changeOnWatch(message, 'show');
@@ -8600,11 +8787,30 @@ angular.module('encore.ui.utilities')
  *
  * ## Directives
  * * {@link rxOptionTable.directive:rxOptionTable rxOptionTable}
+ * * {@link rxOptionTable.directive:rxFormOptionTable rxFormOptionTable} (*deprecated*)
  */
 angular.module('encore.ui.rxOptionTable', [
-    'encore.ui.atoms',
+    'encore.ui.elements',
     'ngSanitize'
 ]);
+
+angular.module('encore.ui.rxOptionTable')
+/**
+ * @deprecated
+ * @ngdoc directive
+ * @restrict E
+ * @name rxOptionTable.directive:rxFormOptionTable
+ * @description
+ * **DEPRECATED**: Please use **{@link rxOptionTable.directive:rxOptionTable rxOptionTable}**
+ * as a stand-in-replacement.
+ */
+.directive('rxFormOptionTable', ["rxOptionTableDirective", function (rxOptionTableDirective) {
+    var warnMsg = 'DEPRECATION WARNING: rxFormOptionTable has been marked as deprecated ' +
+        'and will be removed in a future release of the EncoreUI framework. ' +
+        'Please use rxOptionTable as a stand-in replacement.';
+    console.warn(warnMsg);
+    return rxOptionTableDirective[0];
+}]);
 
 angular.module('encore.ui.rxOptionTable')
 /**
@@ -8695,7 +8901,9 @@ angular.module('encore.ui.rxOptionTable')
                     return false;
                 }
 
-                return (val1 == val2);
+                val1 = val1.toString();
+                val2 = val2.toString();
+                return (val1 === val2);
             };
 
             scope.selectAll = function (currentVal) {
@@ -8726,9 +8934,9 @@ angular.module('encore.ui.rxOptionTable')
             scope.isSelected = function (val, idx) {
                 // row can only be 'selected' if it's not the 'current' value
                 if (!scope.isCurrent(val)) {
-                    if (scope.type == 'radio') {
-                        return (val == scope.model);
-                    } else if (scope.type == 'checkbox') {
+                    if (scope.type === 'radio') {
+                        return determineMatch(val, scope.model);
+                    } else if (scope.type === 'checkbox') {
                         if (!_.isUndefined(val)) {
                             // if 'val' is defined, run it through our custom matcher
                             return determineMatch(val, scope.model[idx]);
@@ -8756,7 +8964,8 @@ angular.module('encore.ui.rxOptionTable')
             };
 
             // Because of a bug in Angular 1.2.x, we can't use `required` and
-            // ngTrueValue/ngFalseValue simultaneously. We'll
+            // ngTrueValue/ngFalseValue simultaneously. We don't want to affect
+            // people that were already using rxFormOptionTable, so instead we'll
             // build a `modelProxy` which is simply a mapping of $scope.model to
             // an array of `true` / `false` values. We then have to take care
             // of updating the actual $scope.model ourselves in `updateCheckboxes`
@@ -9907,7 +10116,7 @@ angular.module('encore.ui.utilities')
 .service('rxScreenshotSvc', ["$log", "$q", function ($log, $q) {
     // double check that html2canvas is loaded
     var hasDependencies = function () {
-        var hasHtml2Canvas = typeof html2canvas == 'function';
+        var hasHtml2Canvas = typeof html2canvas === 'function';
 
         return hasHtml2Canvas;
     };
@@ -10004,7 +10213,7 @@ angular.module('encore.ui.rxSearchBox')
                 if (!newVal || $scope.isDisabled) {
                     $scope.isClearable = false;
                 } else {
-                    $scope.isClearable = (newVal.toString() !== '');
+                    $scope.isClearable = newVal.toString() !== '';
                 }
             });
 
@@ -10907,21 +11116,14 @@ angular.module('encore.ui.rxTags')
             };
 
             scope.add = function (tag) {
-                /*
-                 * See https://code.angularjs.org/1.3.20/docs/api/ng/type/ngModel.NgModelController#$setViewValue
-                 * We have to use `concat` to create a new array to trigger $parsers
-                 */
-                var updatedTags = scope.tags.concat([tag]);
-                // sets ngModelCtrl.$viewValue then $$debounceViewValueCommit()
-                ngModelCtrl.$setViewValue(updatedTags);
-                scope.tags = updatedTags;
-                scope.newTag = ''; // reset new tag input
+                scope.tags.push(tag);
+                ngModelCtrl.$setViewValue(scope.tags);
+                scope.newTag = '';
             };
 
             scope.remove = function (tag) {
-                var updatedTags = _.without(scope.tags, tag);
-                ngModelCtrl.$setViewValue(updatedTags);
-                scope.tags = updatedTags;
+                _.remove(scope.tags, tag);
+                ngModelCtrl.$setViewValue(scope.tags);
                 input.focus();
             };
 
@@ -10944,158 +11146,13 @@ angular.module('encore.ui.rxTags')
     };
 }]);
 
-angular.module('encore.ui.molecules')
-/**
- * @name molecules.directive:rxTimePicker
- * @ngdoc directive
- * @restrict E
- * @scope
- * @requires utilities.service:rxTimePickerUtil
- * @requires utilities.constant:UtcOffsets
- * @requires elements.directive:rxButton
- * @description Time Picker
- *
- * ## Notice
- * This molecule is designed to be used in conjunction with other picker
- * molecules to compose a valid ISO 8601 DateTime string in the format of
- * <code>YYYY-MM-DDTHH:mmZ</code>.
- *
- * * This molecule will generate a **String** in the format of `HH:mmZ`
- *   to be used as the time portion of the ISO 8601 standard DateTime string
- *   mentioned above.
- * * This molecule will never generate anything other than a String.
- *
- * @param {expression} ngModel
- * Expression that evaluates to a time string in `HH:mmZ` format, where `Z`
- * should match `/[-+]\d{2}:\d{2}/`.
- *
- * @return {String} **IMPORTANT** returns an ISO 8601 standard time string in the
- * format of `HH:mmZ`.
- */
-.directive('rxTimePicker', ["rxTimePickerUtil", "UtcOffsets", function (rxTimePickerUtil, UtcOffsets) {
-    return {
-        restrict: 'E',
-        require: 'ngModel',
-        scope: {
-            modelValue: '=ngModel',
-            isDisabled: '=ngDisabled'
-        },
-        templateUrl: 'templates/rxTimePicker.html',
-        link: function (scope, el, attrs, ngModelCtrl) {
-            var pickerUtil = rxTimePickerUtil;
-
-            scope.availableUtcOffsets = UtcOffsets;
-
-            scope.isPickerVisible = false;
-
-            scope.openPopup = function () {
-                scope.isPickerVisible = true;
-
-                // default
-                scope.hour = '';
-                scope.minutes = '';
-                scope.period = 'AM';
-                scope.offset = '+00:00';
-
-                if (!_.isEmpty(scope.modelValue)) {
-                    var parsed = pickerUtil.modelToObject(scope.modelValue);
-                    scope.hour = parsed.hour;
-                    scope.minutes = parsed.minutes;
-                    scope.period = parsed.period;
-                    scope.offset = parsed.offset;
-                }
-            };//openPopup
-
-            scope.closePopup = function () {
-                scope.isPickerVisible = false;
-            };
-
-            /**
-             * Toggle the popup and initialize form values.
-             */
-            scope.togglePopup = function () {
-                if (!scope.isDisabled) {
-                    if (scope.isPickerVisible) {
-                        scope.closePopup();
-                    } else {
-                        scope.openPopup();
-                    }
-                }
-            };//togglePopup()
-
-            /**
-             * Apply the popup selections to the $viewValue.
-             */
-            scope.submitPopup = function () {
-                var time = moment([
-                    (scope.hour + ':' + scope.minutes),
-                    scope.period,
-                    scope.offset
-                ].join(' '), 'hh:mm A Z');
-
-                // ensure moment is in expected timezone
-                time.utcOffset(scope.offset);
-
-                ngModelCtrl.$setViewValue(time.format(pickerUtil.viewFormat));
-
-                // update the view
-                ngModelCtrl.$render();
-
-                scope.closePopup();
-            };//submitPopup()
-
-            /* Model -> View */
-            ngModelCtrl.$formatters.push(function (modelVal) {
-                var momentValue = moment(modelVal, pickerUtil.modelFormat);
-
-                if (momentValue.isValid()) {
-                    var offset = pickerUtil.parseUtcOffset(modelVal);
-
-                    // change offset of moment to that of model value
-                    // without this, moment will default to local offset
-                    // (CST = -06:00) and the formatted output will be incorrect
-                    momentValue.utcOffset(offset);
-
-                    // Ensure that display value is in proper format
-                    return momentValue.format(pickerUtil.viewFormat);
-                } else {
-                    return modelVal;
-                }
-            });
-
-            /* View -> Model */
-            ngModelCtrl.$parsers.push(function (viewVal) {
-                var momentValue = moment(viewVal, pickerUtil.viewFormat);
-
-                if (momentValue.isValid()) {
-                    var offset = pickerUtil.parseUtcOffset(viewVal);
-
-                    // change offset of moment to that of view value
-                    // without this, moment will default to local offset
-                    // (CST = -06:00) and the formatted output will be incorrect
-                    momentValue.utcOffset(offset);
-
-                    // Ensure that model value is in proper format
-                    return momentValue.format(pickerUtil.modelFormat);
-                } else {
-                    return viewVal;
-                }
-            });
-
-            ngModelCtrl.$render = function () {
-                scope.displayValue = ngModelCtrl.$viewValue || '';
-            };
-        }//link
-    };
-}]);
-
 angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
  * @name utilities.service:rxTimePickerUtil
  *
  * @description
- * Utility service used by {@link molecules.directive:rxTimePicker rxTimePicker}.
+ * Utility service used by {@link elements.directive:rxTimePicker rxTimePicker}.
  */
 .factory('rxTimePickerUtil', function () {
     /**
@@ -12120,30 +12177,6 @@ angular.module('encore.ui.utilities')
     };
 }]);
 
-/**
- * @ngdoc overview
- * @name tabs
- * @description
- * # tabs Component
- *
- * This component provides styles and a demo for the [the Angular-UI Bootstrap
- * Tabs plugin](https://github.com/angular-ui/bootstrap/tree/master/src/tabs),
- * which is included as a dependency for EncoreUI.
- *
- * ## Usage
- *
- * Usage is the exact same as demoed on the Angular-UI Bootstrap site. See
- * [the Angular-UI Bootstrap Docs](http://angular-ui.github.io/bootstrap/) for
- * further guidance on usage and configuration of this component.
- *
- * ## Disclaimer
- *
- * Only the default horizontal tabs are supported by these styles. `Vertical`,
- * `Pills` and `Justified` tabs are currently unsupported.
- *
- */
-angular.module('encore.ui.tabs', []);
-
 angular.module('encore.ui.utilities')
 /**
  * @ngdoc filter
@@ -12292,8 +12325,7 @@ angular.module('encore.ui.typeahead')
         var lowercase = $filter('lowercase');
 
         typeahead.compile = function () {
-            return function (scope, element, attrs, ctrls) {
-                var ngModelCtrl = ctrls[0];
+            return function (scope, element, attrs, ngModelCtrl) {
                 link.apply(this, arguments);
 
                 if (/allowEmpty/.test(attrs.typeahead)) {
@@ -12314,8 +12346,6 @@ angular.module('encore.ui.typeahead')
 
                     element.on('click', function () {
                         scope.$apply(function () {
-                            // quick change to null and back to trigger parsers
-                            ngModelCtrl.$setViewValue(null);
                             ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
                         });
                     });
@@ -12514,6 +12544,8 @@ angular.module('encore.ui.utilities')
  * @description
  * List of known UTC Offset Values
  * See https://en.wikipedia.org/wiki/List_of_UTC_time_offsets
+ *
+ * Utility service used by {@link elements.directive:rxTimePicker rxTimePicker}.
  */
 .constant('UtcOffsets', [
     '-12:00',
@@ -12580,14 +12612,24 @@ angular.module("templates/rxButton.html", []).run(["$templateCache", function($t
     "<button type=\"submit\" class=\"button rx-button {{classes}}\" ng-disabled=\"toggle || disable\">{{ toggle ? toggleMsg : defaultMsg }}<div class=\"spinner\" ng-show=\"toggle\"><i class=\"pos1\"></i> <i class=\"pos2\"></i> <i class=\"pos3\"></i></div></button>");
 }]);
 
+angular.module("templates/rxDatePicker.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/rxDatePicker.html",
+    "<div class=\"rxDatePicker wrapper\"><div class=\"control\" ng-click=\"toggleCalendar()\"><span class=\"displayValue\">{{ displayValue }}</span> <i class=\"icon fa fa-fw fa-calendar\"></i></div><div class=\"backdrop\" ng-click=\"closeCalendar()\" ng-if=\"calendarVisible\"></div><div class=\"popup\" ng-show=\"calendarVisible\"><nav><span class=\"arrow prev fa fa-lg fa-angle-double-left\" ng-click=\"navigate('prevMonth')\"></span> <span class=\"month-wrapper\"><select rx-select class=\"month\" ng-model=\"currentMonth\" ng-selected=\"{{month = currentMonth}}\"><option value=\"01\">Jan</option><option value=\"02\">Feb</option><option value=\"03\">Mar</option><option value=\"04\">Apr</option><option value=\"05\">May</option><option value=\"06\">Jun</option><option value=\"07\">Jul</option><option value=\"08\">Aug</option><option value=\"09\">Sep</option><option value=\"10\">Oct</option><option value=\"11\">Nov</option><option value=\"12\">Dec</option></select></span> <span class=\"year-wrapper\"><select rx-select class=\"year\" ng-model=\"currentYear\" ng-selected=\"{{year = currentYear}}\"><option ng-repeat=\"year in calendarYears\">{{year}}</option></select></span> <span class=\"arrow next fa fa-lg fa-angle-double-right\" ng-click=\"navigate('nextMonth')\"></span></nav><div class=\"calendar\"><header><h6>S</h6><h6>M</h6><h6>T</h6><h6>W</h6><h6>T</h6><h6>F</h6><h6>S</h6></header><div class=\"day {{ isMonth(day) ? 'inMonth' : 'outOfMonth' }}\" data-date=\"{{day.format('YYYY-MM-DD')}}\" ng-class=\"{ today: isToday(day), selected: isSelected(day) }\" ng-repeat=\"day in calendarDays\" ng-switch=\"isMonth(day)\"><span class=\"circle\" ng-switch-when=\"true\" ng-click=\"selectDate(day)\">{{ day.date() }}</span> <span ng-switch-when=\"false\">{{ day.date() }}</span></div></div></div></div>");
+}]);
+
+angular.module("templates/rxTimePicker.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/rxTimePicker.html",
+    "<div class=\"rxTimePicker wrapper\"><div class=\"control\" ng-click=\"togglePopup()\"><input type=\"text\" data-time=\"{{modelValue}}\" class=\"displayValue\" ng-model=\"displayValue\"><div class=\"overlay\"><i class=\"icon fa fa-fw fa-clock-o\"></i></div></div><div class=\"popup\" ng-show=\"isPickerVisible\"><form rx-form name=\"timePickerForm\"><rx-form-section><rx-field><rx-field-content><rx-input><input type=\"text\" name=\"hour\" class=\"hour\" maxlength=\"2\" autocomplete=\"off\" ng-required=\"true\" ng-pattern=\"/^(1[012]|0?[1-9])$/\" ng-model=\"hour\"><rx-infix>:</rx-infix><input type=\"text\" name=\"minutes\" class=\"minutes\" maxlength=\"2\" autocomplete=\"off\" ng-required=\"true\" ng-pattern=\"/^[0-5][0-9]$/\" ng-model=\"minutes\"><rx-suffix><select rx-select name=\"period\" class=\"period\" ng-model=\"period\"><option value=\"AM\">AM</option><option value=\"PM\">PM</option></select></rx-suffix><rx-suffix class=\"offsetWrapper\"><select rx-select name=\"utcOffset\" class=\"utcOffset\" ng-model=\"offset\"><option ng-repeat=\"utcOffset in availableUtcOffsets\" ng-selected=\"{{utcOffset === offset}}\">{{utcOffset}}</option></select></rx-suffix></rx-input><rx-inline-error ng-if=\"timePickerForm.hour.$dirty && !timePickerForm.hour.$valid\">Invalid Hour</rx-inline-error><rx-inline-error ng-if=\"timePickerForm.minutes.$dirty && !timePickerForm.minutes.$valid\">Invalid Minutes</rx-inline-error></rx-field-content></rx-field></rx-form-section><rx-form-section class=\"actions\"><div><rx-button classes=\"done\" default-msg=\"Done\" disable=\"!timePickerForm.$valid\" ng-click=\"submitPopup()\"></rx-button>&nbsp;<rx-button classes=\"cancel\" default-msg=\"Cancel\" ng-click=\"closePopup()\"></rx-button></div></rx-form-section></form></div></div>");
+}]);
+
 angular.module("templates/rxAccountInfo.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxAccountInfo.html",
-    "<div class=\"rx-account-info\"><rx-info-panel panel-title=\"Account Info\"><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account Name</div><div class=\"account-info-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountName }}</a></div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account #</div><div class=\"account-info-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountNumber }}</a></div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Badges</div><div class=\"account-info-data\"><img ng-repeat=\"badge in badges\" ng-src=\"{{badge.url}}\" data-name=\"{{badge.name}}\" data-description=\"{{badge.description}}\" tooltip-html=\"tooltipHtml(badge)\" tooltip-placement=\"bottom\"></div></div><div class=\"account-info-wrapper\" ng-transclude></div></rx-info-panel></div>");
+    "<div class=\"rx-account-info\"><rx-info-panel panel-title=\"Account Info\"><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account Name</div><div class=\"account-info-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountName }}</a></div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Account #</div><div class=\"account-info-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountNumber }}</a></div></div><div class=\"account-info-wrapper\"><div class=\"account-info-label\">Badges</div><div class=\"account-info-data\"><img ng-repeat=\"badge in badges\" ng-src=\"{{badge.url}}\" data-name=\"{{badge.name}}\" data-description=\"{{badge.description}}\" tooltip-html-unsafe=\"{{tooltipHtml(badge)}}\" tooltip-placement=\"bottom\"></div></div><div class=\"account-info-wrapper\" ng-transclude></div></rx-info-panel></div>");
 }]);
 
 angular.module("templates/rxAccountInfoBanner.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxAccountInfoBanner.html",
-    "<div class=\"account-info-banner\"><ul class=\"account-info-text\"><li><div class=\"label\">Account Name:</div><div class=\"account-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountName || 'N/A' }}</a></div></li><li><div class=\"label\">Account #:</div><div class=\"account-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountNumber }}</a></div></li><li><div class=\"label\">Account Status:</div><div class=\"account-data {{ statusClass }} account-status\">{{ accountStatus || 'N/A' }}</div></li><li><div class=\"label\">Access Policy:</div><div class=\"account-data\">{{ accountAccessPolicy || 'N/A' }}</div></li><li ng-if=\"showCurrentUser\"><div class=\"label\">Current User:</div><div class=\"account-data\"><rx-account-users></rx-account-users></div></li><li class=\"badges\" ng-repeat=\"badge in badges\"><div class=\"account-info-badge\"><img ng-src=\"{{badge.url}}\" data-name=\"{{badge.name}}\" data-description=\"{{badge.description}}\" tooltip-html=\"tooltipHtml(badge)\" tooltip-placement=\"bottom\"></div></li></ul></div>");
+    "<div class=\"account-info-banner\"><ul class=\"account-info-text\"><li><div class=\"label\">Account Name:</div><div class=\"account-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountName || 'N/A' }}</a></div></li><li><div class=\"label\">Account #:</div><div class=\"account-data\"><a href=\"{{ accountPageUrl }}\" target=\"_blank\">{{ accountNumber }}</a></div></li><li><div class=\"label\">Account Status:</div><div class=\"account-data {{ statusClass }} account-status\">{{ accountStatus || 'N/A' }}</div></li><li><div class=\"label\">Access Policy:</div><div class=\"account-data\">{{ accountAccessPolicy || 'N/A' }}</div></li><li ng-if=\"showCurrentUser\"><div class=\"label\">Current User:</div><div class=\"account-data\"><rx-account-users></rx-account-users></div></li><li class=\"badges\" ng-repeat=\"badge in badges\"><div class=\"account-info-badge\"><img ng-src=\"{{badge.url}}\" data-name=\"{{badge.name}}\" data-description=\"{{badge.description}}\" tooltip-html-unsafe=\"{{tooltipHtml(badge)}}\" tooltip-placement=\"bottom\"></div></li></ul></div>");
 }]);
 
 angular.module("templates/rxActionMenu.html", []).run(["$templateCache", function($templateCache) {
@@ -12660,11 +12702,6 @@ angular.module("templates/rxCollapse.html", []).run(["$templateCache", function(
     "<div class=\"collapse-container\" ng-class=\"{'hide-border': !title}\"><div ng-if=\"title\" class=\"collapse-title-wrap collapse-title-wrap-custom\"><div class=\"double-chevron-cell\" ng-class=\"{ expanded: isExpanded }\" ng-click=\"toggleExpanded()\"><a class=\"double-chevron\"></a></div><h3 class=\"rx-collapse-title title\">{{title}}</h3></div><div ng-show=\"isExpanded\" ng-class=\"{'collapse-body':title}\" ng-transclude></div><div ng-if=\"!title\" ng-class=\"{ expanded: isExpanded }\" class=\"collapse-title-wrap collapse-title-wrap-default\" ng-click=\"toggleExpanded()\"><span ng-if=\"!isExpanded\" class=\"sml-title\"><span class=\"toggle-title\">See More</span> <i class=\"fa fa-angle-double-down\"></i></span> <span ng-if=\"isExpanded\" class=\"sml-title\"><span class=\"toggle-title\">See Less</span> <i class=\"fa fa-angle-double-up\"></i></span></div></div>");
 }]);
 
-angular.module("templates/rxDatePicker.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("templates/rxDatePicker.html",
-    "<div class=\"rxDatePicker wrapper\"><div class=\"control\" ng-click=\"toggleCalendar()\"><span class=\"displayValue\">{{ displayValue }}</span> <i class=\"icon fa fa-fw fa-calendar\"></i></div><div class=\"backdrop\" ng-click=\"closeCalendar()\" ng-if=\"calendarVisible\"></div><div class=\"popup\" ng-show=\"calendarVisible\"><nav><span class=\"arrow prev fa fa-lg fa-angle-double-left\" ng-click=\"navigate('prevMonth')\"></span> <span class=\"month-wrapper\"><select rx-select class=\"month\" ng-model=\"currentMonth\" ng-selected=\"{{month = currentMonth}}\"><option value=\"01\">Jan</option><option value=\"02\">Feb</option><option value=\"03\">Mar</option><option value=\"04\">Apr</option><option value=\"05\">May</option><option value=\"06\">Jun</option><option value=\"07\">Jul</option><option value=\"08\">Aug</option><option value=\"09\">Sep</option><option value=\"10\">Oct</option><option value=\"11\">Nov</option><option value=\"12\">Dec</option></select></span> <span class=\"year-wrapper\"><select rx-select class=\"year\" ng-model=\"currentYear\" ng-selected=\"{{year = currentYear}}\"><option ng-repeat=\"year in calendarYears\">{{year}}</option></select></span> <span class=\"arrow next fa fa-lg fa-angle-double-right\" ng-click=\"navigate('nextMonth')\"></span></nav><div class=\"calendar\"><header><h6>S</h6><h6>M</h6><h6>T</h6><h6>W</h6><h6>T</h6><h6>F</h6><h6>S</h6></header><div class=\"day {{ isMonth(day) ? 'inMonth' : 'outOfMonth' }}\" data-date=\"{{day.format('YYYY-MM-DD')}}\" ng-class=\"{ today: isToday(day), selected: isSelected(day) }\" ng-repeat=\"day in calendarDays\" ng-switch=\"isMonth(day)\"><span class=\"circle\" ng-switch-when=\"true\" ng-click=\"selectDate(day)\">{{ day.date() }}</span> <span ng-switch-when=\"false\">{{ day.date() }}</span></div></div></div></div>");
-}]);
-
 angular.module("templates/feedbackForm.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/feedbackForm.html",
     "<rx-modal-form rx-form title=\"Submit Feedback\" submit-text=\"Send Feedback\" class=\"rx-feedback-form\" ng-switch=\"state\"><rx-form-section><div><h3>We want to hear your voice.</h3></div><rx-field><rx-field-name>Choose a topic:</rx-field-name><rx-field-content><rx-input><select rx-select id=\"selFeedbackType\" ng-model=\"fields.type\" ng-options=\"opt as opt.label for opt in feedbackTypes\" ng-init=\"fields.type = feedbackTypes[0]\" required></select></rx-input><rx-help-text ng-if=\"state === 'redirect'\">Click continue to be redirected to the 'Feedback Forum' page to submit your feedback.</rx-help-text></rx-field-content></rx-field></rx-form-section><rx-form-section ng-show=\"fields.type\" ng-if=\"state !== 'redirect'\"><rx-field><rx-field-name class=\"feedback-description\">{{fields.type.prompt}}:</rx-field-name><rx-field-content><rx-input><textarea rows=\"8\" placeholder=\"{{fields.type.placeholder}}\" required ng-model=\"fields.description\" class=\"feedback-textarea\"></textarea></rx-input></rx-field-content></rx-field></rx-form-section></rx-modal-form><rx-modal-footer state=\"redirect\"><button class=\"button submit\" ng-click=\"continue()\">Continue</button> <button class=\"button cancel\" ng-click=\"cancel()\">Cancel</button></rx-modal-footer>");
@@ -12722,7 +12759,7 @@ angular.module("templates/rxMultiSelect.html", []).run(["$templateCache", functi
 
 angular.module("templates/rxSelectOption.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxSelectOption.html",
-    "<li class=\"rx-select-option\"><label><input rx-checkbox ng-model=\"isSelected\" ng-click=\"toggle(!isSelected)\"> <span ng-if=\"!transclusion\">{{value | titleize}}</span> <span ng-transclude></span></label></li>");
+    "<li class=\"rx-select-option\"><label><input rx-checkbox ng-model=\"isSelected\" ng-click=\"toggle()\"> <span ng-if=\"!transclusion\">{{value | titleize}}</span> <span ng-transclude></span></label></li>");
 }]);
 
 angular.module("templates/rxNotification.html", []).run(["$templateCache", function($templateCache) {
@@ -12742,7 +12779,7 @@ angular.module("templates/rxOptionTable.html", []).run(["$templateCache", functi
 
 angular.module("templates/rxPaginate.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxPaginate.html",
-    "<div class=\"rx-paginate\"><ul class=\"pagination\"><li><a tabindex=\"0\" ng-click=\"scrollToTop()\">Back to top</a></li><li>Showing {{ pageTracking | PaginatedItemsSummary}} items</li><span class=\"page-links\"><li ng-class=\"{disabled: pageTracking.isFirstPage()}\" class=\"pagination-first\"><a ng-click=\"pageTracking.goToFirstPage()\" ng-hide=\"pageTracking.isFirstPage()\">First</a> <span ng-show=\"pageTracking.isFirstPage()\">First</span></li><li ng-class=\"{disabled: pageTracking.isFirstPage()}\" class=\"pagination-prev\"><a ng-click=\"pageTracking.goToPrevPage()\" ng-hide=\"pageTracking.isFirstPage()\">« Prev</a> <span ng-show=\"pageTracking.isFirstPage()\">« Prev</span></li><li ng-repeat=\"n in pageTracking | Page\" ng-class=\"{active: pageTracking.isPage(n), 'page-number-last': pageTracking.isPageNTheLastPage(n)}\" class=\"pagination-page\"><a ng-click=\"pageTracking.goToPage(n)\">{{n + 1}}</a></li><li ng-class=\"{disabled: pageTracking.isLastPage() || pageTracking.isEmpty()}\" class=\"pagination-next\"><a ng-click=\"pageTracking.goToNextPage()\" ng-hide=\"pageTracking.isLastPage() || pageTracking.isEmpty()\">Next »</a> <span ng-show=\"pageTracking.isLastPage()\">Next »</span></li><li ng-class=\"{disabled: pageTracking.isLastPage()}\" class=\"pagination-last\"><a ng-click=\"pageTracking.goToLastPage()\" ng-hide=\"pageTracking.isLastPage()\">Last</a> <span ng-show=\"pageTracking.isLastPage()\">Last</span></li></span><li class=\"pagination-per-page\"><div>Show<ul><li ng-repeat=\"i in pageTracking.itemSizeList\"><button ng-disabled=\"pageTracking.isItemsPerPage(i)\" class=\"pagination-per-page-button\" ng-disabled=\"i == pageTracking.itemsPerPage\" ng-click=\"pageTracking.setItemsPerPage(i)\">{{ i }}</button></li></ul></div></li></ul></div>");
+    "<div class=\"rx-paginate\"><div class=\"pagination\" layout=\"row\" layout-wrap layout-align=\"justify top\"><div flex=\"50\" flex-order=\"2\" flex-gt-md=\"20\" flex-order-gt-md=\"1\" flex-gt-lg=\"35\" layout=\"row\"><a class=\"back-to-top\" tabindex=\"0\" ng-click=\"scrollToTop()\">Back to top</a><div hide show-gt-lg>Showing {{ pageTracking | PaginatedItemsSummary}} items</div></div><div flex=\"100\" flex-order=\"1\" flex-gt-md=\"40\" flex-order-gt-md=\"2\" flex-gt-lg=\"35\"><div class=\"page-links\" layout=\"row\" layout-align=\"center\"><div ng-class=\"{disabled: pageTracking.isFirstPage()}\" class=\"pagination-first\"><a hide show-gt-lg ng-click=\"pageTracking.goToFirstPage()\" ng-hide=\"pageTracking.isFirstPage()\">First</a></div><div ng-class=\"{disabled: pageTracking.isFirstPage()}\" class=\"pagination-prev\"><a ng-click=\"pageTracking.goToPrevPage()\" ng-hide=\"pageTracking.isFirstPage()\">« Prev</a></div><div ng-repeat=\"n in pageTracking | Page\" ng-class=\"{active: pageTracking.isPage(n), 'page-number-last': pageTracking.isPageNTheLastPage(n)}\" class=\"pagination-page\"><a ng-click=\"pageTracking.goToPage(n)\">{{n + 1}}</a></div><div ng-class=\"{disabled: pageTracking.isLastPage() || pageTracking.isEmpty()}\" class=\"pagination-next\"><a ng-click=\"pageTracking.goToNextPage()\" ng-hide=\"pageTracking.isLastPage() || pageTracking.isEmpty()\">Next »</a></div><div ng-class=\"{disabled: pageTracking.isLastPage()}\" class=\"pagination-last\"><a hide show-gt-lg ng-click=\"pageTracking.goToLastPage()\" ng-hide=\"pageTracking.isLastPage()\">Last</a></div></div></div><div flex=\"50\" flex-order=\"3\" flex-gt-md=\"40\" flex-order-gt-md=\"3\" flex-gt-lg=\"30\"><div class=\"pagination-per-page\" layout=\"row\" layout-align=\"right\"><div>Show</div><div ng-repeat=\"i in pageTracking.itemSizeList\"><button ng-disabled=\"pageTracking.isItemsPerPage(i)\" ng-click=\"pageTracking.setItemsPerPage(i)\">{{ i }}</button></div></div></div></div></div>");
 }]);
 
 angular.module("templates/rxPermission.html", []).run(["$templateCache", function($templateCache) {
@@ -12773,11 +12810,6 @@ angular.module("templates/rxStatusColumn.html", []).run(["$templateCache", funct
 angular.module("templates/rxTags.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxTags.html",
     "<div class=\"rx-tags\" ng-click=\"focusInput($event)\"><div class=\"tag\" ng-repeat=\"tag in tags track by tag.text\" ng-keydown=\"removeIfBackspace($event, tag)\" tabindex=\"{{ disabled ? '' : 0 }}\"><i class=\"fa fa-tag\"></i> <span class=\"text\">{{tag.text}}</span> <span class=\"category\">({{tag.category}})</span> <i class=\"fa fa-times\" ng-click=\"remove(tag)\"></i></div><input type=\"text\" placeholder=\"{{ disabled ? '' : 'Enter a tag' }}\" ng-model=\"newTag\" ng-keydown=\"focusTag($event, newTag)\" ng-disabled=\"disabled\" typeahead=\"tag as tag.text for tag in options | xor:tags | filter:{text: $viewValue}\" typeahead-on-select=\"add(newTag)\"></div>");
-}]);
-
-angular.module("templates/rxTimePicker.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("templates/rxTimePicker.html",
-    "<div class=\"rxTimePicker wrapper\"><div class=\"control\" ng-click=\"togglePopup()\"><input type=\"text\" data-time=\"{{modelValue}}\" class=\"displayValue\" ng-model=\"displayValue\"><div class=\"overlay\"><i class=\"icon fa fa-fw fa-clock-o\"></i></div></div><div class=\"popup\" ng-show=\"isPickerVisible\"><form rx-form name=\"timePickerForm\"><rx-form-section><rx-field><rx-field-content><rx-input><input type=\"text\" name=\"hour\" class=\"hour\" maxlength=\"2\" autocomplete=\"off\" ng-required=\"true\" ng-pattern=\"/^(1[012]|0?[1-9])$/\" ng-model=\"hour\"><rx-infix>:</rx-infix><input type=\"text\" name=\"minutes\" class=\"minutes\" maxlength=\"2\" autocomplete=\"off\" ng-required=\"true\" ng-pattern=\"/^[0-5][0-9]$/\" ng-model=\"minutes\"><rx-suffix><select rx-select name=\"period\" class=\"period\" ng-model=\"period\"><option value=\"AM\">AM</option><option value=\"PM\">PM</option></select></rx-suffix><rx-suffix class=\"offsetWrapper\"><select rx-select name=\"utcOffset\" class=\"utcOffset\" ng-model=\"offset\"><option ng-repeat=\"utcOffset in availableUtcOffsets\" ng-selected=\"{{utcOffset === offset}}\">{{utcOffset}}</option></select></rx-suffix></rx-input><rx-inline-error ng-if=\"timePickerForm.hour.$dirty && !timePickerForm.hour.$valid\">Invalid Hour</rx-inline-error><rx-inline-error ng-if=\"timePickerForm.minutes.$dirty && !timePickerForm.minutes.$valid\">Invalid Minutes</rx-inline-error></rx-field-content></rx-field></rx-form-section><rx-form-section class=\"actions\"><div><rx-button classes=\"done\" default-msg=\"Done\" disable=\"!timePickerForm.$valid\" ng-click=\"submitPopup()\"></rx-button>&nbsp;<rx-button classes=\"cancel\" default-msg=\"Cancel\" ng-click=\"closePopup()\"></rx-button></div></rx-form-section></form></div></div>");
 }]);
 
 angular.module("templates/rxToggleSwitch.html", []).run(["$templateCache", function($templateCache) {
