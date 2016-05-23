@@ -78,36 +78,6 @@
 /*
 /* Tooltips
  */
-/* ======================================== *\
-   FOR DEPRECATION
-\* ======================================== */
-/*
- * rxForm
- */
-/*
- * rxFieldName
- */
-/*
- * rxRadio
- */
-/*
- * rxCheckbox
- */
-/*
- * rxSelect
- */
-/*
- * rxSearchBox
- */
-/*
- * rxTags
- */
-/*
- * rxPaginate
- */
-/*
-/* Tooltips
- */
 /*
  * Layout
  */
@@ -2944,7 +2914,6 @@
   color: white;
   font-weight: bold;
   padding: 20px;
-  text-shadow: 0 0 4px #646464;
 }
 .layout-demo .box {
   width: 150px;
@@ -2954,19 +2923,20 @@
   width: auto;
 }
 .layout-demo .dark-blue {
-  background-color: #4881c0;
+  background-color: #0d47a1;
 }
 .layout-demo .light-blue {
-  background-color: #86cafd;
+  background-color: #0d74d1;
 }
 .layout-demo .dark-green {
-  background-color: #24b56a;
+  background-color: #2e7d32;
 }
 .layout-demo .light-green {
-  background-color: #c8e5bf;
+  background-color: #4caf51;
 }
 .layout-demo .orange {
-  background-color: #db7820;
+  background-color: #ffc107;
+  color: #333333;
 }
 .layout-demo .small-box-container {
   width: 95%;
@@ -3776,7 +3746,7 @@ a.subdued:hover,
 a.subdued:focus,
 a:hover .subdued,
 a:focus .subdued {
-  color: #959595;
+  color: #4f4f4f;
 }
 .hidden {
   visibility: hidden;
@@ -3825,12 +3795,12 @@ body:hover .visually-hidden button {
  * https://css-tricks.com/snippets/css/style-placeholder-text/
  */
 ::-webkit-input-placeholder {
-  color: #a9a9a9;
+  color: #9e9e9e;
   font-weight: 300;
   font-style: italic;
 }
 ::-moz-placeholder {
-  color: #a9a9a9;
+  color: #9e9e9e;
   font-weight: 400;
   font-style: italic;
 }
@@ -3839,7 +3809,7 @@ body:hover .visually-hidden button {
 }
 .action-separator {
   font-size: 1.1em;
-  color: #bbbbbb;
+  color: #757575;
 }
 .rxApp-demo #embedded-app {
   display: block;
@@ -4368,13 +4338,13 @@ a.disabled {
   position: static;
 }
 .rxBulkSelect-demo .pending-status {
-  color: #db7820;
+  color: #d14904;
 }
 .rxBulkSelect-demo .success-status {
-  color: #24b56a;
+  color: #2e7d32;
 }
 .rxBulkSelect-demo .failure-status {
-  color: #fc0f1d;
+  color: #f44336;
 }
 /*
  * rxBulkSelect
@@ -4481,7 +4451,7 @@ thead th[rx-bulk-select-header-check] {
   position: relative;
   background-color: transparent;
   resize: none;
-  border: 1px solid #cccccc;
+  border: 1px solid #bdbdbd;
   padding: 3px 5px;
 }
 .counted-input-wrapper .input-highlighting {

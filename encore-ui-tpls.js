@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 2.0.0-6 - 2016-05-18
+ * Version: 2.0.0-7 - 2016-05-23
  * License: Apache-2.0
  */
 angular.module('encore.ui', ['encore.ui.tpls', 'encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.layout','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.utilities','encore.ui.rxApp','encore.ui.utilities','encore.ui.rxAttributes','encore.ui.utilities','encore.ui.rxBreadcrumbs','encore.ui.utilities','encore.ui.rxBulkSelect','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.utilities','encore.ui.utilities','encore.ui.rxEnvironment','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxFeedback','encore.ui.utilities','encore.ui.utilities','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.utilities','encore.ui.rxInfoPanel','encore.ui.utilities','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.utilities','encore.ui.utilities','encore.ui.rxMultiSelect','encore.ui.utilities','encore.ui.rxNotify','encore.ui.utilities','encore.ui.rxOptionTable','encore.ui.utilities','encore.ui.rxPaginate','encore.ui.utilities','encore.ui.rxPermission','encore.ui.utilities','encore.ui.rxRadio','encore.ui.utilities','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.rxSpinner','encore.ui.rxStatusColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxTags','encore.ui.utilities','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.tooltips','encore.ui.typeahead','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities', 'cfp.hotkeys','ui.bootstrap']);
@@ -385,37 +385,47 @@ angular.module('encore.ui.utilities')
      *                        See 'buildUrl' for more details
      */
     var environments = [{
+        // Regexr: http://www.regexr.com/3de5m
         // http://localhost:3000/
         // http://localhost:9000/
         // http://localhost/
         // http://server/
+        // http://encore.dev/
+        // http://apps.server/
         name: 'local',
-        pattern: /\/\/(localhost|server)(:\d{1,4})?/,
-        url: '//localhost:' + $location.port() + '/{{path}}'
+        pattern: /\/\/(?:apps\.)?(localhost|server|(.*)\.dev)(:\d{1,4})?/,
+        url: '//' + $location.host() + ($location.port() !== 80 ? ':' + $location.port() : '') + '/{{path}}'
     }, {
         // Matches only https://preprod.encore.rackspace.com
+        // Regexr: http://www.regexr.com/3de5p
         name: 'preprod',
-        pattern: /\/\/preprod.encore.rackspace.com/,
+        pattern: /\/\/(?:apps\.)?preprod.encore.rackspace.com/,
         url: '{{path}}'
     }, {
         // This is anything with a host preceeding encore.rackspace.com
+        // Regexr: http://www.regexr.com/3de5s
         // https://staging.encore.rackspace.com/
         // https://preprod.encore.rackspace.com/
+        // https://apps.preprod.encore.rackspace.com/
         name: 'unified-preprod',
-        pattern: /\/\/(\w+\.)encore.rackspace.com/,
+        pattern: /\/\/(?:apps\.)?(\w+\.)encore.rackspace.com/,
         url: '{{path}}'
     }, {
         // This is *all* environments
+        // Regexr: http://www.regexr.com/3de5v
         // https://encore.rackspace.com/
         // https://staging.encore.rackspace.com/
         // https://preprod.encore.rackspace.com/
+        // https://apps.encore.rackspace.com
+        // https://apps.staging.encore.rackspace.com
         name: 'unified',
         pattern: 'encore.rackspace.com',
         url: '{{path}}'
     }, {
         // This is only https://encore.rackspace.com/
+        // Regexr: http://www.regexr.com/3de62
         name: 'unified-prod',
-        pattern: /\/\/encore.rackspace.com/,
+        pattern: /\/\/(?:apps\.)?encore.rackspace.com/,
         url: '{{path}}'
     }];
 
@@ -2997,7 +3007,58 @@ angular.module('encore.ui.rxApp')
         scope: {
             item: '='
         },
-        controller: ["$scope", "$location", "rxVisibility", "Permission", function ($scope, $location, rxVisibility, Permission) {
+        controller: ["$scope", "$location", "$injector", "rxVisibility", "Permission", "urlUtils", function ($scope, $location, $injector, rxVisibility, Permission, urlUtils) {
+            /*
+             * @description Determines whether or not a nav item should have its href prefixed
+             * based on whether the `$injector` has a `NAV_ITEM_PREFIX` injectable
+             *
+             * _This is *NOT* meant for general consumption, this is strictly for the Origin Project_
+             * _This will eventually be deprecated and removed_
+             *
+             * @param {string} [url] - URL for the nav item's href
+             */
+            $scope.getUrl = function (url) {
+                // For URLs that have no URL definition, let's go ahead and return right away
+                // this avoids issues when we do have a prefix but really the nav item should not have
+                // any defined href, i.e. items that have subitems
+                if (_.isEmpty(url)) {
+                    return url;
+                }
+
+                // Check if we have a definition of NAV_ITEM_PREFIX, if so let's retrieve it and return the given URL
+                // appended to the prefix.  This allows applications like origin to prefix nav items, while not
+                // messing with nav items in the demo/documentation.
+                //
+                // _This is *NOT* meant for general consumption, this is strictly for the Origin Project_
+                // _This will eventually be deprecated and removed_
+                //
+
+                if ($injector.has('NAV_ITEM_PREFIX')) {
+                    var prefix = urlUtils.parseUrl($injector.get('NAV_ITEM_PREFIX'));
+                    return prefix.protocol.concat('//').concat(prefix.host).concat(url);
+                } else {
+                    // Return as normal if no prefix
+                    return url;
+                }
+
+            };
+            /*
+             * @description Determines whether or not the links need to point to a target, this allows
+             * for origin and applications that show the nav to implement a target in which to have the links
+             * open in.
+             *
+             * If ever there was a need to point links to a different target than an application specific
+             * target, we could implement logic here to inspect the item and determine the target.
+             * (i.e. opening an external application in a new window)
+             */
+            $scope.getTarget = function () {
+                // Check if we have a definition of NAV_ITEM_TARGET, if so let's retrieve it and enable the target attr
+                // on the nav item.  This allows applications like origin to give a target to it's nav items, while not
+                // messing with nav items in the demo/documentation.
+                // The default of `_self` is based on the default value of `target` when there's no value present:
+                // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target
+                return $injector.has('NAV_ITEM_TARGET') ? $injector.get('NAV_ITEM_TARGET') : '_self';
+            };
             // provide `route` as a scope property so that links can tie into them
             $scope.route = $route;
 
@@ -12193,6 +12254,7 @@ angular.module('encore.ui.utilities')
  * Set of utility functions to break apart/compare URLs.
  */
 .service('urlUtils', ["$location", "rxEnvironmentUrlFilter", "$interpolate", "$route", "$document", function ($location, rxEnvironmentUrlFilter, $interpolate, $route, $document) {
+    var urlParser = $document[0].createElement('a');
     // remove any preceding # and / from the URL for cleaner comparison
     this.stripLeadingChars = function (url) {
         // http://regexr.com/39coc
@@ -12306,6 +12368,12 @@ angular.module('encore.ui.utilities')
     // matches all of `subChunks`
     this.matchesSubChunks = function (firstChunks, subChunks, numChunks) {
         return _.isEqual(firstChunks.slice(0, numChunks), subChunks);
+    };
+
+    // Given a URL string, parse all the different pieces of it
+    this.parseUrl = function (url) {
+        urlParser.href = url;
+        return _.pick(urlParser, ['protocol', 'hostname', 'port', 'pathname', 'search', 'hash', 'host']);
     };
 }]);
 
@@ -12432,7 +12500,7 @@ angular.module("templates/rxAppNav.html", []).run(["$templateCache", function($t
 
 angular.module("templates/rxAppNavItem.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxAppNavItem.html",
-    "<li class=\"rx-app-nav-item\" ng-show=\"isVisible(item.visibility, item.roles)\" ng-class=\"{'has-children': item.children.length > 0, active: item.active, 'rx-app-key-{{ item.key }}': item.key }\"><a href=\"{{ item.url }}\" class=\"item-link\" ng-click=\"toggleNav($event, item.href)\">{{item.linkText}}</a><div class=\"item-content\" ng-show=\"item.active && (item.directive || item.children)\"><div class=\"item-directive\" ng-show=\"item.directive\"></div><div class=\"item-children\" ng-show=\"item.children && isVisible(item.childVisibility)\"><div class=\"child-header\" ng-if=\"item.childHeader\" rx-compile=\"item.childHeader\"></div></div></div></li>");
+    "<li class=\"rx-app-nav-item\" ng-show=\"isVisible(item.visibility, item.roles)\" ng-class=\"{'has-children': item.children.length > 0, active: item.active, 'rx-app-key-{{ item.key }}': item.key }\"><a ng-href=\"{{ getUrl(item.url) }}\" ng-attr-target=\"{{ getTarget() }}\" class=\"item-link\" ng-click=\"toggleNav($event, item.href)\">{{item.linkText}}</a><div class=\"item-content\" ng-show=\"item.active && (item.directive || item.children)\"><div class=\"item-directive\" ng-show=\"item.directive\"></div><div class=\"item-children\" ng-show=\"item.children && isVisible(item.childVisibility)\"><div class=\"child-header\" ng-if=\"item.childHeader\" rx-compile=\"item.childHeader\"></div></div></div></li>");
 }]);
 
 angular.module("templates/rxAppSearch.html", []).run(["$templateCache", function($templateCache) {
