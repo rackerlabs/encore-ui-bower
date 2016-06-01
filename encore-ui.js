@@ -2,10 +2,10 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 2.0.0-7 - 2016-05-23
+ * Version: 1.49.0-0 - 2016-06-01
  * License: Apache-2.0
  */
-angular.module('encore.ui', ['encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.layout','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.utilities','encore.ui.rxApp','encore.ui.utilities','encore.ui.rxAttributes','encore.ui.utilities','encore.ui.rxBreadcrumbs','encore.ui.utilities','encore.ui.rxBulkSelect','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.utilities','encore.ui.utilities','encore.ui.rxEnvironment','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxFeedback','encore.ui.utilities','encore.ui.utilities','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.utilities','encore.ui.rxInfoPanel','encore.ui.utilities','encore.ui.rxLogout','encore.ui.rxMetadata','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.utilities','encore.ui.utilities','encore.ui.rxMultiSelect','encore.ui.utilities','encore.ui.rxNotify','encore.ui.utilities','encore.ui.rxOptionTable','encore.ui.utilities','encore.ui.rxPaginate','encore.ui.utilities','encore.ui.rxPermission','encore.ui.utilities','encore.ui.rxRadio','encore.ui.utilities','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.rxSpinner','encore.ui.rxStatusColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxTags','encore.ui.utilities','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.tooltips','encore.ui.typeahead','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui', ['encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.layout','encore.ui.metadata','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.rxActiveUrl','encore.ui.utilities','encore.ui.rxApp','encore.ui.utilities','encore.ui.rxAttributes','encore.ui.utilities','encore.ui.rxBreadcrumbs','encore.ui.utilities','encore.ui.rxBulkSelect','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.utilities','encore.ui.utilities','encore.ui.rxEnvironment','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxFeedback','encore.ui.utilities','encore.ui.utilities','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.utilities','encore.ui.utilities','encore.ui.rxInfoPanel','encore.ui.utilities','encore.ui.rxLogout','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.utilities','encore.ui.utilities','encore.ui.rxMultiSelect','encore.ui.utilities','encore.ui.rxNotify','encore.ui.utilities','encore.ui.rxOptionTable','encore.ui.utilities','encore.ui.rxPaginate','encore.ui.utilities','encore.ui.rxPermission','encore.ui.utilities','encore.ui.rxRadio','encore.ui.utilities','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.rxSpinner','encore.ui.rxStatusColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxTags','encore.ui.utilities','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.tooltips','encore.ui.typeahead','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities', 'cfp.hotkeys','ui.bootstrap']);
 /**
  * @ngdoc overview
  * @name elements
@@ -82,6 +82,7 @@ angular.module('encore.ui.elements', [
  * * {@link utilities.service:rxDOMHelper rxDOMHelper}
  * * {@link utilities.service:rxFeedbackSvc rxFeedbackSvc}
  * * {@link utilities.service:rxFormUtils rxFormUtils}
+ * * {@link utilities.service:rxHideIfUkAccount rxHideIfUkAccount}
  * * {@link utilities.service:rxLocalStorage rxLocalStorage}
  * * {@link utilities.service:rxModalFooterTemplates rxModalFooterTemplates}
  * * {@link utilities.service:rxNestedElement rxNestedElement}
@@ -259,13 +260,14 @@ angular.module('encore.ui.utilities')
  *
  * @return {Object} Instance of rxAppRoutes with `fetchRoutes` method added
  */
-.factory('encoreRoutes', ["rxAppRoutes", "routesCdnPath", "rxNotify", "$q", "$http", "rxVisibilityPathParams", "rxVisibility", "Environment", "rxLocalStorage", function (rxAppRoutes, routesCdnPath, rxNotify, $q, $http,
+.factory('encoreRoutes', ["rxAppRoutes", "routesCdnPath", "rxNotify", "$q", "$http", "rxVisibilityPathParams", "rxVisibility", "Environment", "rxHideIfUkAccount", "LocalStorage", function (rxAppRoutes, routesCdnPath, rxNotify, $q, $http,
                                    rxVisibilityPathParams, rxVisibility, Environment,
-                                   rxLocalStorage) {
+                                   rxHideIfUkAccount, LocalStorage) {
 
     // We use rxVisibility in the nav menu at routesCdnPath, so ensure it's ready
     // before loading from the CDN
     rxVisibility.addVisibilityObj(rxVisibilityPathParams);
+    rxVisibility.addVisibilityObj(rxHideIfUkAccount);
 
     var encoreRoutes = new rxAppRoutes();
 
@@ -306,12 +308,12 @@ angular.module('encore.ui.utilities')
 
     encoreRoutes.fetchRoutes = function () {
         var routesKey = 'encoreRoutes-' + suffix;
-        var cachedRoutes = rxLocalStorage.getObject(routesKey);
+        var cachedRoutes = LocalStorage.getObject(routesKey);
 
         $http.get(url)
             .success(function (routes) {
                 encoreRoutes.setAll(routes);
-                rxLocalStorage.setObject(routesKey, routes);
+                LocalStorage.setObject(routesKey, routes);
             })
             .error(function () {
                 if (cachedRoutes) {
@@ -1213,6 +1215,136 @@ angular.module('encore.ui.utilities')
  */
 angular.module('encore.ui.layout', []);
 
+/**
+ * @ngdoc overview
+ * @name metadata
+ * @deprecated
+ * @description
+ * # metadata Component
+ *
+ * **Deprecated**: Use {@link elements.directive:rxMetadata rxMetadata} instead.
+ */
+angular.module('encore.ui.metadata', []);
+
+angular.module('encore.ui.elements')
+/**
+ * @ngdoc directive
+ * @name elements.directive:rxMeta
+ * @scope
+ * @restrict E
+ * @description
+ *
+ * <dl>
+ *   <dt>Display:</dt>
+ *   <dd>**block** *(full width of parent)*</dd>
+ *
+ *   <dt>Parent:</dt>
+ *   <dd>
+ *     <ul>
+ *       <li>{@link elements.directive:rxMetadata rxMetadata}</li>
+ *       <li>SECTION element</li>
+ *     </ul>
+ *   </dd>
+ *
+ *   <dt>Siblings:</dt>
+ *   <dd>Any HTML Element</dd>
+ *
+ *   <dt>Children:</dt>
+ *   <dd>Any HTML Element</dd>
+ * </dl>
+ *
+ * ## Long Data Values
+ *
+ * For data values that do not naturally break to fit the width of the column, a `.force-word-break` CSS class is
+ * available on the `<rx-meta>` element to prevent the value from overflowing to adjacent content.
+ *
+ * <pre>
+ *   <rx-meta label="Super Long Value" class="force-word-break">
+ *     A super long data value with anunseeminglyunbreakablewordthatcouldoverflowtothenextcolumn
+ *   </rx-meta>
+ * </pre>
+
+ * @example
+ * <pre>
+ * <rx-metadata>
+ *   <section>
+ *     <rx-meta label="Status">
+ *       degraded; system maintenance
+ *     </rx-meta>
+ *   </section>
+ * </rx-metadata>
+ * </pre>
+ *
+ * @param {String=} label Label for metadata definition/value
+ */
+.directive('rxMeta', function () {
+    return {
+        restrict: 'E',
+        transclude: true,
+        templateUrl: 'templates/rxMeta.html',
+        scope: {
+            label: '@'
+        }
+    };
+});
+
+angular.module('encore.ui.elements')
+/**
+ * @ngdoc directive
+ * @name elements.directive:rxMetadata
+ * @restrict E
+ * @description
+ * Parent directive used for styling and arranging metadata information.
+ *
+ * <dl>
+ *   <dt>Display:</dt>
+ *   <dd>**block** *(full width of parent)*</dd>
+ *
+ *   <dt>Parent:</dt>
+ *   <dd>Any HTML Element</dd>
+ *
+ *   <dt>Siblings:</dt>
+ *   <dd>Any HTML Element</dd>
+ *
+ *   <dt>Children:</dt>
+ *   <dd>
+ *     <ul>
+ *       <li>{@link elements.directive:rxMeta rxMeta}</li>
+ *       <li>SECTION element</li>
+ *     </ul>
+ *   </dd>
+ * </dl>
+ *
+ * It is highly recommended to use `<section>` blocks for purposes
+ * of arranging information into columns.
+ *
+ * Each `<section>` will be 300px wide and will wrap and stack vertically
+ * if the container isn't wide enought to accommodate all sections in a
+ * single row.
+ *
+ * @example
+ * <pre>
+ * <rx-metadata>
+ *   <section>
+ *     <rx-meta label="Status">
+ *       degraded; system maintenance
+ *     </rx-meta>
+ *   </section>
+ *   <section>
+ *     <rx-meta label="Field Name">Field Value Example</rx-meta>
+ *   </section>
+ *   <section>
+ *     <rx-meta label="Another Field Name">Another Field Value Example</rx-meta>
+ *   </section>
+ * </rx-metadata>
+ * </pre>
+ */
+.directive('rxMetadata', function () {
+    return {
+        restrict: 'E'
+    };
+});
+
 angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
@@ -1346,7 +1478,7 @@ angular.module('encore.ui.utilities')
  * <rx-paginate page-tracking="pager"></rx-paginate>
  * </pre>
  */
-.factory('PageTracking', ["$q", "rxLocalStorage", "rxPaginateUtils", function ($q, rxLocalStorage, rxPaginateUtils) {
+.factory('PageTracking', ["$q", "LocalStorage", "rxPaginateUtils", function ($q, LocalStorage, rxPaginateUtils) {
     var PageTracking = {
         /**
         * @ngdoc method
@@ -1382,7 +1514,7 @@ angular.module('encore.ui.utilities')
         * @method userSelectedItemsPerPage This method sets a new global itemsPerPage value
         */
         userSelectedItemsPerPage: function (itemsPerPage) {
-            rxLocalStorage.setItem('rxItemsPerPage', itemsPerPage);
+            LocalStorage.setItem('rxItemsPerPage', itemsPerPage);
         }
     };
 
@@ -1414,7 +1546,7 @@ angular.module('encore.ui.utilities')
             itemSizeList.splice(index, 0, itemsPerPage);
         }
 
-        var selectedItemsPerPage = parseInt(rxLocalStorage.getItem('rxItemsPerPage'));
+        var selectedItemsPerPage = parseInt(LocalStorage.getItem('rxItemsPerPage'));
 
         // If the user has chosen a desired itemsPerPage, make sure we're respecting that
         // However, a value specified in the options will take precedence
@@ -2016,6 +2148,53 @@ angular.module('encore.ui.rxActionMenu')
 
             // https://github.com/angular-ui/bootstrap/blob/master/src/position/position.js
             // https://github.com/angular-ui/bootstrap/blob/master/src/tooltip/tooltip.js
+        }
+    };
+}]);
+
+/**
+ * @ngdoc overview
+ * @name rxActiveUrl
+ * @deprecated THIS COMPONENT IS MARKED TO BE REMOVED IN A FUTURE RELEASE.
+ * @description
+ * # rxActiveUrl Component
+ *
+ * A Component adds a class name of 'selected' to an LI if the current url matches
+ * a pre-defined value
+ *
+ * ## Directives
+ * * {@link rxActiveUrl.directive:rxActiveUrl rxActiveUrl}
+ */
+angular.module('encore.ui.rxActiveUrl', []);
+
+angular.module('encore.ui.rxActiveUrl')
+/**
+ * @ngdoc directive
+ * @name rxActiveUrl.directive:rxActiveUrl
+ * @restrict A
+ * @scope
+ * @description
+ * This is used as an attribute to directive `<rx-product-resources>`, in the
+ * form of `<li rx-active-url="/servers">`. The directive checks if the attribute
+ * value is a subset of the current URL. If so it returns the class name "selected".
+ */
+.directive('rxActiveUrl', ["$location", function ($location) {
+    return {
+        restrict: 'E',
+        templateUrl: 'templates/rxActiveUrl.html',
+        transclude: true,
+        replace: true,
+        scope: {
+            url: '@'
+        },
+        controller: ["$scope", function ($scope) {
+            $scope.isNavActive = function (pattern) {
+                return $location.path().indexOf(pattern) !== -1;
+            };
+        }],
+        link: function (scope, element, attribute) {
+            // Is the subset of whatever is in isNavActive part of the URL string?
+            scope.navActive = scope.isNavActive(attribute.url);
         }
     };
 }]);
@@ -2731,7 +2910,8 @@ angular.module('encore.ui.rxApp')
  * environment is not necessary.
  *
  * Another technique for visibility is to use a predefined set of visibility
- * functions that exist in the framework—`rxPathParams`, for example.
+ * functions that exist in the framework. These include `rxPathParams` and
+ * `rxHideIfUkAccount`.
  *
  * To use these, you pass an array to `visibility`, with the first argument being
  * the name of the function to use (as a string), and the second argument as an
@@ -3737,7 +3917,7 @@ angular.module('encore.ui.utilities')
  * appearing on the same page.
  *
  * By default, all values are stored in {@link utilities.service:rxLocalStorage rxLocalStoage} which interfaces with the
- * browser's `localStorage` object. This means that if a user logs into a different computer, their stored values will
+ * browser's `LocalStorage` object. This means that if a user logs into a different computer, their stored values will
  * not be present.  Use of `SessionStorage` is also supported out-of-the-box. If you wish to save form states elsewhere
  * (for instance, to an API), see the "Storage Location" section below.
  *
@@ -3958,9 +4138,9 @@ angular.module('encore.ui.utilities')
  *
  * ## Storage location
  *
- * All values for `rxAutoSave` are by default stored in the browser's `localStorage` through the `rxLocalStorage`
+ * All values for `rxAutoSave` are by default stored in the browser's `LocalStorage` through the `rxLocalStorage`
  * service, and keyed on the URL of the page, with a `rxAutoSave::` prefix. For example, if the above form were
- * present at the URL `'users/JonnyRocket/edit'`, then the form data would be saved into the browser's `localStorage`
+ * present at the URL `'users/JonnyRocket/edit'`, then the form data would be saved into the browser's `LocalStorage`
  * at location `'rxAutoSave::users/JonnyRocket/edit'`.
  *
  * If you wish to use a different storage backend (`SessionStorage`, for instance), use the `storageBackend` parameter:
@@ -4218,12 +4398,12 @@ angular.module('encore.ui.utilities')
             }
         };
 
-        // Responsible for loading the data from the browser's localStorage into the form
+        // Responsible for loading the data from the browser's LocalStorage into the form
         var load = function () {
             var expires = api.getExpires();
             if (expires > 0 && expires <= _.now()) {
                 // This data has expired. Make sure we clear it out
-                // of the browser's localStorage
+                // of the browser's LocalStorage
                 api.expire();
                 return;
             }
@@ -4273,7 +4453,7 @@ angular.module('encore.ui.utilities')
             updateExpiryTime();
         }
 
-        // We don't want to write to the browser's localStorage every time the model changes,
+        // We don't want to write to the browser's LocalStorage every time the model changes,
         // because that would turn typing into a textarea into an expensive operation.
         // We'll instead debounce the the writes for 1 second
         var debounced = debounce(update, 1000);
@@ -6325,6 +6505,9 @@ angular.module('encore.ui.rxFloatingHeader')
  * framework.** They are still functional, but **WILL display a warning in the javascript console** to let you know
  * you should upgrade your code.
  *
+ * ### **rxFormOptionTable**
+ * Please use {@link rxOptionTable} as a stand-in replacement.
+ *
  * ### **rxFormItem**
  * See "Before & After" below
  *
@@ -6436,6 +6619,10 @@ angular.module('encore.ui.rxFloatingHeader')
  * * {@link rxRadio.directive:rxRadio rxRadio}
  * * {@link rxSelect.directive:rxSelect rxSelect}
  * * {@link rxToggleSwitch.directive:rxToggleSwitch rxToggleSwitch}
+ *
+ * ### Deprecated Directives
+ * * {@link rxForm.directive:rxFormItem rxFormItem}
+ * * {@link rxForm.directive:rxFormFieldset rxFormFieldset}
  *
  */
 angular.module('encore.ui.rxForm', [
@@ -6656,6 +6843,134 @@ angular.module('encore.ui.rxForm')
     return rxNestedElement({
         restrict: 'A'
     });
+}]);
+
+angular.module('encore.ui.rxForm')
+/**
+ * @name rxForm.directive:rxFormFieldset
+ * @deprecated
+ * @ngdoc directive
+ * @restrict E
+ * @scope
+ * @description
+ * **DEPRECATED** - This directive has been marked as deprecated and *will be removed* in a future
+ * release of the EncoreUI framework.  Please see current rxForm documentation for updated
+ * functionality.
+ *
+ * This directive is used to wrap a set of input fields in the proper HTML
+ *
+ * @param {String} legend - Text to use for <legend>
+ * @param {String} description - Text to place below input
+ */
+.directive('rxFormFieldset', function () {
+    var warnMsg = 'DEPRECATION WARNING: rxFormFieldset has been marked as deprecated ' +
+        'and will be removed in a future release of the EncoreUI framework. ' +
+        'Please see current rxForm documentation for updated functionality.';
+    console.warn(warnMsg);
+
+    return {
+        restrict: 'E',
+        templateUrl: 'templates/rxFormFieldset.html',
+        transclude: true,
+        scope: {
+            legend: '@',
+            description: '@'
+        }
+    };
+});
+
+angular.module('encore.ui.rxForm')
+/**
+ * @name rxForm.directive:rxFormItem
+ * @deprecated
+ * @ngdoc directive
+ * @restrict E
+ * @scope
+ * @description
+ * **DEPRECATED** - This directive has been marked as deprecated and *will be removed* in a future
+ * release of the EncoreUI framework.  Please see current rxForm documentation for updated
+ * functionality.
+ *
+ * This directive is used to wrap input fields and select boxes in the proper HTML.
+ * It will attach the `<label>` to a transcluded input using the `id` attribute of the input.
+ * If no `id` attribute exists, it will create one.
+ *
+ * @param {String} label - Text to use for <label>
+ * @param {String} prefix - Text to include to the left of content
+ * @param {String} suffix - Text to include to the right of content
+ * @param {String} description - Text to place below input
+ */
+.directive('rxFormItem', ["$document", "rxDOMHelper", function ($document, rxDOMHelper) {
+    var warnMsg = 'DEPRECATION WARNING: rxFormItem has been marked as deprecated ' +
+        'and will be removed in a future release of the EncoreUI framework. ' +
+        'Please see current rxForm documentation for updated functionality.';
+    console.warn(warnMsg);
+
+    return {
+        restrict: 'E',
+        templateUrl: 'templates/rxFormItem.html',
+        transclude: true,
+        scope: {
+            label: '@',
+            suffix: '@',
+            prefix: '@',
+            description: '@'
+        },
+        link: function (scope, el) {
+            var inputSelectors = [
+                '.field-input-wrapper input',
+                '.field-input-wrapper select',
+                '.field-input-wrapper textarea'
+            ];
+            inputSelectors = inputSelectors.join(', ');
+
+            // For accessibility reasons, we need to link the <label> to the <input>
+            // To do this, we use the 'for' and 'id' attributes on the <label> and <input> tags, respectively
+            // Since the field input is dynamically inserted, we don't know its ID (or if it has one)
+            // This code takes care of linking the two
+
+            var setFieldId = function () {
+                // default to scope's id
+                var fieldId = 'field-' + scope.$id;
+
+                var inputField = el[0].querySelector(inputSelectors);
+
+                scope.isTextArea = _.isObject(inputField) && inputField.type === 'textarea';
+
+                // make sure an input field is found
+                if (!_.isObject(inputField)) {
+                    return;
+                }
+
+                // Manually insert the `suffix` span after the input/select/textarea
+                // It needs to be in between the input/select/textarea and any other
+                // transcluded content, so we have to do it here instead of in the template
+                if (scope.suffix) {
+                    var suffixSpan = $document[0].createElement('span');
+                    suffixSpan.innerHTML = scope.suffix;
+                    suffixSpan.className = 'field-suffix';
+                    inputField.parentNode.insertBefore(suffixSpan, inputField.nextSibling);
+                }
+
+                // Put a <span class="field-input"> around the input/select/textarea
+                var fieldInputSpan = $document[0].createElement('span');
+                fieldInputSpan.className = 'field-input';
+                rxDOMHelper.wrapAll(fieldInputSpan, inputField);
+
+                var inputId = inputField.getAttribute('id');
+
+                if (_.isString(inputId)) {
+                    fieldId = inputId;
+                } else {
+                    inputField.setAttribute('id', fieldId);
+                }
+
+                el[0].querySelector('.field-label').setAttribute('for', fieldId);
+            };
+
+            setFieldId();
+        }
+    };
 }]);
 
 angular.module('encore.ui.rxForm')
@@ -7029,16 +7344,15 @@ angular.module('encore.ui.utilities')
  * @ngdoc service
  *
  * @description
- * Set of utility functions used by rxForm to access form data in 
- * {@link rxOptionTable.directive:rxOptionTable rxOptionTable}.
+ * Set of utility functions used by rxForm to access form data.
  *
+ * @example
  * <pre>
- * // Returns the selected option for the rxOptionTable with id tableId
+ * // Returns the selected option for the rxFormOptionTable with id tableId
  * // [{ tableId: 'tableId', fieldId: 'fieldId', rowId: 'rowId' }]
  * getSelectedOptionForTable(tableId)
- * </pre>
- * <pre>
- * // Returns the selected option for the rxOptionTable in the tabset with id tabsetId
+
+ * // Returns the selected option for the rxFormOptionTable in the tabset with id tabsetId
  * // [{ tableId: 'tableId', fieldId: 'fieldId', rowId: 'rowId' }]
  * getSelectedOptionForTabSet(tabsetId)
  * </pre>
@@ -7046,19 +7360,13 @@ angular.module('encore.ui.utilities')
 .factory('rxFormUtils', ["$document", function ($document) {
     var rxFormUtils = {};
 
-    /**
-     * @ngdoc function
-     * @name  rxFormUtils.getSelectedOptionForTable
-     * @methodOf utilities.service:rxFormUtils
-     * @description
-     * Returns the selected option for the {@link rxOptionTable.directive:rxOptionTable rxOptionTable} with
-     * `id`: tableId and `fieldId`: fieldId (optional).
-     * @param {String} tableId - The id of the table
-     * @returns {object} The rowId of the selected option
-     */
+    // Returns the selected option for the rxFormOptionTable with id: tableId
+    // and fieldId: fieldId (optional)
+    // @param {String} tableId - The id of the table
+    // @returns {object} The rowId of the selected option
     rxFormUtils.getSelectedOptionForTable = function (tableId) {
         var selectedRow;
-        var row = $document[0].querySelector('rx-option-table#' + tableId + ' .selected input');
+        var row = $document[0].querySelector('rx-form-option-table#' + tableId + ' .selected input');
 
         if (_.isObject(row) && 'value' in row) {
             selectedRow = { rowId: row.value };
@@ -7066,19 +7374,13 @@ angular.module('encore.ui.utilities')
         return selectedRow;
     };
 
-    /**
-     * @ngdoc function
-     * @name  rxFormUtils.getSelectedOptionForTabSet
-     * @methodOf utilities.service:rxFormUtils
-     * @description
-     * Returns the selected option within the tabset.
-     * @param {String} tabsetId - The id of the tabset
-     * @returns {object} The tableId, fieldId, and rowId of the selected option
-     */
+    // Returns the selected option within the tabset
+    // @param {String} tabsetId - The id of the tabset
+    // @returns {object} The tableId, fieldId, and rowId of the selected option
     rxFormUtils.getSelectedOptionForTabSet = function (tabsetId) {
         var selectedOption;
         var xpathToTable = '//div[@id="' + tabsetId +
-            '"]//tr[contains(@class, "selected")]//ancestor::rx-option-table';
+            '"]//tr[contains(@class, "selected")]//ancestor::rx-form-option-table';
         var result = $document[0].evaluate(xpathToTable, $document[0], null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
         if (result.singleNodeValue) {
             var table = result.singleNodeValue;
@@ -7090,6 +7392,27 @@ angular.module('encore.ui.utilities')
     };
 
     return rxFormUtils;
+}]);
+
+angular.module('encore.ui.utilities')
+/**
+ * @ngdoc service
+ * @name utilities.service:rxHideIfUkAccount
+ * @description
+ * Check if account number in the URL is of UK origin.
+ *
+ * @return {Boolean} false if account number matches UK pattern
+ * Use it as `visibility: [ 'rxHideIfUkAccount' ]`
+ */
+.factory('rxHideIfUkAccount', ["$routeParams", function ($routeParams) {
+    var isUkAccount = {
+        name: 'rxHideIfUkAccount',
+        method: function () {
+            return $routeParams.accountNumber < 10000000;
+        }
+    };
+
+    return isUkAccount;
 }]);
 
 /**
@@ -7132,6 +7455,19 @@ angular.module('encore.ui.rxInfoPanel')
         }
     };
 });
+
+angular.module('encore.ui.utilities')
+/**
+ * @ngdoc service
+ * @name utilities.service:LocalStorage
+ * @deprecated
+ * @description
+ * **NOTICE:** This service has be deprecated in favor of the
+ * {@link utilities.service:rxLocalStorage rxLocalStorage} service.
+ */
+.service('LocalStorage', ["rxLocalStorage", function (rxLocalStorage) {
+    return rxLocalStorage;
+}]);
 
 angular.module('encore.ui.utilities')
 /**
@@ -7253,157 +7589,6 @@ angular.module('encore.ui.rxLogout')
         }
     };
 }]);
-
-/**
- * @ngdoc overview
- * @name rxMetadata
- * @description
- * # rxMetadata Component
- *
- * rxMetadata contains directives to provide consistent styling for
- * the display of metadata information.
- *
- * ## Organizing Metadata into Columns
- * It is highly recommended that you make use of `<section>` elements to separate metadata information into columns.
- * The `<section>` elements will be set to a fixed width and will wrap/stack if the container cannot fit all columns
- * in a single row.
- *
- * <pre>
- * <rx-metadata>
- *   <section>
- *     <rx-meta label="Status" id="metaStatus">Active</rx-meta>
- *     <rx-meta label="RCN">RCN-555-555-555</rx-meta>
- *     <rx-meta label="Type">Cloud</rx-meta>
- *     <rx-meta label="Service Level">Managed &rarr; Intensive</rx-meta>
- *     <rx-meta label="Service Type">DevOps &rarr; SysOps</rx-meta>
- *   </section>
- * </rx-metadata>
- * </pre>
- *
- * ## Long Data Values
- *
- * For data values that do not naturally break to fit the width of the column, a `.force-word-break` CSS class is
- * available on the `<rx-meta>` element to prevent the value from overflowing to adjacent content.
- *
- * <pre>
- *   <rx-meta label="Super Long Value" class="force-word-break">
- *     A super long data value with anunseeminglyunbreakablewordthatcouldoverflowtothenextcolumn
- *   </rx-meta>
- * </pre>
- *
- * ## Directives
- * * {@link rxMetadata.directive:rxMetadata rxMetadata}
- * * {@link rxMetadata.directive:rxMeta rxMeta}
- */
-angular.module('encore.ui.rxMetadata', []);
-
-angular.module('encore.ui.rxMetadata')
-/**
- * @ngdoc directive
- * @name rxMetadata.directive:rxMeta
- * @scope
- * @restrict E
- * @description
- *
- * <dl>
- *   <dt>Display:</dt>
- *   <dd>**block** *(full width of parent)*</dd>
- *
- *   <dt>Parent:</dt>
- *   <dd>
- *     <ul>
- *       <li>{@link rxMetadata.directive:rxMetadata rxMetadata}</li>
- *       <li>SECTION element</li>
- *     </ul>
- *   </dd>
- *
- *   <dt>Siblings:</dt>
- *   <dd>Any HTML Element</dd>
- *
- *   <dt>Children:</dt>
- *   <dd>Any HTML Element</dd>
- * </dl>
- *
- * @example
- * <pre>
- * <rx-metadata>
- *   <section>
- *     <rx-meta label="Status">
- *       degraded; system maintenance
- *     </rx-meta>
- *   </section>
- * </rx-metadata>
- * </pre>
- *
- * @param {String=} label Label for metadata definition/value
- */
-.directive('rxMeta', function () {
-    return {
-        restrict: 'E',
-        transclude: true,
-        templateUrl: 'templates/rxMeta.html',
-        scope: {
-            label: '@'
-        }
-    };
-});
-
-angular.module('encore.ui.rxMetadata')
-/**
- * @ngdoc directive
- * @name rxMetadata.directive:rxMetadata
- * @restrict E
- * @description
- * Parent directive used for styling and arranging metadata information.
- *
- * <dl>
- *   <dt>Display:</dt>
- *   <dd>**block** *(full width of parent)*</dd>
- *
- *   <dt>Parent:</dt>
- *   <dd>Any HTML Element</dd>
- *
- *   <dt>Siblings:</dt>
- *   <dd>Any HTML Element</dd>
- *
- *   <dt>Children:</dt>
- *   <dd>
- *     <ul>
- *       <li>{@link rxMetadata.directive:rxMeta rxMeta}</li>
- *       <li>SECTION element</li>
- *     </ul>
- *   </dd>
- * </dl>
- *
- * It is highly recommended to use `<section>` blocks for purposes
- * of arranging information into columns.
- *
- * Each `<section>` will be 300px wide and will wrap and stack vertically
- * if the container isn't wide enought to accommodate all sections in a
- * single row.
- *
- * @example
- * <pre>
- * <rx-metadata>
- *   <section>
- *     <rx-meta label="Status">
- *       degraded; system maintenance
- *     </rx-meta>
- *   </section>
- *   <section>
- *     <rx-meta label="Field Name">Field Value Example</rx-meta>
- *   </section>
- *   <section>
- *     <rx-meta label="Another Field Name">Another Field Value Example</rx-meta>
- *   </section>
- * </rx-metadata>
- * </pre>
- */
-.directive('rxMetadata', function () {
-    return {
-        restrict: 'E'
-    };
-});
 
 /**
  * @ngdoc overview
@@ -7999,8 +8184,8 @@ angular.module('encore.ui.rxMultiSelect')
         link: function (scope, element, attrs, selectCtrl) {
             scope.transclusion = rxDOMHelper.find(element, '[ng-transclude] > *').length > 0;
 
-            scope.toggle = function (isSelected) {
-                if (isSelected) {
+            scope.toggle = function () {
+                if (scope.isSelected) {
                     selectCtrl.unselect(scope.value);
                 } else {
                     selectCtrl.select(scope.value);
@@ -8630,11 +8815,30 @@ angular.module('encore.ui.utilities')
  *
  * ## Directives
  * * {@link rxOptionTable.directive:rxOptionTable rxOptionTable}
+ * * {@link rxOptionTable.directive:rxFormOptionTable rxFormOptionTable} (*deprecated*)
  */
 angular.module('encore.ui.rxOptionTable', [
     'encore.ui.elements',
     'ngSanitize'
 ]);
+
+angular.module('encore.ui.rxOptionTable')
+/**
+ * @deprecated
+ * @ngdoc directive
+ * @restrict E
+ * @name rxOptionTable.directive:rxFormOptionTable
+ * @description
+ * **DEPRECATED**: Please use **{@link rxOptionTable.directive:rxOptionTable rxOptionTable}**
+ * as a stand-in-replacement.
+ */
+.directive('rxFormOptionTable', ["rxOptionTableDirective", function (rxOptionTableDirective) {
+    var warnMsg = 'DEPRECATION WARNING: rxFormOptionTable has been marked as deprecated ' +
+        'and will be removed in a future release of the EncoreUI framework. ' +
+        'Please use rxOptionTable as a stand-in replacement.';
+    console.warn(warnMsg);
+    return rxOptionTableDirective[0];
+}]);
 
 angular.module('encore.ui.rxOptionTable')
 /**
@@ -8788,7 +8992,8 @@ angular.module('encore.ui.rxOptionTable')
             };
 
             // Because of a bug in Angular 1.2.x, we can't use `required` and
-            // ngTrueValue/ngFalseValue simultaneously. We'll
+            // ngTrueValue/ngFalseValue simultaneously. We don't want to affect
+            // people that were already using rxFormOptionTable, so instead we'll
             // build a `modelProxy` which is simply a mapping of $scope.model to
             // an array of `true` / `false` values. We then have to take care
             // of updating the actual $scope.model ourselves in `updateCheckboxes`
@@ -10036,7 +10241,7 @@ angular.module('encore.ui.rxSearchBox')
                 if (!newVal || $scope.isDisabled) {
                     $scope.isClearable = false;
                 } else {
-                    $scope.isClearable = (newVal.toString() !== '');
+                    $scope.isClearable = newVal.toString() !== '';
                 }
             });
 
@@ -10939,21 +11144,14 @@ angular.module('encore.ui.rxTags')
             };
 
             scope.add = function (tag) {
-                /*
-                 * See https://code.angularjs.org/1.3.20/docs/api/ng/type/ngModel.NgModelController#$setViewValue
-                 * We have to use `concat` to create a new array to trigger $parsers
-                 */
-                var updatedTags = scope.tags.concat([tag]);
-                // sets ngModelCtrl.$viewValue then $$debounceViewValueCommit()
-                ngModelCtrl.$setViewValue(updatedTags);
-                scope.tags = updatedTags;
-                scope.newTag = ''; // reset new tag input
+                scope.tags.push(tag);
+                ngModelCtrl.$setViewValue(scope.tags);
+                scope.newTag = '';
             };
 
             scope.remove = function (tag) {
-                var updatedTags = _.without(scope.tags, tag);
-                ngModelCtrl.$setViewValue(updatedTags);
-                scope.tags = updatedTags;
+                _.remove(scope.tags, tag);
+                ngModelCtrl.$setViewValue(scope.tags);
                 input.focus();
             };
 
@@ -12155,8 +12353,7 @@ angular.module('encore.ui.typeahead')
         var lowercase = $filter('lowercase');
 
         typeahead.compile = function () {
-            return function (scope, element, attrs, ctrls) {
-                var ngModelCtrl = ctrls[0];
+            return function (scope, element, attrs, ngModelCtrl) {
                 link.apply(this, arguments);
 
                 if (/allowEmpty/.test(attrs.typeahead)) {
@@ -12177,8 +12374,6 @@ angular.module('encore.ui.typeahead')
 
                     element.on('click', function () {
                         scope.$apply(function () {
-                            // quick change to null and back to trigger parsers
-                            ngModelCtrl.$setViewValue(null);
                             ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
                         });
                     });
