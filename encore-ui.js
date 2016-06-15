@@ -2,40 +2,10 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 2.0.0-8 - 2016-06-01
+ * Version: 1.50.0-0 - 2016-06-15
  * License: Apache-2.0
  */
-angular.module('encore.ui', ['encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.layout','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxAccountInfo','encore.ui.rxActionMenu','encore.ui.utilities','encore.ui.rxApp','encore.ui.utilities','encore.ui.rxAttributes','encore.ui.utilities','encore.ui.rxBreadcrumbs','encore.ui.utilities','encore.ui.rxBulkSelect','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.utilities','encore.ui.utilities','encore.ui.rxEnvironment','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxFeedback','encore.ui.utilities','encore.ui.utilities','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.utilities','encore.ui.rxInfoPanel','encore.ui.utilities','encore.ui.rxLogout','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.utilities','encore.ui.utilities','encore.ui.rxMultiSelect','encore.ui.utilities','encore.ui.rxNotify','encore.ui.utilities','encore.ui.rxOptionTable','encore.ui.utilities','encore.ui.rxPaginate','encore.ui.utilities','encore.ui.rxPermission','encore.ui.utilities','encore.ui.rxRadio','encore.ui.utilities','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.rxSpinner','encore.ui.rxStatusColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxTags','encore.ui.utilities','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.tooltips','encore.ui.typeahead','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities', 'cfp.hotkeys','ui.bootstrap']);
-/**
- * This file is meant to be a bandaid while we remove our dependency
- * on ngBootstrap.  ngBootstrap 0.14.3 throws all sorts of console
- * warnings for renamed directives.  Rather than having all apps update
- * their code to correct the ngBootstrap warnings and update again
- * when we remove those dependencies, we'll disable the warnings and
- * work on the replacements for ngBoostrap directives. This way apps
- * will only need to update once (to rx-prefixed directives).
- */
-
-// Components > typeahead
-angular.module('ui.bootstrap.typeahead')
-    .value('$typeaheadSuppressWarning', true);
-
-// Components > tooltips
-angular.module('ui.bootstrap.tooltip')
-    .value('$tooltipSuppressWarning', true);
-
-// Elements > Tabs
-angular.module('ui.bootstrap.tabs')
-    .value('$tabsSuppressWarning', true);
-
-// Elements > Progress Bars
-angular.module('ui.bootstrap.progressbar')
-    .value('$progressSuppressWarning', true);
-
-// Components > rxModalAction
-angular.module('ui.bootstrap.modal')
-    .value('$modalSuppressWarning', true);
-
+angular.module('encore.ui', ['encore.ui.elements','encore.ui.utilities','encore.ui.elements','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.layout','encore.ui.metadata','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxActiveUrl','encore.ui.utilities','encore.ui.rxApp','encore.ui.utilities','encore.ui.rxAttributes','encore.ui.utilities','encore.ui.utilities','encore.ui.rxBulkSelect','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.utilities','encore.ui.utilities','encore.ui.rxEnvironment','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.utilities','encore.ui.utilities','encore.ui.rxInfoPanel','encore.ui.utilities','encore.ui.rxLogout','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.utilities','encore.ui.utilities','encore.ui.rxMultiSelect','encore.ui.utilities','encore.ui.rxNotify','encore.ui.utilities','encore.ui.rxOptionTable','encore.ui.utilities','encore.ui.rxPaginate','encore.ui.utilities','encore.ui.rxPermission','encore.ui.utilities','encore.ui.rxRadio','encore.ui.utilities','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.rxSpinner','encore.ui.rxStatusColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxTags','encore.ui.utilities','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.tooltips','encore.ui.typeahead','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities', 'cfp.hotkeys','ui.bootstrap']);
 /**
  * @ngdoc overview
  * @name elements
@@ -45,8 +15,12 @@ angular.module('ui.bootstrap.modal')
  * Elements are visual directives.
  *
  * ## Directives
+ * * {@link elements.directive:rxAccountInfo rxAccountInfo}
+ * * {@link elements.directive:rxActionMenu rxActionMenu}
  * * {@link elements.directive:rxButton rxButton}
  * * {@link elements.directive:rxCheckbox rxCheckbox}
+ * * {@link elements.directive:rxDatePicker rxDatePicker}
+ * * {@link elements.directive:rxMetadata rxMetadata}
  * * {@link elements.directive:rxTimePicker rxTimePicker}
  */
 angular.module('encore.ui.elements', [
@@ -112,6 +86,7 @@ angular.module('encore.ui.elements', [
  * * {@link utilities.service:rxDOMHelper rxDOMHelper}
  * * {@link utilities.service:rxFeedbackSvc rxFeedbackSvc}
  * * {@link utilities.service:rxFormUtils rxFormUtils}
+ * * {@link utilities.service:rxHideIfUkAccount rxHideIfUkAccount}
  * * {@link utilities.service:rxLocalStorage rxLocalStorage}
  * * {@link utilities.service:rxModalFooterTemplates rxModalFooterTemplates}
  * * {@link utilities.service:rxNestedElement rxNestedElement}
@@ -136,6 +111,195 @@ angular.module('encore.ui.utilities', [
     'ngResource',
     'debounce',
 ]);
+
+angular.module('encore.ui.elements')
+/**
+ * @ngdoc directive
+ * @name elements.directive:rxAccountInfo
+ * @restrict E
+ * @scope
+ * @description
+ * This element is used to draw an account info box at the top of each page,
+ * directly underneath the breadcrumbs. `rxPage` (through `rxApp`) integrates it
+ * directly into its template, and you activate it by passing `account-number="..."`
+ * to `<rx-page>`.
+ *
+ * While you could theoretically use this element elsewhere, its design and style
+ * were done with the intention of sitting underneath the breadcrumbs.
+ *
+ * When placed on a page that has `:user` in its route parameters, this element
+ * will also draw a drop-down user selector, to allow the Racker to change which
+ * user they're looking at for the given account. At this time, this user-selection
+ * is *only* available for products under Cloud. If you need it for additional products,
+ * please let us know.
+ *
+ * This directive requires that `SupportAccount`, `Encore`, `AccountStatusGroup`,
+ * and `Teams` services are available. These are not provided by this project,
+ * but are available in an internal Rackspace repository.
+ *
+ * There are two different styles of account info box supported. The "old" one, which appears
+ * wherever you want it to be, and a new one that is intended to be placed underneath the breadcrumbs.
+ * To use the new one, pass `account-info-banner="true"` to this directive
+ *
+ * @param {string} accountNumber - The account number to load and retrieve data for
+ * @param {string} [teamId] - Optional team ID, used for loading team badges
+ * @param {string} [notifyStack] - Optional notifications stack to put errors on. Defaults to `page`
+ * @param {string} [accountInfoBanner] - Set to "true" to use the new under-the-breadcrumbs style
+ */
+.directive('rxAccountInfo', ["Teams", "SupportAccount", "Encore", "rxNotify", "encoreRoutes", "AccountStatusGroup", function (Teams, SupportAccount, Encore, rxNotify, encoreRoutes,
+                                    AccountStatusGroup) {
+    return {
+        templateUrl: function (elem, attr) {
+            if (attr.accountInfoBanner === 'true') {
+                return 'templates/rxAccountInfoBanner.html';
+            }
+            return 'templates/rxAccountInfo.html';
+        },
+        restrict: 'E',
+        transclude: true,
+        scope: {
+            accountNumber: '@',
+            teamId: '@',
+            notifyStack: '@'
+        },
+        link: function (scope) {
+            var notifyStack = scope.notifyStack || 'page';
+            scope.badges = [];
+            scope.tooltipHtml = function (badge) {
+                return ['<span class="tooltip-header">', badge.name,
+                        '</span><p>', badge.description, '</p>'].join('');
+            };
+
+            // Currently, the only time we should show the `Current User` area is
+            // if the Racker is on the Cloud page
+            encoreRoutes.isActiveByKey('cloud').then(function (isCloud) {
+                scope.showCurrentUser = isCloud;
+            });
+
+            scope.accountPageUrl = _.template('/accounts/<%= accountNumber %>', scope);
+
+            SupportAccount.getBadges({ accountNumber: scope.accountNumber }, function (badges) {
+                scope.badges = scope.badges.concat(badges);
+            }, function () {
+                rxNotify.add('Error retrieving badges for this account', {
+                    type: 'error',
+                    stack: notifyStack
+                });
+            });
+
+            var fetchTeamBadges = function (teamId) {
+                Teams.badges({ id: teamId }).$promise.then(function (badges) {
+                    scope.badges = scope.badges.concat(badges);
+                }, function () {
+                    rxNotify.add('Error retrieving badges for this team', {
+                        type: 'error',
+                        stack: notifyStack
+                    });
+                });
+            };
+
+            if (!_.isEmpty(scope.teamId) && (_.isNumber(_.parseInt(scope.teamId)))) {
+                fetchTeamBadges(scope.teamId);
+            }
+
+            Encore.getAccount({ id: scope.accountNumber }, function (account) {
+                // Only attempt if no teamId is passed to directive
+                if (_.isEmpty(scope.teamId)) {
+                    var primaryTeam = _.find(account.teams, function (team) {
+                        return _.contains(team.flags, 'primary');
+                    });
+
+                    if (primaryTeam) {
+                        fetchTeamBadges(primaryTeam.id);
+                    }
+                }
+
+                scope.accountName = account.name;
+                scope.accountStatus = account.status;
+                scope.accountAccessPolicy = account.accessPolicy;
+                scope.statusClass = '';
+                var statusClass = AccountStatusGroup(account.status);
+                if (statusClass === 'warning') {
+                    scope.statusClass = 'msg-warn';
+                } else if (statusClass === 'info') {
+                    scope.statusClass = 'msg-info';
+                }
+            }, function () {
+                rxNotify.add('Error retrieving account name', {
+                    type: 'error',
+                    stack: notifyStack
+                });
+            });
+        }
+    };
+}]);
+
+angular.module('encore.ui.elements')
+/**
+ * @ngdoc directive
+ * @name elements.directive:rxActionMenu
+ * @restrict E
+ * @scope
+ * @description
+ *
+ * Component to add a clickable cog which brings up a menu of configurable actions.
+ *
+ * Normally the menu is dismissable by clicking anywhere on the page, but this can
+ * be disabled by passing an optional `global-dismiss="false"` attribute to the
+ * directive.
+ *
+ * @param {Boolean=} [globalDismiss=true] - optional attribute to make menu dismissable by clicking anywhere on the page
+ */
+.directive('rxActionMenu', ["$rootScope", "$document", function ($rootScope, $document) {
+    return {
+        restrict: 'E',
+        transclude: true,
+        templateUrl: 'templates/rxActionMenu.html',
+        scope: {
+            globalDismiss: '=?'
+        },
+        link: function ($scope, element) {
+            if (!_.isBoolean($scope.globalDismiss)) {
+                $scope.globalDismiss = true;
+            }
+            $scope.displayed = false;
+
+            $scope.toggle = function () {
+                $scope.displayed = !$scope.displayed;
+                $rootScope.$broadcast('actionMenuShow', element);
+            };
+
+            $scope.modalToggle = function () {
+                if ($scope.globalDismiss) {
+                    $scope.toggle();
+                }
+            };
+
+            $scope.$on('actionMenuShow', function (ev, el) {
+                if ($scope.globalDismiss && el[0] !== element[0]) {
+                    $scope.displayed = false;
+                }
+            });
+
+            $document.on('click', function (clickEvent) {
+                if ($scope.globalDismiss && $scope.displayed && !element[0].contains(clickEvent.target)) {
+                    $scope.$apply(function () { $scope.displayed = false;});
+                }
+            });
+
+            // TODO: Center the Action Menu box so it
+            // takes the height of the translucded content
+            // and then centers it with CSS.
+            // I spent an afternoon trying to see if I could
+            // repurpose angularjs' bootstrap popover library
+            // and their position.js file, but I spent too
+            // much time and had to table this.  -Ernie
+
+            // https://github.com/angular-ui/bootstrap/blob/master/src/position/position.js
+            // https://github.com/angular-ui/bootstrap/blob/master/src/tooltip/tooltip.js
+        }
+    };
+}]);
 
 angular.module('encore.ui.utilities')
 /**
@@ -196,6 +360,52 @@ angular.module('encore.ui.utilities')
 
     return svc;
 }]);
+
+angular.module('encore.ui.elements')
+/**
+ * @ngdoc directive
+ * @name elements.directive:rxBreadcrumbs
+ * @restrict E
+ * @scope
+ * @description
+ * Responsible for drawing the breadcrumbs for a page.
+ *
+ *
+ * By default, the first breadcrumb will always have an URL of `'/'` and a name of `'Home'`. This can be changed
+ * with the `rxBreadcrumbsSvc.setHome` method (see {@link utilities.service:rxBreadcrumbsSvc rxBreadcrumbsSvc}).
+ *
+ * @param {String=} status
+ * The tag to apply to any breadcrumbs with usePageStatusTag:true
+ *
+ * This leverages the tags defined in {@link rxApp} to display status tags directly inside of breadcrumbs.
+ * For a given breadcrumb, `status` will take precedence over `usePageStatusTag`, i.e. it will use a tag defined in
+ * `status` instead of checking for and using a tag for the page.
+ *
+ * @param {Boolean=} [usePageStatusTag=false]
+ * If you set it to `true`,
+ * then the breadcrumb will use whatever status tag was passed to page, i.e.:
+ * <pre>
+ * <rx-page status="alpha">
+ * </pre>
+ * This will cause any breadcrumb marked with `usePageStatusTag` on this page to receive the `"alpha"` status tag.
+ *
+ * @example
+ * <pre>
+ * <rx-app site-title="Custom Title"></rx-app>
+ * </pre>
+ */
+.directive('rxBreadcrumbs', function () {
+    return {
+        restrict: 'E',
+        templateUrl: 'templates/rxBreadcrumbs.html',
+        controller: ["$scope", "rxBreadcrumbsSvc", function ($scope, rxBreadcrumbsSvc) {
+            $scope.breadcrumbs = rxBreadcrumbsSvc;
+        }],
+        scope: {
+            status: '@'
+        }
+    };
+});
 
 angular.module('encore.ui.elements')
 /**
@@ -289,13 +499,14 @@ angular.module('encore.ui.utilities')
  *
  * @return {Object} Instance of rxAppRoutes with `fetchRoutes` method added
  */
-.factory('encoreRoutes', ["rxAppRoutes", "routesCdnPath", "rxNotify", "$q", "$http", "rxVisibilityPathParams", "rxVisibility", "Environment", "rxLocalStorage", function (rxAppRoutes, routesCdnPath, rxNotify, $q, $http,
+.factory('encoreRoutes', ["rxAppRoutes", "routesCdnPath", "rxNotify", "$q", "$http", "rxVisibilityPathParams", "rxVisibility", "Environment", "rxHideIfUkAccount", "LocalStorage", function (rxAppRoutes, routesCdnPath, rxNotify, $q, $http,
                                    rxVisibilityPathParams, rxVisibility, Environment,
-                                   rxLocalStorage) {
+                                   rxHideIfUkAccount, LocalStorage) {
 
     // We use rxVisibility in the nav menu at routesCdnPath, so ensure it's ready
     // before loading from the CDN
     rxVisibility.addVisibilityObj(rxVisibilityPathParams);
+    rxVisibility.addVisibilityObj(rxHideIfUkAccount);
 
     var encoreRoutes = new rxAppRoutes();
 
@@ -336,12 +547,12 @@ angular.module('encore.ui.utilities')
 
     encoreRoutes.fetchRoutes = function () {
         var routesKey = 'encoreRoutes-' + suffix;
-        var cachedRoutes = rxLocalStorage.getObject(routesKey);
+        var cachedRoutes = LocalStorage.getObject(routesKey);
 
         $http.get(url)
             .success(function (routes) {
                 encoreRoutes.setAll(routes);
-                rxLocalStorage.setObject(routesKey, routes);
+                LocalStorage.setObject(routesKey, routes);
             })
             .error(function () {
                 if (cachedRoutes) {
@@ -628,6 +839,217 @@ angular.module('encore.ui.utilities')
         buildErrorMsg: buildErrorMsg
     };
 });
+
+angular.module('encore.ui.elements')
+/**
+ * @ngdoc directive
+ * @name elements.directive:rxFeedback
+ * @restrict E
+ * @scope
+ * @description
+ * # rxFeedback Component
+ *
+ * The rxFeedback component gathers and sends user feedback to a default or
+ * specifiable email list.
+ *
+ * ## Default Submission Function
+ *
+ * The rxFeedback component sends feedback to `/api/encore/feedback`, which
+ * routes details to `encoreui@lists`.
+ *
+ * This endpoint also supports a `product` parameter `/api/encore/feedback/:product`
+ * for sending feedback to a product-specific mailing list.
+ *
+ * ## Feedback Redirect Integration
+ *
+ * To obtain the Feedback Redirect integration, please update `encore-ui-svcs`
+ * to version `0.11.0` or above.  Once you have done so, include
+ * "encore.svcs.feedback" in the list of dependencies for your application,
+ * this will ensure that when a user selects a **Feedback Type** of "Feature
+ * Request", the service will open up a new window redirecting the user to
+ * the **GET Feedback** website,
+ * which will now host all internal requests for features.
+ *
+ * <pre>
+ * angular.module('myApplication', [
+ *     'ngRoute',
+ *     'ngResource',
+ *     'encore.svcs.feedback'
+ * ]);
+ * </pre>
+ *
+ * By adding the `encore.svcs.feedback` dependency to your application, the
+ * `Feedback` service will be available and automatically initialized by the
+ * `rxFeedback` controller.  Once initialized, the default behaviour of the
+ * `rxFeedback` controller will be altered to perform the GET feedback redirect.
+ *
+ * ### Production
+ * To manually include the Feedback changes without updating your version of
+ * Encore UI (but after updating `encore-ui-svcs`), please include the following:
+ *
+ * Add the following script in your `index.html` (after injected dependencies):
+ *
+ * http://3bea8551c95f45baa125-a22eac1892b2a6dcfdb36104c0e925de.r46.cf1.rackcdn.com/feedback-override.js
+ *
+ * <pre>
+ * <!-- inject:js -->
+ * <!-- endinject -->
+ * <script src="https://6618f7541d71c1a404be-a22eac1892b2a6dcfdb36104c0e925de.ssl.cf1.rackcdn.com/feedback-override.js"></script>
+ * </pre>
+ *
+ * ### Development
+ * For development purposes, you may want to include one of the two following
+ * configurations depending on which type of project you have:
+ *
+ * *The latest version of the [Encore generator](https://github.com/rackerlabs/generator-encore)
+ * will include this proxy*
+ *
+ * **Gulp**: `gulp/util/prism.js`
+ * <pre>
+ * prism.create({
+ *     name: 'encorefeedback',
+ *     context: '/encore/feedback',
+ *     host: 'staging.encore.rackspace.com',
+ *     port: 443,
+ *     https: true,
+ *     changeOrigin: false
+ * });
+ * </pre>
+ *
+ * **Grunt**: `tasks/util/config`
+ * <pre>
+ * {
+ *     context: '/encore/feedback',
+ *     host: 'staging.encore.rackspace.com',
+ *     port: 443,
+ *     https: true,
+ *     protocol: 'https',
+ *     changeOrigin: false
+ * }
+ * </pre>
+ *
+ * ## Custom Endpoint
+ *
+ * Adding a custom endpoint is managed in `encore-service-pillar`. Once configured
+ * you can override the default endpoint with `rxFeedbackSvc.setEndpoint`.
+ *
+ * <pre>
+ * angular.module('MyApplication', [
+ *     'ngRoute',
+ *     'ngResource',
+ *     'encore.svcs.feedback',
+ *     // ...
+ * ])
+ * .run(function (rxFeedbackSvc) {
+ *     // Set custom endpoint
+ *     rxFeedbackSvc.setEndpoint('/api/encore/feedback/cloud');
+ *
+ *     // ...
+ * });
+ * </pre>
+ *
+ * ## Custom Submission Function
+ *
+ * The `rxFeedback` component allows you to define an `on-submit` attribute
+ * that points to a custom function for the purposes of overriding the default
+ * submission logic.  This function should accept a single argument for a
+ * feedback object with the following definition:
+ *
+ * *Feedback Object Structure*:
+ * <pre>
+ * {
+ *   "type": {
+ *     "label": "(string)",
+ *     "placeholder": "(string) placeholder text",
+ *     "prompt": "(string) UI text used to describe the `description` field"
+ *   },
+ *   "description": "(string) user-submitted feedback"
+ * }
+ * </pre>
+ *
+ * @example
+ * <pre>
+ * // feedback object structure
+ * {
+ *   "type": {
+ *      "label": "(string)",
+ *      "placeholder": "(string) placeholder text",
+ *      "prompt": "(string) UI text used to describe the `description` field"
+ *    },
+ *    "description": "(string) user-submitted feedback"
+ * }
+ * </pre>
+ *
+ * @param {Object} type JSON object with `label` {String}, `placeholder` {String}, and `prompt` {String}
+ * @param {String} description User-submitted feedback
+ *
+ */
+.directive('rxFeedback', ["feedbackTypes", "$location", "rxFeedbackSvc", "rxScreenshotSvc", "rxNotify", "Session", function (feedbackTypes, $location, rxFeedbackSvc, rxScreenshotSvc, rxNotify, Session) {
+    return {
+        restrict: 'E',
+        templateUrl: 'templates/rxFeedback.html',
+        scope: {
+            sendFeedback: '=?onSubmit'
+        },
+        link: function (scope) {
+            scope.feedbackTypes = feedbackTypes;
+
+            scope.setCurrentUrl = function (modalScope) {
+                modalScope.currentUrl = $location.url();
+            };
+
+            var showSuccessMessage = function (response) {
+                var message = _.isString(response.message) ? response.message : 'Thanks for your feedback!';
+
+                rxNotify.add(message, {
+                    type: 'success'
+                });
+            };
+
+            var showFailureMessage = function (httpResponse) {
+                var errorMessage = 'An error occurred submitting your feedback';
+
+                if (httpResponse.data && _.isString(httpResponse.data.message)) {
+                    errorMessage += ': ' + httpResponse.data.message;
+                }
+
+                rxNotify.add(errorMessage, {
+                    type: 'error'
+                });
+            };
+
+            var makeApiCall = function (feedback, screenshot) {
+                rxFeedbackSvc.api.save({
+                    type: feedback.type.label,
+                    description: feedback.description,
+                    screenshot: screenshot,
+                    sso: feedback.sso
+                }, showSuccessMessage, function (httpResponse) {
+                    showFailureMessage(httpResponse);
+
+                    rxFeedbackSvc.fallback(feedback);
+                });
+            };
+
+            if (!_.isFunction(scope.sendFeedback)) {
+                scope.sendFeedback = function (feedback) {
+                    feedback.sso = Session.getUserId();
+
+                    var root = document.querySelector('.rx-app');
+
+                    // capture screenshot
+                    var screenshot = rxScreenshotSvc.capture(root);
+
+                    screenshot.then(function (dataUrl) {
+                        makeApiCall(feedback, dataUrl);
+                    }, function (reason) {
+                        makeApiCall(feedback, reason);
+                    });
+                };
+            }
+        }
+    };
+}]);
 
 angular.module('encore.ui.utilities')
 /**
@@ -1243,6 +1665,17 @@ angular.module('encore.ui.utilities')
  */
 angular.module('encore.ui.layout', []);
 
+/**
+ * @ngdoc overview
+ * @name metadata
+ * @deprecated
+ * @description
+ * # metadata Component
+ *
+ * **Deprecated**: Use {@link elements.directive:rxMetadata rxMetadata} instead.
+ */
+angular.module('encore.ui.metadata', []);
+
 angular.module('encore.ui.elements')
 /**
  * @ngdoc directive
@@ -1495,7 +1928,7 @@ angular.module('encore.ui.utilities')
  * <rx-paginate page-tracking="pager"></rx-paginate>
  * </pre>
  */
-.factory('PageTracking', ["$q", "rxLocalStorage", "rxPaginateUtils", function ($q, rxLocalStorage, rxPaginateUtils) {
+.factory('PageTracking', ["$q", "LocalStorage", "rxPaginateUtils", function ($q, LocalStorage, rxPaginateUtils) {
     var PageTracking = {
         /**
         * @ngdoc method
@@ -1531,7 +1964,7 @@ angular.module('encore.ui.utilities')
         * @method userSelectedItemsPerPage This method sets a new global itemsPerPage value
         */
         userSelectedItemsPerPage: function (itemsPerPage) {
-            rxLocalStorage.setItem('rxItemsPerPage', itemsPerPage);
+            LocalStorage.setItem('rxItemsPerPage', itemsPerPage);
         }
     };
 
@@ -1563,7 +1996,7 @@ angular.module('encore.ui.utilities')
             itemSizeList.splice(index, 0, itemsPerPage);
         }
 
-        var selectedItemsPerPage = parseInt(rxLocalStorage.getItem('rxItemsPerPage'));
+        var selectedItemsPerPage = parseInt(LocalStorage.getItem('rxItemsPerPage'));
 
         // If the user has chosen a desired itemsPerPage, make sure we're respecting that
         // However, a value specified in the options will take precedence
@@ -1956,215 +2389,47 @@ angular.module('encore.ui.utilities')
 
 /**
  * @ngdoc overview
- * @name rxAccountInfo
+ * @name rxActiveUrl
+ * @deprecated THIS COMPONENT IS MARKED TO BE REMOVED IN A FUTURE RELEASE.
  * @description
- * # rxAccountInfo Component
+ * # rxActiveUrl Component
  *
- * This component is used to draw an account info box at the top of each page,
- * directly underneath the breadcrumbs. `rxPage` (through `rxApp`) integrates it
- * directly into its template, and you activate it by passing `account-number="..."`
- * to `<rx-page>`.
- *
- * While you could theoretically use this component elsewhere, its design and style
- * were done with the intention of sitting underneath the breadcrumbs.
- *
- * When placed on a page that has `:user` in its route parameters, this component
- * will also draw a drop-down user selector, to allow the Racker to change which
- * user they're looking at for the given account. At this time, this user-selection
- * is *only* available for products under Cloud. If you need it for additional products,
- * please let us know.
- *
- * This directive requires that `SupportAccount`, `Encore`, `AccountStatusGroup`,
- * and `Teams` services are available. These are not provided by this project,
- * but are available in an internal Rackspace repository.
+ * A Component adds a class name of 'selected' to an LI if the current url matches
+ * a pre-defined value
  *
  * ## Directives
- * * {@link rxAccountInfo.directive:rxAccountInfo rxAccountInfo}
+ * * {@link rxActiveUrl.directive:rxActiveUrl rxActiveUrl}
  */
-angular.module('encore.ui.rxAccountInfo', []);
+angular.module('encore.ui.rxActiveUrl', []);
 
-angular.module('encore.ui.rxAccountInfo')
+angular.module('encore.ui.rxActiveUrl')
 /**
  * @ngdoc directive
- * @name rxAccountInfo.directive:rxAccountInfo
- * @restrict E
+ * @name rxActiveUrl.directive:rxActiveUrl
+ * @restrict A
  * @scope
  * @description
- * Responsible for drawing an account info box.
- *
- * There are two different styles of account info box supported. The "old" one, which appears
- * wherever you want it to be, and a new one that is intended to be placed underneath the breadcrumbs.
- * To use the new one, pass `account-info-banner="true"` to this directive
- *
- * @param {string} accountNumber - The account number to load and retrieve data for
- * @param {string} [teamId] - Optional team ID, used for loading team badges
- * @param {string} [notifyStack] - Optional notifications stack to put errors on. Defaults to `page`
- * @param {string} [accountInfoBanner] - Set to "true" to use the new under-the-breadcrumbs style
+ * This is used as an attribute to directive `<rx-product-resources>`, in the
+ * form of `<li rx-active-url="/servers">`. The directive checks if the attribute
+ * value is a subset of the current URL. If so it returns the class name "selected".
  */
-.directive('rxAccountInfo', ["Teams", "SupportAccount", "Encore", "rxNotify", "encoreRoutes", "AccountStatusGroup", function (Teams, SupportAccount, Encore, rxNotify, encoreRoutes,
-                                    AccountStatusGroup) {
-    return {
-        templateUrl: function (elem, attr) {
-            if (attr.accountInfoBanner === 'true') {
-                return 'templates/rxAccountInfoBanner.html';
-            }
-            return 'templates/rxAccountInfo.html';
-        },
-        restrict: 'E',
-        transclude: true,
-        scope: {
-            accountNumber: '@',
-            teamId: '@',
-            notifyStack: '@'
-        },
-        link: function (scope) {
-            var notifyStack = scope.notifyStack || 'page';
-            scope.badges = [];
-            scope.tooltipHtml = function (badge) {
-                return ['<span class="tooltip-header">', badge.name,
-                        '</span><p>', badge.description, '</p>'].join('');
-            };
-
-            // Currently, the only time we should show the `Current User` area is
-            // if the Racker is on the Cloud page
-            encoreRoutes.isActiveByKey('cloud').then(function (isCloud) {
-                scope.showCurrentUser = isCloud;
-            });
-
-            scope.accountPageUrl = _.template('/accounts/<%= accountNumber %>', scope);
-
-            SupportAccount.getBadges({ accountNumber: scope.accountNumber }, function (badges) {
-                scope.badges = scope.badges.concat(badges);
-            }, function () {
-                rxNotify.add('Error retrieving badges for this account', {
-                    type: 'error',
-                    stack: notifyStack
-                });
-            });
-
-            var fetchTeamBadges = function (teamId) {
-                Teams.badges({ id: teamId }).$promise.then(function (badges) {
-                    scope.badges = scope.badges.concat(badges);
-                }, function () {
-                    rxNotify.add('Error retrieving badges for this team', {
-                        type: 'error',
-                        stack: notifyStack
-                    });
-                });
-            };
-
-            if (!_.isEmpty(scope.teamId) && (_.isNumber(_.parseInt(scope.teamId)))) {
-                fetchTeamBadges(scope.teamId);
-            }
-
-            Encore.getAccount({ id: scope.accountNumber }, function (account) {
-                // Only attempt if no teamId is passed to directive
-                if (_.isEmpty(scope.teamId)) {
-                    var primaryTeam = _.find(account.teams, function (team) {
-                        return _.contains(team.flags, 'primary');
-                    });
-
-                    if (primaryTeam) {
-                        fetchTeamBadges(primaryTeam.id);
-                    }
-                }
-
-                scope.accountName = account.name;
-                scope.accountStatus = account.status;
-                scope.accountAccessPolicy = account.accessPolicy;
-                scope.statusClass = '';
-                var statusClass = AccountStatusGroup(account.status);
-                if (statusClass === 'warning') {
-                    scope.statusClass = 'msg-warn';
-                } else if (statusClass === 'info') {
-                    scope.statusClass = 'msg-info';
-                }
-            }, function () {
-                rxNotify.add('Error retrieving account name', {
-                    type: 'error',
-                    stack: notifyStack
-                });
-            });
-        }
-    };
-}]);
-
-/**
- * @ngdoc overview
- * @name rxActionMenu
- * @description
- * # rxActionMenu Component
- *
- * A component to create a configurable action menu.
- *
- * ## Directives
- * * {@link rxActionMenu.directive:rxActionMenu rxActionMenu}
- */
-angular.module('encore.ui.rxActionMenu', []);
-
-angular.module('encore.ui.rxActionMenu')
-/**
- * @ngdoc directive
- * @name rxActionMenu.directive:rxActionMenu
- * @restrict E
- * @scope
- * @description
- *
- * Component to add a clickable cog which brings up a menu of configurable actions.
- *
- * Normally the menu is dismissable by clicking anywhere on the page, but this can
- * be disabled by passing an optional `global-dismiss="false"` attribute to the
- * directive.
- *
- * @param {Boolean=} [globalDismiss=true] - optional attribute to make menu dismissable by clicking anywhere on the page
- */
-.directive('rxActionMenu', ["$rootScope", "$document", function ($rootScope, $document) {
+.directive('rxActiveUrl', ["$location", function ($location) {
     return {
         restrict: 'E',
+        templateUrl: 'templates/rxActiveUrl.html',
         transclude: true,
-        templateUrl: 'templates/rxActionMenu.html',
+        replace: true,
         scope: {
-            globalDismiss: '=?'
+            url: '@'
         },
-        link: function ($scope, element) {
-            if (!_.isBoolean($scope.globalDismiss)) {
-                $scope.globalDismiss = true;
-            }
-            $scope.displayed = false;
-
-            $scope.toggle = function () {
-                $scope.displayed = !$scope.displayed;
-                $rootScope.$broadcast('actionMenuShow', element);
+        controller: ["$scope", function ($scope) {
+            $scope.isNavActive = function (pattern) {
+                return $location.path().indexOf(pattern) !== -1;
             };
-
-            $scope.modalToggle = function () {
-                if ($scope.globalDismiss) {
-                    $scope.toggle();
-                }
-            };
-
-            $scope.$on('actionMenuShow', function (ev, el) {
-                if ($scope.globalDismiss && el[0] !== element[0]) {
-                    $scope.displayed = false;
-                }
-            });
-
-            $document.on('click', function (clickEvent) {
-                if ($scope.globalDismiss && $scope.displayed && !element[0].contains(clickEvent.target)) {
-                    $scope.$apply(function () { $scope.displayed = false;});
-                }
-            });
-
-            // TODO: Center the Action Menu box so it
-            // takes the height of the translucded content
-            // and then centers it with CSS.
-            // I spent an afternoon trying to see if I could
-            // repurpose angularjs' bootstrap popover library
-            // and their position.js file, but I spent too
-            // much time and had to table this.  -Ernie
-
-            // https://github.com/angular-ui/bootstrap/blob/master/src/position/position.js
-            // https://github.com/angular-ui/bootstrap/blob/master/src/tooltip/tooltip.js
+        }],
+        link: function (scope, element, attribute) {
+            // Is the subset of whatever is in isNavActive part of the URL string?
+            scope.navActive = scope.isNavActive(attribute.url);
         }
     };
 }]);
@@ -2880,7 +3145,8 @@ angular.module('encore.ui.rxApp')
  * environment is not necessary.
  *
  * Another technique for visibility is to use a predefined set of visibility
- * functions that exist in the framework—`rxPathParams`, for example.
+ * functions that exist in the framework. These include `rxPathParams` and
+ * `rxHideIfUkAccount`.
  *
  * To use these, you pass an array to `visibility`, with the first argument being
  * the name of the function to use (as a string), and the second argument as an
@@ -3411,7 +3677,7 @@ angular.module('encore.ui.rxApp')
  *
  * ### Account Info below Breadcrumbs
  *
- * `rxPage` integrates with the {@link rxAccountInfo} component,
+ * `rxPage` integrates with the {@link elements.directive:rxAccountInfo rxAccountInfo} component,
  * to draw the Account Info box directly underneath the `rxBreadcrumbs`.
  * This is opt-in. By default, it will not appear. To enable it, pass the
  * `account-number="..."` attribute to `<rx-page>` in your template, i.e
@@ -3420,7 +3686,7 @@ angular.module('encore.ui.rxApp')
  * <rx-page account-number="{{ accountNumber }}">
  * </pre>
  *
- * As noted in {@link rxAccountInfo}, this
+ * As noted in {@link elements.directive:rxAccountInfo rxAccountInfo}, this
  * directive requires that `SupportAccount`, `Encore` and `Teams` services are
  * available to the Angular Dependency Injection system. These are *not* provided
  * by EncoreUI, but are available in an internal Rackspace repository.
@@ -3463,7 +3729,7 @@ angular.module('encore.ui.rxApp')
  * CSS style in your application and use those instead, passing it as the `class`
  * value to `addStatus()`.
  *
- * All the tags are accessible inside of {@link rxBreadcrumbs}
+ * All the tags are accessible inside of {@link elements.directive:rxBreadcrumbs rxBreadcrumbs}
  * as well. Any breadcrumb that was created with `useStatusTag: true` will automatically
  * receive the same status tag as you passed to `<rx-page>`.
  *
@@ -3886,7 +4152,7 @@ angular.module('encore.ui.utilities')
  * appearing on the same page.
  *
  * By default, all values are stored in {@link utilities.service:rxLocalStorage rxLocalStoage} which interfaces with the
- * browser's `localStorage` object. This means that if a user logs into a different computer, their stored values will
+ * browser's `LocalStorage` object. This means that if a user logs into a different computer, their stored values will
  * not be present.  Use of `SessionStorage` is also supported out-of-the-box. If you wish to save form states elsewhere
  * (for instance, to an API), see the "Storage Location" section below.
  *
@@ -4107,9 +4373,9 @@ angular.module('encore.ui.utilities')
  *
  * ## Storage location
  *
- * All values for `rxAutoSave` are by default stored in the browser's `localStorage` through the `rxLocalStorage`
+ * All values for `rxAutoSave` are by default stored in the browser's `LocalStorage` through the `rxLocalStorage`
  * service, and keyed on the URL of the page, with a `rxAutoSave::` prefix. For example, if the above form were
- * present at the URL `'users/JonnyRocket/edit'`, then the form data would be saved into the browser's `localStorage`
+ * present at the URL `'users/JonnyRocket/edit'`, then the form data would be saved into the browser's `LocalStorage`
  * at location `'rxAutoSave::users/JonnyRocket/edit'`.
  *
  * If you wish to use a different storage backend (`SessionStorage`, for instance), use the `storageBackend` parameter:
@@ -4367,12 +4633,12 @@ angular.module('encore.ui.utilities')
             }
         };
 
-        // Responsible for loading the data from the browser's localStorage into the form
+        // Responsible for loading the data from the browser's LocalStorage into the form
         var load = function () {
             var expires = api.getExpires();
             if (expires > 0 && expires <= _.now()) {
                 // This data has expired. Make sure we clear it out
-                // of the browser's localStorage
+                // of the browser's LocalStorage
                 api.expire();
                 return;
             }
@@ -4422,7 +4688,7 @@ angular.module('encore.ui.utilities')
             updateExpiryTime();
         }
 
-        // We don't want to write to the browser's localStorage every time the model changes,
+        // We don't want to write to the browser's LocalStorage every time the model changes,
         // because that would turn typing into a textarea into an expensive operation.
         // We'll instead debounce the the writes for 1 second
         var debounced = debounce(update, 1000);
@@ -4447,67 +4713,6 @@ angular.module('encore.ui.utilities')
         return autoSaveInstance;
     };
 }]);
-
-/**
- * @ngdoc overview
- * @name rxBreadcrumbs
- * @description
- * # rxBreadcrumbs Component
- *
- * `rxBreadcrumbs` adds or updates page navigation breadcrumbs on a page.
- *
- * ## Directives
- * * {@link rxBreadcrumbs.directive:rxBreadcrumbs rxBreadcrumbs}
- */
-angular.module('encore.ui.rxBreadcrumbs', [
-    'ngSanitize'
-]);
-
-angular.module('encore.ui.rxBreadcrumbs')
-/**
- * @ngdoc directive
- * @name rxBreadcrumbs.directive:rxBreadcrumbs
- * @restrict E
- * @scope
- * @description
- * Responsible for drawing the breadcrumbs for a page
- *
- *
- * By default, the first breadcrumb will always have an URL of `'/'` and a name of `'Home'`. This can be changed
- * with the `rxBreadcrumbsSvc.setHome` method (see {@link utilities.service:rxBreadcrumbsSvc rxBreadcrumbsSvc}).
- *
- * @param {String=} status
- * The tag to apply to any breadcrumbs with usePageStatusTag:true
- *
- * This leverages the tags defined in {@link rxApp} to display status tags directly inside of breadcrumbs.
- * For a given breadcrumb, `status` will take precedence over `usePageStatusTag`, i.e. it will use a tag defined in
- * `status` instead of checking for and using a tag for the page.
- *
- * @param {Boolean=} [usePageStatusTag=false]
- * If you set it to `true`,
- * then the breadcrumb will use whatever status tag was passed to page, i.e.:
- * <pre>
- * <rx-page status="alpha">
- * </pre>
- * This will cause any breadcrumb marked with `usePageStatusTag` on this page to receive the `"alpha"` status tag.
- *
- * @example
- * <pre>
- * <rx-app site-title="Custom Title"></rx-app>
- * </pre>
- */
-.directive('rxBreadcrumbs', function () {
-    return {
-        restrict: 'E',
-        templateUrl: 'templates/rxBreadcrumbs.html',
-        controller: ["$scope", "rxBreadcrumbsSvc", function ($scope, rxBreadcrumbsSvc) {
-            $scope.breadcrumbs = rxBreadcrumbsSvc;
-        }],
-        scope: {
-            status: '@'
-        }
-    };
-});
 
 angular.module('encore.ui.utilities')
 /**
@@ -5313,9 +5518,11 @@ angular.module('encore.ui.rxCharacterCount')
                 element.off('input');
                 $timeout(function () {
                     // When the element containing the rx-character-count is removed, we have to
-                    // ensure we also remove the `wrapper`, which we created. This has to happen
+                    // ensure we also remove the `wrapper`, which we created. We have to manually
+                    // destroy its scope and remove the element itself. All of this has to happen
                     // in a $timeout() to ensure it occurs on the next $digest cycle, otherwise
-                    // we go into an infinite loop.
+                    // we go into an infinite loop
+                    wrapper.scope().$destroy();
                     wrapper.remove();
                 });
             });
@@ -5803,235 +6010,6 @@ angular.module('encore.ui.utilities')
     };
 }]);
 
-/**
- * @ngdoc overview
- * @name rxFeedback
- * @description
- * # rxFeedback Component
- *
- * The rxFeedback component gathers and sends user feedback to a default or
- * specifiable email list.
- *
- * ## Default Submission Function
- *
- * The rxFeedback component sends feedback to `/api/encore/feedback`, which
- * routes details to `encoreui@lists`.
- *
- * This endpoint also supports a `product` parameter `/api/encore/feedback/:product`
- * for sending feedback to a product-specific mailing list.
- *
- * ## Feedback Redirect Integration
- *
- * To obtain the Feedback Redirect integration, please update `encore-ui-svcs`
- * to version `0.11.0` or above.  Once you have done so, include
- * "encore.svcs.feedback" in the list of dependencies for your application,
- * this will ensure that when a user selects a **Feedback Type** of "Feature
- * Request", the service will open up a new window redirecting the user to
- * the **GET Feedback** website,
- * which will now host all internal requests for features.
- *
- * <pre>
- * angular.module('myApplication', [
- *     'ngRoute',
- *     'ngResource',
- *     'encore.svcs.feedback'
- * ]);
- * </pre>
- *
- * By adding the `encore.svcs.feedback` dependency to your application, the
- * `Feedback` service will be available and automatically initialized by the
- * `rxFeedback` controller.  Once initialized, the default behaviour of the
- * `rxFeedback` controller will be altered to perform the GET feedback redirect.
- *
- * ### Production
- * To manually include the Feedback changes without updating your version of
- * Encore UI (but after updating `encore-ui-svcs`), please include the following:
- *
- * Add the following script in your `index.html` (after injected dependencies):
- *
- * http://3bea8551c95f45baa125-a22eac1892b2a6dcfdb36104c0e925de.r46.cf1.rackcdn.com/feedback-override.js
- *
- * <pre>
- * <!-- inject:js -->
- * <!-- endinject -->
- * <script src="https://6618f7541d71c1a404be-a22eac1892b2a6dcfdb36104c0e925de.ssl.cf1.rackcdn.com/feedback-override.js"></script>
- * </pre>
- *
- * ### Development
- * For development purposes, you may want to include one of the two following
- * configurations depending on which type of project you have:
- *
- * *The latest version of the [Encore generator](https://github.com/rackerlabs/generator-encore)
- * will include this proxy*
- *
- * **Gulp**: `gulp/util/prism.js`
- * <pre>
- * prism.create({
- *     name: 'encorefeedback',
- *     context: '/encore/feedback',
- *     host: 'staging.encore.rackspace.com',
- *     port: 443,
- *     https: true,
- *     changeOrigin: false
- * });
- * </pre>
- *
- * **Grunt**: `tasks/util/config`
- * <pre>
- * {
- *     context: '/encore/feedback',
- *     host: 'staging.encore.rackspace.com',
- *     port: 443,
- *     https: true,
- *     protocol: 'https',
- *     changeOrigin: false
- * }
- * </pre>
- *
- * ## Custom Endpoint
- *
- * Adding a custom endpoint is managed in `encore-service-pillar`. Once configured
- * you can override the default endpoint with `rxFeedbackSvc.setEndpoint`.
- *
- * <pre>
- * angular.module('MyApplication', [
- *     'ngRoute',
- *     'ngResource',
- *     'encore.svcs.feedback',
- *     // ...
- * ])
- * .run(function (rxFeedbackSvc) {
- *     // Set custom endpoint
- *     rxFeedbackSvc.setEndpoint('/api/encore/feedback/cloud');
- *
- *     // ...
- * });
- * </pre>
- *
- * ## Custom Submission Function
- *
- * The `rxFeedback` component allows you to define an `on-submit` attribute
- * that points to a custom function for the purposes of overriding the default
- * submission logic.  This function should accept a single argument for a
- * feedback object with the following definition:
- *
- * *Feedback Object Structure*:
- * <pre>
- * {
- *   "type": {
- *     "label": "(string)",
- *     "placeholder": "(string) placeholder text",
- *     "prompt": "(string) UI text used to describe the `description` field"
- *   },
- *   "description": "(string) user-submitted feedback"
- * }
- * </pre>
- *
- * ## Directives
- * * {@link rxFeedback.directive:rxFeedback rxFeedback}
- */
-angular.module('encore.ui.rxFeedback', [
-    'ngResource',
-    'encore.ui.utilities'
-]);
-
-angular.module('encore.ui.rxFeedback')
-/**
- * @ngdoc directive
- * @name rxFeedback.directive:rxFeedback
- * @restrict E
- * @scope
- * @description
- * ## Custom Submission Function
- *
- * The `rxFeedback` directive allows you to define an `on-submit` attribute that points to a custom function for the
- * purposes of overriding the default submission logic.  This function accepts a *single argument* for a
- * `feedback object` with the following definition:
- *
- * @example
- * <pre>
- * // feedback object structure
- * {
- *   "type": {
- *      "label": "(string)",
- *      "placeholder": "(string) placeholder text",
- *      "prompt": "(string) UI text used to describe the `description` field"
- *    },
- *    "description": "(string) user-submitted feedback"
- * }
- * </pre>
- *
- * @param {Object} type JSON object with `label` {String}, `placeholder` {String}, and `prompt` {String}
- * @param {String} description User-submitted feedback
- *
- */
-.directive('rxFeedback', ["feedbackTypes", "$location", "rxFeedbackSvc", "rxScreenshotSvc", "rxNotify", "Session", function (feedbackTypes, $location, rxFeedbackSvc, rxScreenshotSvc, rxNotify, Session) {
-    return {
-        restrict: 'E',
-        templateUrl: 'templates/rxFeedback.html',
-        scope: {
-            sendFeedback: '=?onSubmit'
-        },
-        link: function (scope) {
-            scope.feedbackTypes = feedbackTypes;
-
-            scope.setCurrentUrl = function (modalScope) {
-                modalScope.currentUrl = $location.url();
-            };
-
-            var showSuccessMessage = function (response) {
-                var message = _.isString(response.message) ? response.message : 'Thanks for your feedback!';
-
-                rxNotify.add(message, {
-                    type: 'success'
-                });
-            };
-
-            var showFailureMessage = function (httpResponse) {
-                var errorMessage = 'An error occurred submitting your feedback';
-
-                if (httpResponse.data && _.isString(httpResponse.data.message)) {
-                    errorMessage += ': ' + httpResponse.data.message;
-                }
-
-                rxNotify.add(errorMessage, {
-                    type: 'error'
-                });
-            };
-
-            var makeApiCall = function (feedback, screenshot) {
-                rxFeedbackSvc.api.save({
-                    type: feedback.type.label,
-                    description: feedback.description,
-                    screenshot: screenshot,
-                    sso: feedback.sso
-                }, showSuccessMessage, function (httpResponse) {
-                    showFailureMessage(httpResponse);
-
-                    rxFeedbackSvc.fallback(feedback);
-                });
-            };
-
-            if (!_.isFunction(scope.sendFeedback)) {
-                scope.sendFeedback = function (feedback) {
-                    feedback.sso = Session.getUserId();
-
-                    var root = document.querySelector('.rx-app');
-
-                    // capture screenshot
-                    var screenshot = rxScreenshotSvc.capture(root);
-
-                    screenshot.then(function (dataUrl) {
-                        makeApiCall(feedback, dataUrl);
-                    }, function (reason) {
-                        makeApiCall(feedback, reason);
-                    });
-                };
-            }
-        }
-    };
-}]);
-
 angular.module('encore.ui.utilities')
 /**
  * @ngdoc controller
@@ -6278,6 +6256,7 @@ angular.module('encore.ui.rxFloatingHeader')
                         var type = input.attr('type');
                         if (!type || type === 'text') {
                             th.addClass('filter-header');
+                            input.addClass('filter-box');
                             inputs.push(input);
                         }
                     }
@@ -6471,6 +6450,9 @@ angular.module('encore.ui.rxFloatingHeader')
  * framework.** They are still functional, but **WILL display a warning in the javascript console** to let you know
  * you should upgrade your code.
  *
+ * ### **rxFormOptionTable**
+ * Please use {@link rxOptionTable} as a stand-in replacement.
+ *
  * ### **rxFormItem**
  * See "Before & After" below
  *
@@ -6582,6 +6564,10 @@ angular.module('encore.ui.rxFloatingHeader')
  * * {@link rxRadio.directive:rxRadio rxRadio}
  * * {@link rxSelect.directive:rxSelect rxSelect}
  * * {@link rxToggleSwitch.directive:rxToggleSwitch rxToggleSwitch}
+ *
+ * ### Deprecated Directives
+ * * {@link rxForm.directive:rxFormItem rxFormItem}
+ * * {@link rxForm.directive:rxFormFieldset rxFormFieldset}
  *
  */
 angular.module('encore.ui.rxForm', [
@@ -6802,6 +6788,134 @@ angular.module('encore.ui.rxForm')
     return rxNestedElement({
         restrict: 'A'
     });
+}]);
+
+angular.module('encore.ui.rxForm')
+/**
+ * @name rxForm.directive:rxFormFieldset
+ * @deprecated
+ * @ngdoc directive
+ * @restrict E
+ * @scope
+ * @description
+ * **DEPRECATED** - This directive has been marked as deprecated and *will be removed* in a future
+ * release of the EncoreUI framework.  Please see current rxForm documentation for updated
+ * functionality.
+ *
+ * This directive is used to wrap a set of input fields in the proper HTML
+ *
+ * @param {String} legend - Text to use for <legend>
+ * @param {String} description - Text to place below input
+ */
+.directive('rxFormFieldset', function () {
+    var warnMsg = 'DEPRECATION WARNING: rxFormFieldset has been marked as deprecated ' +
+        'and will be removed in a future release of the EncoreUI framework. ' +
+        'Please see current rxForm documentation for updated functionality.';
+    console.warn(warnMsg);
+
+    return {
+        restrict: 'E',
+        templateUrl: 'templates/rxFormFieldset.html',
+        transclude: true,
+        scope: {
+            legend: '@',
+            description: '@'
+        }
+    };
+});
+
+angular.module('encore.ui.rxForm')
+/**
+ * @name rxForm.directive:rxFormItem
+ * @deprecated
+ * @ngdoc directive
+ * @restrict E
+ * @scope
+ * @description
+ * **DEPRECATED** - This directive has been marked as deprecated and *will be removed* in a future
+ * release of the EncoreUI framework.  Please see current rxForm documentation for updated
+ * functionality.
+ *
+ * This directive is used to wrap input fields and select boxes in the proper HTML.
+ * It will attach the `<label>` to a transcluded input using the `id` attribute of the input.
+ * If no `id` attribute exists, it will create one.
+ *
+ * @param {String} label - Text to use for <label>
+ * @param {String} prefix - Text to include to the left of content
+ * @param {String} suffix - Text to include to the right of content
+ * @param {String} description - Text to place below input
+ */
+.directive('rxFormItem', ["$document", "rxDOMHelper", function ($document, rxDOMHelper) {
+    var warnMsg = 'DEPRECATION WARNING: rxFormItem has been marked as deprecated ' +
+        'and will be removed in a future release of the EncoreUI framework. ' +
+        'Please see current rxForm documentation for updated functionality.';
+    console.warn(warnMsg);
+
+    return {
+        restrict: 'E',
+        templateUrl: 'templates/rxFormItem.html',
+        transclude: true,
+        scope: {
+            label: '@',
+            suffix: '@',
+            prefix: '@',
+            description: '@'
+        },
+        link: function (scope, el) {
+            var inputSelectors = [
+                '.field-input-wrapper input',
+                '.field-input-wrapper select',
+                '.field-input-wrapper textarea'
+            ];
+            inputSelectors = inputSelectors.join(', ');
+
+            // For accessibility reasons, we need to link the <label> to the <input>
+            // To do this, we use the 'for' and 'id' attributes on the <label> and <input> tags, respectively
+            // Since the field input is dynamically inserted, we don't know its ID (or if it has one)
+            // This code takes care of linking the two
+
+            var setFieldId = function () {
+                // default to scope's id
+                var fieldId = 'field-' + scope.$id;
+
+                var inputField = el[0].querySelector(inputSelectors);
+
+                scope.isTextArea = _.isObject(inputField) && inputField.type === 'textarea';
+
+                // make sure an input field is found
+                if (!_.isObject(inputField)) {
+                    return;
+                }
+
+                // Manually insert the `suffix` span after the input/select/textarea
+                // It needs to be in between the input/select/textarea and any other
+                // transcluded content, so we have to do it here instead of in the template
+                if (scope.suffix) {
+                    var suffixSpan = $document[0].createElement('span');
+                    suffixSpan.innerHTML = scope.suffix;
+                    suffixSpan.className = 'field-suffix';
+                    inputField.parentNode.insertBefore(suffixSpan, inputField.nextSibling);
+                }
+
+                // Put a <span class="field-input"> around the input/select/textarea
+                var fieldInputSpan = $document[0].createElement('span');
+                fieldInputSpan.className = 'field-input';
+                rxDOMHelper.wrapAll(fieldInputSpan, inputField);
+
+                var inputId = inputField.getAttribute('id');
+
+                if (_.isString(inputId)) {
+                    fieldId = inputId;
+                } else {
+                    inputField.setAttribute('id', fieldId);
+                }
+
+                el[0].querySelector('.field-label').setAttribute('for', fieldId);
+            };
+
+            setFieldId();
+        }
+    };
 }]);
 
 angular.module('encore.ui.rxForm')
@@ -7175,16 +7289,15 @@ angular.module('encore.ui.utilities')
  * @ngdoc service
  *
  * @description
- * Set of utility functions used by rxForm to access form data in 
- * {@link rxOptionTable.directive:rxOptionTable rxOptionTable}.
+ * Set of utility functions used by rxForm to access form data.
  *
+ * @example
  * <pre>
- * // Returns the selected option for the rxOptionTable with id tableId
+ * // Returns the selected option for the rxFormOptionTable with id tableId
  * // [{ tableId: 'tableId', fieldId: 'fieldId', rowId: 'rowId' }]
  * getSelectedOptionForTable(tableId)
- * </pre>
- * <pre>
- * // Returns the selected option for the rxOptionTable in the tabset with id tabsetId
+
+ * // Returns the selected option for the rxFormOptionTable in the tabset with id tabsetId
  * // [{ tableId: 'tableId', fieldId: 'fieldId', rowId: 'rowId' }]
  * getSelectedOptionForTabSet(tabsetId)
  * </pre>
@@ -7192,19 +7305,13 @@ angular.module('encore.ui.utilities')
 .factory('rxFormUtils', ["$document", function ($document) {
     var rxFormUtils = {};
 
-    /**
-     * @ngdoc function
-     * @name  rxFormUtils.getSelectedOptionForTable
-     * @methodOf utilities.service:rxFormUtils
-     * @description
-     * Returns the selected option for the {@link rxOptionTable.directive:rxOptionTable rxOptionTable} with
-     * `id`: tableId and `fieldId`: fieldId (optional).
-     * @param {String} tableId - The id of the table
-     * @returns {object} The rowId of the selected option
-     */
+    // Returns the selected option for the rxFormOptionTable with id: tableId
+    // and fieldId: fieldId (optional)
+    // @param {String} tableId - The id of the table
+    // @returns {object} The rowId of the selected option
     rxFormUtils.getSelectedOptionForTable = function (tableId) {
         var selectedRow;
-        var row = $document[0].querySelector('rx-option-table#' + tableId + ' .selected input');
+        var row = $document[0].querySelector('rx-form-option-table#' + tableId + ' .selected input');
 
         if (_.isObject(row) && 'value' in row) {
             selectedRow = { rowId: row.value };
@@ -7212,19 +7319,13 @@ angular.module('encore.ui.utilities')
         return selectedRow;
     };
 
-    /**
-     * @ngdoc function
-     * @name  rxFormUtils.getSelectedOptionForTabSet
-     * @methodOf utilities.service:rxFormUtils
-     * @description
-     * Returns the selected option within the tabset.
-     * @param {String} tabsetId - The id of the tabset
-     * @returns {object} The tableId, fieldId, and rowId of the selected option
-     */
+    // Returns the selected option within the tabset
+    // @param {String} tabsetId - The id of the tabset
+    // @returns {object} The tableId, fieldId, and rowId of the selected option
     rxFormUtils.getSelectedOptionForTabSet = function (tabsetId) {
         var selectedOption;
         var xpathToTable = '//div[@id="' + tabsetId +
-            '"]//tr[contains(@class, "selected")]//ancestor::rx-option-table';
+            '"]//tr[contains(@class, "selected")]//ancestor::rx-form-option-table';
         var result = $document[0].evaluate(xpathToTable, $document[0], null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
         if (result.singleNodeValue) {
             var table = result.singleNodeValue;
@@ -7236,6 +7337,27 @@ angular.module('encore.ui.utilities')
     };
 
     return rxFormUtils;
+}]);
+
+angular.module('encore.ui.utilities')
+/**
+ * @ngdoc service
+ * @name utilities.service:rxHideIfUkAccount
+ * @description
+ * Check if account number in the URL is of UK origin.
+ *
+ * @return {Boolean} false if account number matches UK pattern
+ * Use it as `visibility: [ 'rxHideIfUkAccount' ]`
+ */
+.factory('rxHideIfUkAccount', ["$routeParams", function ($routeParams) {
+    var isUkAccount = {
+        name: 'rxHideIfUkAccount',
+        method: function () {
+            return $routeParams.accountNumber < 10000000;
+        }
+    };
+
+    return isUkAccount;
 }]);
 
 /**
@@ -7278,6 +7400,19 @@ angular.module('encore.ui.rxInfoPanel')
         }
     };
 });
+
+angular.module('encore.ui.utilities')
+/**
+ * @ngdoc service
+ * @name utilities.service:LocalStorage
+ * @deprecated
+ * @description
+ * **NOTICE:** This service has be deprecated in favor of the
+ * {@link utilities.service:rxLocalStorage rxLocalStorage} service.
+ */
+.service('LocalStorage', ["rxLocalStorage", function (rxLocalStorage) {
+    return rxLocalStorage;
+}]);
 
 angular.module('encore.ui.utilities')
 /**
@@ -7508,7 +7643,7 @@ angular.module('encore.ui.rxModalAction')
  * </rx-modal-action>
  * </pre>
  */
-.directive('rxModalAction', ["$uibModal", function ($uibModal) {
+.directive('rxModalAction', ["$modal", function ($modal) {
     var createModal = function (config, scope) {
         config = _.defaults(config, {
             templateUrl: config.templateUrl,
@@ -7518,7 +7653,7 @@ angular.module('encore.ui.rxModalAction')
 
         config.windowClass = 'rxModal';
 
-        var modal = $uibModal.open(config);
+        var modal = $modal.open(config);
 
         return modal;
     };
@@ -7994,8 +8129,8 @@ angular.module('encore.ui.rxMultiSelect')
         link: function (scope, element, attrs, selectCtrl) {
             scope.transclusion = rxDOMHelper.find(element, '[ng-transclude] > *').length > 0;
 
-            scope.toggle = function (isSelected) {
-                if (isSelected) {
+            scope.toggle = function () {
+                if (scope.isSelected) {
                     selectCtrl.unselect(scope.value);
                 } else {
                     selectCtrl.select(scope.value);
@@ -8625,11 +8760,30 @@ angular.module('encore.ui.utilities')
  *
  * ## Directives
  * * {@link rxOptionTable.directive:rxOptionTable rxOptionTable}
+ * * {@link rxOptionTable.directive:rxFormOptionTable rxFormOptionTable} (*deprecated*)
  */
 angular.module('encore.ui.rxOptionTable', [
     'encore.ui.elements',
     'ngSanitize'
 ]);
+
+angular.module('encore.ui.rxOptionTable')
+/**
+ * @deprecated
+ * @ngdoc directive
+ * @restrict E
+ * @name rxOptionTable.directive:rxFormOptionTable
+ * @description
+ * **DEPRECATED**: Please use **{@link rxOptionTable.directive:rxOptionTable rxOptionTable}**
+ * as a stand-in-replacement.
+ */
+.directive('rxFormOptionTable', ["rxOptionTableDirective", function (rxOptionTableDirective) {
+    var warnMsg = 'DEPRECATION WARNING: rxFormOptionTable has been marked as deprecated ' +
+        'and will be removed in a future release of the EncoreUI framework. ' +
+        'Please use rxOptionTable as a stand-in replacement.';
+    console.warn(warnMsg);
+    return rxOptionTableDirective[0];
+}]);
 
 angular.module('encore.ui.rxOptionTable')
 /**
@@ -8783,7 +8937,8 @@ angular.module('encore.ui.rxOptionTable')
             };
 
             // Because of a bug in Angular 1.2.x, we can't use `required` and
-            // ngTrueValue/ngFalseValue simultaneously. We'll
+            // ngTrueValue/ngFalseValue simultaneously. We don't want to affect
+            // people that were already using rxFormOptionTable, so instead we'll
             // build a `modelProxy` which is simply a mapping of $scope.model to
             // an array of `true` / `false` values. We then have to take care
             // of updating the actual $scope.model ourselves in `updateCheckboxes`
@@ -10031,7 +10186,7 @@ angular.module('encore.ui.rxSearchBox')
                 if (!newVal || $scope.isDisabled) {
                     $scope.isClearable = false;
                 } else {
-                    $scope.isClearable = (newVal.toString() !== '');
+                    $scope.isClearable = newVal.toString() !== '';
                 }
             });
 
@@ -10934,21 +11089,14 @@ angular.module('encore.ui.rxTags')
             };
 
             scope.add = function (tag) {
-                /*
-                 * See https://code.angularjs.org/1.3.20/docs/api/ng/type/ngModel.NgModelController#$setViewValue
-                 * We have to use `concat` to create a new array to trigger $parsers
-                 */
-                var updatedTags = scope.tags.concat([tag]);
-                // sets ngModelCtrl.$viewValue then $$debounceViewValueCommit()
-                ngModelCtrl.$setViewValue(updatedTags);
-                scope.tags = updatedTags;
-                scope.newTag = ''; // reset new tag input
+                scope.tags.push(tag);
+                ngModelCtrl.$setViewValue(scope.tags);
+                scope.newTag = '';
             };
 
             scope.remove = function (tag) {
-                var updatedTags = _.without(scope.tags, tag);
-                ngModelCtrl.$setViewValue(updatedTags);
-                scope.tags = updatedTags;
+                _.remove(scope.tags, tag);
+                ngModelCtrl.$setViewValue(scope.tags);
                 input.focus();
             };
 
@@ -12105,7 +12253,7 @@ angular.module('encore.ui.utilities')
  * <rx-button tooltip="...">
  * </pre>
  *
- * If you're creating your own custom directive, it's fine to use the `tooltip`
+ * If you're creating your own custom directive, it's fine to use the `tooltip` 
  * directive inside of your directive's template.  See the tooltips component
  * {@link /encore-ui/#/components/tooltips demo} for example usage.
  *
@@ -12150,8 +12298,7 @@ angular.module('encore.ui.typeahead')
         var lowercase = $filter('lowercase');
 
         typeahead.compile = function () {
-            return function (scope, element, attrs, ctrls) {
-                var ngModelCtrl = ctrls[0];
+            return function (scope, element, attrs, ngModelCtrl) {
                 link.apply(this, arguments);
 
                 if (/allowEmpty/.test(attrs.typeahead)) {
@@ -12172,8 +12319,6 @@ angular.module('encore.ui.typeahead')
 
                     element.on('click', function () {
                         scope.$apply(function () {
-                            // quick change to null and back to trigger parsers
-                            ngModelCtrl.$setViewValue(null);
                             ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
                         });
                     });
