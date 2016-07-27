@@ -4231,100 +4231,6 @@ thead th[rx-bulk-select-header-check] {
   display: none;
 }
 /*
- * rxCharacterCount
- */
-.counted-input-wrapper {
-  width: 375px;
-  position: relative;
-  background-color: #ffffff;
-}
-.counted-input-wrapper .input-highlighting,
-.counted-input-wrapper textarea {
-  width: 370px;
-}
-.counted-input-wrapper input,
-.counted-input-wrapper textarea {
-  position: relative;
-  background-color: transparent;
-  resize: none;
-  border: 1px solid #bdbdbd;
-  padding: 3px 5px;
-}
-.counted-input-wrapper .input-highlighting {
-  position: absolute;
-  top: 4px;
-  left: 6px;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  color: transparent;
-}
-.counted-input-wrapper .input-highlighting .over-limit-text {
-  background-color: #d32f2f;
-  opacity: 0.3;
-}
-.counted-input-wrapper .character-countdown {
-  text-align: right;
-  color: #616161;
-}
-.counted-input-wrapper .character-countdown.near-limit {
-  color: #d14904;
-}
-.counted-input-wrapper .character-countdown.over-limit {
-  color: #d32f2f;
-}
-/*
- * rxCollapse
- */
-rx-collapse {
-  display: block;
-}
-rx-collapse .collapse-container {
-  border: 2px solid #bdbdbd;
-}
-rx-collapse .collapse-container .double-chevron-cell {
-  display: inline-block;
-  box-sizing: border-box;
-  width: 30px;
-  padding: 0 10px;
-  background-color: #bdbdbd;
-  vertical-align: middle;
-  cursor: pointer;
-}
-rx-collapse .collapse-container .double-chevron-cell .double-chevron:after {
-  display: inline-block;
-  color: #ffffff;
-  font-size: 28px;
-  content: "\00bb";
-  -webkit-transform: rotate(90deg) scaleX(1);
-  transform: rotate(90deg) scaleX(1);
-  -webkit-transition: all 0.2s;
-  transition: all 0.2s;
-}
-rx-collapse .collapse-container .double-chevron-cell.expanded .double-chevron:after {
-  content: "\00bb";
-  -webkit-transform: rotate(90deg) scaleX(-1);
-  transform: rotate(90deg) scaleX(-1);
-  -webkit-transition: all 0.2s;
-  transition: all 0.2s;
-}
-rx-collapse .collapse-container .rx-collapse-title {
-  display: inline-block;
-  margin: 0 10px;
-  vertical-align: middle;
-}
-rx-collapse .collapse-container .collapse-body {
-  margin: 0;
-  padding: 10px;
-}
-rx-collapse .sml-title {
-  cursor: pointer;
-  color: #757575;
-  font-size: 10pt;
-}
-rx-collapse .hide-border {
-  border: 0;
-}
-/*
  * rxFloatingHeader
  */
 .rx-floating-header {
@@ -4819,15 +4725,6 @@ rx-multi-select[disabled] .select-trigger {
 }
 rx-multi-select rx-select-option[value="all"] label {
   border-bottom: 1px solid #bdbdbd;
-}
-rx-multi-select .backdrop {
-  z-index: 90;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: transparent;
 }
 .rx-select-option label {
   display: block;
@@ -5954,6 +5851,58 @@ thead th .btn-link:focus {
   background: #757575;
 }
 /*
+ * rxCollapse
+ */
+rx-collapse {
+  display: block;
+}
+rx-collapse .collapse-container {
+  border: 2px solid #bdbdbd;
+}
+rx-collapse .collapse-container .double-chevron-cell {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 30px;
+  padding: 0 10px;
+  background-color: #bdbdbd;
+  vertical-align: middle;
+  cursor: pointer;
+}
+rx-collapse .collapse-container .double-chevron-cell .double-chevron:after {
+  display: inline-block;
+  color: #ffffff;
+  font-size: 28px;
+  content: "\00bb";
+  -webkit-transform: rotate(90deg) scaleX(1);
+  transform: rotate(90deg) scaleX(1);
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+rx-collapse .collapse-container .double-chevron-cell.expanded .double-chevron:after {
+  content: "\00bb";
+  -webkit-transform: rotate(90deg) scaleX(-1);
+  transform: rotate(90deg) scaleX(-1);
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+rx-collapse .collapse-container .rx-collapse-title {
+  display: inline-block;
+  margin: 0 10px;
+  vertical-align: middle;
+}
+rx-collapse .collapse-container .collapse-body {
+  margin: 0;
+  padding: 10px;
+}
+rx-collapse .sml-title {
+  cursor: pointer;
+  color: #757575;
+  font-size: 10pt;
+}
+rx-collapse .hide-border {
+  border: 0;
+}
+/*
  * rxFeedback
  */
 .rx-feedback-form .feedback-description .field-label,
@@ -5969,6 +5918,48 @@ thead th .btn-link:focus {
 }
 .rx-feedback-form .feedback-description .feedback-textarea {
   height: 10em;
+}
+/*
+ * rxCharacterCount
+ */
+.counted-input-wrapper {
+  width: 375px;
+  position: relative;
+  background-color: #ffffff;
+}
+.counted-input-wrapper .input-highlighting,
+.counted-input-wrapper textarea {
+  width: 370px;
+}
+.counted-input-wrapper input,
+.counted-input-wrapper textarea {
+  position: relative;
+  background-color: transparent;
+  resize: none;
+  border: 1px solid #bdbdbd;
+  padding: 3px 5px;
+}
+.counted-input-wrapper .input-highlighting {
+  position: absolute;
+  top: 4px;
+  left: 6px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: transparent;
+}
+.counted-input-wrapper .input-highlighting .over-limit-text {
+  background-color: #d32f2f;
+  opacity: 0.3;
+}
+.counted-input-wrapper .character-countdown {
+  text-align: right;
+  color: #616161;
+}
+.counted-input-wrapper .character-countdown.near-limit {
+  color: #d14904;
+}
+.counted-input-wrapper .character-countdown.over-limit {
+  color: #d32f2f;
 }
 /*
  * rxCheckbox
@@ -6059,15 +6050,6 @@ rx-date-picker {
   margin: 0;
   padding: 0;
   width: 150px;
-}
-rx-date-picker .backdrop {
-  z-index: 90;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: transparent;
 }
 rx-date-picker .control,
 rx-date-picker.ng-valid .control {
