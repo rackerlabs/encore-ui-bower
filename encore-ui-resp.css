@@ -4264,253 +4264,6 @@ tr.rx-floating-header:not(.rx-table-filter-row) {
 thead .rx-floating-header:first-child {
   z-index: 3;
 }
-/* ===== rxForm ===== */
-/* Submit buttons */
-.form-actions {
-  padding: 20px 0;
-}
-/* NEW rxForm "2.0" STYLES  */
-input,
-textarea,
-select {
-  box-sizing: border-box;
-  border: 0;
-  outline: none;
-}
-[rx-form],
-rx-form-section,
-rx-field,
-rx-field-name,
-rx-field-content,
-rx-input,
-rx-inline-error,
-rx-help-text {
-  box-sizing: border-box;
-  display: block;
-  margin: 0;
-  padding: 0;
-}
-rx-inline-error {
-  color: #d32f2f;
-  font-weight: 900;
-}
-rx-help-text {
-  font-size: 0.8em;
-  font-style: italic;
-  margin: 1em 0em;
-}
-rx-field-name {
-  color: #616161;
-  font-size: 12px;
-}
-rx-field-name .wrapper {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-rx-field-name .wrapper .required-symbol {
-  font-weight: 900;
-  color: #f44336;
-}
-[rx-form] {
-  font-size: 13px;
-  margin: 16px 0;
-}
-[rx-form] rx-field-name,
-[rx-form] rx-help-text,
-[rx-form] rx-inline-error,
-[rx-form] rx-input {
-  margin-bottom: 8px;
-}
-[rx-form] rx-field-name:last-child,
-[rx-form] rx-help-text:last-child,
-[rx-form] rx-inline-error:last-child,
-[rx-form] rx-input:last-child {
-  margin-bottom: 0;
-}
-[rx-form] rx-form-section {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: flex-start;
-  margin: 0 8px;
-}
-[rx-form] rx-form-section > div,
-[rx-form] rx-form-section rx-field {
-  margin: 0 8px 20px;
-  flex: 1 0 250px;
-}
-[rx-form] rx-form-section rx-field {
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: flex-start;
-}
-[rx-form] rx-form-section rx-field rx-field-content {
-  flex: 1 0 auto;
-  margin-bottom: 16px;
-}
-[rx-form] rx-form-section rx-field rx-field-content:last-child {
-  margin-bottom: 0;
-}
-[rx-form] rx-form-section rx-field rx-field-content rx-input {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-start;
-  align-items: stretch;
-  /* ===== Other Directive Support ===== */
-}
-[rx-form] rx-form-section rx-field rx-field-content rx-input .button {
-  margin-bottom: 0;
-}
-[rx-form] rx-form-section rx-field rx-field-content rx-input > input,
-[rx-form] rx-form-section rx-field rx-field-content rx-input > textarea {
-  flex: 1 1 auto;
-  min-height: 26px;
-}
-[rx-form] rx-form-section rx-field rx-field-content rx-input > input,
-[rx-form] rx-form-section rx-field rx-field-content rx-input > textarea,
-[rx-form] rx-form-section rx-field rx-field-content rx-input > input.ng-valid,
-[rx-form] rx-form-section rx-field rx-field-content rx-input > textarea.ng-valid {
-  padding: 3px 5px;
-  border: 1px solid #bdbdbd;
-}
-[rx-form] rx-form-section rx-field rx-field-content rx-input > input.ng-invalid.ng-dirty,
-[rx-form] rx-form-section rx-field rx-field-content rx-input > textarea.ng-invalid.ng-dirty {
-  border: 2px solid #f44336;
-  padding: 2px 4px;
-}
-[rx-form] rx-form-section rx-field rx-field-content rx-input > input.ng-invalid.ng-dirty[disabled],
-[rx-form] rx-form-section rx-field rx-field-content rx-input > textarea.ng-invalid.ng-dirty[disabled] {
-  border: 1px solid #bdbdbd;
-  color: #9e9e9e;
-  background: #e0e0e0;
-  cursor: not-allowed !important;
-}
-[rx-form] rx-form-section rx-field rx-field-content rx-input > input[disabled],
-[rx-form] rx-form-section rx-field rx-field-content rx-input > textarea[disabled] {
-  border: 1px solid #bdbdbd;
-  color: #9e9e9e;
-  background: #e0e0e0;
-  cursor: not-allowed !important;
-}
-[rx-form] rx-form-section rx-field rx-field-content rx-input rx-prefix,
-[rx-form] rx-form-section rx-field rx-field-content rx-input rx-suffix,
-[rx-form] rx-form-section rx-field rx-field-content rx-input rx-infix {
-  box-sizing: border-box;
-  min-height: 26px;
-  padding: 0 4px;
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-}
-[rx-form] rx-form-section rx-field rx-field-content rx-input rx-prefix:first-child {
-  padding-left: 0;
-}
-[rx-form] rx-form-section rx-field rx-field-content rx-input rx-suffix:last-child {
-  padding-right: 0;
-}
-[rx-form] rx-form-section rx-field rx-field-content rx-input .rxSelect {
-  flex: 1 1 auto;
-}
-[rx-form] rx-form-section rx-field rx-field-content rx-input rx-multi-select {
-  flex: 1 1 auto;
-}
-[rx-form] rx-form-section rx-field rx-field-content rx-input rx-date-picker {
-  flex: 0 0 auto;
-}
-[rx-form] rx-form-section rx-field rx-field-content rx-input .rxCheckbox,
-[rx-form] rx-form-section rx-field rx-field-content rx-input .rxRadio,
-[rx-form] rx-form-section rx-field rx-field-content rx-input rx-toggle-switch {
-  flex: 0 0 auto;
-}
-[rx-form] rx-form-section rx-field rx-field-content rx-input .rxCheckbox + label,
-[rx-form] rx-form-section rx-field rx-field-content rx-input .rxRadio + label,
-[rx-form] rx-form-section rx-field rx-field-content rx-input rx-toggle-switch + label {
-  margin-left: 5px;
-}
-[rx-form] rx-form-section rx-field rx-field-content rx-input .rxCheckbox[disabled] + label,
-[rx-form] rx-form-section rx-field rx-field-content rx-input .rxRadio[disabled] + label,
-[rx-form] rx-form-section rx-field rx-field-content rx-input rx-toggle-switch[disabled] + label {
-  color: #9e9e9e;
-}
-[rx-form] rx-form-section rx-field rx-field-content rx-input .rx-option-table {
-  table-layout: fixed;
-  width: 100%;
-}
-[rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper {
-  flex: 1 0;
-}
-[rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper input,
-[rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper textarea {
-  width: 100%;
-  padding: 3px 5px;
-  border: 1px solid #bdbdbd;
-}
-[rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper input.ng-invalid.ng-dirty,
-[rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper textarea.ng-invalid.ng-dirty {
-  border: 2px solid #f44336;
-  padding: 2px 4px;
-}
-[rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper input.ng-invalid.ng-dirty[disabled],
-[rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper textarea.ng-invalid.ng-dirty[disabled] {
-  border: 1px solid #bdbdbd;
-  color: #9e9e9e;
-  background: #e0e0e0;
-  cursor: not-allowed !important;
-}
-[rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper input[disabled],
-[rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper textarea[disabled] {
-  border: 1px solid #bdbdbd;
-  color: #9e9e9e;
-  background: #e0e0e0;
-  cursor: not-allowed !important;
-}
-[rx-form] rx-form-section rx-field rx-field-content rx-input rx-search-box {
-  flex: 1 1;
-}
-[rx-form] rx-form-section > div {
-  margin-top: 8px;
-}
-[rx-form] rx-form-section > div .button {
-  margin: 2px;
-}
-[rx-form] rx-form-section > div .button:first-of-type {
-  margin-left: 0;
-}
-[rx-form] rx-form-section > div .button:last-of-type {
-  margin-right: 0;
-}
-[rx-form] rx-form-section[stacked] {
-  flex-flow: column nowrap;
-}
-[rx-form] rx-form-section[stacked] > div,
-[rx-form] rx-form-section[stacked] rx-field {
-  flex: 1 0;
-  max-width: 400px;
-  margin-bottom: 20px;
-}
-[rx-form] rx-form-section[controlled-width] > div,
-[rx-form] rx-form-section[controlled-width] rx-field {
-  max-width: 400px;
-}
-/*
- * rxInfoPanel
- */
-.info-panel {
-  clear: both;
-  background: #ffffff;
-  border-color: #0d74d1;
-  border-width: 0 5px 5px 5px;
-  border-style: solid;
-  padding: 0 10px 10px 10px;
-  overflow: hidden;
-}
-.info-panel .info-title {
-  background: #0d74d1;
-  color: #ffffff;
-  width: 100%;
-  padding: 8px 10px;
-  margin: 0 0 10px -10px;
-}
 /**
  * rxModalAction.less
  *
@@ -4738,106 +4491,6 @@ rx-multi-select rx-select-option[value="all"] label {
   width: 13px;
   height: 13px;
   vertical-align: middle;
-}
-.rx-notifications {
-  margin-bottom: 1.5em;
-}
-.rx-notifications .rx-notification {
-  clear: both;
-  font-weight: 800;
-  font-size: 1.2em;
-  padding: 10px 50px;
-  margin-bottom: 2px;
-  position: relative;
-  background: no-repeat 18px 50%;
-  background-size: 20px 20px;
-}
-.rx-notifications .rx-notification .button {
-  font-weight: normal;
-  margin-bottom: 0;
-}
-.rx-notifications .rx-notification a {
-  text-decoration: underline;
-}
-.rx-notifications .rx-notification.notification-success {
-  background-color: #c8e6c9;
-  background-image: url("images/green-checkmark-circled.svg");
-  color: #333333;
-}
-.rx-notifications .rx-notification.notification-success a {
-  color: #333333;
-}
-.rx-notifications .rx-notification.notification-info {
-  background-color: #bbdefb;
-  background-image: url("images/info-circled.svg");
-  color: #333333;
-}
-.rx-notifications .rx-notification.notification-info a {
-  color: #333333;
-}
-.rx-notifications .rx-notification.notification-warning {
-  background-color: #ffecb3;
-  background-image: url("images/warning-triangle.svg");
-  color: #333333;
-}
-.rx-notifications .rx-notification.notification-warning a {
-  color: #333333;
-}
-.rx-notifications .rx-notification.notification-error {
-  background-color: #d32f2f;
-  background-image: url("images/error-stop.svg");
-  color: #ffffff;
-}
-.rx-notifications .rx-notification.notification-error a {
-  color: #ffffff;
-}
-.rx-notifications .rx-notification.notification-loading {
-  background-image: none;
-}
-.rx-notifications .rx-notification.notification-loading .rx-spinner {
-  position: absolute;
-  left: 19px;
-  top: 50%;
-  margin-top: -9px;
-  border-bottom-color: #333333;
-  border-right-color: #333333;
-}
-.rx-notifications .notification-dismiss {
-  position: absolute;
-  right: 0;
-  top: 0;
-  height: 100%;
-  padding: 0 15px;
-  content: "\00D7";
-  opacity: 0.75;
-  color: #333333;
-}
-.rx-notifications .notification-dismiss:hover,
-.rx-notifications .notification-dismiss:focus {
-  opacity: 1;
-  text-decoration: none;
-}
-.rx-notifications .notification-error .notification-dismiss {
-  opacity: 1;
-  color: #ffffff;
-}
-.animate-fade.ng-enter,
-.animate-fade.ng-leave {
-  -webkit-transition: 0.25s cubic-bezier(0.25, 0.25, 0.75, 0.75) all;
-  -moz-transition: 0.25s cubic-bezier(0.25, 0.25, 0.75, 0.75) all;
-  -ms-transition: 0.25s cubic-bezier(0.25, 0.25, 0.75, 0.75) all;
-  -o-transition: 0.25s cubic-bezier(0.25, 0.25, 0.75, 0.75) all;
-  transition: 0.25s cubic-bezier(0.25, 0.25, 0.75, 0.75) all;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-.animate-fade.ng-leave.ng-leave-active,
-.animate-fade.ng-enter {
-  opacity: 0;
-}
-.animate-fade.ng-leave,
-.animate-fade.ng-enter.ng-enter-active {
-  opacity: 1;
 }
 /*
  * rxOptionTable
@@ -5257,15 +4910,6 @@ rx-search-box .rxSearchBox-wrapper .rxSearchBox-clear .rxSearchBox-clear-icon {
   justify-content: center;
 }
 /*
- * rxSelectFilter
- */
-rx-select-filter {
-  flex: 1;
-  display: flex;
-  flex-flow: row wrap;
-  word-break: break-all;
-}
-/*
  * rxSortableColumn
  */
 .rx-sortable-column .btn-link {
@@ -5296,55 +4940,6 @@ rx-select-filter {
 }
 .rx-sortable-column .sort-action .sort-icon .sort-direction-icon {
   color: #424242;
-}
-/*********************************************************
-*  CSS3 Animation spinner
- *
-*  Based on: http://cssdeck.com/labs/css3-animation-spinner
-*  Copyright 2013 - birkof.ro
- *********************************************************/
-.rx-spinner {
-  background-color: transparent;
-  border: 2px solid #9e9e9e;
-  border-top-color: transparent;
-  border-left-color: transparent;
-  border-radius: 150px;
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  margin-bottom: 3px;
-  vertical-align: middle;
-  -webkit-animation: spin 0.8s infinite linear;
-  -moz-animation: spin 0.8s infinite linear;
-  -ms-animation: spin 0.8s infinite linear;
-  -o-animation: spin 0.8s infinite linear;
-  animation: spin 0.8s infinite linear;
-}
-@-webkit-keyframes spin {
-  /* Safari and Chrome */
-  from {
-    -webkit-transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(360deg);
-  }
-}
-@-moz-keyframes spin {
-  /* Firefox */
-  from {
-    -moz-transform: rotate(0deg);
-  }
-  to {
-    -moz-transform: rotate(360deg);
-  }
-}
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
 .rxStatusColumn-demo .demo-status-column-table {
   max-width: 500px;
@@ -5453,30 +5048,6 @@ td.rx-status-column .fa-exclamation-circle {
   border: 1px #e7e7e7 solid;
   box-shadow: 0 0 1.08em -0.36em rgba(0, 0, 0, 0.55);
   overflow: hidden;
-}
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  margin-top: -1px;
-  display: none;
-  list-style: none;
-  background: #ffffff;
-  border: 1px solid #d8d8d8;
-  padding: 6px 0;
-  z-index: 3;
-  max-height: 300px;
-  overflow-y: auto;
-}
-.dropdown-menu a {
-  display: block;
-  margin: 0;
-  padding: 5px 10px;
-  color: #424242;
-}
-.dropdown-menu .active a {
-  background: #0d74d1;
-  color: #ffffff;
 }
 /*
  * rxAccountInfo
@@ -6206,6 +5777,234 @@ rx-date-picker .popup .calendar .day:not(.selected):hover .circle {
   background-color: #bbdefb;
   color: #424242;
 }
+/* ===== rxForm ===== */
+/* Submit buttons */
+.form-actions {
+  padding: 20px 0;
+}
+/* NEW rxForm "2.0" STYLES  */
+input,
+textarea,
+select {
+  box-sizing: border-box;
+  border: 0;
+  outline: none;
+}
+[rx-form],
+rx-form-section,
+rx-field,
+rx-field-name,
+rx-field-content,
+rx-input,
+rx-inline-error,
+rx-help-text {
+  box-sizing: border-box;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+rx-inline-error {
+  color: #d32f2f;
+  font-weight: 900;
+}
+rx-help-text {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 1em 0em;
+}
+rx-field-name {
+  color: #616161;
+  font-size: 12px;
+}
+rx-field-name .wrapper {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+rx-field-name .wrapper .required-symbol {
+  font-weight: 900;
+  color: #f44336;
+}
+[rx-form] {
+  font-size: 13px;
+  margin: 16px 0;
+}
+[rx-form] rx-field-name,
+[rx-form] rx-help-text,
+[rx-form] rx-inline-error,
+[rx-form] rx-input {
+  margin-bottom: 8px;
+}
+[rx-form] rx-field-name:last-child,
+[rx-form] rx-help-text:last-child,
+[rx-form] rx-inline-error:last-child,
+[rx-form] rx-input:last-child {
+  margin-bottom: 0;
+}
+[rx-form] rx-form-section {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  margin: 0 8px;
+}
+[rx-form] rx-form-section > div,
+[rx-form] rx-form-section rx-field {
+  margin: 0 8px 20px;
+  flex: 1 0 250px;
+}
+[rx-form] rx-form-section rx-field {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+}
+[rx-form] rx-form-section rx-field rx-field-content {
+  flex: 1 0 auto;
+  margin-bottom: 16px;
+}
+[rx-form] rx-form-section rx-field rx-field-content:last-child {
+  margin-bottom: 0;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  /* ===== Other Directive Support ===== */
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input .button {
+  margin-bottom: 0;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input > input,
+[rx-form] rx-form-section rx-field rx-field-content rx-input > textarea {
+  flex: 1 1 auto;
+  min-height: 26px;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input > input,
+[rx-form] rx-form-section rx-field rx-field-content rx-input > textarea,
+[rx-form] rx-form-section rx-field rx-field-content rx-input > input.ng-valid,
+[rx-form] rx-form-section rx-field rx-field-content rx-input > textarea.ng-valid {
+  padding: 3px 5px;
+  border: 1px solid #bdbdbd;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input > input.ng-invalid.ng-dirty,
+[rx-form] rx-form-section rx-field rx-field-content rx-input > textarea.ng-invalid.ng-dirty {
+  border: 2px solid #f44336;
+  padding: 2px 4px;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input > input.ng-invalid.ng-dirty[disabled],
+[rx-form] rx-form-section rx-field rx-field-content rx-input > textarea.ng-invalid.ng-dirty[disabled] {
+  border: 1px solid #bdbdbd;
+  color: #9e9e9e;
+  background: #e0e0e0;
+  cursor: not-allowed !important;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input > input[disabled],
+[rx-form] rx-form-section rx-field rx-field-content rx-input > textarea[disabled] {
+  border: 1px solid #bdbdbd;
+  color: #9e9e9e;
+  background: #e0e0e0;
+  cursor: not-allowed !important;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input rx-prefix,
+[rx-form] rx-form-section rx-field rx-field-content rx-input rx-suffix,
+[rx-form] rx-form-section rx-field rx-field-content rx-input rx-infix {
+  box-sizing: border-box;
+  min-height: 26px;
+  padding: 0 4px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input rx-prefix:first-child {
+  padding-left: 0;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input rx-suffix:last-child {
+  padding-right: 0;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input .rxSelect {
+  flex: 1 1 auto;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input rx-multi-select {
+  flex: 1 1 auto;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input rx-date-picker {
+  flex: 0 0 auto;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input .rxCheckbox,
+[rx-form] rx-form-section rx-field rx-field-content rx-input .rxRadio,
+[rx-form] rx-form-section rx-field rx-field-content rx-input rx-toggle-switch {
+  flex: 0 0 auto;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input .rxCheckbox + label,
+[rx-form] rx-form-section rx-field rx-field-content rx-input .rxRadio + label,
+[rx-form] rx-form-section rx-field rx-field-content rx-input rx-toggle-switch + label {
+  margin-left: 5px;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input .rxCheckbox[disabled] + label,
+[rx-form] rx-form-section rx-field rx-field-content rx-input .rxRadio[disabled] + label,
+[rx-form] rx-form-section rx-field rx-field-content rx-input rx-toggle-switch[disabled] + label {
+  color: #9e9e9e;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input .rx-option-table {
+  table-layout: fixed;
+  width: 100%;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper {
+  flex: 1 0;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper input,
+[rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper textarea {
+  width: 100%;
+  padding: 3px 5px;
+  border: 1px solid #bdbdbd;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper input.ng-invalid.ng-dirty,
+[rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper textarea.ng-invalid.ng-dirty {
+  border: 2px solid #f44336;
+  padding: 2px 4px;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper input.ng-invalid.ng-dirty[disabled],
+[rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper textarea.ng-invalid.ng-dirty[disabled] {
+  border: 1px solid #bdbdbd;
+  color: #9e9e9e;
+  background: #e0e0e0;
+  cursor: not-allowed !important;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper input[disabled],
+[rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper textarea[disabled] {
+  border: 1px solid #bdbdbd;
+  color: #9e9e9e;
+  background: #e0e0e0;
+  cursor: not-allowed !important;
+}
+[rx-form] rx-form-section rx-field rx-field-content rx-input rx-search-box {
+  flex: 1 1;
+}
+[rx-form] rx-form-section > div {
+  margin-top: 8px;
+}
+[rx-form] rx-form-section > div .button {
+  margin: 2px;
+}
+[rx-form] rx-form-section > div .button:first-of-type {
+  margin-left: 0;
+}
+[rx-form] rx-form-section > div .button:last-of-type {
+  margin-right: 0;
+}
+[rx-form] rx-form-section[stacked] {
+  flex-flow: column nowrap;
+}
+[rx-form] rx-form-section[stacked] > div,
+[rx-form] rx-form-section[stacked] rx-field {
+  flex: 1 0;
+  max-width: 400px;
+  margin-bottom: 20px;
+}
+[rx-form] rx-form-section[controlled-width] > div,
+[rx-form] rx-form-section[controlled-width] rx-field {
+  max-width: 400px;
+}
 rx-time-picker {
   box-sizing: border-box;
   display: block;
@@ -6288,6 +6087,25 @@ rx-time-picker .popup .offsetWrapper {
 rx-time-picker .popup .actions div {
   margin-top: 0;
   margin-bottom: 0;
+}
+/*
+ * rxInfoPanel
+ */
+.info-panel {
+  clear: both;
+  background: #ffffff;
+  border-color: #0d74d1;
+  border-width: 0 5px 5px 5px;
+  border-style: solid;
+  padding: 0 10px 10px 10px;
+  overflow: hidden;
+}
+.info-panel .info-title {
+  background: #0d74d1;
+  color: #ffffff;
+  width: 100%;
+  padding: 8px 10px;
+  margin: 0 0 10px -10px;
 }
 .link-action,
 .link-action a,
@@ -6412,8 +6230,166 @@ rx-metadata section {
 rx-metadata section:last-child {
   margin-right: 0;
 }
+.rx-notifications {
+  margin-bottom: 1.5em;
+}
+.rx-notifications .rx-notification {
+  clear: both;
+  font-weight: 800;
+  font-size: 1.2em;
+  padding: 10px 50px;
+  margin-bottom: 2px;
+  position: relative;
+  background: no-repeat 18px 50%;
+  background-size: 20px 20px;
+}
+.rx-notifications .rx-notification .button {
+  font-weight: normal;
+  margin-bottom: 0;
+}
+.rx-notifications .rx-notification a {
+  text-decoration: underline;
+}
+.rx-notifications .rx-notification.notification-success {
+  background-color: #c8e6c9;
+  background-image: url("images/green-checkmark-circled.svg");
+  color: #333333;
+}
+.rx-notifications .rx-notification.notification-success a {
+  color: #333333;
+}
+.rx-notifications .rx-notification.notification-info {
+  background-color: #bbdefb;
+  background-image: url("images/info-circled.svg");
+  color: #333333;
+}
+.rx-notifications .rx-notification.notification-info a {
+  color: #333333;
+}
+.rx-notifications .rx-notification.notification-warning {
+  background-color: #ffecb3;
+  background-image: url("images/warning-triangle.svg");
+  color: #333333;
+}
+.rx-notifications .rx-notification.notification-warning a {
+  color: #333333;
+}
+.rx-notifications .rx-notification.notification-error {
+  background-color: #d32f2f;
+  background-image: url("images/error-stop.svg");
+  color: #ffffff;
+}
+.rx-notifications .rx-notification.notification-error a {
+  color: #ffffff;
+}
+.rx-notifications .rx-notification.notification-loading {
+  background-image: none;
+}
+.rx-notifications .rx-notification.notification-loading .rx-spinner {
+  position: absolute;
+  left: 19px;
+  top: 50%;
+  margin-top: -9px;
+  border-bottom-color: #333333;
+  border-right-color: #333333;
+}
+.rx-notifications .notification-dismiss {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  padding: 0 15px;
+  content: "\00D7";
+  opacity: 0.75;
+  color: #333333;
+}
+.rx-notifications .notification-dismiss:hover,
+.rx-notifications .notification-dismiss:focus {
+  opacity: 1;
+  text-decoration: none;
+}
+.rx-notifications .notification-error .notification-dismiss {
+  opacity: 1;
+  color: #ffffff;
+}
+.animate-fade.ng-enter,
+.animate-fade.ng-leave {
+  -webkit-transition: 0.25s cubic-bezier(0.25, 0.25, 0.75, 0.75) all;
+  -moz-transition: 0.25s cubic-bezier(0.25, 0.25, 0.75, 0.75) all;
+  -ms-transition: 0.25s cubic-bezier(0.25, 0.25, 0.75, 0.75) all;
+  -o-transition: 0.25s cubic-bezier(0.25, 0.25, 0.75, 0.75) all;
+  transition: 0.25s cubic-bezier(0.25, 0.25, 0.75, 0.75) all;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+.animate-fade.ng-leave.ng-leave-active,
+.animate-fade.ng-enter {
+  opacity: 0;
+}
+.animate-fade.ng-leave,
+.animate-fade.ng-enter.ng-enter-active {
+  opacity: 1;
+}
+/*********************************************************
+*  CSS3 Animation spinner
+ *
+*  Based on: http://cssdeck.com/labs/css3-animation-spinner
+*  Copyright 2013 - birkof.ro
+ *********************************************************/
+.rx-spinner {
+  background-color: transparent;
+  border: 2px solid #9e9e9e;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  border-radius: 150px;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-bottom: 3px;
+  vertical-align: middle;
+  -webkit-animation: spin 0.8s infinite linear;
+  -moz-animation: spin 0.8s infinite linear;
+  -ms-animation: spin 0.8s infinite linear;
+  -o-animation: spin 0.8s infinite linear;
+  animation: spin 0.8s infinite linear;
+}
+@-webkit-keyframes spin {
+  /* Safari and Chrome */
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@-moz-keyframes spin {
+  /* Firefox */
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 .collapsible-filter-example-form {
   width: 400px;
+}
+/*
+ * rxSelectFilter
+ */
+rx-select-filter {
+  flex: 1;
+  display: flex;
+  flex-flow: row wrap;
+  word-break: break-all;
 }
 .nav-tabs {
   display: flex;
@@ -6721,6 +6697,30 @@ rx-tags[disabled] .rx-tags:hover {
   background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
   background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: -1px;
+  display: none;
+  list-style: none;
+  background: #ffffff;
+  border: 1px solid #d8d8d8;
+  padding: 6px 0;
+  z-index: 3;
+  max-height: 300px;
+  overflow-y: auto;
+}
+.dropdown-menu a {
+  display: block;
+  margin: 0;
+  padding: 5px 10px;
+  color: #424242;
+}
+.dropdown-menu .active a {
+  background: #0d74d1;
+  color: #ffffff;
 }
 .rxStatusMappings-demo .demo-status-column-table {
   max-width: 500px;
