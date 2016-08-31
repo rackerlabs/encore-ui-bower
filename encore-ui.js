@@ -2,10 +2,10 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
 
- * Version: 2.2.0-0 - 2016-08-19
+ * Version: 1.50.2-0 - 2016-08-31
  * License: Apache-2.0
  */
-angular.module('encore.ui', ['encore.ui.elements','encore.ui.utilities','encore.ui.elements','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.elements','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.layout','encore.ui.elements','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxApp','encore.ui.utilities','encore.ui.rxAttributes','encore.ui.utilities','encore.ui.utilities','encore.ui.rxBulkSelect','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxCompile','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxEnvironment','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxFloatingHeader','encore.ui.utilities','encore.ui.utilities','encore.ui.rxLogout','encore.ui.rxModalAction','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxMultiSelect','encore.ui.utilities','encore.ui.utilities','encore.ui.rxOptionTable','encore.ui.utilities','encore.ui.rxPaginate','encore.ui.utilities','encore.ui.rxPermission','encore.ui.utilities','encore.ui.rxRadio','encore.ui.utilities','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSortableColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.rxStatusColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities', 'cfp.hotkeys','ui.bootstrap']);
+angular.module('encore.ui', ['encore.ui.elements','encore.ui.utilities','encore.ui.elements','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.layout','encore.ui.metadata','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxActiveUrl','encore.ui.utilities','encore.ui.rxApp','encore.ui.utilities','encore.ui.rxAttributes','encore.ui.utilities','encore.ui.utilities','encore.ui.rxBulkSelect','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxCharacterCount','encore.ui.rxCollapse','encore.ui.rxCompile','encore.ui.utilities','encore.ui.utilities','encore.ui.rxEnvironment','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxFloatingHeader','encore.ui.rxForm','encore.ui.utilities','encore.ui.utilities','encore.ui.rxInfoPanel','encore.ui.utilities','encore.ui.rxLogout','encore.ui.rxMisc','encore.ui.rxModalAction','encore.ui.utilities','encore.ui.utilities','encore.ui.rxMultiSelect','encore.ui.utilities','encore.ui.rxNotify','encore.ui.utilities','encore.ui.rxOptionTable','encore.ui.utilities','encore.ui.rxPaginate','encore.ui.utilities','encore.ui.rxPermission','encore.ui.utilities','encore.ui.rxRadio','encore.ui.utilities','encore.ui.rxSearchBox','encore.ui.rxSelect','encore.ui.rxSelectFilter','encore.ui.rxSortableColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.rxSpinner','encore.ui.rxStatusColumn','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.rxToggle','encore.ui.rxToggleSwitch','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.elements','encore.ui.utilities','encore.ui.utilities','encore.ui.tooltips','encore.ui.typeahead','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities','encore.ui.utilities', 'cfp.hotkeys','ui.bootstrap']);
 // Currently this is the prefix we will use for all encore applications loaded in an iframe
 var prefix = 'apps.';
 // Let's get the hostname only (no port information)
@@ -29,36 +29,6 @@ if (domain !== 'localhost') {
 }
 
 /**
- * This file is meant to be a bandaid while we remove our dependency
- * on ngBootstrap.  ngBootstrap 0.14.3 throws all sorts of console
- * warnings for renamed directives.  Rather than having all apps update
- * their code to correct the ngBootstrap warnings and update again
- * when we remove those dependencies, we'll disable the warnings and
- * work on the replacements for ngBoostrap directives. This way apps
- * will only need to update once (to rx-prefixed directives).
- */
-
-// Components > typeahead
-angular.module('ui.bootstrap.typeahead')
-    .value('$typeaheadSuppressWarning', true);
-
-// Components > tooltips
-angular.module('ui.bootstrap.tooltip')
-    .value('$tooltipSuppressWarning', true);
-
-// Elements > Tabs
-angular.module('ui.bootstrap.tabs')
-    .value('$tabsSuppressWarning', true);
-
-// Elements > Progress Bars
-angular.module('ui.bootstrap.progressbar')
-    .value('$progressSuppressWarning', true);
-
-// Components > rxModalAction
-angular.module('ui.bootstrap.modal')
-    .value('$modalSuppressWarning', true);
-
-/**
  * @ngdoc overview
  * @name elements
  * @requires utilities
@@ -76,10 +46,7 @@ angular.module('ui.bootstrap.modal')
  * * {@link elements.directive:rxTimePicker rxTimePicker}
  */
 angular.module('encore.ui.elements', [
-    'encore.ui.utilities',
-    'ngSanitize',
-    'ngAnimate',
-    'ui.bootstrap'
+    'encore.ui.utilities'
 ]);
 
 /**
@@ -141,6 +108,7 @@ angular.module('encore.ui.elements', [
  * * {@link utilities.service:rxDOMHelper rxDOMHelper}
  * * {@link utilities.service:rxFeedbackSvc rxFeedbackSvc}
  * * {@link utilities.service:rxFormUtils rxFormUtils}
+ * * {@link utilities.service:rxHideIfUkAccount rxHideIfUkAccount}
  * * {@link utilities.service:rxLocalStorage rxLocalStorage}
  * * {@link utilities.service:rxModalFooterTemplates rxModalFooterTemplates}
  * * {@link utilities.service:rxNestedElement rxNestedElement}
@@ -195,10 +163,10 @@ angular.module('encore.ui.elements')
  * wherever you want it to be, and a new one that is intended to be placed underneath the breadcrumbs.
  * To use the new one, pass `account-info-banner="true"` to this directive
  *
- * @param {String} accountNumber - The account number to load and retrieve data for
- * @param {String=} teamId - Team ID, used for loading team badges
- * @param {String=} [notifyStack='page'] - Notifications stack to put errors on.
- * @param {String=} accountInfoBanner - Set to "true" to use the new under-the-breadcrumbs style
+ * @param {string} accountNumber - The account number to load and retrieve data for
+ * @param {string} [teamId] - Optional team ID, used for loading team badges
+ * @param {string} [notifyStack] - Optional notifications stack to put errors on. Defaults to `page`
+ * @param {string} [accountInfoBanner] - Set to "true" to use the new under-the-breadcrumbs style
  */
 .directive('rxAccountInfo', ["Teams", "SupportAccount", "Encore", "rxNotify", "encoreRoutes", "AccountStatusGroup", function (Teams, SupportAccount, Encore, rxNotify, encoreRoutes,
                                     AccountStatusGroup) {
@@ -501,7 +469,7 @@ angular.module('encore.ui.elements')
  * @param {String} loadingMsg Text to be displayed when an operation is in progress.
  * @param {String} defaultMsg Text to be displayed by default when no operation is in progress.
  * @param {Boolean=} [toggle=false] When true, the button will display the loading text.
- * @param {Boolean=} [ngDisabled=false] When true, the button will be disabled.
+ * @param {Boolean=} [disable=false] When true, the button will be disabled.
  * @param {String=} [classes=""] The class names to be applied to the button.
  *
  */
@@ -513,70 +481,9 @@ angular.module('encore.ui.elements')
             toggleMsg: '@',
             defaultMsg: '@',
             toggle: '=',
-            disable: '=?', // **DEPRECATED** - Remove in 3.0.0
-            ngDisabled: '=?',
+            disable: '=?',
             classes: '@?'
         },
-        link: function (scope) {
-            // Support [ng-disabled] OR [disabled] (for backward compatibility)
-            scope.$watch(function () {
-                return (scope.disable || scope.ngDisabled);
-            }, function (newVal) {
-                scope.isDisabled = newVal;
-            });
-        }
-    };
-});
-
-angular.module('encore.ui.elements')
-/**
- * @ngdoc directive
- * @name rxCollapse.directive:rxCollapse
- * @restrict E
- * @scope
- * @description
- * `rxCollapse` directive hides and shows an element with a transition.  It can be configured to show as either expanded
- * or collapsed on page load.  A double chevron(**>>**) is used to toggle between show and hide contents, while keeping
- * the header and border visible.
- *
- * ## Hide/Show Content
- *
- * * This pattern was developed for areas displaying metadata that may be short on screen real estate, as a way to hide
- *  data on load that is not as important to the user in the context where they are presented.  `rxCollapse` toggles
- *  between the *optional* `title` parameter with "*See More*" or "*See Less*".
- * * This pattern is not very responsive-friendly, since as browser width decreases, columns will wrap. As columns wrap,
- *  the "*See More*" `rxCollapse` elements get lost in the new context, which is bad for user experience.
- * * To avoid the problem described above, "*See More*" `rxCollapse` elements should only be used at the end of the
- * final column present on the page, so that when the columns wrap via flexbox, "*See More*" is always last and doesn't
- * get lost in between metadata key/value pairs.
- *
- *
- * @param {String=} [title="See More/See Less"]
- * The title to display next to the toggle button. Default is "See More/See Less" toggle.
- * @param {Boolean=} [expanded='true']
- * Initially expanded or collapsed. Default is expanded.
- *
- * @example
- * <pre>
- * <rx-collapse title="Filter results" expanded="true">Text Here</rx-collapse>
- * <rx-collapse expanded="true">Text Here</rx-collapse>
- * </pre>
- */
-.directive('rxCollapse', function () {
-    return {
-        restrict: 'E',
-        templateUrl: 'templates/rxCollapse.html',
-        transclude: true,
-        scope: {
-            title: '@'
-        },
-        link: function (scope, element, attrs) {
-            scope.isExpanded = (attrs.expanded === 'false') ? false : true;
-
-            scope.toggleExpanded = function () {
-                scope.isExpanded = !scope.isExpanded;
-            };
-        }
     };
 });
 
@@ -614,13 +521,14 @@ angular.module('encore.ui.utilities')
  *
  * @return {Object} Instance of rxAppRoutes with `fetchRoutes` method added
  */
-.factory('encoreRoutes', ["rxAppRoutes", "routesCdnPath", "rxNotify", "$q", "$http", "rxVisibilityPathParams", "rxVisibility", "Environment", "rxLocalStorage", function (rxAppRoutes, routesCdnPath, rxNotify, $q, $http,
+.factory('encoreRoutes', ["rxAppRoutes", "routesCdnPath", "rxNotify", "$q", "$http", "rxVisibilityPathParams", "rxVisibility", "Environment", "rxHideIfUkAccount", "LocalStorage", function (rxAppRoutes, routesCdnPath, rxNotify, $q, $http,
                                    rxVisibilityPathParams, rxVisibility, Environment,
-                                   rxLocalStorage) {
+                                   rxHideIfUkAccount, LocalStorage) {
 
     // We use rxVisibility in the nav menu at routesCdnPath, so ensure it's ready
     // before loading from the CDN
     rxVisibility.addVisibilityObj(rxVisibilityPathParams);
+    rxVisibility.addVisibilityObj(rxHideIfUkAccount);
 
     var encoreRoutes = new rxAppRoutes();
 
@@ -661,12 +569,12 @@ angular.module('encore.ui.utilities')
 
     encoreRoutes.fetchRoutes = function () {
         var routesKey = 'encoreRoutes-' + suffix;
-        var cachedRoutes = rxLocalStorage.getObject(routesKey);
+        var cachedRoutes = LocalStorage.getObject(routesKey);
 
         $http.get(url)
             .success(function (routes) {
                 encoreRoutes.setAll(routes);
-                rxLocalStorage.setObject(routesKey, routes);
+                LocalStorage.setObject(routesKey, routes);
             })
             .error(function () {
                 if (cachedRoutes) {
@@ -1207,190 +1115,6 @@ angular.module('encore.ui.utilities')
 
 angular.module('encore.ui.elements')
 /**
- * @ngdoc directive
- * @name elements.directive:rxCharacterCount
- * @restrict A
- * @scope
- * @description
- *
- * Provides an attribute directive intended for adding to `<textarea>`
- * elements. Place the `rx-character-count` attribute into your `<textarea>`, and
- * a new `<div>` will be added directly underneath it. This directive requires
- * that you're using `ng-model` with your `<textarea>`.
- *
- * This `<div>` will watch the content of the `<textarea>`, and display how many
- * characters are remaining. By default, 254 characters are "allowed". If there
- * are less than 10 characters remaining, the counter will go orange. If the user
- * enters more than 254 characters, the counter will go red.
- *
- * ### Leading and Trailing characters ###
- * By default, any text field using `ng-model` has `ng-trim="true"` applied to it.
- * This means that any leading and trailing spaces/blanks in your text field will
- * be ignored. They will not count towards the remaining character count. If you
- * want it to count leading/trailing spaces, then just add `ng-trim="false"` to
- * your `<textarea>`.
- *
- * ### Styling ###
- * When specifying a width other than the default, you should style some built-in
- * classes in addition to the text field itself. As in the demo, the
- * `.input-highlighting` class should have the same width as the text field
- * (if highlighting is used), and the `.counted-input-wrapper` should be used to
- * correctly position the counter.
- *
- * ### ngShow/ngHide/ngIf/ngSwitch/etc. ###
- * If you wish to show/hide your `textarea` element, we recommend placing the
- * element inside of a `<div>` or `<span>`, and doing the
-
- * `ng-show` / `ng-hide` / etc. on that `div` / `span`. For example,
- *
- * <pre>
- * <span ng-show="isShown">
- *     <textarea rx-character-count>{{someValue}}</textarea>
- * </span>
- * </pre>
- *
- * We _do_ have preliminary support for putting these directives directly inside
- * the `textarea`, i.e.
- *
- * <pre>
- * <textarea rx-character-count ng-show="isShown">{{someValue}}</textarea>
- * </pre>
- *
- * But this support should be considered experimental. If you choose to take
- * advantage of it, please ensure you've extensively tested that it performs
- * correctly for your uses.
- *
- * ### Highlighting ###
- * Characters that are over the limit will be highlighted in red if the
- * `highlight="true"` attribute is on the directive's element. Because this
- * functionality is currently unstable, it has been left off by default. Please
- * test your use case heavily before shipping with this feature enabled.
- *
- * Known failure cases:
- * * Content that causes a scrollbar in the textarea
- * * Initial text (coming from the model) that is over the limit
- *
- * @param {Number=} [low-boundary=10] How far from the maximum to enter a warning state
- * @param {Number=} [max-characters=254] The maximum number of characters allowed
- * @param {Boolean=} [highlight=false] Whether or not characters over the limit are highlighted
- *
- * @example
- * <pre>
- * <textarea ng-model="model" rx-character-count></textarea>
- * </pre>
- */
-.directive('rxCharacterCount', ["$compile", "$timeout", function ($compile, $timeout) {
-    var counterStart = '<div class="character-countdown" ';
-    var counterEnd =   'ng-class="{ \'near-limit\': nearLimit, \'over-limit\': overLimit }"' +
-                  '>{{ remaining }}</div>';
-
-    var backgroundStart = '<div class="input-highlighting" ';
-    var backgroundEnd = '><span>{{ underLimitText }}</span>' +
-                     '<span class="over-limit-text">{{ overLimitText }}</span></div>';
-
-    var extraDirectives = function (attrs) {
-        var extra = '';
-        if (_.has(attrs, 'ngShow')) {
-            extra += 'ng-show="' + attrs.ngShow + '" ';
-        }
-        if (_.has(attrs, 'ngHide')) {
-            extra += 'ng-hide="' + attrs.ngHide + '" ';
-        }
-        return extra;
-    };
-
-    var buildCounter = function (attrs) {
-        return counterStart + extraDirectives(attrs) + counterEnd;
-    };
-
-    var buildBackground = function (attrs) {
-        return backgroundStart + extraDirectives(attrs) + backgroundEnd;
-    };
-
-    return {
-        restrict: 'A',
-        require: 'ngModel',
-        // scope:true ensures that our remaining/nearLimit/overLimit scope variables
-        // only live within this directive
-        scope: true,
-        link: function (scope, element, attrs, ngModelCtrl) {
-            // Wrap the textarea so that an element containing a copy of the text
-            // can be layered directly behind it.
-            var wrapper = angular.element('<div class="counted-input-wrapper" />');
-            element.after(wrapper);
-
-            $compile(buildCounter(attrs))(scope, function (clone) {
-                wrapper.append(element);
-                wrapper.append(clone);
-            });
-
-            var maxCharacters = _.parseInt(attrs.maxCharacters) || 254;
-            var lowBoundary = _.parseInt(attrs.lowBoundary) || 10;
-            scope.remaining = maxCharacters;
-            scope.nearLimit = false;
-            scope.overLimit = false;
-
-            // This gets called whenever the ng-model for this element
-            // changes, i.e. when someone enters new text into the textarea
-            scope.$watch(
-                function () { return ngModelCtrl.$modelValue; },
-                function (newValue) {
-                    if (typeof newValue !== 'string') {
-                        return;
-                    }
-                    scope.remaining = maxCharacters - newValue.length;
-                    scope.nearLimit = scope.remaining >= 0 && scope.remaining < lowBoundary;
-                    scope.overLimit = scope.remaining < 0;
-                });
-
-            function countSpaces (str, options) {
-                options || (options = {});
-                return str.search(options.fromEnd ? /\s*$/ : /\S/);
-            }
-
-            // Since the input value is trimmed before writing to the model,
-            // an input event is attached to the element to handle the highlighting,
-            // which needs the pre- and post-trimmed string.
-            function writeLimitText () {
-                var val = element.val();
-                var cutoff = maxCharacters;
-                var end = val.length;
-
-                if (!attrs.ngTrim || attrs.ngTrim !== 'false') {
-                    cutoff += countSpaces(val);
-                    end = countSpaces(val, { fromEnd: true });
-                }
-
-                scope.underLimitText = val.slice(0, cutoff);
-                scope.overLimitText = val.slice(cutoff, end);
-                scope.$apply();
-            }
-
-            if (attrs.highlight === 'true') {
-                $compile(buildBackground(attrs))(scope, function (clone) {
-                    wrapper.prepend(clone);
-                });
-
-                element.on('input', writeLimitText);
-            }
-
-            scope.$on('$destroy', function () {
-                element.off('input');
-                $timeout(function () {
-                    // When the element containing the rx-character-count is removed, we have to
-                    // ensure we also remove the `wrapper`, which we created. This has to happen
-                    // in a $timeout() to ensure it occurs on the next $digest cycle, otherwise
-                    // we go into an infinite loop.
-                    wrapper.remove();
-                });
-            });
-
-        }
-    };
-}]);
-
-angular.module('encore.ui.elements')
-/**
  * @name elements.directive:rxCheckbox
  * @ngdoc directive
  * @restrict A
@@ -1500,13 +1224,13 @@ angular.module('encore.ui.elements')
  *   mentioned above.
  * * This element will never generate anything other than a String.
  *
- * @param {Expression} ngModel
+ * @param {expression} ngModel
  * Expression that evaluates to a date string in `YYYY-MM-DD` format
  *
  * @return {String} **IMPORTANT** returns an ISO 8601 standard date string in the
  * format of `YYYY-MM-DD`.
  */
-.directive('rxDatePicker', ["$document", function ($document) {
+.directive('rxDatePicker', function () {
     var isoFormat = 'YYYY-MM-DD';
     const YEAR_RANGE = 10;
 
@@ -1585,6 +1309,10 @@ angular.module('encore.ui.elements')
                     scope.calendarVisible = !scope.calendarVisible;
                 }
             };//toggleCalendar()
+
+            scope.closeCalendar = function () {
+                scope.calendarVisible = false;
+            };
 
             /**
              * @param {String} destination
@@ -1700,597 +1428,9 @@ angular.module('encore.ui.elements')
             ngModelCtrl.$render = function () {
                 scope.displayValue = ngModelCtrl.$viewValue;
             };
-
-            $document.on('click', function (clickEvent) {
-                if (scope.calendarVisible && !element[0].contains(clickEvent.target)) {
-                    scope.$apply(function () { scope.calendarVisible = false; });
-                }
-            });
         }
     };
-}]);
-
-angular.module('encore.ui.elements')
-/**
- * @name elements.directive:rxField
- * @ngdoc directive
- * @restrict E
- * @description
- * Structural element directive used for layout of sub-elements.
- *
- * <dl>
- *   <dt>Display:</dt>
- *   <dd>**block**
- *     <ul>
- *       <li>default: *shares width equally with sibling `rxField` and `div` elements*</li>
- *       <li>stacked: *max-width: 400px*</li>
- *     </ul>
- *   </dd>
- *
- *   <dt>Parent:</dt>
- *   <dd>{@link elements.directive:rxFormSection rxFormSection}</dd>
- *
- *   <dt>Siblings:</dt>
- *   <dd>Any HTML Element</dd>
- *
- *   <dt>Children:</dt>
- *   <dd>
- *     <ul>
- *       <li>{@link elements.directive:rxFieldName rxFieldName}</li>
- *       <li>{@link elements.directive:rxFieldContent rxFieldContent}</li>
- *       <li>Any HTML Element</li>
- *     </ul>
- *   </dd>
- * </dl>
- *
- * @example
- * <pre>
- * ...
- * <form rx-form>
- *   <rx-form-section>
- *     <rx-field>
- *       <rx-field-name>...</rx-field-name>
- *       <rx-field-content>...</rx-field-content>
- *     </rx-field>
- *   </rx-form-section>
- * </form>
- * ...
- * </pre>
- */
-.directive('rxField', ["rxNestedElement", function (rxNestedElement) {
-    return rxNestedElement({
-        parent: 'rxFormSection'
-    });
-}]);
-
-angular.module('encore.ui.elements')
-/**
- * @name elements.directive:rxFieldContent
- * @ngdoc directive
- * @restrict E
- * @description
- * Structural element directive used for layout of sub-elements.
- * This element is used to wrap the actual content markup for your
- * controls, labels, help text, and error messages.
- *
- * <dl>
- *   <dt>Display:</dt>
- *   <dd>**block** *(full width of parent)*</dd>
- *
- *   <dt>Parent:</dt>
- *   <dd>{@link elements.directive:rxField rxField}</dd>
- *
- *   <dt>Siblings:</dt>
- *   <dd>
- *     <ul>
- *       <li>{@link elements.directive:rxFieldName rxFieldName}</li>
- *       <li>Any HTML Element</li>
- *     </ul>
- *   </dd>
- *
- *   <dt>Children:</dt>
- *   <dd>
- *     <ul>
- *       <li>{@link elements.directive:rxInput rxInput}</li>
- *       <li>Any HTML Element</li>
- *     </ul>
- *   </dd>
- * </dl>
- *
- * @example
- * <pre>
- * ...
- * <form rx-form>
- *   <rx-form-section>
- *     <rx-field>
- *       <rx-field-name>
- *          <i class="fa fa-exclamation"></i>
- *          Important Field Name
- *       </rx-field-name>
- *       <rx-field-content>
- *          <rx-input>...</rx-input>
- *       </rx-field-content>
- *     </rx-field>
- *   </rx-form-section>
- * </form>
- * ...
- * </pre>
- */
-.directive('rxFieldContent', ["rxNestedElement", function (rxNestedElement) {
-    return rxNestedElement({
-        parent: 'rxField'
-    });
-}]);
-
-angular.module('encore.ui.elements')
-/**
- * @name elements.directive:rxFieldName
- * @ngdoc directive
- * @restrict E
- * @scope
- * @description
- * Stylistic element directive that provides a standardized UI for
- * form field names.
- *
- * <dl>
- *   <dt>Display:</dt>
- *   <dd>**block** *(full width of parent)*</dd>
- *
- *   <dt>Parent:</dt>
- *   <dd>{@link elements.directive:rxField rxField}</dd>
- *
- *   <dt>Siblings:</dt>
- *   <dd>
- *     <ul>
- *       <li>{@link elements.directive:rxFieldContent rxFieldContent}</li>
- *       <li>Any HTML Element</li>
- *     </ul>
- *   </dd>
- *
- *   <dt>Children:</dt>
- *   <dd>Any HTML Element</dd>
- * </dl>
- *
- * @example
- * <pre>
- * ...
- * <form rx-form>
- *   <rx-form-section>
- *     <rx-field>
- *       <rx-field-name>Salary</rx-field-name>
- *       <rx-field-content>...</rx-field-content>
- *     </rx-field>
- *   </rx-form-section>
- * </form>
- * ...
- * </pre>
- *
- * @param {Boolean=} [ng-required=false]
- * Is this field required? This will add/remove the required symbol to the left of the name.
- */
-.directive('rxFieldName', ["rxNestedElement", function (rxNestedElement) {
-    return rxNestedElement({
-        parent: 'rxField',
-        transclude: true,
-        scope: {
-            ngRequired: '=?'
-        },
-        templateUrl: 'templates/rxFieldName.html'
-    });
-}]);
-
-angular.module('encore.ui.elements')
-/**
- * @name elements.directive:rxForm
- * @ngdoc directive
- * @restrict A
- * @description
- * The elements directive is an attribute directive meant to be used for
- * hierarchical validation of form-related elements. This directive may
- * be placed on ANY DOM element, not just `<form>`.
- *
- * <dl>
- *   <dt>Display:</dt>
- *   <dd>**block** *(full width of parent)*</dd>
- *
- *   <dt>Parent:</dt>
- *   <dd>Any HTML Element</dd>
- *
- *   <dt>Siblings:</dt>
- *   <dd>Any HTML Element</dd>
- *
- *   <dt>Children:</dt>
- *   <dd>
- *     <ul>
- *       <li>{@link elements.directive:rxFormSection rxFormSection}</li>
- *       <li>Any HTML Element</li>
- *     </ul>
- *   </dd>
- * </dl>
- *
- * @example
- * <pre>
- * ...
- * <form rx-form><!-- you can use a DIV, if desired -->
- *   <rx-form-section>
- *     ...
- *   </rx-form-section>
- * </form>
- * ...
- * </pre>
- */
-.directive('rxForm', ["rxNestedElement", function (rxNestedElement) {
-    return rxNestedElement({
-        restrict: 'A'
-    });
-}]);
-
-angular.module('encore.ui.elements')
-/**
- * @name elements.directive:rxFormSection
- * @ngdoc directive
- * @restrict E
- * @description
- * Structural element directive used for layout of sub-elements.
- *
- * By default, all `rxField`, `rxSelectFilter`, and `<div>` elements will
- * display inline (horizontally). If you wish to display these elements in a
- * stacked manner, you may place the `stacked` attribute on `rx-form-section`.
- *
- * <dl>
- *   <dt>Display:</dt>
- *   <dd>**block** *(full width of parent)*</dd>
- *
- *   <dt>Parent:</dt>
- *   <dd>{@link elements.directive:rxForm rxForm}</dd>
- *
- *   <dt>Siblings:</dt>
- *   <dd>Any HTML Element</dd>
- *
- *   <dt>Children:</dt>
- *   <dd>
- *     <ul>
- *       <li>{@link elements.directive:rxField rxField}</li>
- *       <li>{@link elements.directive:rxSelectFilter rxSelectFilter}</li>
- *       <li>HTML DIV Element</li>
- *     </ul>
- *   </dd>
- * </dl>
- *
- * @example
- * <pre>
- * ...
- * <form rx-form>
- *   <rx-form-section>
- *     <rx-field>...</rx-field>
- *     <rx-select-filter>...</rx-select-filter>
- *     <div>...</div>
- *   </rx-form-section>
- * </form>
- * ...
- * </pre>
- *
- * @param {*=} stacked
- * If present, `rxField` children will stack vertically rather than
- * display horizontally.
- * @param {*=} controlled-width
- * If present, the element will not consume the full width of its container.
- */
-.directive('rxFormSection', ["rxNestedElement", function (rxNestedElement) {
-    return rxNestedElement({
-        parent: 'rxForm'
-    });
-}]);
-
-angular.module('encore.ui.elements')
-/**
- * @name elements.directive:rxHelpText
- * @ngdoc directive
- * @restrict E
- * @description
- * Stylistic element directive used to wrap form input help text.
- *
- * * **block** element *(full width of parent)*
- * * Best used as a sibling after {@link elements.directive:rxInput rxInput},
- *   but before {@link elements.directive:rxInlineError rxInlineError} elements.
- *
- * @example
- * <pre>
- * ...
- * <form rx-form name="demoForm">
- *   <rx-form-section>
- *     <rx-field>
- *       <rx-field-name>Salary:</rx-field-name>
- *       <rx-field-content>
- *         <rx-input>
- *           <rx-prefix>$</rx-prefix>
- *           <input type="number" name="salary" />
- *           <rx-suffix>Million</rx-suffix>
- *         </rx-input>
- *         <rx-help-text>Must be greater than $1,000,000</rx-help-text>
- *         <rx-inline-error ng-show="demoForm.salary.$errors.minimum">
- *           Salary must be above $1,000,000
- *         </rx-inline-error>
- *       </rx-field-content>
- *     </rx-field>
- *   </rx-form-section>
- * </form>
- * ...
- * </pre>
- */
-.directive('rxHelpText', function () {
-    return {
-        restrict: 'E'
-    };
 });
-
-angular.module('encore.ui.elements')
-/**
- * @name elements.directive:rxInfix
- * @ngdoc directive
- * @restrict E
- * @description
- * Structural element directive used to wrap content to be placed
- * inline with a form control element.
- *
- * <dl>
- *   <dt>Display:</dt>
- *   <dd>**inline block** *(only as wide as necessary for content)*</dd>
- *
- *   <dt>Parent:</dt>
- *   <dd>{@link elements.directive:rxInput rxInput}</dd>
- *
- *   <dt>Siblings:</dt>
- *   <dd>
- *     <ul>
- *       <li>{@link elements.directive:rxPrefix rxPrefix}</li>
- *       <li>{@link elements.directive:rxSuffix rxSuffix}</li>
- *       <li>Any HTML Element</li>
- *     </ul>
- *   </dd>
- *
- *   <dt>Children:</dt>
- *   <dd>Any HTML Element</dd>
- * </dl>
- *
- * @example
- * <pre>
- * ...
- * <form rx-form>
- *   <rx-form-section>
- *     <rx-field>
- *       <rx-field-name>Time of Day:</rx-field-name>
- *       <rx-field-content>
- *         <rx-input>
- *           <input type="number" name="hours" />
- *           <rx-infix>:</rx-infix>
- *           <input type="number" name="minutes" />
- *         </rx-input>
- *       </rx-field-content>
- *     </rx-field>
- *   </rx-form-section>
- * </form>
- * ...
- * </pre>
- */
-.directive('rxInfix', ["rxNestedElement", function (rxNestedElement) {
-    return rxNestedElement({
-        parent: 'rxInput'
-    });
-}]);
-
-angular.module('encore.ui.elements')
-/**
- * @name elements.directive:rxInlineError
- * @ngdoc directive
- * @restrict E
- * @description
- * Stylistic element directive used to wrap an error message.
- *
- * * **block** element *(full width of parent)*
- * * Best used as a sibling after {@link elements.directive:rxInput rxInput},
- *   and {@link elements.directive:rxHelpText rxHelpText} elements.
- *
- * @example
- * <pre>
- * ...
- * <form rx-form name="demoForm">
- *   <rx-form-section>
- *     <rx-field>
- *       <rx-field-name>Salary:</rx-field-name>
- *       <rx-field-content>
- *         <rx-input>
- *           <rx-prefix>$</rx-prefix>
- *           <input type="number" name="salary" min="1000000" ng-model="salary" />
- *           <rx-suffix>Million</rx-suffix>
- *         </rx-input>
- *         <rx-inline-error ng-show="demoForm.salary.$errors.min">
- *           Salary must be above $1,000,000
- *         </rx-inline-error>
- *       </rx-field-content>
- *     </rx-field>
- *   </rx-form-section>
- * </form>
- * ...
- * </pre>
- */
-.directive('rxInlineError', function () {
-    return {
-        restrict: 'E'
-    };
-});
-
-angular.module('encore.ui.elements')
-/**
- * @name elements.directive:rxInput
- * @ngdoc directive
- * @restrict E
- * @description
- * Structural element directive used for layout of sub-elements.
- * Place your HTML control elements within this directive.
- *
- * <dl>
- *   <dt>Display:</dt>
- *   <dd>**block** *(full width of parent)*</dd>
- *
- *   <dt>Parent:</dt>
- *   <dd>{@link elements.directive:rxFieldContent rxFieldContent}</dd>
- *
- *   <dt>Siblings:</dt>
- *   <dd>Any HTML Element</dd>
- *
- *   <dt>Children:</dt>
- *   <dd>
- *     <ul>
- *       <li>{@link elements.directive:rxPrefix rxPrefix}</li>
- *       <li>{@link elements.directive:rxSuffix rxSuffix}</li>
- *       <li>{@link elements.directive:rxCheckbox rxCheckbox}</li>
- *       <li>{@link rxRadio.directive:rxRadio rxRadio}</li>
- *       <li>{@link rxSelect.directive:rxSelect rxSelect}</li>
- *       <li>{@link rxToggleSwitch.directive:rxToggleSwitch rxToggleSwitch}</li>
- *       <li>{@link rxOptionTable.directive:rxOptionTable rxOptionTable}</li>
- *       <li>Any HTML Element</li>
- *     </ul>
- *   </dd>
- * </dl>
- *
- * @example
- * <pre>
- * ...
- * <form rx-form>
- *   <rx-form-section>
- *     <rx-field>
- *       <rx-field-name>Salary:</rx-field-name>
- *       <rx-field-content>
- *         <rx-input>
- *           <input type="number" />
- *         </rx-input>
- *       </rx-field-content>
- *     </rx-field>
- *   </rx-form-section>
- * </form>
- * ...
- * </pre>
- */
-.directive('rxInput', ["rxNestedElement", function (rxNestedElement) {
-    return rxNestedElement({
-        parent: 'rxFieldContent'
-    });
-}]);
-
-angular.module('encore.ui.elements')
-/**
- * @name elements.directive:rxPrefix
- * @ngdoc directive
- * @restrict E
- * @description
- * Structural element directive used to wrap content to be placed
- * inline with a form control element.
- *
- * * Best placed before a form control element.
- *
- * <dl>
- *   <dt>Display:</dt>
- *   <dd>**inline block** *(only as wide as necessary for content)*</dd>
- *
- *   <dt>Parent:</dt>
- *   <dd>{@link elements.directive:rxInput rxInput}</dd>
- *
- *   <dt>Siblings:</dt>
- *   <dd>
- *     <ul>
- *       <li>{@link elements.directive:rxInfix rxInfix}</li>
- *       <li>{@link elements.directive:rxSuffix rxSuffix}</li>
- *       <li>Any HTML Element</li>
- *     </ul>
- *   </dd>
- *
- *   <dt>Children:</dt>
- *   <dd>Any HTML Element</dd>
- * </dl>
- *
- * @example
- * <pre>
- * ...
- * <form rx-form>
- *   <rx-form-section>
- *     <rx-field>
- *       <rx-field-name>Salary:</rx-field-name>
- *       <rx-field-content>
- *         <rx-input>
- *           <rx-prefix>$</rx-prefix>
- *           <input type="number" />
- *           <rx-suffix>Million</rx-suffix>
- *         </rx-input>
- *       </rx-field-content>
- *     </rx-field>
- *   </rx-form-section>
- * </form>
- * ...
- * </pre>
- */
-.directive('rxPrefix', ["rxNestedElement", function (rxNestedElement) {
-    return rxNestedElement({
-        parent: 'rxInput'
-    });
-}]);
-
-angular.module('encore.ui.elements')
-/**
- * @name elements.directive:rxSuffix
- * @ngdoc directive
- * @restrict E
- * @description
- * Structural element directive used to wrap content to be placed
- * inline with a form control element.
- *
- * * Best placed after a form control element.
- *
- * <dl>
- *   <dt>Display:</dt>
- *   <dd>**inline block** *(only as wide as necessary for content)*</dd>
- *
- *   <dt>Parent:</dt>
- *   <dd>{@link elements.directive:rxInput rxInput}</dd>
- *
- *   <dt>Siblings:</dt>
- *   <dd>
- *     <ul>
- *       <li>{@link elements.directive:rxPrefix rxPrefix}</li>
- *       <li>{@link elements.directive:rxInfix rxInfix}</li>
- *       <li>Any HTML Element</li>
- *     </ul>
- *   </dd>
- *
- *   <dt>Children:</dt>
- *   <dd>Any HTML Element</dd>
- * </dl>
- *
- * @example
- * <pre>
- * ...
- * <form rx-form>
- *   <rx-form-section>
- *     <rx-field>
- *       <rx-field-name>Salary:</rx-field-name>
- *       <rx-field-content>
- *         <rx-input>
- *           <rx-prefix>$</rx-prefix>
- *           <input type="number" />
- *           <rx-suffix>Million</rx-suffix>
- *         </rx-input>
- *       </rx-field-content>
- *     </rx-field>
- *   </rx-form-section>
- * </form>
- * ...
- * </pre>
- */
-.directive('rxSuffix', ["rxNestedElement", function (rxNestedElement) {
-    return rxNestedElement({
-        parent: 'rxInput'
-    });
-}]);
 
 angular.module('encore.ui.elements')
 /**
@@ -2313,14 +1453,14 @@ angular.module('encore.ui.elements')
  *   mentioned above.
  * * This element will never generate anything other than a String.
  *
- * @param {Expression} ngModel
+ * @param {expression} ngModel
  * Expression that evaluates to a time string in `HH:mmZ` format, where `Z`
  * should match `/[-+]\d{2}:\d{2}/`.
  *
  * @return {String} **IMPORTANT** returns an ISO 8601 standard time string in the
  * format of `HH:mmZ`.
  */
-.directive('rxTimePicker', ["rxTimePickerUtil", "UtcOffsets", "$document", function (rxTimePickerUtil, UtcOffsets, $document) {
+.directive('rxTimePicker', ["rxTimePickerUtil", "UtcOffsets", function (rxTimePickerUtil, UtcOffsets) {
     return {
         restrict: 'E',
         require: 'ngModel',
@@ -2329,7 +1469,7 @@ angular.module('encore.ui.elements')
             isDisabled: '=ngDisabled'
         },
         templateUrl: 'templates/rxTimePicker.html',
-        link: function (scope, element, attrs, ngModelCtrl) {
+        link: function (scope, el, attrs, ngModelCtrl) {
             var pickerUtil = rxTimePickerUtil;
 
             scope.availableUtcOffsets = UtcOffsets;
@@ -2433,12 +1573,6 @@ angular.module('encore.ui.elements')
             ngModelCtrl.$render = function () {
                 scope.displayValue = ngModelCtrl.$viewValue || '';
             };
-
-            $document.on('click', function (clickEvent) {
-                if (scope.isPickerVisible && !element[0].contains(clickEvent.target)) {
-                    scope.$apply(function () { scope.isPickerVisible = false; });
-                }
-            });
         }//link
     };
 }]);
@@ -2530,34 +1664,6 @@ angular.module('encore.ui.utilities')
     return authSvc;
 }]);
 
-angular.module('encore.ui.elements')
-/**
- * @ngdoc directive
- * @name elements.directive:rxInfoPanel
- * @restrict E
- * @scope
- * @description
- * This renders a generic, pre-styled, info panel, with an optional title.
- *
- * @param {String} title - Text to be displayed in the title area of the info panel
- * @example
- * <pre>
- *  <rx-info-panel panel-title="My title!">
- *        You can put whatever you like in here.
- *  </rx-info-panel>
- * </pre>
- */
-.directive('rxInfoPanel', function () {
-    return {
-        templateUrl: 'templates/rxInfoPanel.html',
-        restrict: 'E',
-        transclude: true,
-        scope: {
-            panelTitle: '@',
-        }
-    };
-});
-
 /**
  * @ngdoc overview
  * @name layout
@@ -2580,6 +1686,17 @@ angular.module('encore.ui.elements')
  * '-sm', '-gt-sm', '-md', '-gt-md', '-lg', '-gt-lg'.
  */
 angular.module('encore.ui.layout', []);
+
+/**
+ * @ngdoc overview
+ * @name metadata
+ * @deprecated
+ * @description
+ * # metadata Component
+ *
+ * **Deprecated**: Use {@link elements.directive:rxMetadata rxMetadata} instead.
+ */
+angular.module('encore.ui.metadata', []);
 
 angular.module('encore.ui.elements')
 /**
@@ -2699,112 +1816,6 @@ angular.module('encore.ui.elements')
         restrict: 'E'
     };
 });
-
-angular.module('encore.ui.elements')
-/**
- * @ngdoc directive
- * @name elements.directive:rxNotification
- * @restrict E
- * @scope
- * @description
- * Display a static message with styling taken from `rx-notifications`.
- *
- * @param {String=} [type='info'] The type of notification (e.g. 'warning', 'error')
- *
- * @example
- * <pre>
- * <rx-notification type="warning">This is a message!</rx-notification>
- * </pre>
- */
-.directive('rxNotification', ["rxNotify", function (rxNotify) {
-    return {
-        scope: {
-            type: '@'
-        },
-        transclude: true,
-        restrict: 'E',
-        templateUrl: 'templates/rxNotification.html',
-        link: {
-            // Transclude returns a jqLite object of the content in the directive pre transclusion into the template.
-            pre: function (scope, el, attrs, ctrl, transclude) {
-                if (!_.isEmpty(attrs.stack)) {
-                    /**
-                     * transclude().parent() - returns a jqLite instance of the parent (this directive as defined
-                     *                           in the template pre-rendering).
-                     * transclude().parent().html() - returns the inner HTML of the parent, as a string, as it was
-                     *                                  defined in the template pre-rendering (Text Only)
-                     * ----------------------------
-                     * el                           -> [<rx-notification stack="demo-stack" type="info">
-                     *                                  <div class="rx-notifications">...template...</div>
-                     *                                  </rx-notification>]
-                     *
-                     * transclude()                 -> [<span class="ng-scope">Hello, world in demo-stack stack!</span>]
-                     *
-                     * transclude().parent()        -> [<rx-notification stack="demo-stack" type="info">
-                     *                                  <span class="ng-scope">Hello, world in demo-stack stack!</span>
-                     *                                  </rx-notification>]
-                     *
-                     * transclude().parent().html() -> "<span class="ng-scope">Hello, world in demo-stack stack!</span>"
-                     **/
-                    var content = transclude().parent().html();
-                    rxNotify.add(content, {
-                        type: attrs.type,
-                        stack: attrs.stack
-                    });
-                    el.remove();
-                }
-            }
-        }
-    };
-}]);
-
-angular.module('encore.ui.elements')
-/**
- * @ngdoc directive
- * @name elements.directive:rxNotifications
- * @restrict E
- * @scope
- * @description
- * Displays all messages in a stack.
- *
- * @param {String=} [stack='page'] The message stack to associate with
- *
- * @example
- * <pre>
- * <rx-notifications stack="myCustomStack"></rx-notifications>
- * </pre>
- */
-.directive('rxNotifications', ["rxNotify", function (rxNotify) {
-    return {
-        scope: {
-            stack: '@?'
-        },
-        restrict: 'E',
-        replace: true,
-        templateUrl: 'templates/rxNotifications.html',
-        controller: ["$scope", function ($scope) {
-            /*
-             * Calls rxNotify service to remove a message from a stack
-             * @param {object} message The message object to remove.
-             */
-            $scope.dismiss = function (message) {
-                rxNotify.dismiss(message);
-            };
-        }],
-        link: function (scope) {
-            var stack = scope.stack || 'page';
-
-            // watch the stack for updates
-            scope.$watch(function () {
-                return rxNotify.stacks[stack];
-            }, function (data) {
-                scope.messages = data;
-            });
-
-            scope.loading = true;
-        }
-    };
-}]);
 
 angular.module('encore.ui.utilities')
 /**
@@ -2939,40 +1950,32 @@ angular.module('encore.ui.utilities')
  * <rx-paginate page-tracking="pager"></rx-paginate>
  * </pre>
  */
-.factory('PageTracking', ["$q", "rxLocalStorage", "rxPaginateUtils", function ($q, rxLocalStorage, rxPaginateUtils) {
+.factory('PageTracking', ["$q", "LocalStorage", "rxPaginateUtils", function ($q, LocalStorage, rxPaginateUtils) {
     var PageTracking = {
         /**
-         * @ngdoc method
-         * @name utilities.service:PageTracking#createInstance
-         * @methodOf utilities.service:PageTracking
-         * @param {Object} options Configuration options for the pager
-         * @param {Number=} [options.itemsPerPage=200]
-         * The default number of items to display per page. If you choose a
-         * value that is not in the default set to itemsPerPage options
-         * (50, 200, 350, 500), then that value will be inserted into that
-         * list in the appropriate place
-         * @param {Number[]=} [options.itemSizeList=(50, 200, 350, 500)]
-         * The "items per page" options to give to the user. As these same
-         * values are used all throughout Encore, you probably should not alter
-         * them for your table.
-         * @param {Boolean=} [options.persistItemsPerPage=true]
-         * Whether or not a change to this pager's itemsPerPage should be
-         * persisted globally to all other pagers
-         * @param {Number=} [options.pagesToShow=5]
-         * This is the number of page numbers to show in the pagination controls
-         * @param {Boolean=} [options.showAll=false]
-         * This is used to determine whether or not to use the pagination. If
-         * `true`, then all items will be displayed, i.e. pagination will not
-         * be used
-         *
-         * @description This is used to generate the instance of the
-         * PageTracking object. It takes an optional `options` object,
-         * allowing you to customize the default pager behaviour.
-         *
-         * @return {Object} A new pager instance to be passed to the
-         * `page-tracking` attribute of `<rx-paginate>`
-         * (see {@link rxPaginate.directive:rxPaginate})
-         */
+        * @ngdoc method
+        * @name utilities.service:PageTracking#createInstance
+        * @methodOf utilities.service:PageTracking
+        * @param {Object} options Configuration options for the pager
+        * @param {number} [options.itemsPerPage=200] The default number of items to display per page.
+        * If you choose a value * that is not in the default set ot itemsPerPage options (50, 200, 350, 500),
+        * then that value will be inserted into that list in the appropriate place
+        * @param {number[]} [options.itemSizeList=(50, 200, 350, 500)] The "items per page" options to give to the user.
+        * As these * same values are used all throughout Encore, you probably should not alter them for your table.
+        * @param {boolean} [options.persistItemsPerPage=true] Whether or not a change to this pager's itemsPerPage
+        * should be persisted globally to all other pagers
+        * @param {number} [options.pagesToShow=5] This is the number of page numbers to show
+        * in the pagination controls
+        * @param {boolean} [options.showAll=false] This is used to determine whether or not to use
+        * the pagination. If `true`, then all items will be displayed, i.e. pagination will not be used
+        *
+        * @description This is used to generate the instance of the
+        * PageTracking object. It takes an optional `options` object, allowing you to customize the default
+        * pager behaviour.
+        *
+        * @return {Object} A new pager instance to be passed to the `page-tracking` attribute of `<rx-paginate>`
+        * (see {@link rxPaginate.directive:rxPaginate})
+        */
         createInstance: function (options) {
             options = options ? options : {};
             var tracking = new PageTrackingObject(options);
@@ -2983,7 +1986,7 @@ angular.module('encore.ui.utilities')
         * @method userSelectedItemsPerPage This method sets a new global itemsPerPage value
         */
         userSelectedItemsPerPage: function (itemsPerPage) {
-            rxLocalStorage.setItem('rxItemsPerPage', itemsPerPage);
+            LocalStorage.setItem('rxItemsPerPage', itemsPerPage);
         }
     };
 
@@ -3015,7 +2018,7 @@ angular.module('encore.ui.utilities')
             itemSizeList.splice(index, 0, itemsPerPage);
         }
 
-        var selectedItemsPerPage = parseInt(rxLocalStorage.getItem('rxItemsPerPage'));
+        var selectedItemsPerPage = parseInt(LocalStorage.getItem('rxItemsPerPage'));
 
         // If the user has chosen a desired itemsPerPage, make sure we're respecting that
         // However, a value specified in the options will take precedence
@@ -3296,8 +2299,8 @@ angular.module('encore.ui.utilities')
      * @description Takes a function and a list of roles, and returns the
      * result of calling that function with `roles`, and comparing to userRoles().
      *
-     * @param {Function} fn Comparison function to use. _.any, _.all, etc.
-     * @param {String[]} roles List of desired roles
+     * @param {function} fn - Comparison function to use. _.any, _.all, etc.
+     * @param {array} roles - List of desired roles
      */
     var checkRoles = function (roles, fn) {
         // Some code expects to pass a comma-delimited string
@@ -3332,7 +2335,7 @@ angular.module('encore.ui.utilities')
      * @ngdoc method
      * @methodOf utilities.service:Permission
      * @description Check if user has at least _one_ of the given roles.
-     * @param {String[]} roles List of roles to check against
+     * @param {Array} roles List of roles to check against
      * @returns {Boolean} True if user has at least _one_ of the given roles; otherwise, False.
      */
     permissionSvc.hasRole = function (roles) {
@@ -3344,7 +2347,7 @@ angular.module('encore.ui.utilities')
      * @ngdoc method
      * @methodOf utilities.service:Permission
      * @description Checks if user has _every_ role in given list.
-     * @param {String[]} roles List of roles to check against
+     * @param {Array} roles List of roles to check against
      * @returns {Boolean} True if user has _every_ role in given list; otherwise, False.
      *
      */
@@ -3405,6 +2408,53 @@ angular.module('encore.ui.utilities')
         };
     };
 });
+
+/**
+ * @ngdoc overview
+ * @name rxActiveUrl
+ * @deprecated THIS COMPONENT IS MARKED TO BE REMOVED IN A FUTURE RELEASE.
+ * @description
+ * # rxActiveUrl Component
+ *
+ * A Component adds a class name of 'selected' to an LI if the current url matches
+ * a pre-defined value
+ *
+ * ## Directives
+ * * {@link rxActiveUrl.directive:rxActiveUrl rxActiveUrl}
+ */
+angular.module('encore.ui.rxActiveUrl', []);
+
+angular.module('encore.ui.rxActiveUrl')
+/**
+ * @ngdoc directive
+ * @name rxActiveUrl.directive:rxActiveUrl
+ * @restrict A
+ * @scope
+ * @description
+ * This is used as an attribute to directive `<rx-product-resources>`, in the
+ * form of `<li rx-active-url="/servers">`. The directive checks if the attribute
+ * value is a subset of the current URL. If so it returns the class name "selected".
+ */
+.directive('rxActiveUrl', ["$location", function ($location) {
+    return {
+        restrict: 'E',
+        templateUrl: 'templates/rxActiveUrl.html',
+        transclude: true,
+        replace: true,
+        scope: {
+            url: '@'
+        },
+        controller: ["$scope", function ($scope) {
+            $scope.isNavActive = function (pattern) {
+                return $location.path().indexOf(pattern) !== -1;
+            };
+        }],
+        link: function (scope, element, attribute) {
+            // Is the subset of whatever is in isNavActive part of the URL string?
+            scope.navActive = scope.isNavActive(attribute.url);
+        }
+    };
+}]);
 
 angular.module('encore.ui.utilities')
 /**
@@ -3481,9 +2531,9 @@ angular.module('encore.ui.utilities')
         var date = moment(new Date(dateString));
         var diff = now.diff(date);
         var duration = moment.duration(diff);
-        var days = parseInt(duration.asDays(), 10);
-        var hours = parseInt(duration.asHours(), 10);
-        var mins = parseInt(duration.asMinutes(), 10);
+        var days = Math.floor(duration.asDays());
+        var hours = Math.floor(duration.asHours());
+        var mins = Math.floor(duration.asMinutes());
         var age = [];
 
         if (_.isBoolean(maxUnits)) {
@@ -3762,13 +2812,13 @@ angular.module('encore.ui.rxApp')
  * @description
  * Responsible for creating the HTML necessary for a common Encore layout.
  *
- * @param {String=} siteTitle Title of site to use in upper right hand corner
- * @param {Array=} menu Menu items used for left-hand navigation
- * @param {String=} collapsibleNav Set to 'true' if the navigation menu should be collapsible
- * @param {String=} collapsedNav Binding for the collapsed state of the menu.
- * @param {Boolean=} newInstance Whether the menu items should be a new instance of `rxAppRoutes`
- * @param {Boolean=} [hideFeeback=false] Whether to hide the 'feedback' link
- * @param {String=} logoutUrl URL to pass to rx-logout
+ * @param {string} [siteTitle] Title of site to use in upper right hand corner
+ * @param {array} [menu] Menu items used for left-hand navigation
+ * @param {string} [collapsibleNav] Set to 'true' if the navigation menu should be collapsible
+ * @param {string} [collapsedNav] Binding for the collapsed state of the menu.
+ * @param {boolean} [newInstance] Whether the menu items should be a new instance of `rxAppRoutes`
+ * @param {boolean} [hideFeeback] Whether to hide the 'feedback' link or not (defaults to show it)
+ * @param {string} [logoutUrl] URL to pass to rx-logout
  *
  * @example
  * <pre>
@@ -3822,14 +2872,9 @@ angular.module('encore.ui.rxApp')
                 scope.routes = appRoutes.fetchRoutes();
             }
 
-            var setRoutes = function () {
-                appRoutes.getAll().then(function (routes) {
-                    scope.routes = routes;
-                });
-            };
-
-            scope.$evalAsync(setRoutes);
-            scope.$on('rxUpdateNavRoutes', setRoutes);
+            appRoutes.getAll().then(function (routes) {
+                scope.routes = routes;
+            });
 
             // default hideFeedback to false
             scope.hideFeedback = scope.hideFeedback ? true : false;
@@ -4122,7 +3167,8 @@ angular.module('encore.ui.rxApp')
  * environment is not necessary.
  *
  * Another technique for visibility is to use a predefined set of visibility
- * functions that exist in the framework—`rxPathParams`, for example.
+ * functions that exist in the framework. These include `rxPathParams` and
+ * `rxHideIfUkAccount`.
  *
  * To use these, you pass an array to `visibility`, with the first argument being
  * the name of the function to use (as a string), and the second argument as an
@@ -4318,8 +3364,8 @@ angular.module('encore.ui.rxApp')
  * `Machine Support`, then the `/support` Angular application will be loaded,
  * the and the directives will become available.
  *
- * @param {Object} items Menu items to display. See encoreNav for object definition
- * @param {String} level Level in heirarchy in page. Higher number is deeper nested
+ * @param {object} items Menu items to display. See encoreNav for object definition
+ * @param {string} level Level in heirarchy in page. Higher number is deeper nested
  *
  * @example
  * <pre>
@@ -4534,9 +3580,9 @@ angular.module('encore.ui.rxApp')
  * @description
  * Creates a search input form for navigation
  *
- * @param {String=} placeholder Title of page
- * @param {*=} model Model to tie input form to (via ng-model)
- * @param {Function=} submit Function to run on submit (model is passed as only argument to function)
+ * @param {string} [placeholder] Title of page
+ * @param {*} [model] Model to tie input form to (via ng-model)
+ * @param {function} [submit] Function to run on submit (model is passed as only argument to function)
  */
 .directive('rxAppSearch', function () {
     return {
@@ -4614,15 +3660,13 @@ angular.module('encore.ui.rxApp')
  * @scope
  * @description
  *
- * Responsible for creating the HTML necessary for a page (including breadcrumbs
- * and page title) You can pass in a `title` attribute or an `unsafeHtmlTitle`
- * attribute, but not both. Use the former if your title is a plain string, use
- * the latter if your title contains embedded HTML tags AND you trust the source
- * of this title. Arbitrary javascript can be executed, so ensure you trust your
- * source.
+ * Responsible for creating the HTML necessary for a page (including breadcrumbs and page title)
+ * You can pass in a `title` attribute or an `unsafeHtmlTitle` attribute, but not both. Use the former
+ * if your title is a plain string, use the latter if your title contains embedded HTML tags AND you
+ * trust the source of this title. Arbitrary javascript can be executed, so ensure you trust your source.
  *
- * The document title will be set to either `title` or a stripped version of
- * `unsafeHtmlTitle`, depending on which you provide.
+ * The document title will be set to either `title` or a stripped version of `unsafeHtmlTitle`, depending
+ * on which you provide.
  *
  * You'll likely want to use the {@link rxApp.directive:rxPage rxPage} directive
  * inside your template view. For example, inside a 'myView.html' file:
@@ -4639,8 +3683,8 @@ angular.module('encore.ui.rxApp')
  *
  * Both the `title` and `subtitle` attributes accept an Angular expression,
  * which can be a string (shown in the previous example) or a scope property.
- * This string/property can accept other expressions, enabling you to build
- * custom titles. The demo has an example of this usage.
+ * This string/property can accept other expressions, enabling you to build custom
+ * titles. The demo has an example of this usage.
  *
  * If you wish to use arbitrary HTML in your title, you can use the
  * `unsafe-html-title` attribute instead of `title`. This is considered "unsafe"
@@ -4649,16 +3693,16 @@ angular.module('encore.ui.rxApp')
  * demo shows the use of HTML tags.
  *
  * In either case (`title` or `unsafe-html-title`), the document title
- * (i.e. visible in the browser tab) will be set to your chosen title. If you
- * use `unsafe-html-title`, all HTML tags will be stripped before setting the
- * document title.
+ * (i.e. visible in the browser tab) will be set to your chosen title. If you use
+ * `unsafe-html-title`, all HTML tags will be stripped before setting the document
+ * title.
  *
  * ### Account Info below Breadcrumbs
  *
- * `rxPage` integrates with the {@link elements.directive:rxAccountInfo rxAccountInfo}
- * component, to draw the Account Info box directly underneath the
- * `rxBreadcrumbs`. This is opt-in. By default, it will not appear. To enable it,
- * pass the `account-number="..."` attribute to `<rx-page>` in your template, i.e
+ * `rxPage` integrates with the {@link elements.directive:rxAccountInfo rxAccountInfo} component,
+ * to draw the Account Info box directly underneath the `rxBreadcrumbs`.
+ * This is opt-in. By default, it will not appear. To enable it, pass the
+ * `account-number="..."` attribute to `<rx-page>` in your template, i.e
  *
  * <pre>
  * <rx-page account-number="{{ accountNumber }}">
@@ -4666,8 +3710,8 @@ angular.module('encore.ui.rxApp')
  *
  * As noted in {@link elements.directive:rxAccountInfo rxAccountInfo}, this
  * directive requires that `SupportAccount`, `Encore` and `Teams` services are
- * available to the Angular Dependency Injection system. These are *not*
- * provided by EncoreUI, but are available in an internal Rackspace repository.
+ * available to the Angular Dependency Injection system. These are *not* provided
+ * by EncoreUI, but are available in an internal Rackspace repository.
  *
  *
  * ### Status tags
@@ -4677,10 +3721,10 @@ angular.module('encore.ui.rxApp')
  * The "Customized rxApp" demo shows the use of this with the `"alpha"` tag.
  *
  * The framework currently provides `"alpha"` and `"beta"` tags, but any product
- * can specify their own custom tags using the `rxStatusTagsProvider`. It
- * currently has one method, `addStatus`, which takes an unique `key` for the
- * new tag, the `class` it should use in the HTML, and the `text` that will be
- * drawn. All custom tags are drawn inside of a `<span>`, essentially as:
+ * can specify their own custom tags using the `rxStatusTagsProvider`. It currently
+ * has one method, `addStatus`, which takes an unique `key` for the new tag, the
+ * `class` it should use in the HTML, and the `text` that will be drawn. All custom
+ * tags are drawn inside of a `<span>`, essentially as:
  *
  * <pre>
  * <span class="status-tag {{ class }}">{{ text }}</span>
@@ -4696,8 +3740,7 @@ angular.module('encore.ui.rxApp')
  * });
  * </pre>
  *
- * This will create a new status tag called `"gamma"`, which you can pass to
- * `rx-page` as:
+ * This will create a new status tag called `"gamma"`, which you can pass to `rx-page` as:
  *
  * <pre>
  * <rx-page title="'Some Title'" status="gamma">
@@ -4709,8 +3752,8 @@ angular.module('encore.ui.rxApp')
  * value to `addStatus()`.
  *
  * All the tags are accessible inside of {@link elements.directive:rxBreadcrumbs rxBreadcrumbs}
- * as well. Any breadcrumb that was created with `useStatusTag: true` will
- * automatically receive the same status tag as you passed to `<rx-page>`.
+ * as well. Any breadcrumb that was created with `useStatusTag: true` will automatically
+ * receive the same status tag as you passed to `<rx-page>`.
  *
  * ### .page-actions
  *
@@ -4727,9 +3770,9 @@ angular.module('encore.ui.rxApp')
  * </rx-page>
  * </pre>
  *
- * @param {String} title Title of page
- * @param {String} unsafeHtmlTitle Title for the page, with embedded HTML tags
- * @param {String=} subtitle Subtitle of page
+ * @param {expression} [title] Title of page
+ * @param {expression} [unsafeHtmlTitle] Title for the page, with embedded HTML tags
+ * @param {expression} [subtitle] Subtitle of page
  *
  * @example
  * <pre>
@@ -5072,7 +4115,7 @@ angular.module('encore.ui.rxAttributes')
  *
  * This drective allows you to add attributes based on a value in scope being defined or not.
  *
- * @param {Object} rxAttributes an attribute allows you to add custom attributes
+ * @param {JSON} rxAttributes an attribute allows you to add custom attributes
  */
 .directive('rxAttributes', ["$parse", "$compile", function ($parse, $compile) {
     // @see http://stackoverflow.com/questions/19224028/add-directives-from-directive-in-angularjs
@@ -5131,7 +4174,7 @@ angular.module('encore.ui.utilities')
  * appearing on the same page.
  *
  * By default, all values are stored in {@link utilities.service:rxLocalStorage rxLocalStoage} which interfaces with the
- * browser's `localStorage` object. This means that if a user logs into a different computer, their stored values will
+ * browser's `LocalStorage` object. This means that if a user logs into a different computer, their stored values will
  * not be present.  Use of `SessionStorage` is also supported out-of-the-box. If you wish to save form states elsewhere
  * (for instance, to an API), see the "Storage Location" section below.
  *
@@ -5216,7 +4259,7 @@ angular.module('encore.ui.utilities')
  *     ttl: 172800,                 // Integer (seconds) - two days default
  *     load: true,                  // Boolean or Promise that will resolve with a Boolean
  *     save: true,                  // Boolean or Promise that will resolve with a Boolean
- *     exclude: [],                 // String[]
+ *     exclude: [],                 // Array<String>
  *     storageBackend: rxLocalStorage // Object
  *   });
  * </pre>
@@ -5352,9 +4395,9 @@ angular.module('encore.ui.utilities')
  *
  * ## Storage location
  *
- * All values for `rxAutoSave` are by default stored in the browser's `localStorage` through the `rxLocalStorage`
+ * All values for `rxAutoSave` are by default stored in the browser's `LocalStorage` through the `rxLocalStorage`
  * service, and keyed on the URL of the page, with a `rxAutoSave::` prefix. For example, if the above form were
- * present at the URL `'users/JonnyRocket/edit'`, then the form data would be saved into the browser's `localStorage`
+ * present at the URL `'users/JonnyRocket/edit'`, then the form data would be saved into the browser's `LocalStorage`
  * at location `'rxAutoSave::users/JonnyRocket/edit'`.
  *
  * If you wish to use a different storage backend (`SessionStorage`, for instance), use the `storageBackend` parameter:
@@ -5393,10 +4436,10 @@ angular.module('encore.ui.utilities')
  * @param {String} variable
  * variable name corresponding to an object on the given scope
  * @param {Object=} options usage options
- * @param {Promise=} [options.clearOnSuccess=null]
+ * @param {Promise} [options.clearOnSuccess=null] *optional* -
  * Clear saved data on successful resolution of given promise.
  *
- * @param {Function=} options.keyShaping
+ * @param {Function} [options.keyShaping]
  * Sometimes, it may be necessary to change how a key is formed for the specified
  * `storageBackend`.  Keys are calculated by prepending `'rxAutoSave::'` before the
  * url. Your custom `keyShaping` function will take one parameter (`key`), to which
@@ -5411,7 +4454,7 @@ angular.module('encore.ui.utilities')
  * });
  * </pre>
  *
- * @param {Integer=} [options.ttl=172800]
+ * @param {Integer} [options.ttl=172800] *optional* -
  * Time to Live (in seconds) - defaults to 2 days
  *
  * Whenever data changes in the watched variable, the expiry time will be freshly set
@@ -5431,25 +4474,23 @@ angular.module('encore.ui.utilities')
  * * `clear()`
  * * `clearOnSuccess()`
  *
- * @param {Boolean|Promise=} [options.load=true]
+ * @param {Boolean|Promise} [options.load=true] *optional* -
  * If false, will prevent data from being automatically loaded onto the scope.
  *
  * You may use a promise that resolves to a boolean, if desired.
- * @param {Boolean|Promise=} [options.save=true]
+ * @param {Boolean|Promise} [options.save=true] *optional* -
  * If false, will prevent data from being automatically saved on change.
  *
  * You may use a promise that resolves to a boolean, if desired.
- * @param {String[]=} options.exclude
+ * @param {String[]} [options.exclude] *optional* -
  * A string of property names to exclude from automatic save. This is useful to
  * exclude saving any sensitive information like passwords, credit card numbers, etc.
  *
  * <pre>
- * var autosave = rxAutoSave($scope, 'formData', {
- *     exclude: ['password']
- * });
- * </pre>
+ * var autosave = rxAutoSave($scope, 'formData', { exclude: ['password'] });
+ * </pr>
  *
- * @param {Object=} [options.storageBackend=rxLocalStorage]
+ * @param {Object} [options.storageBackend=rxLocalStorage] *optional* -
  * Must be an object which has `getObject(key)` and `setObject(key, val)` methods.
  * `rxLocalStorage` and `SessionStorage` are both provided by EncoreUI, and support
  * this interface.
@@ -5476,11 +4517,11 @@ angular.module('encore.ui.utilities')
      *                  data: {
      *                      // Serialized form data
      *                  }
-     *              },
+     *              }
      *              "form2": {
      *                  config: {
      *                      expires: 33421234322,
-     *                  },
+     *                  }
      *                  data: {
      *                      // Serialized form data
      *                  }
@@ -5614,12 +4655,12 @@ angular.module('encore.ui.utilities')
             }
         };
 
-        // Responsible for loading the data from the browser's localStorage into the form
+        // Responsible for loading the data from the browser's LocalStorage into the form
         var load = function () {
             var expires = api.getExpires();
             if (expires > 0 && expires <= _.now()) {
                 // This data has expired. Make sure we clear it out
-                // of the browser's localStorage
+                // of the browser's LocalStorage
                 api.expire();
                 return;
             }
@@ -5669,7 +4710,7 @@ angular.module('encore.ui.utilities')
             updateExpiryTime();
         }
 
-        // We don't want to write to the browser's localStorage every time the model changes,
+        // We don't want to write to the browser's LocalStorage every time the model changes,
         // because that would turn typing into a textarea into an expensive operation.
         // We'll instead debounce the the writes for 1 second
         var debounced = debounce(update, 1000);
@@ -6314,6 +5355,271 @@ angular.module('encore.ui.utilities')
 
 /**
  * @ngdoc overview
+ * @name rxCharacterCount
+ * @description
+ * # rxCharacterCount Component
+ *
+ * A component designed for `<textarea>` elements that provides character count
+ * functionality.
+ *
+ * ## Directives
+ * * {@link rxCharacterCount.directive:rxCharacterCount rxCharacterCount}
+ */
+angular.module('encore.ui.rxCharacterCount', []);
+
+angular.module('encore.ui.rxCharacterCount')
+/**
+ * @ngdoc directive
+ * @name rxCharacterCount.directive:rxCharacterCount
+ * @restrict A
+ * @scope
+ * @description
+ *
+ * A component provides an attribute directive intended for adding to `<textarea>`
+ * elements. Place the `rx-character-count` attribute into your `<textarea>`, and
+ * a new `<div>` will be added directly underneath it. This directive requires
+ * that you're using `ng-model` with your `<textarea>`
+ *
+ * This `<div>` will watch the content of the `<textarea>`, and display how many
+ * characters are remaining. By default, 254 characters are "allowed". If there
+ * are less than 10 characters remaining, the counter will go orange. If the user
+ * enters more than 254 characters, the counter will go red.
+ *
+ * ### Leading and Trailing characters ###
+ * By default, any text field using `ng-model` has `ng-trim="true"` applied to it.
+ * This means that any leading and trailing spaces/blanks in your text field will
+ * be ignored. They will not count towards the remaining character count. If you
+ * want it to count leading/trailing spaces, then just add `ng-trim="false"` to
+ * your `<textarea>`.
+ *
+ * ### Styling ###
+ * When specifying a width other than the default, you should style some built-in
+ * classes in addition to the text field itself. As in the demo, the
+ * `.input-highlighting` class should have the same width as the text field
+ * (if highlighting is used), and the `.counted-input-wrapper` should be used to
+ * correctly position the counter.
+ *
+ * ### ngShow/ngHide/ngIf/ngSwitch/etc. ###
+ * If you wish to show/hide your `textarea` element, we recommend placing the
+ * element inside of a `<div>` or `<span>`, and doing the
+
+ * `ng-show` / `ng-hide` / etc. on that `div` / `span`. For example,
+ *
+ * <pre>
+ * <span ng-show="isShown">
+ *     <textarea rx-character-count>{{someValue}}</textarea>
+ * </span>
+ * </pre>
+ *
+ * We _do_ have preliminary support for putting these directives directly inside
+ * the `textarea`, i.e.
+ *
+ * <pre>
+ * <textarea rx-character-count ng-show="isShown">{{someValue}}</textarea>
+ * </pre>
+ *
+ * But this support should be considered experimental. If you choose to take
+ * advantage of it, please ensure you've extensively tested that it performs
+ * correctly for your uses.
+ *
+ * ### Highlighting ###
+ * Characters that are over the limit will be highlighted in red if the
+ * `highlight="true"` attribute is on the directive's element. Because this
+ * functionality is currently unstable, it has been left off by default. Please
+ * test your use case heavily before shipping with this feature enabled.
+ *
+ * Known failure cases:
+ * * Content that causes a scrollbar in the textarea
+ * * Initial text (coming from the model) that is over the limit
+ *
+ * @param {Number=} [low-boundary=10] How far from the maximum to enter a warning state
+ * @param {Number=} [max-characters=254] The maximum number of characters allowed
+ * @param {Boolean=} [highlight=false] Whether or not characters over the limit are highlighted
+ *
+ * @example
+ * <pre>
+ * <textarea ng-model="model" rx-character-count></textarea>
+ * </pre>
+ */
+.directive('rxCharacterCount', ["$compile", "$timeout", function ($compile, $timeout) {
+    var counterStart = '<div class="character-countdown" ';
+    var counterEnd =   'ng-class="{ \'near-limit\': nearLimit, \'over-limit\': overLimit }"' +
+                  '>{{ remaining }}</div>';
+
+    var backgroundStart = '<div class="input-highlighting" ';
+    var backgroundEnd = '><span>{{ underLimitText }}</span>' +
+                     '<span class="over-limit-text">{{ overLimitText }}</span></div>';
+
+    var extraDirectives = function (attrs) {
+        var extra = '';
+        if (_.has(attrs, 'ngShow')) {
+            extra += 'ng-show="' + attrs.ngShow + '" ';
+        }
+        if (_.has(attrs, 'ngHide')) {
+            extra += 'ng-hide="' + attrs.ngHide + '" ';
+        }
+        return extra;
+    };
+
+    var buildCounter = function (attrs) {
+        return counterStart + extraDirectives(attrs) + counterEnd;
+    };
+
+    var buildBackground = function (attrs) {
+        return backgroundStart + extraDirectives(attrs) + backgroundEnd;
+    };
+
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        // scope:true ensures that our remaining/nearLimit/overLimit scope variables
+        // only live within this directive
+        scope: true,
+        link: function (scope, element, attrs, ngModelCtrl) {
+            // Wrap the textarea so that an element containing a copy of the text
+            // can be layered directly behind it.
+            var wrapper = angular.element('<div class="counted-input-wrapper" />');
+            element.after(wrapper);
+
+            $compile(buildCounter(attrs))(scope, function (clone) {
+                wrapper.append(element);
+                wrapper.append(clone);
+            });
+
+            var maxCharacters = _.parseInt(attrs.maxCharacters) || 254;
+            var lowBoundary = _.parseInt(attrs.lowBoundary) || 10;
+            scope.remaining = maxCharacters;
+            scope.nearLimit = false;
+            scope.overLimit = false;
+
+            // This gets called whenever the ng-model for this element
+            // changes, i.e. when someone enters new text into the textarea
+            scope.$watch(
+                function () { return ngModelCtrl.$modelValue; },
+                function (newValue) {
+                    if (typeof newValue !== 'string') {
+                        return;
+                    }
+                    scope.remaining = maxCharacters - newValue.length;
+                    scope.nearLimit = scope.remaining >= 0 && scope.remaining < lowBoundary;
+                    scope.overLimit = scope.remaining < 0;
+                });
+
+            function countSpaces (str, options) {
+                options || (options = {});
+                return str.search(options.fromEnd ? /\s*$/ : /\S/);
+            }
+
+            // Since the input value is trimmed before writing to the model,
+            // an input event is attached to the element to handle the highlighting,
+            // which needs the pre- and post-trimmed string.
+            function writeLimitText () {
+                var val = element.val();
+                var cutoff = maxCharacters;
+                var end = val.length;
+
+                if (!attrs.ngTrim || attrs.ngTrim !== 'false') {
+                    cutoff += countSpaces(val);
+                    end = countSpaces(val, { fromEnd: true });
+                }
+
+                scope.underLimitText = val.slice(0, cutoff);
+                scope.overLimitText = val.slice(cutoff, end);
+                scope.$apply();
+            }
+
+            if (attrs.highlight === 'true') {
+                $compile(buildBackground(attrs))(scope, function (clone) {
+                    wrapper.prepend(clone);
+                });
+
+                element.on('input', writeLimitText);
+            }
+
+            scope.$on('$destroy', function () {
+                element.off('input');
+                $timeout(function () {
+                    // When the element containing the rx-character-count is removed, we have to
+                    // ensure we also remove the `wrapper`, which we created. We have to manually
+                    // destroy its scope and remove the element itself. All of this has to happen
+                    // in a $timeout() to ensure it occurs on the next $digest cycle, otherwise
+                    // we go into an infinite loop
+                    wrapper.scope().$destroy();
+                    wrapper.remove();
+                });
+            });
+
+        }
+    };
+}]);
+
+/**
+ * @ngdoc overview
+ * @name rxCollapse
+ * @description
+ * # rxCollapse Component
+ *
+ * `rxCollapse` component is used to display and hide content on a page.
+ *
+ * ## Directives
+ * * {@link rxCollapse.directive:rxCollapse rxCollapse}
+ */
+angular.module('encore.ui.rxCollapse', []);
+
+angular.module('encore.ui.rxCollapse')
+/**
+ * @ngdoc directive
+ * @name rxCollapse.directive:rxCollapse
+ * @restrict E
+ * @scope
+ * @description
+ * `rxCollapse` directive hides and shows an element with a transition.  It can be configured to show as either expanded
+ * or collapsed on page load.  A double chevron(**>>**) is used to toggle between show and hide contents, while keeping
+ * the header and border visible.
+ *
+ * ## Hide/Show Content
+ *
+ * * This pattern was developed for areas displaying metadata that may be short on screen real estate, as a way to hide
+ *  data on load that is not as important to the user in the context where they are presented.  `rxCollapse` toggles
+ *  between the *optional* `title` parameter with "*See More*" or "*See Less*".
+ * * This pattern is not very responsive-friendly, since as browser width decreases, columns will wrap. As columns wrap,
+ *  the "*See More*" `rxCollapse` elements get lost in the new context, which is bad for user experience.
+ * * To avoid the problem described above, "*See More*" `rxCollapse` elements should only be used at the end of the
+ * final column present on the page, so that when the columns wrap via flexbox, "*See More*" is always last and doesn't
+ * get lost in between metadata key/value pairs.
+ *
+ *
+ * @param {String=} [title="See More/See Less"]
+ * The title to display next to the toggle button. Default is "See More/See Less" toggle.
+ * @param {Boolean=} [expanded='true']
+ * Initially expanded or collapsed. Default is expanded.
+ *
+ * @example
+ * <pre>
+ * <rx-collapse title="Filter results" expanded="true">Text Here</rx-collapse>
+ * <rx-collapse expanded="true">Text Here</rx-collapse>
+ * </pre>
+ */
+.directive('rxCollapse', function () {
+    return {
+        restrict: 'E',
+        templateUrl: 'templates/rxCollapse.html',
+        transclude: true,
+        scope: {
+            title: '@'
+        },
+        link: function (scope, element, attrs) {
+            scope.isExpanded = (attrs.expanded === 'false') ? false : true;
+
+            scope.toggleExpanded = function () {
+                scope.isExpanded = !scope.isExpanded;
+            };
+        }
+    };
+});
+
+/**
+ * @ngdoc overview
  * @name rxCompile
  * @description
  * # rxCompile Component
@@ -6350,68 +5656,6 @@ angular.module('encore.ui.rxCompile')
                 $compile(element.contents())(scope);
             }
         );
-    };
-}]);
-
-angular.module('encore.ui.utilities')
-
-/**
- * @ngdoc filter
- * @name utilities.filter:rxDate
- * @description
- *
- * Converts dateString to standard Date format
- *
- *
- * <pre>
- * 2015-09-17T19:37:17Z → September 17, 2015
- * 2015-09-17T19:37:17Z, long → September 17, 2015
- * 2015-09-17T19:37:17Z, short → 2015-09-17
- * </pre>
- **/
-.filter('rxDate', ["rxMomentFormats", function (rxMomentFormats) {
-    return function (dateString, param) {
-        var date = moment(dateString);
-        if (date.isValid()) {
-            if (_.has(rxMomentFormats.date, param)) {
-                return date.format(rxMomentFormats.date[param]);
-            } else {
-                return date.format(rxMomentFormats.date['long']);
-            }
-        } else {
-            return dateString;
-        }
-    };
-}]);
-
-angular.module('encore.ui.utilities')
-
-/**
- * @ngdoc filter
- * @name utilities.filter:rxDateTime
- * @description
- *
- * Converts dateString to standard DateTime format
- *
- *
- * <pre>
- * 2015-09-17T19:37:17Z → Sep 17, 2015 @ 2:37PM (UTC-05:00)
- * 2015-09-17T19:37:17Z, long → Sep 17, 2015 @ 2:37PM (UTC-05:00)
- * 2015-09-17T19:37:17Z, short → 2015-09-17 @ 14:37-05:00
- * </pre>
- **/
-.filter('rxDateTime', ["rxMomentFormats", function (rxMomentFormats) {
-    return function (dateString, param) {
-        var date = moment(dateString);
-        if (date.isValid()) {
-            if (_.has(rxMomentFormats.dateTime, param)) {
-                return date.format(rxMomentFormats.dateTime[param]);
-            } else {
-                return date.format(rxMomentFormats.dateTime['long']);
-            }
-        } else {
-            return dateString;
-        }
     };
 }]);
 
@@ -6866,11 +6110,12 @@ angular.module('encore.ui.utilities')
  *  visible, even as a user scrolls down the page.
  *
  * `rxFloatingHeader` is also fully compatible with {@link rxSortableColumn} and {@link rxPaginate}.
- *
+ * 
  * ## Directives
  * * {@link rxFloatingHeader.directive:rxFloatingHeader rxFloatingHeader}
  */
 angular.module('encore.ui.rxFloatingHeader', [
+    'encore.ui.rxMisc'
 ]);
 
 angular.module('encore.ui.rxFloatingHeader')
@@ -7033,6 +6278,7 @@ angular.module('encore.ui.rxFloatingHeader')
                         var type = input.attr('type');
                         if (!type || type === 'text') {
                             th.addClass('filter-header');
+                            input.addClass('filter-box');
                             inputs.push(input);
                         }
                     }
@@ -7126,22 +6372,954 @@ angular.module('encore.ui.rxFloatingHeader')
     };
 }]);
 
+/**
+ * @ngdoc overview
+ * @name rxForm
+ * @description
+ * # rxForm Component
+ *
+ * The rxForm component contains a set of directives used to create forms throughout Encore.  These directives provide
+ * a common HTML layout and style for all form elements, which helps ensure form accessibility and makes creating new
+ *  forms easier.
+ *
+ * ## Directives Are Hierarchical
+ *
+ * To provide a standard layout of form fields (and so CSS rules can apply that layout), most of the new directives
+ *  must be nested in a specific hierarchy.
+ *  If you do not nest these elements properly, Angular will throw an error (this is by design). So, rule of thumb,
+ *  aim for `0` console errors.
+ *
+ * These directives must be nested in the following hierarchy (*the ranges (e.g., 0..1) below denote how many items can
+ *  be nested within its parent*):
+ *
+ * * {@link rxForm.directive:rxForm rxForm}
+ *   * {@link rxForm.directive:rxFormSection rxFormSection} (0..N)
+ *      * {@link rxSelectFilter.directive:rxSelectFilter rxSelectFilter} (0..N)
+ *      * {@link rxForm.directive:rxField rxField} (0..N)
+ *        * {@link rxForm.directive:rxFieldName rxFieldName} (0..1)
+ *        * {@link rxForm.directive:rxFieldContent rxFieldContent} (0..1)
+ *          * {@link rxForm.directive:rxInput rxInput} (0..N)
+ *            * {@link rxForm.directive:rxPrefix rxPrefix} (0..1)
+ *            * {@link rxForm.directive:rxInfix rxInfix} (0..1)
+ *            * {@link rxForm.directive:rxSuffix rxSuffix} (0..1)
+ *
+ * ## Free-Range Directives
+ * These directives are not limited to their placement and can be used anywhere:
+ *
+ * * {@link rxForm.directive:rxHelpText rxHelpText}
+ *   * Designed to style form control help text.
+ * * {@link rxForm.directive:rxInlineError rxInlineError}
+ *   * Designed to style form control error messages.
+ *
+ * ## Compatible Modules
+ * These modules work well with rxForm.
+ *
+ * * {@link elements.directive:rxButton rxButton}
+ * * {@link rxCharacterCount}
+ * * {@link elements.directive:rxCheckbox rxCheckbox}
+ * * {@link rxMultiSelect}
+ * * {@link rxOptionTable}
+ * * {@link rxRadio}
+ * * {@link rxSearchBox}
+ * * {@link rxSelect}
+ * * {@link rxToggleSwitch}
+ * * {@link typeahead}
+ *
+ * # Layout
+ *
+ * ## Stacked Field Arrangement
+ * By default, `rx-form-section` will arrange its children inline, in a row.  To obtain a stacked, columnar layout
+ * for a particular section, place the `stacked` attribute on the `rx-form-section` element.  This will arrange the
+ * `rx-field`, `rx-select-filter`, and `div` children elements in a columnar fashion.  This can be used in conjunction
+ * with sections taking the full width of the form.
+ *
+ *  *See "Advanced Inputs" in the {@link /encore-ui/#/components/rxForm demo} for an example.*
+ *
+ * ## Responsive
+ * `rx-field` and `div` elements that are immediate children of `rx-form-section` will grow from 250px to full width of
+ * the section.  As such, you will see that these elements will wrap in the section if there's not enough width to
+ * accomodate more than one child.
+ *
+ * *You can see this in the {@link /encore-ui/#/components/rxForm demo} if you resize the width of your browser.*
+ *
+ * # Validation
+ *
+ * ## Required Fields
+ * When displaying a field that should be required, please make use of the `ng-required` attribute for rxFieldName.
+ * When the value evaluates to true, an asterisk will display to the left of the field name.  You can see an example
+ * of this with the "Required Textarea" field name in the {@link /encore-ui/#/components/rxForm demo}.
+ *
+ * See {@link rxForm.directive:rxFieldName rxFieldName}
+ * API Documentation for more information.
+ *
+ * ## Custom Validators
+ *
+ * Angular provides its own validator when you use `type="email"`, and you can use `<rx-inline-error>` to turn email
+ * validation errors into a styled message.  You can also use this element if you define a custom validator.
+ *
+ * ### Foocheck validator
+ * The example shown in the "Email Address" example, uses a custom `foocheck` validator. Note that it is enabled by
+ * placing the `foocheck` attribute in the `<input>` element, and using it with
+ * `ng-show="demoForm.userEmail.$error.foocheck"`.  Check out the Javascript tab in
+ * the {@link /encore-ui/#/components/rxForm demo} to see how this validator is implemented.
+ *
+ * There are plenty of examples online showing the same thing.
+ *
+ * # Migrating Old Code
+ *
+ * ## Deprecated Directives
+ * **The following directives have been deprecated and *will be removed* in a future release of the EncoreUI
+ * framework.** They are still functional, but **WILL display a warning in the javascript console** to let you know
+ * you should upgrade your code.
+ *
+ * ### **rxFormOptionTable**
+ * Please use {@link rxOptionTable} as a stand-in replacement.
+ *
+ * ### **rxFormItem**
+ * See "Before & After" below
+ *
+ * ### **rxFormFieldset**
+ * Closest equivalent is to use `rxFormSection`. Your individual project requirements will vary, but the `legend`
+ * attribute can be replaced with a heading variant where applicable.
+ *
+ * * If your legend pertains to at least one row, place a heading variant before the desired `rx-form-section`
+ * element.
+ * * If your legend pertains to controls in a single column, place a heading variant within the `rx-field`
+ * element at the top.
+ *
+ * ## Before &amp; After
+ * The `rxFormItem` has been found to be incredibly brittle and prone to breakage. The new markup may look a little
+ * wordy, but it is designed to provide enough flexibility for advanced field inputs. To be explicit, the new directives
+ * were designed based on feedback around:
+ *
+ * * applying custom HTML markup for `label`, `description`, `prefix`, and `suffix` properties
+ * * standardizing form layout functionality
+ * * eliminating unnecessary CSS class definitions
+ *
+ * The following are some examples comparing what code looked like using the old directives versus the new directives.
+ *
+ * ### Email Address
+ * #### Before
+ * <pre>
+ * <form name="demoForm">
+ *   <rx-form-item label="Email address" description="Must contain foo.">
+ *     <input name="userEmail" type="email" ng-model="details.email" foocheck />
+ *     <div ng-show="demoForm.userEmail.$error.email" class="inline-error">
+ *         Invalid email
+ *     </div>
+ *     <div ng-show="demoForm.userEmail.$error.foocheck" class="inline-error">
+ *         Your email address must contain 'foo'
+ *     </div>
+ *   </rx-form-item>
+ * </form>
+ * </pre>
+ *
+ * #### After
+ * <pre>
+ * <form name="demoForm" rx-form>
+ *   <rx-form-section>
+ *     <rx-field>
+ *       <rx-field-name>Email address:</rx-field-name>
+ *       <rx-field-content>
+ *         <rx-input>
+ *           <input name="userEmail" type="email" ng-model="details.email" foocheck />
+ *         </rx-input>
+ *         <rx-help-text>Must contain foo.</rx-help-text>
+ *         <rx-inline-error ng-show="demoForm.userEmail.$error.email">
+ *             Invalid email
+ *         </rx-inline-error>
+ *         <rx-inline-error ng-show="demoForm.userEmail.$error.foocheck">
+ *             Your email address must contain 'foo'
+ *         </rx-inline-error>
+ *       </rx-field-content>
+ *     </rx-field>
+ *   </rx-form-section>
+ * </form>
+ * </pre>
+ *
+ * ### Monthly Cost
+ * #### Before
+ * <pre>
+ * <form name="demoForm">
+ *   <rx-form-item label="Monthly Cost" prefix="$" suffix="million">
+ *     <input type="number" ng-model="volume.cost" />
+ *   </rx-form-item>
+ * </form>
+ * </pre>
+ * #### After
+ * <pre>
+ * <form name="demoForm" rx-form>
+ *   <rx-form-section>
+ *     <rx-field>
+ *       <rx-field-name>Monthly Cost:</rx-field-name>
+ *       <rx-field-content>
+ *         <rx-input>
+ *           <rx-prefix>$</rx-prefix>
+ *           <input type="number" ng-model="volume.cost" />
+ *           <rx-suffix>million</rx-suffix>
+ *         </rx-input>
+ *       </rx-field-content>
+ *     </rx-field>
+ *   </rx-form-section>
+ * </form>
+ * </pre>
+ *
+ * ## Hierarchical Directives
+ * * {@link rxForm.directive:rxForm rxForm}
+ * * {@link rxForm.directive:rxFormSection rxFormSection}
+ * * {@link rxForm.directive:rxField rxField}
+ * * {@link rxForm.directive:rxFieldName rxFieldName}
+ * * {@link rxForm.directive:rxFieldContent rxFieldContent}
+ * * {@link rxForm.directive:rxInput rxInput}
+ * * {@link rxForm.directive:rxPrefix rxPrefix}
+ * * {@link rxForm.directive:rxSuffix rxSuffix}
+ *
+ * ## Free-Range Directives
+ * * {@link rxForm.directive:rxHelpText rxHelpText}
+ * * {@link rxForm.directive:rxInlineError rxInlineError}
+ *
+ * ### Related Directives
+ * * {@link elements.directive:rxButton rxButton}
+ * * {@link rxCharacterCount.directive:rxCharacterCount rxCharacterCount}
+ * * {@link elements.directive:rxCheckbox rxCheckbox}
+ * * {@link rxOptionTable.directive:rxOptionTable rxOptionTable}
+ * * {@link rxRadio.directive:rxRadio rxRadio}
+ * * {@link rxSelect.directive:rxSelect rxSelect}
+ * * {@link rxToggleSwitch.directive:rxToggleSwitch rxToggleSwitch}
+ *
+ * ### Deprecated Directives
+ * * {@link rxForm.directive:rxFormItem rxFormItem}
+ * * {@link rxForm.directive:rxFormFieldset rxFormFieldset}
+ *
+ */
+angular.module('encore.ui.rxForm', [
+    'ngSanitize',
+    'encore.ui.rxMisc'
+]);
+
+angular.module('encore.ui.rxForm')
+/**
+ * @name rxForm.directive:rxField
+ * @ngdoc directive
+ * @restrict E
+ * @description
+ * Structural element directive used for layout of sub-elements.
+ *
+ * <dl>
+ *   <dt>Display:</dt>
+ *   <dd>**block**
+ *     <ul>
+ *       <li>default: *shares width equally with sibling `rxField` and `div` elements*</li>
+ *       <li>stacked: *max-width: 400px*</li>
+ *     </ul>
+ *   </dd>
+ *
+ *   <dt>Parent:</dt>
+ *   <dd>{@link rxForm.directive:rxFormSection rxFormSection}</dd>
+ *
+ *   <dt>Siblings:</dt>
+ *   <dd>Any HTML Element</dd>
+ *
+ *   <dt>Children:</dt>
+ *   <dd>
+ *     <ul>
+ *       <li>{@link rxForm.directive:rxFieldName rxFieldName}</li>
+ *       <li>{@link rxForm.directive:rxFieldContent rxFieldContent}</li>
+ *       <li>Any HTML Element</li>
+ *     </ul>
+ *   </dd>
+ * </dl>
+ *
+ * @example
+ * <pre>
+ * ...
+ * <form rx-form>
+ *   <rx-form-section>
+ *     <rx-field>
+ *       <rx-field-name>...</rx-field-name>
+ *       <rx-field-content>...</rx-field-content>
+ *     </rx-field>
+ *   </rx-form-section>
+ * </form>
+ * ...
+ * </pre>
+ */
+.directive('rxField', ["rxNestedElement", function (rxNestedElement) {
+    return rxNestedElement({
+        parent: 'rxFormSection'
+    });
+}]);
+
+angular.module('encore.ui.rxForm')
+/**
+ * @name rxForm.directive:rxFieldContent
+ * @ngdoc directive
+ * @restrict E
+ * @description
+ * Structural element directive used for layout of sub-elements.
+ * This element is used to wrap the actual content markup for your
+ * controls, labels, help text, and error messages.
+ *
+ * <dl>
+ *   <dt>Display:</dt>
+ *   <dd>**block** *(full width of parent)*</dd>
+ *
+ *   <dt>Parent:</dt>
+ *   <dd>{@link rxForm.directive:rxField rxField}</dd>
+ *
+ *   <dt>Siblings:</dt>
+ *   <dd>
+ *     <ul>
+ *       <li>{@link rxForm.directive:rxFieldName rxFieldName}</li>
+ *       <li>Any HTML Element</li>
+ *     </ul>
+ *   </dd>
+ *
+ *   <dt>Children:</dt>
+ *   <dd>
+ *     <ul>
+ *       <li>{@link rxForm.directive:rxInput rxInput}</li>
+ *       <li>Any HTML Element</li>
+ *     </ul>
+ *   </dd>
+ * </dl>
+ *
+ * @example
+ * <pre>
+ * ...
+ * <form rx-form>
+ *   <rx-form-section>
+ *     <rx-field>
+ *       <rx-field-name>
+ *          <i class="fa fa-exclamation"></i>
+ *          Important Field Name
+ *       </rx-field-name>
+ *       <rx-field-content>
+ *          <rx-input>...</rx-input>
+ *       </rx-field-content>
+ *     </rx-field>
+ *   </rx-form-section>
+ * </form>
+ * ...
+ * </pre>
+ */
+.directive('rxFieldContent', ["rxNestedElement", function (rxNestedElement) {
+    return rxNestedElement({
+        parent: 'rxField'
+    });
+}]);
+
+angular.module('encore.ui.rxForm')
+/**
+ * @name rxForm.directive:rxFieldName
+ * @ngdoc directive
+ * @restrict E
+ * @scope
+ * @description
+ * Stylistic element directive that provides a standardized UI for
+ * form field names.
+ *
+ * <dl>
+ *   <dt>Display:</dt>
+ *   <dd>**block** *(full width of parent)*</dd>
+ *
+ *   <dt>Parent:</dt>
+ *   <dd>{@link rxForm.directive:rxField rxField}</dd>
+ *
+ *   <dt>Siblings:</dt>
+ *   <dd>
+ *     <ul>
+ *       <li>{@link rxForm.directive:rxFieldContent rxFieldContent}</li>
+ *       <li>Any HTML Element</li>
+ *     </ul>
+ *   </dd>
+ *
+ *   <dt>Children:</dt>
+ *   <dd>Any HTML Element</dd>
+ * </dl>
+ *
+ * @example
+ * <pre>
+ * ...
+ * <form rx-form>
+ *   <rx-form-section>
+ *     <rx-field>
+ *       <rx-field-name>Salary</rx-field-name>
+ *       <rx-field-content>...</rx-field-content>
+ *     </rx-field>
+ *   </rx-form-section>
+ * </form>
+ * ...
+ * </pre>
+ *
+ * @param {Boolean=} [ng-required=false]
+ * Is this field required? This will add/remove the required symbol to the left of the name.
+ */
+.directive('rxFieldName', ["rxNestedElement", function (rxNestedElement) {
+    return rxNestedElement({
+        parent: 'rxField',
+        transclude: true,
+        scope: {
+            ngRequired: '=?'
+        },
+        templateUrl: 'templates/rxFieldName.html'
+    });
+}]);
+
+angular.module('encore.ui.rxForm')
+/**
+ * @name rxForm.directive:rxForm
+ * @ngdoc directive
+ * @restrict A
+ * @description
+ * The rxForm directive is an attribute directive meant to be used for
+ * hierarchical validation of form-related elements. This directive may
+ * be placed on ANY DOM element, not just `<form>`.
+ *
+ * <dl>
+ *   <dt>Display:</dt>
+ *   <dd>**block** *(full width of parent)*</dd>
+ *
+ *   <dt>Parent:</dt>
+ *   <dd>Any HTML Element</dd>
+ *
+ *   <dt>Siblings:</dt>
+ *   <dd>Any HTML Element</dd>
+ *
+ *   <dt>Children:</dt>
+ *   <dd>
+ *     <ul>
+ *       <li>{@link rxForm.directive:rxFormSection rxFormSection}</li>
+ *       <li>Any HTML Element</li>
+ *     </ul>
+ *   </dd>
+ * </dl>
+ *
+ * @example
+ * <pre>
+ * ...
+ * <form rx-form><!-- you can use a DIV, if desired -->
+ *   <rx-form-section>
+ *     ...
+ *   </rx-form-section>
+ * </form>
+ * ...
+ * </pre>
+ */
+.directive('rxForm', ["rxNestedElement", function (rxNestedElement) {
+    return rxNestedElement({
+        restrict: 'A'
+    });
+}]);
+
+angular.module('encore.ui.rxForm')
+/**
+ * @name rxForm.directive:rxFormFieldset
+ * @deprecated
+ * @ngdoc directive
+ * @restrict E
+ * @scope
+ * @description
+ * **DEPRECATED** - This directive has been marked as deprecated and *will be removed* in a future
+ * release of the EncoreUI framework.  Please see current rxForm documentation for updated
+ * functionality.
+ *
+ * This directive is used to wrap a set of input fields in the proper HTML
+ *
+ * @param {String} legend - Text to use for <legend>
+ * @param {String} description - Text to place below input
+ */
+.directive('rxFormFieldset', function () {
+    var warnMsg = 'DEPRECATION WARNING: rxFormFieldset has been marked as deprecated ' +
+        'and will be removed in a future release of the EncoreUI framework. ' +
+        'Please see current rxForm documentation for updated functionality.';
+    console.warn(warnMsg);
+
+    return {
+        restrict: 'E',
+        templateUrl: 'templates/rxFormFieldset.html',
+        transclude: true,
+        scope: {
+            legend: '@',
+            description: '@'
+        }
+    };
+});
+
+angular.module('encore.ui.rxForm')
+/**
+ * @name rxForm.directive:rxFormItem
+ * @deprecated
+ * @ngdoc directive
+ * @restrict E
+ * @scope
+ * @description
+ * **DEPRECATED** - This directive has been marked as deprecated and *will be removed* in a future
+ * release of the EncoreUI framework.  Please see current rxForm documentation for updated
+ * functionality.
+ *
+ * This directive is used to wrap input fields and select boxes in the proper HTML.
+ * It will attach the `<label>` to a transcluded input using the `id` attribute of the input.
+ * If no `id` attribute exists, it will create one.
+ *
+ * @param {String} label - Text to use for <label>
+ * @param {String} prefix - Text to include to the left of content
+ * @param {String} suffix - Text to include to the right of content
+ * @param {String} description - Text to place below input
+ */
+.directive('rxFormItem', ["$document", "rxDOMHelper", function ($document, rxDOMHelper) {
+    var warnMsg = 'DEPRECATION WARNING: rxFormItem has been marked as deprecated ' +
+        'and will be removed in a future release of the EncoreUI framework. ' +
+        'Please see current rxForm documentation for updated functionality.';
+    console.warn(warnMsg);
+
+    return {
+        restrict: 'E',
+        templateUrl: 'templates/rxFormItem.html',
+        transclude: true,
+        scope: {
+            label: '@',
+            suffix: '@',
+            prefix: '@',
+            description: '@'
+        },
+        link: function (scope, el) {
+            var inputSelectors = [
+                '.field-input-wrapper input',
+                '.field-input-wrapper select',
+                '.field-input-wrapper textarea'
+            ];
+            inputSelectors = inputSelectors.join(', ');
+
+            // For accessibility reasons, we need to link the <label> to the <input>
+            // To do this, we use the 'for' and 'id' attributes on the <label> and <input> tags, respectively
+            // Since the field input is dynamically inserted, we don't know its ID (or if it has one)
+            // This code takes care of linking the two
+
+            var setFieldId = function () {
+                // default to scope's id
+                var fieldId = 'field-' + scope.$id;
+
+                var inputField = el[0].querySelector(inputSelectors);
+
+                scope.isTextArea = _.isObject(inputField) && inputField.type === 'textarea';
+
+                // make sure an input field is found
+                if (!_.isObject(inputField)) {
+                    return;
+                }
+
+                // Manually insert the `suffix` span after the input/select/textarea
+                // It needs to be in between the input/select/textarea and any other
+                // transcluded content, so we have to do it here instead of in the template
+                if (scope.suffix) {
+                    var suffixSpan = $document[0].createElement('span');
+                    suffixSpan.innerHTML = scope.suffix;
+                    suffixSpan.className = 'field-suffix';
+                    inputField.parentNode.insertBefore(suffixSpan, inputField.nextSibling);
+                }
+
+                // Put a <span class="field-input"> around the input/select/textarea
+                var fieldInputSpan = $document[0].createElement('span');
+                fieldInputSpan.className = 'field-input';
+                rxDOMHelper.wrapAll(fieldInputSpan, inputField);
+
+                var inputId = inputField.getAttribute('id');
+
+                if (_.isString(inputId)) {
+                    fieldId = inputId;
+                } else {
+                    inputField.setAttribute('id', fieldId);
+                }
+
+                el[0].querySelector('.field-label').setAttribute('for', fieldId);
+            };
+
+            setFieldId();
+        }
+    };
+}]);
+
+angular.module('encore.ui.rxForm')
+/**
+ * @name rxForm.directive:rxFormSection
+ * @ngdoc directive
+ * @restrict E
+ * @description
+ * Structural element directive used for layout of sub-elements.
+ *
+ * By default, all `rxField`, `rxSelectFilter`, and `<div>` elements will display inline (horizontally).
+ * If you wish to display these elements in a stacked manner, you may
+ * place the `stacked` attribute on `rx-form-section`.
+ *
+ * <dl>
+ *   <dt>Display:</dt>
+ *   <dd>**block** *(full width of parent)*</dd>
+ *
+ *   <dt>Parent:</dt>
+ *   <dd>{@link rxForm.directive:rxForm rxForm}</dd>
+ *
+ *   <dt>Siblings:</dt>
+ *   <dd>Any HTML Element</dd>
+ *
+ *   <dt>Children:</dt>
+ *   <dd>
+ *     <ul>
+ *       <li>{@link rxForm.directive:rxField rxField}</li>
+ *       <li>{@link rxSelectFilter.directive:rxSelectFilter rxSelectFilter}</li>
+ *       <li>HTML DIV Element</li>
+ *     </ul>
+ *   </dd>
+ * </dl>
+ *
+ * @example
+ * <pre>
+ * ...
+ * <form rx-form>
+ *   <rx-form-section>
+ *     <rx-field>...</rx-field>
+ *     <rx-select-filter>...</rx-select-filter>
+ *     <div>...</div>
+ *   </rx-form-section>
+ * </form>
+ * ...
+ * </pre>
+ *
+ * @param {*=} stacked
+ * If present, `rxField` children will stack vertically rather than
+ * display horizontally.
+ */
+.directive('rxFormSection', ["rxNestedElement", function (rxNestedElement) {
+    return rxNestedElement({
+        parent: 'rxForm'
+    });
+}]);
+
+angular.module('encore.ui.rxForm')
+/**
+ * @name rxForm.directive:rxHelpText
+ * @ngdoc directive
+ * @restrict E
+ * @description
+ * Stylistic element directive used to wrap form input help text.
+ *
+ * * **block** element *(full width of parent)*
+ * * Best used as a sibling after {@link rxForm.directive:rxInput rxInput},
+ *   but before {@link rxForm.directive:rxInlineError rxInlineError} elements.
+ *
+ * @example
+ * <pre>
+ * ...
+ * <form rx-form name="demoForm">
+ *   <rx-form-section>
+ *     <rx-field>
+ *       <rx-field-name>Salary:</rx-field-name>
+ *       <rx-field-content>
+ *         <rx-input>
+ *           <rx-prefix>$</rx-prefix>
+ *           <input type="number" name="salary" />
+ *           <rx-suffix>Million</rx-suffix>
+ *         </rx-input>
+ *         <rx-help-text>Must be greater than $1,000,000</rx-help-text>
+ *         <rx-inline-error ng-show="demoForm.salary.$errors.minimum">
+ *           Salary must be above $1,000,000
+ *         </rx-inline-error>
+ *       </rx-field-content>
+ *     </rx-field>
+ *   </rx-form-section>
+ * </form>
+ * ...
+ * </pre>
+ */
+.directive('rxHelpText', function () {
+    return {
+        restrict: 'E'
+    };
+});
+
+angular.module('encore.ui.rxForm')
+/**
+ * @name rxForm.directive:rxInfix
+ * @ngdoc directive
+ * @restrict E
+ * @description
+ * Structural element directive used to wrap content to be placed
+ * inline with a form control element.
+ *
+ * <dl>
+ *   <dt>Display:</dt>
+ *   <dd>**inline block** *(only as wide as necessary for content)*</dd>
+ *
+ *   <dt>Parent:</dt>
+ *   <dd>{@link rxForm.directive:rxInput rxInput}</dd>
+ *
+ *   <dt>Siblings:</dt>
+ *   <dd>
+ *     <ul>
+ *       <li>{@link rxForm.directive:rxPrefix rxPrefix}</li>
+ *       <li>{@link rxForm.directive:rxSuffix rxSuffix}</li>
+ *       <li>Any HTML Element</li>
+ *     </ul>
+ *   </dd>
+ *
+ *   <dt>Children:</dt>
+ *   <dd>Any HTML Element</dd>
+ * </dl>
+ *
+ * @example
+ * <pre>
+ * ...
+ * <form rx-form>
+ *   <rx-form-section>
+ *     <rx-field>
+ *       <rx-field-name>Time of Day:</rx-field-name>
+ *       <rx-field-content>
+ *         <rx-input>
+ *           <input type="number" name="hours" />
+ *           <rx-infix>:</rx-infix>
+ *           <input type="number" name="minutes" />
+ *         </rx-input>
+ *       </rx-field-content>
+ *     </rx-field>
+ *   </rx-form-section>
+ * </form>
+ * ...
+ * </pre>
+ */
+.directive('rxInfix', ["rxNestedElement", function (rxNestedElement) {
+    return rxNestedElement({
+        parent: 'rxInput'
+    });
+}]);
+
+angular.module('encore.ui.rxForm')
+/**
+ * @name rxForm.directive:rxInlineError
+ * @ngdoc directive
+ * @restrict E
+ * @description
+ * Stylistic element directive used to wrap an error message.
+ *
+ * * **block** element *(full width of parent)*
+ * * Best used as a sibling after {@link rxForm.directive:rxInput rxInput},
+ *   and {@link rxForm.directive:rxHelpText rxHelpText} elements.
+ *
+ * @example
+ * <pre>
+ * ...
+ * <form rx-form name="demoForm">
+ *   <rx-form-section>
+ *     <rx-field>
+ *       <rx-field-name>Salary:</rx-field-name>
+ *       <rx-field-content>
+ *         <rx-input>
+ *           <rx-prefix>$</rx-prefix>
+ *           <input type="number" name="salary" min="1000000" ng-model="salary" />
+ *           <rx-suffix>Million</rx-suffix>
+ *         </rx-input>
+ *         <rx-inline-error ng-show="demoForm.salary.$errors.min">
+ *           Salary must be above $1,000,000
+ *         </rx-inline-error>
+ *       </rx-field-content>
+ *     </rx-field>
+ *   </rx-form-section>
+ * </form>
+ * ...
+ * </pre>
+ */
+.directive('rxInlineError', function () {
+    return {
+        restrict: 'E'
+    };
+});
+
+angular.module('encore.ui.rxForm')
+/**
+ * @name rxForm.directive:rxInput
+ * @ngdoc directive
+ * @restrict E
+ * @description
+ * Structural element directive used for layout of sub-elements.
+ * Place your HTML control elements within this directive.
+ *
+ * <dl>
+ *   <dt>Display:</dt>
+ *   <dd>**block** *(full width of parent)*</dd>
+ *
+ *   <dt>Parent:</dt>
+ *   <dd>{@link rxForm.directive:rxFieldContent rxFieldContent}</dd>
+ *
+ *   <dt>Siblings:</dt>
+ *   <dd>Any HTML Element</dd>
+ *
+ *   <dt>Children:</dt>
+ *   <dd>
+ *     <ul>
+ *       <li>{@link rxForm.directive:rxPrefix rxPrefix}</li>
+ *       <li>{@link rxForm.directive:rxSuffix rxSuffix}</li>
+ *       <li>{@link elements.directive:rxCheckbox rxCheckbox}</li>
+ *       <li>{@link rxRadio.directive:rxRadio rxRadio}</li>
+ *       <li>{@link rxSelect.directive:rxSelect rxSelect}</li>
+ *       <li>{@link rxToggleSwitch.directive:rxToggleSwitch rxToggleSwitch}</li>
+ *       <li>{@link rxOptionTable.directive:rxOptionTable rxOptionTable}</li>
+ *       <li>Any HTML Element</li>
+ *     </ul>
+ *   </dd>
+ * </dl>
+ *
+ * @example
+ * <pre>
+ * ...
+ * <form rx-form>
+ *   <rx-form-section>
+ *     <rx-field>
+ *       <rx-field-name>Salary:</rx-field-name>
+ *       <rx-field-content>
+ *         <rx-input>
+ *           <input type="number" />
+ *         </rx-input>
+ *       </rx-field-content>
+ *     </rx-field>
+ *   </rx-form-section>
+ * </form>
+ * ...
+ * </pre>
+ */
+.directive('rxInput', ["rxNestedElement", function (rxNestedElement) {
+    return rxNestedElement({
+        parent: 'rxFieldContent'
+    });
+}]);
+
+angular.module('encore.ui.rxForm')
+/**
+ * @name rxForm.directive:rxPrefix
+ * @ngdoc directive
+ * @restrict E
+ * @description
+ * Structural element directive used to wrap content to be placed
+ * inline with a form control element.
+ *
+ * * Best placed before a form control element.
+ *
+ * <dl>
+ *   <dt>Display:</dt>
+ *   <dd>**inline block** *(only as wide as necessary for content)*</dd>
+ *
+ *   <dt>Parent:</dt>
+ *   <dd>{@link rxForm.directive:rxInput rxInput}</dd>
+ *
+ *   <dt>Siblings:</dt>
+ *   <dd>
+ *     <ul>
+ *       <li>{@link rxForm.directive:rxInfix rxInfix}</li>
+ *       <li>{@link rxForm.directive:rxSuffix rxSuffix}</li>
+ *       <li>Any HTML Element</li>
+ *     </ul>
+ *   </dd>
+ *
+ *   <dt>Children:</dt>
+ *   <dd>Any HTML Element</dd>
+ * </dl>
+ *
+ * @example
+ * <pre>
+ * ...
+ * <form rx-form>
+ *   <rx-form-section>
+ *     <rx-field>
+ *       <rx-field-name>Salary:</rx-field-name>
+ *       <rx-field-content>
+ *         <rx-input>
+ *           <rx-prefix>$</rx-prefix>
+ *           <input type="number" />
+ *           <rx-suffix>Million</rx-suffix>
+ *         </rx-input>
+ *       </rx-field-content>
+ *     </rx-field>
+ *   </rx-form-section>
+ * </form>
+ * ...
+ * </pre>
+ */
+.directive('rxPrefix', ["rxNestedElement", function (rxNestedElement) {
+    return rxNestedElement({
+        parent: 'rxInput'
+    });
+}]);
+
+angular.module('encore.ui.rxForm')
+/**
+ * @name rxForm.directive:rxSuffix
+ * @ngdoc directive
+ * @restrict E
+ * @description
+ * Structural element directive used to wrap content to be placed
+ * inline with a form control element.
+ *
+ * * Best placed after a form control element.
+ *
+ * <dl>
+ *   <dt>Display:</dt>
+ *   <dd>**inline block** *(only as wide as necessary for content)*</dd>
+ *
+ *   <dt>Parent:</dt>
+ *   <dd>{@link rxForm.directive:rxInput rxInput}</dd>
+ *
+ *   <dt>Siblings:</dt>
+ *   <dd>
+ *     <ul>
+ *       <li>{@link rxForm.directive:rxPrefix rxPrefix}</li>
+ *       <li>{@link rxForm.directive:rxInfix rxInfix}</li>
+ *       <li>Any HTML Element</li>
+ *     </ul>
+ *   </dd>
+ *
+ *   <dt>Children:</dt>
+ *   <dd>Any HTML Element</dd>
+ * </dl>
+ *
+ * @example
+ * <pre>
+ * ...
+ * <form rx-form>
+ *   <rx-form-section>
+ *     <rx-field>
+ *       <rx-field-name>Salary:</rx-field-name>
+ *       <rx-field-content>
+ *         <rx-input>
+ *           <rx-prefix>$</rx-prefix>
+ *           <input type="number" />
+ *           <rx-suffix>Million</rx-suffix>
+ *         </rx-input>
+ *       </rx-field-content>
+ *     </rx-field>
+ *   </rx-form-section>
+ * </form>
+ * ...
+ * </pre>
+ */
+.directive('rxSuffix', ["rxNestedElement", function (rxNestedElement) {
+    return rxNestedElement({
+        parent: 'rxInput'
+    });
+}]);
+
 angular.module('encore.ui.utilities')
 /**
  * @name utilities.service:rxFormUtils
  * @ngdoc service
  *
  * @description
- * Set of utility functions used by rxForm to access form data in 
- * {@link rxOptionTable.directive:rxOptionTable rxOptionTable}.
+ * Set of utility functions used by rxForm to access form data.
  *
+ * @example
  * <pre>
- * // Returns the selected option for the rxOptionTable with id tableId
+ * // Returns the selected option for the rxFormOptionTable with id tableId
  * // [{ tableId: 'tableId', fieldId: 'fieldId', rowId: 'rowId' }]
  * getSelectedOptionForTable(tableId)
- * </pre>
- * <pre>
- * // Returns the selected option for the rxOptionTable in the tabset with id tabsetId
+
+ * // Returns the selected option for the rxFormOptionTable in the tabset with id tabsetId
  * // [{ tableId: 'tableId', fieldId: 'fieldId', rowId: 'rowId' }]
  * getSelectedOptionForTabSet(tabsetId)
  * </pre>
@@ -7149,19 +7327,13 @@ angular.module('encore.ui.utilities')
 .factory('rxFormUtils', ["$document", function ($document) {
     var rxFormUtils = {};
 
-    /**
-     * @ngdoc function
-     * @name  rxFormUtils.getSelectedOptionForTable
-     * @methodOf utilities.service:rxFormUtils
-     * @description
-     * Returns the selected option for the {@link rxOptionTable.directive:rxOptionTable rxOptionTable} with
-     * `id`: tableId and `fieldId`: fieldId (optional).
-     * @param {String} tableId - The id of the table
-     * @returns {object} The rowId of the selected option
-     */
+    // Returns the selected option for the rxFormOptionTable with id: tableId
+    // and fieldId: fieldId (optional)
+    // @param {String} tableId - The id of the table
+    // @returns {object} The rowId of the selected option
     rxFormUtils.getSelectedOptionForTable = function (tableId) {
         var selectedRow;
-        var row = $document[0].querySelector('rx-option-table#' + tableId + ' .selected input');
+        var row = $document[0].querySelector('rx-form-option-table#' + tableId + ' .selected input');
 
         if (_.isObject(row) && 'value' in row) {
             selectedRow = { rowId: row.value };
@@ -7169,19 +7341,13 @@ angular.module('encore.ui.utilities')
         return selectedRow;
     };
 
-    /**
-     * @ngdoc function
-     * @name  rxFormUtils.getSelectedOptionForTabSet
-     * @methodOf utilities.service:rxFormUtils
-     * @description
-     * Returns the selected option within the tabset.
-     * @param {String} tabsetId - The id of the tabset
-     * @returns {object} The tableId, fieldId, and rowId of the selected option
-     */
+    // Returns the selected option within the tabset
+    // @param {String} tabsetId - The id of the tabset
+    // @returns {object} The tableId, fieldId, and rowId of the selected option
     rxFormUtils.getSelectedOptionForTabSet = function (tabsetId) {
         var selectedOption;
         var xpathToTable = '//div[@id="' + tabsetId +
-            '"]//tr[contains(@class, "selected")]//ancestor::rx-option-table';
+            '"]//tr[contains(@class, "selected")]//ancestor::rx-form-option-table';
         var result = $document[0].evaluate(xpathToTable, $document[0], null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
         if (result.singleNodeValue) {
             var table = result.singleNodeValue;
@@ -7193,6 +7359,81 @@ angular.module('encore.ui.utilities')
     };
 
     return rxFormUtils;
+}]);
+
+angular.module('encore.ui.utilities')
+/**
+ * @ngdoc service
+ * @name utilities.service:rxHideIfUkAccount
+ * @description
+ * Check if account number in the URL is of UK origin.
+ *
+ * @return {Boolean} false if account number matches UK pattern
+ * Use it as `visibility: [ 'rxHideIfUkAccount' ]`
+ */
+.factory('rxHideIfUkAccount', ["$routeParams", function ($routeParams) {
+    var isUkAccount = {
+        name: 'rxHideIfUkAccount',
+        method: function () {
+            return $routeParams.accountNumber < 10000000;
+        }
+    };
+
+    return isUkAccount;
+}]);
+
+/**
+ * @ngdoc overview
+ * @name rxInfoPanel
+ * @description
+ * # rxInfoPanel Component
+ *
+ * This is a generic info panel intended for use at the top of pages.
+ *
+ * ## Directives
+ * * {@link rxInfoPanel.directive:rxInfoPanel rxInfoPanel}
+ */
+angular.module('encore.ui.rxInfoPanel', []);
+
+angular.module('encore.ui.rxInfoPanel')
+/**
+ * @ngdoc directive
+ * @name rxInfoPanel.directive:rxInfoPanel
+ * @restrict E
+ * @scope
+ * @description
+ * This renders a generic, pre-styled, info panel, with an optional title.
+ *
+ * @param {String} title - Text to be displayed in the title area of the info panel
+ * @example
+ * <pre>
+ *  <rx-info-panel panel-title="My title!">
+ *        You can put whatever you like in here.
+ *  </rx-info-panel>
+ * </pre>
+ */
+.directive('rxInfoPanel', function () {
+    return {
+        templateUrl: 'templates/rxInfoPanel.html',
+        restrict: 'E',
+        transclude: true,
+        scope: {
+            panelTitle: '@',
+        }
+    };
+});
+
+angular.module('encore.ui.utilities')
+/**
+ * @ngdoc service
+ * @name utilities.service:LocalStorage
+ * @deprecated
+ * @description
+ * **NOTICE:** This service has be deprecated in favor of the
+ * {@link utilities.service:rxLocalStorage rxLocalStorage} service.
+ */
+.service('LocalStorage', ["rxLocalStorage", function (rxLocalStorage) {
+    return rxLocalStorage;
 }]);
 
 angular.module('encore.ui.utilities')
@@ -7323,6 +7564,19 @@ angular.module('encore.ui.rxLogout')
 
 /**
  * @ngdoc overview
+ * @name rxMisc
+ * @description
+ * # rxMisc Component
+ *
+ * **NOTE:** Marked for DEPRECATION.  All `rxMisc` components refactored to `Utilities`.
+ */
+angular.module('encore.ui.rxMisc', [
+    'debounce',
+    'encore.ui.utilities'
+]);
+
+/**
+ * @ngdoc overview
  * @name rxModalAction
  * @description
  * # rxModalAction Component
@@ -7355,70 +7609,55 @@ angular.module('encore.ui.rxModalAction')
  * @restrict E
  * @scope
  * @description
- * Link which will show a modal window on click, and handle callbacks for
- * pre/post modal actions
+ * Link which will show a modal window on click, and handle callbacks for pre/post modal actions
  *
  * # Template URL
  *
- * Due to the complex nature of the information passed into modal windows,
- * HTML is handled via a template (versus transcluding the content).
+ * Due to the complex nature of the information passed into modal windows, HTML is handled via a template (versus
+ * transcluding the content).
  *
- * One benefit is that this allows for multiple actions to re-use the same
- * template. It also allows modal content to live in a separate file, which
- * can be helpful for maintainability if the modal HTML is complex. While this
- * can be done via `ng-include`, it would be a little extra work for a common
- * scenario.
+ * One benefit is that this allows for multiple actions to re-use the same template. It also allows modal content to
+ * live in a separate file, which can be helpful for maintainability if the modal HTML is complex. While this can be
+ * done via `ng-include`, it would be a little extra work for a common scenario.
  *
  * # Hooks
  *
- * `rxModalAction` allows you to define functions to be called at different
- * points of the modal lifecycle.  These hooks are optional and the modal window
- * is fully functional without any being defined.
+ * `rxModalAction` allows you to define functions to be called at different points of the modal lifecycle.  These hooks
+ * are optional and the modal window is fully functional without any being defined.
  *
  * ## Pre-hook
  *
- * The `pre-hook` function is called before the modal window is shown.  Use this
- * to populate field information inside of the modal.  This is useful when you
- * have information you don't want loaded when the page is first opened, but do
- * need for the modal.  It is also useful for dynamic information that is based
- * on actions taken.
+ * The `pre-hook` function is called before the modal window is shown.  Use a this to populate field information inside
+ * of the modal.  This is useful when you have information you don't want loaded when the page is first opened, but do
+ * need for the modal.  It is also useful for dynamic information that is based on actions taken.
  *
  * ## Post-hook
  *
- * The `post-hook` function is called after the modal is submitted.  A
- * `post-hook` is useful to take actions based upon input in the modal.  For
- * example, you can use the user input that gets entered to send API requests
- * with specific JSON data.  Or you can simply run a pre-defined API call
- * (assuming the modal is a simple confirmation dialog).
+ * The `post-hook` function is called after the modal is submitted.  A `post-hook` is useful to take actions based upon
+ * input in the modal.  For example, you can use the user input that gets entered to send API requests with specific
+ * JSON data.  Or you can simply run a pre-defined API call (assuming the modal is a simple confirmation dialog).
  *
  * ## Dismiss-hook
  *
- * The `dismiss-hook` function is called after the modal is closed without
- * submitting.  This may happen via any of the following scenarios:
+ * The `dismiss-hook` function is called after the modal is closed without submitting.  This may happen via any of the
+ * following scenarios:
  *
  * * Clicking the "Cancel" button
  * * Clicking the "X" button in the top right
  * * Pressing `ESC`
  * * Explicitly calling `$modalInstance.dismiss()` in your javascript logic
  *
- * This hook is useful for making changes to UI state when the user wants to
- * cancel the given action.  For example, you may use this to return an
- * indeterminate component to a previous state (e.g. toggle switches).
+ * This hook is useful for making changes to UI state when the user wants to cancel the given action.  For example, you
+ * may use this to return an indeterminate component to a previous state (e.g. toggle switches).
  *
- * @param {Function=} preHook
- * Function to call when a modal is opened
- * @param {Function=} postHook
- * Function to call when a modal is submitted (not called when modal cancelled)
- * @param {Function=} dismissHook
- * Function to call when a modal is dismissed (not called when modal submitted)
- * @param {String=} templateUrl
- * URL of template to use for modal content
- * @param {*=} disable-esc
- * If the `disable-esc` attribute is present, then "Press Esc to close" will be
- * disabled for the modal. This attribute takes no values.
- * @param {Boolean=} [ngDisabled=false]
- * If the expression evaluates to true, then the link for opening the modal will
- * be disabled.
+ * @param {Function=} [preHook] Function to call when a modal is opened
+ * @param {Function=} [postHook] Function to call when a modal is submitted (not called when cancelled out of)
+ * @param {Function=} [dismissHook] Function to call when a modal is dismissed (not called when submitted)
+ * @param {String=} [templateUrl] URL of template to use for modal content
+ * @param {*=} [disable-esc] If the `disable-esc` attribute is present, then "Press Esc to close" will be disabled
+ *                           for the modal. This attribute takes no values.
+ * @param {Expression=} [disabled=false] the `disabled` attribute takes an expression. If expression is present,
+ *                      then link for opening modal will be disabled.
  *
  * @example
  * <pre>
@@ -7431,7 +7670,7 @@ angular.module('encore.ui.rxModalAction')
  * </rx-modal-action>
  * </pre>
  */
-.directive('rxModalAction', ["$uibModal", function ($uibModal) {
+.directive('rxModalAction', ["$modal", function ($modal) {
     var createModal = function (config, scope) {
         config = _.defaults(config, {
             templateUrl: config.templateUrl,
@@ -7441,7 +7680,7 @@ angular.module('encore.ui.rxModalAction')
 
         config.windowClass = 'rxModal';
 
-        var modal = $uibModal.open(config);
+        var modal = $modal.open(config);
 
         return modal;
     };
@@ -7458,13 +7697,7 @@ angular.module('encore.ui.rxModalAction')
             scope.classes = attrs.classes;
 
             attrs.$observe('disabled', function (newValue) {
-                if (typeof newValue === 'boolean') {
-                    scope.isDisabled = newValue;
-                } else {
-                    // TODO: remove in 3.0.0
-                    // DEPRECATED: override [disabled] behavior
-                    scope.isDisabled = scope.$eval(newValue);
-                }
+                scope.isDisabled = scope.$eval(newValue);
             });
 
             var focusLink = function () {
@@ -7528,35 +7761,28 @@ angular.module('encore.ui.rxModalAction')
  * @description
  * Define a footer for the next modal.
  *
- * When a modal has multiple views or kicks off a process that should be
- * tracked within the modal, the `<rx-modal-footer>` directive should be used.
+ * When a modal has multiple views or kicks off a process that should be tracked within the modal, the
+ * `<rx-modal-footer>` directive should be used.
  *
- * Modal Footers should be defined in the same template as the Modal Form unless
- * the footer is global, in which case it should be loaded in `module.run()`.
- * Global footers can be used in any subsequent modal by changing to the state
+ * Modal Footers should be defined in the same template as the Modal Form unless the footer is global, in which case it
+ * should be loaded in `module.run()`.  Global footers can be used in any subsequent modal by changing to the state
  * they were defined with.
  *
- * The modal's controller also inherits the `setState()` method on the scope,
- * which should be used to toggle different views or footers. See the
- * *Multi-View Example* in the component {@link /encore-ui/#/components/rxModalAction demo}
+ * The modal's controller also inherits the `setState()` method on the scope, which should be used to toggle different
+ * views or footers. See the *Multi-View Example* in the component {@link /encore-ui/#/components/rxModalAction demo}
  * for an example of this design pattern's usage.
  *
- * The default `editing` state shows the standard submit and cancel buttons,
- * and the only other state provided by the framework is `complete` (showing the
- * return button).
+ * The default `editing` state shows the standard submit and cancel buttons, and the only other state provided by the
+ * framework is `complete` (showing the return button).
  *
- * @param {String} state
- * The content will be shown in the footer when this state is activated.
- * @param {String=} global
- * If the global attribute is present, then this footer can be used in other
- * modals. This attribute takes no values.
+ * @param {String} state The content will be shown in the footer when this state is activated.
+ * @param {String=} [global] If the global attribute is present, then this footer can be used
+ *                          in other modals. This attribute takes no values.
  *
  * @example
  * <pre>
  * <rx-modal-footer state="confirm">
- *     <button class="button" ng-click="setState('pending')">
- *         I understand the risks.
- *     </button>
+ *     <button class="button" ng-click="setState('pending')">I understand the risks.</button>
  * </rx-modal-footer>
  * </pre>
  */
@@ -7588,29 +7814,22 @@ angular.module('encore.ui.rxModalAction')
  * @description
  * Responsible for creating the HTML necessary for modal form
  *
- * The `<rx-modal-form>` directive is helpful for providing a common format to
- * forms inside modals (hence the name).
+ * The `<rx-modal-form>` directive is helpful for providing a common format to forms inside modals (hence the name).
  *
- * This directive also provides an 'autofocus' mechanism, which will move the
- * keyboard focus cursor to the first 'tabbable' input available in the form.
+ * This directive also provides an 'autofocus' mechanism, which will move the keyboard focus cursor to the first
+ * 'tabbable' input available in the form.
  *
- * @param {String} title Title of modal window
- * @param {String=} subtitle Subtitle of modal window
- * @param {Boolean=} isLoading True to show a spinner by default
- * @param {String=} [submitText='Submit'] 'Submit' button text to use.
- * @param {String=} [cancelText='Cancel'] 'Cancel' button text to use.
- * @param {String=} [returnText='Return'] 'Return' button text to use.
- * @param {String=} defaultFocus
- * The default focus element. May be 'submit' or 'cancel'. If not provided,
- * it'll default to the first 'tabbable' input available in the form.
+ * @param {string} title Title of modal window
+ * @param {string} [subtitle] Subtitle of modal window
+ * @param {boolean} [isLoading] True to show a spinner by default
+ * @param {string} [submitText] 'Submit' button text to use. Defaults to 'Submit'
+ * @param {string} [cancelText] 'Cancel' button text to use. Defaults to 'Cancel'
+ * @param {string} [returnText] 'Return' button text to use. Defaults to 'Return'
+ * @param {string} [defaultFocus] default focus element. May be 'submit' or 'cancel'. Defaults to 'firstTabbable'
  *
  * @example
  * <pre>
- * <rx-modal-form
- *     title="My Form"
- *     is-loading="true"
- *     submit-text="Yes!">
- * </rx-modal-form>
+ * <rx-modal-form title="My Form" is-loading="true" submit-text="Yes!"></rx-modal-form>
  * </pre>
  */
 .directive('rxModalForm', ["$timeout", "$compile", "rxModalFooterTemplates", function ($timeout, $compile, rxModalFooterTemplates) {
@@ -7743,59 +7962,6 @@ angular.module('encore.ui.utilities')
     };
 });
 
-angular.module('encore.ui.utilities')
-.value('rxMomentFormats', {
-    date: {
-        long: 'MMMM D, YYYY',
-        short: 'YYYY-MM-DD'
-    },
-    time: {
-        long: 'h:mmA (UTCZ)',
-        short: 'HH:mmZ'
-    },
-    dateTime: {
-        long: 'MMM D, YYYY @ h:mmA (UTCZ)',
-        short: 'YYYY-MM-DD @ HH:mmZ'
-    },
-    month: {
-        long: 'MMMM YYYY',
-        short: 'MM / YYYY',
-        micro: 'MM / YY'
-    }
-});
-
-angular.module('encore.ui.utilities')
-
-/**
- * @ngdoc filter
- * @name utilities.filter:rxMonth
- * @description
- *
- * Converts dateString to standard Month format
- *
- *
- * <pre>
- * 2015-09-17T19:37:17Z → September 2015
- * 2015-09-17T19:37:17Z, long → September 2015
- * 2015-09-17T19:37:17Z, short → 09 / 2015
- * 2015-09-17T19:37:17Z, micro → 09 / 15
- * </pre>
- **/
-.filter('rxMonth', ["rxMomentFormats", function (rxMomentFormats) {
-    return function (dateString, param) {
-        var date = moment(dateString);
-        if (date.isValid()) {
-            if (_.has(rxMomentFormats.month, param)) {
-                return date.format(rxMomentFormats.month[param]);
-            } else {
-                return date.format(rxMomentFormats.month['long']);
-            }
-        } else {
-            return dateString;
-        }
-    };
-}]);
-
 /**
  * @ngdoc overview
  * @name rxMultiSelect
@@ -7920,6 +8086,10 @@ angular.module('encore.ui.rxMultiSelect')
                 }
             };
 
+            scope.closeMenu = function () {
+                scope.listDisplayed = false;
+            };
+
             var selectCtrl = controllers[0];
             var ngModelCtrl = controllers[1];
 
@@ -7948,14 +8118,6 @@ angular.module('encore.ui.rxMultiSelect')
             };
 
             selectCtrl.ngModelCtrl = ngModelCtrl;
-
-            $document.on('click', function (clickEvent) {
-                if (scope.listDisplayed && !element[0].contains(clickEvent.target)) {
-                    scope.$apply(function () {
-                        scope.listDisplayed = false;
-                    })
-                }
-            });
         }
     };
 }]);
@@ -7994,8 +8156,8 @@ angular.module('encore.ui.rxMultiSelect')
         link: function (scope, element, attrs, selectCtrl) {
             scope.transclusion = rxDOMHelper.find(element, '[ng-transclude] > *').length > 0;
 
-            scope.toggle = function (isSelected) {
-                if (isSelected) {
+            scope.toggle = function () {
+                if (scope.isSelected) {
                     selectCtrl.unselect(scope.value);
                 } else {
                     selectCtrl.select(scope.value);
@@ -8073,29 +8235,27 @@ angular.module('encore.ui.utilities')
     };
 });
 
-angular.module('encore.ui.utilities')
 /**
- * @ngdoc service
- * @name utilities.service:rxNotify
+ * @ngdoc overview
+ * @name rxNotify
  * @description
- * Manages page messages for an application.
+ * # rxNotify Component
  *
- * ## rxNotify
  * The rxNotify component provides status message notifications on a page.
  *
  * There may be situations where you will need to use the styling/markup of
  * rxNotify's messaging queue in status messages of your own - for example,
  * a modal window which asks if you want to delete an object, with the
  * appropriate warning or error flags. If this is the case, we recommend using
- * the {@link elements.directive:rxNotification rxNotification} directive in your views.  Please note, this
- * differs from {@link elements.directive:rxNotifications rxNotifications} (plural).
+ * the {@link rxNotify.directive:rxNotification rxNotification} directive in your views.  Please note, this
+ * differs from {@link rxNotify.directive:rxNotifications rxNotifications} (plural).
  *
  * The type attribute can be any type supported by `options.type` for the `rxNotify.add()` function in
  * the {@link utilities.service:rxNotify rxNotify} service.
  *
  * ## Directives
- * * {@link elements.directive:rxNotification rxNotification}
- * * {@link elements.directive:rxNotifications rxNotifications}
+ * * {@link rxNotify.directive:rxNotification rxNotification}
+ * * {@link rxNotify.directive:rxNotifications rxNotifications}
  *
  * # Use Cases
  *
@@ -8121,6 +8281,7 @@ angular.module('encore.ui.utilities')
  *     $scope.loaded = true;
  * }, 1500);
  * </pre>
+ *
  *
  * ## Dismiss Notification on Variable Change
  * <pre>
@@ -8150,6 +8311,125 @@ angular.module('encore.ui.utilities')
  * <pre>
  * <rx-notifications stack="loginForm"></rx-notifications>
  * </pre>
+ */
+angular.module('encore.ui.rxNotify', [
+    'ngSanitize',
+    'ngAnimate',
+    'encore.ui.utilities'
+]);
+
+angular.module('encore.ui.rxNotify')
+/**
+ * @ngdoc directive
+ * @name rxNotify.directive:rxNotification
+ * @restrict E
+ * @scope
+ * @description
+ * Display a static message with styling taken from `rx-notifications`.
+ *
+ * @param {String=} [type='info'] The type of notification (e.g. 'warning', 'error')
+ *
+ * @example
+ * <pre>
+ * <rx-notification type="warning">This is a message!</rx-notification>
+ * </pre>
+ */
+.directive('rxNotification', ["rxNotify", function (rxNotify) {
+    return {
+        scope: {
+            type: '@'
+        },
+        transclude: true,
+        restrict: 'E',
+        templateUrl: 'templates/rxNotification.html',
+        link: {
+            // Transclude returns a jqLite object of the content in the directive pre transclusion into the template.
+            pre: function (scope, el, attrs, ctrl, transclude) {
+                if (!_.isEmpty(attrs.stack)) {
+                    /**
+                     * transclude().parent() - returns a jqLite instance of the parent (this directive as defined
+                     *                           in the template pre-rendering).
+                     * transclude().parent().html() - returns the inner HTML of the parent, as a string, as it was
+                     *                                  defined in the template pre-rendering (Text Only)
+                     * ----------------------------
+                     * el                           -> [<rx-notification stack="demo-stack" type="info">
+                     *                                  <div class="rx-notifications">...template...</div>
+                     *                                  </rx-notification>]
+                     *
+                     * transclude()                 -> [<span class="ng-scope">Hello, world in demo-stack stack!</span>]
+                     *
+                     * transclude().parent()        -> [<rx-notification stack="demo-stack" type="info">
+                     *                                  <span class="ng-scope">Hello, world in demo-stack stack!</span>
+                     *                                  </rx-notification>]
+                     *
+                     * transclude().parent().html() -> "<span class="ng-scope">Hello, world in demo-stack stack!</span>"
+                     **/
+                    var content = transclude().parent().html();
+                    rxNotify.add(content, {
+                        type: attrs.type,
+                        stack: attrs.stack
+                    });
+                    el.remove();
+                }
+            }
+        }
+    };
+}]);
+
+angular.module('encore.ui.rxNotify')
+/**
+ * @ngdoc directive
+ * @name rxNotify.directive:rxNotifications
+ * @restrict E
+ * @scope
+ * @description
+ * Displays all messages in a stack.
+ *
+ * @param {String=} [stack='page'] The message stack to associate with
+ *
+ * @example
+ * <pre>
+ * <rx-notifications stack="myCustomStack"></rx-notifications>
+ * </pre>
+ */
+.directive('rxNotifications', ["rxNotify", function (rxNotify) {
+    return {
+        scope: {
+            stack: '@?'
+        },
+        restrict: 'E',
+        replace: true,
+        templateUrl: 'templates/rxNotifications.html',
+        controller: ["$scope", function ($scope) {
+            /*
+             * Calls rxNotify service to remove a message from a stack
+             * @param {object} message The message object to remove.
+             */
+            $scope.dismiss = function (message) {
+                rxNotify.dismiss(message);
+            };
+        }],
+        link: function (scope) {
+            var stack = scope.stack || 'page';
+
+            // watch the stack for updates
+            scope.$watch(function () {
+                return rxNotify.stacks[stack];
+            }, function (data) {
+                scope.messages = data;
+            });
+
+            scope.loading = true;
+        }
+    };
+}]);
+
+angular.module('encore.ui.utilities')
+/**
+ * @ngdoc service
+ * @name utilities.service:rxNotify
+ * @description
+ * Manages page messages for an application.
  *
  * # Stacks
  *
@@ -8160,7 +8440,7 @@ angular.module('encore.ui.utilities')
  *
  * The default notification stack is added by default to the `rxPage` template (see {@link rxApp}), so it should be
  * ready to use without any work (unless your app uses a custom template).  The
- * {@link elements.directive:rxNotifications rxNotifications} directive will gather all notifications for a particular
+ * {@link rxNotify.directive:rxNotifications rxNotifications} directive will gather all notifications for a particular
  * stack into a single point on the page.  By default, this directive will collect all notifications in the `page`
  * stack.
  *
@@ -8168,7 +8448,7 @@ angular.module('encore.ui.utilities')
  * <rx-notifications></rx-notifications>
  * </pre>
  *
- * See {@link elements.directive:rxNotification rxNotification} for more details.
+ * See {@link rxNotify.directive:rxNotification rxNotification} for more details.
  *
  * ## Using a Custom Stack
  *
@@ -8507,11 +8787,30 @@ angular.module('encore.ui.utilities')
  *
  * ## Directives
  * * {@link rxOptionTable.directive:rxOptionTable rxOptionTable}
+ * * {@link rxOptionTable.directive:rxFormOptionTable rxFormOptionTable} (*deprecated*)
  */
 angular.module('encore.ui.rxOptionTable', [
     'encore.ui.elements',
     'ngSanitize'
 ]);
+
+angular.module('encore.ui.rxOptionTable')
+/**
+ * @deprecated
+ * @ngdoc directive
+ * @restrict E
+ * @name rxOptionTable.directive:rxFormOptionTable
+ * @description
+ * **DEPRECATED**: Please use **{@link rxOptionTable.directive:rxOptionTable rxOptionTable}**
+ * as a stand-in-replacement.
+ */
+.directive('rxFormOptionTable', ["rxOptionTableDirective", function (rxOptionTableDirective) {
+    var warnMsg = 'DEPRECATION WARNING: rxFormOptionTable has been marked as deprecated ' +
+        'and will be removed in a future release of the EncoreUI framework. ' +
+        'Please use rxOptionTable as a stand-in replacement.';
+    console.warn(warnMsg);
+    return rxOptionTableDirective[0];
+}]);
 
 angular.module('encore.ui.rxOptionTable')
 /**
@@ -8665,7 +8964,8 @@ angular.module('encore.ui.rxOptionTable')
             };
 
             // Because of a bug in Angular 1.2.x, we can't use `required` and
-            // ngTrueValue/ngFalseValue simultaneously. We'll
+            // ngTrueValue/ngFalseValue simultaneously. We don't want to affect
+            // people that were already using rxFormOptionTable, so instead we'll
             // build a `modelProxy` which is simply a mapping of $scope.model to
             // an array of `true` / `false` values. We then have to take care
             // of updating the actual $scope.model ourselves in `updateCheckboxes`
@@ -9349,32 +9649,21 @@ angular.module('encore.ui.rxPaginate')
  * filter for UI-based pagination, or can take an optional serverInterface
  * object if you instead intend to use a paginated server-side API
  *
- * @param {Object} pageTracking
- * This is the page tracking service instance to be used for this directive.
- * See {@link utilities.service:PageTracking}
- * @param {Number} numberOfPages
- * This is the maximum number of pages that the page object will display at a
- * time.
- * @param {Object=} serverInterface
- * An object with a `getItems()` method. The requirements of this method are
- * described in the rxPaginate module documentation
- * @param {Object=} filterText
- * The model for the table filter input, if any. This directive will watch that
- * model for changes, and request new results from the paginated API, on change
- * @param {Object=} selections
- * The `selected` property of a SelectFilter instance, if one is being used.
- * This directive will watch the filter's selections, and request new results
- * from the paginated API, on change
- * @param {Object=} sortColumn
- * The model containing the current column the results should sort on. This
- * directive will watch that column for changes, and request new results from
- * the paginated API, on change
- * @param {Object=} sortDirection
- * The model containing the current direction of the current sort column. This
- * directive will watch for changes, and request new results from the paginated
- * API, on change.
- * @param {String=} errorMessage
- * An error message that should be displayed if a call to the request fails
+ * @param {Object} pageTracking This is the page tracking service instance to
+ * be used for this directive. See {@link utilities.service:PageTracking}
+ * @param {Number} numberOfPages This is the maximum number of pages that the
+ * page object will display at a time.
+ * @param {Object} [serverInterface] An object with a `getItems()` method. The requirements
+ * of this method are described in the rxPaginate module documentation
+ * @param {Object} [filterText] The model for the table filter input, if any. This directive
+ * will watch that model for changes, and request new results from the paginated API, on change
+ * @param {Object} [selections] The `selected` property of a SelectFilter instance, if one is being used.
+ * This directive will watch the filter's selections, and request new results from the paginated API, on change
+ * @param {Object} [sortColumn] The model containing the current column the results should sort on.
+ * This directive will watch that column for changes, and request new results from the paginated API, on change
+ * @param {Object} [sortDirection] The model containing the current direction of the current sort column. This
+ * directive will watch for changes, and request new results from the paginated API, on change
+ * @param {String} [errorMessage] An error message that should be displayed if a call to the request fails
  */
 .directive('rxPaginate', ["$q", "$compile", "debounce", "PageTracking", "rxPromiseNotifications", function ($q, $compile, debounce, PageTracking, rxPromiseNotifications) {
     return {
@@ -9924,7 +10213,7 @@ angular.module('encore.ui.rxSearchBox')
                 if (!newVal || $scope.isDisabled) {
                     $scope.isClearable = false;
                 } else {
-                    $scope.isClearable = (newVal.toString() !== '');
+                    $scope.isClearable = newVal.toString() !== '';
                 }
             });
 
@@ -10047,6 +10336,69 @@ angular.module('encore.ui.rxSelect')
         }
     };
 });
+
+/**
+ * @ngdoc overview
+ * @name rxSelectFilter
+ * @description
+ * # rxSelectFilter component
+ *
+ * A component that provides a multi-select dropdown interface intended for
+ * table filtering.
+ *
+ * ## Directives
+ * * {@link rxSelectFilter.directive:rxSelectFilter rxSelectFilter}
+ */
+angular.module('encore.ui.rxSelectFilter', [
+    'encore.ui.utilities',
+    'encore.ui.rxMisc',
+    'encore.ui.rxSelect'
+]);
+
+angular.module('encore.ui.rxSelectFilter')
+/**
+ * @ngdoc directive
+ * @name rxSelectFilter.directive:rxSelectFilter
+ * @restrict E
+ * @scope
+ * @description
+ * Automatically creates the appropriate dropdowns to manage a filter object.
+ *
+ * **NOTE:** `rxSelectFilter` directive must be instaniated as a child of
+ * {@link rxForm.directive:rxFormSection rxFormSection} directive.  The {@link rxForm} component
+ * hierarchy validation enforces this relationship.
+ *
+ * ## rxSelectFilter
+ * Uses an instance of `SelectFilter` to create a set of `<rx-multi-select>`'s
+ * that modify the instance object.
+ * <pre>
+ * // In the controller
+ * $scope.filter = SelectFilter.create({
+ *   // options...
+ * });
+ * </pre>
+ *
+ * ## rxSelectFilter usage in rxForm
+ * <pre>
+ * // rxSelectFilter must be instantiated as a child of rxFormSection
+ * <rx-form-section>
+ *     <rx-select-filter filter="filter"></rx-select-filter>
+ * </rx-form-section>
+ * </pre>
+ *
+ * @param {Object} filter - An instance of SelectFilter
+ *
+ */
+.directive('rxSelectFilter', ["rxNestedElement", function (rxNestedElement) {
+    return rxNestedElement({
+        parent: 'rxFormSection',
+        restrict: 'E',
+        templateUrl: 'templates/rxSelectFilter.html',
+        scope: {
+            filter: '='
+        }
+    });
+}]);
 
 /**
  * @ngdoc overview
@@ -10174,6 +10526,55 @@ angular.module('encore.ui.utilities')
 
 /**
  * @ngdoc overview
+ * @name rxSpinner
+ * @description
+ * # rxSpinner Component
+ *
+ * A component adds a spinner icon to any element.
+ *
+ * ## Directives
+ * * {@link rxSpinner.directive:rxSpinner rxSpinner}
+ */
+angular.module('encore.ui.rxSpinner', []);
+
+angular.module('encore.ui.rxSpinner')
+/**
+ * @ngdoc directive
+ * @name rxSpinner.directive:rxSpinner
+ * @restrict A
+ * @scope
+ * @description
+ * Renders a spinner animation on the provided element given the 'toggle' attribute is truthy
+ *
+ * @param {String} size - Controls the size of the spinner.  The options are default (no size specified),
+ * mini, small, large and extra-large
+ * @param {Boolean} toggle - When true, the spinner will display
+ * @param {Boolean} rxSpinner - When present, adds an extra class to the spinner depicting the color
+ */
+.directive('rxSpinner', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            toggle: '=',
+            rxSpinner: '@',
+            size: '@'
+        },
+        link: function (scope, element) {
+            scope.$watch('toggle', function (value) {
+                var size = scope.size ? scope.size : '';
+                var type = scope.rxSpinner ? scope.rxSpinner : '';
+                if (value) {
+                    element.prepend('<div class="rx-spinner ' + type + ' ' + size + '"></div> ');
+                } else {
+                    element.find('div').remove();
+                }
+            });
+        }
+    };
+});
+
+/**
+ * @ngdoc overview
  * @name rxStatusColumn
  * @description
  * # rxStatusColumn Component
@@ -10213,8 +10614,8 @@ angular.module('encore.ui.rxStatusColumn')
  * internally you will be receiving a number of different statuses from your
  * APIs, and will need to map them to these six statuses.
  *
- * The example in the {@link /encore-ui/#/components/rxStatusColumn demo} shows
- * a typical use of this directive, such as:
+ * The example in the {@link /encore-ui/#/components/rxStatusColumn demo} shows a typical
+ * use of this directive, such as:
  *
  * <pre>
  * <tbody>
@@ -10243,11 +10644,9 @@ angular.module('encore.ui.rxStatusColumn')
  * ends in -`ING`, it should get the animated yellow stripes of `PENDING`.
  *
  * @param {String} status The status to draw
- * @param {String=} api
- * Optionally specify which API mapping to use for the status
- * @param {String=} tooltip
- * The string to use for the tooltip. If omitted, it will default to using the
- * passed in status
+ * @param {String} [api] Optionally specify which API mapping to use for the status
+ * @param {String} [tooltip] The string to use for the tooltip. If omitted,
+ *                           it will default to using the passed in status
  */
 .directive('rxStatusColumn', ["rxStatusMappings", "rxStatusColumnIcons", function (rxStatusMappings, rxStatusColumnIcons) {
     return {
@@ -10611,37 +11010,6 @@ angular.module('encore.ui.utilities')
 });
 
 angular.module('encore.ui.utilities')
-
-/**
- * @ngdoc filter
- * @name utilities.filter:rxTime
- * @description
- *
- * Converts dateString to standard Time format
- *
- *
- * <pre>
- * 2015-09-17T19:37:17Z → 2:37PM (UTC-05:00)
- * 2015-09-17T19:37:17Z, long → 2:37PM (UTC-05:00)
- * 2015-09-17T19:37:17Z, short → 14:37-05:00
- * </pre>
- **/
-.filter('rxTime', ["rxMomentFormats", function (rxMomentFormats) {
-    return function (dateString, param) {
-        var date = moment(dateString);
-        if (date.isValid()) {
-            if (_.has(rxMomentFormats.time, param)) {
-                return date.format(rxMomentFormats.time[param]);
-            } else {
-                return date.format(rxMomentFormats.time['long']);
-            }
-        } else {
-            return dateString;
-        }
-    };
-}]);
-
-angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
  * @name utilities.service:rxTimePickerUtil
@@ -10808,11 +11176,11 @@ angular.module('encore.ui.rxToggleSwitch')
  * attribute can be used to prevent further toggles if the `post-hook` performs
  * an asynchronous operation.
  *
- * @param {String} ng-model The scope property to bind to
- * @param {Function} postHook A function to run when the switch is toggled
- * @param {Boolean=} ng-disabled Indicates if the input is disabled
- * @param {Expression=} [trueValue=true] The value of the scope property when the switch is on
- * @param {Expression=} [falseValue=false] The value of the scope property when the switch is off
+ * @param {String} [ng-model] The scope property to bind to
+ * @param {Boolean} [disabled] Indicates if the input is disabled
+ * @param {Function} [postHook] A function to run when the switch is toggled
+ * @param {Expression} [trueValue=true] The value of the scope property when the switch is on
+ * @param {Expression} [falseValue=false] The value of the scope property when the switch is off
  *
  * @example
  * <pre>
@@ -10826,8 +11194,7 @@ angular.module('encore.ui.rxToggleSwitch')
         require: 'ngModel',
         scope: {
             model: '=ngModel',
-            disabled: '=?', // **DEPRECATED** - remove in 3.0.0
-            ngDisabled: '=?',
+            disabled: '=?',
             postHook: '&',
             trueValue: '@',
             falseValue: '@'
@@ -10852,15 +11219,8 @@ angular.module('encore.ui.rxToggleSwitch')
                 scope.state = ngModelCtrl.$viewValue ? 'ON' : 'OFF';
             };
 
-            scope.$watch(function () {
-                return (scope.disabled || scope.ngDisabled);
-            }, function (newVal) {
-                // will be true, false, or undefined
-                scope.isDisabled = newVal;
-            });
-
             scope.update = function () {
-                if (scope.isDisabled) {
+                if (scope.disabled) {
                     return;
                 }
 
@@ -11314,42 +11674,6 @@ angular.module('encore.ui.utilities')
     };
 }]);
 
-angular.module('encore.ui.elements')
-/**
- * @ngdoc directive
- * @name elements.directive:rxSpinner
- * @restrict A
- * @scope
- * @description
- * Renders a spinner animation on the provided element given the 'toggle' attribute is truthy
- *
- * @param {String} size - Controls the size of the spinner.  The options are default (no size specified),
- * mini, small, large and extra-large
- * @param {Boolean} toggle - When true, the spinner will display
- * @param {Boolean} rxSpinner - When present, adds an extra class to the spinner depicting the color
- */
-.directive('rxSpinner', function () {
-    return {
-        restrict: 'A',
-        scope: {
-            toggle: '=',
-            rxSpinner: '@',
-            size: '@'
-        },
-        link: function (scope, element) {
-            scope.$watch('toggle', function (value) {
-                var size = scope.size ? scope.size : '';
-                var type = scope.rxSpinner ? scope.rxSpinner : '';
-                if (value) {
-                    element.prepend('<div class="rx-spinner ' + type + ' ' + size + '"></div> ');
-                } else {
-                    element.find('div').remove();
-                }
-            });
-        }
-    };
-});
-
 angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
@@ -11359,7 +11683,7 @@ angular.module('encore.ui.utilities')
  * Manages notifications for rxNotify with an abstracted set of functions for
  * ease of use.
  *
- * This service is provided as a compliment to {@link elements}.  It abstracts out
+ * This service is provided as a compliment to {@link rxNotify}.  It abstracts out
  * some of the raw functionality provided by `rxNotify` to make the addition and
  * removal of single messages easier.
  *
@@ -11724,51 +12048,6 @@ angular.module('encore.ui.utilities')
 angular.module('encore.ui.elements')
 /**
  * @ngdoc directive
- * @name elements.directive:rxSelectFilter
- * @restrict E
- * @scope
- * @description
- * Automatically creates the appropriate dropdowns to manage a filter object.
- *
- * **NOTE:** `rxSelectFilter` directive must be instaniated as a child of
- * {@link elements.directive:rxFormSection rxFormSection} directive.  The {@link elements} component
- * hierarchy validation enforces this relationship.
- *
- * ## rxSelectFilter
- * Uses an instance of `SelectFilter` to create a set of `<rx-multi-select>`'s
- * that modify the instance object.
- * <pre>
- * // In the controller
- * $scope.filter = SelectFilter.create({
- *   // options...
- * });
- * </pre>
- *
- * ## rxSelectFilter usage in rxForm
- * <pre>
- * // rxSelectFilter must be instantiated as a child of rxFormSection
- * <rx-form-section>
- *     <rx-select-filter filter="filter"></rx-select-filter>
- * </rx-form-section>
- * </pre>
- *
- * @param {Object} filter - An instance of SelectFilter
- *
- */
-.directive('rxSelectFilter', ["rxNestedElement", function (rxNestedElement) {
-    return rxNestedElement({
-        parent: 'rxFormSection',
-        restrict: 'E',
-        templateUrl: 'templates/rxSelectFilter.html',
-        scope: {
-            filter: '='
-        }
-    });
-}]);
-
-angular.module('encore.ui.elements')
-/**
- * @ngdoc directive
  * @name rxTags.directive:rxTags
  * @description
  *
@@ -11855,21 +12134,14 @@ angular.module('encore.ui.elements')
             };
 
             scope.add = function (tag) {
-                /*
-                 * See https://code.angularjs.org/1.3.20/docs/api/ng/type/ngModel.NgModelController#$setViewValue
-                 * We have to use `concat` to create a new array to trigger $parsers
-                 */
-                var updatedTags = scope.tags.concat([tag]);
-                // sets ngModelCtrl.$viewValue then $$debounceViewValueCommit()
-                ngModelCtrl.$setViewValue(updatedTags);
-                scope.tags = updatedTags;
-                scope.newTag = ''; // reset new tag input
+                scope.tags.push(tag);
+                ngModelCtrl.$setViewValue(scope.tags);
+                scope.newTag = '';
             };
 
             scope.remove = function (tag) {
-                var updatedTags = _.without(scope.tags, tag);
-                ngModelCtrl.$setViewValue(updatedTags);
-                scope.tags = updatedTags;
+                _.remove(scope.tags, tag);
+                ngModelCtrl.$setViewValue(scope.tags);
                 input.focus();
             };
 
@@ -11974,6 +12246,38 @@ angular.module('encore.ui.utilities')
 
 /**
  * @ngdoc overview
+ * @name tooltips
+ * @description
+ * # tooltips Component
+ *
+ * The tooltip component provides styles to raw HTML
+ * elements and custom directive templates.
+ *
+ * ## Usage
+ *
+ * Usage is the exact same as shown in the
+ * [Angular-UI Bootstrap Documentation](https://angular-ui.github.io/bootstrap/#/tooltip).
+ * See for further guidance on usage and configuration of this component.
+ *
+ * **NOTE:**  The `tooltip` directive and its optional attributes can **_only_** be
+ * applied to raw HTML elements. They can't be applied to directives like this:
+ * <pre>
+ * // DOES NOT WORK
+ *
+ * <rx-button tooltip="...">
+ * </pre>
+ *
+ * If you're creating your own custom directive, it's fine to use the `tooltip` 
+ * directive inside of your directive's template.  See the tooltips component
+ * {@link /encore-ui/#/components/tooltips demo} for example usage.
+ *
+ * The [Angular-UI Bootstrap Tooltip](https://github.com/angular-ui/bootstrap/tree/master/src/tooltip)
+ * plugin is included as a dependency for EncoreUI.
+ */
+angular.module('encore.ui.tooltips', []);
+
+/**
+ * @ngdoc overview
  * @name typeahead
  * @description
  * # typeahead Component
@@ -11996,7 +12300,11 @@ angular.module('encore.ui.utilities')
  * for an example.
  *
  */
-angular.module('encore.ui.elements')
+angular.module('encore.ui.typeahead', [
+    'ui.bootstrap'
+]);
+
+angular.module('encore.ui.typeahead')
 .config(["$provide", function ($provide) {
     $provide.decorator('typeaheadDirective', ["$delegate", "$filter", function ($delegate, $filter) {
         var typeahead = $delegate[0];
@@ -12004,8 +12312,7 @@ angular.module('encore.ui.elements')
         var lowercase = $filter('lowercase');
 
         typeahead.compile = function () {
-            return function (scope, element, attrs, ctrls) {
-                var ngModelCtrl = ctrls[0];
+            return function (scope, element, attrs, ngModelCtrl) {
                 link.apply(this, arguments);
 
                 if (/allowEmpty/.test(attrs.typeahead)) {
@@ -12026,8 +12333,6 @@ angular.module('encore.ui.elements')
 
                     element.on('click', function () {
                         scope.$apply(function () {
-                            // quick change to null and back to trigger parsers
-                            ngModelCtrl.$setViewValue(null);
                             ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
                         });
                     });
