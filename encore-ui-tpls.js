@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
  *
- * Version: 2.2.0 - 2016-08-31
+ * Version: 3.0.0-0 - 2016-09-19
  * License: Apache-2.0
  */
 angular.module('encore.ui', [
@@ -18,7 +18,6 @@ angular.module('encore.ui', [
     'encore.ui.rxCompile',
     'encore.ui.rxEnvironment',
     'encore.ui.rxFloatingHeader',
-    'encore.ui.rxLogout',
     'encore.ui.rxMultiSelect',
     'encore.ui.rxOptionTable',
     'encore.ui.rxPaginate',
@@ -332,7 +331,7 @@ angular.module('encore.ui.elements')
                 // Only attempt if no teamId is passed to directive
                 if (_.isEmpty(scope.teamId)) {
                     var primaryTeam = _.find(account.teams, function (team) {
-                        return _.contains(team.flags, 'primary');
+                        return _.includes(team.flags, 'primary');
                     });
 
                     if (primaryTeam) {
@@ -953,7 +952,7 @@ angular.module('encore.ui.utilities')
             return pattern.test(href);
         }
 
-        return _.contains(href, pattern);
+        return _.includes(href, pattern);
     };
 
     /*
@@ -1019,7 +1018,7 @@ angular.module('encore.ui.utilities')
         var matchingEnvironments = _.filter(environments, function (environment) {
             return environmentPatternMatch(href, environment.pattern);
         });
-        return _.contains(_.pluck(matchingEnvironments, 'name'), name);
+        return _.includes(_.map(matchingEnvironments, 'name'), name);
     };
 
     var makeEnvCheck = function (name) {
@@ -1099,7 +1098,7 @@ angular.module('encore.ui.utilities')
         if (!_.has(error, 'message')) {
             error.message = _.has(error, 'statusText') ? error.statusText : 'Unknown error';
         }
-        return _.template(formatString, error);
+        return _.template(formatString)(error);
     };
 
     return {
@@ -1684,8 +1683,8 @@ angular.module('encore.ui.elements')
         }
 
         // until first item of array is Sunday, prepend earlier days to array
-        while (_.first(days).day() > 0) {
-            prependDay = _.first(days).clone();
+        while (_.head(days).day() > 0) {
+            prependDay = _.head(days).clone();
             days.unshift(prependDay.subtract(1, 'day'));
         }
 
@@ -3576,7 +3575,7 @@ angular.module('encore.ui.utilities')
         // If itemSizeList doesn't contain the desired itemsPerPage,
         // then find the right spot in itemSizeList and insert the
         // itemsPerPage value
-        if (!_.contains(itemSizeList, itemsPerPage)) {
+        if (!_.includes(itemSizeList, itemsPerPage)) {
             var index = _.sortedIndex(itemSizeList, itemsPerPage);
             itemSizeList.splice(index, 0, itemsPerPage);
         }
@@ -3585,7 +3584,7 @@ angular.module('encore.ui.utilities')
 
         // If the user has chosen a desired itemsPerPage, make sure we're respecting that
         // However, a value specified in the options will take precedence
-        if (!opts.itemsPerPage && !_.isNaN(selectedItemsPerPage) && _.contains(itemSizeList, selectedItemsPerPage)) {
+        if (!opts.itemsPerPage && !_.isNaN(selectedItemsPerPage) && _.includes(itemSizeList, selectedItemsPerPage)) {
             pager.itemsPerPage = selectedItemsPerPage;
         }
 
@@ -3664,7 +3663,7 @@ angular.module('encore.ui.utilities')
             // By setting `updateCache` to false, it ensures that the current
             // pager.cacheOffset and pager.cachedPages values stay the
             // same
-            if (!opts.forceCacheUpdate && _.contains(pager.cachedPages, n)) {
+            if (!opts.forceCacheUpdate && _.includes(pager.cachedPages, n)) {
                 shouldUpdateCache = false;
                 return pager.newItems($q.when({
                     pageNumber: n,
@@ -3856,14 +3855,14 @@ angular.module('encore.ui.utilities')
     };
 
     var userRoles = function () {
-        return _.pluck(permissionSvc.getRoles(), 'name');
+        return _.map(permissionSvc.getRoles(), 'name');
     };
 
     /**
      * @description Takes a function and a list of roles, and returns the
      * result of calling that function with `roles`, and comparing to userRoles().
      *
-     * @param {Function} fn Comparison function to use. _.any, _.all, etc.
+     * @param {Function} fn Comparison function to use. _.some, _.every, etc.
      * @param {String[]} roles List of desired roles
      */
     var checkRoles = function (roles, fn) {
@@ -3875,7 +3874,7 @@ angular.module('encore.ui.utilities')
 
         var allUserRoles = userRoles();
         return fn(roles, function (role) {
-            return _.contains(allUserRoles, role);
+            return _.includes(allUserRoles, role);
         });
     };
 
@@ -3903,7 +3902,7 @@ angular.module('encore.ui.utilities')
      * @returns {Boolean} True if user has at least _one_ of the given roles; otherwise, False.
      */
     permissionSvc.hasRole = function (roles) {
-        return checkRoles(roles, _.any);
+        return checkRoles(roles, _.some);
     };
 
     /**
@@ -3916,7 +3915,7 @@ angular.module('encore.ui.utilities')
      *
      */
     permissionSvc.hasAllRoles = function (roles) {
-        return checkRoles(roles, _.all);
+        return checkRoles(roles, _.every);
     };
 
     return permissionSvc;
@@ -5587,7 +5586,7 @@ angular.module('encore.ui.utilities')
             },
             setAll: function (newRoutes) {
                 // let's not mess with the original object
-                var routesToBe = _.clone(newRoutes, true);
+                var routesToBe = _.cloneDeep(newRoutes);
 
                 routes = setDynamicProperties(routesToBe);
                 loadingDeferred.resolve();
@@ -6746,7 +6745,7 @@ angular.module('encore.ui.utilities')
     this.messageStats = messageStats;
 
     var numSelected = function () {
-        var selected = _.where($scope.bulkSource, $scope.selectedKey);
+        var selected = _.filter($scope.bulkSource, $scope.selectedKey);
         return selected.length;
     };
 
@@ -7925,63 +7924,6 @@ angular.module('encore.ui.utilities')
     };
 }]);
 
-/**
- * @ngdoc overview
- * @name rxLogout
- * @description
- * # rxLogout Component
- *
- * The rxLogout component provides logic to apply logout functionality to an element.
- *
- * ## Directives
- * * {@link rxLogout.directive:rxLogout rxLogout}
- */
-angular.module('encore.ui.rxLogout', [
-    'encore.ui.utilities'
-]);
-
-angular.module('encore.ui.rxLogout')
-/**
- * @ngdoc directive
- * @name rxLogout.directive:rxLogout
- * @restrict A
- * @scope
- * @description
- * Adds logout functionality to an element.
- *
- * @param {String=} [rxLogout='/login'] URL to redirect to after logging out
- *
- * @example
- * <pre>
- * <button rx-logout>Logout</button>
- * <button rx-logout="/custom">Logout (w/ custom location)</button>
- * </pre>
- */
-.directive ('rxLogout', ["Auth", "$window", "$location", function (Auth, $window, $location) {
-    return {
-        restrict: 'A',
-        scope: {
-            rxLogout: '@'
-        },
-        link: function (scope, element) {
-            // if URL not provided to redirect to, use default location
-            scope.logoutUrl = (_.isString(scope.rxLogout) && scope.rxLogout.length > 0) ? scope.rxLogout : '/login';
-
-            element.on('click', function () {
-                Auth.logout();
-
-                // check if in HTML5 Mode or not (if not, add hashbang)
-                // @see http://stackoverflow.com/a/23624785
-                if (!$location.$$html5) {
-                    scope.logoutUrl = '#' + scope.logoutUrl;
-                }
-
-                $window.location = scope.logoutUrl;
-            });
-        }
-    };
-}]);
-
 angular.module('encore.ui.utilities')
 /**
  * @ngdoc controller
@@ -8210,7 +8152,7 @@ angular.module('encore.ui.rxMultiSelect')
                 if (option === 'all') {
                     return this.options.length === $scope.selected.length;
                 } else {
-                    return _.contains($scope.selected, option);
+                    return _.includes($scope.selected, option);
                 }
             };
 
@@ -8245,7 +8187,7 @@ angular.module('encore.ui.rxMultiSelect')
                         } else if (scope.selected.length === 1) {
                             return getLabel(scope.selected[0]) || scope.selected[0];
                         } else if (scope.selected.length === selectCtrl.options.length - 1) {
-                            var option = _.first(_.difference(selectCtrl.options, scope.selected));
+                            var option = _.head(_.difference(selectCtrl.options, scope.selected));
                             return 'All except ' + getLabel(option) || scope.selected[0];
                         } else if (scope.selected.length === selectCtrl.options.length) {
                             return 'All Selected';
@@ -8547,7 +8489,7 @@ angular.module('encore.ui.utilities')
         loading: false,
         show: 'immediate',
         dismiss: 'next',
-        ondismiss: _.noop(),
+        ondismiss: _.noop,
         stack: 'page',
         repeat: true
     };
@@ -8767,11 +8709,11 @@ angular.module('encore.ui.utilities')
             stacks[stack] = [];
         }
 
-        // merge options with defaults (overwriting defaults where applicable)
+        // add defaults to options
         _.defaults(options, messageDefaults);
 
         // add options to message
-        _.merge(message, options);
+        _.defaults(message, options);
 
         // if dismiss is set to array, watch variable
         if (_.isArray(message.dismiss)) {
@@ -8901,7 +8843,7 @@ angular.module('encore.ui.rxOptionTable')
             scope.selectAllModel = false;
 
             scope.$watchCollection('modelProxy', function (newValue) {
-                scope.selectAllModel = !_.any(newValue, function (val) {
+                scope.selectAllModel = !_.some(newValue, function (val) {
                     return val === false;
                 });
             });
@@ -10659,7 +10601,7 @@ angular.module('encore.ui.utilities')
      * @param {String} mapping This is mapping with keys and values
      */
     rxStatusMappings.addGlobal = function (mapping) {
-        _.assign(globalMappings, mapping, upperCaseCallback);
+        _.assignInWith(globalMappings, mapping, upperCaseCallback);
     };
 
     /**
@@ -10704,7 +10646,7 @@ angular.module('encore.ui.utilities')
      */
     rxStatusMappings.addAPI = function (apiName, mapping) {
         var api = apiMappings[apiName] || {};
-        _.assign(api, mapping, upperCaseCallback);
+        _.assignInWith(api, mapping, upperCaseCallback);
         apiMappings[apiName] = api;
     };
 
@@ -11335,7 +11277,7 @@ angular.module('encore.ui.utilities')
             function init (list) {
                 filter.properties.forEach(function (property) {
                     if (_.isUndefined(filter.available[property])) {
-                        filter.available[property] = _.uniq(_.pluck(list, property));
+                        filter.available[property] = _.uniq(_.map(list, property));
                     }
 
                     // Check `options.selected` instead of `filter.selected` because the latter
@@ -11350,7 +11292,7 @@ angular.module('encore.ui.utilities')
 
             function isItemValid (item) {
                 return filter.properties.every(function (property) {
-                    return _.contains(filter.selected[property], item[property]);
+                    return _.includes(filter.selected[property], item[property]);
                 });
             }
 
@@ -12083,12 +12025,12 @@ angular.module('encore.ui.elements')
 
             if (!_.isEmpty(attrs.key)) {
                 ngModelCtrl.$parsers.push(function ($viewValue) {
-                    return _.pluck($viewValue, attrs.key);
+                    return _.map($viewValue, attrs.key);
                 });
 
                 ngModelCtrl.$formatters.push(function ($modelValue) {
                     return scope.options.filter(function (option) {
-                        return _.contains($modelValue, option[attrs.key]);
+                        return _.includes($modelValue, option[attrs.key]);
                     });
                 });
             }
@@ -12165,7 +12107,7 @@ angular.module('encore.ui.utilities')
                 // into something with a `.hostname`
                 url.href = config.url;
                 var exclude = _.some(exclusionList, function (item) {
-                    if (_.contains(url.hostname, item)) {
+                    if (_.includes(url.hostname, item)) {
                         return true;
                     }
                 });
@@ -12393,7 +12335,7 @@ angular.module('encore.ui.utilities')
         // if current item not active, check if any children are active
         // This requires that `isActive` was called on all the children beforehand
         if (!pathMatches && item.children) {
-            pathMatches = _.any(item.children, 'active');
+            pathMatches = _.some(item.children, 'active');
         }
 
         return pathMatches;
