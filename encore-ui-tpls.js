@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
  *
- * Version: 3.0.0-0 - 2016-09-19
+ * Version: 2.3.0-0 - 2016-09-21
  * License: Apache-2.0
  */
 angular.module('encore.ui', [
@@ -11,23 +11,13 @@ angular.module('encore.ui', [
     'encore.ui.tpls',
     'encore.ui.elements',
     'encore.ui.utilities',
-    'encore.ui.layout',
     'encore.ui.rxApp',
-    'encore.ui.rxAttributes',
-    'encore.ui.rxBulkSelect',
     'encore.ui.rxCompile',
     'encore.ui.rxEnvironment',
-    'encore.ui.rxFloatingHeader',
-    'encore.ui.rxMultiSelect',
+    'encore.ui.rxLogout',
     'encore.ui.rxOptionTable',
-    'encore.ui.rxPaginate',
     'encore.ui.rxPermission',
-    'encore.ui.rxSearchBox',
-    'encore.ui.rxSelect',
-    'encore.ui.rxSortableColumn',
-    'encore.ui.rxStatusColumn',
-    'encore.ui.rxToggle',
-    'encore.ui.rxToggleSwitch'
+    'encore.ui.rxToggle'
 ])
 angular.module('encore.ui.tpls', [
     'templates/feedbackForm.html',
@@ -146,7 +136,8 @@ angular.module('encore.ui.elements', [
     'encore.ui.utilities',
     'ngSanitize',
     'ngAnimate',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'debounce'
 ])
 .run(["$compile", "$templateCache", function ($compile, $templateCache) {
     $compile($templateCache.get('templates/rxModalFooters.html'));
@@ -331,7 +322,7 @@ angular.module('encore.ui.elements')
                 // Only attempt if no teamId is passed to directive
                 if (_.isEmpty(scope.teamId)) {
                     var primaryTeam = _.find(account.teams, function (team) {
-                        return _.includes(team.flags, 'primary');
+                        return _.contains(team.flags, 'primary');
                     });
 
                     if (primaryTeam) {
@@ -952,7 +943,7 @@ angular.module('encore.ui.utilities')
             return pattern.test(href);
         }
 
-        return _.includes(href, pattern);
+        return _.contains(href, pattern);
     };
 
     /*
@@ -1018,7 +1009,7 @@ angular.module('encore.ui.utilities')
         var matchingEnvironments = _.filter(environments, function (environment) {
             return environmentPatternMatch(href, environment.pattern);
         });
-        return _.includes(_.map(matchingEnvironments, 'name'), name);
+        return _.contains(_.pluck(matchingEnvironments, 'name'), name);
     };
 
     var makeEnvCheck = function (name) {
@@ -1098,7 +1089,7 @@ angular.module('encore.ui.utilities')
         if (!_.has(error, 'message')) {
             error.message = _.has(error, 'statusText') ? error.statusText : 'Unknown error';
         }
-        return _.template(formatString)(error);
+        return _.template(formatString, error);
     };
 
     return {
@@ -1683,8 +1674,8 @@ angular.module('encore.ui.elements')
         }
 
         // until first item of array is Sunday, prepend earlier days to array
-        while (_.head(days).day() > 0) {
-            prependDay = _.head(days).clone();
+        while (_.first(days).day() > 0) {
+            prependDay = _.first(days).clone();
             days.unshift(prependDay.subtract(1, 'day'));
         }
 
@@ -2298,8 +2289,8 @@ angular.module('encore.ui.elements')
  *       <li>{@link elements.directive:rxSuffix rxSuffix}</li>
  *       <li>{@link elements.directive:rxCheckbox rxCheckbox}</li>
  *       <li>{@link elements.directive:rxRadio rxRadio}</li>
- *       <li>{@link rxSelect.directive:rxSelect rxSelect}</li>
- *       <li>{@link rxToggleSwitch.directive:rxToggleSwitch rxToggleSwitch}</li>
+ *       <li>{@link elements.directive:rxSelect rxSelect}</li>
+ *       <li>{@link elements.directive:rxToggleSwitch rxToggleSwitch}</li>
  *       <li>{@link rxOptionTable.directive:rxOptionTable rxOptionTable}</li>
  *       <li>Any HTML Element</li>
  *     </ul>
@@ -2328,6 +2319,152 @@ angular.module('encore.ui.elements')
     return rxNestedElement({
         parent: 'rxFieldContent'
     });
+}]);
+
+angular.module('encore.ui.elements')
+/**
+ * @ngdoc directive
+ * @name elements.directive:rxMultiSelect
+ * @restrict E
+ * @scope
+ * @requires elements.directive:rxSelectOption
+ * @description
+ * This component is a multi-select dropdown with checkboxes for each option.
+ * It is a replacement for `<select multiple>` when space is an issue, such as
+ * in the header of a table.
+ * The options for the control can be specified by passing an array of strings
+ * (corresponding to the options' values) to the `options` attribute of the
+ * directive, or using `<rx-select-option>`s. An 'All' option is automatically
+ * set as the first option for the dropdown, which allows all options to be
+ * toggled at once.
+ *
+ * The following two dropdowns are equivalent:
+ * <pre>
+ * <!-- $scope.available = [2014, 2015] -->
+ * <rx-multi-select ng-model="selected" options="available"></rx-multi-select>
+ *</pre>
+ *<pre>
+ * <rx-multi-select ng-model="selected">
+ *   <rx-select-option value="2014"></rx-select-option>
+ *   <rx-select-option value="2015"></rx-select-option>
+ * </rx-multi-select>
+ * </pre>
+ *
+ * This component requires the `ng-model` attribute and binds the model to an
+ * array of the selected options.
+ *
+ *
+ * The preview text (what is shown when the element is not active) follows the following rules:
+ * * If no items are selected, show "None".
+ * * If only one item is selected from the dropdown, its label will display.
+ * * If > 1 but < n-1 items are selected, show "[#] Selected".
+ * * If all but one item is selected, show "All except [x]"
+ * * If all items are selected, show "All Selected".
+ *
+ * @param {String} ng-model The scope property that stores the value of the input
+ * @param {Array=} options A list of the options for the dropdown
+ */
+.directive('rxMultiSelect', ["$document", "rxDOMHelper", function ($document, rxDOMHelper) {
+    return {
+        restrict: 'E',
+        templateUrl: 'templates/rxMultiSelect.html',
+        transclude: true,
+        require: [
+            'rxMultiSelect',
+            'ngModel'
+        ],
+        scope: {
+            selected: '=ngModel',
+            options: '=?',
+            isDisabled: '=ngDisabled',
+        },
+        controller: ["$scope", function ($scope) {
+            if (_.isUndefined($scope.selected)) {
+                $scope.selected = [];
+            }
+
+            this.options = [];
+            this.addOption = function (option) {
+                if (option !== 'all') {
+                    this.options = _.union(this.options, [option]);
+                    this.render();
+                }
+            };
+            this.removeOption = function (option) {
+                if (option !== 'all') {
+                    this.options = _.without(this.options, option);
+                    this.unselect(option);
+                    this.render();
+                }
+            };
+
+            this.select = function (option) {
+                $scope.selected = option === 'all' ? _.clone(this.options) : _.union($scope.selected, [option]);
+            };
+            this.unselect = function (option) {
+                $scope.selected = option === 'all' ? [] : _.without($scope.selected, option);
+            };
+            this.isSelected = function (option) {
+                if (option === 'all') {
+                    return this.options.length === $scope.selected.length;
+                } else {
+                    return _.contains($scope.selected, option);
+                }
+            };
+
+            this.render = function () {
+                if (this.ngModelCtrl) {
+                    this.ngModelCtrl.$render();
+                }
+            };
+        }],
+        link: function (scope, element, attrs, controllers) {
+            scope.listDisplayed = false;
+
+            scope.toggleMenu = function () {
+                if (!scope.isDisabled) {
+                    scope.listDisplayed = !scope.listDisplayed;
+                }
+            };
+
+            var selectCtrl = controllers[0];
+            var ngModelCtrl = controllers[1];
+
+            ngModelCtrl.$render = function () {
+                scope.$evalAsync(function () {
+                    scope.preview = (function () {
+                        function getLabel (option) {
+                            var optionElement = rxDOMHelper.find(element, '[value="' + option + '"]');
+                            return optionElement.text().trim();
+                        }
+
+                        if (_.isEmpty(scope.selected)) {
+                            return 'None';
+                        } else if (scope.selected.length === 1) {
+                            return getLabel(scope.selected[0]) || scope.selected[0];
+                        } else if (scope.selected.length === selectCtrl.options.length - 1) {
+                            var option = _.first(_.difference(selectCtrl.options, scope.selected));
+                            return 'All except ' + getLabel(option) || scope.selected[0];
+                        } else if (scope.selected.length === selectCtrl.options.length) {
+                            return 'All Selected';
+                        } else {
+                            return scope.selected.length + ' Selected';
+                        }
+                    })();
+                });
+            };
+
+            selectCtrl.ngModelCtrl = ngModelCtrl;
+
+            $document.on('click', function (clickEvent) {
+                if (scope.listDisplayed && !element[0].contains(clickEvent.target)) {
+                    scope.$apply(function () {
+                        scope.listDisplayed = false;
+                    })
+                }
+            });
+        }
+    };
 }]);
 
 angular.module('encore.ui.elements')
@@ -2474,6 +2611,230 @@ angular.module('encore.ui.elements')
         }//compile
     };
 });
+
+angular.module('encore.ui.elements')
+/**
+ * @name elements.directive:rxSearchBox
+ * @ngdoc directive
+ * @restrict E
+ * @description
+ * The rxSearchBox directive behaves similar to the HTML "Search" input type.
+ * When the search box is not empty, an "X" button within the element will
+ * allow you to clear the value. Once clear, the "X" will disappear. A disabled
+ * search box cannot be cleared of its value via the "X" button because the
+ * button will not display.
+ *
+ * Though it is described as a search box, you can also use it for filtering
+ * capabilities (as seen by the placeholder text in the "Customized"
+ * {@link /encore-ui/#/elements/Forms#search-box demo}).
+ *
+ * # Styling
+ * You can style the `<rx-search-box>` element via custom CSS classes the same
+ * way you would any HTML element. See the customized search box in the
+ * {@link /encore-ui/#/elements/Forms#search-box demo} for an example.
+ *
+ * <pre>
+ * <rx-search-box
+ *      ng-model="customSearchModel"
+ *      rx-placeholder="filterPlaceholder">
+ * </rx-search-box>
+ * </pre>
+ * @param {String} ng-model Model value to bind the search value.
+ * @param {Boolean=} ng-disabled Boolean value to enable/disable the search box.
+ * @param {String=} [ng-placeholder='Search...'] String to override the
+ * default placeholder.
+ *
+ * @example
+ * <pre>
+ * <rx-search-box ng-model="searchModel"></rx-search-box>
+ * </pre>
+ *
+ */
+.directive('rxSearchBox', function () {
+    return {
+        restrict: 'E',
+        require: ['ngModel', '?^rxFloatingHeader'],
+        templateUrl: 'templates/rxSearchBox.html',
+        scope: {
+            searchVal: '=ngModel',
+            isDisabled: '@ngDisabled',
+            rxPlaceholder: '=?'
+        },
+        controller: ["$scope", function ($scope) {
+            $scope.searchVal = $scope.searchVal || '';
+            $scope.rxPlaceholder = $scope.rxPlaceholder || 'Search...';
+
+            $scope.$watch('searchVal', function (newVal) {
+                if (!newVal || $scope.isDisabled) {
+                    $scope.isClearable = false;
+                } else {
+                    $scope.isClearable = (newVal.toString() !== '');
+                }
+            });
+
+            $scope.clearSearch = function () {
+                $scope.searchVal = '';
+            };
+        }],
+        link: function (scope, element, attrs, controllers) {
+            var rxFloatingHeaderCtrl = controllers[1];
+            if (_.isObject(rxFloatingHeaderCtrl)) {
+                rxFloatingHeaderCtrl.update();
+            }
+        }
+    };
+});
+
+angular.module('encore.ui.elements')
+/**
+ * @ngdoc directive
+ * @name elements.directive:rxSelect
+ * @restrict A
+ * @scope
+ * @description
+ *
+ * This directive is to apply styling to native `<select>` elements
+ *
+ * ## Styling
+ *
+ * Directive results in a **block element** that takes up the *full width of its
+ * container*. You can style the output against decendents of the **`.rxSelect`**
+ * CSS class.
+ *
+ * ## Show/Hide
+ * If you wish to show/hide your `rxSelect` element, we recommend placing it
+ * within a `<div>` or `<span>` wrapper, and performing the show/hide logic on
+ * the wrapper.
+ *
+ * <pre>
+ * <span ng-show="isShown">
+ *     <select rx-select ng-model="selDemo">
+ *         <option value="1">First</option>
+ *         <option value="2">Second</option>
+ *         <option value="3">Third</option>
+ *     </select>
+ * </span>
+ * </pre>
+ *
+ * It is highly recommended that you use `ng-show` and `ng-hide` for display logic.
+ * Because of the way that `ng-if` and `ng-switch` directives behave with scope,
+ * they may introduce unnecessary complexity in your code.
+ *
+ * @example
+ * <pre>
+ * <select rx-select ng-model="demoItem">
+ *   <option value="1">First</option>
+ *   <option value="2">Second</option>
+ *   <option value="3">Third</option>
+ * </select>
+ * </pre>
+ *
+ * @param {Boolean=} [ngDisabled=false] Determines if control is disabled.
+ */
+.directive('rxSelect', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            ngDisabled: '=?'
+        },
+        link: function (scope, element, attrs) {
+            var disabledClass = 'rx-disabled';
+            var wrapper = '<div class="rxSelect"></div>';
+            var fakeSelect = '<div class="fake-select">' +
+                    '<div class="select-trigger">' +
+                        '<i class="fa fa-fw fa-caret-down"></i>' +
+                    '</div>' +
+                '</div>';
+
+            element.wrap(wrapper);
+            element.after(fakeSelect);
+            // must be defined AFTER the element is wrapped
+            var parent = element.parent();
+
+            // apply/remove disabled class so we have the ability to
+            // apply a CSS selector for purposes of style sibling elements
+            if (_.has(attrs, 'disabled')) {
+                parent.addClass(disabledClass);
+            }
+            if (_.has(attrs, 'ngDisabled')) {
+                scope.$watch('ngDisabled', function (newVal) {
+                    if (newVal === true) {
+                        parent.addClass(disabledClass);
+                    } else {
+                        parent.removeClass(disabledClass);
+                    }
+                });
+            }
+
+            var removeParent = function () {
+                parent.remove();
+            };
+
+            // remove stylistic markup when element is destroyed
+            element.on('$destroy', function () {
+                scope.$evalAsync(removeParent);
+            });
+        }
+    };
+});
+
+angular.module('encore.ui.elements')
+/**
+ * @ngdoc directive
+ * @name elements.directive:rxSelectOption
+ * @restrict E
+ * @requires elements.directive:rxCheckbox
+ * @description
+ * A single option for use within rxMultiSelect.
+ *
+ * `<rx-select-option>` is to `<rx-multi-select>` as `<option>` is to `<select>`.
+ *
+ * Just like `<option>`, it has a `value` attribute and uses the element's
+ * content for the label. If the label is not provided, it defaults to a
+ * titleized version of `value`.
+ *
+ * <pre>
+ * <rx-select-option value="DISABLED">Disabled</rx-select-option>
+ * </pre>
+ *
+ * @param {String} value The value of the option. If no transcluded content is provided,
+ *                       the value will also be used as the option's text.
+ */
+.directive('rxSelectOption', ["rxDOMHelper", function (rxDOMHelper) {
+    return {
+        restrict: 'E',
+        templateUrl: 'templates/rxSelectOption.html',
+        transclude: true,
+        scope: {
+            value: '@'
+        },
+        require: '^^rxMultiSelect',
+        link: function (scope, element, attrs, selectCtrl) {
+            scope.transclusion = rxDOMHelper.find(element, '[ng-transclude] > *').length > 0;
+
+            scope.toggle = function (isSelected) {
+                if (isSelected) {
+                    selectCtrl.unselect(scope.value);
+                } else {
+                    selectCtrl.select(scope.value);
+                }
+            };
+
+            // The state of the input may be changed by the 'all' option.
+            scope.$watch(function () {
+                return selectCtrl.isSelected(scope.value);
+            }, function (isSelected) {
+                scope.isSelected = isSelected;
+            });
+
+            selectCtrl.addOption(scope.value);
+
+            scope.$on('$destroy', function () {
+                selectCtrl.removeOption(scope.value);
+            });
+        }
+    };
+}]);
 
 angular.module('encore.ui.elements')
 /**
@@ -2683,6 +3044,94 @@ angular.module('encore.ui.elements')
     };
 }]);
 
+angular.module('encore.ui.elements')
+/**
+ * @ngdoc directive
+ * @name elements.directive:rxToggleSwitch
+ * @restrict E
+ * @description
+ *
+ * Displays an on/off switch toggle
+ *
+ * The switch shows the states of 'ON' and 'OFF', which evaluate to `true` and
+ * `false`, respectively.  The model values are configurable with the
+ * `true-value` and `false-value` attributes.
+ *
+ * ** Note: If the value of the model is not defined at the time of
+ * initialization, it will be automatically set to the false value. **
+ *
+ * The expression passed to the `post-hook` attribute will be evaluated every
+ * time the switch is toggled (after the model property is written on the
+ * scope).  It takes one argument, `value`, which is the new value of the model.
+ * This can be used instead of a `$scope.$watch` on the `ng-model` property.
+ * As shown in the {@link /encore-ui/#/elements/Forms demo}, the `disabled`
+ * attribute can be used to prevent further toggles if the `post-hook` performs
+ * an asynchronous operation.
+ *
+ * @param {String} ng-model The scope property to bind to
+ * @param {Function} postHook A function to run when the switch is toggled
+ * @param {Boolean=} ng-disabled Indicates if the input is disabled
+ * @param {Expression=} [trueValue=true] The value of the scope property when the switch is on
+ * @param {Expression=} [falseValue=false] The value of the scope property when the switch is off
+ *
+ * @example
+ * <pre>
+ * <rx-toggle-switch ng-model="foo"></rx-toggle-switch>
+ * </pre>
+ */
+.directive('rxToggleSwitch', function () {
+    return {
+        restrict: 'E',
+        templateUrl: 'templates/rxToggleSwitch.html',
+        require: 'ngModel',
+        scope: {
+            model: '=ngModel',
+            disabled: '=?', // **DEPRECATED** - remove in 3.0.0
+            ngDisabled: '=?',
+            postHook: '&',
+            trueValue: '@',
+            falseValue: '@'
+        },
+        link: function (scope, element, attrs, ngModelCtrl) {
+            var trueValue = _.isUndefined(scope.trueValue) ? true : scope.trueValue;
+            var falseValue = _.isUndefined(scope.falseValue) ? false : scope.falseValue;
+
+            if (_.isUndefined(scope.model) || scope.model !== trueValue) {
+                scope.model = falseValue;
+            }
+
+            ngModelCtrl.$formatters.push(function (value) {
+                return value === trueValue;
+            });
+
+            ngModelCtrl.$parsers.push(function (value) {
+                return value ? trueValue : falseValue;
+            });
+
+            ngModelCtrl.$render = function () {
+                scope.state = ngModelCtrl.$viewValue ? 'ON' : 'OFF';
+            };
+
+            scope.$watch(function () {
+                return (scope.disabled || scope.ngDisabled);
+            }, function (newVal) {
+                // will be true, false, or undefined
+                scope.isDisabled = newVal;
+            });
+
+            scope.update = function () {
+                if (scope.isDisabled) {
+                    return;
+                }
+
+                ngModelCtrl.$setViewValue(!ngModelCtrl.$viewValue);
+                ngModelCtrl.$render();
+                scope.postHook({ value: ngModelCtrl.$modelValue });
+            };
+        }
+    };
+});
+
 /**
  * @ngdoc service
  * @name utilities.service:hotkeys
@@ -2797,29 +3246,6 @@ angular.module('encore.ui.elements')
         }
     };
 });
-
-/**
- * @ngdoc overview
- * @name layout
- * @description
- * # layout Component
- *
- * Encore UI includes a grid system forked from
- * [Angular Material's layout module](https://material.angularjs.org/#/layout/container)
- * with minor usability enhancements to provide an assortment of attribute-based
- * layout options based on the flexbox layout model. Included are intuitive attribute
- * based styles that ease the creation of responsive row and/or column based page layouts.
- *
- * ## Note About Responsive Features
- *
- * Two versions of the Encore UI CSS file are included in this project. One includes
- * responsive design style attributes (encore-ui-resp-x.x.x.css). The other omits
- * these attributes to save space if desired (encore-ui-x.x.x.css). Be sure to only
- * include the appropriate css file for your project. Any attributes which include
- * the following suffixes require the responsive css file to work:
- * '-sm', '-gt-sm', '-md', '-gt-md', '-lg', '-gt-lg'.
- */
-angular.module('encore.ui.layout', []);
 
 angular.module('encore.ui.elements')
 /**
@@ -3493,7 +3919,7 @@ angular.module('encore.ui.utilities')
  * @description
  * This is the data service that can be used in conjunction with the pagination
  * objects to store/control page display of data tables and other items.
- * This is intended to be used with {@link rxPaginate.directive:rxPaginate}
+ * This is intended to be used with {@link elements.directive:rxPaginate}
  * @namespace PageTracking
  *
  * @example
@@ -3575,7 +4001,7 @@ angular.module('encore.ui.utilities')
         // If itemSizeList doesn't contain the desired itemsPerPage,
         // then find the right spot in itemSizeList and insert the
         // itemsPerPage value
-        if (!_.includes(itemSizeList, itemsPerPage)) {
+        if (!_.contains(itemSizeList, itemsPerPage)) {
             var index = _.sortedIndex(itemSizeList, itemsPerPage);
             itemSizeList.splice(index, 0, itemsPerPage);
         }
@@ -3584,7 +4010,7 @@ angular.module('encore.ui.utilities')
 
         // If the user has chosen a desired itemsPerPage, make sure we're respecting that
         // However, a value specified in the options will take precedence
-        if (!opts.itemsPerPage && !_.isNaN(selectedItemsPerPage) && _.includes(itemSizeList, selectedItemsPerPage)) {
+        if (!opts.itemsPerPage && !_.isNaN(selectedItemsPerPage) && _.contains(itemSizeList, selectedItemsPerPage)) {
             pager.itemsPerPage = selectedItemsPerPage;
         }
 
@@ -3663,7 +4089,7 @@ angular.module('encore.ui.utilities')
             // By setting `updateCache` to false, it ensures that the current
             // pager.cacheOffset and pager.cachedPages values stay the
             // same
-            if (!opts.forceCacheUpdate && _.includes(pager.cachedPages, n)) {
+            if (!opts.forceCacheUpdate && _.contains(pager.cachedPages, n)) {
                 shouldUpdateCache = false;
                 return pager.newItems($q.when({
                     pageNumber: n,
@@ -3855,14 +4281,14 @@ angular.module('encore.ui.utilities')
     };
 
     var userRoles = function () {
-        return _.map(permissionSvc.getRoles(), 'name');
+        return _.pluck(permissionSvc.getRoles(), 'name');
     };
 
     /**
      * @description Takes a function and a list of roles, and returns the
      * result of calling that function with `roles`, and comparing to userRoles().
      *
-     * @param {Function} fn Comparison function to use. _.some, _.every, etc.
+     * @param {Function} fn Comparison function to use. _.any, _.all, etc.
      * @param {String[]} roles List of desired roles
      */
     var checkRoles = function (roles, fn) {
@@ -3874,7 +4300,7 @@ angular.module('encore.ui.utilities')
 
         var allUserRoles = userRoles();
         return fn(roles, function (role) {
-            return _.includes(allUserRoles, role);
+            return _.contains(allUserRoles, role);
         });
     };
 
@@ -3902,7 +4328,7 @@ angular.module('encore.ui.utilities')
      * @returns {Boolean} True if user has at least _one_ of the given roles; otherwise, False.
      */
     permissionSvc.hasRole = function (roles) {
-        return checkRoles(roles, _.some);
+        return checkRoles(roles, _.any);
     };
 
     /**
@@ -3915,7 +4341,7 @@ angular.module('encore.ui.utilities')
      *
      */
     permissionSvc.hasAllRoles = function (roles) {
-        return checkRoles(roles, _.every);
+        return checkRoles(roles, _.all);
     };
 
     return permissionSvc;
@@ -4217,14 +4643,19 @@ angular.module('encore.ui.rxApp')
  * @restrict E
  * @description [TBD]
  */
-.directive('rxAccountSearch', ["$window", function ($window) {
+.directive('rxAccountSearch', ["$window", "$injector", function ($window, $injector) {
     return {
         templateUrl: 'templates/rxAccountSearch.html',
         restrict: 'E',
         link: function (scope) {
             scope.fetchAccount = function (searchValue) {
                 if (!_.isEmpty(searchValue)) {
-                    $window.location = '/search?term=' + searchValue;
+                    var path = '/search?term=' + searchValue;
+                    if ($injector.has('oriLocationService')) {
+                        $injector.get('oriLocationService').setCanvasURL(path);
+                    } else {
+                        $window.location = path;
+                    }
                 }
             };
         }
@@ -5011,9 +5442,10 @@ angular.module('encore.ui.rxApp')
                 // Check if we have a definition of NAV_ITEM_TARGET, if so let's retrieve it and enable the target attr
                 // on the nav item.  This allows applications like origin to give a target to it's nav items, while not
                 // messing with nav items in the demo/documentation.
-                // The default of `_self` is based on the default value of `target` when there's no value present:
-                // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target
-                return $injector.has('NAV_ITEM_TARGET') ? $injector.get('NAV_ITEM_TARGET') : '_self';
+                // We have to pass null in order for the `target` attribute to have no value, the reason for this
+                // is ngRoute will take an href with `target="_self"` and not use it's $location service
+                // allowing the browser to reload the angular application
+                return $injector.has('NAV_ITEM_TARGET') ? $injector.get('NAV_ITEM_TARGET') : null;
             };
             // provide `route` as a scope property so that links can tie into them
             $scope.route = $route;
@@ -5148,14 +5580,19 @@ angular.module('encore.ui.rxApp')
  * @description
  * Used to search accounts for Cloud Atlas
  */
-.directive('rxAtlasSearch', ["$window", function ($window) {
+.directive('rxAtlasSearch', ["$window", "$injector", function ($window, $injector) {
     return {
         template: '<rx-app-search placeholder="Search by username..." submit="searchAccounts"></rx-app-search>',
         restrict: 'E',
         link: function (scope) {
             scope.searchAccounts = function (searchValue) {
                 if (!_.isEmpty(searchValue)) {
-                    $window.location = '/cloud/' + searchValue + '/servers/';
+                    var path = '/cloud/' + searchValue + '/servers/';
+                    if ($injector.has('oriLocationService')) {
+                        $injector.get('oriLocationService').setCanvasURL(path);
+                    } else {
+                        $window.location = path;
+                    }
                 }
             };
         }
@@ -5169,7 +5606,7 @@ angular.module('encore.ui.rxApp')
  * @restrict E
  * @description [TBD]
  */
-.directive('rxBillingSearch', ["$location", "$window", "encoreRoutes", function ($location, $window, encoreRoutes) {
+.directive('rxBillingSearch', ["$location", "$window", "$injector", "encoreRoutes", function ($location, $window, $injector, encoreRoutes) {
     return {
         templateUrl: 'templates/rxBillingSearch.html',
         restrict: 'E',
@@ -5182,10 +5619,13 @@ angular.module('encore.ui.rxApp')
                 if (!_.isEmpty(searchValue)) {
                     // Assuming we are already in /billing, we should use $location to prevent a page refresh
                     encoreRoutes.isActiveByKey('billing').then(function (isBilling) {
-                        if (isBilling) {
-                            $location.url('/search?q=' + searchValue + '&type=' + scope.searchType);
+                        var path = '/search?q=' + searchValue + '&type=' + scope.searchType;
+                        if ($injector.has('oriLocationService')) {
+                            $injector.get('oriLocationService').setCanvasURL('/billing' + path);
+                        } else if (isBilling) {
+                            $location.url(path);
                         } else {
-                            $window.location = '/billing/search?q=' + searchValue + '&type=' + scope.searchType;
+                            $window.location = '/billing' + path;
                         }
                     });
                 }
@@ -5586,7 +6026,7 @@ angular.module('encore.ui.utilities')
             },
             setAll: function (newRoutes) {
                 // let's not mess with the original object
-                var routesToBe = _.cloneDeep(newRoutes);
+                var routesToBe = _.clone(newRoutes, true);
 
                 routes = setDynamicProperties(routesToBe);
                 loadingDeferred.resolve();
@@ -5600,13 +6040,16 @@ angular.module('encore.ui.utilities')
     return AppRoutes;
 }]);
 
+angular.module('encore.ui.utilities')
 /**
- * @ngdoc overview
- * @name rxAttributes
+ * @ngdoc directive
+ * @name utilities.directive:rxAttributes
+ * @restrict A
  * @description
- * # rxAttributes Component
  *
- * This component allows you to add attributes based on a value in scope being defined or not.
+ * This directive allows you to add attributes based on a value in scope being defined or not.
+ *
+ * @param {Object} rxAttributes an attribute allows you to add custom attributes
  *
  * ## Example
  *
@@ -5646,21 +6089,6 @@ angular.module('encore.ui.utilities')
  * }
  * </pre>
  *
- * ## Directives
- * * {@link rxAttributes.directive:rxAttributes rxAttributes}
- */
-angular.module('encore.ui.rxAttributes', []);
-
-angular.module('encore.ui.rxAttributes')
-/**
- * @ngdoc directive
- * @name rxAttributes.directive:rxAttributes
- * @restrict A
- * @description
- *
- * This drective allows you to add attributes based on a value in scope being defined or not.
- *
- * @param {Object} rxAttributes an attribute allows you to add custom attributes
  */
 .directive('rxAttributes', ["$parse", "$compile", function ($parse, $compile) {
     // @see http://stackoverflow.com/questions/19224028/add-directives-from-directive-in-angularjs
@@ -6360,374 +6788,13 @@ angular.module('encore.ui.utilities')
     return breadcrumbsService;
 });
 
-/**
- * @ngdoc overview
- * @name rxBulkSelect
- * @requires elements.directive:rxCheckbox
- * @description
- * # rxBulkSelect Component
- *
- * A component used to perform an action on multiple items in a table.
- *
- * ## Directives
- * * {@link rxBulkSelect.directive:rxBatchActions rxBatchActions}
- * * {@link rxBulkSelect.directive:rxBulkSelect rxBulkSelect}
- * * {@link rxBulkSelect.directive:rxBulkSelectHeaderCheck rxBulkSelectHeaderCheck}
- * * {@link rxBulkSelect.directive:rxBulkSelectRow rxBulkSelectRow}
- * * {@link rxBulkSelect.directive:rxBulkSelectValidate rxBulkSelectValidate}
- */
-angular.module('encore.ui.rxBulkSelect', [
-    'encore.ui.utilities',
-    'encore.ui.elements'
-]);
-
-angular.module('encore.ui.rxBulkSelect')
-/**
- * @ngdoc directive
- * @name rxBulkSelect.directive:rxBatchActions
- * @restrict E
- * @scope
- * @requires rxBulkSelect.directive:rxBulkSelect
- * @description
- *
- * This directive is responsible for adding the batch action menu link
- * inside a table header. It can only be used when rxBulkSelect is also
- * present. It should be placed in a `<th>` element.
- *
- * It will also transclude `<li>` items, each representing a modal bulk
- * select action. You don't need to include the correctly styled `<ul>`, it
- * will do this for you.
- *
- * @example
- * <pre>
- * <th colspan="10">
- *     <rx-batch-actions>
- *         <li>
- *             <rx-modal-action
- *                 template-url="templates/suspend-modal.html"
- *                 controller="SuspendServersCtrl"
- *                 classes="msg-info">
- *                 <i class="fa fa-fw fa-power-off msg-info"></i>
- *                 Suspend Selected Servers
- *             </rx-modal-action>
- *         </li>
- *     </rx-batch-actions>
- * </th>
- * </pre>
- */
-.directive('rxBatchActions', ["rxDOMHelper", function (rxDOMHelper) {
-    return {
-        restrict: 'E',
-        require: ['^rxBulkSelect', '?^rxFloatingHeader'],
-        templateUrl: 'templates/rxBatchActions.html',
-        transclude: true,
-        link: function (scope, element, attrs, controllers) {
-
-            var rxBulkSelectCtrl = controllers[0],
-                rxFloatingHeaderCtrl = controllers[1];
-
-            // We need to add the class onto the parent <tr>, so rxFloatingHeader can
-            // easily identify this <tr>
-            element.parent().parent().addClass('rx-table-filter-row');
-
-            scope.displayed = false;
-
-            scope.toggleBulkActions = function () {
-                scope.displayed = !scope.displayed;
-            };
-
-            var numSelectedChange = function (numSelected) {
-                scope.rowsSelected = numSelected > 0;
-                if (numSelected === 0) {
-                    scope.displayed = false;
-                }
-            };
-            rxBulkSelectCtrl.registerForNumSelected(numSelectedChange);
-
-            if (_.isObject(rxFloatingHeaderCtrl)) {
-                // When rxBatchActions lives inside of an rxFloatingHeader enabled table,
-                // the element will be cloned by rxFloatingHeader. The issue is that a normal
-                // .clone() does not clone Angular bindings, and thus the cloned element doesn't
-                // have `ng-show="displayed"` on it. We can manually add `ng-hide` on startup, to
-                // ensure that class is present in the clone. After that, everything will work as expected.
-                if (!scope.displayed) {
-                    rxDOMHelper.find(element, '.batch-action-menu-container').addClass('ng-hide');
-                }
-                rxFloatingHeaderCtrl.update();
-            }
-
-        }
-    };
-}]);
-
-angular.module('encore.ui.rxBulkSelect')
-/**
- * @ngdoc directive
- * @name rxBulkSelect.directive:rxBulkSelect
- * @restrict A
- * @scope
- * @description
- *
- * A directive you place on your `<table>` element to enable bulk select.
- * This directive will automatically add `<tr bulk-select-message>` into your <thead>,
- * which will appear whenever items are selected, and disappear when none are selected.
- * The main responsibility of this directive is to provide a controller for other
- * bulk-select-related directives to interact with.
- *
- * <pre>
- * <table rx-bulk-select
- *        bulk-source="servers"
- *        selectedKey="rowIsSelected">
- * </table>
- * </pre>
- *
- * The directive is also responsible for adding a row to the table header that
- * indicates how many rows are selected and contains buttons to select or deselect
- * all the rows at once.
- *
- * @param {Object} bulkSource The source list that the table ng-repeats over.
- * @param {String} selectedKey The attribute on items in bulkSource that will be used to track
- *                             if the user has clicked the checkbox for that item.
- * @param {String=} [resourceName=bulkSource] The name of the resource being iterated over.
- */
-.directive('rxBulkSelect', function () {
-    var elemString = '<tr rx-bulk-select-message></tr>';
-    return {
-        restrict: 'A',
-        scope: {
-            bulkSource: '=',
-            selectedKey: '@'
-        },
-        compile: function (elem, attrs) {
-
-            // We add the `<tr rx-bulk-select-message>` row to the header here to save the devs
-            // from having to do it themselves.
-            var thead = elem.find('thead').eq(0);
-            var messageElem = angular.element(elemString);
-            messageElem.attr('resource-name', attrs.resourceName || attrs.bulkSource.replace(/s$/, ''));
-            thead.append(messageElem);
-
-            return function (scope, element) {
-                scope.tableElement = element;
-            };
-        },
-        controller: 'rxBulkSelectController'
-    };
-});
-
-angular.module('encore.ui.rxBulkSelect')
-/**
- * @ngdoc directive
- * @name rxBulkSelect.directive:rxBulkSelectHeaderCheck
- * @restrict A
- * @scope
- * @requires rxBulkSelect.directive:rxBulkSelect
- * @description
- *
- * A directive you place on your `<th>` element representing the checkbox column.
- * This places a checkbox in the header, which will select all items on the current
- * page when clicked.
- *
- * @example
- * <pre>
- * <th rx-bulk-select-header-check></th>
- * </pre>
- */
-.directive('rxBulkSelectHeaderCheck', ["$compile", function ($compile) {
-    var selectAllCheckbox = '<input ng-model="allSelected" ng-change="selectAll()" rx-checkbox>';
-    return {
-        restrict: 'A',
-        scope: true,
-        require: '^rxBulkSelect',
-        link: function (scope, element, attrs, rxBulkSelectCtrl) {
-            scope.allSelected = false;
-            scope.selectAll = function () {
-                if (scope.allSelected) {
-                    rxBulkSelectCtrl.selectAllVisibleRows();
-                } else {
-                    rxBulkSelectCtrl.deselectAllVisibleRows();
-                }
-            };
-            element.append($compile(selectAllCheckbox)(scope).parent());
-
-            var testAllSelected = function () {
-                var stats = rxBulkSelectCtrl.messageStats;
-                scope.allSelected = stats.numSelected === stats.total;
-            };
-            rxBulkSelectCtrl.registerForNumSelected(testAllSelected);
-            rxBulkSelectCtrl.registerForTotal(testAllSelected);
-
-            var uncheck = function () {
-                scope.allSelected = false;
-            };
-            rxBulkSelectCtrl.registerHeader(uncheck);
-        }
-    };
-}]);
-
-angular.module('encore.ui.rxBulkSelect')
-/**
- * @ngdoc directive
- * @name rxBulkSelect.directive:rxBulkSelectMessage
- * @restrict A
- * @scope
- * @requires rxBulkSelect.directive:rxBulkSelect
- * @description
- *
- * This directive is responsible for drawing the appearing/disappearing
- * "message" row in the table header. This row shows how many items have
- * been selected, and gives buttons for "Select All" and "Clear All"
- *
- * You should not use this directive directly. It will be drawn automatically
- * by rxBulkSelect.
- *
- * If the table also has rxFloatingHeader available, this directive will
- * communicate with the controller from rxFloatingHeader, to correctly
- * support the appearing/disappearing of this header row.
- *
- * @param {String} resourceName The singular form of the name of the resource, e.g. 'server'.
- *
- */
-.directive('rxBulkSelectMessage', function () {
-    return {
-        restrict: 'A',
-        require: ['^rxBulkSelect', '?^rxFloatingHeader'],
-        scope: {
-            resourceName: '@'
-        },
-        templateUrl: 'templates/rxBulkSelectMessage.html',
-        link: function (scope, element, attr, controllers) {
-            element.addClass('ng-hide');
-
-            var rxBulkSelectCtrl = controllers[0],
-                // Optional controller, so mock it out if it's not present
-                // https://github.com/eslint/eslint/issues/5537
-                // eslint-disable-next-line object-curly-spacing
-                rxFloatingHeaderCtrl = controllers[1] || { update: function () {} };
-
-            scope.selectAll = function () {
-                rxBulkSelectCtrl.selectEverything();
-            };
-
-            scope.deselectAll = function () {
-                rxBulkSelectCtrl.deselectEverything();
-            };
-
-            scope.numSelected = 0;
-            scope.total = rxBulkSelectCtrl.messageStats.total;
-
-            var numSelectedChange = function (numSelected, oldNumSelected) {
-                scope.numSelected = numSelected;
-                var multiple = numSelected > 1;
-                scope.plural = multiple ? 's' : '';
-                scope.isOrAre = multiple ? 'are' : 'is';
-
-                // We could use `ng-show` directly on the directive, rather
-                // than manually adding/removing the `.ng-hide` class here. The issue
-                // that causes is that ng-show will run before rxFloatingHeader
-                // runs its stuff, and it causes it to not see when `.ng-hide`
-                // has been removed. That causes it to clone the message row
-                // with `.ng-hide` on it, which results in jumpiness at the top
-                // of the table
-                if (numSelected === 0) {
-                    element.addClass('ng-hide');
-                    rxFloatingHeaderCtrl.update();
-                } else if (numSelected > 0 && oldNumSelected === 0) {
-                    // Only explicitly do this work if we're transitioning from
-                    // numSelected=0 to numSelected>0
-                    element.removeClass('ng-hide');
-                    rxFloatingHeaderCtrl.update();
-                }
-            };
-            rxBulkSelectCtrl.registerForNumSelected(numSelectedChange);
-
-            rxBulkSelectCtrl.registerForTotal(function (newTotal) {
-                scope.total = newTotal;
-            });
-            rxFloatingHeaderCtrl.update();
-        }
-    };
-});
-
-angular.module('encore.ui.rxBulkSelect')
-/**
- * @ngdoc directive
- * @name rxBulkSelect.directive:rxBulkSelectRow
- * @restrict A
- * @scope
- * @requires rxBulkSelect.directive:rxBulkSelect
- * @description
- *
- * A directive you place on your `<td>` element which will contain the bulk-select
- * checkbox. This directive draws the checkbox itself. This directive takes
- * `row` as an attribute, pointing to the object representing this row.
- *
- * @param {Object} row The object representing this row, i.e. the left side of the ng-repeat
- *
- * @example
- * <pre>
- * <td rx-bulk-select-row row="server"></td>
- * </pre>
- */
-.directive('rxBulkSelectRow', function () {
-    return {
-        restrict: 'A',
-        scope: {
-            row: '='
-        },
-        require: '^rxBulkSelect',
-        template: '<input ng-change="onChange()" ng-model="row[key]"' +
-                  ' rx-checkbox class="rx-bulk-select-row" />',
-        link: function (scope, element, attrs, rxBulkSelectCtrl) {
-            scope.key = rxBulkSelectCtrl.key();
-            scope.onChange = function () {
-                if (scope.row[scope.key]) {
-                    rxBulkSelectCtrl.increment();
-                } else {
-                    rxBulkSelectCtrl.decrement();
-                }
-            };
-        }
-    };
-});
-
-angular.module('encore.ui.rxBulkSelect')
-/**
- * @ngdoc directive
- * @name rxBulkSelect.directive:rxBulkSelectValidate
- * @restrict A
- * @requires rxBulkSelect.directive:rxBulkSelect
- * @description
- *
- * A directive used to validate rxBulkSelect in a form. The directive should be placed
- * on the same element as rxBulkSelect. The form will be invalid when no items are selected
- * and valid when at least one item is selected.
- */
-.directive('rxBulkSelectValidate', function () {
-    return {
-        require: ['^form', 'rxBulkSelect'],
-        restrict: 'A',
-        link: function (scope, elm, attrs, controllers) {
-            var formCtrl = controllers[0];
-            var bulkSelectCtrl = controllers[1];
-            var setValidity = function () {
-                var stats = bulkSelectCtrl.messageStats;
-                formCtrl.$setValidity('selected', stats.numSelected > 0);
-            };
-
-            bulkSelectCtrl.registerForNumSelected(setValidity);
-            formCtrl.$setValidity('selected', false);
-        }
-    };
-});
-
 angular.module('encore.ui.utilities')
 /**
  * @ngdoc controller
  * @name utilities.controller:rxBulkSelectController
  * @scope
  * @description
- * Provides controller logic for {@link rxBulkSelect}.
+ * Provides controller logic for {@link elements.directive:rxBulkSelect}.
  */
 .controller('rxBulkSelectController', ["$scope", "NotifyProperties", "rxBulkSelectUtils", function ($scope, NotifyProperties, rxBulkSelectUtils) {
     $scope.showMessage = false;
@@ -6745,7 +6812,7 @@ angular.module('encore.ui.utilities')
     this.messageStats = messageStats;
 
     var numSelected = function () {
-        var selected = _.filter($scope.bulkSource, $scope.selectedKey);
+        var selected = _.where($scope.bulkSource, $scope.selectedKey);
         return selected.length;
     };
 
@@ -7516,276 +7583,6 @@ angular.module('encore.ui.utilities')
     return container;
 }]);
 
-/**
- * @ngdoc overview
- * @name rxFloatingHeader
- * @description
- * # rxFloatingHeader Component
- *
- * `rxFloatingHeader` component turns a table header into floating persistent header so that names of columns are still
- *  visible, even as a user scrolls down the page.
- *
- * `rxFloatingHeader` is also fully compatible with {@link rxSortableColumn} and {@link rxPaginate}.
- *
- * ## Directives
- * * {@link rxFloatingHeader.directive:rxFloatingHeader rxFloatingHeader}
- */
-angular.module('encore.ui.rxFloatingHeader', [
-]);
-
-angular.module('encore.ui.rxFloatingHeader')
-/**
- * @ngdoc directive
- * @name rxFloatingHeader.directive:rxFloatingHeader
- * @restrict A
- * @description
- *
- *`rxFloatingHeader` is an attribute directive that turns a tableheader into a floating persistent header so that names
- * of columns are still visible, even as a user scrolls down the page. This is based off of the example at
- * http://css-tricks.com/persistent-headers/
- *
- * * To use it, add an `rx-floating-header` attribute to a `table` element.
- *
- * * A common pattern in our products is to place an `<input>` filter at the top of the table, to restrict the items
- * that are displayed. We support this as well, by placing the `<input>` directly inside of the `<thead>` in its
- * own `<tr><th></th></tr>`.
- *
- * * Make sure you set the `colspan` attribute on the filter's `<th>`, to match the number of columns you have.
- *
- * * `rxFloatingHeader` is also fully compatible with {@link rxSortableColumn} and {@link rxPaginate}.
- *
- * @example
- * <pre>
- * <table rx-floating-header>
- *   <thead>
- *     <tr>
- *       <td colspan="2">
- *         <rx-search-box
- *             ng-model="searchText"
- *             rx-placeholder="'Filter by any...'">
- *         </rx-search-box>
- *       </td>
- *     </tr>
- *     <tr>
- *       <th>Column One Header</th>
- *       <th>Column Two Header</th>
- *     </tr>
- *   </thead>
- *   <tbody>
- *     ...
- *   </tbody>
- * </table>
- * </pre>
- *
- */
-.directive('rxFloatingHeader', ["$document", "rxDOMHelper", function ($document, rxDOMHelper) {
-    return {
-        restrict: 'A',
-        controller: ["$scope", function ($scope) {
-            this.update = function () {
-                // It's possible for a child directive to try to call this
-                // before the rxFloatingHeader link function has been run,
-                // meaning $scope.update won't have been configured yet
-                if (_.isFunction($scope.update)) {
-                    $scope.update();
-                }
-            };
-        }],
-        link: function (scope, table) {
-            var state, seenFirstScroll, trs, ths, clones, inputs, maxHeight, header, singleThs, maxThWidth;
-
-            var setup = function () {
-
-                if (clones && clones.length) {
-                    _.each(clones, function (clone) {
-                        // Possible memory leak here? I tried clone.scope().$destroy(),
-                        // but it causes exceptions in Angular
-                        clone.remove();
-                    });
-                }
-                state = 'fixed';
-                seenFirstScroll = false;
-
-                // The original <tr> elements
-                trs = [];
-
-                // The original <th> elements
-                ths = [];
-
-                // All <th> elements that are the *only* <th> in their row
-                singleThs = [];
-
-                // The maximum width we could find for a <th>
-                maxThWidth = 0;
-
-                // Clones of the <tr> elements
-                clones = [];
-
-                // any <input> elements in the <thead>
-                inputs = [];
-                header = angular.element(table.find('thead'));
-
-                // Are we currently floating?
-                var floating = false;
-                // Grab all the original `tr` elements from the `thead`,
-                _.each(header.find('tr'), function (tr) {
-                    tr = angular.element(tr);
-
-                    // If `scope.setup()` has been called, it means we'd previously
-                    // worked with these rows before. We want them in as clean a state as possible
-                    if (!floating && tr.hasClass('rx-floating-header')) {
-                        floating = true;
-                    }
-
-                    // We are going to clone all the <tr> elements in the <thead>, and insert them
-                    // into the DOM whenever the original <tr> elements need to float. This keeps the
-                    // height of the table correct, and prevents it from jumping up when we put
-                    // the <tr> elements into a floating state.
-                    // It also makes sure the column widths stay correct, as the widths of the columns
-                    // are determined by the current fixed header, not the floating header.
-                    var clone = tr.clone();
-                    clones.push(clone);
-                    if (floating) {
-                        clone.removeClass('rx-floating-header');
-                    }
-
-                    if (floating) {
-                        // We're currently floating, so add the class back, and
-                        // push the clone back on
-                        header.append(clone);
-                    }
-                    trs.push(tr);
-
-                    var thsInTr = _.map(tr.find('th'), angular.element);
-                    ths = ths.concat(thsInTr);
-
-                    // This <tr> only had one <th> in it. Grab that <th> and its clone
-                    // Also grab the width of the <th>, and compare it to our max width.
-                    // We need to do this because if a <th> was hidden, and then made to
-                    // appear while floating, its width will be too short, and will need
-                    // to be updated
-                    if (thsInTr.length === 1) {
-                        var th = thsInTr[0];
-                        var width = rxDOMHelper.width(th);
-                        if (width !== 'auto') {
-                            var numeric = _.parseInt(width);
-                            if (numeric > maxThWidth) {
-                                maxThWidth = numeric;
-                            }
-                        }
-
-                        singleThs.push([th, angular.element(clone.find('th'))]);
-                    }
-                });
-
-                // Explicitly set the width on every <th> that is the *only*
-                // <th> in its <tr>
-                maxThWidth = maxThWidth.toString() + 'px';
-                _.each(singleThs, function (thPair) {
-                    thPair[0].css({ width: maxThWidth });
-                    thPair[1].css({ width: maxThWidth });
-                });
-
-                // Apply .filter-header to any <input> elements
-                _.each(ths, function (th) {
-                    var input = th.find('input');
-                    if (input.length) {
-                        var type = input.attr('type');
-                        if (!type || type === 'text') {
-                            th.addClass('filter-header');
-                            inputs.push(input);
-                        }
-                    }
-                });
-            };
-
-            setup();
-
-            scope.updateHeaders = function () {
-                if (_.isUndefined(maxHeight)) {
-                    maxHeight = table[0].offsetHeight;
-                }
-
-                maxHeight = _.max([maxHeight, table[0].offsetHeight]);
-
-                if (rxDOMHelper.shouldFloat(table, maxHeight)) {
-                    if (state === 'fixed') {
-                        state = 'float';
-                        var thWidths = [],
-                            trHeights = [];
-
-                        // Get the current height of each `tr` that we want to float
-                        _.each(trs, function (tr) {
-                            trHeights.push(parseInt(rxDOMHelper.height(tr)));
-                        });
-
-                        // Grab the current widths of each `th` that we want to float
-                        thWidths = _.map(ths, rxDOMHelper.width);
-
-                        // Put the cloned `tr` elements back into the DOM
-                        _.each(clones, function (clone) {
-                            header.append(clone);
-                        });
-
-                        // Apply the rx-floating-header class to each `tr` and
-                        // set a correct `top` for each, to make sure they stack
-                        // properly
-                        // We previously did tr.css({ 'width': rxDOMHelper.width(tr) })
-                        // but it *seems* that setting the widths of the `th` is enough
-                        var topOffset = 0;
-                        _.each(trs, function (tr, index) {
-                            tr.addClass('rx-floating-header');
-                            tr.css({ 'top': topOffset.toString() + 'px' });
-                            topOffset += trHeights[index];
-                        });
-
-                        // Explicitly set the widths of each `th` element that we floated
-                        _.each(_.zip(ths, thWidths), function (pair) {
-                            var th = pair[0];
-                            var width = pair[1];
-                            th.css({ 'width': width });
-                        });
-                    }
-
-                } else {
-                    if (state === 'float' || !seenFirstScroll) {
-                        state = 'fixed';
-                        seenFirstScroll = true;
-
-                        // Make sure that an input filter doesn't have focus when
-                        // we re-dock the header, otherwise the browser will scroll
-                        // the screen back up ot the input
-                        _.each(inputs, function (input) {
-                            if ($document[0].activeElement === input[0]) {
-                                input[0].blur();
-                            }
-                        });
-
-                        _.each(trs, function (tr) {
-                            tr.removeClass('rx-floating-header');
-                        });
-
-                        // Detach each cloaned `tr` from the DOM,
-                        // but don't destroy it
-                        _.each(clones, function (clone) {
-                            clone.remove();
-                        });
-                    }
-                }
-
-            };
-
-            rxDOMHelper.onscroll(function () {
-                scope.updateHeaders();
-            });
-
-            scope.update = function () {
-                setup();
-            };
-        },
-    };
-}]);
-
 angular.module('encore.ui.utilities')
 /**
  * @name utilities.service:rxFormUtils
@@ -7924,6 +7721,63 @@ angular.module('encore.ui.utilities')
     };
 }]);
 
+/**
+ * @ngdoc overview
+ * @name rxLogout
+ * @description
+ * # rxLogout Component
+ *
+ * The rxLogout component provides logic to apply logout functionality to an element.
+ *
+ * ## Directives
+ * * {@link rxLogout.directive:rxLogout rxLogout}
+ */
+angular.module('encore.ui.rxLogout', [
+    'encore.ui.utilities'
+]);
+
+angular.module('encore.ui.rxLogout')
+/**
+ * @ngdoc directive
+ * @name rxLogout.directive:rxLogout
+ * @restrict A
+ * @scope
+ * @description
+ * Adds logout functionality to an element.
+ *
+ * @param {String=} [rxLogout='/login'] URL to redirect to after logging out
+ *
+ * @example
+ * <pre>
+ * <button rx-logout>Logout</button>
+ * <button rx-logout="/custom">Logout (w/ custom location)</button>
+ * </pre>
+ */
+.directive ('rxLogout', ["Auth", "$window", "$location", function (Auth, $window, $location) {
+    return {
+        restrict: 'A',
+        scope: {
+            rxLogout: '@'
+        },
+        link: function (scope, element) {
+            // if URL not provided to redirect to, use default location
+            scope.logoutUrl = (_.isString(scope.rxLogout) && scope.rxLogout.length > 0) ? scope.rxLogout : '/login';
+
+            element.on('click', function () {
+                Auth.logout();
+
+                // check if in HTML5 Mode or not (if not, add hashbang)
+                // @see http://stackoverflow.com/a/23624785
+                if (!$location.$$html5) {
+                    scope.logoutUrl = '#' + scope.logoutUrl;
+                }
+
+                $window.location = scope.logoutUrl;
+            });
+        }
+    };
+}]);
+
 angular.module('encore.ui.utilities')
 /**
  * @ngdoc controller
@@ -8043,228 +7897,6 @@ angular.module('encore.ui.utilities')
             }
         } else {
             return dateString;
-        }
-    };
-}]);
-
-/**
- * @ngdoc overview
- * @name rxMultiSelect
- * @description
- * # rxMultiSelect Component
- * This component is a multi-select dropdown with checkboxes for each option.
- * It is a replacement for `<select multiple>` when space is an issue, such as
- * in the header of a table.
- *
- * ## Directives
- * * {@link rxMultiSelect.directive:rxMultiSelect rxMultiSelect}
- * * {@link rxMultiSelect.directive:rxSelectOption rxSelectOption}
- *
- */
-angular.module('encore.ui.rxMultiSelect', [
-    'encore.ui.utilities'
-]);
-
-angular.module('encore.ui.rxMultiSelect')
-/**
- * @ngdoc directive
- * @name rxMultiSelect.directive:rxMultiSelect
- * @restrict E
- * @scope
- * @requires rxMultiSelect.directive:rxSelectOption
- * @description
- * This component is a multi-select dropdown with checkboxes for each option.
- * It is a replacement for `<select multiple>` when space is an issue, such as
- * in the header of a table.
- * The options for the control can be specified by passing an array of strings
- * (corresponding to the options' values) to the `options` attribute of the
- * directive, or using `<rx-select-option>`s. An 'All' option is automatically
- * set as the first option for the dropdown, which allows all options to be
- * toggled at once.
- *
- * The following two dropdowns are equivalent:
- * <pre>
- * <!-- $scope.available = [2014, 2015] -->
- * <rx-multi-select ng-model="selected" options="available"></rx-multi-select>
- *</pre>
- *<pre>
- * <rx-multi-select ng-model="selected">
- *   <rx-select-option value="2014"></rx-select-option>
- *   <rx-select-option value="2015"></rx-select-option>
- * </rx-multi-select>
- * </pre>
- *
- * This component requires the `ng-model` attribute and binds the model to an
- * array of the selected options.
- *
- *
- * The preview text (what is shown when the element is not active) follows the following rules:
- * * If no items are selected, show "None".
- * * If only one item is selected from the dropdown, its label will display.
- * * If > 1 but < n-1 items are selected, show "[#] Selected".
- * * If all but one item is selected, show "All except [x]"
- * * If all items are selected, show "All Selected".
- *
- * @param {String} ng-model The scope property that stores the value of the input
- * @param {Array=} options A list of the options for the dropdown
- */
-.directive('rxMultiSelect', ["$document", "rxDOMHelper", function ($document, rxDOMHelper) {
-    return {
-        restrict: 'E',
-        templateUrl: 'templates/rxMultiSelect.html',
-        transclude: true,
-        require: [
-            'rxMultiSelect',
-            'ngModel'
-        ],
-        scope: {
-            selected: '=ngModel',
-            options: '=?',
-            isDisabled: '=ngDisabled',
-        },
-        controller: ["$scope", function ($scope) {
-            if (_.isUndefined($scope.selected)) {
-                $scope.selected = [];
-            }
-
-            this.options = [];
-            this.addOption = function (option) {
-                if (option !== 'all') {
-                    this.options = _.union(this.options, [option]);
-                    this.render();
-                }
-            };
-            this.removeOption = function (option) {
-                if (option !== 'all') {
-                    this.options = _.without(this.options, option);
-                    this.unselect(option);
-                    this.render();
-                }
-            };
-
-            this.select = function (option) {
-                $scope.selected = option === 'all' ? _.clone(this.options) : _.union($scope.selected, [option]);
-            };
-            this.unselect = function (option) {
-                $scope.selected = option === 'all' ? [] : _.without($scope.selected, option);
-            };
-            this.isSelected = function (option) {
-                if (option === 'all') {
-                    return this.options.length === $scope.selected.length;
-                } else {
-                    return _.includes($scope.selected, option);
-                }
-            };
-
-            this.render = function () {
-                if (this.ngModelCtrl) {
-                    this.ngModelCtrl.$render();
-                }
-            };
-        }],
-        link: function (scope, element, attrs, controllers) {
-            scope.listDisplayed = false;
-
-            scope.toggleMenu = function () {
-                if (!scope.isDisabled) {
-                    scope.listDisplayed = !scope.listDisplayed;
-                }
-            };
-
-            var selectCtrl = controllers[0];
-            var ngModelCtrl = controllers[1];
-
-            ngModelCtrl.$render = function () {
-                scope.$evalAsync(function () {
-                    scope.preview = (function () {
-                        function getLabel (option) {
-                            var optionElement = rxDOMHelper.find(element, '[value="' + option + '"]');
-                            return optionElement.text().trim();
-                        }
-
-                        if (_.isEmpty(scope.selected)) {
-                            return 'None';
-                        } else if (scope.selected.length === 1) {
-                            return getLabel(scope.selected[0]) || scope.selected[0];
-                        } else if (scope.selected.length === selectCtrl.options.length - 1) {
-                            var option = _.head(_.difference(selectCtrl.options, scope.selected));
-                            return 'All except ' + getLabel(option) || scope.selected[0];
-                        } else if (scope.selected.length === selectCtrl.options.length) {
-                            return 'All Selected';
-                        } else {
-                            return scope.selected.length + ' Selected';
-                        }
-                    })();
-                });
-            };
-
-            selectCtrl.ngModelCtrl = ngModelCtrl;
-
-            $document.on('click', function (clickEvent) {
-                if (scope.listDisplayed && !element[0].contains(clickEvent.target)) {
-                    scope.$apply(function () {
-                        scope.listDisplayed = false;
-                    })
-                }
-            });
-        }
-    };
-}]);
-
-angular.module('encore.ui.rxMultiSelect')
-/**
- * @ngdoc directive
- * @name rxMultiSelect.directive:rxSelectOption
- * @restrict E
- * @requires elements.directive:rxCheckbox
- * @description
- * A single option for use within rxMultiSelect.
- *
- * `<rx-select-option>` is to `<rx-multi-select>` as `<option>` is to `<select>`.
- *
- * Just like `<option>`, it has a `value` attribute and uses the element's
- * content for the label. If the label is not provided, it defaults to a
- * titleized version of `value`.
- *
- * <pre>
- * <rx-select-option value="DISABLED">Disabled</rx-select-option>
- * </pre>
- *
- * @param {String} value The value of the option. If no transcluded content is provided,
- *                       the value will also be used as the option's text.
- */
-.directive('rxSelectOption', ["rxDOMHelper", function (rxDOMHelper) {
-    return {
-        restrict: 'E',
-        templateUrl: 'templates/rxSelectOption.html',
-        transclude: true,
-        scope: {
-            value: '@'
-        },
-        require: '^^rxMultiSelect',
-        link: function (scope, element, attrs, selectCtrl) {
-            scope.transclusion = rxDOMHelper.find(element, '[ng-transclude] > *').length > 0;
-
-            scope.toggle = function (isSelected) {
-                if (isSelected) {
-                    selectCtrl.unselect(scope.value);
-                } else {
-                    selectCtrl.select(scope.value);
-                }
-            };
-
-            // The state of the input may be changed by the 'all' option.
-            scope.$watch(function () {
-                return selectCtrl.isSelected(scope.value);
-            }, function (isSelected) {
-                scope.isSelected = isSelected;
-            });
-
-            selectCtrl.addOption(scope.value);
-
-            scope.$on('$destroy', function () {
-                selectCtrl.removeOption(scope.value);
-            });
         }
     };
 }]);
@@ -8489,7 +8121,7 @@ angular.module('encore.ui.utilities')
         loading: false,
         show: 'immediate',
         dismiss: 'next',
-        ondismiss: _.noop,
+        ondismiss: _.noop(),
         stack: 'page',
         repeat: true
     };
@@ -8709,11 +8341,11 @@ angular.module('encore.ui.utilities')
             stacks[stack] = [];
         }
 
-        // add defaults to options
+        // merge options with defaults (overwriting defaults where applicable)
         _.defaults(options, messageDefaults);
 
         // add options to message
-        _.defaults(message, options);
+        _.merge(message, options);
 
         // if dismiss is set to array, watch variable
         if (_.isArray(message.dismiss)) {
@@ -8843,7 +8475,7 @@ angular.module('encore.ui.rxOptionTable')
             scope.selectAllModel = false;
 
             scope.$watchCollection('modelProxy', function (newValue) {
-                scope.selectAllModel = !_.some(newValue, function (val) {
+                scope.selectAllModel = !_.any(newValue, function (val) {
                     return val === false;
                 });
             });
@@ -9041,702 +8673,6 @@ angular.module('encore.ui.utilities')
 
         getTitle: function () {
             return $document.prop('title');
-        }
-    };
-}]);
-
-/**
- * @ngdoc overview
- * @name rxPaginate
- * @description
- * # rxPaginate Component
- *
- * The rxPaginate component adds pagination to a table.
- *
- * Two different forms of pagination are supported:
- *
- * 1. UI-based pagination, where all items are retrieved at once, and paginated in the UI
- * 2. Server-side pagination, where the pagination directive works with a paginated API
- *
- * # UI-Based Pagination
- * With UI-Based pagination, the entire set of data is looped over via an `ngRepeat` in the table's
- * `<tbody>`, with the data passed into the `Paginate` filter. This filter does the work of paginating
- * the set of data and communicating with the `<rx-paginate>` to draw the page selection buttons at the
- * bottom of the table.
- *
- * As shown in the first example below, the `ngRepeat` will usually look like this:
- *
- * <pre>
- * <tr ng-repeat="server in servers |
- *                orderBy: sorter.predicate:sorter.reverse |
- *                Paginate:pager ">
- * </pre>
- *
- * In this case,
- *
- * 1. `servers` is a variable bound to your page `$scope`, and contains the full set of servers.
- * 2. This is then passed to `orderBy`, to perform column sorting with `rxSortableColumn`.
- * 3. The sorted results are then passed to `Paginate:pager`, where `Paginate` is a filter from the
- * `rxPaginate` module, and `pager` is a variable on your scope created like
- * `$scope.pager = PageTracking.createInstance();`.
- *
- * This `pager` is responsible for tracking pagination state (i.e. "which page are we on", "how many
- * items per page", "total number of items tracked", etc.
- *
- * To add the pagination buttons to your table, do the following in your `<tfoot>`:
- * <pre>
- * <tfoot>
- *     <tr class="paginate-area">
- *         <td colspan="2">
- *             <rx-paginate page-tracking="pager"></rx-paginate>
- *         </td>
- *     </tr>
- * </tfoot>
- * </pre>
- *
- * Here we are using the `<rx-paginate>` directive to draw the buttons, passing it the same `pager`
- * instance described above.
- *
- * Because all of the `servers` get passed via `ng-repeat`, it means you don't need to take explicit
- * action if the set of data changes. You can change `$scope.servers` at any time, and `<rx-paginate>`
- * will automatically re-process it.
- *
- * ## Persistence
- *
- * The user's preference for the number of items to display per page will be persisted across applications
- * using {@link utilities.service:rxLocalStorage rxLocalStorage}. This preference is set whenever the user selects
- * a new number to show.
- *
- * This applies to both UI-based pagination and API-based pagination.
- *
- * *NOTE*: If `itemsPerPage` is explicitly specified in the `opts` you pass to `PageTracking.createInstance()`,
- * then that pager instance will load using the `itemsPerPage` you specified, and _not_ the globally persisted value.
- *
- * *NOTE*: If you don't want a specific pager to have its `itemsPerPage` persisted to other pagers,
- * pass `persistItemsPerPage: false` with the `opts` to `createInstance()`.
- *
- * ## Hiding the pagination
- *
- * In some instances, the pagination should be hidden if there isn't enough data to require it. For example,
- * if you have `itemsPerPage` set to 10, but only have 7 items of data (so only one page). Hiding the
- * pagination is pretty simple:
- *
- * <pre>
- * <rx-paginate page-tracking="pager" ng-hide="pager.totalPages === 1"></rx-paginate>
- * </pre>
- *
- * You can use this code on any part of your view. For example, if you have pagination in your table
- * footer, it's a good idea to hide the entire footer:
- *
- * <pre>
- * <tfoot ng-hide="pager.totalPages === 1">
- *     <tr class="paginate-area">
- *         <td colspan="12">
- *             <rx-paginate page-tracking="pager"></rx-paginate>
- *         </td>
- *     </tr>
- * </tfoot>
- * </pre>
- *
- * See the rxPaginate compoent {@link /encore-ui/#/components/rxPaginate demo} for more examples of this.
- *
- * This applies to both UI-based pagination and API-based pagination.
- *
- * # API-Based Pagination
- * Many APIs support pagination on their own. Previously, we would have to grab _all_ the data at once,
- * and use the UI-Based Pagination described above. Now we have support for paginated APIs, such that we
- * only retrieve data for given pages when necessary.
- *
- * With API-based pagination, the `ngRepeat` for your table will instead look like this:
- * <pre>
- * <tr ng-repeat="server in pagedServers.items">
- * </pre>
- *
- * Note a few things here:
- *
- * 1. We now loop over a variable provided by the pager.
- * 2. We no longer pass the values through _any_ filters. Not a search text filter, not sorting filter,
- * and not the `Paginate` filter.
- *
- * ** BEGIN WARNING **
- *
- * You should _never_ access `pagedServers.items` from anywhere other than the `ng-repeat`. Do not touch
- * it in your controller. It is a dynamic value that can change at anytime. It is only intended for use
- * by `ng-repeat`.
- *
- * ** END WARNING **
- *
- * The `<tfoot>` will look like this:
- *
- * <pre>
- * <tfoot>
- *     <tr class="paginate-area">
- *         <td colspan="2">
- *             <rx-paginate
- *                 page-tracking="pagedServers"
- *                 server-interface="serverInterface"
- *                 filter-text="searchText"
- *                 selections="selectFilter.selected"
- *                 sort-column="sort.predicate"
- *                 sort-direction="sort.reverse">
- *             </rx-paginate>
- *         </td>
- *     </tr>
- * </tfoot>
- * </pre>
- *
- *  * `page-tracking` still receives the pager (`pagedServers` in this case) as an argument. What's
- *  new are the next four parameters.
- *  * `server-interface` _must_ be present. It has to be passed an object with a `getItems()` method
- *  on it. This method is what `<rx-paginate>` will use to request data from the paginated API.
- *  * `filter-text`, `selections`, `sort-column` and `sort-direction` are all optional. If present,
- *  `<rx-paginate>` will watch the variables for changes, and will call `getItems()` for updates whenever
- *  the values change.
- *
- * *Note:* If using `<rx-select-filter>` in the table, the `available` option passed to the `SelectFilter`
- * constructor **must** be provided and include every property.  This is because the filter cannot reliably
- * determine all available options from a paginated API.
- *
- * You will still create a `PageTracking` instance on your scope, just like in UI-based pagination:
- *
- * <pre>
- * $scope.pagedServers = PageTracking.createInstance();
- * </pre>
- *
- * ## getItems()
- * The `getItems()` method is one you write on your own, and lives as an interface between `<rx-paginate>`
- * and the server-side paginated API that you will be calling. The framework will make calls to `getItems()`
- * when appropriate. Rather than have to teach `<rx-paginate>` about how to call and parse a multitude of
- * different paginated APIs, it is your responsibility to implement this generic method.
- *
- * `getItems()` takes two required parameters, and one optional parameter object. When the framework calls it,
- * it looks like:
- *
- * <pre>
- * getItems(pageNumber, itemsPerPage, {
- *     filterText: some_filter_search_text,
- *     selections: selected_options_from_filters,
- *     sortColumn: the_selected_sort_column,
- *     sortDirection: the_direction_of_the_sort_column
- * });
- * </pre>
- *
- * where:
- *
- * * `pageNumber`: the 0-based page of data that the user has clicked on/requested
- * * `itemsPerPage`: the value the user currently has selected for how many items per page they wish to see
- * * `filterText`: the filter search string entered by the user, if any
- * * `selections`: an object containing the item properties and their selected options
- * * `sortColumn`: the name of the selected sort column, if any
- * * `sortDirection`: either `'ASCENDING'` or `'DESCENDING'`
- *
- * When the framework calls `getItems()`, you **_must_ return a promise**. When this promise resolves,
- * the resolved object must have the following properties on it:
- *
- * * `items`: An array containing the actual items/rows of the table returned for the request. This should at
- * least contain `itemsPerPage` items, if that many items exist on the given page
- * * `pageNumber`: The 0-based page number that these items belong to. Normally this should be the same as the
- * `pageNumber` value passed to `getItems()`
- * * `totalNumberOfItems`: The total number of items available, given the `filterText` parameter.
- *
- * Examples are below.
- *
- * ## `totalNumberOfItems`
- *
- * If you could get all items from the API in _one call_, `totalNumberOfItems` would reflect the number of items
- * returned (given necessary search parameters). For example, say the following request was made:
- *
- * <pre>
- * var pageNumber = 0;
- * var itemsPerPage = 50;
- *
- * getItems(pageNumber, itemsPerPage);
- * </pre>
- *
- * This is asking for all the items on page 0, with the user currently viewing 50 items per page. A valid response
- * would return 50 items. However, the _total_ number of items available might be 1000 (i.e. 20 pages of results).
- * Your response must then have `totalNumberOfItems: 1000`. This data is needed so we can display to the
- * user "Showing 1-50 of 1000 items" in the footer of the table.
- *
- * If `filterText` is present, then the total number of items might change. Say the request became:
- *
- * <pre>
- * var pageNumber = 0;
- * var itemsPerPage = 50;
- * var opts = {
- *         filterText: "Ubuntu"
- *     };
- *
- * getItems(pageNumber, itemsPerPage, opts);
- * </pre>
- *
- * This means "Filter all your items by the search term 'Ubuntu', then return page 0".
- * If the total number of items matching "Ubuntu" is 200, then your response would have
- * `totalNumberOfItems: 200`. You might only return 50 items in `.items`, but the framework
- * needs to know how many total items are available.
- *
- * ## Forcing a Refresh
- *
- * When using API-based pagination, there might be instances where you want to force a reload of
- * the current items. For example, if the user takes an action to delete an item. Normally, the
- * items in the view are only updated when the user clicks to change the page. To force a refresh, a
- * `refresh()` method is available on the `pagedServers`. Calling this will tell `<rx-paginate>` to
- * refresh itself. You can also pass it a `stayOnPage = true` to tell it to make a fresh request for
- * the current page, i.e.:
- * <pre>
- * var stayOnPage = true;
- * pagedServers.refresh(stayOnPage);
- * </pre>
- *
- * Internally, calling `refresh()` equates to `<rx-paginate>` doing a new `getItems()` call, with
- * the current filter/sort criteria. But the point is that you can't just call `getItems()` yourself
- * to cause an update. The framework has to call that method, so it knows to wait on the returned promise.
- *
- * This is shown in the rxPaginate component {@link /encore-ui/#/components/rxPaginate demo} with a "Refresh" button
- * above the API-paginated example.
- *
- * ## Error Handling
- *
- *
- * `<rx-paginate>` includes a simple way to show error messages when `getItems()` rejects instead of
- * resolves. By passing `error-message="Some error text!"` to `<rx-paginate>`, the string entered
- * there will be shown in an rxNotification whenever `getItems()` fails. If `error-message` is
- * not specified, then nothing will be shown on errors. In either case, on a failure, the table will
- * stay on the page it was on before the request went out.
- *
- * If you wish to show more complicated error messages (and it is highly recommended that you do!),
- * then you'll have to do that yourself. Either put error handling code directly into your `getItems()`,
- * or have something else wait on the `getItems()` promise whenever it's called, and perform the handling there.
- *
- * One way to do this is as so:
- *
- * Let's say that you had defined your `getItems()` method on an object called `pageRequest`,
- *
- * <pre>
- * var pageRequest = {
- *         getItems: function (pageNumber, itemsPerPage, opts) {
- *             var defer = $q.deferred();
- *             ...
- *         }
- *     };
- * </pre>
- *
- * You want your `getItems()` to be unaware of the UI, i.e. you don't want to mix API and UI logic into one method.
- *
- * Instead, you could do something like this:
- *
- * <pre>
- * var pageRequest = {
- *         getItemsFromAPI: function (pageNumber, itemsPerPage, opts) {
- *             var defer = $q.deferred();
- *                ...
- *         }
- *
- *         getItems: function (pageNumber, itemsPerPage, opts) {
- *             var promise = this.getItemsFromAPI(pageNumber, itemsPerPage, opts);
- *
- *             rxPromiseNotifications.add(promise, {
- *                 error: 'Error loading page ' + pageNumber
- *             }
- *
- *             return promise;
- *         }
- *     };
- * </pre>
- *
- * Thus we've moved the API logic into `getItemsFromAPI`, and handled the UI logic separately.
- *
- * ## Extra Filtering Parameters
- *
- * By default, `<rx-paginate>` can automatically work with a search text field (using `search-text=`).
- * If you need to filter by additional criteria (maybe some dropdowns/radiobox, extra filter boxes, etc),
- * you'll need to do a bit more work on your own.
- *
- * To filter by some element X, set a `$watch` on X's model. Whenever it changes, call
- * `pagedServers.refresh()` to force `<rx-paginate>` to do a new `getItems()` call. Then, in your
- * `getItems()`, grab the current value of X and send it out along with the normal criteria that are passed
- * into `getItems()`. Something like:
- *
- * <pre>
- * $scope.watch('extraSearch', $scope.pagedServers.refresh);
- *
- * var serverInterface = {
- *         getItems: function (pageNumber, itemsPerPage, opts) {
- *             var extraSearch = $scope.extraSearch;
- *             return callServerApi(pageNumber, itemsPerPage, opts, extraSearch);
- *         }
- *     };
- *
- *    ...
- *
- * <rx-paginate server-interface="serverInterface" ... ></rx-paginate>
- * </pre>
- *
- * Remember that calling `refresh()` without arguments will tell `rx-paginate` to make a fresh request for
- * page 0. If you call it with `true` as the first argument, the request will be made with whatever the current
- * page is, i.e. `getItems(currentPage, ...)`. If you have your own search criteria, and they've changed since the
- * last time this was called, note that the page number might now be different. i.e. If the user was on page 10,
- * they entered some new filter text, and you call `refresh(true)`, there might not even be 10 pages of results
- * with that filter applied.
- *
- * In general, if you call `refresh(true)`, you should check if _any_ of the filter criteria have changed since
- * the last call. If they have, you should ask for page 0 from the server, not the page number passed in to
- * `getItems()`. If you call `refresh()` without arguments, then you don't have to worry about comparing to the
- * last-used filter criteria.
- *
- * ## Local Caching
- *
- * **If you are ok with a call to your API every time the user goes to a new page in the table, then you can ignore
- * this section. If you want to reduce the total number of calls to your API, please read on.**
- *
- * When a `getItems()` request is made, the framework passes in the user's `itemsPerPage` value. If it is 50, and
- * there are 50 results available for the requested page, then you should return _at least_ 50 results. However, you
- * may also return _more_ than 50 items.
- *
- * Initially, `<rx-paginate>` will call `getItems()`, wait for a response, and then update items in the table.  If
- * your `getItems()` returned exactly `itemsPerPage` results in its `items` array, and the user navigates to a
- * different page of data, `getItems()` will be called again to fetch new information from the API.  The user will
- * then need to wait before they see new data in the table. This remains true for every interaction with page data
- * navigation.
- *
- * For example, say the following request is made when the page first loads:
- *
- * <pre>
- * var pageNumber = 0;
- * var itemsPerPage = 50;
- *
- * getItems(pageNumber, itemsPerPage);
- * </pre>
- *
- * Because no data is available yet, `<rx-paginate>` will call `getItems()`, wait for the response, and then draw
- * the items in the table. If you returned exactly 50 items, and the user then clicks "Next" or 2 (to go to the
- * second page), then `getItems()` will have to be called again (`getItems(1, 50)`), and the user will have to wait
- * for the results to come in.
- *
- * However, if your `getItems()` were to pull more than `itemsPerPage` of data from the API, `<rx-paginate>` is
- * smart enough to navigate through the saved data without needing to make an API request every time the page is
- * changed.
- *
- * There are some caveats, though.
- *
- * 1. Your returned `items.length` must be a multiple of `itemsPerPage` (if `itemsPerPage = 50`, `items.length`
- * must be 50, 100, 150, etc.)
- * 2. You will need to calculate the page number sent to the API based on requested values in the UI.
- * 3. If the user enters any search text, and you've passed the search field to `<rx-paginate>` via `search-text`,
- * then the cache will be immediately flushed and a new request made.
- * 4. If you've turned on column-sorting, and passed `sort-column` to `<rx-paginate>`, then the cache will be
- * flushed whenever the user changes the sort, and a new request will be made to `getItems()`
- * 5. If you've passed `sort-direction` to `<rx-paginate>, and the user changes the sort
- * direction, then the cache will be flushed and a new request will be made to `getItems()`
- *
- * Details on this are below.
- *
- * ### Local Caching Formula
- *
- * You have to be careful with grabbing more items than `itemsPerPage`, as you'll need to modify the values
- * you send to your server. If you want to be careful, then **don't ever request more than `itemsPerPage`
- * from your API.**
- *
- * Let's say that `itemsPerPage` is 50, but you want to grab 200 items at a time from the server, to reduce
- * the round-trips to your API. We'll call this 200 the `serverItemsPerPage`. First, ensure that your
- * `serverItemsPerPage` meets this requirement:
- *
- * <pre>
- * (serverItemsPerPage >= itemsPerPage) && (serverItemsPerPage % itemsPerPage === 0)
- * </pre>
- *
- * If you're asking for 200 items at a time, the page number on the server won't match the page number
- * requested by the user. Before, a user call for `pageNumber = 4` and `itemsPerPage = 50` means
- * "Give me items 200-249". But if you're telling your API that each page is 200 items long, then
- * `pageNumber = 4` is not what you want to ask your API for (it would return items 800-999!). You'll need to
- * send a custom page number to the server. In this case, you'd need `serverPageNumber` to be `1`, i.e.
- * the second page of results from the server.
- *
- * We have written a utility function do these calculations for you, `rxPaginateUtils.calculateApiVals`. It
- * returns an object with `serverPageNumber` and `offset` properties. To use it, your `getItems()` might
- * look something like this.
- *
- * <pre>
- * var getItems = function (pageNumber, itemsPerPage) {
- *         var deferred = $q.defer();
- *         var serverItemsPerPage = 200;
- *         var vals = rxPaginateUtils.calculateApiVals(pageNumber, itemsPerPage, serverItemsPerPage);
- *
- *         yourRequestToAPI(vals.serverPageNumber, serverItemsPerPage)
- *         .then(function (items) {
- *             deferred.resolve({
- *                 items: items.slice(vals.offset),
- *                 pageNumber: pageNumber,
- *                 totalNumberOfItems: items.totalNumberOfItems
- *             });
- *
- *         });
- *
- *         return deferred.promise;
- *     };
- * </pre>
- *
- * The following tables should help illustrate what we mean with these conversions. In all three cases,
- * there are a total of 120 items available from the API.
- *
- *
- * | pageNumber | itemsPerPage | Items   | Action     | serverPageNumber | serverItemsPerPage | Items  |
- * |------------|--------------|---------|------------|------------------|--------------------|--------|
- * | 0          | 50           | 1-50    | getItems() | 0                | 50                 | 1-50   |
- * | 1          | 50           | 51-100  | getItems() | 1                | 50                 | 51-100 |
- * | 2          | 50           | 101-120 | getItems() | 2                | 50                 | 101-120|
- *
- *
- * This first table is where you don't want to do any local caching. You send the `pageNumber` and
- * `itemsPerPage` to your API, unchanged from what the user requested. Every time the user clicks to go to
- * a new page, an API request will take place.
- *
- * ***
- *
- *
- * |pageNumber   | itemsPerPage | Items   | Action     | serverPageNumber | serverItemsPerPage | Items |
- * |-------------|--------------|---------|------------|------------------|--------------------|-------|
- * | 0           | 50           | 1-50    | getItems() | 0                | 100                | 1-100 |
- * | 1           | 50           | 51-100  | use cached |                  |                    |       |
- * | 2           | 50           | 101-120 | getItems() | 1                | 100                |101-120|
- *
- *
- * This second example shows the case where the user is still looking at 50 `itemsPerPage`, but you want to
- * grab 100 items at a time from your API.
- *
- * When the table loads (i.e. the user wants to look at the first page of results), an "Action" of
- * `getItems(0, 50)` will take place. Using `calculateApiVals`, the `serverPageNumber` will be 0 when you
- * provide `serverItemsPerPage=100`. When you resolve the `getItems()` promise, you'll return items 1-100.
- *
- * When the user clicks on the second page (page 1), `getItems()` will not be called, `<rx-paginate>` will
- * instead use the values it has cached.
- *
- * When the user clicks on the third page (page 2), `getItems(2, 50)` will be called. You'll use
- * `rxPaginateutils.calculateApiVals` to calculate that `serverPageNumber` now needs to be `1`. Because
- * only 120 items in total are available, you'll eventually resolve the promise with `items` containing
- * items 101-120.
- *
- * ***
- *
- * | pageNumber | itemsPerPage | Items   | Action     | serverPageNumber | serverItemsPerPage | Items |
- * |------------|--------------|---------|------------|------------------|--------------------|-------|
- * | 0          | 50           | 1-50    | getItems() | 0                | 200                | 1-120 |
- * | 1          | 50           | 51-100  | use cached |                  |                    |  &nbsp;     |
- * | 2          | 50           | 101-120 | use cached |                  |                    |  &nbsp;     |
- *
- * In this final example, there are still only 120 items available, but you're asking your API for 200 items
- * at a time. This will cause an API request on the first page, but the next two pages will be cached, and
- * `<rx-paginate>` will use the cached values.
- *
- * ## Directives
- * * {@link rxPaginate.directive:rxLoadingOverlay rxLoadingOverlay}
- * * {@link rxPaginate.directive:rxPaginate rxPaginate}
- */
-angular.module('encore.ui.rxPaginate', [
-    'encore.ui.utilities',
-    'debounce'
-]);
-
-angular.module('encore.ui.rxPaginate')
-/**
- * @ngdoc directive
- * @name rxPaginate.directive:rxLoadingOverlay
- * @restrict A
- * @description
- * This directive can be used to show and hide a "loading" overlay on top
- * of any given element. Add this as an attribute to your element, and then
- * other sibling or child elements can require this as a controller.
- *
- * @method show - Shows the overlay
- * @method hide - Hides the overlay
- * @method showAndHide(promise) - Shows the overlay, and automatically
- * hides it when the given promise either resolves or rejects
- */
-.directive('rxLoadingOverlay', ["$compile", function ($compile) {
-    var loadingBlockHTML = '<div ng-show="_rxLoadingOverlayVisible" class="loading-overlay">' +
-                                '<div class="loading-text-wrapper">' +
-                                    '<i class="fa fa-fw fa-lg fa-spin fa-circle-o-notch"></i>' +
-                                    '<div class="loading-text">Loading...</div>' +
-                                '</div>' +
-                            '</div>';
-
-    return {
-        restrict: 'A',
-        controller: ["$scope", function ($scope) {
-            this.show = function () {
-                $scope._rxLoadingOverlayVisible = true;
-            };
-
-            this.hide = function () {
-                $scope._rxLoadingOverlayVisible = false;
-            };
-
-            this.showAndHide = function (promise) {
-                this.show();
-                promise.finally(this.hide);
-            };
-        }],
-        link: function (scope, element) {
-            // This target element has to have `position: relative` otherwise the overlay
-            // will not sit on top of it
-            element.css({ position: 'relative' });
-            scope._rxLoadingOverlayVisible = false;
-
-            $compile(loadingBlockHTML)(scope, function (clone) {
-                element.append(clone);
-            });
-        }
-    };
-}]);
-
-angular.module('encore.ui.rxPaginate')
-/**
- * @ngdoc directive
- * @name rxPaginate.directive:rxPaginate
- * @restrict E
- * @description
- * Directive that takes in the page tracking object and outputs a page
- * switching controller. It can be used in conjunction with the Paginate
- * filter for UI-based pagination, or can take an optional serverInterface
- * object if you instead intend to use a paginated server-side API
- *
- * @param {Object} pageTracking
- * This is the page tracking service instance to be used for this directive.
- * See {@link utilities.service:PageTracking}
- * @param {Number} numberOfPages
- * This is the maximum number of pages that the page object will display at a
- * time.
- * @param {Object=} serverInterface
- * An object with a `getItems()` method. The requirements of this method are
- * described in the rxPaginate module documentation
- * @param {Object=} filterText
- * The model for the table filter input, if any. This directive will watch that
- * model for changes, and request new results from the paginated API, on change
- * @param {Object=} selections
- * The `selected` property of a SelectFilter instance, if one is being used.
- * This directive will watch the filter's selections, and request new results
- * from the paginated API, on change
- * @param {Object=} sortColumn
- * The model containing the current column the results should sort on. This
- * directive will watch that column for changes, and request new results from
- * the paginated API, on change
- * @param {Object=} sortDirection
- * The model containing the current direction of the current sort column. This
- * directive will watch for changes, and request new results from the paginated
- * API, on change.
- * @param {String=} errorMessage
- * An error message that should be displayed if a call to the request fails
- */
-.directive('rxPaginate', ["$q", "$compile", "debounce", "PageTracking", "rxPromiseNotifications", function ($q, $compile, debounce, PageTracking, rxPromiseNotifications) {
-    return {
-        templateUrl: 'templates/rxPaginate.html',
-        replace: true,
-        restrict: 'E',
-        require: '?^rxLoadingOverlay',
-        scope: {
-            pageTracking: '=',
-            numberOfPages: '@',
-            serverInterface: '=?',
-            filterText: '=?',
-            selections: '=?',
-            sortColumn: '=?',
-            sortDirection: '=?'
-        },
-        link: function (scope, element, attrs, rxLoadingOverlayCtrl) {
-
-            var errorMessage = attrs.errorMessage;
-
-            rxLoadingOverlayCtrl = rxLoadingOverlayCtrl || {
-                show: _.noop,
-                hide: _.noop,
-                showAndHide: _.noop
-            };
-            // We need to find the `<table>` that contains
-            // this `<rx-paginate>`
-            var parentElement = element.parent();
-            while (parentElement.length && parentElement[0].tagName !== 'TABLE') {
-                parentElement = parentElement.parent();
-            }
-
-            var table = parentElement;
-
-            scope.scrollToTop = function () {
-                table[0].scrollIntoView(true);
-            };
-
-            // Everything here is restricted to using server-side pagination
-            if (!_.isUndefined(scope.serverInterface)) {
-
-                var params = function () {
-                    var direction = scope.sortDirection ? 'DESCENDING' : 'ASCENDING';
-                    return {
-                        filterText: scope.filterText,
-                        selections: scope.selections,
-                        sortColumn: scope.sortColumn,
-                        sortDirection: direction
-                    };
-                };
-
-                var getItems = function (pageNumber, itemsPerPage) {
-                    var response = scope.serverInterface.getItems(pageNumber,
-                                                   itemsPerPage,
-                                                   params());
-                    rxLoadingOverlayCtrl.showAndHide(response);
-
-                    if (errorMessage) {
-                        rxPromiseNotifications.add(response, {
-                            error: errorMessage
-                        });
-                    }
-                    return response;
-                };
-
-                // Register the getItems function with the PageTracker
-                scope.pageTracking.updateItemsFn(getItems);
-
-                var notifyPageTracking = function () {
-                    var pageNumber = 0;
-                    scope.pageTracking.newItems(getItems(pageNumber, scope.pageTracking.itemsPerPage));
-                };
-
-                // When someone changes the sort column, it will go to the
-                // default direction for that column. That could cause both
-                // `sortColumn` and `sortDirection` to get changed, and
-                // we don't want to cause two separate API requests to happen
-                var columnOrDirectionChange = debounce(notifyPageTracking, 100);
-
-                var textChange = debounce(notifyPageTracking, 500);
-
-                var selectionChange = debounce(notifyPageTracking, 1000);
-
-                var ifChanged = function (fn) {
-                    return function (newVal,  oldVal) {
-                        if (newVal !== oldVal) {
-                            fn();
-                        }
-                    };
-                };
-                // Whenever the filter text changes (modulo a debounce), tell
-                // the PageTracker that it should go grab new items
-                if (!_.isUndefined(scope.filterText)) {
-                    scope.$watch('filterText', ifChanged(textChange));
-                }
-
-                if (!_.isUndefined(scope.selections)) {
-                    scope.$watch('selections', ifChanged(selectionChange), true);
-                }
-
-                if (!_.isUndefined(scope.sortColumn)) {
-                    scope.$watch('sortColumn', ifChanged(columnOrDirectionChange));
-                }
-                if (!_.isUndefined(scope.sortDirection)) {
-                    scope.$watch('sortDirection', ifChanged(columnOrDirectionChange));
-                }
-
-                notifyPageTracking();
-
-            }
-
         }
     };
 }]);
@@ -10004,246 +8940,6 @@ angular.module('encore.ui.utilities')
     };
 }]);
 
-/**
- * @ngdoc overview
- * @name rxSearchBox
- * @description
- * # rxSearchBox Component
- *
- * The rxSearchBox component provides functionality around creating a search
- * input box.
- *
- * ## Directives
- * * {@link rxSearchBox.directive:rxSearchBox rxSearchBox}
- */
-angular.module('encore.ui.rxSearchBox', []);
-
-angular.module('encore.ui.rxSearchBox')
-/**
- * @name rxSearchBox.directive:rxSearchBox
- * @ngdoc directive
- * @restrict E
- * @description
- * The rxSearchBox directive behaves similar to the HTML "Search" input type.
- * When the search box is not empty, an "X" button within the element will
- * allow you to clear the value. Once clear, the "X" will disappear. A disabled
- * search box cannot be cleared of its value via the "X" button because the
- * button will not display.
- *
- * Though it is described as a search box, you can also use it for filtering
- * capabilities (as seen by the placeholder text in the "Customized"
- * {@link /encore-ui/#/components/rxSearchBox demo}).
- *
- * # Styling
- * You can style the `<rx-search-box>` element via custom CSS classes the same
- * way you would any HTML element. See the customized search box in the
- * {@link /encore-ui/#/components/rxSearchBox demo} for an example.
- *
- * <pre>
- * <rx-search-box
- *      ng-model="customSearchModel"
- *      rx-placeholder="filterPlaceholder">
- * </rx-search-box>
- * </pre>
- * @param {String} ng-model Model value to bind the search value.
- * @param {Boolean=} ng-disabled Boolean value to enable/disable the search box.
- * @param {String=} [ng-placeholder='Search...'] String to override the
- * default placeholder.
- *
- * @example
- * <pre>
- * <rx-search-box ng-model="searchModel"></rx-search-box>
- * </pre>
- *
- */
-.directive('rxSearchBox', function () {
-    return {
-        restrict: 'E',
-        require: ['ngModel', '?^rxFloatingHeader'],
-        templateUrl: 'templates/rxSearchBox.html',
-        scope: {
-            searchVal: '=ngModel',
-            isDisabled: '@ngDisabled',
-            rxPlaceholder: '=?'
-        },
-        controller: ["$scope", function ($scope) {
-            $scope.searchVal = $scope.searchVal || '';
-            $scope.rxPlaceholder = $scope.rxPlaceholder || 'Search...';
-
-            $scope.$watch('searchVal', function (newVal) {
-                if (!newVal || $scope.isDisabled) {
-                    $scope.isClearable = false;
-                } else {
-                    $scope.isClearable = (newVal.toString() !== '');
-                }
-            });
-
-            $scope.clearSearch = function () {
-                $scope.searchVal = '';
-            };
-        }],
-        link: function (scope, element, attrs, controllers) {
-            var rxFloatingHeaderCtrl = controllers[1];
-            if (_.isObject(rxFloatingHeaderCtrl)) {
-                rxFloatingHeaderCtrl.update();
-            }
-        }
-    };
-});
-
-/**
- * @ngdoc overview
- * @name rxSelect
- * @description
- * # rxSelect component
- *
- * A component that wraps a native `<select>` element in markup required for
- * styling purposes.
- *
- * ## Directives
- * * {@link rxSelect.directive:rxSelect rxSelect}
- */
-angular.module('encore.ui.rxSelect', []);
-
-angular.module('encore.ui.rxSelect')
-/**
- * @ngdoc directive
- * @name rxSelect.directive:rxSelect
- * @restrict A
- * @scope
- * @description
- *
- * This directive is to apply styling to native `<select>` elements
- *
- * ## Styling
- *
- * Directive results in a **block element** that takes up the *full width of its
- * container*. You can style the output against decendents of the **`.rxSelect`**
- * CSS class.
- *
- * ## Show/Hide
- * If you wish to show/hide your `rxSelect` element, we recommend placing it
- * within a `<div>` or `<span>` wrapper, and performing the show/hide logic on
- * the wrapper.
- *
- * <pre>
- * <span ng-show="isShown">
- *     <select rx-select ng-model="selDemo">
- *         <option value="1">First</option>
- *         <option value="2">Second</option>
- *         <option value="3">Third</option>
- *     </select>
- * </span>
- * </pre>
- *
- * It is highly recommended that you use `ng-show` and `ng-hide` for display logic.
- * Because of the way that `ng-if` and `ng-switch` directives behave with scope,
- * they may introduce unnecessary complexity in your code.
- *
- * @example
- * <pre>
- * <select rx-select ng-model="demoItem">
- *   <option value="1">First</option>
- *   <option value="2">Second</option>
- *   <option value="3">Third</option>
- * </select>
- * </pre>
- *
- * @param {Boolean=} [ngDisabled=false] Determines if control is disabled.
- */
-.directive('rxSelect', function () {
-    return {
-        restrict: 'A',
-        scope: {
-            ngDisabled: '=?'
-        },
-        link: function (scope, element, attrs) {
-            var disabledClass = 'rx-disabled';
-            var wrapper = '<div class="rxSelect"></div>';
-            var fakeSelect = '<div class="fake-select">' +
-                    '<div class="select-trigger">' +
-                        '<i class="fa fa-fw fa-caret-down"></i>' +
-                    '</div>' +
-                '</div>';
-
-            element.wrap(wrapper);
-            element.after(fakeSelect);
-            // must be defined AFTER the element is wrapped
-            var parent = element.parent();
-
-            // apply/remove disabled class so we have the ability to
-            // apply a CSS selector for purposes of style sibling elements
-            if (_.has(attrs, 'disabled')) {
-                parent.addClass(disabledClass);
-            }
-            if (_.has(attrs, 'ngDisabled')) {
-                scope.$watch('ngDisabled', function (newVal) {
-                    if (newVal === true) {
-                        parent.addClass(disabledClass);
-                    } else {
-                        parent.removeClass(disabledClass);
-                    }
-                });
-            }
-
-            var removeParent = function () {
-                parent.remove();
-            };
-
-            // remove stylistic markup when element is destroyed
-            element.on('$destroy', function () {
-                scope.$evalAsync(removeParent);
-            });
-        }
-    };
-});
-
-/**
- * @ngdoc overview
- * @name rxSortableColumn
- * @description
- * # rxSortableColumn Component
- *
- * The rxSortableColumn component provides functionality to sort a table on a
- * single property value.
- *
- * ## Directives
- * * {@link rxSortableColumn.directive:rxSortableColumn rxSortableColumn}
- */
-angular.module('encore.ui.rxSortableColumn', []);
-
-angular.module('encore.ui.rxSortableColumn')
-/**
- * @ngdoc directive
- * @name rxSortableColumn.directive:rxSortableColumn
- * @restrict E
- * @description
- * Renders a clickable link in a table heading which will sort the table by
- * the referenced property in ascending or descending order.
- *
- * @param {String} displayText - The text to be displayed in the link
- * @param {Function} sortMethod - The sort function to be called when the link is
- * clicked
- * @param {String} sortProperty - The property on the array to sort by when the
- * link is clicked.
- * @param {Object} predicate - The current property the collection is sorted by.
- * @param {Boolean} reverse - Indicates whether the collection should sort the
- * array in reverse order.
- */
-.directive('rxSortableColumn', function () {
-    return {
-        restrict: 'E',
-        templateUrl: 'templates/rxSortableColumn.html',
-        transclude: true,
-        scope: {
-            sortMethod: '&',
-            sortProperty: '@',
-            predicate: '=',
-            reverse: '='
-        }
-    };
-});
-
 angular.module('encore.ui.utilities')
 /**
  * @ngdoc filter
@@ -10320,170 +9016,6 @@ angular.module('encore.ui.utilities')
     };
 
     return util;
-});
-
-/**
- * @ngdoc overview
- * @name rxStatusColumn
- * @description
- * # rxStatusColumn Component
- *
- * This component provides directives and styles for putting status columns
- * into tables.
- *
- * ## Directives
- * * {@link rxStatusColumn.directive:rxStatusColumn rxStatusColumn}
- * * {@link rxStatusColumn.directive:rxStatusHeader rxStatusHeader}
- */
-angular.module('encore.ui.rxStatusColumn', [
-    'encore.ui.utilities'
-]);
-
-angular.module('encore.ui.rxStatusColumn')
-/**
- * @ngdoc directive
- * @name rxStatusColumn.directive:rxStatusColumn
- * @restrict A
- * @scope
- * @description
- *
- * A directive for drawing colored status columns in a table. This
- * takes the place of the <td></td> for the column it's in.
- *
- * For the corresponding `<td>`, you will need to add the `rx-status-column`
- * attribute, and set the `status` attribute appropriately. You can optionally
- * set `api` and `tooltip-content` attributes. `tooltip-content` sets the
- * tooltip that will be used. If not set, it will default to the value you
- * passed in for `status`. The `api` attribute will be explained below.
- *
- * We currently support six statuses, with corresponding CSS styles. Namely,
- * `"ACTIVE"`, `"DISABLED"`, `"WARNING"`, `"ERROR"`, `"INFO"` and `"PENDING"`.
- * If your code happens to already use those statuses, then you can simply pass
- * them to the `status` attribute as appropriate. However, it's likely that
- * internally you will be receiving a number of different statuses from your
- * APIs, and will need to map them to these six statuses.
- *
- * The example in the {@link /encore-ui/#/components/rxStatusColumn demo} shows
- * a typical use of this directive, such as:
- *
- * <pre>
- * <tbody>
- *     <tr ng-repeat="server in servers">
- *         <!-- Both `api` and `tooltip-content` are optional -->
- *         <td rx-status-column
- *             status="{{ server.status }}"
- *             api="{{ server.api }}"
- *             tooltip-content="{{ server.status }}"></td>
- *         <td>{{ server.title }}</td>
- *         <td>{{ server.value }}</td>
- *    </tr>
- * </tbody>
- * </pre>
- *
- * # A note about color usage for rxStatusColumn
- *
- * Encore uses the color red for destructive and "delete" actions, and the
- * color green for additive or "create" actions, and at first it may seem that
- * the styles of rxStatusColumn do not follow that same logic. However, the
- * distinction here is that when an action or status on an item is
- * "in progress" or "pending" (i.e. the user cannot take any additional action
- * on that item until a transition completes), it is given the yellow animated
- * `PENDING` treatment. This is true even for "create"/"add" actions or
- * "delete" actions. A general rule of thumb to follow is that if a status
- * ends in -`ING`, it should get the animated yellow stripes of `PENDING`.
- *
- * @param {String} status The status to draw
- * @param {String=} api
- * Optionally specify which API mapping to use for the status
- * @param {String=} tooltip
- * The string to use for the tooltip. If omitted, it will default to using the
- * passed in status
- */
-.directive('rxStatusColumn', ["rxStatusMappings", "rxStatusColumnIcons", function (rxStatusMappings, rxStatusColumnIcons) {
-    return {
-        templateUrl: 'templates/rxStatusColumn.html',
-        restrict: 'A',
-        scope: {
-            status: '@',
-            api: '@',
-            tooltipContent: '@'
-        },
-        link: function (scope, element) {
-
-            var lastStatusClass = '';
-
-            var updateTooltip = function () {
-                scope.tooltipText = scope.tooltipContent || scope.status || '';
-            };
-
-            var setStatus = function (status) {
-                scope.mappedStatus = rxStatusMappings.getInternalMapping(status, scope.api);
-                updateTooltip();
-
-                // We use `fa-exclamation-circle` when no icon should be visible. Our LESS file
-                // makes it transparent
-                scope.statusIcon = rxStatusColumnIcons[scope.mappedStatus] || 'fa-exclamation-circle';
-                element.addClass('status');
-                element.removeClass(lastStatusClass);
-                lastStatusClass = 'status-' + scope.mappedStatus;
-                element.addClass(lastStatusClass);
-                element.addClass('rx-status-column');
-            };
-
-            scope.$watch('status', function (newStatus) {
-                setStatus(newStatus);
-            });
-
-            scope.$watch('tooltipContent', function () {
-                updateTooltip();
-            });
-        }
-    };
-}]);
-
-angular.module('encore.ui.rxStatusColumn')
-/**
- * @ngdoc directive
- * @name rxStatusColumn.directive:rxStatusHeader
- * @description
- *
- * Place this attribute directive on the `<th>` for the status columns. It
- * ensures correct styling.
- *
- * For the `<th>` component representing the status column, add the
- * `rx-status-header` attribute, i.e.
- *
- * <pre>
- * <th rx-status-header></th>
- * </pre>
- * Note that status columns are sortable with
- * {@link /encore-ui/#/components/rxSortableColumn rxSortableColumn}, just like any
- * other column. The demo below shows an example of this.
- *
- * One few things to note about the
- * {@link /encore-ui/#/components/rxStatusColumn demo}: The `<th>` is defined as:
- *
- * <pre>
- * <th rx-status-header>
- *     <rx-sortable-column
- *         sort-method="sortcol(property)"
- *         sort-property="status"
- *         predicate="sort.predicate"
- *         reverse="sort.reverse">
- *     </rx-sortable-column>
- * </th>
- * </pre>
- *
- * Note that `sort-property="status"` is referring to the `server.status`
- * property on each row. Thus the sorting is done in this example by the status
- * text coming from the API.
- */
-.directive('rxStatusHeader', function () {
-    return {
-        link: function (scope, element) {
-            element.addClass('rx-status-header');
-        }
-    };
 });
 
 angular.module('encore.ui.utilities')
@@ -10601,7 +9133,7 @@ angular.module('encore.ui.utilities')
      * @param {String} mapping This is mapping with keys and values
      */
     rxStatusMappings.addGlobal = function (mapping) {
-        _.assignInWith(globalMappings, mapping, upperCaseCallback);
+        _.assign(globalMappings, mapping, upperCaseCallback);
     };
 
     /**
@@ -10646,7 +9178,7 @@ angular.module('encore.ui.utilities')
      */
     rxStatusMappings.addAPI = function (apiName, mapping) {
         var api = apiMappings[apiName] || {};
-        _.assignInWith(api, mapping, upperCaseCallback);
+        _.assign(api, mapping, upperCaseCallback);
         apiMappings[apiName] = api;
     };
 
@@ -10921,107 +9453,6 @@ angular.module('encore.ui.rxToggle', [])
     };
 });
 
-/**
- * @ngdoc overview
- * @name rxToggleSwitch
- * @description
- * # rxToggleSwitch Component
- *
- * A component that creates a boolean toggle switch
- *
- * ## Directives
- * {@link rxToggleSwitch.directive:rxToggleSwitch rxToggleSwitch}
- */
-angular.module('encore.ui.rxToggleSwitch', []);
-
-angular.module('encore.ui.rxToggleSwitch')
-/**
- * @ngdoc directive
- * @name rxToggleSwitch.directive:rxToggleSwitch
- * @restrict E
- * @description
- *
- * Displays an on/off switch toggle
- *
- * The switch shows the states of 'ON' and 'OFF', which evaluate to `true` and
- * `false`, respectively.  The model values are configurable with the
- * `true-value` and `false-value` attributes.
- *
- * ** Note: If the value of the model is not defined at the time of
- * initialization, it will be automatically set to the false value. **
- *
- * The expression passed to the `post-hook` attribute will be evaluated every
- * time the switch is toggled (after the model property is written on the
- * scope).  It takes one argument, `value`, which is the new value of the model.
- * This can be used instead of a `$scope.$watch` on the `ng-model` property.
- * As shown in the {@link /encore-ui/#/components/rxToggleSwitch demo}, the `disabled`
- * attribute can be used to prevent further toggles if the `post-hook` performs
- * an asynchronous operation.
- *
- * @param {String} ng-model The scope property to bind to
- * @param {Function} postHook A function to run when the switch is toggled
- * @param {Boolean=} ng-disabled Indicates if the input is disabled
- * @param {Expression=} [trueValue=true] The value of the scope property when the switch is on
- * @param {Expression=} [falseValue=false] The value of the scope property when the switch is off
- *
- * @example
- * <pre>
- * <rx-toggle-switch ng-model="foo"></rx-toggle-switch>
- * </pre>
- */
-.directive('rxToggleSwitch', function () {
-    return {
-        restrict: 'E',
-        templateUrl: 'templates/rxToggleSwitch.html',
-        require: 'ngModel',
-        scope: {
-            model: '=ngModel',
-            disabled: '=?', // **DEPRECATED** - remove in 3.0.0
-            ngDisabled: '=?',
-            postHook: '&',
-            trueValue: '@',
-            falseValue: '@'
-        },
-        link: function (scope, element, attrs, ngModelCtrl) {
-            var trueValue = _.isUndefined(scope.trueValue) ? true : scope.trueValue;
-            var falseValue = _.isUndefined(scope.falseValue) ? false : scope.falseValue;
-
-            if (_.isUndefined(scope.model) || scope.model !== trueValue) {
-                scope.model = falseValue;
-            }
-
-            ngModelCtrl.$formatters.push(function (value) {
-                return value === trueValue;
-            });
-
-            ngModelCtrl.$parsers.push(function (value) {
-                return value ? trueValue : falseValue;
-            });
-
-            ngModelCtrl.$render = function () {
-                scope.state = ngModelCtrl.$viewValue ? 'ON' : 'OFF';
-            };
-
-            scope.$watch(function () {
-                return (scope.disabled || scope.ngDisabled);
-            }, function (newVal) {
-                // will be true, false, or undefined
-                scope.isDisabled = newVal;
-            });
-
-            scope.update = function () {
-                if (scope.isDisabled) {
-                    return;
-                }
-
-                ngModelCtrl.$setViewValue(!ngModelCtrl.$viewValue);
-                ngModelCtrl.$render();
-                scope.postHook({ value: ngModelCtrl.$modelValue });
-            };
-        }
-    };
-});
-
 angular.module('encore.ui.utilities')
 /**
  * @ngdoc filter
@@ -11277,7 +9708,7 @@ angular.module('encore.ui.utilities')
             function init (list) {
                 filter.properties.forEach(function (property) {
                     if (_.isUndefined(filter.available[property])) {
-                        filter.available[property] = _.uniq(_.map(list, property));
+                        filter.available[property] = _.uniq(_.pluck(list, property));
                     }
 
                     // Check `options.selected` instead of `filter.selected` because the latter
@@ -11292,7 +9723,7 @@ angular.module('encore.ui.utilities')
 
             function isItemValid (item) {
                 return filter.properties.every(function (property) {
-                    return _.includes(filter.selected[property], item[property]);
+                    return _.contains(filter.selected[property], item[property]);
                 });
             }
 
@@ -11874,6 +10305,1279 @@ angular.module('encore.ui.utilities')
 angular.module('encore.ui.elements')
 /**
  * @ngdoc directive
+ * @name elements.directive:rxBatchActions
+ * @restrict E
+ * @scope
+ * @requires elements.directive:rxBulkSelect
+ * @description
+ *
+ * This directive is responsible for adding the batch action menu link
+ * inside a table header. It can only be used when rxBulkSelect is also
+ * present. It should be placed in a `<th>` element.
+ *
+ * It will also transclude `<li>` items, each representing a modal bulk
+ * select action. You don't need to include the correctly styled `<ul>`, it
+ * will do this for you.
+ *
+ * @example
+ * <pre>
+ * <th colspan="10">
+ *     <rx-batch-actions>
+ *         <li>
+ *             <rx-modal-action
+ *                 template-url="templates/suspend-modal.html"
+ *                 controller="SuspendServersCtrl"
+ *                 classes="msg-info">
+ *                 <i class="fa fa-fw fa-power-off msg-info"></i>
+ *                 Suspend Selected Servers
+ *             </rx-modal-action>
+ *         </li>
+ *     </rx-batch-actions>
+ * </th>
+ * </pre>
+ */
+.directive('rxBatchActions', ["rxDOMHelper", function (rxDOMHelper) {
+    return {
+        restrict: 'E',
+        require: ['^rxBulkSelect', '?^rxFloatingHeader'],
+        templateUrl: 'templates/rxBatchActions.html',
+        transclude: true,
+        link: function (scope, element, attrs, controllers) {
+
+            var rxBulkSelectCtrl = controllers[0],
+                rxFloatingHeaderCtrl = controllers[1];
+
+            // We need to add the class onto the parent <tr>, so rxFloatingHeader can
+            // easily identify this <tr>
+            element.parent().parent().addClass('rx-table-filter-row');
+
+            scope.displayed = false;
+
+            scope.toggleBulkActions = function () {
+                scope.displayed = !scope.displayed;
+            };
+
+            var numSelectedChange = function (numSelected) {
+                scope.rowsSelected = numSelected > 0;
+                if (numSelected === 0) {
+                    scope.displayed = false;
+                }
+            };
+            rxBulkSelectCtrl.registerForNumSelected(numSelectedChange);
+
+            if (_.isObject(rxFloatingHeaderCtrl)) {
+                // When rxBatchActions lives inside of an rxFloatingHeader enabled table,
+                // the element will be cloned by rxFloatingHeader. The issue is that a normal
+                // .clone() does not clone Angular bindings, and thus the cloned element doesn't
+                // have `ng-show="displayed"` on it. We can manually add `ng-hide` on startup, to
+                // ensure that class is present in the clone. After that, everything will work as expected.
+                if (!scope.displayed) {
+                    rxDOMHelper.find(element, '.batch-action-menu-container').addClass('ng-hide');
+                }
+                rxFloatingHeaderCtrl.update();
+            }
+
+        }
+    };
+}]);
+
+angular.module('encore.ui.elements')
+/**
+ * @ngdoc directive
+ * @name elements.directive:rxBulkSelect
+ * @restrict A
+ * @scope
+ * @description
+ *
+ * A directive you place on your `<table>` element to enable bulk select.
+ * This directive will automatically add `<tr bulk-select-message>` into your <thead>,
+ * which will appear whenever items are selected, and disappear when none are selected.
+ * The main responsibility of this directive is to provide a controller for other
+ * bulk-select-related directives to interact with.
+ *
+ * <pre>
+ * <table rx-bulk-select
+ *        bulk-source="servers"
+ *        selectedKey="rowIsSelected">
+ * </table>
+ * </pre>
+ *
+ * The directive is also responsible for adding a row to the table header that
+ * indicates how many rows are selected and contains buttons to select or deselect
+ * all the rows at once.
+ *
+ * @param {Object} bulkSource The source list that the table ng-repeats over.
+ * @param {String} selectedKey The attribute on items in bulkSource that will be used to track
+ *                             if the user has clicked the checkbox for that item.
+ * @param {String=} [resourceName=bulkSource] The name of the resource being iterated over.
+ */
+.directive('rxBulkSelect', function () {
+    var elemString = '<tr rx-bulk-select-message></tr>';
+    return {
+        restrict: 'A',
+        scope: {
+            bulkSource: '=',
+            selectedKey: '@'
+        },
+        compile: function (elem, attrs) {
+
+            // We add the `<tr rx-bulk-select-message>` row to the header here to save the devs
+            // from having to do it themselves.
+            var thead = elem.find('thead').eq(0);
+            var messageElem = angular.element(elemString);
+            messageElem.attr('resource-name', attrs.resourceName || attrs.bulkSource.replace(/s$/, ''));
+            thead.append(messageElem);
+
+            return function (scope, element) {
+                scope.tableElement = element;
+            };
+        },
+        controller: 'rxBulkSelectController'
+    };
+});
+
+angular.module('encore.ui.elements')
+/**
+ * @ngdoc directive
+ * @name elements.directive:rxBulkSelectHeaderCheck
+ * @restrict A
+ * @scope
+ * @requires elements.directive:rxBulkSelect
+ * @description
+ *
+ * A directive you place on your `<th>` element representing the checkbox column.
+ * This places a checkbox in the header, which will select all items on the current
+ * page when clicked.
+ *
+ * @example
+ * <pre>
+ * <th rx-bulk-select-header-check></th>
+ * </pre>
+ */
+.directive('rxBulkSelectHeaderCheck', ["$compile", function ($compile) {
+    var selectAllCheckbox = '<input ng-model="allSelected" ng-change="selectAll()" rx-checkbox>';
+    return {
+        restrict: 'A',
+        scope: true,
+        require: '^rxBulkSelect',
+        link: function (scope, element, attrs, rxBulkSelectCtrl) {
+            scope.allSelected = false;
+            scope.selectAll = function () {
+                if (scope.allSelected) {
+                    rxBulkSelectCtrl.selectAllVisibleRows();
+                } else {
+                    rxBulkSelectCtrl.deselectAllVisibleRows();
+                }
+            };
+            element.append($compile(selectAllCheckbox)(scope).parent());
+
+            var testAllSelected = function () {
+                var stats = rxBulkSelectCtrl.messageStats;
+                scope.allSelected = stats.numSelected === stats.total;
+            };
+            rxBulkSelectCtrl.registerForNumSelected(testAllSelected);
+            rxBulkSelectCtrl.registerForTotal(testAllSelected);
+
+            var uncheck = function () {
+                scope.allSelected = false;
+            };
+            rxBulkSelectCtrl.registerHeader(uncheck);
+        }
+    };
+}]);
+
+angular.module('encore.ui.elements')
+/**
+ * @ngdoc directive
+ * @name elements.directive:rxBulkSelectMessage
+ * @restrict A
+ * @scope
+ * @requires elements.directive:rxBulkSelect
+ * @description
+ *
+ * This directive is responsible for drawing the appearing/disappearing
+ * "message" row in the table header. This row shows how many items have
+ * been selected, and gives buttons for "Select All" and "Clear All"
+ *
+ * You should not use this directive directly. It will be drawn automatically
+ * by rxBulkSelect.
+ *
+ * If the table also has rxFloatingHeader available, this directive will
+ * communicate with the controller from rxFloatingHeader, to correctly
+ * support the appearing/disappearing of this header row.
+ *
+ * @param {String} resourceName The singular form of the name of the resource, e.g. 'server'.
+ *
+ */
+.directive('rxBulkSelectMessage', function () {
+    return {
+        restrict: 'A',
+        require: ['^rxBulkSelect', '?^rxFloatingHeader'],
+        scope: {
+            resourceName: '@'
+        },
+        templateUrl: 'templates/rxBulkSelectMessage.html',
+        link: function (scope, element, attr, controllers) {
+            element.addClass('ng-hide');
+
+            var rxBulkSelectCtrl = controllers[0],
+                // Optional controller, so mock it out if it's not present
+                // https://github.com/eslint/eslint/issues/5537
+                // eslint-disable-next-line object-curly-spacing
+                rxFloatingHeaderCtrl = controllers[1] || { update: function () {} };
+
+            scope.selectAll = function () {
+                rxBulkSelectCtrl.selectEverything();
+            };
+
+            scope.deselectAll = function () {
+                rxBulkSelectCtrl.deselectEverything();
+            };
+
+            scope.numSelected = 0;
+            scope.total = rxBulkSelectCtrl.messageStats.total;
+
+            var numSelectedChange = function (numSelected, oldNumSelected) {
+                scope.numSelected = numSelected;
+                var multiple = numSelected > 1;
+                scope.plural = multiple ? 's' : '';
+                scope.isOrAre = multiple ? 'are' : 'is';
+
+                // We could use `ng-show` directly on the directive, rather
+                // than manually adding/removing the `.ng-hide` class here. The issue
+                // that causes is that ng-show will run before rxFloatingHeader
+                // runs its stuff, and it causes it to not see when `.ng-hide`
+                // has been removed. That causes it to clone the message row
+                // with `.ng-hide` on it, which results in jumpiness at the top
+                // of the table
+                if (numSelected === 0) {
+                    element.addClass('ng-hide');
+                    rxFloatingHeaderCtrl.update();
+                } else if (numSelected > 0 && oldNumSelected === 0) {
+                    // Only explicitly do this work if we're transitioning from
+                    // numSelected=0 to numSelected>0
+                    element.removeClass('ng-hide');
+                    rxFloatingHeaderCtrl.update();
+                }
+            };
+            rxBulkSelectCtrl.registerForNumSelected(numSelectedChange);
+
+            rxBulkSelectCtrl.registerForTotal(function (newTotal) {
+                scope.total = newTotal;
+            });
+            rxFloatingHeaderCtrl.update();
+        }
+    };
+});
+
+angular.module('encore.ui.elements')
+/**
+ * @ngdoc directive
+ * @name elements.directive:rxBulkSelectRow
+ * @restrict A
+ * @scope
+ * @requires elements.directive:rxBulkSelect
+ * @description
+ *
+ * A directive you place on your `<td>` element which will contain the bulk-select
+ * checkbox. This directive draws the checkbox itself. This directive takes
+ * `row` as an attribute, pointing to the object representing this row.
+ *
+ * @param {Object} row The object representing this row, i.e. the left side of the ng-repeat
+ *
+ * @example
+ * <pre>
+ * <td rx-bulk-select-row row="server"></td>
+ * </pre>
+ */
+.directive('rxBulkSelectRow', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            row: '='
+        },
+        require: '^rxBulkSelect',
+        template: '<input ng-change="onChange()" ng-model="row[key]"' +
+                  ' rx-checkbox class="rx-bulk-select-row" />',
+        link: function (scope, element, attrs, rxBulkSelectCtrl) {
+            scope.key = rxBulkSelectCtrl.key();
+            scope.onChange = function () {
+                if (scope.row[scope.key]) {
+                    rxBulkSelectCtrl.increment();
+                } else {
+                    rxBulkSelectCtrl.decrement();
+                }
+            };
+        }
+    };
+});
+
+angular.module('encore.ui.elements')
+/**
+ * @ngdoc directive
+ * @name elements.directive:rxBulkSelectValidate
+ * @restrict A
+ * @requires elements.directive:rxBulkSelect
+ * @description
+ *
+ * A directive used to validate rxBulkSelect in a form. The directive should be placed
+ * on the same element as rxBulkSelect. The form will be invalid when no items are selected
+ * and valid when at least one item is selected.
+ */
+.directive('rxBulkSelectValidate', function () {
+    return {
+        require: ['^form', 'rxBulkSelect'],
+        restrict: 'A',
+        link: function (scope, elm, attrs, controllers) {
+            var formCtrl = controllers[0];
+            var bulkSelectCtrl = controllers[1];
+            var setValidity = function () {
+                var stats = bulkSelectCtrl.messageStats;
+                formCtrl.$setValidity('selected', stats.numSelected > 0);
+            };
+
+            bulkSelectCtrl.registerForNumSelected(setValidity);
+            formCtrl.$setValidity('selected', false);
+        }
+    };
+});
+
+angular.module('encore.ui.elements')
+/**
+ * @ngdoc directive
+ * @name rxFloatingHeader.directive:rxFloatingHeader
+ * @restrict A
+ * @description
+ *
+ *`rxFloatingHeader` is an attribute directive that turns a tableheader into a floating persistent header so that names
+ * of columns are still visible, even as a user scrolls down the page. This is based off of the example at
+ * http://css-tricks.com/persistent-headers/
+ *
+ * * To use it, add an `rx-floating-header` attribute to a `table` element.
+ *
+ * * A common pattern in our products is to place an `<input>` filter at the top of the table, to restrict the items
+ * that are displayed. We support this as well, by placing the `<input>` directly inside of the `<thead>` in its
+ * own `<tr><th></th></tr>`.
+ *
+ * * Make sure you set the `colspan` attribute on the filter's `<th>`, to match the number of columns you have.
+ *
+ * * `rxFloatingHeader` is also fully compatible with {@link elements.directive:rxSortableColumn rxSortableColumn}
+ * * and {@link elements.directive:rxPaginate}.
+ *
+ * @example
+ * <pre>
+ * <table rx-floating-header>
+ *   <thead>
+ *     <tr>
+ *       <td colspan="2">
+ *         <rx-search-box
+ *             ng-model="searchText"
+ *             rx-placeholder="'Filter by any...'">
+ *         </rx-search-box>
+ *       </td>
+ *     </tr>
+ *     <tr>
+ *       <th>Column One Header</th>
+ *       <th>Column Two Header</th>
+ *     </tr>
+ *   </thead>
+ *   <tbody>
+ *     ...
+ *   </tbody>
+ * </table>
+ * </pre>
+ *
+ */
+.directive('rxFloatingHeader', ["$document", "rxDOMHelper", function ($document, rxDOMHelper) {
+    return {
+        restrict: 'A',
+        controller: ["$scope", function ($scope) {
+            this.update = function () {
+                // It's possible for a child directive to try to call this
+                // before the rxFloatingHeader link function has been run,
+                // meaning $scope.update won't have been configured yet
+                if (_.isFunction($scope.update)) {
+                    $scope.update();
+                }
+            };
+        }],
+        link: function (scope, table) {
+            var state, seenFirstScroll, trs, ths, clones, inputs, maxHeight, header, singleThs, maxThWidth;
+
+            var setup = function () {
+
+                if (clones && clones.length) {
+                    _.each(clones, function (clone) {
+                        // Possible memory leak here? I tried clone.scope().$destroy(),
+                        // but it causes exceptions in Angular
+                        clone.remove();
+                    });
+                }
+                state = 'fixed';
+                seenFirstScroll = false;
+
+                // The original <tr> elements
+                trs = [];
+
+                // The original <th> elements
+                ths = [];
+
+                // All <th> elements that are the *only* <th> in their row
+                singleThs = [];
+
+                // The maximum width we could find for a <th>
+                maxThWidth = 0;
+
+                // Clones of the <tr> elements
+                clones = [];
+
+                // any <input> elements in the <thead>
+                inputs = [];
+                header = angular.element(table.find('thead'));
+
+                // Are we currently floating?
+                var floating = false;
+                // Grab all the original `tr` elements from the `thead`,
+                _.each(header.find('tr'), function (tr) {
+                    tr = angular.element(tr);
+
+                    // If `scope.setup()` has been called, it means we'd previously
+                    // worked with these rows before. We want them in as clean a state as possible
+                    if (!floating && tr.hasClass('rx-floating-header')) {
+                        floating = true;
+                    }
+
+                    // We are going to clone all the <tr> elements in the <thead>, and insert them
+                    // into the DOM whenever the original <tr> elements need to float. This keeps the
+                    // height of the table correct, and prevents it from jumping up when we put
+                    // the <tr> elements into a floating state.
+                    // It also makes sure the column widths stay correct, as the widths of the columns
+                    // are determined by the current fixed header, not the floating header.
+                    var clone = tr.clone();
+                    clones.push(clone);
+                    if (floating) {
+                        clone.removeClass('rx-floating-header');
+                    }
+
+                    if (floating) {
+                        // We're currently floating, so add the class back, and
+                        // push the clone back on
+                        header.append(clone);
+                    }
+                    trs.push(tr);
+
+                    var thsInTr = _.map(tr.find('th'), angular.element);
+                    ths = ths.concat(thsInTr);
+
+                    // This <tr> only had one <th> in it. Grab that <th> and its clone
+                    // Also grab the width of the <th>, and compare it to our max width.
+                    // We need to do this because if a <th> was hidden, and then made to
+                    // appear while floating, its width will be too short, and will need
+                    // to be updated
+                    if (thsInTr.length === 1) {
+                        var th = thsInTr[0];
+                        var width = rxDOMHelper.width(th);
+                        if (width !== 'auto') {
+                            var numeric = _.parseInt(width);
+                            if (numeric > maxThWidth) {
+                                maxThWidth = numeric;
+                            }
+                        }
+
+                        singleThs.push([th, angular.element(clone.find('th'))]);
+                    }
+                });
+
+                // Explicitly set the width on every <th> that is the *only*
+                // <th> in its <tr>
+                maxThWidth = maxThWidth.toString() + 'px';
+                _.each(singleThs, function (thPair) {
+                    thPair[0].css({ width: maxThWidth });
+                    thPair[1].css({ width: maxThWidth });
+                });
+
+                // Apply .filter-header to any <input> elements
+                _.each(ths, function (th) {
+                    var input = th.find('input');
+                    if (input.length) {
+                        var type = input.attr('type');
+                        if (!type || type === 'text') {
+                            th.addClass('filter-header');
+                            inputs.push(input);
+                        }
+                    }
+                });
+            };
+
+            setup();
+
+            scope.updateHeaders = function () {
+                if (_.isUndefined(maxHeight)) {
+                    maxHeight = table[0].offsetHeight;
+                }
+
+                maxHeight = _.max([maxHeight, table[0].offsetHeight]);
+
+                if (rxDOMHelper.shouldFloat(table, maxHeight)) {
+                    if (state === 'fixed') {
+                        state = 'float';
+                        var thWidths = [],
+                            trHeights = [];
+
+                        // Get the current height of each `tr` that we want to float
+                        _.each(trs, function (tr) {
+                            trHeights.push(parseInt(rxDOMHelper.height(tr)));
+                        });
+
+                        // Grab the current widths of each `th` that we want to float
+                        thWidths = _.map(ths, rxDOMHelper.width);
+
+                        // Put the cloned `tr` elements back into the DOM
+                        _.each(clones, function (clone) {
+                            header.append(clone);
+                        });
+
+                        // Apply the rx-floating-header class to each `tr` and
+                        // set a correct `top` for each, to make sure they stack
+                        // properly
+                        // We previously did tr.css({ 'width': rxDOMHelper.width(tr) })
+                        // but it *seems* that setting the widths of the `th` is enough
+                        var topOffset = 0;
+                        _.each(trs, function (tr, index) {
+                            tr.addClass('rx-floating-header');
+                            tr.css({ 'top': topOffset.toString() + 'px' });
+                            topOffset += trHeights[index];
+                        });
+
+                        // Explicitly set the widths of each `th` element that we floated
+                        _.each(_.zip(ths, thWidths), function (pair) {
+                            var th = pair[0];
+                            var width = pair[1];
+                            th.css({ 'width': width });
+                        });
+                    }
+
+                } else {
+                    if (state === 'float' || !seenFirstScroll) {
+                        state = 'fixed';
+                        seenFirstScroll = true;
+
+                        // Make sure that an input filter doesn't have focus when
+                        // we re-dock the header, otherwise the browser will scroll
+                        // the screen back up ot the input
+                        _.each(inputs, function (input) {
+                            if ($document[0].activeElement === input[0]) {
+                                input[0].blur();
+                            }
+                        });
+
+                        _.each(trs, function (tr) {
+                            tr.removeClass('rx-floating-header');
+                        });
+
+                        // Detach each cloaned `tr` from the DOM,
+                        // but don't destroy it
+                        _.each(clones, function (clone) {
+                            clone.remove();
+                        });
+                    }
+                }
+
+            };
+
+            rxDOMHelper.onscroll(function () {
+                scope.updateHeaders();
+            });
+
+            scope.update = function () {
+                setup();
+            };
+        },
+    };
+}]);
+
+angular.module('encore.ui.elements')
+/**
+ * @ngdoc directive
+ * @name elements.directive:rxLoadingOverlay
+ * @restrict A
+ * @description
+ * This directive can be used to show and hide a "loading" overlay on top
+ * of any given element. Add this as an attribute to your element, and then
+ * other sibling or child elements can require this as a controller.
+ *
+ * @method show - Shows the overlay
+ * @method hide - Hides the overlay
+ * @method showAndHide(promise) - Shows the overlay, and automatically
+ * hides it when the given promise either resolves or rejects
+ */
+.directive('rxLoadingOverlay', ["$compile", function ($compile) {
+    var loadingBlockHTML = '<div ng-show="_rxLoadingOverlayVisible" class="loading-overlay">' +
+                                '<div class="loading-text-wrapper">' +
+                                    '<i class="fa fa-fw fa-lg fa-spin fa-circle-o-notch"></i>' +
+                                    '<div class="loading-text">Loading...</div>' +
+                                '</div>' +
+                            '</div>';
+
+    return {
+        restrict: 'A',
+        controller: ["$scope", function ($scope) {
+            this.show = function () {
+                $scope._rxLoadingOverlayVisible = true;
+            };
+
+            this.hide = function () {
+                $scope._rxLoadingOverlayVisible = false;
+            };
+
+            this.showAndHide = function (promise) {
+                this.show();
+                promise.finally(this.hide);
+            };
+        }],
+        link: function (scope, element) {
+            // This target element has to have `position: relative` otherwise the overlay
+            // will not sit on top of it
+            element.css({ position: 'relative' });
+            scope._rxLoadingOverlayVisible = false;
+
+            $compile(loadingBlockHTML)(scope, function (clone) {
+                element.append(clone);
+            });
+        }
+    };
+}]);
+
+angular.module('encore.ui.elements')
+/**
+ * @ngdoc directive
+ * @name elements.directive:rxPaginate
+ * @restrict E
+ * @description
+ * The rxPaginate component adds pagination to a table.
+ *
+ * Two different forms of pagination are supported:
+ *
+ * 1. UI-based pagination, where all items are retrieved at once, and paginated in the UI
+ * 2. Server-side pagination, where the pagination directive works with a paginated API
+ *
+ * # UI-Based Pagination
+ * With UI-Based pagination, the entire set of data is looped over via an `ngRepeat` in the table's
+ * `<tbody>`, with the data passed into the `Paginate` filter. This filter does the work of paginating
+ * the set of data and communicating with the `<rx-paginate>` to draw the page selection buttons at the
+ * bottom of the table.
+ *
+ * As shown in the first example below, the `ngRepeat` will usually look like this:
+ *
+ * <pre>
+ * <tr ng-repeat="server in servers |
+ *                orderBy: sorter.predicate:sorter.reverse |
+ *                Paginate:pager ">
+ * </pre>
+ *
+ * In this case,
+ *
+ * 1. `servers` is a variable bound to your page `$scope`, and contains the full set of servers.
+ * 2. This is then passed to `orderBy`, to perform column sorting with `rxSortableColumn`.
+ * 3. The sorted results are then passed to `Paginate:pager`, where `Paginate` is a filter from the
+ * `rxPaginate` module, and `pager` is a variable on your scope created like
+ * `$scope.pager = PageTracking.createInstance();`.
+ *
+ * This `pager` is responsible for tracking pagination state (i.e. "which page are we on", "how many
+ * items per page", "total number of items tracked", etc.
+ *
+ * To add the pagination buttons to your table, do the following in your `<tfoot>`:
+ * <pre>
+ * <tfoot>
+ *     <tr class="paginate-area">
+ *         <td colspan="2">
+ *             <rx-paginate page-tracking="pager"></rx-paginate>
+ *         </td>
+ *     </tr>
+ * </tfoot>
+ * </pre>
+ *
+ * Here we are using the `<rx-paginate>` directive to draw the buttons, passing it the same `pager`
+ * instance described above.
+ *
+ * Because all of the `servers` get passed via `ng-repeat`, it means you don't need to take explicit
+ * action if the set of data changes. You can change `$scope.servers` at any time, and `<rx-paginate>`
+ * will automatically re-process it.
+ *
+ * ## Persistence
+ *
+ * The user's preference for the number of items to display per page will be persisted across applications
+ * using {@link utilities.service:rxLocalStorage rxLocalStorage}. This preference is set whenever the user selects
+ * a new number to show.
+ *
+ * This applies to both UI-based pagination and API-based pagination.
+ *
+ * *NOTE*: If `itemsPerPage` is explicitly specified in the `opts` you pass to `PageTracking.createInstance()`,
+ * then that pager instance will load using the `itemsPerPage` you specified, and _not_ the globally persisted value.
+ *
+ * *NOTE*: If you don't want a specific pager to have its `itemsPerPage` persisted to other pagers,
+ * pass `persistItemsPerPage: false` with the `opts` to `createInstance()`.
+ *
+ * ## Hiding the pagination
+ *
+ * In some instances, the pagination should be hidden if there isn't enough data to require it. For example,
+ * if you have `itemsPerPage` set to 10, but only have 7 items of data (so only one page). Hiding the
+ * pagination is pretty simple:
+ *
+ * <pre>
+ * <rx-paginate page-tracking="pager" ng-hide="pager.totalPages === 1"></rx-paginate>
+ * </pre>
+ *
+ * You can use this code on any part of your view. For example, if you have pagination in your table
+ * footer, it's a good idea to hide the entire footer:
+ *
+ * <pre>
+ * <tfoot ng-hide="pager.totalPages === 1">
+ *     <tr class="paginate-area">
+ *         <td colspan="12">
+ *             <rx-paginate page-tracking="pager"></rx-paginate>
+ *         </td>
+ *     </tr>
+ * </tfoot>
+ * </pre>
+ *
+ *
+ * This applies to both UI-based pagination and API-based pagination.
+ *
+ * # API-Based Pagination
+ * Many APIs support pagination on their own. Previously, we would have to grab _all_ the data at once,
+ * and use the UI-Based Pagination described above. Now we have support for paginated APIs, such that we
+ * only retrieve data for given pages when necessary.
+ *
+ * With API-based pagination, the `ngRepeat` for your table will instead look like this:
+ * <pre>
+ * <tr ng-repeat="server in pagedServers.items">
+ * </pre>
+ *
+ * Note a few things here:
+ *
+ * 1. We now loop over a variable provided by the pager.
+ * 2. We no longer pass the values through _any_ filters. Not a search text filter, not sorting filter,
+ * and not the `Paginate` filter.
+ *
+ * ** BEGIN WARNING **
+ *
+ * You should _never_ access `pagedServers.items` from anywhere other than the `ng-repeat`. Do not touch
+ * it in your controller. It is a dynamic value that can change at anytime. It is only intended for use
+ * by `ng-repeat`.
+ *
+ * ** END WARNING **
+ *
+ * The `<tfoot>` will look like this:
+ *
+ * <pre>
+ * <tfoot>
+ *     <tr class="paginate-area">
+ *         <td colspan="2">
+ *             <rx-paginate
+ *                 page-tracking="pagedServers"
+ *                 server-interface="serverInterface"
+ *                 filter-text="searchText"
+ *                 selections="selectFilter.selected"
+ *                 sort-column="sort.predicate"
+ *                 sort-direction="sort.reverse">
+ *             </rx-paginate>
+ *         </td>
+ *     </tr>
+ * </tfoot>
+ * </pre>
+ *
+ *  * `page-tracking` still receives the pager (`pagedServers` in this case) as an argument. What's
+ *  new are the next four parameters.
+ *  * `server-interface` _must_ be present. It has to be passed an object with a `getItems()` method
+ *  on it. This method is what `<rx-paginate>` will use to request data from the paginated API.
+ *  * `filter-text`, `selections`, `sort-column` and `sort-direction` are all optional. If present,
+ *  `<rx-paginate>` will watch the variables for changes, and will call `getItems()` for updates whenever
+ *  the values change.
+ *
+ * *Note:* If using `<rx-select-filter>` in the table, the `available` option passed to the `SelectFilter`
+ * constructor **must** be provided and include every property.  This is because the filter cannot reliably
+ * determine all available options from a paginated API.
+ *
+ * You will still create a `PageTracking` instance on your scope, just like in UI-based pagination:
+ *
+ * <pre>
+ * $scope.pagedServers = PageTracking.createInstance();
+ * </pre>
+ *
+ * ## getItems()
+ * The `getItems()` method is one you write on your own, and lives as an interface between `<rx-paginate>`
+ * and the server-side paginated API that you will be calling. The framework will make calls to `getItems()`
+ * when appropriate. Rather than have to teach `<rx-paginate>` about how to call and parse a multitude of
+ * different paginated APIs, it is your responsibility to implement this generic method.
+ *
+ * `getItems()` takes two required parameters, and one optional parameter object. When the framework calls it,
+ * it looks like:
+ *
+ * <pre>
+ * getItems(pageNumber, itemsPerPage, {
+ *     filterText: some_filter_search_text,
+ *     selections: selected_options_from_filters,
+ *     sortColumn: the_selected_sort_column,
+ *     sortDirection: the_direction_of_the_sort_column
+ * });
+ * </pre>
+ *
+ * where:
+ *
+ * * `pageNumber`: the 0-based page of data that the user has clicked on/requested
+ * * `itemsPerPage`: the value the user currently has selected for how many items per page they wish to see
+ * * `filterText`: the filter search string entered by the user, if any
+ * * `selections`: an object containing the item properties and their selected options
+ * * `sortColumn`: the name of the selected sort column, if any
+ * * `sortDirection`: either `'ASCENDING'` or `'DESCENDING'`
+ *
+ * When the framework calls `getItems()`, you **_must_ return a promise**. When this promise resolves,
+ * the resolved object must have the following properties on it:
+ *
+ * * `items`: An array containing the actual items/rows of the table returned for the request. This should at
+ * least contain `itemsPerPage` items, if that many items exist on the given page
+ * * `pageNumber`: The 0-based page number that these items belong to. Normally this should be the same as the
+ * `pageNumber` value passed to `getItems()`
+ * * `totalNumberOfItems`: The total number of items available, given the `filterText` parameter.
+ *
+ * Examples are below.
+ *
+ * ## `totalNumberOfItems`
+ *
+ * If you could get all items from the API in _one call_, `totalNumberOfItems` would reflect the number of items
+ * returned (given necessary search parameters). For example, say the following request was made:
+ *
+ * <pre>
+ * var pageNumber = 0;
+ * var itemsPerPage = 50;
+ *
+ * getItems(pageNumber, itemsPerPage);
+ * </pre>
+ *
+ * This is asking for all the items on page 0, with the user currently viewing 50 items per page. A valid response
+ * would return 50 items. However, the _total_ number of items available might be 1000 (i.e. 20 pages of results).
+ * Your response must then have `totalNumberOfItems: 1000`. This data is needed so we can display to the
+ * user "Showing 1-50 of 1000 items" in the footer of the table.
+ *
+ * If `filterText` is present, then the total number of items might change. Say the request became:
+ *
+ * <pre>
+ * var pageNumber = 0;
+ * var itemsPerPage = 50;
+ * var opts = {
+ *         filterText: "Ubuntu"
+ *     };
+ *
+ * getItems(pageNumber, itemsPerPage, opts);
+ * </pre>
+ *
+ * This means "Filter all your items by the search term 'Ubuntu', then return page 0".
+ * If the total number of items matching "Ubuntu" is 200, then your response would have
+ * `totalNumberOfItems: 200`. You might only return 50 items in `.items`, but the framework
+ * needs to know how many total items are available.
+ *
+ * ## Forcing a Refresh
+ *
+ * When using API-based pagination, there might be instances where you want to force a reload of
+ * the current items. For example, if the user takes an action to delete an item. Normally, the
+ * items in the view are only updated when the user clicks to change the page. To force a refresh, a
+ * `refresh()` method is available on the `pagedServers`. Calling this will tell `<rx-paginate>` to
+ * refresh itself. You can also pass it a `stayOnPage = true` to tell it to make a fresh request for
+ * the current page, i.e.:
+ * <pre>
+ * var stayOnPage = true;
+ * pagedServers.refresh(stayOnPage);
+ * </pre>
+ *
+ * Internally, calling `refresh()` equates to `<rx-paginate>` doing a new `getItems()` call, with
+ * the current filter/sort criteria. But the point is that you can't just call `getItems()` yourself
+ * to cause an update. The framework has to call that method, so it knows to wait on the returned promise.
+ *
+ *
+ * ## Error Handling
+ *
+ *
+ * `<rx-paginate>` includes a simple way to show error messages when `getItems()` rejects instead of
+ * resolves. By passing `error-message="Some error text!"` to `<rx-paginate>`, the string entered
+ * there will be shown in an rxNotification whenever `getItems()` fails. If `error-message` is
+ * not specified, then nothing will be shown on errors. In either case, on a failure, the table will
+ * stay on the page it was on before the request went out.
+ *
+ * If you wish to show more complicated error messages (and it is highly recommended that you do!),
+ * then you'll have to do that yourself. Either put error handling code directly into your `getItems()`,
+ * or have something else wait on the `getItems()` promise whenever it's called, and perform the handling there.
+ *
+ * One way to do this is as so:
+ *
+ * Let's say that you had defined your `getItems()` method on an object called `pageRequest`,
+ *
+ * <pre>
+ * var pageRequest = {
+ *         getItems: function (pageNumber, itemsPerPage, opts) {
+ *             var defer = $q.deferred();
+ *             ...
+ *         }
+ *     };
+ * </pre>
+ *
+ * You want your `getItems()` to be unaware of the UI, i.e. you don't want to mix API and UI logic into one method.
+ *
+ * Instead, you could do something like this:
+ *
+ * <pre>
+ * var pageRequest = {
+ *         getItemsFromAPI: function (pageNumber, itemsPerPage, opts) {
+ *             var defer = $q.deferred();
+ *                ...
+ *         }
+ *
+ *         getItems: function (pageNumber, itemsPerPage, opts) {
+ *             var promise = this.getItemsFromAPI(pageNumber, itemsPerPage, opts);
+ *
+ *             rxPromiseNotifications.add(promise, {
+ *                 error: 'Error loading page ' + pageNumber
+ *             }
+ *
+ *             return promise;
+ *         }
+ *     };
+ * </pre>
+ *
+ * Thus we've moved the API logic into `getItemsFromAPI`, and handled the UI logic separately.
+ *
+ * ## Extra Filtering Parameters
+ *
+ * By default, `<rx-paginate>` can automatically work with a search text field (using `search-text=`).
+ * If you need to filter by additional criteria (maybe some dropdowns/radiobox, extra filter boxes, etc),
+ * you'll need to do a bit more work on your own.
+ *
+ * To filter by some element X, set a `$watch` on X's model. Whenever it changes, call
+ * `pagedServers.refresh()` to force `<rx-paginate>` to do a new `getItems()` call. Then, in your
+ * `getItems()`, grab the current value of X and send it out along with the normal criteria that are passed
+ * into `getItems()`. Something like:
+ *
+ * <pre>
+ * $scope.watch('extraSearch', $scope.pagedServers.refresh);
+ *
+ * var serverInterface = {
+ *         getItems: function (pageNumber, itemsPerPage, opts) {
+ *             var extraSearch = $scope.extraSearch;
+ *             return callServerApi(pageNumber, itemsPerPage, opts, extraSearch);
+ *         }
+ *     };
+ *
+ *    ...
+ *
+ * <rx-paginate server-interface="serverInterface" ... ></rx-paginate>
+ * </pre>
+ *
+ * Remember that calling `refresh()` without arguments will tell `rx-paginate` to make a fresh request for
+ * page 0. If you call it with `true` as the first argument, the request will be made with whatever the current
+ * page is, i.e. `getItems(currentPage, ...)`. If you have your own search criteria, and they've changed since the
+ * last time this was called, note that the page number might now be different. i.e. If the user was on page 10,
+ * they entered some new filter text, and you call `refresh(true)`, there might not even be 10 pages of results
+ * with that filter applied.
+ *
+ * In general, if you call `refresh(true)`, you should check if _any_ of the filter criteria have changed since
+ * the last call. If they have, you should ask for page 0 from the server, not the page number passed in to
+ * `getItems()`. If you call `refresh()` without arguments, then you don't have to worry about comparing to the
+ * last-used filter criteria.
+ *
+ * ## Local Caching
+ *
+ * **If you are ok with a call to your API every time the user goes to a new page in the table, then you can ignore
+ * this section. If you want to reduce the total number of calls to your API, please read on.**
+ *
+ * When a `getItems()` request is made, the framework passes in the user's `itemsPerPage` value. If it is 50, and
+ * there are 50 results available for the requested page, then you should return _at least_ 50 results. However, you
+ * may also return _more_ than 50 items.
+ *
+ * Initially, `<rx-paginate>` will call `getItems()`, wait for a response, and then update items in the table.  If
+ * your `getItems()` returned exactly `itemsPerPage` results in its `items` array, and the user navigates to a
+ * different page of data, `getItems()` will be called again to fetch new information from the API.  The user will
+ * then need to wait before they see new data in the table. This remains true for every interaction with page data
+ * navigation.
+ *
+ * For example, say the following request is made when the page first loads:
+ *
+ * <pre>
+ * var pageNumber = 0;
+ * var itemsPerPage = 50;
+ *
+ * getItems(pageNumber, itemsPerPage);
+ * </pre>
+ *
+ * Because no data is available yet, `<rx-paginate>` will call `getItems()`, wait for the response, and then draw
+ * the items in the table. If you returned exactly 50 items, and the user then clicks "Next" or 2 (to go to the
+ * second page), then `getItems()` will have to be called again (`getItems(1, 50)`), and the user will have to wait
+ * for the results to come in.
+ *
+ * However, if your `getItems()` were to pull more than `itemsPerPage` of data from the API, `<rx-paginate>` is
+ * smart enough to navigate through the saved data without needing to make an API request every time the page is
+ * changed.
+ *
+ * There are some caveats, though.
+ *
+ * 1. Your returned `items.length` must be a multiple of `itemsPerPage` (if `itemsPerPage = 50`, `items.length`
+ * must be 50, 100, 150, etc.)
+ * 2. You will need to calculate the page number sent to the API based on requested values in the UI.
+ * 3. If the user enters any search text, and you've passed the search field to `<rx-paginate>` via `search-text`,
+ * then the cache will be immediately flushed and a new request made.
+ * 4. If you've turned on column-sorting, and passed `sort-column` to `<rx-paginate>`, then the cache will be
+ * flushed whenever the user changes the sort, and a new request will be made to `getItems()`
+ * 5. If you've passed `sort-direction` to `<rx-paginate>, and the user changes the sort
+ * direction, then the cache will be flushed and a new request will be made to `getItems()`
+ *
+ * Details on this are below.
+ *
+ * ### Local Caching Formula
+ *
+ * You have to be careful with grabbing more items than `itemsPerPage`, as you'll need to modify the values
+ * you send to your server. If you want to be careful, then **don't ever request more than `itemsPerPage`
+ * from your API.**
+ *
+ * Let's say that `itemsPerPage` is 50, but you want to grab 200 items at a time from the server, to reduce
+ * the round-trips to your API. We'll call this 200 the `serverItemsPerPage`. First, ensure that your
+ * `serverItemsPerPage` meets this requirement:
+ *
+ * <pre>
+ * (serverItemsPerPage >= itemsPerPage) && (serverItemsPerPage % itemsPerPage === 0)
+ * </pre>
+ *
+ * If you're asking for 200 items at a time, the page number on the server won't match the page number
+ * requested by the user. Before, a user call for `pageNumber = 4` and `itemsPerPage = 50` means
+ * "Give me items 200-249". But if you're telling your API that each page is 200 items long, then
+ * `pageNumber = 4` is not what you want to ask your API for (it would return items 800-999!). You'll need to
+ * send a custom page number to the server. In this case, you'd need `serverPageNumber` to be `1`, i.e.
+ * the second page of results from the server.
+ *
+ * We have written a utility function do these calculations for you, `rxPaginateUtils.calculateApiVals`. It
+ * returns an object with `serverPageNumber` and `offset` properties. To use it, your `getItems()` might
+ * look something like this.
+ *
+ * <pre>
+ * var getItems = function (pageNumber, itemsPerPage) {
+ *         var deferred = $q.defer();
+ *         var serverItemsPerPage = 200;
+ *         var vals = rxPaginateUtils.calculateApiVals(pageNumber, itemsPerPage, serverItemsPerPage);
+ *
+ *         yourRequestToAPI(vals.serverPageNumber, serverItemsPerPage)
+ *         .then(function (items) {
+ *             deferred.resolve({
+ *                 items: items.slice(vals.offset),
+ *                 pageNumber: pageNumber,
+ *                 totalNumberOfItems: items.totalNumberOfItems
+ *             });
+ *
+ *         });
+ *
+ *         return deferred.promise;
+ *     };
+ * </pre>
+ *
+ * The following tables should help illustrate what we mean with these conversions. In all three cases,
+ * there are a total of 120 items available from the API.
+ *
+ *
+ * | pageNumber | itemsPerPage | Items   | Action     | serverPageNumber | serverItemsPerPage | Items  |
+ * |------------|--------------|---------|------------|------------------|--------------------|--------|
+ * | 0          | 50           | 1-50    | getItems() | 0                | 50                 | 1-50   |
+ * | 1          | 50           | 51-100  | getItems() | 1                | 50                 | 51-100 |
+ * | 2          | 50           | 101-120 | getItems() | 2                | 50                 | 101-120|
+ *
+ *
+ * This first table is where you don't want to do any local caching. You send the `pageNumber` and
+ * `itemsPerPage` to your API, unchanged from what the user requested. Every time the user clicks to go to
+ * a new page, an API request will take place.
+ *
+ * ***
+ *
+ *
+ * |pageNumber   | itemsPerPage | Items   | Action     | serverPageNumber | serverItemsPerPage | Items |
+ * |-------------|--------------|---------|------------|------------------|--------------------|-------|
+ * | 0           | 50           | 1-50    | getItems() | 0                | 100                | 1-100 |
+ * | 1           | 50           | 51-100  | use cached |                  |                    |       |
+ * | 2           | 50           | 101-120 | getItems() | 1                | 100                |101-120|
+ *
+ *
+ * This second example shows the case where the user is still looking at 50 `itemsPerPage`, but you want to
+ * grab 100 items at a time from your API.
+ *
+ * When the table loads (i.e. the user wants to look at the first page of results), an "Action" of
+ * `getItems(0, 50)` will take place. Using `calculateApiVals`, the `serverPageNumber` will be 0 when you
+ * provide `serverItemsPerPage=100`. When you resolve the `getItems()` promise, you'll return items 1-100.
+ *
+ * When the user clicks on the second page (page 1), `getItems()` will not be called, `<rx-paginate>` will
+ * instead use the values it has cached.
+ *
+ * When the user clicks on the third page (page 2), `getItems(2, 50)` will be called. You'll use
+ * `rxPaginateutils.calculateApiVals` to calculate that `serverPageNumber` now needs to be `1`. Because
+ * only 120 items in total are available, you'll eventually resolve the promise with `items` containing
+ * items 101-120.
+ *
+ * ***
+ *
+ * | pageNumber | itemsPerPage | Items   | Action     | serverPageNumber | serverItemsPerPage | Items |
+ * |------------|--------------|---------|------------|------------------|--------------------|-------|
+ * | 0          | 50           | 1-50    | getItems() | 0                | 200                | 1-120 |
+ * | 1          | 50           | 51-100  | use cached |                  |                    |  &nbsp;     |
+ * | 2          | 50           | 101-120 | use cached |                  |                    |  &nbsp;     |
+ *
+ * In this final example, there are still only 120 items available, but you're asking your API for 200 items
+ * at a time. This will cause an API request on the first page, but the next two pages will be cached, and
+ * `<rx-paginate>` will use the cached values.
+ *
+ *
+ * Directive that takes in the page tracking object and outputs a page
+ * switching controller. It can be used in conjunction with the Paginate
+ * filter for UI-based pagination, or can take an optional serverInterface
+ * object if you instead intend to use a paginated server-side API
+ *
+ * @param {Object} pageTracking
+ * This is the page tracking service instance to be used for this directive.
+ * See {@link utilities.service:PageTracking}
+ * @param {Number} numberOfPages
+ * This is the maximum number of pages that the page object will display at a
+ * time.
+ * @param {Object=} serverInterface
+ * An object with a `getItems()` method. The requirements of this method are
+ * described in the rxPaginate module documentation
+ * @param {Object=} filterText
+ * The model for the table filter input, if any. This directive will watch that
+ * model for changes, and request new results from the paginated API, on change
+ * @param {Object=} selections
+ * The `selected` property of a SelectFilter instance, if one is being used.
+ * This directive will watch the filter's selections, and request new results
+ * from the paginated API, on change
+ * @param {Object=} sortColumn
+ * The model containing the current column the results should sort on. This
+ * directive will watch that column for changes, and request new results from
+ * the paginated API, on change
+ * @param {Object=} sortDirection
+ * The model containing the current direction of the current sort column. This
+ * directive will watch for changes, and request new results from the paginated
+ * API, on change.
+ * @param {String=} errorMessage
+ * An error message that should be displayed if a call to the request fails
+ */
+.directive('rxPaginate', ["$q", "$compile", "debounce", "PageTracking", "rxPromiseNotifications", function ($q, $compile, debounce, PageTracking, rxPromiseNotifications) {
+    return {
+        templateUrl: 'templates/rxPaginate.html',
+        replace: true,
+        restrict: 'E',
+        require: '?^rxLoadingOverlay',
+        scope: {
+            pageTracking: '=',
+            numberOfPages: '@',
+            serverInterface: '=?',
+            filterText: '=?',
+            selections: '=?',
+            sortColumn: '=?',
+            sortDirection: '=?'
+        },
+        link: function (scope, element, attrs, rxLoadingOverlayCtrl) {
+
+            var errorMessage = attrs.errorMessage;
+
+            rxLoadingOverlayCtrl = rxLoadingOverlayCtrl || {
+                show: _.noop,
+                hide: _.noop,
+                showAndHide: _.noop
+            };
+            // We need to find the `<table>` that contains
+            // this `<rx-paginate>`
+            var parentElement = element.parent();
+            while (parentElement.length && parentElement[0].tagName !== 'TABLE') {
+                parentElement = parentElement.parent();
+            }
+
+            var table = parentElement;
+
+            scope.scrollToTop = function () {
+                table[0].scrollIntoView(true);
+            };
+
+            // Everything here is restricted to using server-side pagination
+            if (!_.isUndefined(scope.serverInterface)) {
+
+                var params = function () {
+                    var direction = scope.sortDirection ? 'DESCENDING' : 'ASCENDING';
+                    return {
+                        filterText: scope.filterText,
+                        selections: scope.selections,
+                        sortColumn: scope.sortColumn,
+                        sortDirection: direction
+                    };
+                };
+
+                var getItems = function (pageNumber, itemsPerPage) {
+                    var response = scope.serverInterface.getItems(pageNumber,
+                                                   itemsPerPage,
+                                                   params());
+                    rxLoadingOverlayCtrl.showAndHide(response);
+
+                    if (errorMessage) {
+                        rxPromiseNotifications.add(response, {
+                            error: errorMessage
+                        });
+                    }
+                    return response;
+                };
+
+                // Register the getItems function with the PageTracker
+                scope.pageTracking.updateItemsFn(getItems);
+
+                var notifyPageTracking = function () {
+                    var pageNumber = 0;
+                    scope.pageTracking.newItems(getItems(pageNumber, scope.pageTracking.itemsPerPage));
+                };
+
+                // When someone changes the sort column, it will go to the
+                // default direction for that column. That could cause both
+                // `sortColumn` and `sortDirection` to get changed, and
+                // we don't want to cause two separate API requests to happen
+                var columnOrDirectionChange = debounce(notifyPageTracking, 100);
+
+                var textChange = debounce(notifyPageTracking, 500);
+
+                var selectionChange = debounce(notifyPageTracking, 1000);
+
+                var ifChanged = function (fn) {
+                    return function (newVal,  oldVal) {
+                        if (newVal !== oldVal) {
+                            fn();
+                        }
+                    };
+                };
+                // Whenever the filter text changes (modulo a debounce), tell
+                // the PageTracker that it should go grab new items
+                if (!_.isUndefined(scope.filterText)) {
+                    scope.$watch('filterText', ifChanged(textChange));
+                }
+
+                if (!_.isUndefined(scope.selections)) {
+                    scope.$watch('selections', ifChanged(selectionChange), true);
+                }
+
+                if (!_.isUndefined(scope.sortColumn)) {
+                    scope.$watch('sortColumn', ifChanged(columnOrDirectionChange));
+                }
+                if (!_.isUndefined(scope.sortDirection)) {
+                    scope.$watch('sortDirection', ifChanged(columnOrDirectionChange));
+                }
+
+                notifyPageTracking();
+
+            }
+
+        }
+    };
+}]);
+
+angular.module('encore.ui.elements')
+/**
+ * @ngdoc directive
  * @name elements.directive:rxSelectFilter
  * @restrict E
  * @scope
@@ -11915,6 +11619,185 @@ angular.module('encore.ui.elements')
         }
     });
 }]);
+
+angular.module('encore.ui.elements')
+/**
+ * @ngdoc directive
+ * @name elements.directive:rxSortableColumn
+ * @restrict E
+ * @description
+ * Renders a clickable link in a table heading which will sort the table by
+ * the referenced property in ascending or descending order.
+ *
+ * @param {String} displayText - The text to be displayed in the link
+ * @param {Function} sortMethod - The sort function to be called when the link is
+ * clicked
+ * @param {String} sortProperty - The property on the array to sort by when the
+ * link is clicked.
+ * @param {Object} predicate - The current property the collection is sorted by.
+ * @param {Boolean} reverse - Indicates whether the collection should sort the
+ * array in reverse order.
+ */
+.directive('rxSortableColumn', function () {
+    return {
+        restrict: 'E',
+        templateUrl: 'templates/rxSortableColumn.html',
+        transclude: true,
+        scope: {
+            sortMethod: '&',
+            sortProperty: '@',
+            predicate: '=',
+            reverse: '='
+        }
+    };
+});
+
+angular.module('encore.ui.elements')
+/**
+ * @ngdoc directive
+ * @name elements.directive:rxStatusColumn
+ * @restrict A
+ * @scope
+ * @description
+ *
+ * A directive for drawing colored status columns in a table. This
+ * takes the place of the <td></td> for the column it's in.
+ *
+ * For the corresponding `<td>`, you will need to add the `rx-status-column`
+ * attribute, and set the `status` attribute appropriately. You can optionally
+ * set `api` and `tooltip-content` attributes. `tooltip-content` sets the
+ * tooltip that will be used. If not set, it will default to the value you
+ * passed in for `status`. The `api` attribute will be explained below.
+ *
+ * We currently support six statuses, with corresponding CSS styles. Namely,
+ * `"ACTIVE"`, `"DISABLED"`, `"WARNING"`, `"ERROR"`, `"INFO"` and `"PENDING"`.
+ * If your code happens to already use those statuses, then you can simply pass
+ * them to the `status` attribute as appropriate. However, it's likely that
+ * internally you will be receiving a number of different statuses from your
+ * APIs, and will need to map them to these six statuses.
+ *
+ * The example in the {@link /encore-ui/#/components/rxStatusColumn demo} shows
+ * a typical use of this directive, such as:
+ *
+ * <pre>
+ * <tbody>
+ *     <tr ng-repeat="server in servers">
+ *         <!-- Both `api` and `tooltip-content` are optional -->
+ *         <td rx-status-column
+ *             status="{{ server.status }}"
+ *             api="{{ server.api }}"
+ *             tooltip-content="{{ server.status }}"></td>
+ *         <td>{{ server.title }}</td>
+ *         <td>{{ server.value }}</td>
+ *    </tr>
+ * </tbody>
+ * </pre>
+ *
+ * # A note about color usage for rxStatusColumn
+ *
+ * Encore uses the color red for destructive and "delete" actions, and the
+ * color green for additive or "create" actions, and at first it may seem that
+ * the styles of rxStatusColumn do not follow that same logic. However, the
+ * distinction here is that when an action or status on an item is
+ * "in progress" or "pending" (i.e. the user cannot take any additional action
+ * on that item until a transition completes), it is given the yellow animated
+ * `PENDING` treatment. This is true even for "create"/"add" actions or
+ * "delete" actions. A general rule of thumb to follow is that if a status
+ * ends in -`ING`, it should get the animated yellow stripes of `PENDING`.
+ *
+ * @param {String} status The status to draw
+ * @param {String=} api
+ * Optionally specify which API mapping to use for the status
+ * @param {String=} tooltip
+ * The string to use for the tooltip. If omitted, it will default to using the
+ * passed in status
+ */
+.directive('rxStatusColumn', ["rxStatusMappings", "rxStatusColumnIcons", function (rxStatusMappings, rxStatusColumnIcons) {
+    return {
+        templateUrl: 'templates/rxStatusColumn.html',
+        restrict: 'A',
+        scope: {
+            status: '@',
+            api: '@',
+            tooltipContent: '@'
+        },
+        link: function (scope, element) {
+
+            var lastStatusClass = '';
+
+            var updateTooltip = function () {
+                scope.tooltipText = scope.tooltipContent || scope.status || '';
+            };
+
+            var setStatus = function (status) {
+                scope.mappedStatus = rxStatusMappings.getInternalMapping(status, scope.api);
+                updateTooltip();
+
+                // We use `fa-exclamation-circle` when no icon should be visible. Our LESS file
+                // makes it transparent
+                scope.statusIcon = rxStatusColumnIcons[scope.mappedStatus] || 'fa-exclamation-circle';
+                element.addClass('status');
+                element.removeClass(lastStatusClass);
+                lastStatusClass = 'status-' + scope.mappedStatus;
+                element.addClass(lastStatusClass);
+                element.addClass('rx-status-column');
+            };
+
+            scope.$watch('status', function (newStatus) {
+                setStatus(newStatus);
+            });
+
+            scope.$watch('tooltipContent', function () {
+                updateTooltip();
+            });
+        }
+    };
+}]);
+
+angular.module('encore.ui.elements')
+/**
+ * @ngdoc directive
+ * @name elements.directive:rxStatusHeader
+ * @description
+ *
+ * Place this attribute directive on the `<th>` for the status columns. It
+ * ensures correct styling.
+ *
+ * For the `<th>` component representing the status column, add the
+ * `rx-status-header` attribute, i.e.
+ *
+ * <pre>
+ * <th rx-status-header></th>
+ * </pre>
+ * Note that status columns are sortable with
+ * {@link /encore-ui/#/components/rxSortableColumn rxSortableColumn}, just like any
+ * other column. The demo below shows an example of this.
+ *
+ * One few things to note about the
+ * {@link /encore-ui/#/components/rxStatusColumn demo}: The `<th>` is defined as:
+ *
+ * <pre>
+ * <th rx-status-header>
+ *     <rx-sortable-column
+ *         sort-method="sortcol(property)"
+ *         sort-property="status"
+ *         predicate="sort.predicate"
+ *         reverse="sort.reverse">
+ *     </rx-sortable-column>
+ * </th>
+ * </pre>
+ *
+ * Note that `sort-property="status"` is referring to the `server.status`
+ * property on each row. Thus the sorting is done in this example by the status
+ * text coming from the API.
+ */
+.directive('rxStatusHeader', function () {
+    return {
+        link: function (scope, element) {
+            element.addClass('rx-status-header');
+        }
+    };
+});
 
 angular.module('encore.ui.elements')
 /**
@@ -12025,12 +11908,12 @@ angular.module('encore.ui.elements')
 
             if (!_.isEmpty(attrs.key)) {
                 ngModelCtrl.$parsers.push(function ($viewValue) {
-                    return _.map($viewValue, attrs.key);
+                    return _.pluck($viewValue, attrs.key);
                 });
 
                 ngModelCtrl.$formatters.push(function ($modelValue) {
                     return scope.options.filter(function (option) {
-                        return _.includes($modelValue, option[attrs.key]);
+                        return _.contains($modelValue, option[attrs.key]);
                     });
                 });
             }
@@ -12107,7 +11990,7 @@ angular.module('encore.ui.utilities')
                 // into something with a `.hostname`
                 url.href = config.url;
                 var exclude = _.some(exclusionList, function (item) {
-                    if (_.includes(url.hostname, item)) {
+                    if (_.contains(url.hostname, item)) {
                         return true;
                     }
                 });
@@ -12335,7 +12218,7 @@ angular.module('encore.ui.utilities')
         // if current item not active, check if any children are active
         // This requires that `isActive` was called on all the children beforehand
         if (!pathMatches && item.children) {
-            pathMatches = _.some(item.children, 'active');
+            pathMatches = _.any(item.children, 'active');
         }
 
         return pathMatches;
@@ -12506,9 +12389,29 @@ angular.module("templates/rxFormItem.html", []).run(["$templateCache", function(
     "<div class=\"form-item\" ng-class=\"{'text-area-label': isTextArea}\"><label class=\"field-label\">{{label}}:</label><div class=\"field-content\"><span class=\"field-prefix\" ng-if=\"prefix\">{{prefix}}</span> <span class=\"field-input-wrapper\" ng-transclude></span><div ng-if=\"description\" class=\"field-description\" ng-bind-html=\"description\"></div></div></div>");
 }]);
 
+angular.module("templates/rxMultiSelect.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/rxMultiSelect.html",
+    "<div class=\"rxMultiSelect\"><div class=\"control\" ng-click=\"toggleMenu()\"><div class=\"preview\">{{ preview }}</div><div class=\"select-trigger\"><i class=\"fa fa-fw fa-caret-down\"></i></div></div><div class=\"menu\" ng-show=\"listDisplayed\"><rx-select-option value=\"all\">Select All</rx-select-option><rx-select-option value=\"{{option}}\" ng-repeat=\"option in options\"></rx-select-option><div ng-if=\"!options\" ng-transclude></div></div></div>");
+}]);
+
+angular.module("templates/rxSearchBox.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/rxSearchBox.html",
+    "<div class=\"rxSearchBox-wrapper\"><input type=\"text\" class=\"rxSearchBox-input\" placeholder=\"{{rxPlaceholder}}\" ng-disabled=\"{{isDisabled}}\" ng-model=\"searchVal\"> <span class=\"rxSearchBox-clear\" ng-if=\"isClearable\" ng-click=\"clearSearch()\"><i class=\"rxSearchBox-clear-icon fa fa-fw fa-times-circle\"></i></span></div>");
+}]);
+
+angular.module("templates/rxSelectOption.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/rxSelectOption.html",
+    "<li class=\"rx-select-option\"><label><input rx-checkbox ng-model=\"isSelected\" ng-click=\"toggle(!isSelected)\"> <span ng-if=\"!transclusion\">{{value | titleize}}</span> <span ng-transclude></span></label></li>");
+}]);
+
 angular.module("templates/rxTimePicker.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxTimePicker.html",
-    "<div class=\"rxTimePicker wrapper\"><div class=\"control\" ng-click=\"togglePopup()\"><input type=\"text\" data-time=\"{{modelValue}}\" class=\"displayValue\" ng-model=\"displayValue\"><div class=\"overlay\"><i class=\"icon fa fa-fw fa-clock-o\"></i></div></div><div class=\"popup\" ng-show=\"isPickerVisible\"><form rx-form name=\"timePickerForm\"><rx-form-section><rx-field><rx-field-content><rx-input><input type=\"text\" name=\"hour\" class=\"hour\" maxlength=\"2\" autocomplete=\"off\" ng-required=\"true\" ng-pattern=\"/^(1[012]|0?[1-9])$/\" ng-model=\"hour\"><rx-infix>:</rx-infix><input type=\"text\" name=\"minutes\" class=\"minutes\" maxlength=\"2\" autocomplete=\"off\" ng-required=\"true\" ng-pattern=\"/^[0-5][0-9]$/\" ng-model=\"minutes\"><rx-suffix><select rx-select name=\"period\" class=\"period\" ng-model=\"period\"><option value=\"AM\">AM</option><option value=\"PM\">PM</option></select></rx-suffix><rx-suffix class=\"offsetWrapper\"><select rx-select name=\"utcOffset\" class=\"utcOffset\" ng-model=\"offset\"><option ng-repeat=\"utcOffset in availableUtcOffsets\" ng-selected=\"{{utcOffset === offset}}\">{{utcOffset}}</option></select></rx-suffix></rx-input><rx-inline-error ng-if=\"timePickerForm.hour.$dirty && !timePickerForm.hour.$valid\">Invalid Hour</rx-inline-error><rx-inline-error ng-if=\"timePickerForm.minutes.$dirty && !timePickerForm.minutes.$valid\">Invalid Minutes</rx-inline-error></rx-field-content></rx-field></rx-form-section><rx-form-section class=\"actions\"><div><rx-button classes=\"done\" default-msg=\"Done\" disable=\"!timePickerForm.$valid\" ng-click=\"submitPopup()\"></rx-button>&nbsp;<rx-button classes=\"cancel\" default-msg=\"Cancel\" ng-click=\"closePopup()\"></rx-button></div></rx-form-section></form></div></div>");
+    "<div class=\"rxTimePicker wrapper\"><div class=\"control\" ng-click=\"togglePopup()\"><input type=\"text\" data-time=\"{{modelValue}}\" class=\"displayValue\" tabindex=\"-1\" ng-model=\"displayValue\"><div class=\"overlay\"><i class=\"icon fa fa-fw fa-clock-o\"></i></div></div><div class=\"popup\" ng-show=\"isPickerVisible\"><form rx-form name=\"timePickerForm\"><rx-form-section><rx-field><rx-field-content><rx-input><input type=\"text\" name=\"hour\" class=\"hour\" maxlength=\"2\" autocomplete=\"off\" ng-required=\"true\" ng-pattern=\"/^(1[012]|0?[1-9])$/\" ng-model=\"hour\"><rx-infix>:</rx-infix><input type=\"text\" name=\"minutes\" class=\"minutes\" maxlength=\"2\" autocomplete=\"off\" ng-required=\"true\" ng-pattern=\"/^[0-5][0-9]$/\" ng-model=\"minutes\"><rx-suffix><select rx-select name=\"period\" class=\"period\" ng-model=\"period\"><option value=\"AM\">AM</option><option value=\"PM\">PM</option></select></rx-suffix><rx-suffix class=\"offsetWrapper\"><select rx-select name=\"utcOffset\" class=\"utcOffset\" ng-model=\"offset\"><option ng-repeat=\"utcOffset in availableUtcOffsets\" ng-selected=\"{{utcOffset === offset}}\">{{utcOffset}}</option></select></rx-suffix></rx-input><rx-inline-error ng-if=\"timePickerForm.hour.$dirty && !timePickerForm.hour.$valid\">Invalid Hour</rx-inline-error><rx-inline-error ng-if=\"timePickerForm.minutes.$dirty && !timePickerForm.minutes.$valid\">Invalid Minutes</rx-inline-error></rx-field-content></rx-field></rx-form-section><rx-form-section class=\"actions\"><div><rx-button classes=\"done\" default-msg=\"Done\" disable=\"!timePickerForm.$valid\" ng-click=\"submitPopup()\"></rx-button>&nbsp;<rx-button classes=\"cancel\" default-msg=\"Cancel\" ng-click=\"closePopup()\"></rx-button></div></rx-form-section></form></div></div>");
+}]);
+
+angular.module("templates/rxToggleSwitch.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/rxToggleSwitch.html",
+    "<div class=\"rx-toggle-switch\" ng-class=\"{on: state === 'ON'}\" ng-click=\"update()\" ng-disabled=\"isDisabled\"><div class=\"knob\"></div><span>{{ state }}</span></div>");
 }]);
 
 angular.module("templates/rxInfoPanel.html", []).run(["$templateCache", function($templateCache) {
@@ -12586,6 +12489,16 @@ angular.module("templates/rxPage.html", []).run(["$templateCache", function($tem
     "<div class=\"rx-page\"><header class=\"page-header clearfix\"><rx-breadcrumbs status=\"{{ status }}\"></rx-breadcrumbs><rx-account-info ng-if=\"accountNumber\" account-info-banner=\"true\" account-number=\"{{ accountNumber }}\" team-id=\"{{ teamId }}\"></rx-account-info></header><div class=\"page-body\"><rx-notifications></rx-notifications><div class=\"page-titles\" ng-if=\"title.length > 0 || unsafeHtmlTitle.length > 0 || subtitle.length > 0\"><h2 class=\"page-title\" ng-if=\"title.length > 0\"><span ng-bind=\"title\"></span><rx-status-tag status=\"{{ status }}\"></rx-status-tag></h2><h2 class=\"page-title\" ng-if=\"unsafeHtmlTitle.length > 0\"><span ng-bind-html=\"unsafeHtmlTitle\"></span><rx-status-tag status=\"{{ status }}\"></rx-status-tag></h2><h3 class=\"page-subtitle subdued\" ng-bind-html=\"subtitle\" ng-if=\"subtitle.length > 0\"></h3></div><div class=\"page-content\" ng-transclude></div></div></div>");
 }]);
 
+angular.module("templates/rxOptionTable.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/rxOptionTable.html",
+    "<table class=\"table-striped rx-option-table\" ng-show=\"data.length > 0 || emptyMessage \"><thead><tr><th><span ng-if=\"type === 'checkbox' && data.length > 0\"><input rx-checkbox ng-model=\"selectAllModel\" class=\"option-input select-all\" ng-click=\"selectAll(selectAllModel)\"></span></th><th class=\"column\" ng-repeat=\"column in columns\">{{column.label}}</th></tr></thead><tbody><tr ng-repeat=\"row in data\" class=\"datum-row\" ng-class=\"{current: isCurrent(row.value), selected: isSelected(row.value, $index), disabled: checkDisabled(row)}\"><td class=\"option-table-input\"><div class=\"fillWrapper\"><label ng-switch=\"type\"><div class=\"alignWrapper\" ng-switch-when=\"radio\"><input rx-radio id=\"{{fieldId}}_{{$index}}\" ng-model=\"$parent.$parent.model\" value=\"{{row.value}}\" name=\"{{fieldId}}\" class=\"option-input\" ng-disabled=\"checkDisabled(row)\" rx-attributes=\"{'ng-required': required}\"></div><div class=\"alignWrapper\" ng-switch-when=\"checkbox\"><input rx-checkbox id=\"{{fieldId}}_{{$index}}\" class=\"option-input\" ng-checked=\"$parent.modelProxy[$index]\" ng-model=\"$parent.modelProxy[$index]\" ng-change=\"updateCheckboxes($parent.modelProxy[$index], $index)\" ng-required=\"checkRequired()\"></div></label></div></td><td ng-repeat=\"column in columns\" data-column=\"{{column.label}}\" data-row-number=\"{{$parent.$index}}\"><div class=\"fillWrapper\"><label for=\"{{fieldId}}_{{$parent.$index}}\"><div class=\"alignWrapper\"><span ng-bind-html=\"getContent(column, row)\"></span><rx-help-text ng-show=\"isCurrent(row.value)\">{{column.selectedLabel}}</rx-help-text></div></label></div></td></tr><tr ng-if=\"data.length === 0 && emptyMessage\" class=\"empty-message-row\"><td colspan=\"{{columns.length + 1}}\" class=\"empty-message\">{{emptyMessage}}</td></tr></tbody></table>");
+}]);
+
+angular.module("templates/rxPermission.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/rxPermission.html",
+    "<div class=\"rxPermission\" ng-if=\"hasRole(role)\" ng-transclude></div>");
+}]);
+
 angular.module("templates/rxBatchActions.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxBatchActions.html",
     "<ul class=\"batch-actions-area pull-right\"><li class=\"msg-info-blue\"><button class=\"btn-link header-button\" ng-click=\"toggleBulkActions()\" ng-disabled=\"!rowsSelected\"><span tooltip=\"{{ rowsSelected ? '' : 'You must select one or more rows to use batch actions.' }}\"><i class=\"fa fa-cogs fa-lg\"></i> Batch Actions</span></button></li><div ng-show=\"displayed\" class=\"batch-action-menu-container\"><div class=\"batch-action-list batch-action-list-hideable\"><ul class=\"actions-area\" ng-transclude></ul></div></div></ul>");
@@ -12596,34 +12509,14 @@ angular.module("templates/rxBulkSelectMessage.html", []).run(["$templateCache", 
     "<th class=\"bulk-select-header\" colspan=\"1000\"><span>{{ numSelected }} {{ resourceName }}{{ plural }} {{ isOrAre }} selected.</span> <button ng-click=\"selectAll()\" class=\"btn-link header-button\">Select all {{ total }} {{ resourceName }}s.</button> <button ng-click=\"deselectAll()\" class=\"pull-right btn-link header-button\">Clear all selected rows</button></th>");
 }]);
 
-angular.module("templates/rxMultiSelect.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("templates/rxMultiSelect.html",
-    "<div class=\"rxMultiSelect\"><div class=\"control\" ng-click=\"toggleMenu()\"><div class=\"preview\">{{ preview }}</div><div class=\"select-trigger\"><i class=\"fa fa-fw fa-caret-down\"></i></div></div><div class=\"menu\" ng-show=\"listDisplayed\"><rx-select-option value=\"all\">Select All</rx-select-option><rx-select-option value=\"{{option}}\" ng-repeat=\"option in options\"></rx-select-option><div ng-if=\"!options\" ng-transclude></div></div></div>");
-}]);
-
-angular.module("templates/rxSelectOption.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("templates/rxSelectOption.html",
-    "<li class=\"rx-select-option\"><label><input rx-checkbox ng-model=\"isSelected\" ng-click=\"toggle(!isSelected)\"> <span ng-if=\"!transclusion\">{{value | titleize}}</span> <span ng-transclude></span></label></li>");
-}]);
-
-angular.module("templates/rxOptionTable.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("templates/rxOptionTable.html",
-    "<table class=\"table-striped rx-option-table\" ng-show=\"data.length > 0 || emptyMessage \"><thead><tr><th><span ng-if=\"type === 'checkbox' && data.length > 0\"><input rx-checkbox ng-model=\"selectAllModel\" class=\"option-input select-all\" ng-click=\"selectAll(selectAllModel)\"></span></th><th class=\"column\" ng-repeat=\"column in columns\">{{column.label}}</th></tr></thead><tbody><tr ng-repeat=\"row in data\" class=\"datum-row\" ng-class=\"{current: isCurrent(row.value), selected: isSelected(row.value, $index), disabled: checkDisabled(row)}\"><td class=\"option-table-input\"><div class=\"fillWrapper\"><label ng-switch=\"type\"><div class=\"alignWrapper\" ng-switch-when=\"radio\"><input rx-radio id=\"{{fieldId}}_{{$index}}\" ng-model=\"$parent.$parent.model\" value=\"{{row.value}}\" name=\"{{fieldId}}\" class=\"option-input\" ng-disabled=\"checkDisabled(row)\" rx-attributes=\"{'ng-required': required}\"></div><div class=\"alignWrapper\" ng-switch-when=\"checkbox\"><input rx-checkbox id=\"{{fieldId}}_{{$index}}\" class=\"option-input\" ng-checked=\"$parent.modelProxy[$index]\" ng-model=\"$parent.modelProxy[$index]\" ng-change=\"updateCheckboxes($parent.modelProxy[$index], $index)\" ng-required=\"checkRequired()\"></div></label></div></td><td ng-repeat=\"column in columns\" data-column=\"{{column.label}}\" data-row-number=\"{{$parent.$index}}\"><div class=\"fillWrapper\"><label for=\"{{fieldId}}_{{$parent.$index}}\"><div class=\"alignWrapper\"><span ng-bind-html=\"getContent(column, row)\"></span><rx-help-text ng-show=\"isCurrent(row.value)\">{{column.selectedLabel}}</rx-help-text></div></label></div></td></tr><tr ng-if=\"data.length === 0 && emptyMessage\" class=\"empty-message-row\"><td colspan=\"{{columns.length + 1}}\" class=\"empty-message\">{{emptyMessage}}</td></tr></tbody></table>");
-}]);
-
 angular.module("templates/rxPaginate.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxPaginate.html",
     "<div class=\"rx-paginate\"><div class=\"pagination\" layout=\"row\" layout-wrap layout-align=\"justify top\"><div flex=\"50\" flex-order=\"2\" flex-gt-md=\"20\" flex-order-gt-md=\"1\" flex-gt-lg=\"35\" layout=\"row\"><a class=\"back-to-top\" tabindex=\"0\" ng-click=\"scrollToTop()\">Back to top</a><div hide show-gt-lg>Showing {{ pageTracking | PaginatedItemsSummary}} items</div></div><div flex=\"100\" flex-order=\"1\" flex-gt-md=\"40\" flex-order-gt-md=\"2\" flex-gt-lg=\"35\"><div class=\"page-links\" layout=\"row\" layout-align=\"center\"><div ng-class=\"{disabled: pageTracking.isFirstPage()}\" class=\"pagination-first\"><a hide show-gt-lg ng-click=\"pageTracking.goToFirstPage()\" ng-hide=\"pageTracking.isFirstPage()\">First</a></div><div ng-class=\"{disabled: pageTracking.isFirstPage()}\" class=\"pagination-prev\"><a ng-click=\"pageTracking.goToPrevPage()\" ng-hide=\"pageTracking.isFirstPage()\">« Prev</a></div><div ng-repeat=\"n in pageTracking | Page\" ng-class=\"{active: pageTracking.isPage(n), 'page-number-last': pageTracking.isPageNTheLastPage(n)}\" class=\"pagination-page\"><a ng-click=\"pageTracking.goToPage(n)\">{{n + 1}}</a></div><div ng-class=\"{disabled: pageTracking.isLastPage() || pageTracking.isEmpty()}\" class=\"pagination-next\"><a ng-click=\"pageTracking.goToNextPage()\" ng-hide=\"pageTracking.isLastPage() || pageTracking.isEmpty()\">Next »</a></div><div ng-class=\"{disabled: pageTracking.isLastPage()}\" class=\"pagination-last\"><a hide show-gt-lg ng-click=\"pageTracking.goToLastPage()\" ng-hide=\"pageTracking.isLastPage()\">Last</a></div></div></div><div flex=\"50\" flex-order=\"3\" flex-gt-md=\"40\" flex-order-gt-md=\"3\" flex-gt-lg=\"30\"><div class=\"pagination-per-page\" layout=\"row\" layout-align=\"right\"><div>Show</div><div ng-repeat=\"i in pageTracking.itemSizeList\"><button ng-disabled=\"pageTracking.isItemsPerPage(i)\" ng-click=\"pageTracking.setItemsPerPage(i)\">{{ i }}</button></div></div></div></div></div>");
 }]);
 
-angular.module("templates/rxPermission.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("templates/rxPermission.html",
-    "<div class=\"rxPermission\" ng-if=\"hasRole(role)\" ng-transclude></div>");
-}]);
-
-angular.module("templates/rxSearchBox.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("templates/rxSearchBox.html",
-    "<div class=\"rxSearchBox-wrapper\"><input type=\"text\" class=\"rxSearchBox-input\" placeholder=\"{{rxPlaceholder}}\" ng-disabled=\"{{isDisabled}}\" ng-model=\"searchVal\"> <span class=\"rxSearchBox-clear\" ng-if=\"isClearable\" ng-click=\"clearSearch()\"><i class=\"rxSearchBox-clear-icon fa fa-fw fa-times-circle\"></i></span></div>");
+angular.module("templates/rxSelectFilter.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/rxSelectFilter.html",
+    "<rx-field class=\"select-wrapper {{prop}}-filter\" ng-repeat=\"prop in filter.properties\"><rx-field-name>{{ prop | titleize }}</rx-field-name><rx-field-content><rx-input><rx-multi-select ng-model=\"filter.selected[prop]\" options=\"filter.available[prop]\"></rx-multi-select></rx-input></rx-field-content></rx-field>");
 }]);
 
 angular.module("templates/rxSortableColumn.html", []).run(["$templateCache", function($templateCache) {
@@ -12634,16 +12527,6 @@ angular.module("templates/rxSortableColumn.html", []).run(["$templateCache", fun
 angular.module("templates/rxStatusColumn.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxStatusColumn.html",
     "<span tooltip=\"{{ tooltipText }}\" tooltip-placement=\"top\"><i class=\"fa fa-lg {{ statusIcon }}\" title=\"{{ tooltipText }}\"></i></span>");
-}]);
-
-angular.module("templates/rxToggleSwitch.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("templates/rxToggleSwitch.html",
-    "<div class=\"rx-toggle-switch\" ng-class=\"{on: state === 'ON'}\" ng-click=\"update()\" ng-disabled=\"isDisabled\"><div class=\"knob\"></div><span>{{ state }}</span></div>");
-}]);
-
-angular.module("templates/rxSelectFilter.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("templates/rxSelectFilter.html",
-    "<rx-field class=\"select-wrapper {{prop}}-filter\" ng-repeat=\"prop in filter.properties\"><rx-field-name>{{ prop | titleize }}</rx-field-name><rx-field-content><rx-input><rx-multi-select ng-model=\"filter.selected[prop]\" options=\"filter.available[prop]\"></rx-multi-select></rx-input></rx-field-content></rx-field>");
 }]);
 
 angular.module("templates/rxTags.html", []).run(["$templateCache", function($templateCache) {
