@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
  *
- * Version: 2.3.0 - 2016-09-28
+ * Version: 3.0.0 - 2016-09-28
  * License: Apache-2.0
  */
 angular.module('encore.ui', [
@@ -12,7 +12,6 @@ angular.module('encore.ui', [
     'encore.ui.elements',
     'encore.ui.utilities',
     'encore.ui.rxApp',
-    'encore.ui.rxLogout',
     'encore.ui.rxOptionTable'
 ])
 angular.module('encore.ui.tpls', [
@@ -319,7 +318,7 @@ angular.module('encore.ui.elements')
                 // Only attempt if no teamId is passed to directive
                 if (_.isEmpty(scope.teamId)) {
                     var primaryTeam = _.find(account.teams, function (team) {
-                        return _.contains(team.flags, 'primary');
+                        return _.includes(team.flags, 'primary');
                     });
 
                     if (primaryTeam) {
@@ -541,15 +540,13 @@ angular.module('encore.ui.elements')
  * disables the button and replaces the `default-msg` with the `toggle-msg` as
  * the button's text.  There are no defaults for these messages, so they must
  * be defined if the toggle behavior is desired.  While the button is in the
- * toggled state, it is also disabled (no matter what the value of `disable` is).
+ * toggled state, it is also disabled (no matter what the value of `ng-disabled`
+ * may be).
  *
  * The button does not modify the variable passed to `toggle`; it should be
  * modified in the handler provided to `ng-click`.  Usually, the handler will
  * set the variable to `true` immediately, and then to `false` once the the
  * process (e.g. an API call) is complete.
- *
- * To disable the button, use the `disable` attribute instead of the normal
- * `ng-disabled` - the behavior is the same.
  *
  * ## Styling
  *
@@ -560,7 +557,8 @@ angular.module('encore.ui.elements')
  * @param {String} loadingMsg Text to be displayed when an operation is in progress.
  * @param {String} defaultMsg Text to be displayed by default when no operation is in progress.
  * @param {Boolean=} [toggle=false] When true, the button will display the loading text.
- * @param {Boolean=} [ngDisabled=false] When true, the button will be disabled.
+ * @param {Expression=} [ngDisabled=false] If the expression is truthy, then the
+ * `disabled` attribute will be set on the button
  * @param {String=} [classes=""] The class names to be applied to the button.
  *
  */
@@ -571,18 +569,9 @@ angular.module('encore.ui.elements')
         scope: {
             toggleMsg: '@',
             defaultMsg: '@',
-            toggle: '=',
-            disable: '=?', // **DEPRECATED** - Remove in 3.0.0
-            ngDisabled: '=?',
+            toggle: '=?',
+            isDisabled: '=?ngDisabled',
             classes: '@?'
-        },
-        link: function (scope) {
-            // Support [ng-disabled] OR [disabled] (for backward compatibility)
-            scope.$watch(function () {
-                return (scope.disable || scope.ngDisabled);
-            }, function (newVal) {
-                scope.isDisabled = newVal;
-            });
         }
     };
 });
@@ -1007,7 +996,7 @@ angular.module('encore.ui.utilities')
             return pattern.test(href);
         }
 
-        return _.contains(href, pattern);
+        return _.includes(href, pattern);
     };
 
     /*
@@ -1073,7 +1062,7 @@ angular.module('encore.ui.utilities')
         var matchingEnvironments = _.filter(environments, function (environment) {
             return environmentPatternMatch(href, environment.pattern);
         });
-        return _.contains(_.pluck(matchingEnvironments, 'name'), name);
+        return _.includes(_.map(matchingEnvironments, 'name'), name);
     };
 
     var makeEnvCheck = function (name) {
@@ -1153,7 +1142,7 @@ angular.module('encore.ui.utilities')
         if (!_.has(error, 'message')) {
             error.message = _.has(error, 'statusText') ? error.statusText : 'Unknown error';
         }
-        return _.template(formatString, error);
+        return _.template(formatString)(error);
     };
 
     return {
@@ -1738,8 +1727,8 @@ angular.module('encore.ui.elements')
         }
 
         // until first item of array is Sunday, prepend earlier days to array
-        while (_.first(days).day() > 0) {
-            prependDay = _.first(days).clone();
+        while (_.head(days).day() > 0) {
+            prependDay = _.head(days).clone();
             days.unshift(prependDay.subtract(1, 'day'));
         }
 
@@ -2472,7 +2461,7 @@ angular.module('encore.ui.elements')
                 if (option === 'all') {
                     return this.options.length === $scope.selected.length;
                 } else {
-                    return _.contains($scope.selected, option);
+                    return _.includes($scope.selected, option);
                 }
             };
 
@@ -2507,7 +2496,7 @@ angular.module('encore.ui.elements')
                         } else if (scope.selected.length === 1) {
                             return getLabel(scope.selected[0]) || scope.selected[0];
                         } else if (scope.selected.length === selectCtrl.options.length - 1) {
-                            var option = _.first(_.difference(selectCtrl.options, scope.selected));
+                            var option = _.head(_.difference(selectCtrl.options, scope.selected));
                             return 'All except ' + getLabel(option) || scope.selected[0];
                         } else if (scope.selected.length === selectCtrl.options.length) {
                             return 'All Selected';
@@ -3128,13 +3117,14 @@ angular.module('encore.ui.elements')
  * time the switch is toggled (after the model property is written on the
  * scope).  It takes one argument, `value`, which is the new value of the model.
  * This can be used instead of a `$scope.$watch` on the `ng-model` property.
- * As shown in the {@link /encore-ui/#/elements/Forms demo}, the `disabled`
+ * As shown in the {@link /encore-ui/#/elements/Forms demo}, the `ng-disabled`
  * attribute can be used to prevent further toggles if the `post-hook` performs
  * an asynchronous operation.
  *
  * @param {String} ng-model The scope property to bind to
  * @param {Function} postHook A function to run when the switch is toggled
- * @param {Boolean=} ng-disabled Indicates if the input is disabled
+ * @param {Expression=} [ngDisabled=false] If the expression is truthy, then the
+ * `disabled` attribute will be set on the toggle switch.
  * @param {Expression=} [trueValue=true] The value of the scope property when the switch is on
  * @param {Expression=} [falseValue=false] The value of the scope property when the switch is off
  *
@@ -3150,8 +3140,7 @@ angular.module('encore.ui.elements')
         require: 'ngModel',
         scope: {
             model: '=ngModel',
-            disabled: '=?', // **DEPRECATED** - remove in 3.0.0
-            ngDisabled: '=?',
+            isDisabled: '=?ngDisabled',
             postHook: '&',
             trueValue: '@',
             falseValue: '@'
@@ -3175,13 +3164,6 @@ angular.module('encore.ui.elements')
             ngModelCtrl.$render = function () {
                 scope.state = ngModelCtrl.$viewValue ? 'ON' : 'OFF';
             };
-
-            scope.$watch(function () {
-                return (scope.disabled || scope.ngDisabled);
-            }, function (newVal) {
-                // will be true, false, or undefined
-                scope.isDisabled = newVal;
-            });
 
             scope.update = function () {
                 if (scope.isDisabled) {
@@ -3498,8 +3480,8 @@ angular.module('encore.ui.elements')
  * @param {*=} disable-esc
  * If the `disable-esc` attribute is present, then "Press Esc to close" will be
  * disabled for the modal. This attribute takes no values.
- * @param {Boolean=} [ngDisabled=false]
- * If the expression evaluates to true, then the link for opening the modal will
+ * @param {Expression=} [ngDisabled=false]
+ * If the expression evaluates truthy, then the link for opening the modal will
  * be disabled.
  *
  * @example
@@ -3534,19 +3516,11 @@ angular.module('encore.ui.elements')
         restrict: 'E',
         scope: true,
         link: function (scope, element, attrs) {
-            scope.isDisabled = false;
-
             // add any class passed in to scope
             scope.classes = attrs.classes;
 
-            attrs.$observe('disabled', function (newValue) {
-                if (typeof newValue === 'boolean') {
-                    scope.isDisabled = newValue;
-                } else {
-                    // TODO: remove in 3.0.0
-                    // DEPRECATED: override [disabled] behavior
-                    scope.isDisabled = scope.$eval(newValue);
-                }
+            attrs.$observe('ngDisabled', function (newValue) {
+                scope.isDisabled = scope.$eval(newValue);
             });
 
             var focusLink = function () {
@@ -4065,7 +4039,7 @@ angular.module('encore.ui.utilities')
         // If itemSizeList doesn't contain the desired itemsPerPage,
         // then find the right spot in itemSizeList and insert the
         // itemsPerPage value
-        if (!_.contains(itemSizeList, itemsPerPage)) {
+        if (!_.includes(itemSizeList, itemsPerPage)) {
             var index = _.sortedIndex(itemSizeList, itemsPerPage);
             itemSizeList.splice(index, 0, itemsPerPage);
         }
@@ -4074,7 +4048,7 @@ angular.module('encore.ui.utilities')
 
         // If the user has chosen a desired itemsPerPage, make sure we're respecting that
         // However, a value specified in the options will take precedence
-        if (!opts.itemsPerPage && !_.isNaN(selectedItemsPerPage) && _.contains(itemSizeList, selectedItemsPerPage)) {
+        if (!opts.itemsPerPage && !_.isNaN(selectedItemsPerPage) && _.includes(itemSizeList, selectedItemsPerPage)) {
             pager.itemsPerPage = selectedItemsPerPage;
         }
 
@@ -4153,7 +4127,7 @@ angular.module('encore.ui.utilities')
             // By setting `updateCache` to false, it ensures that the current
             // pager.cacheOffset and pager.cachedPages values stay the
             // same
-            if (!opts.forceCacheUpdate && _.contains(pager.cachedPages, n)) {
+            if (!opts.forceCacheUpdate && _.includes(pager.cachedPages, n)) {
                 shouldUpdateCache = false;
                 return pager.newItems($q.when({
                     pageNumber: n,
@@ -4345,14 +4319,14 @@ angular.module('encore.ui.utilities')
     };
 
     var userRoles = function () {
-        return _.pluck(permissionSvc.getRoles(), 'name');
+        return _.map(permissionSvc.getRoles(), 'name');
     };
 
     /**
      * @description Takes a function and a list of roles, and returns the
      * result of calling that function with `roles`, and comparing to userRoles().
      *
-     * @param {Function} fn Comparison function to use. _.any, _.all, etc.
+     * @param {Function} fn Comparison function to use. _.some, _.every, etc.
      * @param {String[]} roles List of desired roles
      */
     var checkRoles = function (roles, fn) {
@@ -4364,7 +4338,7 @@ angular.module('encore.ui.utilities')
 
         var allUserRoles = userRoles();
         return fn(roles, function (role) {
-            return _.contains(allUserRoles, role);
+            return _.includes(allUserRoles, role);
         });
     };
 
@@ -4392,7 +4366,7 @@ angular.module('encore.ui.utilities')
      * @returns {Boolean} True if user has at least _one_ of the given roles; otherwise, False.
      */
     permissionSvc.hasRole = function (roles) {
-        return checkRoles(roles, _.any);
+        return checkRoles(roles, _.some);
     };
 
     /**
@@ -4405,7 +4379,7 @@ angular.module('encore.ui.utilities')
      *
      */
     permissionSvc.hasAllRoles = function (roles) {
-        return checkRoles(roles, _.all);
+        return checkRoles(roles, _.every);
     };
 
     return permissionSvc;
@@ -6098,7 +6072,7 @@ angular.module('encore.ui.utilities')
             },
             setAll: function (newRoutes) {
                 // let's not mess with the original object
-                var routesToBe = _.clone(newRoutes, true);
+                var routesToBe = _.cloneDeep(newRoutes);
 
                 routes = setDynamicProperties(routesToBe);
                 loadingDeferred.resolve();
@@ -6884,7 +6858,7 @@ angular.module('encore.ui.utilities')
     this.messageStats = messageStats;
 
     var numSelected = function () {
-        var selected = _.where($scope.bulkSource, $scope.selectedKey);
+        var selected = _.filter($scope.bulkSource, $scope.selectedKey);
         return selected.length;
     };
 
@@ -7714,63 +7688,6 @@ angular.module('encore.ui.utilities')
     };
 }]);
 
-/**
- * @ngdoc overview
- * @name rxLogout
- * @description
- * # rxLogout Component
- *
- * The rxLogout component provides logic to apply logout functionality to an element.
- *
- * ## Directives
- * * {@link rxLogout.directive:rxLogout rxLogout}
- */
-angular.module('encore.ui.rxLogout', [
-    'encore.ui.utilities'
-]);
-
-angular.module('encore.ui.rxLogout')
-/**
- * @ngdoc directive
- * @name rxLogout.directive:rxLogout
- * @restrict A
- * @scope
- * @description
- * Adds logout functionality to an element.
- *
- * @param {String=} [rxLogout='/login'] URL to redirect to after logging out
- *
- * @example
- * <pre>
- * <button rx-logout>Logout</button>
- * <button rx-logout="/custom">Logout (w/ custom location)</button>
- * </pre>
- */
-.directive ('rxLogout', ["Auth", "$window", "$location", function (Auth, $window, $location) {
-    return {
-        restrict: 'A',
-        scope: {
-            rxLogout: '@'
-        },
-        link: function (scope, element) {
-            // if URL not provided to redirect to, use default location
-            scope.logoutUrl = (_.isString(scope.rxLogout) && scope.rxLogout.length > 0) ? scope.rxLogout : '/login';
-
-            element.on('click', function () {
-                Auth.logout();
-
-                // check if in HTML5 Mode or not (if not, add hashbang)
-                // @see http://stackoverflow.com/a/23624785
-                if (!$location.$$html5) {
-                    scope.logoutUrl = '#' + scope.logoutUrl;
-                }
-
-                $window.location = scope.logoutUrl;
-            });
-        }
-    };
-}]);
-
 angular.module('encore.ui.utilities')
 /**
  * @ngdoc controller
@@ -8114,7 +8031,7 @@ angular.module('encore.ui.utilities')
         loading: false,
         show: 'immediate',
         dismiss: 'next',
-        ondismiss: _.noop(),
+        ondismiss: _.noop,
         stack: 'page',
         repeat: true
     };
@@ -8334,11 +8251,11 @@ angular.module('encore.ui.utilities')
             stacks[stack] = [];
         }
 
-        // merge options with defaults (overwriting defaults where applicable)
+        // add defaults to options
         _.defaults(options, messageDefaults);
 
         // add options to message
-        _.merge(message, options);
+        _.defaults(message, options);
 
         // if dismiss is set to array, watch variable
         if (_.isArray(message.dismiss)) {
@@ -8468,7 +8385,7 @@ angular.module('encore.ui.rxOptionTable')
             scope.selectAllModel = false;
 
             scope.$watchCollection('modelProxy', function (newValue) {
-                scope.selectAllModel = !_.any(newValue, function (val) {
+                scope.selectAllModel = !_.some(newValue, function (val) {
                     return val === false;
                 });
             });
@@ -9109,7 +9026,7 @@ angular.module('encore.ui.utilities')
      * @param {String} mapping This is mapping with keys and values
      */
     rxStatusMappings.addGlobal = function (mapping) {
-        _.assign(globalMappings, mapping, upperCaseCallback);
+        _.assignInWith(globalMappings, mapping, upperCaseCallback);
     };
 
     /**
@@ -9154,7 +9071,7 @@ angular.module('encore.ui.utilities')
      */
     rxStatusMappings.addAPI = function (apiName, mapping) {
         var api = apiMappings[apiName] || {};
-        _.assign(api, mapping, upperCaseCallback);
+        _.assignInWith(api, mapping, upperCaseCallback);
         apiMappings[apiName] = api;
     };
 
@@ -9669,7 +9586,7 @@ angular.module('encore.ui.utilities')
             function init (list) {
                 filter.properties.forEach(function (property) {
                     if (_.isUndefined(filter.available[property])) {
-                        filter.available[property] = _.uniq(_.pluck(list, property));
+                        filter.available[property] = _.uniq(_.map(list, property));
                     }
 
                     // Check `options.selected` instead of `filter.selected` because the latter
@@ -9684,7 +9601,7 @@ angular.module('encore.ui.utilities')
 
             function isItemValid (item) {
                 return filter.properties.every(function (property) {
-                    return _.contains(filter.selected[property], item[property]);
+                    return _.includes(filter.selected[property], item[property]);
                 });
             }
 
@@ -11873,12 +11790,12 @@ angular.module('encore.ui.elements')
 
             if (!_.isEmpty(attrs.key)) {
                 ngModelCtrl.$parsers.push(function ($viewValue) {
-                    return _.pluck($viewValue, attrs.key);
+                    return _.map($viewValue, attrs.key);
                 });
 
                 ngModelCtrl.$formatters.push(function ($modelValue) {
                     return scope.options.filter(function (option) {
-                        return _.contains($modelValue, option[attrs.key]);
+                        return _.includes($modelValue, option[attrs.key]);
                     });
                 });
             }
@@ -11955,7 +11872,7 @@ angular.module('encore.ui.utilities')
                 // into something with a `.hostname`
                 url.href = config.url;
                 var exclude = _.some(exclusionList, function (item) {
-                    if (_.contains(url.hostname, item)) {
+                    if (_.includes(url.hostname, item)) {
                         return true;
                     }
                 });
@@ -12183,7 +12100,7 @@ angular.module('encore.ui.utilities')
         // if current item not active, check if any children are active
         // This requires that `isActive` was called on all the children beforehand
         if (!pathMatches && item.children) {
-            pathMatches = _.any(item.children, 'active');
+            pathMatches = _.some(item.children, 'active');
         }
 
         return pathMatches;
@@ -12371,7 +12288,7 @@ angular.module("templates/rxSelectOption.html", []).run(["$templateCache", funct
 
 angular.module("templates/rxTimePicker.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxTimePicker.html",
-    "<div class=\"rxTimePicker wrapper\"><div class=\"control\" ng-click=\"togglePopup()\"><input type=\"text\" data-time=\"{{modelValue}}\" class=\"displayValue\" tabindex=\"-1\" ng-model=\"displayValue\"><div class=\"overlay\"><i class=\"icon fa fa-fw fa-clock-o\"></i></div></div><div class=\"popup\" ng-show=\"isPickerVisible\"><form rx-form name=\"timePickerForm\"><rx-form-section><rx-field><rx-field-content><rx-input><input type=\"text\" name=\"hour\" class=\"hour\" maxlength=\"2\" autocomplete=\"off\" ng-required=\"true\" ng-pattern=\"/^(1[012]|0?[1-9])$/\" ng-model=\"hour\"><rx-infix>:</rx-infix><input type=\"text\" name=\"minutes\" class=\"minutes\" maxlength=\"2\" autocomplete=\"off\" ng-required=\"true\" ng-pattern=\"/^[0-5][0-9]$/\" ng-model=\"minutes\"><rx-suffix><select rx-select name=\"period\" class=\"period\" ng-model=\"period\"><option value=\"AM\">AM</option><option value=\"PM\">PM</option></select></rx-suffix><rx-suffix class=\"offsetWrapper\"><select rx-select name=\"utcOffset\" class=\"utcOffset\" ng-model=\"offset\"><option ng-repeat=\"utcOffset in availableUtcOffsets\" ng-selected=\"{{utcOffset === offset}}\">{{utcOffset}}</option></select></rx-suffix></rx-input><rx-inline-error ng-if=\"timePickerForm.hour.$dirty && !timePickerForm.hour.$valid\">Invalid Hour</rx-inline-error><rx-inline-error ng-if=\"timePickerForm.minutes.$dirty && !timePickerForm.minutes.$valid\">Invalid Minutes</rx-inline-error></rx-field-content></rx-field></rx-form-section><rx-form-section class=\"actions\"><div><rx-button classes=\"done\" default-msg=\"Done\" disable=\"!timePickerForm.$valid\" ng-click=\"submitPopup()\"></rx-button>&nbsp;<rx-button classes=\"cancel\" default-msg=\"Cancel\" ng-click=\"closePopup()\"></rx-button></div></rx-form-section></form></div></div>");
+    "<div class=\"rxTimePicker wrapper\"><div class=\"control\" ng-click=\"togglePopup()\"><input type=\"text\" data-time=\"{{modelValue}}\" class=\"displayValue\" tabindex=\"-1\" ng-model=\"displayValue\"><div class=\"overlay\"><i class=\"icon fa fa-fw fa-clock-o\"></i></div></div><div class=\"popup\" ng-show=\"isPickerVisible\"><form rx-form name=\"timePickerForm\"><rx-form-section><rx-field><rx-field-content><rx-input><input type=\"text\" name=\"hour\" class=\"hour\" maxlength=\"2\" autocomplete=\"off\" ng-required=\"true\" ng-pattern=\"/^(1[012]|0?[1-9])$/\" ng-model=\"hour\"><rx-infix>:</rx-infix><input type=\"text\" name=\"minutes\" class=\"minutes\" maxlength=\"2\" autocomplete=\"off\" ng-required=\"true\" ng-pattern=\"/^[0-5][0-9]$/\" ng-model=\"minutes\"><rx-suffix><select rx-select name=\"period\" class=\"period\" ng-model=\"period\"><option value=\"AM\">AM</option><option value=\"PM\">PM</option></select></rx-suffix><rx-suffix class=\"offsetWrapper\"><select rx-select name=\"utcOffset\" class=\"utcOffset\" ng-model=\"offset\"><option ng-repeat=\"utcOffset in availableUtcOffsets\" ng-selected=\"{{utcOffset === offset}}\">{{utcOffset}}</option></select></rx-suffix></rx-input><rx-inline-error ng-if=\"timePickerForm.hour.$dirty && !timePickerForm.hour.$valid\">Invalid Hour</rx-inline-error><rx-inline-error ng-if=\"timePickerForm.minutes.$dirty && !timePickerForm.minutes.$valid\">Invalid Minutes</rx-inline-error></rx-field-content></rx-field></rx-form-section><rx-form-section class=\"actions\"><div><rx-button classes=\"done\" default-msg=\"Done\" ng-disabled=\"!timePickerForm.$valid\" ng-click=\"submitPopup()\"></rx-button>&nbsp;<rx-button classes=\"cancel\" default-msg=\"Cancel\" ng-click=\"closePopup()\"></rx-button></div></rx-form-section></form></div></div>");
 }]);
 
 angular.module("templates/rxToggleSwitch.html", []).run(["$templateCache", function($templateCache) {
