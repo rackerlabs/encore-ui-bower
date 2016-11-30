@@ -2,13 +2,14 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
  *
- * Version: 3.0.3 - 2016-11-03
+ * Version: 3.1.0-0 - 2016-11-30
  * License: Apache-2.0
  */
 angular.module('encore.ui', [
     'cfp.hotkeys',
     'ui.bootstrap',
     'encore.ui.tpls',
+    'ngMessages',
     'encore.ui.elements',
     'encore.ui.utilities',
     'encore.ui.rxApp',
@@ -48,6 +49,7 @@ angular.module('encore.ui.tpls', [
     'templates/rxPage.html',
     'templates/rxPaginate.html',
     'templates/rxPermission.html',
+    'templates/rxProgressbar.html',
     'templates/rxSearchBox.html',
     'templates/rxSelectFilter.html',
     'templates/rxSelectOption.html',
@@ -57,7 +59,6 @@ angular.module('encore.ui.tpls', [
     'templates/rxTimePicker.html',
     'templates/rxToggleSwitch.html'
 ]);
-
 // Currently this is the prefix we will use for all encore applications loaded in an iframe
 var prefix = 'apps.';
 // Let's get the hostname only (no port information)
@@ -118,14 +119,7 @@ angular.module('ui.bootstrap.modal')
  * # Elements
  * Elements are visual directives.
  *
- * ## Directives
- * * {@link elements.directive:rxAccountInfo rxAccountInfo}
- * * {@link elements.directive:rxActionMenu rxActionMenu}
- * * {@link elements.directive:rxButton rxButton}
- * * {@link elements.directive:rxCheckbox rxCheckbox}
- * * {@link elements.directive:rxDatePicker rxDatePicker}
- * * {@link elements.directive:rxMetadata rxMetadata}
- * * {@link elements.directive:rxTimePicker rxTimePicker}
+ * See the list in the left-hand navigation.
  */
 angular.module('encore.ui.elements', [
     'encore.ui.utilities',
@@ -143,79 +137,15 @@ angular.module('encore.ui.elements', [
  * @name utilities
  * @description
  * # Utilities
- * Utilities are modules related to:
+ * Utilities are features that support functionality among Elements.
  *
- * * business logic
- *   * values, constants, controllers, services
- * * display logic & application flow control
- *   * convenience, "if"-like, and "switch"-like directives
- *   * filters
+ * Such features include, but are not limited to the following:
  *
- * ## Values & Constants
- * * {@link utilities.value:devicePaths devicePaths}
- * * {@link utilities.constant:feedbackApi feedbackApi}
- * * {@link utilities.value:feedbackTypes feedbackTypes}
- * * {@link utilities.object:rxStatusColumnIcons rxStatusColumnIcons}
+ * * **Business Logic** (values, constants, controllers, services)
+ * * **Display Logic** (filters)
+ * * **Application Flow Control** ("if"-like, "switch"-like, and non-visual directives)
  *
- * ## Controllers
- * * {@link utilities.controller:rxBulkSelectController rxBulkSelectController}
- * * {@link utilities.controller:rxFeedbackController rxFeedbackController}
- * * {@link utilities.controller:rxModalCtrl rxModalCtrl}
- *
- * ## Directives
- * * {@link utilities.directive:rxFavicon rxFavicon}
- *
- * ## Filters
- * * {@link utilities.filter:Page Page}
- * * {@link utilities.filter:Paginate Paginate}
- * * {@link utilities.filter:PaginatedItemsSummary PaginatedItemsSummary}
- * * {@link utilities.filter:rxAge rxAge}
- * * {@link utilities.filter:rxCapitalize rxCapitalize}
- * * {@link utilities.filter:rxDiskSize rxDiskSize}
- * * {@link utilities.filter:rxEnvironmentMatch rxEnvironmentMatch}
- * * {@link utilities.filter:rxEnvironmentUrl rxEnvironmentUrl}
- * * {@link utilities.filter:rxSortEmptyTop rxSortEmptyTop}
- * * {@link utilities.filter:rxUnsafeRemoveHTML rxUnsafeRemoveHTML}
- * * {@link utilities.filter:titleize titleize}
- * * {@link utilities.filter:xor xor}
- *
- * ## Services
- * * {@link utilities.service:Auth Auth}
- * * {@link utilities.service:encoreRoutes encoreRoutes}
- * * {@link utilities.service:Environment Environment}
- * * {@link utilities.service:ErrorFormatter ErrorFormatter}
- * * {@link utilities.service:hotkeys hotkeys}
- * * {@link utilities.service:Identity Identity}
- * * {@link utilities.service:NotifyProperties NotifyProperties}
- * * {@link utilities.service:PageTracking PageTracking}
- * * {@link utilities.service:Permission Permission}
- * * {@link utilities.service:routesCdnPath routesCdnPath}
- * * {@link utilities.service:rxAppRoutes rxAppRoutes}
- * * {@link utilities.service:rxAutoSave rxAutoSave}
- * * {@link utilities.service:rxBreadcrumbsSvc rxBreadcrumbsSvc}
- * * {@link utilities.service:rxBulkSelectUtils rxBulkSelectUtils}
- * * {@link utilities.service:rxDOMHelper rxDOMHelper}
- * * {@link utilities.service:rxFeedbackSvc rxFeedbackSvc}
- * * {@link utilities.service:rxFormUtils rxFormUtils}
- * * {@link utilities.service:rxLocalStorage rxLocalStorage}
- * * {@link utilities.service:rxModalFooterTemplates rxModalFooterTemplates}
- * * {@link utilities.service:rxNestedElement rxNestedElement}
- * * {@link utilities.service:rxNotify rxNotify}
- * * {@link utilities.service:rxPageTitle rxPageTitle}
- * * {@link utilities.service:rxPaginateUtils rxPaginateUtils}
- * * {@link utilities.service:rxPromiseNotifications rxPromiseNotifications}
- * * {@link utilities.service:rxScreenshotSvc rxScreenshotSvc}
- * * {@link utilities.service:rxSortUtil rxSortUtil}
- * * {@link utilities.service:rxStatusMappings rxStatusMappings}
- * * {@link utilities.service:rxStatusTags rxStatusTags}
- * * {@link utilities.service:rxVisibility rxVisibility}
- * * {@link utilities.service:rxVisibilityPathParams rxVisibilityPathParams}
- * * {@link utilities.service:Session Session}
- * * {@link utilities.service:Status Status}
- * * {@link utilities.service:StatusUtil StatusUtil}
- * * {@link utilities.service:TokenInterceptor TokenInterceptor}
- * * {@link utilities.service:UnauthorizedInterceptor UnauthorizedInterceptor}
- * * {@link utilities.service:urlUtils urlUtils}
+ * A full list of functionality can be found in the left-hand nav.
  */
 angular.module('encore.ui.utilities', [
     'ngResource',
@@ -415,29 +345,6 @@ angular.module('encore.ui.elements')
 
 angular.module('encore.ui.utilities')
 /**
- * @ngdoc filter
- * @name utilities.filter:Apply
- * @description
- * Used to apply an instance of {@link utilities.service:SelectFilter SelectFilter} to an array.
- *
- * Merely calls the `applyTo()` method of a `SelectFilter` instance to an
- * input array.
- * <pre>
- * <tr ng-repeat="item in list | Apply:filter">
- * </pre>
- *
- * @param {Array} list The list to be filtered.
- * @param {Object} filter An instance of SelectFilter
- *
- */
-.filter('Apply', function () {
-    return function (list, filter) {
-        return filter.applyTo(list);
-    };
-});
-
-angular.module('encore.ui.utilities')
-/**
  * @ngdoc service
  * @name utilities.service:Auth
  * @description
@@ -579,7 +486,7 @@ angular.module('encore.ui.elements')
 angular.module('encore.ui.elements')
 /**
  * @ngdoc directive
- * @name rxCollapse.directive:rxCollapse
+ * @name elements.directive:rxCollapse
  * @restrict E
  * @scope
  * @description
@@ -4385,6 +4292,41 @@ angular.module('encore.ui.utilities')
     return permissionSvc;
 }]);
 
+angular.module('encore.ui.elements')
+/**
+ * @ngdoc directive
+ * @name elements.directive:rxProgressbar
+ * @restrict E
+ * @param {Expression} value
+ * Numeric value used to calculate progress in relation to the max value.
+ * @param {Expression=} [max=100] Maximum numeric value to calculate progress.
+ * @description
+ * Element used to provide feedback on the progress of a workflow or action.
+ */
+.directive('rxProgressbar', ["rxProgressbarUtil", function (rxProgressbarUtil) {
+
+    return {
+        restrict: 'E',
+        transclude: true,
+        templateUrl: 'templates/rxProgressbar.html',
+        scope: {
+            value: '=',
+            max: '=?'
+        },
+        link: function (scope) {
+            scope.max = scope.max || 100;
+
+            scope.$watch('value', function (newVal) {
+                scope.percent = rxProgressbarUtil.calculatePercent(newVal, scope.max);
+            });
+
+            scope.$watch('max', function (newMax) {
+                scope.percent = rxProgressbarUtil.calculatePercent(scope.value, newMax);
+            });
+        }
+    };
+}]);
+
 angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
@@ -5920,6 +5862,50 @@ angular.module('encore.ui.rxApp')
         }
     };
 });
+
+(function () {
+    angular
+        .module('encore.ui.utilities')
+        .filter('rxApply', rxApplyFilter)
+        .filter('Apply', ApplyFilter);
+
+    /**
+     * @ngdoc filter
+     * @name utilities.filter:rxApply
+     * @description
+     * Used to apply an instance of {@link utilities.service:SelectFilter SelectFilter} to an array.
+     *
+     * Merely calls the `applyTo()` method of a `SelectFilter` instance to an
+     * input array.
+     * <pre>
+     * <tr ng-repeat="item in list | Apply:filter">
+     * </pre>
+     *
+     * @param {Array} list The list to be filtered.
+     * @param {Object} filter An instance of SelectFilter
+     */
+    function rxApplyFilter () {
+        return function (list, filter) {
+            return filter.applyTo(list);
+        };
+    }//rxApplyFilter
+
+    /**
+     * @deprecated
+     * Use rxApply instead. This filter will be removed on the 4.0.0 release.
+     * @ngdoc filter
+     * @name utilities.filter:Apply
+     * @requires utilities.filter:rxApply
+     */
+    function ApplyFilter ($filter) {
+        console.warn(
+            'DEPRECATED: Apply - Please use rxApply. ' +
+            'Apply will be removed in EncoreUI 4.0.0'
+        );
+        return $filter('rxApply');
+    }
+    ApplyFilter.$inject = ["$filter"];//ApplyFilter
+})();
 
 angular.module('encore.ui.utilities')
 /**
@@ -8666,6 +8652,29 @@ angular.module('encore.ui.utilities')
 });
 
 angular.module('encore.ui.utilities')
+    .factory('rxProgressbarUtil', function () {
+        var svc = {};
+
+        svc.calculatePercent = function (val, max) {
+            max = angular.isDefined(max) ? max : 100;
+
+            // Lower Bound Check
+            val = (val < 0 ? 0 : val);
+            // Upper Bound Check
+            val = (val > max ? max : val);
+
+            // All 0
+            if (val === 0 && max === 0) {
+                return 100;
+            }
+
+            return +(100 * val / max).toFixed(0);
+        };//calculatePercent()
+
+        return svc;
+    });
+
+angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
  * @name utilities.service:rxPromiseNotifications
@@ -10536,7 +10545,7 @@ angular.module('encore.ui.elements')
 angular.module('encore.ui.elements')
 /**
  * @ngdoc directive
- * @name rxFloatingHeader.directive:rxFloatingHeader
+ * @name elements.directive:rxFloatingHeader
  * @restrict A
  * @description
  *
@@ -11693,7 +11702,7 @@ angular.module('encore.ui.elements')
 angular.module('encore.ui.elements')
 /**
  * @ngdoc directive
- * @name rxTags.directive:rxTags
+ * @name elements.directive:rxTags
  * @description
  *
  * Like native form components, this directive uses `ng-model` to store
@@ -11898,7 +11907,7 @@ angular.module('encore.ui.utilities')
 
 /**
  * @ngdoc overview
- * @name typeahead
+ * @name elements.directive:typeahead
  * @description
  * # typeahead Component
  *
@@ -12338,6 +12347,11 @@ angular.module("templates/rxNotification.html", []).run(["$templateCache", funct
 angular.module("templates/rxNotifications.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxNotifications.html",
     "<div class=\"rx-notifications\" ng-show=\"messages.length > 0\"><div ng-repeat=\"message in messages\" class=\"rx-notification animate-fade notification-{{message.type}}\" ng-class=\"{'notification-loading': message.loading}\" rx-spinner toggle=\"message.loading\" ng-init=\"loading = message.loading\"><span class=\"notification-text\" ng-bind-html=\"message.text\"></span> <button ng-click=\"dismiss(message)\" class=\"notification-dismiss btn-link\" ng-if=\"!message.loading\">&times; <span class=\"visually-hidden\">Dismiss Message</span></button></div></div>");
+}]);
+
+angular.module("templates/rxProgressbar.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/rxProgressbar.html",
+    "<div class=\"rxProgressbar\" ng-class=\"{'rxProgressbar--striped': percent < 100}\"><div class=\"rxProgressbar__value\" ng-style=\"{width: percent + '%'}\" ng-transclude></div></div>");
 }]);
 
 angular.module("templates/rxAccountSearch.html", []).run(["$templateCache", function($templateCache) {
