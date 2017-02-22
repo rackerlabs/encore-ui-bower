@@ -1,8 +1,8 @@
 {
   "name": "encore-ui",
-  "version": "2.3.6",
+  "version": "3.4.0-0",
   "main": [
-    "./encore-ui-tpls.js",
+    "./encore-ui.js",
     "./encore-ui.css"
   ],
   "dependencies": {
@@ -11,8 +11,9 @@
     "angular-sanitize": "~1.3.20",
     "angular-resource": "~1.3.20",
     "angular-route": "~1.3.20",
+    "angular-messages": "~1.3.20",
     "angular-bootstrap": "0.14.3",
-    "lodash": "~2.4.1",
+    "lodash": "4.x",
     "moment": "~2.9.0",
     "html2canvas": "~0.4.1",
     "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.4.0",
