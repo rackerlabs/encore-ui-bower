@@ -2,17 +2,17 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
  *
- * Version: 2.3.8 - 2017-03-16
+ * Version: 3.5.0-0 - 2017-03-16
  * License: Apache-2.0
  */
 angular.module('encore.ui', [
     'cfp.hotkeys',
     'ui.bootstrap',
     'encore.ui.tpls',
+    'ngMessages',
     'encore.ui.elements',
     'encore.ui.utilities',
     'encore.ui.rxApp',
-    'encore.ui.rxLogout',
     'encore.ui.rxOptionTable'
 ])
 angular.module('encore.ui.tpls', [
@@ -49,6 +49,7 @@ angular.module('encore.ui.tpls', [
     'templates/rxPage.html',
     'templates/rxPaginate.html',
     'templates/rxPermission.html',
+    'templates/rxProgressbar.html',
     'templates/rxSearchBox.html',
     'templates/rxSelectFilter.html',
     'templates/rxSelectOption.html',
@@ -58,7 +59,6 @@ angular.module('encore.ui.tpls', [
     'templates/rxTimePicker.html',
     'templates/rxToggleSwitch.html'
 ]);
-
 // Currently this is the prefix we will use for all encore applications loaded in an iframe
 var prefix = 'apps.';
 // Let's get the hostname only (no port information)
@@ -119,14 +119,7 @@ angular.module('ui.bootstrap.modal')
  * # Elements
  * Elements are visual directives.
  *
- * ## Directives
- * * {@link elements.directive:rxAccountInfo rxAccountInfo}
- * * {@link elements.directive:rxActionMenu rxActionMenu}
- * * {@link elements.directive:rxButton rxButton}
- * * {@link elements.directive:rxCheckbox rxCheckbox}
- * * {@link elements.directive:rxDatePicker rxDatePicker}
- * * {@link elements.directive:rxMetadata rxMetadata}
- * * {@link elements.directive:rxTimePicker rxTimePicker}
+ * See the list in the left-hand navigation.
  */
 angular.module('encore.ui.elements', [
     'encore.ui.utilities',
@@ -144,79 +137,15 @@ angular.module('encore.ui.elements', [
  * @name utilities
  * @description
  * # Utilities
- * Utilities are modules related to:
+ * Utilities are features that support functionality among Elements.
  *
- * * business logic
- *   * values, constants, controllers, services
- * * display logic & application flow control
- *   * convenience, "if"-like, and "switch"-like directives
- *   * filters
+ * Such features include, but are not limited to the following:
  *
- * ## Values & Constants
- * * {@link utilities.value:devicePaths devicePaths}
- * * {@link utilities.constant:feedbackApi feedbackApi}
- * * {@link utilities.value:feedbackTypes feedbackTypes}
- * * {@link utilities.object:rxStatusColumnIcons rxStatusColumnIcons}
+ * * **Business Logic** (values, constants, controllers, services)
+ * * **Display Logic** (filters)
+ * * **Application Flow Control** ("if"-like, "switch"-like, and non-visual directives)
  *
- * ## Controllers
- * * {@link utilities.controller:rxBulkSelectController rxBulkSelectController}
- * * {@link utilities.controller:rxFeedbackController rxFeedbackController}
- * * {@link utilities.controller:rxModalCtrl rxModalCtrl}
- *
- * ## Directives
- * * {@link utilities.directive:rxFavicon rxFavicon}
- *
- * ## Filters
- * * {@link utilities.filter:Page Page}
- * * {@link utilities.filter:Paginate Paginate}
- * * {@link utilities.filter:PaginatedItemsSummary PaginatedItemsSummary}
- * * {@link utilities.filter:rxAge rxAge}
- * * {@link utilities.filter:rxCapitalize rxCapitalize}
- * * {@link utilities.filter:rxDiskSize rxDiskSize}
- * * {@link utilities.filter:rxEnvironmentMatch rxEnvironmentMatch}
- * * {@link utilities.filter:rxEnvironmentUrl rxEnvironmentUrl}
- * * {@link utilities.filter:rxSortEmptyTop rxSortEmptyTop}
- * * {@link utilities.filter:rxUnsafeRemoveHTML rxUnsafeRemoveHTML}
- * * {@link utilities.filter:titleize titleize}
- * * {@link utilities.filter:xor xor}
- *
- * ## Services
- * * {@link utilities.service:Auth Auth}
- * * {@link utilities.service:encoreRoutes encoreRoutes}
- * * {@link utilities.service:Environment Environment}
- * * {@link utilities.service:ErrorFormatter ErrorFormatter}
- * * {@link utilities.service:hotkeys hotkeys}
- * * {@link utilities.service:Identity Identity}
- * * {@link utilities.service:NotifyProperties NotifyProperties}
- * * {@link utilities.service:PageTracking PageTracking}
- * * {@link utilities.service:Permission Permission}
- * * {@link utilities.service:routesCdnPath routesCdnPath}
- * * {@link utilities.service:rxAppRoutes rxAppRoutes}
- * * {@link utilities.service:rxAutoSave rxAutoSave}
- * * {@link utilities.service:rxBreadcrumbsSvc rxBreadcrumbsSvc}
- * * {@link utilities.service:rxBulkSelectUtils rxBulkSelectUtils}
- * * {@link utilities.service:rxDOMHelper rxDOMHelper}
- * * {@link utilities.service:rxFeedbackSvc rxFeedbackSvc}
- * * {@link utilities.service:rxFormUtils rxFormUtils}
- * * {@link utilities.service:rxLocalStorage rxLocalStorage}
- * * {@link utilities.service:rxModalFooterTemplates rxModalFooterTemplates}
- * * {@link utilities.service:rxNestedElement rxNestedElement}
- * * {@link utilities.service:rxNotify rxNotify}
- * * {@link utilities.service:rxPageTitle rxPageTitle}
- * * {@link utilities.service:rxPaginateUtils rxPaginateUtils}
- * * {@link utilities.service:rxPromiseNotifications rxPromiseNotifications}
- * * {@link utilities.service:rxScreenshotSvc rxScreenshotSvc}
- * * {@link utilities.service:rxSortUtil rxSortUtil}
- * * {@link utilities.service:rxStatusMappings rxStatusMappings}
- * * {@link utilities.service:rxStatusTags rxStatusTags}
- * * {@link utilities.service:rxVisibility rxVisibility}
- * * {@link utilities.service:rxVisibilityPathParams rxVisibilityPathParams}
- * * {@link utilities.service:Session Session}
- * * {@link utilities.service:Status Status}
- * * {@link utilities.service:StatusUtil StatusUtil}
- * * {@link utilities.service:TokenInterceptor TokenInterceptor}
- * * {@link utilities.service:UnauthorizedInterceptor UnauthorizedInterceptor}
- * * {@link utilities.service:urlUtils urlUtils}
+ * A full list of functionality can be found in the left-hand nav.
  */
 angular.module('encore.ui.utilities', [
     'ngResource',
@@ -226,6 +155,7 @@ angular.module('encore.ui.utilities', [
 
 angular.module('encore.ui.elements')
 /**
+ * @deprecated This directive will be removed in EncoreUI 4.0.0
  * @ngdoc directive
  * @name elements.directive:rxAccountInfo
  * @restrict E
@@ -254,13 +184,17 @@ angular.module('encore.ui.elements')
  * wherever you want it to be, and a new one that is intended to be placed underneath the breadcrumbs.
  * To use the new one, pass `account-info-banner="true"` to this directive
  *
- * @param {String} accountNumber - The account number to load and retrieve data for
- * @param {String=} teamId - Team ID, used for loading team badges
- * @param {String=} [notifyStack='page'] - Notifications stack to put errors on.
- * @param {String=} accountInfoBanner - Set to "true" to use the new under-the-breadcrumbs style
+ * @param {String} accountNumber The account number to load and retrieve data for
+ * @param {String=} teamId Team ID, used for loading team badges
+ * @param {String=} [notifyStack='page'] Notifications stack to put errors on.
+ * @param {String=} accountInfoBanner Set to "true" to use the new under-the-breadcrumbs style
  */
 .directive('rxAccountInfo', ["Teams", "SupportAccount", "Encore", "rxNotify", "encoreRoutes", "AccountStatusGroup", "$interpolate", function (Teams, SupportAccount, Encore, rxNotify, encoreRoutes,
     AccountStatusGroup, $interpolate) {
+    console.warn(
+        'DEPRECATED: rxAccountInfo will be removed in EncoreUI 4.0.0'
+    );
+
     return {
         templateUrl: function (elem, attr) {
             if (attr.accountInfoBanner === 'true') {
@@ -319,7 +253,7 @@ angular.module('encore.ui.elements')
                 // Only attempt if no teamId is passed to directive
                 if (_.isEmpty(scope.teamId)) {
                     var primaryTeam = _.find(account.teams, function (team) {
-                        return _.contains(team.flags, 'primary');
+                        return _.includes(team.flags, 'primary');
                     });
 
                     if (primaryTeam) {
@@ -361,7 +295,7 @@ angular.module('encore.ui.elements')
  * be disabled by passing an optional `global-dismiss="false"` attribute to the
  * directive.
  *
- * @param {Boolean=} [globalDismiss=true] - optional attribute to make menu dismissable by clicking anywhere on the page
+ * @param {Boolean=} [globalDismiss=true] Optional attribute to make menu dismissable by clicking anywhere on the page
  */
 .directive('rxActionMenu', ["$rootScope", "$document", function ($rootScope, $document) {
     return {
@@ -416,66 +350,31 @@ angular.module('encore.ui.elements')
 
 angular.module('encore.ui.utilities')
 /**
- * @ngdoc filter
- * @name utilities.filter:Apply
- * @description
- * Used to apply an instance of {@link utilities.service:SelectFilter SelectFilter} to an array.
+ * @deprecated
+ * Please use rxIdentity or rxSession instead.
+ * This item will be removed on the 4.0.0 release.
  *
- * Merely calls the `applyTo()` method of a `SelectFilter` instance to an
- * input array.
- * <pre>
- * <tr ng-repeat="item in list | Apply:filter">
- * </pre>
- *
- * @param {Array} list The list to be filtered.
- * @param {Object} filter An instance of SelectFilter
- *
- */
-.filter('Apply', function () {
-    return function (list, filter) {
-        return filter.applyTo(list);
-    };
-});
-
-angular.module('encore.ui.utilities')
-/**
  * @ngdoc service
  * @name utilities.service:Auth
- * @description
- * Service which provides an entire solution for authenticating, user session management
- * and permissions in the UI.  The Auth service is a wrapper for the Identity, Session and
- * Permission services.  These services were broken into smaller components to facilitate
- * customization and re-use.
- *
- * @requires utilities.service:Identity
- * @requires utilities.service:Session
- * @requires utilities.service:Permission
- *
- * @example
- * <pre>
- * Auth.loginWithJSON(json); // Returns a promise
- * Auth.login({username: '', password: '', successCallback, errorCallback}); // Returns a promise
- * Auth.getToken(); // Returns the stored token
- * Auth.storeToken(token); // Stores token
- * Auth.logout(); // Logs user off
- * Auth.isCurrent(); // Returns true/false if the token has expired.
- * Auth.isAuthenticated(); // Returns true/false if the user token is valid.
- * Auth.getRoles() // Returns an array of roles for a user
- * Auth.hasRole(role) // Returns true/false if user has specified role
- * </pre>
+ * @requires utilities.service:rxAuth
+ * @description Alias for {@link utilities.service:rxAuth rxAuth}
  */
-.factory('Auth', ["Identity", "Session", "Permission", function (Identity, Session, Permission) {
+.service('Auth', ["rxIdentity", "rxSession", function (rxIdentity, rxSession) {
+    console.warn (
+        'DEPRECATED: Auth - Please use rxIdentity or rxSession. ' +
+        'Auth will be removed in EncoreUI 4.0.0'
+    );
     var svc = {};
 
-    _.assign(svc, Identity);
-    _.assign(svc, Session);
-    _.assign(svc, Permission);
+    _.assign(svc, rxIdentity);
+    _.assign(svc, rxSession);
 
     return svc;
 }]);
 
 angular.module('encore.ui.elements')
 /**
+ * @deprecated This directive will be removed in EncoreUI 4.0.0
  * @ngdoc directive
  * @name elements.directive:rxBreadcrumbs
  * @restrict E
@@ -508,6 +407,10 @@ angular.module('encore.ui.elements')
  * </pre>
  */
 .directive('rxBreadcrumbs', function () {
+    console.warn(
+        'DEPRECATED: rxBreadcrumbs will be removed in EncoreUI 4.0.0'
+    );
+
     return {
         restrict: 'E',
         templateUrl: 'templates/rxBreadcrumbs.html',
@@ -541,15 +444,13 @@ angular.module('encore.ui.elements')
  * disables the button and replaces the `default-msg` with the `toggle-msg` as
  * the button's text.  There are no defaults for these messages, so they must
  * be defined if the toggle behavior is desired.  While the button is in the
- * toggled state, it is also disabled (no matter what the value of `disable` is).
+ * toggled state, it is also disabled (no matter what the value of `ng-disabled`
+ * may be).
  *
  * The button does not modify the variable passed to `toggle`; it should be
  * modified in the handler provided to `ng-click`.  Usually, the handler will
  * set the variable to `true` immediately, and then to `false` once the the
  * process (e.g. an API call) is complete.
- *
- * To disable the button, use the `disable` attribute instead of the normal
- * `ng-disabled` - the behavior is the same.
  *
  * ## Styling
  *
@@ -560,7 +461,8 @@ angular.module('encore.ui.elements')
  * @param {String} loadingMsg Text to be displayed when an operation is in progress.
  * @param {String} defaultMsg Text to be displayed by default when no operation is in progress.
  * @param {Boolean=} [toggle=false] When true, the button will display the loading text.
- * @param {Boolean=} [ngDisabled=false] When true, the button will be disabled.
+ * @param {Expression=} [ngDisabled=false] If the expression is truthy, then the
+ * `disabled` attribute will be set on the button
  * @param {String=} [classes=""] The class names to be applied to the button.
  *
  */
@@ -571,18 +473,9 @@ angular.module('encore.ui.elements')
         scope: {
             toggleMsg: '@',
             defaultMsg: '@',
-            toggle: '=',
-            disable: '=?', // **DEPRECATED** - Remove in 3.0.0
-            ngDisabled: '=?',
+            toggle: '=?',
+            isDisabled: '=?ngDisabled',
             classes: '@?'
-        },
-        link: function (scope) {
-            // Support [ng-disabled] OR [disabled] (for backward compatibility)
-            scope.$watch(function () {
-                return (scope.disable || scope.ngDisabled);
-            }, function (newVal) {
-                scope.isDisabled = newVal;
-            });
         }
     };
 });
@@ -590,7 +483,7 @@ angular.module('encore.ui.elements')
 angular.module('encore.ui.elements')
 /**
  * @ngdoc directive
- * @name rxCollapse.directive:rxCollapse
+ * @name elements.directive:rxCollapse
  * @restrict E
  * @scope
  * @description
@@ -722,30 +615,7 @@ angular.module('encore.ui.elements')
 
 angular.module('encore.ui.utilities')
 /**
- * @ngdoc parameters
- * @name utilities.value:devicePaths
- * @description
- * Provides configuration for device paths.
- *
- */
-.value('devicePaths', [
-    { value: '/dev/xvdb', label: '/dev/xvdb' },
-    { value: '/dev/xvdd', label: '/dev/xvdd' },
-    { value: '/dev/xvde', label: '/dev/xvde' },
-    { value: '/dev/xvdf', label: '/dev/xvdf' },
-    { value: '/dev/xvdg', label: '/dev/xvdg' },
-    { value: '/dev/xvdh', label: '/dev/xvdh' },
-    { value: '/dev/xvdj', label: '/dev/xvdj' },
-    { value: '/dev/xvdk', label: '/dev/xvdk' },
-    { value: '/dev/xvdl', label: '/dev/xvdl' },
-    { value: '/dev/xvdm', label: '/dev/xvdm' },
-    { value: '/dev/xvdn', label: '/dev/xvdn' },
-    { value: '/dev/xvdo', label: '/dev/xvdo' },
-    { value: '/dev/xvdp', label: '/dev/xvdp' }
-]);
-
-angular.module('encore.ui.utilities')
-/**
+ * @deprecated This item will be removed in EncoreUI 4.0.0
  * @ngdoc service
  * @name utilities.service:encoreRoutes
  * @description
@@ -754,9 +624,12 @@ angular.module('encore.ui.utilities')
  *
  * @return {Object} Instance of rxAppRoutes with `fetchRoutes` method added
  */
-.factory('encoreRoutes', ["rxAppRoutes", "routesCdnPath", "rxNotify", "$q", "$http", "rxVisibilityPathParams", "rxVisibility", "Environment", "rxLocalStorage", function (rxAppRoutes, routesCdnPath, rxNotify, $q, $http,
-                                   rxVisibilityPathParams, rxVisibility, Environment,
+.factory('encoreRoutes', ["rxAppRoutes", "routesCdnPath", "rxNotify", "$q", "$http", "rxVisibilityPathParams", "rxVisibility", "rxEnvironment", "rxLocalStorage", function (rxAppRoutes, routesCdnPath, rxNotify, $q, $http,
+                                   rxVisibilityPathParams, rxVisibility, rxEnvironment,
                                    rxLocalStorage) {
+    console.warn(
+        'DEPRECATED: encoreRoutes will be removed in EncoreUI 4.0.0'
+    );
 
     // We use rxVisibility in the nav menu at routesCdnPath, so ensure it's ready
     // before loading from the CDN
@@ -778,12 +651,12 @@ angular.module('encore.ui.utilities')
 
     var url, suffix;
     switch (true) {
-        case Environment.isUnifiedProd(): {
+        case rxEnvironment.isUnifiedProd(): {
             url = routesCdnPath.production;
             suffix = 'prod';
             break;
         }
-        case Environment.isPreProd(): {
+        case rxEnvironment.isPreProd(): {
             url = routesCdnPath.preprod;
             suffix = 'preprod';
             break;
@@ -822,344 +695,6 @@ angular.module('encore.ui.utilities')
 
     return encoreRoutes;
 }]);
-
-angular.module('encore.ui.utilities')
-/**
- * @ngdoc service
- * @name utilities.service:Environment
- * @description
- *
- * Allows defining environments and retrieving the current environment based on location
- *
- * ## Adding New Environments ##
- *
- * If necessary, you can add additional environments with `Environment.add()`.
- * This takes an object with three properties, `name`, `pattern` and `url`, where
- *
- * * name: The "friendly" name of your environment, like "local", "preprod", etc.
- * * pattern: A string or RegEx that the current path is matched against
- * * url: The URL pattern used to build URLs when using rxEnvironmentUrl
- *
- * As an example, if we didn't already have a `'preprod'` environment, we could
- * add it as follows:
- *
- * <pre>
- * Environment.add({
- *     // Matches only https://preprod.encore.rackspace.com
- *     name: 'preprod',
- *     pattern: /\/\/preprod.encore.rackspace.com/,
- *     url: '{{path}}'
- * });
- * </pre>
- *
- * For this demo application, we add a "Github Pages" environment, like this:
- *
- * <pre>
- * Environment.add({
- *     name: 'ghPages',
- *     pattern: '//rackerlabs.github.io',
- *     url: baseGithubUrl + '{{path}}'
- * });
- * </pre>
- *
- * Component built to detect and provide the current environment (e.g. dev, staging, prod)
- *
- * ## Current Environments ##
- *
- * This service defines the following Encore specific environments:
- *
- * * **local** - http://localhost:port and http://server:port
- * * **preprod** - http://preprod.encore.rackspace.com
- * * **unified-preprod** - https://*.encore.rackspace.com
- * * **unified** - All environments including https://encore.rackspace.com
- * * **unified-prod** - Only https://encore.rackspace.com
- *
- * Please note that we've made an assumption that staging/preprod/prod environments
- * will all end with `encore.rackspace.com`. Try to avoid using
- * `staging.encore.myNewProduct.rackspace.com` for new products, and instead set
- * up your system as `encore.rackspace.com/myNewProduct`.
- *
- * ## Checking Current Environment ##
- *
- * The `Environment` service contains methods for checking if we are currently in
- * one of the five listed environments, namely:
- *
- * * `Environment.isLocal()`
- * * `Environment.isPreProd()`
- * * `Environment.isUnifiedPreProd()`
- * * `Environment.isUnified()`
- * * `Environment.isUnifiedProd()`
- *
- * The normal procedure is to assume that your code is running in local or staging,
- * and take special actions if `Environment.isPreProd()` or
- * `Environment.isUnifiedProd()` are `true`.
- *
- * ## Overlapping Environments ##
- *
- * Keep in mind that the environments we define are not mutually exclusive. For
- * instance, if we're at `http://preprod.encore.rackspace.com`, then we are in
- * the `preprod` environment, the `unified-preprod` environment, and `unified-prod`.
- *
- * When you want to check if you're in one of the custom environments, you can
- * use `envCheck()`, i.e.: `Environment.envCheck('ghPages')`
- *
- * ## A Warning About rxEnvironmentUrl ##
- * `rxEnvironmentUrl` can be used for building full URLs, based on the current
- * environment. For now, you should consider it as deprecated. It has problems
- * with overlapping environments, and could potentially generate the wrong URL.
- *
- * ## A Warning About `Environment.get().name` ##
- * You might find older Encore code that uses `Environment.get().name` to get
- * the name of the current environment. This pattern should be avoided,
- * specifically because of the overlapping environment issue discussed above.
- * If you call `Environment.get().name`, it will just return the first matching
- * environment in the list of environments, even if we're overlapping and have
- * multiple environments. Instead, check explicitly with
- * `Environment.isLocal()`, `Environment.isPreProd()`, etc., or
- * use `Environment.envCheck('local')`
- *
- * @example
- * <pre>
- * Environment.get() // return environment object that matches current location
- * </pre>
- *
- */
-.service('Environment', ["$location", "$rootScope", "$log", function ($location, $rootScope, $log) {
-    /*
-     * This array defines different environments to check against.
-     * It is prefilled with 'Encore' based environments
-     * It can be overwritten if necessary via the returned 'environments' property
-     *
-     * @property {string} name The 'friendly' name of the environment
-     * @property {string|RegEx} pattern The pattern to match the current path against
-     * @property {string} url The url pattern used to build out urls for that environment.
-     *                        See 'buildUrl' for more details
-     */
-    var environments = [{
-        // Regexr: http://www.regexr.com/3de5m
-        // http://localhost:3000/
-        // http://localhost:9000/
-        // http://localhost/
-        // http://server/
-        // http://encore.dev/
-        // http://apps.server/
-        name: 'local',
-        pattern: /\/\/(?:\w+\.)?(localhost|server|(.*)\.dev)(:\d{1,4})?/,
-        url: '//' + $location.host() + ($location.port() !== 80 ? ':' + $location.port() : '') + '/{{path}}'
-    }, {
-        // Matches only preprod and it's subdomains
-        // Regexr: http://www.regexr.com/3eani
-        // https://preprod.encore.rackspace.com
-        // https://apps.preprod.encore.rackspace.com
-        // https://cloud.preprod.encore.rackspace.com
-        name: 'preprod',
-        pattern: /\/\/(?:\w+\.)?preprod.encore.rackspace.com/,
-        url: '{{path}}'
-    }, {
-        // This is anything with a host preceeding encore.rackspace.com
-        // Regexr: http://www.regexr.com/3eanl
-        // https://staging.encore.rackspace.com/
-        // https://preprod.encore.rackspace.com/
-        // https://apps.encore.rackspace.com
-        // https://apps.staging.encore.rackspace.com
-        // https://cloud.staging.encore.rackspace.com
-        // https://apps.preprod.encore.rackspace.com/
-        // https://cloud.preprod.encore.rackspace.com/
-        name: 'unified-preprod',
-        pattern: /\/\/(?:\w+\.)?(\w+\.)encore.rackspace.com/,
-        url: '{{path}}'
-    }, {
-        // This is *all* environments
-        // Regexr: http://www.regexr.com/3de5v
-        // https://encore.rackspace.com/
-        // https://staging.encore.rackspace.com/
-        // https://preprod.encore.rackspace.com/
-        // https://apps.encore.rackspace.com
-        // https://apps.staging.encore.rackspace.com
-        name: 'unified',
-        pattern: 'encore.rackspace.com',
-        url: '{{path}}'
-    }, {
-        // This is only production only
-        // Regexr: http://www.regexr.com/3eal4
-        // https://encore.rackspace.com/
-        // https://apps.encore.rackspace.com
-        // https://origin.encore.rackspace.com
-        name: 'unified-prod',
-        pattern: /\/\/(?:apps\.|origin\.)?encore.rackspace.com/,
-        url: '{{path}}'
-    }];
-
-    /*
-     * Checks if an environment has valid properties
-     * @private
-     * @param {object} environment The environment object to check
-     * @returns {boolean} true if valid, false otherwise
-     */
-    var isValidEnvironment = function (environment) {
-        return _.isString(environment.name) &&
-            (_.isString(environment.pattern) || _.isRegExp(environment.pattern)) &&
-            _.isString(environment.url);
-    };
-
-    var environmentPatternMatch = function (href, pattern) {
-        if (_.isRegExp(pattern)) {
-            return pattern.test(href);
-        }
-
-        return _.contains(href, pattern);
-    };
-
-    /*
-     * Retrieves current environment
-     * @public
-     * @param {string} [href] The path to check the environment on. Defaults to $location.absUrl()
-     * @returns {Object} The current environment (if found), else 'localhost' environment.
-     */
-    this.get = function (href) {
-        // default to current location if href not provided
-        href = href || $location.absUrl();
-
-        var currentEnvironment = _.find(environments, function (environment) {
-            return environmentPatternMatch(href, environment.pattern);
-        });
-
-        if (_.isUndefined(currentEnvironment)) {
-            $log.warn('No environments match URL: ' + $location.absUrl());
-            // set to default/first environment to avoid errors
-            currentEnvironment = environments[0];
-        }
-
-        return currentEnvironment;
-    };
-
-    /*
-     * Adds an environment to the front of the stack, ensuring it will be matched first
-     * @public
-     * @param {object} environment The environment to add. See 'environments' array for required properties
-     */
-    this.add = function (environment) {
-        // do some sanity checks here
-        if (isValidEnvironment(environment)) {
-            // add environment, over riding all others created previously
-            environments.unshift(environment);
-        } else {
-            $log.error('Unable to add Environment: defined incorrectly');
-        }
-    };
-
-    /*
-     * Replaces current environments array with new one
-     * @public
-     * @param {array} newEnvironments New environments to use
-     */
-    this.setAll = function (newEnvironments) {
-        // validate that all new environments are valid
-        if (newEnvironments.length > 0 && _.every(environments, isValidEnvironment)) {
-            // overwrite old environments with new
-            environments = newEnvironments;
-        }
-    };
-
-    /*
-     * Given an environment name, check if any of our registered environments
-     * match it
-     * @public
-     * @param {string} [name] Environment name to check
-     * @param {string} [href] Optional href to check against. Defaults to $location.absUrl()
-     */
-    this.envCheck = function (name, href) {
-        href = href || $location.absUrl();
-        var matchingEnvironments = _.filter(environments, function (environment) {
-            return environmentPatternMatch(href, environment.pattern);
-        });
-        return _.contains(_.pluck(matchingEnvironments, 'name'), name);
-    };
-
-    var makeEnvCheck = function (name) {
-        return function (href) { return this.envCheck(name, href); };
-    };
-
-    /* Whether or not we're in the `preprod` environment
-     * @public
-     */
-    this.isPreProd = makeEnvCheck('preprod');
-
-    /* Whether or not we're in `local` environment
-     * @public
-     */
-    this.isLocal = makeEnvCheck('local');
-
-    /* Whether or not we're in the `unified-preprod` environment
-     * @public
-     */
-    this.isUnifiedPreProd = makeEnvCheck('unified-preprod');
-
-    /* Whether or not we're in the `unified` environment
-     * @public
-     */
-    this.isUnified = makeEnvCheck('unified');
-
-    /* Whether or not we're in the `unified-prod` environment
-     * @public
-     */
-    this.isUnifiedProd = makeEnvCheck('unified-prod');
-}]);
-
-angular.module('encore.ui.utilities')
-/**
- * @ngdoc service
- * @name utilities.service:ErrorFormatter
- * @description
- * Provides a helper method to parse error objects for `message` and format them
- * as necessary for `Status.setError()`.  See {@link utilities.service:Status Status} Service
- * for more information.
- *
- * # Error Messages Using ErrorFormatter
- *
- * `ErrorFormmatter` provides a specialized template `error` string
- * with an `object:{}` as the second parameter containing the replacements for
- * the template in the error string.  If in a proper format, the object can be
- * automatically parsed using an `ErrorFormatter` and displayed to the user.
- *
- * For example:
- *
- * <pre>
- * Status.setError(
- *     'Failed loading browsing history: ${message}',
- *     {
- *         message: 'User has previously cleared their history!'
- *     }
- * );
- * </pre>
- *
- * Please note that the replacement variable `${message}` in the error string
- * maps one-to-one to the keys provided in the the error object.
- *  - One can specify any number of template variables to replace.
- *  - Not providing a balanced list of variables and their replacements will result in a:
- *
- * <pre>
- * ReferenceError: <replacement> is not defined
- * </pre>
- */
-.factory('ErrorFormatter', function () {
-    /*
-     * formatString is a string with ${message} in it somewhere, where ${message}
-     * will come from the `error` object. The `error` object either needs to have
-     * a `message` property, or a `statusText` property.
-     */
-    var buildErrorMsg = function (formatString, error) {
-        error = error || {};
-        if (!_.has(error, 'message')) {
-            error.message = _.has(error, 'statusText') ? error.statusText : 'Unknown error';
-        }
-        return _.template(formatString, error);
-    };
-
-    return {
-        buildErrorMsg: buildErrorMsg
-    };
-});
 
 angular.module('encore.ui.elements')
 /**
@@ -1305,7 +840,7 @@ angular.module('encore.ui.elements')
  * @param {String} description User-submitted feedback
  *
  */
-.directive('rxFeedback', ["feedbackTypes", "$location", "rxFeedbackSvc", "rxScreenshotSvc", "rxNotify", "Session", function (feedbackTypes, $location, rxFeedbackSvc, rxScreenshotSvc, rxNotify, Session) {
+.directive('rxFeedback', ["rxFeedbackTypes", "$location", "rxFeedbackSvc", "rxScreenshotSvc", "rxNotify", "rxSession", function (rxFeedbackTypes, $location, rxFeedbackSvc, rxScreenshotSvc, rxNotify, rxSession) {
     return {
         restrict: 'E',
         templateUrl: 'templates/rxFeedback.html',
@@ -1313,7 +848,7 @@ angular.module('encore.ui.elements')
             sendFeedback: '=?onSubmit'
         },
         link: function (scope) {
-            scope.feedbackTypes = feedbackTypes;
+            scope.feedbackTypes = rxFeedbackTypes;
 
             scope.setCurrentUrl = function (modalScope) {
                 modalScope.currentUrl = $location.url();
@@ -1354,7 +889,7 @@ angular.module('encore.ui.elements')
 
             if (!_.isFunction(scope.sendFeedback)) {
                 scope.sendFeedback = function (feedback) {
-                    feedback.sso = Session.getUserId();
+                    feedback.sso = rxSession.getUserId();
 
                     var root = document.querySelector('.rx-app');
 
@@ -1371,46 +906,6 @@ angular.module('encore.ui.elements')
         }
     };
 }]);
-
-angular.module('encore.ui.utilities')
-/**
- * @ngdoc parameters
- * @name utilities.constant:feedbackApi
- * @description
- * Provides the feedback URL.
- */
-.constant('feedbackApi', '/api/encore/feedback');
-
-angular.module('encore.ui.utilities')
-/**
- * @ngdoc parameters
- * @name utilities.value:feedbackTypes
- * @description
- * Provides default feedback types with placeholder text.
- */
-.value('feedbackTypes', [
-    {
-        label: 'Software Bug',
-        prompt: 'Bug Description',
-        placeholder: 'Please be as descriptive as possible so we can track it down for you.'
-    },
-    {
-        label: 'Incorrect Data',
-        prompt: 'Problem Description',
-        placeholder: 'Please be as descriptive as possible so we can figure it out for you.'
-    },
-    {
-        label: 'Feature Request',
-        prompt: 'Feature Description',
-        placeholder: 'Please be as descriptive as possible so we can make your feature awesome.'
-    },
-    {
-        label: 'Kudos',
-        prompt: 'What made you happy?',
-        placeholder: 'We love to hear that you\'re enjoying Encore! Tell us what you like, and what we can do ' +
-            'to make it even better'
-    }
-]);
 
 angular.module('encore.ui.elements')
 /**
@@ -1738,8 +1233,8 @@ angular.module('encore.ui.elements')
         }
 
         // until first item of array is Sunday, prepend earlier days to array
-        while (_.first(days).day() > 0) {
-            prependDay = _.first(days).clone();
+        while (_.head(days).day() > 0) {
+            prependDay = _.head(days).clone();
             days.unshift(prependDay.subtract(1, 'day'));
         }
 
@@ -1895,7 +1390,7 @@ angular.module('encore.ui.elements')
 
             ngModelCtrl.$formatters.push(function (modelVal) {
                 var parsed = moment(modelVal, isoFormat);
-                
+
                 if (!ngModelCtrl.$isEmpty(modelVal)) {
                     ngModelCtrl.$setValidity('date', parsed.isValid());
                 }
@@ -2075,7 +1570,7 @@ angular.module('encore.ui.elements')
  * ...
  * </pre>
  *
- * @param {Boolean=} [ng-required=false]
+ * @param {Boolean=} [ngRequired=false]
  * Is this field required? This will add/remove the required symbol to the left of the name.
  */
 .directive('rxFieldName', ["rxNestedElement", function (rxNestedElement) {
@@ -2475,7 +1970,7 @@ angular.module('encore.ui.elements')
                 if (option === 'all') {
                     return this.options.length === $scope.selected.length;
                 } else {
-                    return _.contains($scope.selected, option);
+                    return _.includes($scope.selected, option);
                 }
             };
 
@@ -2510,7 +2005,7 @@ angular.module('encore.ui.elements')
                         } else if (scope.selected.length === 1) {
                             return getLabel(scope.selected[0]) || scope.selected[0];
                         } else if (scope.selected.length === selectCtrl.options.length - 1) {
-                            var option = _.first(_.difference(selectCtrl.options, scope.selected));
+                            var option = _.head(_.difference(selectCtrl.options, scope.selected));
                             return 'All except ' + getLabel(option) || scope.selected[0];
                         } else if (scope.selected.length === selectCtrl.options.length) {
                             return 'All Selected';
@@ -2967,7 +2462,7 @@ angular.module('encore.ui.elements')
  * @restrict E
  * @scope
  * @requires utilities.service:rxTimePickerUtil
- * @requires utilities.constant:UtcOffsets
+ * @requires utilities.constant:rxUtcOffsets
  * @requires elements.directive:rxButton
  * @description Time Picker
  *
@@ -2988,7 +2483,7 @@ angular.module('encore.ui.elements')
  * @return {String} **IMPORTANT** returns an ISO 8601 standard time string in the
  * format of `HH:mmZ`.
  */
-.directive('rxTimePicker', ["rxTimePickerUtil", "UtcOffsets", "$document", function (rxTimePickerUtil, UtcOffsets, $document) {
+.directive('rxTimePicker', ["rxTimePickerUtil", "rxUtcOffsets", "$document", function (rxTimePickerUtil, rxUtcOffsets, $document) {
     return {
         restrict: 'E',
         require: 'ngModel',
@@ -3000,7 +2495,7 @@ angular.module('encore.ui.elements')
         link: function (scope, element, attrs, ngModelCtrl) {
             var pickerUtil = rxTimePickerUtil;
 
-            scope.availableUtcOffsets = UtcOffsets;
+            scope.availableUtcOffsets = rxUtcOffsets;
 
             scope.isPickerVisible = false;
 
@@ -3131,13 +2626,14 @@ angular.module('encore.ui.elements')
  * time the switch is toggled (after the model property is written on the
  * scope).  It takes one argument, `value`, which is the new value of the model.
  * This can be used instead of a `$scope.$watch` on the `ng-model` property.
- * As shown in the [demo](../#/elements/Forms), the `disabled`
+ * As shown in the [demo](../#/elements/Forms), the `ng-disabled`
  * attribute can be used to prevent further toggles if the `post-hook` performs
  * an asynchronous operation.
  *
  * @param {String} ng-model The scope property to bind to
  * @param {Function} postHook A function to run when the switch is toggled
- * @param {Boolean=} ng-disabled Indicates if the input is disabled
+ * @param {Expression=} [ngDisabled=false] If the expression is truthy, then the
+ * `disabled` attribute will be set on the toggle switch.
  * @param {Expression=} [trueValue=true] The value of the scope property when the switch is on
  * @param {Expression=} [falseValue=false] The value of the scope property when the switch is off
  *
@@ -3153,8 +2649,7 @@ angular.module('encore.ui.elements')
         require: 'ngModel',
         scope: {
             model: '=ngModel',
-            disabled: '=?', // **DEPRECATED** - remove in 3.0.0
-            ngDisabled: '=?',
+            isDisabled: '=?ngDisabled',
             postHook: '&',
             trueValue: '@',
             falseValue: '@'
@@ -3178,13 +2673,6 @@ angular.module('encore.ui.elements')
             ngModelCtrl.$render = function () {
                 scope.state = ngModelCtrl.$viewValue ? 'ON' : 'OFF';
             };
-
-            scope.$watch(function () {
-                return (scope.disabled || scope.ngDisabled);
-            }, function (newVal) {
-                // will be true, false, or undefined
-                scope.isDisabled = newVal;
-            });
 
             scope.update = function () {
                 if (scope.isDisabled) {
@@ -3249,41 +2737,18 @@ angular.module('encore.ui.elements')
 
 angular.module('encore.ui.utilities')
 /**
-* @ngdoc service
-* @name utilities.service:Identity
-* @description
-* This is a component designed to aid interaction with Rackspace's Identity API.
-*
-* @requires $resource
-*
-* @example
-* <pre>
-* Identity.loginWithJSON(json); //Returns a promise
-* Identity.login({username: '', password: '', successCallback, errorCallback}); // returns a promise
-* </pre>
-*/
-.factory('Identity', ["$resource", function ($resource) {
-    var authSvc = $resource('/api/identity/:action',
-        {},
-        {
-            loginWithJSON: { method: 'POST', isArray: false, params: { action: 'tokens' }},
-            validate: { method: 'GET', url: '/api/identity/login/session/:id', isArray: false }
-        });
-
-    authSvc.login = function (credentials, success, error) {
-        var body = {
-            auth: {
-                passwordCredentials: {
-                    username: credentials.username,
-                    password: credentials.password
-                }
-            }
-        };
-
-        return authSvc.loginWithJSON(body, success, error);
-    };
-
-    return authSvc;
+ * @deprecated
+ * Please use rxIdentity instead. This item will be removed on the 4.0.0 release.
+ * @ngdoc service
+ * @name utilities.service:Identity
+ * @requires utilities.service:rxIdentity
+ */
+.factory('Identity', ["rxIdentity", function (rxIdentity) {
+    console.warn (
+        'DEPRECATED: Identity - Please use rxIdentity. ' +
+        'Identity will be removed in EncoreUI 4.0.0'
+    );
+    return rxIdentity;
 }]);
 
 angular.module('encore.ui.elements')
@@ -3295,7 +2760,7 @@ angular.module('encore.ui.elements')
  * @description
  * This renders a generic, pre-styled, info panel, with an optional title.
  *
- * @param {String} title - Text to be displayed in the title area of the info panel
+ * @param {String} title Text to be displayed in the title area of the info panel
  * @example
  * <pre>
  *  <rx-info-panel panel-title="My title!">
@@ -3501,8 +2966,8 @@ angular.module('encore.ui.elements')
  * @param {*=} disable-esc
  * If the `disable-esc` attribute is present, then "Press Esc to close" will be
  * disabled for the modal. This attribute takes no values.
- * @param {Boolean=} [ngDisabled=false]
- * If the expression evaluates to true, then the link for opening the modal will
+ * @param {Expression=} [ngDisabled=false]
+ * If the expression evaluates truthy, then the link for opening the modal will
  * be disabled.
  *
  * @example
@@ -3537,19 +3002,11 @@ angular.module('encore.ui.elements')
         restrict: 'E',
         scope: true,
         link: function (scope, element, attrs) {
-            scope.isDisabled = false;
-
             // add any class passed in to scope
             scope.classes = attrs.classes;
 
-            attrs.$observe('disabled', function (newValue) {
-                if (typeof newValue === 'boolean') {
-                    scope.isDisabled = newValue;
-                } else {
-                    // TODO: remove in 3.0.0
-                    // DEPRECATED: override [disabled] behavior
-                    scope.isDisabled = scope.$eval(newValue);
-                }
+            attrs.$observe('ngDisabled', function (newValue) {
+                scope.isDisabled = scope.$eval(newValue);
             });
 
             var focusLink = function () {
@@ -3841,9 +3298,9 @@ angular.module('encore.ui.elements')
         replace: true,
         templateUrl: 'templates/rxNotifications.html',
         controller: ["$scope", function ($scope) {
-            /*
+            /**
              * Calls rxNotify service to remove a message from a stack
-             * @param {object} message The message object to remove.
+             * @param {Object} message The message object to remove.
              */
             $scope.dismiss = function (message) {
                 rxNotify.dismiss(message);
@@ -3866,445 +3323,15 @@ angular.module('encore.ui.elements')
 
 angular.module('encore.ui.utilities')
 /**
- * @ngdoc service
- * @name utilities.service:NotifyProperties
- * @description
- *
- * This factory provides functionality for abstracting "properties", and allowing
- * other directives/controllers/etc. to register for notifications when the properties
- * change. It would normally be used for a parent directive's controller, and child element
- * directives that "require" that controller.
- *
- * For example, say you have a value you want to track, which we'll call `numSelected`.
- * This will be a plain integer value that you have complete control over. What you want
- * is for other directives/controllers/etc to be able to register for notifications whenever
- * `numSelected` changes.
- *
- * The `registrationFn` method here sets all of this up. In your directive/controller where
- * you want your property to live, do something like:
- *
- * @example
- * <pre>
- * stats = { _numSelected: 0 };
- * scope.registerForNumSelected = NotifyProperties.registrationFn(stats, 'numSelected', '_numSelected');
- * </pre>
- *
- * This is saying "We have a property `_numSelected` in `stats`, and we want it exposed as `numSelected`
- * in `stats`. Whenever `stats.numSelected` is modified, other directives/controllers should be notified."
- *
- * In this example, a user registers for notifications by calling:
- * <pre>
- * registerForNumSelected(notificationFunction);
- * </pre>
- * Then, whenever `numSelected` changes, it will call:
- * <pre>
- * notificationFunction(newValue, oldValue);
- * </pre>
- *
- * This means that if you set:
- * <pre>
- * stats.numSelected = 20;
- * </pre>
- * Everyone that registered for notifications will get their notification function called.
- */
-.factory('NotifyProperties', ["$timeout", function ($timeout) {
-    var NotifyProperties = {};
-
-    NotifyProperties.registrationFn = function (dst, name, sourceName) {
-        var listeners = [];
-        var notify = function (newVal, oldVal) {
-            _.each(listeners, function (fn) {
-                $timeout(function () { fn(newVal, oldVal); });
-                fn(newVal, oldVal);
-            });
-        };
-
-        Object.defineProperty(dst, name, {
-            get: function () { return dst[sourceName]; },
-            set: function (newVal) {
-                var oldVal = dst[sourceName];
-                dst[sourceName] = newVal;
-                notify(newVal, oldVal);
-            },
-        });
-        return function register (fn) {
-            listeners.push(fn);
-        };
-
-    };
-
-    return NotifyProperties;
-}]);
-
-angular.module('encore.ui.utilities')
-/**
- * @ngdoc filter
- * @name utilities.filter:Page
- * @description
- * This is the pagination filter that is used to limit the number of pages
- * shown.
- *
- * @param {Object} pager The instance of the PageTracking service. If not
- * specified, a new one will be created.
- *
- * @returns {Array} The list of page numbers that will be displayed.
- */
-.filter('Page', ["PageTracking", function (PageTracking) {
-    return function (pager) {
-        if (!pager) {
-            pager = PageTracking.createInstance();
-        }
-
-        var displayPages = [],
-            // the next four variables determine the number of pages to show ahead of and behind the current page
-            pagesToShow = pager.pagesToShow || 5,
-            pageDelta = (pagesToShow - 1) / 2,
-            pagesAhead = Math.ceil(pageDelta),
-            pagesBehind = Math.floor(pageDelta);
-
-        if (pager && pager.length !== 0) {
-                // determine starting page based on (current page - (1/2 of pagesToShow))
-            var pageStart = Math.max(Math.min(pager.pageNumber - pagesBehind, pager.totalPages - pagesToShow), 0),
-
-                // determine ending page based on (current page + (1/2 of pagesToShow))
-                pageEnd = Math.min(Math.max(pager.pageNumber + pagesAhead, pagesToShow - 1), pager.totalPages - 1);
-
-            for (pageStart; pageStart <= pageEnd; pageStart++) {
-                // create array of page indexes
-                displayPages.push(pageStart);
-            }
-        }
-
-        return displayPages;
-    };
-}]);
-
-angular.module('encore.ui.utilities')
-/**
- * @ngdoc service
- * @name utilities.service:PageTracking
- * @description
- * This is the data service that can be used in conjunction with the pagination
- * objects to store/control page display of data tables and other items.
- * This is intended to be used with {@link elements.directive:rxPaginate}
- * @namespace PageTracking
- *
- * @example
- * <pre>
- * $scope.pager = PageTracking.createInstance({showAll: true, itemsPerPage: 15});
- * </pre>
- * <pre>
- * <rx-paginate page-tracking="pager"></rx-paginate>
- * </pre>
- */
-.factory('PageTracking', ["$q", "rxLocalStorage", "rxPaginateUtils", function ($q, rxLocalStorage, rxPaginateUtils) {
-    var PageTracking = {
-        /**
-         * @ngdoc method
-         * @name utilities.service:PageTracking#createInstance
-         * @methodOf utilities.service:PageTracking
-         * @param {Object} options Configuration options for the pager
-         * @param {Number=} [options.itemsPerPage=200]
-         * The default number of items to display per page. If you choose a
-         * value that is not in the default set to itemsPerPage options
-         * (50, 200, 350, 500), then that value will be inserted into that
-         * list in the appropriate place
-         * @param {Number[]=} [options.itemSizeList=(50, 200, 350, 500)]
-         * The "items per page" options to give to the user. As these same
-         * values are used all throughout Encore, you probably should not alter
-         * them for your table.
-         * @param {Boolean=} [options.persistItemsPerPage=true]
-         * Whether or not a change to this pager's itemsPerPage should be
-         * persisted globally to all other pagers
-         * @param {Number=} [options.pagesToShow=5]
-         * This is the number of page numbers to show in the pagination controls
-         * @param {Boolean=} [options.showAll=false]
-         * This is used to determine whether or not to use the pagination. If
-         * `true`, then all items will be displayed, i.e. pagination will not
-         * be used
-         *
-         * @description This is used to generate the instance of the
-         * PageTracking object. It takes an optional `options` object,
-         * allowing you to customize the default pager behaviour.
-         *
-         * @return {Object} A new pager instance to be passed to the
-         * `page-tracking` attribute of `<rx-paginate>`
-         * (see {@link rxPaginate.directive:rxPaginate})
-         */
-        createInstance: function (options) {
-            options = options ? options : {};
-            var tracking = new PageTrackingObject(options);
-            return tracking.pager;
-        },
-
-        /*
-        * @method userSelectedItemsPerPage This method sets a new global itemsPerPage value
-        */
-        userSelectedItemsPerPage: function (itemsPerPage) {
-            rxLocalStorage.setItem('rxItemsPerPage', itemsPerPage);
-        }
-    };
-
-    function PageTrackingObject (opts) {
-        var pager = _.defaults(_.cloneDeep(opts), {
-            itemsPerPage: 200,
-            persistItemsPerPage: true,
-            pagesToShow: 5,
-            pageNumber: 0,
-            pageInit: false,
-            total: 0,
-            showAll: false,
-            itemSizeList: [50, 200, 350, 500]
-        });
-
-        // This holds all the items we've received. For UI pagination,
-        // this will be the entire set. For API pagination, this will be
-        // whatever chunk of data the API decided to send us
-        pager.localItems = [];
-
-        var itemsPerPage = pager.itemsPerPage;
-        var itemSizeList = pager.itemSizeList;
-
-        // If itemSizeList doesn't contain the desired itemsPerPage,
-        // then find the right spot in itemSizeList and insert the
-        // itemsPerPage value
-        if (!_.contains(itemSizeList, itemsPerPage)) {
-            var index = _.sortedIndex(itemSizeList, itemsPerPage);
-            itemSizeList.splice(index, 0, itemsPerPage);
-        }
-
-        var selectedItemsPerPage = parseInt(rxLocalStorage.getItem('rxItemsPerPage'));
-
-        // If the user has chosen a desired itemsPerPage, make sure we're respecting that
-        // However, a value specified in the options will take precedence
-        if (!opts.itemsPerPage && !_.isNaN(selectedItemsPerPage) && _.contains(itemSizeList, selectedItemsPerPage)) {
-            pager.itemsPerPage = selectedItemsPerPage;
-        }
-
-        Object.defineProperties(pager, {
-            'items': {
-                // This returns the slice of data for whatever current page the user is on.
-                // It is used for server-side pagination.
-                get: function () {
-                    var info = rxPaginateUtils.firstAndLast(pager.pageNumber, pager.itemsPerPage, pager.total);
-                    return pager.localItems.slice(info.first - pager.cacheOffset, info.last - pager.cacheOffset);
-                }
-            },
-
-            'totalPages': {
-                get: function () { return Math.ceil(pager.total / pager.itemsPerPage); }
-            }
-        });
-
-        function updateCache (pager, pageNumber, localItems) {
-            var numberOfPages = Math.floor(localItems.length / pager.itemsPerPage);
-            var cachedPages = numberOfPages ? _.range(pageNumber, pageNumber + numberOfPages) : [pageNumber];
-            pager.cachedPages = !_.isEmpty(cachedPages) ? cachedPages : [pageNumber];
-            pager.cacheOffset = pager.cachedPages[0] * pager.itemsPerPage;
-        }
-
-        updateCache(pager, 0, pager.localItems);
-
-        var updateItems = function (pageNumber) {
-            // This is the function that gets used when doing UI pagination,
-            // thus we're not waiting for the pageNumber to come back from a service,
-            // so we should set it right away. We can also return an empty items list,
-            // because for UI pagination, the items themselves come in through the Pagination
-            // filter
-            pager.pageNumber = pageNumber;
-            var data = {
-                items: [],
-                pageNumber: pageNumber,
-                totalNumberOfItems: pager.total
-            };
-            return $q.when(data);
-        };
-        pager.updateItemsFn = function (fn) {
-            updateItems = fn;
-        };
-
-        // Used by rxPaginate to tell the pager that it should grab
-        // new items from itemsPromise, where itemsPromise is the promise
-        // returned by a product's getItems() method.
-        // Set shouldUpdateCache to false if the pager should not update its cache with these values
-        pager.newItems = function (itemsPromise, shouldUpdateCache) {
-            if (_.isUndefined(shouldUpdateCache)) {
-                shouldUpdateCache = true;
-            }
-            return itemsPromise.then(function (data) {
-                pager.pageNumber = data.pageNumber;
-                pager.localItems = data.items;
-                pager.total = data.totalNumberOfItems;
-                if (shouldUpdateCache) {
-                    updateCache(pager, pager.pageNumber, data.items);
-                }
-                return data;
-            });
-        };
-
-        // 0-based page number
-        // opts: An object containing:
-        //  forceCacheUpdate: true/false, whether or not to flush the cache
-        //  itemsPerPage: If specificed, request this many items for the page, instead of
-        //                using pager.itemsPerPage
-        pager.goToPage = function (n, opts) {
-            opts = opts || {};
-            var shouldUpdateCache = true;
-
-            // If the desired page number is currently cached, then just reuse
-            // our `localItems` cache, rather than going back to the API.
-            // By setting `updateCache` to false, it ensures that the current
-            // pager.cacheOffset and pager.cachedPages values stay the
-            // same
-            if (!opts.forceCacheUpdate && _.contains(pager.cachedPages, n)) {
-                shouldUpdateCache = false;
-                return pager.newItems($q.when({
-                    pageNumber: n,
-                    items: pager.localItems,
-                    totalNumberOfItems: pager.total
-                }), shouldUpdateCache);
-            }
-
-            var itemsPerPage = opts.itemsPerPage || pager.itemsPerPage;
-            return pager.newItems(updateItems(n, itemsPerPage), shouldUpdateCache);
-        };
-
-        // This tells the pager to go to the current page, but ensure no cached
-        // values are used. Can be used by page controllers when they want
-        // to force an update
-        pager.refresh = function (stayOnCurrentPage) {
-            var pageNumber = stayOnCurrentPage ? pager.currentPage() : 0;
-            return pager.goToPage(pageNumber, { forceCacheUpdate: true });
-        };
-
-        pager.isFirstPage = function () {
-            return pager.isPage(0);
-        };
-
-        pager.isLastPage = function () {
-            return pager.isPage(_.max([0, pager.totalPages - 1]));
-        };
-
-        pager.isPage = function (n) {
-            return pager.pageNumber === n;
-        };
-
-        pager.isPageNTheLastPage = function (n) {
-            return pager.totalPages - 1 === n;
-        };
-
-        pager.currentPage = function () {
-            return pager.pageNumber;
-        };
-
-        pager.goToFirstPage = function () {
-            pager.goToPage(0);
-        };
-
-        pager.goToLastPage = function () {
-            pager.goToPage(_.max([0, pager.totalPages - 1]));
-        };
-
-        pager.goToPrevPage = function () {
-            pager.goToPage(pager.currentPage() - 1);
-        };
-
-        pager.goToNextPage = function () {
-            pager.goToPage(pager.currentPage() + 1);
-        };
-
-        pager.isEmpty = function () {
-            return pager.total === 0;
-        };
-
-        pager.setItemsPerPage = function (numItems) {
-            var opts = {
-                forceCacheUpdate: true,
-                itemsPerPage: numItems
-            };
-            return pager.goToPage(0, opts).then(function (data) {
-                // Wait until we get the data back from the API before we
-                // update itemsPerPage. This ensures that we don't show
-                // a "weird" number of items in a table
-                pager.itemsPerPage = numItems;
-                // Now that we've "officially" changed the itemsPerPage,
-                // we have to update all the cache values
-                updateCache(pager, data.pageNumber, data.items);
-
-                // Persist this itemsPerPage as the new global value
-                if (pager.persistItemsPerPage) {
-                    PageTracking.userSelectedItemsPerPage(numItems);
-                }
-            });
-        };
-
-        pager.isItemsPerPage = function (numItems) {
-            return pager.itemsPerPage === numItems;
-        };
-
-        this.pager = pager;
-
-        pager.goToPage(pager.pageNumber);
-
-    }
-
-    return PageTracking;
-}]);
-
-angular.module('encore.ui.utilities')
-/**
- * @ngdoc filter
- * @name utilities.filter:Paginate
- * @description
- * This is the pagination filter that is used to calculate the division in the
- * items list for the paging.
- *
- * @param {Object} items The list of items that are to be sliced into pages
- * @param {Object} pager The instance of the PageTracking service. If not
- * specified, a new one will be created.
- *
- * @returns {Object} The list of items for the current page in the PageTracking object
- */
-.filter('Paginate', ["PageTracking", "rxPaginateUtils", function (PageTracking, rxPaginateUtils) {
-    return function (items, pager) {
-        if (!pager) {
-            pager = PageTracking.createInstance();
-        }
-        if (pager.showAll) {
-            pager.total = items.length;
-            return items;
-        }
-        if (items) {
-
-            pager.total = items.length;
-            // We were previously on the last page, but enough items were deleted
-            // to reduce the total number of pages. We should now jump to whatever the
-            // new last page is
-            // When loading items over the network, our first few times through here
-            // will have totalPages===0. We do the _.max to ensure that
-            // we never set pageNumber to -1
-            if (pager.pageNumber + 1 > pager.totalPages) {
-                if (!pager.isLastPage()) {
-                    pager.goToLastPage();
-                }
-            }
-            var firstLast = rxPaginateUtils.firstAndLast(pager.currentPage(), pager.itemsPerPage, items.length);
-            return items.slice(firstLast.first, firstLast.last);
-        }
-    };
-}]);
-
-angular.module('encore.ui.utilities')
-/**
  * @ngdoc filter
  * @name utilities.filter:PaginatedItemsSummary
  * @requires $interpolate
  * @description
- * Given an active pager (i.e. the result of PageTracking.createInstance()),
+ * Given an active pager (i.e. the result of rxPageTracker.createInstance()),
  * return a string like "26-50 of 500", when on the second page of a list of
  * 500 items, where we are displaying 25 items per page
  *
- * @param {Object} pager The instance of the PageTracking service. If not
+ * @param {Object} pager The instance of the rxPageTracker service.
  *
  * @returns {String} The list of page numbers that will be displayed.
  */
@@ -4325,99 +3352,61 @@ angular.module('encore.ui.utilities')
 
 angular.module('encore.ui.utilities')
 /**
+ * @deprecated
+ * Please use rxSession instead. This item will be removed on the 4.0.0 release.
  * @ngdoc service
  * @name utilities.service:Permission
- * @description
- * Simple service for accessing roles and permissions for a user.
- *
- * @requires utilities.service:Session
- *
- * @example
- * <pre>
- * Permission.getRoles() //returns an array of roles for a user
- * Permission.hasRole(role) //returns true/false if user has specified role
- * </pre>
+ * @requires utilities.service:rxSession
  */
-.factory('Permission', ["Session", function (Session) {
-    var permissionSvc = {};
+.factory('Permission', ["rxSession", function (rxSession) {
+    console.warn(
+        'DEPRECATED: Permission - Please use rxSession. ' +
+        'Permission will be removed in EncoreUI 4.0.0'
+    );
+    return rxSession;
+}]);
 
-    var cleanRoles = function (roles) {
-        return roles.split(',').map(function (r) {
-            return r.trim();
-        });
-    };
+angular.module('encore.ui.elements')
+/**
+ * @ngdoc directive
+ * @name elements.directive:rxProgressbar
+ * @restrict E
+ * @param {Expression} value
+ * Numeric value used to calculate progress in relation to the max value.
+ * @param {Expression=} [max=100] Maximum numeric value to calculate progress.
+ * @description
+ * Element used to provide feedback on the progress of a workflow or action.
+ */
+.directive('rxProgressbar', ["rxProgressbarUtil", function (rxProgressbarUtil) {
 
-    var userRoles = function () {
-        return _.pluck(permissionSvc.getRoles(), 'name');
-    };
+    return {
+        restrict: 'E',
+        transclude: true,
+        templateUrl: 'templates/rxProgressbar.html',
+        scope: {
+            value: '=',
+            max: '=?'
+        },
+        link: function (scope) {
+            scope.max = scope.max || 100;
 
-    /**
-     * @description Takes a function and a list of roles, and returns the
-     * result of calling that function with `roles`, and comparing to userRoles().
-     *
-     * @param {Function} fn Comparison function to use. _.any, _.all, etc.
-     * @param {String[]} roles List of desired roles
-     */
-    var checkRoles = function (roles, fn) {
-        // Some code expects to pass a comma-delimited string
-        // here, so turn that into an array
-        if (_.isString(roles)) {
-            roles = cleanRoles(roles);
+            scope.$watch('value', function (newVal) {
+                scope.percent = rxProgressbarUtil.calculatePercent(newVal, scope.max);
+            });
+
+            scope.$watch('max', function (newMax) {
+                scope.percent = rxProgressbarUtil.calculatePercent(scope.value, newMax);
+            });
         }
-
-        var allUserRoles = userRoles();
-        return fn(roles, function (role) {
-            return _.contains(allUserRoles, role);
-        });
     };
-
-    /**
-     * @name  getRoles
-     * @ngdoc method
-     * @methodOf utilities.service:Permission
-     * @description
-     * Fetch all the roles tied to the user (in the exact format available in their Session token).
-     *
-     * @returns {Array} List of all roles associated to the user.
-     */
-    permissionSvc.getRoles = function () {
-        var token = Session.getToken();
-        return (token && token.access && token.access.user && token.access.user.roles) ?
-            token.access.user.roles : [];
-    };
-
-    /**
-     * @name  hasRole
-     * @ngdoc method
-     * @methodOf utilities.service:Permission
-     * @description Check if user has at least _one_ of the given roles.
-     * @param {String[]} roles List of roles to check against
-     * @returns {Boolean} True if user has at least _one_ of the given roles; otherwise, False.
-     */
-    permissionSvc.hasRole = function (roles) {
-        return checkRoles(roles, _.any);
-    };
-
-    /**
-     * @name  hasAllRoles
-     * @ngdoc method
-     * @methodOf utilities.service:Permission
-     * @description Checks if user has _every_ role in given list.
-     * @param {String[]} roles List of roles to check against
-     * @returns {Boolean} True if user has _every_ role in given list; otherwise, False.
-     *
-     */
-    permissionSvc.hasAllRoles = function (roles) {
-        return checkRoles(roles, _.all);
-    };
-
-    return permissionSvc;
 }]);
 
 angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
  * @name utilities.service:routesCdnPath
+ * @deprecated
+ * This service is deprecated and will be removed in EncoreUI 4.0.0
  * @description
  * `routesCdnPath` is configured as a `.provider`. This is to allow users to override the URL used when in a
  * local/staging environment.
@@ -4444,6 +3433,10 @@ angular.module('encore.ui.utilities')
  *
  */
 .provider('routesCdnPath', function () {
+    console.warn(
+        'DEPRECATED: routesCdnPath will be removed in EncoreUI 4.0.0'
+    );
+
     this.customURL = null;
 
     this.$get = function () {
@@ -4703,12 +3696,17 @@ angular.module('encore.ui.rxApp', [
 
 angular.module('encore.ui.rxApp')
 /**
+ * @deprecated This directive will be removed in EncoreUI 4.0.0
  * @ngdoc directive
  * @name rxApp.directive:rxAccountSearch
  * @restrict E
  * @description [TBD]
  */
 .directive('rxAccountSearch', ["$window", "$injector", function ($window, $injector) {
+    console.warn(
+        'DEPRECATED: rxAccountSearch will be removed in EncoreUI 4.0.0'
+    );
+
     return {
         templateUrl: 'templates/rxAccountSearch.html',
         restrict: 'E',
@@ -4729,6 +3727,7 @@ angular.module('encore.ui.rxApp')
 
 angular.module('encore.ui.rxApp')
 /**
+ * @deprecated This directive will be removed in EncoreUI 4.0.0
  * @ngdoc directive
  * @name rxApp.directive:rxAccountUsers
  * @restrict E
@@ -4736,6 +3735,10 @@ angular.module('encore.ui.rxApp')
  * Provides the ability to switch between account users. This directive is specific to Rackspace
  */
 .directive('rxAccountUsers', ["$location", "$route", "Encore", "$rootScope", "$injector", "encoreRoutes", function ($location, $route, Encore, $rootScope, $injector, encoreRoutes) {
+    console.warn(
+        'DEPRECATED: rxAccountUsers will be removed in EncoreUI 4.0.0'
+    );
+
     return {
         restrict: 'E',
         templateUrl: 'templates/rxAccountUsers.html',
@@ -4826,6 +3829,7 @@ angular.module('encore.ui.rxApp')
 
 angular.module('encore.ui.rxApp')
 /**
+ * @deprecated This directive will be removed in EncoreUI 4.0.0
  * @ngdoc directive
  * @name rxApp.directive:rxApp
  * @restrict E
@@ -4846,8 +3850,12 @@ angular.module('encore.ui.rxApp')
  * <rx-app site-title="Custom Title"></rx-app>
  * </pre>
  */
-.directive('rxApp', ["encoreRoutes", "rxAppRoutes", "hotkeys", "Environment", "routesCdnPath", "Session", "$window", function (encoreRoutes, rxAppRoutes, hotkeys,
-                              Environment, routesCdnPath, Session, $window) {
+.directive('rxApp', ["encoreRoutes", "rxAppRoutes", "hotkeys", "rxEnvironment", "routesCdnPath", "rxSession", "$window", function (encoreRoutes, rxAppRoutes, hotkeys,
+                              rxEnvironment, routesCdnPath, rxSession, $window) {
+    console.warn(
+        'DEPRECATED: rxApp will be removed in EncoreUI 4.0.0'
+    );
+
     return {
         restrict: 'E',
         transclude: true,
@@ -4862,11 +3870,11 @@ angular.module('encore.ui.rxApp')
             logoutUrl: '@?'
         },
         link: function (scope) {
-            scope.userId = Session.getUserId();
+            scope.userId = rxSession.getUserId();
 
-            scope.isPreProd = Environment.isPreProd();
+            scope.isPreProd = rxEnvironment.isPreProd();
 
-            scope.isLocalNav = routesCdnPath.hasCustomURL && (Environment.isLocal());
+            scope.isLocalNav = routesCdnPath.hasCustomURL && (rxEnvironment.isLocal());
 
             scope.isWarning = scope.isPreProd || scope.isLocalNav;
 
@@ -4876,8 +3884,8 @@ angular.module('encore.ui.rxApp')
                 // Element by attempting to set a property on it.  If we have no errors
                 // then this means that `document.domain` matches and we have no Cross
                 // Origin security constraints
-                $window.parent.hasSameDomain = true;
-                scope.isEmbedded = $window.self !== $window.parent;
+                $window.top['hasSameDomain'] = true;
+                scope.isEmbedded = $window.self !== $window.top;
             } catch (e) {
                 scope.isEmbedded = false;
             }
@@ -4930,6 +3938,7 @@ angular.module('encore.ui.rxApp')
 
 angular.module('encore.ui.rxApp')
 /**
+ * @deprecated This directive will be removed in EncoreUI 4.0.0
  * @ngdoc directive
  * @name rxApp.directive:rxAppNav
  * @restrict E
@@ -5193,7 +4202,7 @@ angular.module('encore.ui.rxApp')
  *
  * This expression would be evaluated, checking if the user is currently viewing
  * the app in the `unified-preprod` environment or the `local` environment, and
- * only display the item if one of those was true. (See {@link utilities.service:Environment}
+ * only display the item if one of those was true. (See {@link utilities.service:rxEnvironment rxEnvironment}
  * for more details on environemnts). This was used to prevent items from being
  * displayed in a production environment if they were only currently available in
  * staging.
@@ -5408,6 +4417,10 @@ angular.module('encore.ui.rxApp')
  * </pre>
  */
 .directive('rxAppNav', function () {
+    console.warn(
+        'DEPRECATED: rxAppNav will be removed in EncoreUI 4.0.0'
+    );
+
     return {
         restrict: 'E',
         replace: true,
@@ -5421,6 +4434,7 @@ angular.module('encore.ui.rxApp')
 
 angular.module('encore.ui.rxApp')
 /**
+ * @deprecated This directive will be removed in EncoreUI 4.0.0
  * @ngdoc directive
  * @name rxApp.directive:rxAppNavItem
  * @restrict E
@@ -5435,6 +4449,10 @@ angular.module('encore.ui.rxApp')
  * </pre>
  */
 .directive('rxAppNavItem', ["$compile", "$location", "$route", function ($compile, $location, $route) {
+    console.warn(
+        'DEPRECATED: rxAppNavItem will be removed in EncoreUI 4.0.0'
+    );
+
     var linker = function (scope, element) {
         var injectContent = function (selector, content) {
             var el = element[0].querySelector(selector);
@@ -5478,15 +4496,15 @@ angular.module('encore.ui.rxApp')
         scope: {
             item: '='
         },
-        controller: ["$scope", "$location", "$injector", "rxVisibility", "Permission", "urlUtils", function ($scope, $location, $injector, rxVisibility, Permission, urlUtils) {
-            /*
+        controller: ["$scope", "$location", "$injector", "rxVisibility", "rxSession", "rxUrlUtils", function ($scope, $location, $injector, rxVisibility, rxSession, rxUrlUtils) {
+            /**
              * @description Determines whether or not a nav item should have its href prefixed
              * based on whether the `$injector` has a `NAV_ITEM_PREFIX` injectable
              *
              * _This is *NOT* meant for general consumption, this is strictly for the Origin Project_
              * _This will eventually be deprecated and removed_
              *
-             * @param {string} [url] - URL for the nav item's href
+             * @param {String=} url URL for the nav item's href
              */
             $scope.getUrl = function (url) {
                 // For URLs that have no URL definition, let's go ahead and return right away
@@ -5505,7 +4523,7 @@ angular.module('encore.ui.rxApp')
                 //
 
                 if ($injector.has('NAV_ITEM_PREFIX')) {
-                    var prefix = urlUtils.parseUrl($injector.get('NAV_ITEM_PREFIX'));
+                    var prefix = rxUrlUtils.parseUrl($injector.get('NAV_ITEM_PREFIX'));
                     return prefix.protocol.concat('//').concat(prefix.host).concat(url);
                 } else {
                     // Return as normal if no prefix
@@ -5513,7 +4531,7 @@ angular.module('encore.ui.rxApp')
                 }
 
             };
-            /*
+            /**
              * @description Determines whether or not the links need to point to a target, this allows
              * for origin and applications that show the nav to implement a target in which to have the links
              * open in.
@@ -5540,23 +4558,23 @@ angular.module('encore.ui.rxApp')
                 }
 
                 if (!_.isUndefined(roles.any)) {
-                    return Permission.hasRole(roles.any);
+                    return rxSession.hasRole(roles.any);
                 }
 
                 if (!_.isUndefined(roles.all)) {
-                    return Permission.hasAllRoles(roles.all);
+                    return rxSession.hasAllRoles(roles.all);
                 }
 
                 return false;
             };
 
-            /*
+            /**
              * @description Determines whether or not a nav item should be displayed, based on `visibility`
              * criteria and `roles` criteria
-             * @param [visibility] - Can be an expression, a function, an array (using format below) to
-             *                     determine visibility
-             * @param {object} [roles] - An object with a format { 'any': ['role1', 'role2'] } or
-             *                           { 'all': ['role1', 'role2'] }
+             * @param {Object} visibility
+             * Can be an expression, a function, an array (using format below) to determine visibility
+             * @param {Object=} roles
+             * An object with a format { 'any': ['role1', 'role2'] } or { 'all': ['role1', 'role2'] }
              */
             $scope.isVisible = function (visibility, roles) {
                 var locals = {
@@ -5631,6 +4649,7 @@ angular.module('encore.ui.rxApp')
 
 angular.module('encore.ui.rxApp')
 /**
+ * @deprecated This directive will be removed in EncoreUI 4.0.0
  * @ngdoc directive
  * @name rxApp.directive:rxAppSearch
  * @restrict E
@@ -5643,6 +4662,10 @@ angular.module('encore.ui.rxApp')
  * @param {Function=} submit Function to run on submit (model is passed as only argument to function)
  */
 .directive('rxAppSearch', function () {
+    console.warn(
+        'DEPRECATED: rxAppSearch will be removed in EncoreUI 4.0.0'
+    );
+
     return {
         restrict: 'E',
         replace: true,
@@ -5658,6 +4681,7 @@ angular.module('encore.ui.rxApp')
 
 angular.module('encore.ui.rxApp')
 /**
+ * @deprecated This directive will be removed in EncoreUI 4.0.0
  * @ngdoc directive
  * @name rxApp.directive:rxAtlasSearch
  * @restrict E
@@ -5665,6 +4689,10 @@ angular.module('encore.ui.rxApp')
  * Used to search accounts for Cloud Atlas
  */
 .directive('rxAtlasSearch', ["$window", "$injector", function ($window, $injector) {
+    console.warn(
+        'DEPRECATED: rxAtlasSearch will be removed in EncoreUI 4.0.0'
+    );
+
     return {
         template: '<rx-app-search placeholder="Search by username..." submit="searchAccounts"></rx-app-search>',
         restrict: 'E',
@@ -5685,12 +4713,17 @@ angular.module('encore.ui.rxApp')
 
 angular.module('encore.ui.rxApp')
 /**
+ * @deprecated This directive will be removed in EncoreUI 4.0.0
  * @ngdoc directive
  * @name rxApp.directive:rxBillingSearch
  * @restrict E
  * @description [TBD]
  */
 .directive('rxBillingSearch', ["$location", "$window", "$injector", "encoreRoutes", function ($location, $window, $injector, encoreRoutes) {
+    console.warn(
+        'DEPRECATED: rxBillingSearch will be removed in EncoreUI 4.0.0'
+    );
+
     return {
         templateUrl: 'templates/rxBillingSearch.html',
         restrict: 'E',
@@ -5720,6 +4753,7 @@ angular.module('encore.ui.rxApp')
 
 angular.module('encore.ui.rxApp')
 /**
+ * @deprecated This directive will be removed in EncoreUI 4.0.0
  * @ngdoc directive
  * @name rxApp.directive:rxPage
  * @restrict E
@@ -5849,6 +4883,10 @@ angular.module('encore.ui.rxApp')
  * </pre>
  */
 .directive('rxPage', function () {
+    console.warn(
+        'DEPRECATED: rxPage will be removed in EncoreUI 4.0.0'
+    );
+
     return {
         restrict: 'E',
         transclude: true,
@@ -5903,15 +4941,20 @@ angular.module('encore.ui.rxApp')
 
 angular.module('encore.ui.rxApp')
 /**
-* @ngdoc directive
-* @name rxApp.directive:rxStatusTag
-* @restrict E
-* @scope
-* @description
-* This is used to draw the Alpha/Beta/etc tags in page titles and in breadcrumbs. It's not
-* intended as a public directive.
-*/
+ * @deprecated This directive will be removed in EncoreUI 4.0.0
+ * @ngdoc directive
+ * @name rxApp.directive:rxStatusTag
+ * @restrict E
+ * @scope
+ * @description
+ * This is used to draw the Alpha/Beta/etc tags in page titles and in breadcrumbs. It's not
+ * intended as a public directive.
+ */
 .directive('rxStatusTag', ["rxStatusTags", function (rxStatusTags) {
+    console.warn(
+        'DEPRECATED: rxStatusTag will be removed in EncoreUI 4.0.0'
+    );
+
     return {
         template: '<span ng-if="status && validKey" class="status-tag {{ class }}">{{ text }}</span>',
         restrict: 'E',
@@ -5931,6 +4974,7 @@ angular.module('encore.ui.rxApp')
 
 angular.module('encore.ui.rxApp')
 /**
+ * @deprecated This directive will be removed in EncoreUI 4.0.0
  * @ngdoc directive
  * @name rxApp.directive:rxTicketSearch
  * @restrict E
@@ -5938,6 +4982,10 @@ angular.module('encore.ui.rxApp')
  * Used to search tickets for Ticket Queues
  */
 .directive('rxTicketSearch', function () {
+    console.warn(
+        'DEPRECATED: rxTicketSearch will be removed in EncoreUI 4.0.0'
+    );
+
     return {
         template: '<rx-app-search placeholder="Search for a Ticket..." submit="searchTickets"></rx-app-search>',
         restrict: 'E',
@@ -5950,18 +4998,68 @@ angular.module('encore.ui.rxApp')
     };
 });
 
+(function () {
+    angular
+        .module('encore.ui.utilities')
+        .filter('rxApply', rxApplyFilter)
+        .filter('Apply', ApplyFilter);
+
+    /**
+     * @ngdoc filter
+     * @name utilities.filter:rxApply
+     * @description
+     * Used to apply an instance of {@link utilities.service:rxSelectFilter rxSelectFilter} to an array.
+     *
+     * Merely calls the `applyTo()` method of a `rxSelectFilter` instance to an
+     * input array.
+     * <pre>
+     * <tr ng-repeat="item in list | rxApply:filter">
+     * </pre>
+     *
+     * @param {Array} list The list to be filtered.
+     * @param {Object} filter An instance of rxSelectFilter
+     */
+    function rxApplyFilter () {
+        return function (list, filter) {
+            return filter.applyTo(list);
+        };
+    }//rxApplyFilter
+
+    /**
+     * @deprecated
+     * Use rxApply instead. This filter will be removed on the 4.0.0 release.
+     * @ngdoc filter
+     * @name utilities.filter:Apply
+     * @requires utilities.filter:rxApply
+     */
+    function ApplyFilter () {
+        return function (list, filter) {
+            console.warn(
+                'DEPRECATED: Apply - Please use rxApply. ' +
+                'Apply will be removed in EncoreUI 4.0.0'
+            );
+            return rxApplyFilter()(list, filter);
+        };
+    }//ApplyFilter
+})();
+
 angular.module('encore.ui.utilities')
 /**
+ * @deprecated This service will be removed in EncoreUI 4.0.0
  * @ngdoc service
  * @name utilities.service:rxAppRoutes
  * @description
  * Manages page routes, building urls and marking them as active on route change.
  */
-.factory('rxAppRoutes', ["$rootScope", "$log", "urlUtils", "$q", function ($rootScope, $log, urlUtils, $q) {
+.factory('rxAppRoutes', ["$rootScope", "$log", "rxUrlUtils", "$q", function ($rootScope, $log, rxUrlUtils, $q) {
+    console.warn(
+        'DEPRECATED: rxAppRoutes will be removed in EncoreUI 4.0.0'
+    );
+
     var AppRoutes = function (routes) {
         routes = routes || [];
         // we need to get the current path on page load
-        var currentPathChunks = urlUtils.getCurrentPathChunks();
+        var currentPathChunks = rxUrlUtils.getCurrentPathChunks();
         var loadingDeferred = $q.defer();
 
         // if the routes were already passed in, then we can immediately
@@ -5973,7 +5071,7 @@ angular.module('encore.ui.utilities')
         var setDynamicProperties = function (routes, extraUrlContext) {
             _.each(routes, function (route) {
                 // build out url for current route
-                route.url = urlUtils.buildUrl(route.href, extraUrlContext);
+                route.url = rxUrlUtils.buildUrl(route.href, extraUrlContext);
 
                 // check if any children exist, if so, build their URLs as well
                 if (route.children) {
@@ -5982,7 +5080,7 @@ angular.module('encore.ui.utilities')
 
                 // set active state (this needs to go after the recursion,
                 // so that the URL is built for all the children)
-                route.active = urlUtils.isActive(route, currentPathChunks);
+                route.active = rxUrlUtils.isActive(route, currentPathChunks);
             });
 
             return routes;
@@ -6043,7 +5141,7 @@ angular.module('encore.ui.utilities')
 
         $rootScope.$on('$locationChangeSuccess', function () {
             // NOTE: currentPath MUST be updated before routes
-            currentPathChunks = urlUtils.getCurrentPathChunks();
+            currentPathChunks = rxUrlUtils.getCurrentPathChunks();
 
             routes = setDynamicProperties(routes);
         });
@@ -6052,10 +5150,10 @@ angular.module('encore.ui.utilities')
             /**
              * Finds the indexes/path to a route. Will return last match if duplicate keys exist
              * @see setRouteByKey for actual use
-             * @param  {string} key Route Key
+             * @param  {String} key Route Key
              * @example
              *     var myRouteIndex = rxAppRoutes.getIndexByKey('myKey'); // [0, 2, 0]
-             * @return {array|undefined} array of indexes describing path to route (or undefined if not found)
+             * @return {Array|undefined} Array of indexes describing path to route (or undefined if not found)
              */
             getIndexByKey: function (key) {
                 return loadingDeferred.promise.then(function () {
@@ -6079,7 +5177,7 @@ angular.module('encore.ui.utilities')
 
             isActiveByKey: function (key) {
                 return this.getRouteByKey(key).then(function (route) {
-                    return urlUtils.isActive(route, urlUtils.getCurrentPathChunks());
+                    return rxUrlUtils.isActive(route, rxUrlUtils.getCurrentPathChunks());
                 }, function () {
                     return $q.reject();
                 });
@@ -6087,9 +5185,9 @@ angular.module('encore.ui.utilities')
             },
             /**
              * functionality to update routes based on their key
-             * @param {string} key Route key used to identify it in navigation
-             * @param {object} routeInfo Information used to overwrite original properties
-             * @return {boolean} true if successfully updated, false if key not found
+             * @param {String} key Route key used to identify it in navigation
+             * @param {Object} routeInfo Information used to overwrite original properties
+             * @return {Boolean} true if successfully updated, false if key not found
              */
             setRouteByKey: function (key, routeInfo) {
                 return this.getIndexByKey(key).then(function (routeIndex) {
@@ -6110,7 +5208,7 @@ angular.module('encore.ui.utilities')
             },
             setAll: function (newRoutes) {
                 // let's not mess with the original object
-                var routesToBe = _.clone(newRoutes, true);
+                var routesToBe = _.cloneDeep(newRoutes);
 
                 routes = setDynamicProperties(routesToBe);
                 loadingDeferred.resolve();
@@ -6208,6 +5306,32 @@ angular.module('encore.ui.utilities')
 
 angular.module('encore.ui.utilities')
 /**
+ * @deprecated
+ * Please use rxIdentity or rxSession instead.
+ * This item will be removed on the 4.0.0 release.
+ *
+ * @ngdoc service
+ * @name utilities.service:rxAuth
+ * @requires utilities.service:rxIdentity
+ * @requires utilities.service:rxSession
+ * @description Proxy service for {@link utilities.service:rxIdentity rxIdentity}
+ * and {@link utilities.service:rxSession rxSession} logic.
+ */
+.factory('rxAuth', ["rxIdentity", "rxSession", function (rxIdentity, rxSession) {
+    console.warn (
+        'DEPRECATED: rxAuth - Please use rxIdentity or rxSession. ' +
+        'rxAuth will be removed in EncoreUI 4.0.0'
+    );
+    var svc = {};
+
+    _.assign(svc, rxIdentity);
+    _.assign(svc, rxSession);
+
+    return svc;
+}]);
+
+angular.module('encore.ui.utilities')
+/**
  * @ngdoc service
  * @name utilities.service:rxAutoSave
  * @description
@@ -6232,8 +5356,8 @@ angular.module('encore.ui.utilities')
  *
  * By default, all values are stored in {@link utilities.service:rxLocalStorage rxLocalStoage} which interfaces with the
  * browser's `localStorage` object. This means that if a user logs into a different computer, their stored values will
- * not be present.  Use of `SessionStorage` is also supported out-of-the-box. If you wish to save form states elsewhere
- * (for instance, to an API), see the "Storage Location" section below.
+ * not be present.  Use of `rxSessionStorage` is also supported out-of-the-box. If you wish to save form states 
+ * elsewhere (for instance, to an API), see the "Storage Location" section below.
  *
  * ## Setting up your template
  *
@@ -6457,14 +5581,15 @@ angular.module('encore.ui.utilities')
  * present at the URL `'users/JonnyRocket/edit'`, then the form data would be saved into the browser's `localStorage`
  * at location `'rxAutoSave::users/JonnyRocket/edit'`.
  *
- * If you wish to use a different storage backend (`SessionStorage`, for instance), use the `storageBackend` parameter:
+ * If you wish to use a different storage backend (`rxSessionStorage`, for instance), use the `storageBackend` 
+ * parameter:
  *
  * <pre>
- *    var autosave = rxAutoSave($scope, 'formData', { storageBackend: SessionStorage });
+ *    var autosave = rxAutoSave($scope, 'formData', { storageBackend: rxSessionStorage });
  * </pre>
  *
  * `storageBackend` requires that you pass it an object which has `getObject(key)` and `setObject(key, val)` methods.
- * `rxLocalStorage` and `SessionStorage` are both provided by EncoreUI, and support this interface.
+ * `rxLocalStorage` and `rxSessionStorage` are both provided by EncoreUI, and support this interface.
  *
  * You can use your own custom backends as well, as long as it supports `getObject(key)` and `setObject(key, val)`.
  *
@@ -6493,7 +5618,7 @@ angular.module('encore.ui.utilities')
  * @param {String} variable
  * variable name corresponding to an object on the given scope
  * @param {Object=} options usage options
- * @param {Promise=} [options.clearOnSuccess=null]
+ * @param {Promise=} options.clearOnSuccess
  * Clear saved data on successful resolution of given promise.
  *
  * @param {Function=} options.keyShaping
@@ -6551,7 +5676,7 @@ angular.module('encore.ui.utilities')
  *
  * @param {Object=} [options.storageBackend=rxLocalStorage]
  * Must be an object which has `getObject(key)` and `setObject(key, val)` methods.
- * `rxLocalStorage` and `SessionStorage` are both provided by EncoreUI, and support
+ * `rxLocalStorage` and `rxSessionStorage` are both provided by EncoreUI, and support
  * this interface.
  *
  * You can use your own custom backends as well, as long as it supports `getObject(key)`
@@ -6599,7 +5724,7 @@ angular.module('encore.ui.utilities')
     //                   by the rxAutoSave instance
     // @param [storageBackend] - Optional, defaults to rxLocalStorage. If you pass in a storage object,
     //                           it must support both getObject(key) and setObject(key, val), matching
-    //                           the operations of rxLocalStorage and SessionStorage
+    //                           the operations of rxLocalStorage and rxSessionStorage
     // @param [keyShaping] - Optional, defaults to just returning the originally defined key value.
     //                       It gets passed the original value defined ('rxAutoSave::' + $location.path())
     //                       and is expected to return the new key that you wish to have used.
@@ -6797,6 +5922,7 @@ angular.module('encore.ui.utilities')
 
 angular.module('encore.ui.utilities')
 /**
+ * @deprecated This item will be removed in EncoreUI 4.0.0
  * @ngdoc service
  * @name utilities.service:rxBreadcrumbsSvc
  * @description
@@ -6804,6 +5930,10 @@ angular.module('encore.ui.utilities')
  *
  */
 .factory('rxBreadcrumbsSvc', function () {
+    console.warn(
+        'DEPRECATED: rxBreadcrumbsSvc will be removed in EncoreUI 4.0.0'
+    );
+
     // default will always be home
     var breadcrumbs = [{
         path: '/',
@@ -6880,7 +6010,7 @@ angular.module('encore.ui.utilities')
  * @description
  * Provides controller logic for {@link elements.directive:rxBulkSelect}.
  */
-.controller('rxBulkSelectController', ["$scope", "NotifyProperties", "rxBulkSelectUtils", function ($scope, NotifyProperties, rxBulkSelectUtils) {
+.controller('rxBulkSelectController', ["$scope", "rxNotifyProperties", "rxBulkSelectUtils", function ($scope, rxNotifyProperties, rxBulkSelectUtils) {
     $scope.showMessage = false;
 
     var uncheckHeaderFn = _.noop,
@@ -6890,13 +6020,13 @@ angular.module('encore.ui.utilities')
             _total: 0
         };
 
-    this.registerForNumSelected = NotifyProperties.registrationFn(messageStats, 'numSelected', '_numSelected');
-    this.registerForTotal = NotifyProperties.registrationFn(messageStats, 'total', '_total');
+    this.registerForNumSelected = rxNotifyProperties.registrationFn(messageStats, 'numSelected', '_numSelected');
+    this.registerForTotal = rxNotifyProperties.registrationFn(messageStats, 'total', '_total');
 
     this.messageStats = messageStats;
 
     var numSelected = function () {
-        var selected = _.where($scope.bulkSource, $scope.selectedKey);
+        var selected = _.filter($scope.bulkSource, $scope.selectedKey);
         return selected.length;
     };
 
@@ -7218,6 +6348,45 @@ angular.module('encore.ui.utilities')
 
 angular.module('encore.ui.utilities')
 /**
+ * @ngdoc parameters
+ * @name utilities.value:rxDevicePaths
+ * @description
+ * Provides configuration for device paths.
+ *
+ */
+.value('rxDevicePaths', [
+    { value: '/dev/xvdb', label: '/dev/xvdb' },
+    { value: '/dev/xvdd', label: '/dev/xvdd' },
+    { value: '/dev/xvde', label: '/dev/xvde' },
+    { value: '/dev/xvdf', label: '/dev/xvdf' },
+    { value: '/dev/xvdg', label: '/dev/xvdg' },
+    { value: '/dev/xvdh', label: '/dev/xvdh' },
+    { value: '/dev/xvdj', label: '/dev/xvdj' },
+    { value: '/dev/xvdk', label: '/dev/xvdk' },
+    { value: '/dev/xvdl', label: '/dev/xvdl' },
+    { value: '/dev/xvdm', label: '/dev/xvdm' },
+    { value: '/dev/xvdn', label: '/dev/xvdn' },
+    { value: '/dev/xvdo', label: '/dev/xvdo' },
+    { value: '/dev/xvdp', label: '/dev/xvdp' }
+])
+
+/**
+ * @deprecated
+ * Please use rxDevicePaths instead. This will be removed on the 4.0.0 release.
+ * @ngdoc service
+ * @name utilities.value:devicePaths
+ * @requires utilities.value:rxDevicePaths
+ */
+.service('devicePaths', ["rxDevicePaths", function (rxDevicePaths) {
+    console.warn(
+        'DEPRECATED: devicePaths - Please use rxDevicePaths. ' +
+        'devicePaths will be removed in EncoreUI 4.0.0'
+    );
+    return rxDevicePaths;
+}]);
+
+angular.module('encore.ui.utilities')
+/**
  * @ngdoc filter
  * @name utilities.filter:rxDiskSize
  * @description
@@ -7367,6 +6536,308 @@ angular.module('encore.ui.utilities')
 
 angular.module('encore.ui.utilities')
 /**
+ * @ngdoc service
+ * @name utilities.service:rxEnvironment
+ * @description
+ *
+ * Allows defining environments and retrieving the current environment based on location
+ *
+ * ## Adding New Environments ##
+ *
+ * If necessary, you can add additional environments with `rxEnvironment.add()`.
+ * This takes an object with three properties, `name`, `pattern` and `url`, where
+ *
+ * * name: The "friendly" name of your environment, like "local", "preprod", etc.
+ * * pattern: A string or RegEx that the current path is matched against
+ * * url: The URL pattern used to build URLs when using rxEnvironmentUrl
+ *
+ * As an example, if we didn't already have a `'preprod'` environment, we could
+ * add it as follows:
+ *
+ * <pre>
+ * rxEnvironment.add({
+ *     // Matches only https://preprod.encore.rackspace.com
+ *     name: 'preprod',
+ *     pattern: /\/\/preprod.encore.rackspace.com/,
+ *     url: '{{path}}'
+ * });
+ * </pre>
+ *
+ * For this demo application, we add a "Github Pages" environment, like this:
+ *
+ * <pre>
+ * rxEnvironment.add({
+ *     name: 'ghPages',
+ *     pattern: '//rackerlabs.github.io',
+ *     url: baseGithubUrl + '{{path}}'
+ * });
+ * </pre>
+ *
+ * Component built to detect and provide the current environment (e.g. dev, staging, prod)
+ *
+ * ## Current Environments ##
+ *
+ * This service defines the following Encore specific environments:
+ *
+ * * **local** - http://localhost:port and http://server:port
+ * * **preprod** - http://preprod.encore.rackspace.com
+ * * **unified-preprod** - https://*.encore.rackspace.com
+ * * **unified** - All environments including https://encore.rackspace.com
+ * * **unified-prod** - Only https://encore.rackspace.com
+ *
+ * Please note that we've made an assumption that staging/preprod/prod environments
+ * will all end with `encore.rackspace.com`. Try to avoid using
+ * `staging.encore.myNewProduct.rackspace.com` for new products, and instead set
+ * up your system as `encore.rackspace.com/myNewProduct`.
+ *
+ * ## Checking Current Environment ##
+ *
+ * The `rxEnvironment` service contains methods for checking if we are currently in
+ * one of the five listed environments, namely:
+ *
+ * * `rxEnvironment.isLocal()`
+ * * `rxEnvironment.isPreProd()`
+ * * `rxEnvironment.isUnifiedPreProd()`
+ * * `rxEnvironment.isUnified()`
+ * * `rxEnvironment.isUnifiedProd()`
+ *
+ * The normal procedure is to assume that your code is running in local or staging,
+ * and take special actions if `rxEnvironment.isPreProd()` or
+ * `rxEnvironment.isUnifiedProd()` are `true`.
+ *
+ * ## Overlapping Environments ##
+ *
+ * Keep in mind that the environments we define are not mutually exclusive. For
+ * instance, if we're at `http://preprod.encore.rackspace.com`, then we are in
+ * the `preprod` environment, the `unified-preprod` environment, and `unified-prod`.
+ *
+ * When you want to check if you're in one of the custom environments, you can
+ * use `envCheck()`, i.e.: `rxEnvironment.envCheck('ghPages')`
+ *
+ * ## A Warning About rxEnvironmentUrl ##
+ * `rxEnvironmentUrl` can be used for building full URLs, based on the current
+ * environment. For now, you should consider it as deprecated. It has problems
+ * with overlapping environments, and could potentially generate the wrong URL.
+ *
+ * ## A Warning About `rxEnvironment.get().name` ##
+ * ## DEPRECATED: `rxEnvironment.get()` will be removed in EncoreUI 4.0.0 ##
+ * You might find older Encore code that uses `rxEnvironment.get().name` to get
+ * the name of the current environment. This pattern should be avoided,
+ * specifically because of the overlapping environment issue discussed above.
+ * If you call `rxEnvironment.get().name`, it will just return the first matching
+ * environment in the list of environments, even if we're overlapping and have
+ * multiple environments. Instead, check explicitly with
+ * `rxEnvironment.isLocal()`, `rxEnvironment.isPreProd()`, etc., or
+ * use `rxEnvironment.envCheck('local')`
+ *
+ * @example
+ * <pre>
+ * rxEnvironment.get() // return environment object that matches current location
+ * </pre>
+ *
+ */
+.service('rxEnvironment', ["$location", "$rootScope", "$log", function ($location, $rootScope, $log) {
+    /*
+     * This array defines different environments to check against.
+     * It is prefilled with 'Encore' based environments
+     * It can be overwritten if necessary via the returned 'environments' property
+     *
+     * @property {String} name The 'friendly' name of the environment
+     * @property {String|RegEx} pattern The pattern to match the current path against
+     * @property {String} url The url pattern used to build out urls for that environment.
+     *                        See 'buildUrl' for more details
+     */
+    var environments = [{
+        // Regexr: http://www.regexr.com/3de5m
+        // http://localhost:3000/
+        // http://localhost:9000/
+        // http://localhost/
+        // http://server/
+        // http://encore.dev/
+        // http://apps.server/
+        name: 'local',
+        pattern: /\/\/(?:\w+\.)?(localhost|server|(.*)\.dev)(:\d{1,4})?/,
+        url: '//' + $location.host() + ($location.port() !== 80 ? ':' + $location.port() : '') + '/{{path}}'
+    }, {
+        // Matches only preprod and it's subdomains
+        // Regexr: http://www.regexr.com/3eani
+        // https://preprod.encore.rackspace.com
+        // https://apps.preprod.encore.rackspace.com
+        // https://cloud.preprod.encore.rackspace.com
+        name: 'preprod',
+        pattern: /\/\/(?:\w+\.)?preprod.encore.rackspace.com/,
+        url: '{{path}}'
+    }, {
+        // This is anything with a host preceeding encore.rackspace.com
+        // Regexr: http://www.regexr.com/3eanl
+        // https://staging.encore.rackspace.com/
+        // https://preprod.encore.rackspace.com/
+        // https://apps.encore.rackspace.com
+        // https://apps.staging.encore.rackspace.com
+        // https://cloud.staging.encore.rackspace.com
+        // https://apps.preprod.encore.rackspace.com/
+        // https://cloud.preprod.encore.rackspace.com/
+        name: 'unified-preprod',
+        pattern: /\/\/(?:\w+\.)?(\w+\.)encore.rackspace.com/,
+        url: '{{path}}'
+    }, {
+        // This is *all* environments
+        // Regexr: http://www.regexr.com/3de5v
+        // https://encore.rackspace.com/
+        // https://staging.encore.rackspace.com/
+        // https://preprod.encore.rackspace.com/
+        // https://apps.encore.rackspace.com
+        // https://apps.staging.encore.rackspace.com
+        name: 'unified',
+        pattern: 'encore.rackspace.com',
+        url: '{{path}}'
+    }, {
+        // This is only production only
+        // Regexr: http://www.regexr.com/3eal4
+        // https://encore.rackspace.com/
+        // https://apps.encore.rackspace.com
+        // https://origin.encore.rackspace.com
+        name: 'unified-prod',
+        pattern: /\/\/(?:apps\.|origin\.)?encore.rackspace.com/,
+        url: '{{path}}'
+    }];
+
+    /*
+     * Checks if an environment has valid properties
+     * @private
+     * @param {Object} environment The environment object to check
+     * @returns {Boolean} true if valid, false otherwise
+     */
+    var isValidEnvironment = function (environment) {
+        return _.isString(environment.name) &&
+            (_.isString(environment.pattern) || _.isRegExp(environment.pattern)) &&
+            _.isString(environment.url);
+    };
+
+    var environmentPatternMatch = function (href, pattern) {
+        if (_.isRegExp(pattern)) {
+            return pattern.test(href);
+        }
+
+        return _.includes(href, pattern);
+    };
+
+    /*
+     * Retrieves current environment
+     * @public
+     * @param {String=} [href=$location.absUrl()] The path to check the environment on.
+     * @returns {Object} The current environment (if found), else 'localhost' environment.
+     */
+    this.get = function (href) {
+        console.warn (
+            'DEPRECATED: rxEnvironment.get() will be removed in EncoreUI 4.0.0'
+        );
+
+        // default to current location if href not provided
+        href = href || $location.absUrl();
+
+        var currentEnvironment = _.find(environments, function (environment) {
+            return environmentPatternMatch(href, environment.pattern);
+        });
+
+        if (_.isUndefined(currentEnvironment)) {
+            $log.warn('No environments match URL: ' + $location.absUrl());
+            // set to default/first environment to avoid errors
+            currentEnvironment = environments[0];
+        }
+
+        return currentEnvironment;
+    };
+
+    /*
+     * Adds an environment to the front of the stack, ensuring it will be matched first
+     * @public
+     * @param {Object} environment The environment to add. See 'environments' array for required properties
+     */
+    this.add = function (environment) {
+        // do some sanity checks here
+        if (isValidEnvironment(environment)) {
+            // add environment, over riding all others created previously
+            environments.unshift(environment);
+        } else {
+            $log.error('Unable to add Environment: defined incorrectly');
+        }
+    };
+
+    /*
+     * Replaces current environments array with new one
+     * @public
+     * @param {Array} newEnvironments New environments to use
+     */
+    this.setAll = function (newEnvironments) {
+        // validate that all new environments are valid
+        if (newEnvironments.length > 0 && _.every(environments, isValidEnvironment)) {
+            // overwrite old environments with new
+            environments = newEnvironments;
+        }
+    };
+
+    /*
+     * Given an environment name, check if any of our registered environments
+     * match it
+     * @public
+     * @param {String} name Environment name to check
+     * @param {String=} [href=$location.absUrl()] Optional href to check against.
+     */
+    this.envCheck = function (name, href) {
+        href = href || $location.absUrl();
+        var matchingEnvironments = _.filter(environments, function (environment) {
+            return environmentPatternMatch(href, environment.pattern);
+        });
+        return _.includes(_.map(matchingEnvironments, 'name'), name);
+    };
+
+    var makeEnvCheck = function (name) {
+        return function (href) { return this.envCheck(name, href); };
+    };
+
+    /* Whether or not we're in the `preprod` environment
+     * @public
+     */
+    this.isPreProd = makeEnvCheck('preprod');
+
+    /* Whether or not we're in `local` environment
+     * @public
+     */
+    this.isLocal = makeEnvCheck('local');
+
+    /* Whether or not we're in the `unified-preprod` environment
+     * @public
+     */
+    this.isUnifiedPreProd = makeEnvCheck('unified-preprod');
+
+    /* Whether or not we're in the `unified` environment
+     * @public
+     */
+    this.isUnified = makeEnvCheck('unified');
+
+    /* Whether or not we're in the `unified-prod` environment
+     * @public
+     */
+    this.isUnifiedProd = makeEnvCheck('unified-prod');
+}])
+/**
+ * @deprecated
+ * Please use rxEnvironment instead. This item will be removed on the 4.0.0 release.
+ * @ngdoc service
+ * @name utilities.service:Environment
+ * @requires utilities.service:rxEnvironment
+ */
+.service('Environment', ["rxEnvironment", function (rxEnvironment) {
+    console.warn(
+        'DEPRECATED: Environment - Please use rxEnvironment. ' +
+        'Environment will be removed in EncoreUI 4.0.0'
+    );
+    return rxEnvironment;
+}]);
+
+angular.module('encore.ui.utilities')
+/**
  * @ngdoc filter
  * @name utilities.filter:rxEnvironmentMatch
  * @description
@@ -7381,7 +6852,7 @@ angular.module('encore.ui.utilities')
  * returns false if current environment is 'production', true otherwise
  * </pre>
  */
-.filter('rxEnvironmentMatch', ["Environment", function (Environment) {
+.filter('rxEnvironmentMatch', ["rxEnvironment", function (rxEnvironment) {
     return function (environment) {
         // check to see if first character is negation indicator
         var isNegated = environment[0] === '!';
@@ -7389,13 +6860,14 @@ angular.module('encore.ui.utilities')
         // get name of environment to look for
         var targetEnvironmentName = isNegated ? environment.substr(1) : environment;
 
-        var environmentMatches = Environment.envCheck(targetEnvironmentName);
+        var environmentMatches = rxEnvironment.envCheck(targetEnvironmentName);
         return isNegated ? !environmentMatches : environmentMatches;
     };
 }]);
 
 angular.module('encore.ui.utilities')
 /**
+ * @deprecated rxEnvironmentUrl will be removed in EncoreUI 4.0.0
  * @ngdoc filter
  * @name utilities.filter:rxEnvironmentUrl
  * @description
@@ -7411,13 +6883,84 @@ angular.module('encore.ui.utilities')
  * Renders as '/myPath' regardless of environment, because value passed in was not an object
  * </pre>
  */
-.filter('rxEnvironmentUrl', ["Environment", "$interpolate", function (Environment, $interpolate) {
+.filter('rxEnvironmentUrl', ["rxEnvironment", "$interpolate", function (rxEnvironment, $interpolate) {
     return function (details) {
-        var environment = Environment.get();
+        console.warn('DEPRECATED: rxEnvironmentUrl will be removed in EncoreUI 4.0.0');
+        var environment = rxEnvironment.get();
 
         // convert url template into full path based on details provided (if details is an object)
         return _.isObject(details) ? $interpolate(environment.url)(details) : details;
     };
+}]);
+
+angular.module('encore.ui.utilities')
+/**
+ * @ngdoc service
+ * @name utilities.service:rxErrorFormatter
+ * @description
+ * Provides a helper method to parse error objects for `message` and format them
+ * as necessary for `rxStatus.setError()`.  See {@link utilities.service:rxStatus rxStatus} Service
+ * for more information.
+ *
+ * # Error Messages Using rxErrorFormatter
+ *
+ * `rxErrorFormatter` provides a specialized template `error` string
+ * with an `object:{}` as the second parameter containing the replacements for
+ * the template in the error string.  If in a proper format, the object can be
+ * automatically parsed using an `rxErrorFormatter` and displayed to the user.
+ *
+ * For example:
+ *
+ * <pre>
+ * rxStatus.setError(
+ *     'Failed loading browsing history: ${message}',
+ *     {
+ *         message: 'User has previously cleared their history!'
+ *     }
+ * );
+ * </pre>
+ *
+ * Please note that the replacement variable `${message}` in the error string
+ * maps one-to-one to the keys provided in the the error object.
+ *  - One can specify any number of template variables to replace.
+ *  - Not providing a balanced list of variables and their replacements will result in a:
+ *
+ * <pre>
+ * ReferenceError: <replacement> is not defined
+ * </pre>
+ */
+.factory('rxErrorFormatter', function () {
+    /*
+     * formatString is a string with ${message} in it somewhere, where ${message}
+     * will come from the `error` object. The `error` object either needs to have
+     * a `message` property, or a `statusText` property.
+     */
+    var buildErrorMsg = function (formatString, error) {
+        error = error || {};
+        if (!_.has(error, 'message')) {
+            error.message = _.has(error, 'statusText') ? error.statusText : 'Unknown error';
+        }
+        return _.template(formatString)(error);
+    };
+
+    return {
+        buildErrorMsg: buildErrorMsg
+    };
+})
+
+/**
+ * @deprecated
+ * Please use rxErrorFormatter instead. This item will be removed on the 4.0.0 release.
+ * @ngdoc service
+ * @name utilities.service:ErrorFormatter
+ * @requires utilities.service:rxErrorFormatter
+ */
+.service('ErrorFormatter', ["rxErrorFormatter", function (rxErrorFormatter) {
+    console.warn(
+        'DEPRECATED: ErrorFormatter - Please use rxErrorFormatter. ' +
+        'ErrorFormatter will be removed in EncoreUI 4.0.0'
+    );
+    return rxErrorFormatter;
 }]);
 
 angular.module('encore.ui.utilities')
@@ -7441,7 +6984,7 @@ angular.module('encore.ui.utilities')
  *       rx-favicon="{ staging: 'staging-favicon.png', local: 'local-favicon.png' }" />
  * </pre>
  */
-.directive('rxFavicon', ["Environment", "$parse", "$log", function (Environment, $parse, $log) {
+.directive('rxFavicon', ["rxEnvironment", "$parse", "$log", function (rxEnvironment, $parse, $log) {
     return {
         restrict: 'A',
         replace: true,
@@ -7460,25 +7003,44 @@ angular.module('encore.ui.utilities')
             favicons.prod = el.attr('href');
             favicons.staging = favicons.staging || favicons.prod;
             favicons.local = favicons.local || favicons.staging;
+            
+            var currentEnv;
+            if (rxEnvironment.isLocal()) {
+                currentEnv = 'local';
+            } else if (rxEnvironment.isPreProd() || rxEnvironment.isUnifiedProd()) {
+                currentEnv = 'prod';
+            } else {
+                currentEnv = 'staging';
+            }
 
-            // convert environment name to match scope variables
-            var environmentMap = {
-                'local': 'local',
-                'unified-preprod': 'staging',
-                'ghPages': 'prod',
-                'unified-prod': 'prod'
-            };
-
-            scope.$watch(function () {
-                return Environment.get();
-            }, function (environment) {
-                var currentEnv = environmentMap[environment.name];
-
-                // update href to use new path
-                el.attr('href', favicons[currentEnv]);
-            });
+            // update href to use new path
+            el.attr('href', favicons[currentEnv]);
         }
     };
+}]);
+
+angular.module('encore.ui.utilities')
+/**
+ * @ngdoc parameters
+ * @name utilities.constant:rxFeedbackApi
+ * @description
+ * Provides the feedback URL.
+ */
+.constant('rxFeedbackApi', '/api/encore/feedback')
+
+/**
+ * @deprecated
+ * Please use rxFeedbackApi instead. This item will be removed on the 4.0.0 release.
+ * @ngdoc parameters
+ * @name utilities.constant:feedbackApi
+ * @requires utilities.constant:rxFeedbackApi
+ */
+.service('feedbackApi', ["rxFeedbackApi", function (rxFeedbackApi) {
+    console.warn (
+        'DEPRECATED: feedbackApi - Please use rxFeedbackApi. ' +
+        'feedbackApi will be removed in EncoreUI 4.0.0'
+    );
+    return rxFeedbackApi;
 }]);
 
 angular.module('encore.ui.utilities')
@@ -7514,7 +7076,7 @@ angular.module('encore.ui.utilities')
  * `rxFeedbackSvc` service supports `rxFeedback` directive functionality.  A `custom endpoint` may be set to override
  * the `default` endpoint.
  */
-.factory('rxFeedbackSvc', ["$resource", "feedbackApi", "$location", "$window", function ($resource, feedbackApi, $location, $window) {
+.factory('rxFeedbackSvc', ["$resource", "rxFeedbackApi", "$location", "$window", function ($resource, rxFeedbackApi, $location, $window) {
     var container = {
         api: undefined,
         email: 'encoreui@lists.rackspace.com'
@@ -7525,7 +7087,7 @@ angular.module('encore.ui.utilities')
     };
 
     // set a default endpoint
-    container.setEndpoint(feedbackApi);
+    container.setEndpoint(rxFeedbackApi);
 
     container.fallback = function (feedback) {
         var subject = 'Encore Feedback: ' + feedback.type.label;
@@ -7547,6 +7109,52 @@ angular.module('encore.ui.utilities')
     };
 
     return container;
+}]);
+
+angular.module('encore.ui.utilities')
+/**
+ * @ngdoc parameters
+ * @name utilities.value:rxFeedbackTypes
+ * @description
+ * Provides default feedback types with placeholder text.
+ */
+.value('rxFeedbackTypes', [
+    {
+        label: 'Software Bug',
+        prompt: 'Bug Description',
+        placeholder: 'Please be as descriptive as possible so we can track it down for you.'
+    },
+    {
+        label: 'Incorrect Data',
+        prompt: 'Problem Description',
+        placeholder: 'Please be as descriptive as possible so we can figure it out for you.'
+    },
+    {
+        label: 'Feature Request',
+        prompt: 'Feature Description',
+        placeholder: 'Please be as descriptive as possible so we can make your feature awesome.'
+    },
+    {
+        label: 'Kudos',
+        prompt: 'What made you happy?',
+        placeholder: 'We love to hear that you\'re enjoying Encore! Tell us what you like, and what we can do ' +
+            'to make it even better'
+    }
+])
+
+/**
+ * @deprecated
+ * Please use rxFeedbackTypes instead. This item will be removed on the 4.0.0 release.
+ * @ngdoc parameters
+ * @name utilities.value:feedbackTypes
+ * @requires utilities.value:rxFeedbackTypes
+ */
+.service('feedbackTypes', ["rxFeedbackTypes", function (rxFeedbackTypes) {
+    console.warn (
+        'DEPRECATED: feedbackTypes - Please use rxFeedbackTypes. ' +
+        'feedbackTypes will be removed in EncoreUI 4.0.0'
+    );
+    return rxFeedbackTypes;
 }]);
 
 angular.module('encore.ui.utilities')
@@ -7579,7 +7187,7 @@ angular.module('encore.ui.utilities')
      * @description
      * Returns the selected option for the {@link rxOptionTable.directive:rxOptionTable rxOptionTable} with
      * `id`: tableId and `fieldId`: fieldId (optional).
-     * @param {String} tableId - The id of the table
+     * @param {String} tableId The id of the table
      * @returns {object} The rowId of the selected option
      */
     rxFormUtils.getSelectedOptionForTable = function (tableId) {
@@ -7618,12 +7226,77 @@ angular.module('encore.ui.utilities')
     return rxFormUtils;
 }]);
 
+(function () {
+    angular
+        .module('encore.ui.utilities')
+        .factory('rxIdentity', rxIdentityFactory);
+
+    /**
+     * @ngdoc service
+     * @name utilities.service:rxIdentity
+     * @description Service which provides authentication logic.
+     */
+    function rxIdentityFactory ($resource) {
+        /**
+         * @ngdoc function
+         * @name rxIdentity.loginWithJSON
+         * @methodOf utilities.service:rxIdentity
+         * @description Login via identity api
+         * @param {Object} body JSON payload
+         * @param {Function} success success callback
+         * @param {Function} error error callback
+         * @returns {Promise} login promise
+         */
+
+        var svc = $resource('/api/identity/:action', {}, {
+            loginWithJSON: {
+                method: 'POST',
+                isArray: false,
+                params: {
+                    action: 'tokens'
+                }
+            },
+            validate: {
+                method: 'GET',
+                url: '/api/identity/login/session/:id',
+                isArray: false
+            }
+        });
+
+        /**
+         * @ngdoc function
+         * @name rxIdentity.login
+         * @methodOf utilities.service:rxIdentity
+         * @description Login using a credential object
+         * @param {Object} credentials credential object
+         * @param {Function} success success callback
+         * @param {Function} error error callback
+         * @returns {Promise} login promise
+         */
+        svc.login = function (credentials, success, error) {
+            var body = {
+                auth: {
+                    passwordCredentials: {
+                        username: credentials.username,
+                        password: credentials.password
+                    }
+                }
+            };
+
+            return svc.loginWithJSON(body, success, error);
+        };//login()
+
+        return svc;
+    }
+    rxIdentityFactory.$inject = ["$resource"];//rxIdentityFactory()
+})();
+
 angular.module('encore.ui.utilities')
 /**
  * @ngdoc directive
  * @name utilities.directive:rxIfEnvironment
  * @restrict A
- * @requires utilities.service:Environment
+ * @requires utilities.service:rxEnvironment
  * @description
  * Show or hide content based on environment name
  *
@@ -7680,9 +7353,9 @@ angular.module('encore.ui.utilities')
  */
 .service('rxLocalStorage', ["$window", function ($window) {
     var localStorage = $window.localStorage;
-    if ($window.self !== $window.parent) {
+    if ($window.self !== $window.top) {
         try {
-            localStorage = $window.parent.localStorage;
+            localStorage = $window.top.localStorage;
         } catch (e) {
             localStorage = $window.localStorage;
         }
@@ -7729,63 +7402,6 @@ angular.module('encore.ui.utilities')
     };
 }]);
 
-/**
- * @ngdoc overview
- * @name rxLogout
- * @description
- * # rxLogout Component
- *
- * The rxLogout component provides logic to apply logout functionality to an element.
- *
- * ## Directives
- * * {@link rxLogout.directive:rxLogout rxLogout}
- */
-angular.module('encore.ui.rxLogout', [
-    'encore.ui.utilities'
-]);
-
-angular.module('encore.ui.rxLogout')
-/**
- * @ngdoc directive
- * @name rxLogout.directive:rxLogout
- * @restrict A
- * @scope
- * @description
- * Adds logout functionality to an element.
- *
- * @param {String=} [rxLogout='/login'] URL to redirect to after logging out
- *
- * @example
- * <pre>
- * <button rx-logout>Logout</button>
- * <button rx-logout="/custom">Logout (w/ custom location)</button>
- * </pre>
- */
-.directive ('rxLogout', ["Auth", "$window", "$location", function (Auth, $window, $location) {
-    return {
-        restrict: 'A',
-        scope: {
-            rxLogout: '@'
-        },
-        link: function (scope, element) {
-            // if URL not provided to redirect to, use default location
-            scope.logoutUrl = (_.isString(scope.rxLogout) && scope.rxLogout.length > 0) ? scope.rxLogout : '/login';
-
-            element.on('click', function () {
-                Auth.logout();
-
-                // check if in HTML5 Mode or not (if not, add hashbang)
-                // @see http://stackoverflow.com/a/23624785
-                if (!$location.$$html5) {
-                    scope.logoutUrl = '#' + scope.logoutUrl;
-                }
-
-                $window.location = scope.logoutUrl;
-            });
-        }
-    };
-}]);
-
 angular.module('encore.ui.utilities')
 /**
  * @ngdoc controller
@@ -7829,7 +7445,7 @@ angular.module('encore.ui.utilities')
         /*
          * Concatenates all the registered templates and clears the local template cache.
          * @public
-         * @returns {string} The concatenated templates wrapped in an `ng-switch`.
+         * @returns {String} The concatenated templates wrapped in an `ng-switch`.
          */
         flush: function () {
             var states = _.assign({}, globals, locals);
@@ -7841,10 +7457,10 @@ angular.module('encore.ui.utilities')
         /*
          * Register a template with an associated state.
          * @public
-         * @param {string} The state being registered.
-         * @param {string} The template associated with the state.
-         * @param [object} options
-         * @param {boolean} options.global Indicates if the template is used in other modals.
+         * @param {String} The state being registered.
+         * @param {String} The template associated with the state.
+         * @param {Object} options
+         * @param {Boolean} options.global Indicates if the template is used in other modals.
          */
         add: function (state, template, options) {
             if (options.global) {
@@ -7917,8 +7533,8 @@ angular.module('encore.ui.utilities')
  * Helper function to aid in the creation of boilerplate DDO definitions
  * required to validate nested custom elements.
  *
- * @param {Object=} opts - Options to merge with default DDO definitions
- * @param {String} opts.parent - Parent directive name
+ * @param {Object=} opts Options to merge with default DDO definitions
+ * @param {String} opts.parent Parent directive name
  * (i.e. defined NestedElement is an immediate child of this parent element)
  *
  * @return {Object} Directive Definition Object for a rxNestedElement
@@ -8129,7 +7745,7 @@ angular.module('encore.ui.utilities')
         loading: false,
         show: 'immediate',
         dismiss: 'next',
-        ondismiss: _.noop(),
+        ondismiss: _.noop,
         stack: 'page',
         repeat: true
     };
@@ -8349,11 +7965,11 @@ angular.module('encore.ui.utilities')
             stacks[stack] = [];
         }
 
-        // merge options with defaults (overwriting defaults where applicable)
+        // add defaults to options
         _.defaults(options, messageDefaults);
 
         // add options to message
-        _.merge(message, options);
+        _.defaults(message, options);
 
         // if dismiss is set to array, watch variable
         if (_.isArray(message.dismiss)) {
@@ -8388,6 +8004,93 @@ angular.module('encore.ui.utilities')
     };
 }]);
 
+angular.module('encore.ui.utilities')
+/**
+ * @ngdoc service
+ * @name utilities.service:rxNotifyProperties
+ * @description
+ *
+ * This factory provides functionality for abstracting "properties", and allowing
+ * other directives/controllers/etc. to register for notifications when the properties
+ * change. It would normally be used for a parent directive's controller, and child element
+ * directives that "require" that controller.
+ *
+ * For example, say you have a value you want to track, which we'll call `numSelected`.
+ * This will be a plain integer value that you have complete control over. What you want
+ * is for other directives/controllers/etc to be able to register for notifications whenever
+ * `numSelected` changes.
+ *
+ * The `registrationFn` method here sets all of this up. In your directive/controller where
+ * you want your property to live, do something like:
+ *
+ * @example
+ * <pre>
+ * stats = { _numSelected: 0 };
+ * scope.registerForNumSelected = rxNotifyProperties.registrationFn(stats, 'numSelected', '_numSelected');
+ * </pre>
+ *
+ * This is saying "We have a property `_numSelected` in `stats`, and we want it exposed as `numSelected`
+ * in `stats`. Whenever `stats.numSelected` is modified, other directives/controllers should be notified."
+ *
+ * In this example, a user registers for notifications by calling:
+ * <pre>
+ * registerForNumSelected(notificationFunction);
+ * </pre>
+ * Then, whenever `numSelected` changes, it will call:
+ * <pre>
+ * notificationFunction(newValue, oldValue);
+ * </pre>
+ *
+ * This means that if you set:
+ * <pre>
+ * stats.numSelected = 20;
+ * </pre>
+ * Everyone that registered for notifications will get their notification function called.
+ */
+.factory('rxNotifyProperties', ["$timeout", function ($timeout) {
+    var rxNotifyProperties = {};
+
+    rxNotifyProperties.registrationFn = function (dst, name, sourceName) {
+        var listeners = [];
+        var notify = function (newVal, oldVal) {
+            _.each(listeners, function (fn) {
+                $timeout(function () { fn(newVal, oldVal); });
+                fn(newVal, oldVal);
+            });
+        };
+
+        Object.defineProperty(dst, name, {
+            get: function () { return dst[sourceName]; },
+            set: function (newVal) {
+                var oldVal = dst[sourceName];
+                dst[sourceName] = newVal;
+                notify(newVal, oldVal);
+            },
+        });
+        return function register (fn) {
+            listeners.push(fn);
+        };
+
+    };
+
+    return rxNotifyProperties;
+}])
+
+/**
+ * @deprecated
+ * Please use rxNotifyProperties instead. This item will be removed on the 4.0.0 release.
+ * @ngdoc service
+ * @name utilities.service:NotifyProperties
+ * @requires utilities.service:rxNotifyProperties
+ */
+.service('NotifyProperties', ["rxNotifyProperties", function (rxNotifyProperties) {
+    console.warn(
+        'DEPRECATED: NotifyProperties - Please use rxNotifyProperties. ' +
+        'NotifyProperties will be removed in EncoreUI 4.0.0'
+    );
+    return rxNotifyProperties;
+}]);
+
 /**
  * @ngdoc overview
  * @name rxOptionTable
@@ -8406,6 +8109,7 @@ angular.module('encore.ui.rxOptionTable', [
 
 angular.module('encore.ui.rxOptionTable')
 /**
+ * @deprecated This directive will be removed in EncoreUI 4.0.0
  * @ngdoc directive
  * @name rxOptionTable.directive:rxOptionTable
  * @restrict E
@@ -8413,11 +8117,11 @@ angular.module('encore.ui.rxOptionTable')
  * @description
  * This directive is used to build a table of radio/checkbox inputs.
  *
- * @param {String} field-id - Used as the base for unique identifiers within the generated markup.
- * @param {Object} model - The AngularJS model to tie all radios/checkboxes together.
- * @param {String} type - (`radio` | `checkbox`) Type of input to be used.
- * @param {String} empty-message - A default message if the data attribute is empty.
- * @param {Array} data - Array of objects used to populate table. Properties must match column keys.
+ * @param {String} fieldId Used as the base for unique identifiers within the generated markup.
+ * @param {Object} model The AngularJS model to tie all radios/checkboxes together.
+ * @param {String} type (`radio` | `checkbox`) Type of input to be used.
+ * @param {String} emptyMessage A default message if the data attribute is empty.
+ * @param {Array} data Array of objects used to populate table. Properties must match column keys.
  * For checkboxes, checked values default to true unless `value` and `falseValue` attributes are given.
  *
  * Example:
@@ -8435,12 +8139,12 @@ angular.module('encore.ui.rxOptionTable')
  *     }
  * ]
  * </pre>
- * @param {Object} columns - Array of column data to match against data objects.
+ * @param {Object} columns Array of column data to match against data objects.
  * Each object may include the following properties.
- * * **label** - Column display value
- * * **key** - object key used to display data from the data object
- * * *selectedLabel* - (optional) Label to display alongside preseleted-values. Expressions are allowed; see
- *   demonstration samples.
+ * @param {String} columns.label Column display value
+ * @param {String} columns.key Object key used to display data from the data object
+ * @param {String=} columns.selectedLabel (optional) Label to display alongside preseleted-values. 
+ * Expressions are allowed; see demonstration samples.
  *
  * Example:
  *
@@ -8450,17 +8154,17 @@ angular.module('encore.ui.rxOptionTable')
  *     'key': 'name'
  * }]
  * </pre>
- * @param {String=} selected - Array of objects to match against data for preselection on page load.
+ * @param {String=} selected Array of objects to match against data for preselection on page load.
  * If excluded, no values will be preselected on initial load.
- * @param {Boolean=} required - Value passed to input's `ng-required` attribute.
+ * @param {Boolean=} required Value passed to input's `ng-required` attribute.
  * For checkboxes, a `true` value means that there must be at least one checkbox selected.
- * @param {Function=} disable-fn - Optional callback function to determine if option should be disabled.
+ * @param {Function=} disableFn Optional callback function to determine if option should be disabled.
  * Parameters `tableId`, `fieldId`, and `rowId` will be passed to the function.
  *
  * Example:
  *
  * <pre>
- *  <rx-option-table disable-fn="disableOption(tableId, fieldId, rowId)"></rx-option-table>
+ * <rx-option-table disable-fn="disableOption(tableId, fieldId, rowId)"></rx-option-table>
  * </pre>
  */
 .directive('rxOptionTable', ["$interpolate", function ($interpolate) {
@@ -8479,11 +8183,15 @@ angular.module('encore.ui.rxOptionTable')
             disableFn: '&?'
         },
         link: function (scope, element) {
+            console.warn(
+                'DEPRECATED: rxOptionTable will be removed in EncoreUI 4.0.0'
+            );
+
             var boxesChecked = 0;
             scope.selectAllModel = false;
 
             scope.$watchCollection('modelProxy', function (newValue) {
-                scope.selectAllModel = !_.any(newValue, function (val) {
+                scope.selectAllModel = !_.some(newValue, function (val) {
                     return val === false;
                 });
             });
@@ -8576,10 +8284,10 @@ angular.module('encore.ui.rxOptionTable')
                 }
             });
 
-            /*
+            /**
              * Updates $scope.values when a checkbox is clicked.
-             * @param {String|boolean} val - The checkbox value (Boolean, ng-true-value or ng-false-value per row)
-             * @param {Integer} index - Array index of the checkbox element marked true
+             * @param {String|Boolean} val The checkbox value (Boolean, ng-true-value or ng-false-value per row)
+             * @param {Integer} index Array index of the checkbox element marked true
              */
             scope.updateCheckboxes = function (val, index) {
                 var data = scope.data[index];
@@ -8595,10 +8303,10 @@ angular.module('encore.ui.rxOptionTable')
                 }
             };
 
-            /*
+            /**
              * Get the value out of a key from the row, or parse an expression
-             * @param {Object} column - Column whose `key` is an Angular Expression or HTML to be compiled
-             * @param {Object} row - Data object with data to be used against the expression
+             * @param {Object} column Column whose `key` is an Angular Expression or HTML to be compiled
+             * @param {Object} row Data object with data to be used against the expression
              */
             scope.getContent = function (column, row) {
                 var expr = column.key;
@@ -8619,6 +8327,73 @@ angular.module('encore.ui.rxOptionTable')
         }
     };
 }]);
+
+(function () {
+    angular
+        .module('encore.ui.utilities')
+        .filter('rxPager', rxPagerFilter)
+        .filter('Page', PageFilter);
+
+    /**
+     * @ngdoc filter
+     * @name utilities.filter:rxPager
+     * @description
+     * This is the pagination filter that is used to limit the number of pages
+     * shown.
+     *
+     * @param {Object} pager The instance of the rxPageTracker service. If not
+     * specified, a new one will be created.
+     *
+     * @returns {Array} The list of page numbers that will be displayed.
+     */
+    function rxPagerFilter (rxPageTracker) {
+        return function (pager) {
+            if (!pager) {
+                pager = rxPageTracker.createInstance();
+            }
+
+            var displayPages = [],
+                // the next four variables determine the number of pages to show ahead of and behind the current page
+                pagesToShow = pager.pagesToShow || 5,
+                pageDelta = (pagesToShow - 1) / 2,
+                pagesAhead = Math.ceil(pageDelta),
+                pagesBehind = Math.floor(pageDelta);
+
+            if (pager && pager.length !== 0) {
+                // determine starting page based on (current page - (1/2 of pagesToShow))
+                var pageStart = Math.max(Math.min(pager.pageNumber - pagesBehind, pager.totalPages - pagesToShow), 0),
+
+                    // determine ending page based on (current page + (1/2 of pagesToShow))
+                    pageEnd = Math.min(Math.max(pager.pageNumber + pagesAhead, pagesToShow - 1), pager.totalPages - 1);
+
+                for (pageStart; pageStart <= pageEnd; pageStart++) {
+                    // create array of page indexes
+                    displayPages.push(pageStart);
+                }
+            }
+
+            return displayPages;
+        };
+    }
+    rxPagerFilter.$inject = ["rxPageTracker"];//rxPagerFilter
+
+    /**
+     * @deprecated
+     * Use rxPager instead. This filter will be removed on the 4.0.0 release.
+     * @ngdoc filter
+     * @name utilities.filter:Page
+     * @requires utilities.filter:rxPager
+     */
+    function PageFilter () {
+        return function (pager) {
+            console.warn(
+                'DEPRECATED: Page - Please use rxPager. ' +
+                'Page will be removed in EncoreUI 4.0.0'
+            );
+            return rxPagerFilter()(pager);
+        };
+    }//PageFilter
+})();
 
 angular.module('encore.ui.utilities')
 /**
@@ -8688,6 +8463,362 @@ angular.module('encore.ui.utilities')
 angular.module('encore.ui.utilities')
 /**
  * @ngdoc service
+ * @name utilities.service:rxPageTracker
+ * @description
+ * This is the data service that can be used in conjunction with the pagination
+ * objects to store/control page display of data tables and other items.
+ * This is intended to be used with {@link elements.directive:rxPaginate}
+ * @namespace rxPageTracker
+ *
+ * @example
+ * <pre>
+ * $scope.pager = rxPageTracker.createInstance({showAll: true, itemsPerPage: 15});
+ * </pre>
+ * <pre>
+ * <rx-paginate page-tracking="pager"></rx-paginate>
+ * </pre>
+ */
+.factory('rxPageTracker', ["$q", "rxLocalStorage", "rxPaginateUtils", function ($q, rxLocalStorage, rxPaginateUtils) {
+    var rxPageTracker = {
+        /**
+         * @ngdoc method
+         * @name utilities.service:rxPageTracker#createInstance
+         * @methodOf utilities.service:rxPageTracker
+         * @param {Object=} options Configuration options for the pager
+         * @param {Number=} [options.itemsPerPage=200]
+         * The default number of items to display per page. If you choose a
+         * value that is not in the default set to itemsPerPage options
+         * (50, 200, 350, 500), then that value will be inserted into that
+         * list in the appropriate place
+         * @param {Number[]=} [options.itemSizeList=(50, 200, 350, 500)]
+         * The "items per page" options to give to the user. As these same
+         * values are used all throughout Encore, you probably should not alter
+         * them for your table.
+         * @param {Boolean=} [options.persistItemsPerPage=true]
+         * Whether or not a change to this pager's itemsPerPage should be
+         * persisted globally to all other pagers
+         * @param {Number=} [options.pagesToShow=5]
+         * This is the number of page numbers to show in the pagination controls
+         * @param {Boolean=} [options.showAll=false]
+         * This is used to determine whether or not to use the pagination. If
+         * `true`, then all items will be displayed, i.e. pagination will not
+         * be used
+         *
+         * @description This is used to generate the instance of the
+         * rxPageTracker object. It takes an optional `options` object,
+         * allowing you to customize the default pager behaviour.
+         *
+         * @return {Object} A new pager instance to be passed to the
+         * `page-tracking` attribute of `<rx-paginate>`
+         * (see {@link rxPaginate.directive:rxPaginate})
+         */
+        createInstance: function (options) {
+            options = options ? options : {};
+            var tracking = new rxPageTrackerObject(options);
+            return tracking.pager;
+        },
+
+        /*
+        * @method userSelectedItemsPerPage This method sets a new global itemsPerPage value
+        */
+        userSelectedItemsPerPage: function (itemsPerPage) {
+            rxLocalStorage.setItem('rxItemsPerPage', itemsPerPage);
+        }
+    };
+
+    function rxPageTrackerObject (opts) {
+        var pager = _.defaults(_.cloneDeep(opts), {
+            itemsPerPage: 200,
+            persistItemsPerPage: true,
+            pagesToShow: 5,
+            pageNumber: 0,
+            pageInit: false,
+            total: 0,
+            showAll: false,
+            itemSizeList: [50, 200, 350, 500]
+        });
+
+        // This holds all the items we've received. For UI pagination,
+        // this will be the entire set. For API pagination, this will be
+        // whatever chunk of data the API decided to send us
+        pager.localItems = [];
+
+        var itemsPerPage = pager.itemsPerPage;
+        var itemSizeList = pager.itemSizeList;
+
+        // If itemSizeList doesn't contain the desired itemsPerPage,
+        // then find the right spot in itemSizeList and insert the
+        // itemsPerPage value
+        if (!_.includes(itemSizeList, itemsPerPage)) {
+            var index = _.sortedIndex(itemSizeList, itemsPerPage);
+            itemSizeList.splice(index, 0, itemsPerPage);
+        }
+
+        var selectedItemsPerPage = parseInt(rxLocalStorage.getItem('rxItemsPerPage'));
+
+        // If the user has chosen a desired itemsPerPage, make sure we're respecting that
+        // However, a value specified in the options will take precedence
+        if (!opts.itemsPerPage && !_.isNaN(selectedItemsPerPage) && _.includes(itemSizeList, selectedItemsPerPage)) {
+            pager.itemsPerPage = selectedItemsPerPage;
+        }
+
+        Object.defineProperties(pager, {
+            'items': {
+                // This returns the slice of data for whatever current page the user is on.
+                // It is used for server-side pagination.
+                get: function () {
+                    var info = rxPaginateUtils.firstAndLast(pager.pageNumber, pager.itemsPerPage, pager.total);
+                    return pager.localItems.slice(info.first - pager.cacheOffset, info.last - pager.cacheOffset);
+                }
+            },
+
+            'totalPages': {
+                get: function () { return Math.ceil(pager.total / pager.itemsPerPage); }
+            }
+        });
+
+        function updateCache (pager, pageNumber, localItems) {
+            var numberOfPages = Math.floor(localItems.length / pager.itemsPerPage);
+            var cachedPages = numberOfPages ? _.range(pageNumber, pageNumber + numberOfPages) : [pageNumber];
+            pager.cachedPages = !_.isEmpty(cachedPages) ? cachedPages : [pageNumber];
+            pager.cacheOffset = pager.cachedPages[0] * pager.itemsPerPage;
+        }
+
+        updateCache(pager, 0, pager.localItems);
+
+        var updateItems = function (pageNumber) {
+            // This is the function that gets used when doing UI pagination,
+            // thus we're not waiting for the pageNumber to come back from a service,
+            // so we should set it right away. We can also return an empty items list,
+            // because for UI pagination, the items themselves come in through the Pagination
+            // filter
+            pager.pageNumber = pageNumber;
+            var data = {
+                items: [],
+                pageNumber: pageNumber,
+                totalNumberOfItems: pager.total
+            };
+            return $q.when(data);
+        };
+        pager.updateItemsFn = function (fn) {
+            updateItems = fn;
+        };
+
+        // Used by rxPaginate to tell the pager that it should grab
+        // new items from itemsPromise, where itemsPromise is the promise
+        // returned by a product's getItems() method.
+        // Set shouldUpdateCache to false if the pager should not update its cache with these values
+        pager.newItems = function (itemsPromise, shouldUpdateCache) {
+            if (_.isUndefined(shouldUpdateCache)) {
+                shouldUpdateCache = true;
+            }
+            return itemsPromise.then(function (data) {
+                pager.pageNumber = data.pageNumber;
+                pager.localItems = data.items;
+                pager.total = data.totalNumberOfItems;
+                if (shouldUpdateCache) {
+                    updateCache(pager, pager.pageNumber, data.items);
+                }
+                return data;
+            });
+        };
+
+        // 0-based page number
+        // opts: An object containing:
+        //  forceCacheUpdate: true/false, whether or not to flush the cache
+        //  itemsPerPage: If specificed, request this many items for the page, instead of
+        //                using pager.itemsPerPage
+        pager.goToPage = function (n, opts) {
+            opts = opts || {};
+            var shouldUpdateCache = true;
+
+            // If the desired page number is currently cached, then just reuse
+            // our `localItems` cache, rather than going back to the API.
+            // By setting `updateCache` to false, it ensures that the current
+            // pager.cacheOffset and pager.cachedPages values stay the
+            // same
+            if (!opts.forceCacheUpdate && _.includes(pager.cachedPages, n)) {
+                shouldUpdateCache = false;
+                return pager.newItems($q.when({
+                    pageNumber: n,
+                    items: pager.localItems,
+                    totalNumberOfItems: pager.total
+                }), shouldUpdateCache);
+            }
+
+            var itemsPerPage = opts.itemsPerPage || pager.itemsPerPage;
+            return pager.newItems(updateItems(n, itemsPerPage), shouldUpdateCache);
+        };
+
+        // This tells the pager to go to the current page, but ensure no cached
+        // values are used. Can be used by page controllers when they want
+        // to force an update
+        pager.refresh = function (stayOnCurrentPage) {
+            var pageNumber = stayOnCurrentPage ? pager.currentPage() : 0;
+            return pager.goToPage(pageNumber, { forceCacheUpdate: true });
+        };
+
+        pager.isFirstPage = function () {
+            return pager.isPage(0);
+        };
+
+        pager.isLastPage = function () {
+            return pager.isPage(_.max([0, pager.totalPages - 1]));
+        };
+
+        pager.isPage = function (n) {
+            return pager.pageNumber === n;
+        };
+
+        pager.isPageNTheLastPage = function (n) {
+            return pager.totalPages - 1 === n;
+        };
+
+        pager.currentPage = function () {
+            return pager.pageNumber;
+        };
+
+        pager.goToFirstPage = function () {
+            pager.goToPage(0);
+        };
+
+        pager.goToLastPage = function () {
+            pager.goToPage(_.max([0, pager.totalPages - 1]));
+        };
+
+        pager.goToPrevPage = function () {
+            pager.goToPage(pager.currentPage() - 1);
+        };
+
+        pager.goToNextPage = function () {
+            pager.goToPage(pager.currentPage() + 1);
+        };
+
+        pager.isEmpty = function () {
+            return pager.total === 0;
+        };
+
+        pager.setItemsPerPage = function (numItems) {
+            var opts = {
+                forceCacheUpdate: true,
+                itemsPerPage: numItems
+            };
+            return pager.goToPage(0, opts).then(function (data) {
+                // Wait until we get the data back from the API before we
+                // update itemsPerPage. This ensures that we don't show
+                // a "weird" number of items in a table
+                pager.itemsPerPage = numItems;
+                // Now that we've "officially" changed the itemsPerPage,
+                // we have to update all the cache values
+                updateCache(pager, data.pageNumber, data.items);
+
+                // Persist this itemsPerPage as the new global value
+                if (pager.persistItemsPerPage) {
+                    rxPageTracker.userSelectedItemsPerPage(numItems);
+                }
+            });
+        };
+
+        pager.isItemsPerPage = function (numItems) {
+            return pager.itemsPerPage === numItems;
+        };
+
+        this.pager = pager;
+
+        pager.goToPage(pager.pageNumber);
+
+    }
+
+    return rxPageTracker;
+}])
+
+/**
+ * @deprecated
+ * Please use rxPageTracker instead. This item will be removed on the 4.0.0 release.
+ * @ngdoc service
+ * @name utilities.service:PageTracking
+ * @requires utilities.service:rxPageTracker
+ */
+.service('PageTracking', ["rxPageTracker", function (rxPageTracker) {
+    console.warn(
+        'DEPRECATED: PageTracking - Please use rxPageTracker ' +
+        'PageTracking will be removed in EncoreUI 4.0.0'
+    );
+    return rxPageTracker;
+}]);
+
+
+(function () {
+    angular
+        .module('encore.ui.utilities')
+        .filter('rxPaginate', rxPaginateFilter)
+        .filter('Paginate', PaginateFilter);
+
+    /**
+     * @ngdoc filter
+     * @name utilities.filter:rxPaginate
+     * @description
+     * This is the pagination filter that is used to calculate the division in the
+     * items list for the paging.
+     *
+     * @param {Object} items The list of items that are to be sliced into pages
+     * @param {Object} pager The instance of the rxPageTracker service. If not
+     * specified, a new one will be created.
+     *
+     * @returns {Object} The list of items for the current page in the rxPageTracker object
+     */
+    function rxPaginateFilter (rxPageTracker, rxPaginateUtils) {
+        return function (items, pager) {
+            if (!pager) {
+                pager = rxPageTracker.createInstance();
+            }
+            if (pager.showAll) {
+                pager.total = items.length;
+                return items;
+            }
+            if (items) {
+
+                pager.total = items.length;
+                // We were previously on the last page, but enough items were deleted
+                // to reduce the total number of pages. We should now jump to whatever the
+                // new last page is
+                // When loading items over the network, our first few times through here
+                // will have totalPages===0. We do the _.max to ensure that
+                // we never set pageNumber to -1
+                if (pager.pageNumber + 1 > pager.totalPages) {
+                    if (!pager.isLastPage()) {
+                        pager.goToLastPage();
+                    }
+                }
+                var firstLast = rxPaginateUtils.firstAndLast(pager.currentPage(), pager.itemsPerPage, items.length);
+                return items.slice(firstLast.first, firstLast.last);
+            }
+        };
+    }
+    rxPaginateFilter.$inject = ["rxPageTracker", "rxPaginateUtils"];//rxPaginateFilter
+
+    /**
+     * @deprecated
+     * Use rxPaginate instead. This filter will be removed on the 4.0.0 release.
+     * @ngdoc filter
+     * @name utilities.filter:Paginate
+     * @requires utilities.filter:rxPaginate
+     */
+    function PaginateFilter (rxPageTracker, rxPaginateUtils) {
+        return function (items, pager) {
+            console.warn(
+                'DEPRECATED: Paginate - Please use rxPaginate. ' +
+                'Paginate will be removed in EncoreUI 4.0.0'
+            );           
+            return rxPaginateFilter(rxPageTracker, rxPaginateUtils)(items, pager);
+        };
+    }
+    PaginateFilter.$inject = ["rxPageTracker", "rxPaginateUtils"];//PaginateFilter
+})();
+
+angular.module('encore.ui.utilities')
+/**
+ * @ngdoc service
  * @name utilities.service:rxPaginateUtils
  * @description
  * A few utilities to calculate first, last, and number of items.
@@ -8736,7 +8867,7 @@ angular.module('encore.ui.utilities')
  *
  * @requires utilities.service:Permission
  *
- * @param {String} role - Name of required role.
+ * @param {String} role Name of required role.
  */
 .directive('rxPermission', function () {
     return {
@@ -8753,6 +8884,29 @@ angular.module('encore.ui.utilities')
         }]
     };
 });
+
+angular.module('encore.ui.utilities')
+    .factory('rxProgressbarUtil', function () {
+        var svc = {};
+
+        svc.calculatePercent = function (val, max) {
+            max = angular.isDefined(max) ? max : 100;
+
+            // Lower Bound Check
+            val = (val < 0 ? 0 : val);
+            // Upper Bound Check
+            val = (val > max ? max : val);
+
+            // All 0
+            if (val === 0 && max === 0) {
+                return 100;
+            }
+
+            return +(100 * val / max).toFixed(0);
+        };//calculatePercent()
+
+        return svc;
+    });
 
 angular.module('encore.ui.utilities')
 /**
@@ -8791,7 +8945,7 @@ angular.module('encore.ui.utilities')
      * Shows either a success or error message
      * @private
      * @this Scope used for storing messages data
-     * @param {string} msgType Message type to be displayed
+     * @param {String} msgType Message type to be displayed
      * @param {Object} response Data that's returned from the promise
      */
     var showMessage = function (msgType, response) {
@@ -8933,6 +9087,498 @@ angular.module('encore.ui.utilities')
 
 angular.module('encore.ui.utilities')
 /**
+ * @ngdoc service
+ * @name utilities.service:rxSelectFilter
+ * @description
+ * A prototype for creating objects that can be used for filtering arrays.
+ *
+ * ## rxSelectFilter
+ * This service exposes an object with single method, `create()`, used to
+ * create instances of a `rxSelectFilter`. It is configurable via three options:
+ * - `properties`: A list of the properties to create a filter control.
+ * Assuming the source data is an array of objects, a property is equivalent to
+ * an object's key.
+ *
+ * - `available` (optional): An object that tracks which options are available
+ * for a property.
+ * Note that the key of the object matches a value in the `properties` array.
+ * - `selected` (optional): An object that tracks which options are selected
+ * for a property. It has the same form as the `available` object, but the
+ * arrays indicate which options are selected, and as such are strict subsets
+ * of their `available` counterparts.
+ *
+ * ### Option Defaults
+ * Every property that is listed in `properties` but not provided as a key
+ * to `available` will be automatically populated the first time `applyTo()`
+ * (see below) is called.
+ * <pre>
+ * var filter = rxSelectFilter.create({
+ *   properties: ['year']
+ * });
+ *
+ * filter.applyTo([{
+ *   eventId: 1,
+ *   year: 2013
+ * }, {
+ *   eventId: 2,
+ *   year: 2014
+ * }, {
+ *   eventId: 3,
+ *   year: 2013
+ * }]);
+ * // filter.available is { year: [2013, 2014] }
+ * </pre>
+ * **Note:** There is an implied requirement that, when relying on the
+ * auto-populated filter, the input array will have at least one item for every
+ * available option. For example, this may not be the case when used with
+ * server-side pagination.
+ *
+ * Every property that is listed in `properties` but not provided as a key to
+ * `selected` is initialized to have all options selected (by looking them up
+ * in `available`).  If property is also not provided to `available`, its
+ * initialization is delayed until the first call of `applyTo()`.
+ *
+ * <pre>
+ * var filter = rxSelectFilter.create({
+ *   properties: ['year'],
+ *   available: {
+ *       year: [2013, 2014, 2015]
+ *   }
+ * });
+ * // filter.selected is { year: [2013, 2014, 2015] }
+ * </pre>
+ *
+ * ### Instances
+ * Instances of `rxSelectFilter` have an `applyTo()` method, which applies the
+ * filter's internal state of selected options to the array. This will not
+ * often be called directly, but instead used by the
+ * {@link utilities.filter:Apply Apply} filter. As stated previously,
+ * the first call of `applyTo()` will initialize any
+ * `properties` that have not been defined in `available` or `selected`.
+ * <pre>
+ * var filter = rxSelectFilter.create({
+ *   properties: ['year'],
+ *   selected: {
+ *      year: [2014]
+ *     }
+ * });
+ *
+ * var filteredArray = filter.applyTo([{
+ *   eventId: 1,
+ *   year: 2013
+ * }, {
+ *   eventId: 2,
+ *   year: 2014
+ * }, {
+ *   eventId: 3,
+ *   year: 2013
+ * }]);
+ * // filteredArray is [{ eventId: 2, year: 2014 }]
+ * </pre>
+ *
+ * The instance will also have all of the constructor options as public
+ * properties, so that they can be watched or changed.
+ *
+ */
+.service('rxSelectFilter', function () {
+    return {
+       /**
+        * @ngdoc method
+        * @name create
+        * @methodOf utilities.service:rxSelectFilter
+        * @param {Object} options
+        * Options object
+        * @param {Object} options.properties
+        * A list of the properties to create a filter control. Assuming the
+        * source data is an array of objects, a property is equivalent to an
+        * object's key.
+        * <pre>
+        * rxSelectFilter.create({
+        *      properties: ['year']
+        * });
+        * </pre>
+        * @param {Object=} options.available
+        * An object that tracks which options are available for a property.
+        * <pre>
+        * rxSelectFilter.create({
+        *     // other options...
+        *     available: {
+        *        year: [2013, 2014, 2015],
+        *       }
+        * });
+        * </pre>
+        * @param {Object=} options.selected
+        * An object that tracks which options are selected for a property.
+        * It has the same form as the `available` object, but the arrays indicate
+        * which options are selected, and as such are strict subsets of their
+        * `available` counterparts.
+        * <pre>
+        * rxSelectFilter.create({
+        *     // other options...
+        *     selected: {
+        *         year: [2014],
+        *       }
+        * });
+        * </pre>
+        */
+        create: function (options) {
+            options = _.defaults(options, {
+                properties: [],
+                available: {},
+                selected: _.isUndefined(options.available) ? {} : _.cloneDeep(options.available)
+            });
+
+            var filter = _.cloneDeep(options);
+
+            var firstRun = true;
+
+            function init (list) {
+                filter.properties.forEach(function (property) {
+                    if (_.isUndefined(filter.available[property])) {
+                        filter.available[property] = _.uniq(_.map(list, property));
+                    }
+
+                    // Check `options.selected` instead of `filter.selected` because the latter
+                    // is used as the model for `<rx-multi-select>`, which initializes its
+                    // model to an empty array. However, the intent is select all options
+                    // initially when left unspecified (preferred default behavior).
+                    if (_.isUndefined(options.selected[property])) {
+                        filter.selected[property] = _.clone(filter.available[property]);
+                    }
+                });
+            }
+
+            function isItemValid (item) {
+                return filter.properties.every(function (property) {
+                    return _.includes(filter.selected[property], item[property]);
+                });
+            }
+
+            filter.applyTo = function (list) {
+                if (firstRun) {
+                    firstRun = false;
+                    init(list);
+                }
+                return list.filter(isItemValid);
+            };
+
+            return filter;
+        }
+    };
+})
+
+/**
+ * @deprecated
+ * Please use rxSelectFilter instead. This item will be removed on the 4.0.0 release.
+ * @ngdoc service
+ * @name utilities.service:SelectFilter
+ * @requires utilities.service:rxSelectFilter
+ */
+.service('SelectFilter', ["rxSelectFilter", function (rxSelectFilter) {
+    console.warn(
+        'DEPRECATED: SelectFilter - Please use rxSelectFilter. ' +
+        'SelectFilter will be removed in EncoreUI 4.0.0'
+    );
+    return rxSelectFilter;
+}]);;
+
+(function () {
+    angular
+        .module('encore.ui.utilities')
+        .factory('rxSession', rxSessionFactory);
+
+    /**
+     * @ngdoc service
+     * @name utilities.service:rxSession
+     * @requires utilities.service:rxLocalStorage
+     * @description Session management and utility functions.
+     */
+    function rxSessionFactory (rxLocalStorage) {
+        var TOKEN_ID = 'encoreSessionToken';
+        var svc = {};
+
+        /**
+         * @ngdoc function
+         * @name rxSession.getByKey
+         * @methodOf utilities.service:rxSession
+         * @description Dot walks the token without throwing an error.
+         * If key exists, returns value otherwise returns undefined.
+         * @param {Function} key callback
+         * @returns {String} Key value
+         */
+        svc.getByKey = function (key) {
+            var tokenValue,
+                token = svc.getToken(),
+                keys = key ? key.split('.') : undefined;
+
+            if (_.isEmpty(token) || !keys) {
+                return;
+            }
+
+            tokenValue = _.reduce(keys, function (val, key) {
+                return val ? val[key] : undefined;
+            }, token);
+
+            return tokenValue;
+        };
+
+        /**
+         * @ngdoc function
+         * @name rxSession.getToken
+         * @methodOf utilities.service:rxSession
+         * @description If cached token exists, return value. Otherwise return undefined.
+         * @returns {String|Undefined} Token value
+         */
+        svc.getToken = function () {
+            return rxLocalStorage.getObject(TOKEN_ID);
+        };
+
+        /**
+         * @ngdoc function
+         * @name rxSession.getTokenId
+         * @methodOf utilities.service:rxSession
+         * @description If token ID exists, returns value otherwise returns undefined.
+         * @returns {String} Token ID
+         */
+        svc.getTokenId = function () {
+            return svc.getByKey('access.token.id');
+        };
+
+        /**
+         * @ngdoc function
+         * @name rxSession.getUserId
+         * @methodOf utilities.service:rxSession
+         * @description Gets user id
+         * @returns {String} User ID
+         */
+        svc.getUserId = function () {
+            return svc.getByKey('access.user.id');
+        };
+
+        /**
+         * @ngdoc function
+         * @name rxSession.getUserName
+         * @methodOf utilities.service:rxSession
+         * @description Gets user name
+         * @returns {String} User Name
+         */
+        svc.getUserName = function () {
+            return svc.getByKey('access.user.name');
+        };
+
+        /**
+         * @ngdoc function
+         * @name rxSession.storeToken
+         * @methodOf utilities.service:rxSession
+         * @description Stores token
+         * @param {Function} token callback
+         */
+        svc.storeToken = function (token) {
+            rxLocalStorage.setObject(TOKEN_ID, token);
+        };
+
+        /**
+         * @ngdoc function
+         * @name rxSession.logout
+         * @methodOf utilities.service:rxSession
+         * @description Logs user off
+         */
+        svc.logout = function () {
+            rxLocalStorage.removeItem(TOKEN_ID);
+        };
+
+        /**
+         * @ngdoc function
+         * @name rxSession.isCurrent
+         * @methodOf utilities.service:rxSession
+         * @description Checks if token is current/expired
+         * @returns {Boolean} True if expiration date is valid and older than current date
+         */
+        svc.isCurrent = function () {
+            var expireDate = svc.getByKey('access.token.expires');
+
+            if (expireDate) {
+                return new Date(expireDate) > _.now();
+            }
+
+            return false;
+        };
+
+        /**
+         * @ngdoc function
+         * @name rxSession.isAuthenticated
+         * @methodOf utilities.service:rxSession
+         * @description Authenticates whether token is defined or undefined
+         * @returns {Boolean} True if authenticated. Otherwise False.
+         */
+        svc.isAuthenticated = function () {
+            var token = svc.getToken();
+            return _.isEmpty(token) ? false : svc.isCurrent();
+        };
+
+        var cleanRoles = function (roles) {
+            return roles.split(',').map(function (r) {
+                return r.trim();
+            });
+        };
+
+        var userRoles = function () {
+            return _.map(svc.getRoles(), 'name');
+        };
+
+        /**
+         * @description Takes a function and a list of roles, and returns the
+         * result of calling that function with `roles`, and comparing to userRoles().
+         *
+         * @param {Function} fn Comparison function to use. _.some, _.every, etc.
+         * @param {String[]} roles List of desired roles
+         */
+        var checkRoles = function (roles, fn) {
+            // Some code expects to pass a comma-delimited string
+            // here, so turn that into an array
+            if (_.isString(roles)) {
+                roles = cleanRoles(roles);
+            }
+
+            var allUserRoles = userRoles();
+            return fn(roles, function (role) {
+                return _.includes(allUserRoles, role);
+            });
+        };
+
+        /**
+         * @ngdoc function
+         * @name rxSession.getRoles
+         * @methodOf utilities.service:rxSession
+         * @description Fetch all the roles tied to the user (in the exact format available in their auth token).
+         * @returns {Array} List of all roles associated to the user.
+         */
+        svc.getRoles = function () {
+            var token = svc.getToken();
+            return (token && token.access && token.access.user && token.access.user.roles) ?
+                token.access.user.roles : [];
+        };
+
+        /**
+         * @ngdoc function
+         * @name rxSession.hasRole
+         * @methodOf utilities.service:rxSession
+         * @description Check if user has at least _one_ of the given roles.
+         * @param {String[]} roles List of roles to check against
+         * @returns {Boolean} True if user has at least _one_ of the given roles; otherwise, false.
+         */
+        svc.hasRole = function (roles) {
+            return checkRoles(roles, _.some);
+        };
+
+        /**
+         * @ngdoc function
+         * @name rxSession.hasAllRoles
+         * @methodOf utilities.service:rxSession
+         * @description Checks if user has _every_ role in given list.
+         * @param {String[]} roles List of roles to check against
+         * @returns {Boolean} True if user has _every_ role in given list; otherwise, false.
+         */
+        svc.hasAllRoles = function (roles) {
+            return checkRoles(roles, _.every);
+        };
+
+        return svc;
+    }
+    rxSessionFactory.$inject = ["rxLocalStorage"];//rxSessionFactory();
+})();
+
+angular.module('encore.ui.utilities')
+/**
+ * @ngdoc service
+ * @name utilities.service:rxSessionStorage
+ * @description
+ *
+ * A simple wrapper for injecting the global variable sessionStorage
+ * for storing values in session storage. This service is similar to angular's
+ * $window and $document services.  The API works the same as the W3C's
+ * specification provided at: http://dev.w3.org/html5/webstorage/#storage-0.
+ * Also includes to helper functions for getting and setting objects.
+ *
+ * @example
+ * <pre>
+ * rxSessionStorage.setItem('Batman', 'Robin'); // no return value
+ * rxSessionStorage.key(0); // returns 'Batman'
+ * rxSessionStorage.getItem('Batman'); // returns 'Robin'
+ * rxSessionStorage.removeItem('Batman'); // no return value
+ * rxSessionStorage.setObject('hero', {name:'Batman'}); // no return value
+ * rxSessionStorage.getObject('hero'); // returns { name: 'Batman'}
+ * rxSessionStorage.clear(); // no return value
+ * </pre>
+ */
+.service('rxSessionStorage', ["$window", function ($window) {
+    var sessionStorage = $window.sessionStorage;
+    if ($window.self !== $window.top) {
+        try {
+            sessionStorage = $window.top.sessionStorage;
+        } catch (e) {
+            sessionStorage = $window.sessionStorage;
+        }
+    }
+
+    this.setItem = function (key, value) {
+        sessionStorage.setItem(key, value);
+    };
+
+    this.getItem = function (key) {
+        return sessionStorage.getItem(key);
+    };
+
+    this.key = function (key) {
+        return sessionStorage.key(key);
+    };
+
+    this.removeItem = function (key) {
+        sessionStorage.removeItem(key);
+    };
+
+    this.clear = function () {
+        sessionStorage.clear();
+    };
+
+    this.__defineGetter__('length', function () {
+        return sessionStorage.length;
+    });
+
+    this.setObject = function (key, val) {
+        var value = _.isObject(val) || _.isArray(val) ? JSON.stringify(val) : val;
+        this.setItem(key, value);
+    };
+
+    this.getObject = function (key) {
+        var item = sessionStorage.getItem(key);
+        try {
+            item = JSON.parse(item);
+        } catch (error) {
+            return item;
+        }
+
+        return item;
+    };
+}])
+
+/**
+ * @deprecated
+ * Please use rxSessionStorage instead. This item will be removed on the 4.0.0 release.
+ * @ngdoc service
+ * @name utilities.service:SessionStorage
+ * @requires utilities.service:rxSessionStorage
+ */
+.service('SessionStorage', ["rxSessionStorage", function (rxSessionStorage) {
+    console.warn (
+        'DEPRECATED: SessionStorage - Please use rxSessionStorage. ' +
+        'SessionStorage will be removed in EncoreUI 4.0.0'
+    );
+    return rxSessionStorage;
+}]);
+
+angular.module('encore.ui.utilities')
+/**
  * @ngdoc filter
  * @name utilities.filter:rxSortEmptyTop
  * @description
@@ -9011,910 +9657,8 @@ angular.module('encore.ui.utilities')
 
 angular.module('encore.ui.utilities')
 /**
- * @ngdoc object
- * @name utilities.object:rxStatusColumnIcons
- * @description
- *
- * Mapping of internal statuses to FontAwesome icons.
- * The keys map to the names defined in rxStatusColumn.less
- */
-.value('rxStatusColumnIcons', {
-    'ERROR': 'fa-ban',
-    'WARNING': 'fa-exclamation-triangle',
-    'INFO': 'fa-info-circle',
-});
-
-angular.module('encore.ui.utilities')
-/**
  * @ngdoc service
- * @name utilities.service:rxStatusMappings
- * @description
- *
- * A set of methods for creating mappings between a product's notion
- * of statuses, and the status identifiers used in EncoreUI
- *
- * To accommodate different statuses, the `rxStatusMappings` factory includes
- * methods for defining mappings from your own statuses to the six defined ones.
- * The basic methods for this are `rxStatusMappings.addGlobal()` and
- * `rxStatusMappings.addAPI()`.
- *
- * ## mapToActive()/mapToWarning()/mapToError()/mapToInfo()/mapToPending()
- *
- * While `.addGlobal()` and `.addAPI()` would be sufficient on their own,
- * they can be slightly cumbersome. If you have a list of statuses that all
- * need to get mapped to the same EncoreUI status, the mapping object will
- * be forced to have repetition, leaving room for errors. For example,
- * something like this:
- *
- * <pre>
- * rxStatusMappings.addGlobal({
- *     'BLOCKED': 'ERROR',
- *     'SHUTDOWN': 'ERROR',
- *     'FAILED': 'ERROR'
- * });
- * </pre>
- *
- * There is required repetition of `"ERROR"` in each pair, and there's always
- * the chance of misspelling `"ERROR"`. Instead, we provide a utility method
- * `mapToError` to help with this:
- *
- * <pre>
- * rxStatusMappings.mapToError(['BLOCKED', 'SHUTDOWN', 'FAILED']);
- * </pre>
- *
- * This has the advantage that it's shorter to type, eliminates the chance of
- * mistyping or misassigning `"ERROR"`, and keeps all `"ERROR"` mappings
- * physically grouped. With this, you could easily keep your mapping values
- * in an Angular `.value` or `.constant`, and just pass them to these methods
- * in your `.run()` method.
- *
- * There are equivalent `mapToWarning`, `mapToActive`, `mapToDisabled`,
- * `mapToPending` and `mapToInfo` methods.
- *
- * All six of these methods can take an array or a single string as the first
- * argument. The call above is equivalent to this group of individual calls:
- *
- * <pre>
- * rxStatusMappings.mapToError('BLOCKED');
- * rxStatusMappings.mapToError('SHUTDOWN');
- * rxStatusMappings.mapToError('FAILED');
- * </pre>
- *
- * All six can also take `api` as a second, optional parameter. Thus we could
- * define the `rxStatusMappings.addAPI({ 'FOO': 'ERROR' }, 'z')` example from
- * above as:
- *
- * <pre>
- * rxStatusMappings.mapToError('FOO', 'z');
- * </pre>
- *
- */
-.factory('rxStatusMappings', function () {
-    var globalMappings = {};
-    var apiMappings = {};
-    var rxStatusMappings = {};
-
-    var upperCaseCallback = function (objectValue, sourceValue) {
-        return sourceValue.toUpperCase();
-    };
-    /**
-     * @ngdoc function
-     * @name rxStatusMappings.addGlobal
-     * @methodOf utilities.service:rxStatusMappings
-     * @description
-     *
-     * Takes a full set of mappings to be used globally
-     *
-     * `rxStatusMappings.addGlobal()` takes an object as an argument, with the
-     * keys being your own product's statuses, and the values being one of the six
-     * internal statuses that it should map to. For example:
-     *
-     * <pre>
-     * rxStatusMappings.addGlobal({
-     *     'RUNNING': 'ACTIVE',
-     *     'STANDBY': 'INFO',
-     *     'SUSPENDED': 'WARNING',
-     *     'FAILURE': 'ERROR'
-     * });
-     * </pre>
-     *
-     * These mappings will be used throughout all instances of `rx-status-column`
-     * in your code.
-     *
-     * @param {String} mapping This is mapping with keys and values
-     */
-    rxStatusMappings.addGlobal = function (mapping) {
-        _.assign(globalMappings, mapping, upperCaseCallback);
-    };
-
-    /**
-     * @ngdoc function
-     * @name rxStatusMappings.addAPI
-     * @methodOf utilities.service:rxStatusMappings
-     * @description
-     *
-     * Create a mapping specific to a particular API. This will
-     * only be used when the directive receives the `api="..."`
-     * attribute
-     *
-     * Say that you are using three APIs in your product, `X`, `Y` and `Z`. Both
-     * `X` and `Y` define a status `"FOO"`, which you want to map to EncoreUI's
-     * `"WARNING"`. You can declare this  mapping with
-     * `rxStatusMappings.addGlobal({ 'FOO': 'WARNING' })`. But your API `Z` also
-     * returns a `"FOO"` status, which you need mapped to EncoreUI's
-     * `"ERROR"` status.
-     *
-     * You _could_ do a transformation in your product to convert the `"FOO"`
-     * from `Z` into something else, or you can make use of
-     * `rxStatusMappings.addAPI()`, as follows:
-     *
-     * <pre>
-     * rxStatusMappings.addAPI('z', { 'FOO': 'ERROR' });
-     * </pre>
-     *
-     * Then in your template code, you would use `rx-status-column` as:
-     *
-     * <pre>
-     * <td rx-status-column status="{{ status }}" api="z"></td>
-     * </pre>
-     *
-     * This will tell EncoreUI that it should first check if the passed in
-     * `status` was defined separately for an api `"z"`, and if so, to use that
-     * mapping. If `status` can't be found in the mappings defined for `"z"`,
-     * then it will fall back to the mappings you defined in your `.addGlobal()`
-     * call.
-     *
-     * @param {String} apiName This is api name of the mapping
-     * @param {String} mapping This is mapping with keys and values
-     */
-    rxStatusMappings.addAPI = function (apiName, mapping) {
-        var api = apiMappings[apiName] || {};
-        _.assign(api, mapping, upperCaseCallback);
-        apiMappings[apiName] = api;
-    };
-
-    var buildMapFunc = function (mapToString) {
-        return function (statusString, api) {
-            var obj = {};
-            if (_.isString(statusString)) {
-                obj[statusString] = mapToString;
-            } else if (_.isArray(statusString)) {
-                _.each(statusString, function (str) {
-                    obj[str] = mapToString;
-                });
-            }
-
-            if (api) {
-                rxStatusMappings.addAPI(api, obj);
-            } else {
-                rxStatusMappings.addGlobal(obj);
-            }
-        };
-    };
-
-    // All four of these map a string, or an array of strings,
-    // to the corresponding internal status (Active/Warning/Error/Info)
-    // Each can optionally take a string as the second parameter, indictating
-    // which api the mapping belongs to
-    rxStatusMappings.mapToActive = buildMapFunc('ACTIVE');
-    rxStatusMappings.mapToWarning = buildMapFunc('WARNING');
-    rxStatusMappings.mapToError = buildMapFunc('ERROR');
-    rxStatusMappings.mapToInfo = buildMapFunc('INFO');
-    rxStatusMappings.mapToPending = buildMapFunc('PENDING');
-    rxStatusMappings.mapToDisabled = buildMapFunc('DISABLED');
-
-    /**
-     * @ngdoc function
-     * @name rxStatusMappings.getInternalMapping
-     * @methodOf utilities.service:rxStatusMappings
-     * @description
-     *
-     * `rxStatusMappings` defines a `getInternalMapping(statusString, api)` method,
-     * which the framework uses to map a provided `status` string based on the
-     * mapping rules from all the methods above. It's intended for internal use,
-     * but there's nothing stopping you from using it if you find a need.
-     *
-     * If you ask it to map a string that is not registered for a mapping, it will
-     * return back that same string.
-     *
-     * @param {String} statusString This is status string based on mapping rules
-     * @param {String} api This is an api based on mapping rules
-     */
-    rxStatusMappings.getInternalMapping = function (statusString, api) {
-        if (_.has(apiMappings, api) && _.has(apiMappings[api], statusString)) {
-            return apiMappings[api][statusString];
-        }
-
-        var mapped = globalMappings[statusString];
-
-        return mapped ? mapped : statusString;
-    };
-
-    return rxStatusMappings;
-});
-
-angular.module('encore.ui.utilities')
-/**
- * @ngdoc service
- * @name utilities.service:rxStatusTags
- * @description
- * This provider is primarily used for applications to specify custom status
- * tags, for use with the `status` attributes of `rx-page` and of breadcrumb
- * objects.
- *
- * It also contains `getTag` and `hasTag` run time (vs. config time) methods, but
- * these should rarely, if ever, be needed outside of the framework.
- */
-.provider('rxStatusTags', function () {
-    var allTags = {
-        alpha: {
-            class: 'alpha-status',
-            text: 'Alpha'
-        },
-        beta: {
-            class: 'beta-status',
-            text: 'Beta'
-        },
-    };
-    // Takes an object with `key`, `text` and `class` attributes,
-    // and adds it to to the existing set of status values
-    this.addStatus = function (config) {
-        allTags[config.key] = {
-            text: config.text,
-            'class': config['class']
-        };
-    };
-
-    this.$get = function () {
-        return {
-            // Given a status tag key, return the `text` and `class` specified
-            // for the tag
-            getTag: function (key) {
-                if (_.has(allTags, key)) {
-                    return allTags[key];
-                }
-                return { class: '', text: '' };
-            },
-
-            hasTag: function (key) {
-                return _.has(allTags, key);
-            }
-        };
-    };
-});
-
-angular.module('encore.ui.utilities')
-
-/**
- * @ngdoc filter
- * @name utilities.filter:rxTime
- * @description
- *
- * Converts dateString to standard Time format
- *
- *
- * <pre>
- * 2015-09-17T19:37:17Z → 2:37PM (UTC-05:00)
- * 2015-09-17T19:37:17Z, long → 2:37PM (UTC-05:00)
- * 2015-09-17T19:37:17Z, short → 14:37-05:00
- * </pre>
- **/
-.filter('rxTime', ["rxMomentFormats", function (rxMomentFormats) {
-    return function (dateString, param) {
-        var date = moment(dateString);
-        if (date.isValid()) {
-            if (_.has(rxMomentFormats.time, param)) {
-                return date.format(rxMomentFormats.time[param]);
-            } else {
-                return date.format(rxMomentFormats.time['long']);
-            }
-        } else {
-            return dateString;
-        }
-    };
-}]);
-
-angular.module('encore.ui.utilities')
-/**
- * @ngdoc service
- * @name utilities.service:rxTimePickerUtil
- *
- * @description
- * Utility service used by {@link elements.directive:rxTimePicker rxTimePicker}.
- */
-.factory('rxTimePickerUtil', function () {
-    /**
-     * @ngdoc property
-     * @propertyOf utilities.service:rxTimePickerUtil
-     * @name modelFormat
-     * @description formatting mask for Time model/data values
-     */
-    var modelFormat = 'HH:mmZ';
-
-    /**
-     * @ngdoc property
-     * @propertyOf utilities.service:rxTimePickerUtil
-     * @name viewFormat
-     * @description formatting mask for Time view/display values
-     */
-    var viewFormat = 'HH:mm (UTCZZ)';
-
-    /**
-     * @ngdoc method
-     * @methodOf utilities.service:rxTimePickerUtil
-     * @name parseUtcOffset
-     * @param {String} stringValue string containing UTC offset
-     * @return {String} UTC Offset value
-     *
-     * @description parse offset value from given string, if present
-     *
-     * **NOTE:** Logic in this function must match the logic in
-     * the page object.
-     */
-    function parseUtcOffset (stringValue) {
-        var regex = /([-+]\d{2}:?\d{2})/;
-        var matched = stringValue.match(regex);
-        return (matched ? matched[0] : '');
-    }//parseUtcOffset()
-
-    /**
-     * @ngdoc method
-     * @methodOf utilities.service:rxTimePickerUtil
-     * @name modelToObject
-     * @param {String} stringValue time in `HH:mmZ` format
-     * @return {Object} parsed data object
-     *
-     * @description
-     * Parse the model value to fetch hour, minutes, period, and offset
-     * to populate the picker form with appropriate values.
-     */
-    function modelToObject (stringValue) {
-        var momentValue = moment(stringValue, modelFormat);
-        var offset = parseUtcOffset(stringValue);
-        var parsed = {
-            hour: '',
-            minutes: '',
-            period: 'AM',
-            offset: (_.isEmpty(offset) ? '+0000' : offset)
-        };
-
-        if (!_.isEmpty(offset)) {
-            momentValue.utcOffset(offset);
-        }
-
-        if (momentValue.isValid()) {
-            parsed.hour = momentValue.format('h');
-            parsed.minutes = momentValue.format('mm');
-            parsed.period = momentValue.format('A');
-        }
-
-        return parsed;
-    }//modelToObject()
-
-    return {
-        parseUtcOffset: parseUtcOffset,
-        modelToObject: modelToObject,
-        modelFormat: modelFormat,
-        viewFormat: viewFormat,
-    };
-});//rxTimePickerUtil
-
-angular.module('encore.ui.utilities')
-/**
- * @ngdoc directive
- * @name utilities.directive:rxToggle
- * @restrict A
- * @description
- *
- * Adds a 'click' listener to an element that, when fired, toggles the boolean
- * scope property defined
- *
- * @param {String} rxToggle Boolean property to toggle true/false state
- */
-.directive('rxToggle', function () {
-    return {
-        restrict: 'A',
-        link: function ($scope, el, attrs) {
-            var propToToggle = attrs.rxToggle;
-
-            el.on('click', function () {
-                $scope.$apply(function () {
-                    // we use $scope.$eval to allow for nested properties
-                    // e.g. '$parent.propertyName'
-                    // this allows us to switch back between true/false for any value
-                    $scope.$eval(propToToggle + ' = !' + propToToggle);
-                });
-            });
-        }
-    };
-});
-
-angular.module('encore.ui.utilities')
-/**
- * @ngdoc filter
- * @name utilities.filter:rxUnsafeRemoveHTML
- * @description
- * Given a string, it removes all HTML tags from the string, using the
- * browser's own parsing engine. Any content inside of tags will be kept.
- *
- * **NOTE:** You must only use this with **trusted text**. See this
- * {@link http://stackoverflow.com/a/5002618 StackOverflow} answer for more details.
- *
- * @param {String} htmlString The string to remove HTML from **trusted text**
- * @returns {String} Cleaned string
- */
-.filter('rxUnsafeRemoveHTML', ["$document", function ($document) {
-    return function (htmlString) {
-        // protect against null, which can crash some browsers
-        if (_.isEmpty(htmlString)) {
-            htmlString = '';
-        }
-
-        var div = $document[0].createElement('div');
-        div.innerHTML = htmlString;
-        return div.textContent || div.innerText || '';
-    };
-}]);
-
-angular.module('encore.ui.utilities')
-/**
- * @ngdoc service
- * @name utilities.service:rxVisibility
- * @description
- * Provides an interface for adding new `visibility` methods for nav menus.  Methods added via `addMethod` should
- * have a `function (scope, args)` interface.
- *
- * When you do:
- * <pre>
- * visibility: [ "someMethodName", { foo: 1, bar: 2} ]
- * </pre>
- * in a nav menu definition, the (optional) object will be passed to your method as the
- * second argument `args`, i.e.:
- * <pre>
- * function (scope, args) {}
- * </pre>
- */
-.factory('rxVisibility', function () {
-    var methods = {};
-
-    var addMethod = function (methodName, method) {
-        methods[methodName] = method;
-    };
-
-    var getMethod = function (methodName) {
-        return methods[methodName];
-    };
-
-    var hasMethod = function (methodName) {
-        return _.has(methods, methodName);
-    };
-
-    /* This is a convenience wrapper around `addMethod`, for
-     * objects that define both `name` and `method` properties
-     */
-    var addVisibilityObj = function (obj) {
-        addMethod(obj.name, obj.method);
-    };
-
-    return {
-        addMethod: addMethod,
-        getMethod: getMethod,
-        hasMethod: hasMethod,
-        addVisibilityObj: addVisibilityObj
-
-    };
-});
-
-angular.module('encore.ui.utilities')
-/**
- * @ngdoc service
- * @name utilities.service:rxVisibilityPathParams
- * @description
- * Returns an object with `name` and `method` params that can
- * be passed to
- * [rxVisibility.addMethod()](https://github.com/rackerlabs/encore-ui/blob/master/src/utilities/rxVisibility
- * /scripts/rxVisibility.js#L22).
- * We register this by default, as it's used by the nav menu we keep in
- * {@link utilities.service:routesCdnPath routesCdnPath}.
- *
- * The method is used to check if `{param: 'someParamName'}` is present in the current route.
- * Use it as:
- * <pre>
- * visibility: [ 'rxPathParams', { param: 'userName' } ]
- * </pre>
- */
-.factory('rxVisibilityPathParams', ["$routeParams", function ($routeParams) {
-    var pathParams = {
-        name: 'rxPathParams',
-        method: function (scope, args) {
-            return !_.isUndefined($routeParams[args.param]);
-        }
-    };
-
-    return pathParams;
-}]);
-
-angular.module('encore.ui.utilities')
-/**
- * @ngdoc service
- * @name utilities.service:SelectFilter
- * @description
- * A prototype for creating objects that can be used for filtering arrays.
- *
- * ## SelectFilter
- * This service exposes an object with single method, `create()`, used to
- * create instances of a `SelectFilter`. It is configurable via three options:
- * - `properties`: A list of the properties to create a filter control.
- * Assuming the source data is an array of objects, a property is equivalent to
- * an object's key.
- *
- * - `available` (optional): An object that tracks which options are available
- * for a property.
- * Note that the key of the object matches a value in the `properties` array.
- * - `selected` (optional): An object that tracks which options are selected
- * for a property. It has the same form as the `available` object, but the
- * arrays indicate which options are selected, and as such are strict subsets
- * of their `available` counterparts.
- *
- * ### Option Defaults
- * Every property that is listed in `properties` but not provided as a key
- * to `available` will be automatically populated the first time `applyTo()`
- * (see below) is called.
- * <pre>
- * var filter = SelectFilter.create({
- *   properties: ['year']
- * });
- *
- * filter.applyTo([{
- *   eventId: 1,
- *   year: 2013
- * }, {
- *   eventId: 2,
- *   year: 2014
- * }, {
- *   eventId: 3,
- *   year: 2013
- * }]);
- * // filter.available is { year: [2013, 2014] }
- * </pre>
- * **Note:** There is an implied requirement that, when relying on the
- * auto-populated filter, the input array will have at least one item for every
- * available option. For example, this may not be the case when used with
- * server-side pagination.
- *
- * Every property that is listed in `properties` but not provided as a key to
- * `selected` is initialized to have all options selected (by looking them up
- * in `available`).  If property is also not provided to `available`, its
- * initialization is delayed until the first call of `applyTo()`.
- *
- * <pre>
- * var filter = SelectFilter.create({
- *   properties: ['year'],
- *   available: {
- *       year: [2013, 2014, 2015]
- *   }
- * });
- * // filter.selected is { year: [2013, 2014, 2015] }
- * </pre>
- *
- * ### Instances
- * Instances of `SelectFilter` have an `applyTo()` method, which applies the
- * filter's internal state of selected options to the array. This will not
- * often be called directly, but instead used by the
- * {@link utilities.filter:Apply Apply} filter. As stated previously,
- * the first call of `applyTo()` will initialize any
- * `properties` that have not been defined in `available` or `selected`.
- * <pre>
- * var filter = SelectFilter.create({
- *   properties: ['year'],
- *   selected: {
- *      year: [2014]
- *     }
- * });
- *
- * var filteredArray = filter.applyTo([{
- *   eventId: 1,
- *   year: 2013
- * }, {
- *   eventId: 2,
- *   year: 2014
- * }, {
- *   eventId: 3,
- *   year: 2013
- * }]);
- * // filteredArray is [{ eventId: 2, year: 2014 }]
- * </pre>
- *
- * The instance will also have all of the constructor options as public
- * properties, so that they can be watched or changed.
- *
- */
-.service('SelectFilter', function () {
-    return {
-       /**
-        * @ngdoc method
-        * @name create
-        * @methodOf utilities.service:SelectFilter
-        * @param {Object} options
-        * Options object
-        * @param {Object} options.properties
-        * A list of the properties to create a filter control. Assuming the
-        * source data is an array of objects, a property is equivalent to an
-        * object's key.
-        * <pre>
-        * SelectFilter.create({
-        *      properties: ['year']
-        * });
-        * </pre>
-        * @param {Object=} options.available
-        * An object that tracks which options are available for a property.
-        * <pre>
-        * SelectFilter.create({
-        *     // other options...
-        *     available: {
-        *        year: [2013, 2014, 2015],
-        *       }
-        * });
-        * </pre>
-        * @param {Object=} options.selected
-        * An object that tracks which options are selected for a property.
-        * It has the same form as the `available` object, but the arrays indicate
-        * which options are selected, and as such are strict subsets of their
-        * `available` counterparts.
-        * <pre>
-        * SelectFilter.create({
-        *     // other options...
-        *     selected: {
-        *         year: [2014],
-        *       }
-        * });
-        * </pre>
-        */
-        create: function (options) {
-            options = _.defaults(options, {
-                properties: [],
-                available: {},
-                selected: _.isUndefined(options.available) ? {} : _.cloneDeep(options.available)
-            });
-
-            var filter = _.cloneDeep(options);
-
-            var firstRun = true;
-
-            function init (list) {
-                filter.properties.forEach(function (property) {
-                    if (_.isUndefined(filter.available[property])) {
-                        filter.available[property] = _.uniq(_.pluck(list, property));
-                    }
-
-                    // Check `options.selected` instead of `filter.selected` because the latter
-                    // is used as the model for `<rx-multi-select>`, which initializes its
-                    // model to an empty array. However, the intent is select all options
-                    // initially when left unspecified (preferred default behavior).
-                    if (_.isUndefined(options.selected[property])) {
-                        filter.selected[property] = _.clone(filter.available[property]);
-                    }
-                });
-            }
-
-            function isItemValid (item) {
-                return filter.properties.every(function (property) {
-                    return _.contains(filter.selected[property], item[property]);
-                });
-            }
-
-            filter.applyTo = function (list) {
-                if (firstRun) {
-                    firstRun = false;
-                    init(list);
-                }
-                return list.filter(isItemValid);
-            };
-
-            return filter;
-        }
-    };
-});
-
-angular.module('encore.ui.utilities')
-/**
- * @ngdoc service
- * @name utilities.service:Session
- * @description
- *
- * Service for managing user session in encore-ui.
- *
- * @requires utilities.service:rxLocalStorage
- *
- * @example
- * <pre>
- * Session.getToken(); // Returns the stored token
- * Session.storeToken(token); // Stores token
- * Session.logout(); // Logs user off
- * Session.isCurrent(); // Returns true/false if the token has expired.
- * Session.isAuthenticated(); // Returns true/false if the user token is valid.
- * </pre>
- */
-.factory('Session', ["rxLocalStorage", function (rxLocalStorage) {
-    var TOKEN_ID = 'encoreSessionToken';
-    var session = {};
-
-    /**
-    * Dot walks the token without throwing an error.
-    * If key exists, returns value otherwise returns undefined.
-    */
-    session.getByKey = function (key) {
-        var tokenValue,
-            token = session.getToken(),
-            keys = key ? key.split('.') : undefined;
-
-        if (_.isEmpty(token) || !keys) {
-            return;
-        }
-
-        tokenValue = _.reduce(keys, function (val, key) {
-            return val ? val[key] : undefined;
-        }, token);
-
-        return tokenValue;
-    };
-
-    session.getToken = function () {
-        return rxLocalStorage.getObject(TOKEN_ID);
-    };
-
-    session.getTokenId = function () {
-        return session.getByKey('access.token.id');
-    };
-
-    session.getUserId = function () {
-        return session.getByKey('access.user.id');
-    };
-
-    session.getUserName = function () {
-        return session.getByKey('access.user.name');
-    };
-
-    session.storeToken = function (token) {
-        rxLocalStorage.setObject(TOKEN_ID, token);
-    };
-
-    session.logout = function () {
-        rxLocalStorage.removeItem(TOKEN_ID);
-    };
-
-    session.isCurrent = function () {
-        var expireDate = session.getByKey('access.token.expires');
-
-        if (expireDate) {
-            return new Date(expireDate) > _.now();
-        }
-
-        return false;
-    };
-
-    session.isAuthenticated = function () {
-        var token = session.getToken();
-        return _.isEmpty(token) ? false : session.isCurrent();
-    };
-
-    return session;
-}]);
-
-angular.module('encore.ui.utilities')
-/**
- * @ngdoc service
- * @name utilities.service:SessionStorage
- * @description
- *
- * A simple wrapper for injecting the global variable sessionStorage
- * for storing values in session storage. This service is similar to angular's
- * $window and $document services.  The API works the same as the W3C's
- * specification provided at: http://dev.w3.org/html5/webstorage/#storage-0.
- * Also includes to helper functions for getting and setting objects.
- *
- * @example
- * <pre>
- * SessionStorage.setItem('Batman', 'Robin'); // no return value
- * SessionStorage.key(0); // returns 'Batman'
- * SessionStorage.getItem('Batman'); // returns 'Robin'
- * SessionStorage.removeItem('Batman'); // no return value
- * SessionStorage.setObject('hero', {name:'Batman'}); // no return value
- * SessionStorage.getObject('hero'); // returns { name: 'Batman'}
- * SessionStorage.clear(); // no return value
- * </pre>
- */
-.service('SessionStorage', ["$window", function ($window) {
-    var sessionStorage = $window.sessionStorage;
-    if ($window.self !== $window.parent) {
-        try {
-            sessionStorage = $window.parent.sessionStorage;
-        } catch (e) {
-            sessionStorage = $window.sessionStorage;
-        }
-    }
-
-    this.setItem = function (key, value) {
-        sessionStorage.setItem(key, value);
-    };
-
-    this.getItem = function (key) {
-        return sessionStorage.getItem(key);
-    };
-
-    this.key = function (key) {
-        return sessionStorage.key(key);
-    };
-
-    this.removeItem = function (key) {
-        sessionStorage.removeItem(key);
-    };
-
-    this.clear = function () {
-        sessionStorage.clear();
-    };
-
-    this.__defineGetter__('length', function () {
-        return sessionStorage.length;
-    });
-
-    this.setObject = function (key, val) {
-        var value = _.isObject(val) || _.isArray(val) ? JSON.stringify(val) : val;
-        this.setItem(key, value);
-    };
-
-    this.getObject = function (key) {
-        var item = sessionStorage.getItem(key);
-        try {
-            item = JSON.parse(item);
-        } catch (error) {
-            return item;
-        }
-
-        return item;
-    };
-}]);
-
-angular.module('encore.ui.elements')
-/**
- * @ngdoc directive
- * @name elements.directive:rxSpinner
- * @restrict A
- * @scope
- * @description
- * Renders a spinner animation on the provided element given the 'toggle' attribute is truthy
- *
- * @param {String} size - Controls the size of the spinner.  The options are default (no size specified),
- * mini, small, large and extra-large
- * @param {Boolean} toggle - When true, the spinner will display
- * @param {Boolean} rxSpinner - When present, adds an extra class to the spinner depicting the color
- */
-.directive('rxSpinner', function () {
-    return {
-        restrict: 'A',
-        scope: {
-            toggle: '=',
-            rxSpinner: '@',
-            size: '@'
-        },
-        link: function (scope, element) {
-            scope.$watch('toggle', function (value) {
-                var size = scope.size ? scope.size : '';
-                var type = scope.rxSpinner ? scope.rxSpinner : '';
-                if (value) {
-                    element.prepend('<div class="rx-spinner ' + type + ' ' + size + '"></div> ');
-                } else {
-                    element.find('div').remove();
-                }
-            });
-        }
-    };
-});
-
-angular.module('encore.ui.utilities')
-/**
- * @ngdoc service
- * @name utilities.service:Status
+ * @name utilities.service:rxStatus
  * @description
  *
  * Manages notifications for rxNotify with an abstracted set of functions for
@@ -9926,25 +9670,25 @@ angular.module('encore.ui.utilities')
  *
  * ## Preparation
  *
- * In order to use the `Status` service, one has to instantiate it with a proper
+ * In order to use the `rxStatus` service, one has to instantiate it with a proper
  * `$scope` object to keep track of a running state. `rxNotify` indirectly makes
  * use of the `$scope` variable when a message can be auto-dismissed.  In order
  * to keep the interface for the wrapper functions coherent, the `$scope` variable
  * must be provided before use.  This can be accomplished as follows:
  *
  * <pre>
- * Status.setupScope($scope);
+ * rxStatus.setScope($scope);
  * </pre>
  *
  * ## Success cases
  *
- * The `Status` service is provided as a wrapper to `rxNotify`.  As such, the
- * status types supported by `rxNotify` are still used and have been wrapped into
+ * The `rxStatus` service is provided as a wrapper to `rxNotify`.  As such, the
+ * rxStatus types supported by `rxNotify` are still used and have been wrapped into
  * utility functions.  For example, on page load it is usually necessary to inform
  * the user of pending data retrieval.  This can be accomplished by:
  *
  * <pre>
- * Status.setLoading('Retrieving users');
+ * rxStatus.setLoading('Retrieving users');
  * </pre>
  *
  * This will call `rxNotify` in the following manner:
@@ -9957,10 +9701,10 @@ angular.module('encore.ui.utilities')
  * });
  * </pre>
  *
- * Similarly, the following call using the `Status` service:
+ * Similarly, the following call using the `rxStatus` service:
  *
  * <pre>
- * Status.setSuccess('Successfully deleted questionable ' +
+ * rxStatus.setSuccess('Successfully deleted questionable ' +
  *     'browsing history');
  * </pre>
  *
@@ -9987,7 +9731,7 @@ angular.module('encore.ui.utilities')
  * it can be shown immediately:
  *
  * <pre>
- * Status.setSuccess('Please show immediately', {
+ * rxStatus.setSuccess('Please show immediately', {
  *     show: 'immediate'
  * });
  * </pre>
@@ -9998,16 +9742,16 @@ angular.module('encore.ui.utilities')
  * been provided as their own wrapper functions.  For example:
  *
  * <pre>
- * Status.setSuccessImmediate('Please show immediately')
+ * rxStatus.setSuccessImmediate('Please show immediately')
  * </pre>
  *
- * is the equivalent of calling `Status.setSuccess()` with the
+ * is the equivalent of calling `rxStatus.setSuccess()` with the
  * `{ show: 'immediate' }` parameter.  Please note, there isn't much fault
  * checking in place, so the following behaviour although permitted, is not
  * advised:
  *
  * <pre>
- * Status.setSuccessImmediate('Please show immediately', {
+ * rxStatus.setSuccessImmediate('Please show immediately', {
  *     show: 'next'
  * });
  * </pre>
@@ -10018,17 +9762,17 @@ angular.module('encore.ui.utilities')
  * passed as an error message, just like the wrappers before.  For example:
  *
  * <pre>
- * Status.setError('This is an error!');
+ * rxStatus.setError('This is an error!');
  * </pre>
  *
  * It also allows for a specialized template to be specified as the error string
  * with an `object:{}` as the second parameter containing the replacements for
  * the template in the error string.  If in a proper format, the object can be
- * automatically parsed using an `ErrorFormatter` and displayed to the user.
+ * automatically parsed using an `rxErrorFormatter` and displayed to the user.
  * For example:
  *
  * <pre>
- * Status.setError(
+ * rxStatus.setError(
  *     'Failed loading browsing history: ${message}',
  *     {
  *         message: 'User has previously cleared their history!'
@@ -10062,26 +9806,26 @@ angular.module('encore.ui.utilities')
  *
  * # Utilities
  *
- * The `Status` service requires that one provide a `$scope` object to keep
+ * The `rxStatus` service requires that one provide a `$scope` object to keep
  * tracking of state before any of the wrapper functions can be utilized. Since
  * it is expected that almost all pages will make use of notifications, one can
- * place the repeated setup of the `Status` service in a page load event handler.
- * This will allow all pages to gain an already setup `Status` service for
+ * place the repeated setup of the `rxStatus` service in a page load event handler.
+ * This will allow all pages to gain an already setup `rxStatus` service for
  * immediate use.  For example:
  *
  * <pre>
- * .run(function ($rootScope, StatusUtil) {
+ * .run(function ($rootScope, rxStatus {
  *     $rootScope.$on('$routeChangeSuccess', function () {
- *         Status.setupScope($rootScope);
+ *         rxStatus.setScope($rootScope);
  *     });
  * });
  * </pre>
  *
  * Although hidden away in the app's bootstrap code, the above makes for a less
- * repetitive call to `Status.setScope()` at the beginning of each use.
+ * repetitive call to `rxStatus.setScope()` at the beginning of each use.
  *
  */
-.service('Status', ["$rootScope", "rxNotify", "ErrorFormatter", function ($rootScope, rxNotify, ErrorFormatter) {
+.service('rxStatus', ["$rootScope", "rxNotify", "rxErrorFormatter", function ($rootScope, rxNotify, rxErrorFormatter) {
     var stack = 'page';
     var scope;
     var status = {
@@ -10238,7 +9982,7 @@ angular.module('encore.ui.utilities')
      */
     status.setError = function (msg, error, options) {
         options = _.defaults(options ? options : {}, status.ERROR());
-        msg = ErrorFormatter.buildErrorMsg(msg || '', error);
+        msg = rxErrorFormatter.buildErrorMsg(msg || '', error);
         return status.setStatus(msg, options);
     };
 
@@ -10257,10 +10001,1028 @@ angular.module('encore.ui.utilities')
     };
 
     return status;
+}])
+
+/**
+ * @deprecated
+ * Please use rxStatus instead. This item will be removed on the 4.0.0 release.
+ * @ngdoc service
+ * @name utilities.service:Status
+ * @requires utilities.service:rxStatus
+ */
+.service('Status', ["rxStatus", function (rxStatus) {
+    console.warn (
+        'DEPRECATED: Status - Please use rxStatus. ' +
+        'Status will be removed in EncoreUI 4.0.0'
+    );
+    return rxStatus;
 }]);
 
 angular.module('encore.ui.utilities')
 /**
+ * @ngdoc object
+ * @name utilities.object:rxStatusColumnIcons
+ * @description
+ *
+ * Mapping of internal statuses to FontAwesome icons.
+ * The keys map to the names defined in rxStatusColumn.less
+ */
+.value('rxStatusColumnIcons', {
+    'ERROR': 'fa-ban',
+    'WARNING': 'fa-exclamation-triangle',
+    'INFO': 'fa-info-circle',
+});
+
+angular.module('encore.ui.utilities')
+/**
+ * @ngdoc service
+ * @name utilities.service:rxStatusMappings
+ * @description
+ *
+ * A set of methods for creating mappings between a product's notion
+ * of statuses, and the status identifiers used in EncoreUI
+ *
+ * To accommodate different statuses, the `rxStatusMappings` factory includes
+ * methods for defining mappings from your own statuses to the six defined ones.
+ * The basic methods for this are `rxStatusMappings.addGlobal()` and
+ * `rxStatusMappings.addAPI()`.
+ *
+ * ## mapToActive()/mapToWarning()/mapToError()/mapToInfo()/mapToPending()
+ *
+ * While `.addGlobal()` and `.addAPI()` would be sufficient on their own,
+ * they can be slightly cumbersome. If you have a list of statuses that all
+ * need to get mapped to the same EncoreUI status, the mapping object will
+ * be forced to have repetition, leaving room for errors. For example,
+ * something like this:
+ *
+ * <pre>
+ * rxStatusMappings.addGlobal({
+ *     'BLOCKED': 'ERROR',
+ *     'SHUTDOWN': 'ERROR',
+ *     'FAILED': 'ERROR'
+ * });
+ * </pre>
+ *
+ * There is required repetition of `"ERROR"` in each pair, and there's always
+ * the chance of misspelling `"ERROR"`. Instead, we provide a utility method
+ * `mapToError` to help with this:
+ *
+ * <pre>
+ * rxStatusMappings.mapToError(['BLOCKED', 'SHUTDOWN', 'FAILED']);
+ * </pre>
+ *
+ * This has the advantage that it's shorter to type, eliminates the chance of
+ * mistyping or misassigning `"ERROR"`, and keeps all `"ERROR"` mappings
+ * physically grouped. With this, you could easily keep your mapping values
+ * in an Angular `.value` or `.constant`, and just pass them to these methods
+ * in your `.run()` method.
+ *
+ * There are equivalent `mapToWarning`, `mapToActive`, `mapToDisabled`,
+ * `mapToPending` and `mapToInfo` methods.
+ *
+ * All six of these methods can take an array or a single string as the first
+ * argument. The call above is equivalent to this group of individual calls:
+ *
+ * <pre>
+ * rxStatusMappings.mapToError('BLOCKED');
+ * rxStatusMappings.mapToError('SHUTDOWN');
+ * rxStatusMappings.mapToError('FAILED');
+ * </pre>
+ *
+ * All six can also take `api` as a second, optional parameter. Thus we could
+ * define the `rxStatusMappings.addAPI({ 'FOO': 'ERROR' }, 'z')` example from
+ * above as:
+ *
+ * <pre>
+ * rxStatusMappings.mapToError('FOO', 'z');
+ * </pre>
+ *
+ */
+.factory('rxStatusMappings', function () {
+    var globalMappings = {};
+    var apiMappings = {};
+    var rxStatusMappings = {};
+
+    var upperCaseCallback = function (objectValue, sourceValue) {
+        return sourceValue.toUpperCase();
+    };
+    /**
+     * @ngdoc function
+     * @name rxStatusMappings.addGlobal
+     * @methodOf utilities.service:rxStatusMappings
+     * @description
+     *
+     * Takes a full set of mappings to be used globally
+     *
+     * `rxStatusMappings.addGlobal()` takes an object as an argument, with the
+     * keys being your own product's statuses, and the values being one of the six
+     * internal statuses that it should map to. For example:
+     *
+     * <pre>
+     * rxStatusMappings.addGlobal({
+     *     'RUNNING': 'ACTIVE',
+     *     'STANDBY': 'INFO',
+     *     'SUSPENDED': 'WARNING',
+     *     'FAILURE': 'ERROR'
+     * });
+     * </pre>
+     *
+     * These mappings will be used throughout all instances of `rx-status-column`
+     * in your code.
+     *
+     * @param {String} mapping This is mapping with keys and values
+     */
+    rxStatusMappings.addGlobal = function (mapping) {
+        _.assignInWith(globalMappings, mapping, upperCaseCallback);
+    };
+
+    /**
+     * @ngdoc function
+     * @name rxStatusMappings.addAPI
+     * @methodOf utilities.service:rxStatusMappings
+     * @description
+     *
+     * Create a mapping specific to a particular API. This will
+     * only be used when the directive receives the `api="..."`
+     * attribute
+     *
+     * Say that you are using three APIs in your product, `X`, `Y` and `Z`. Both
+     * `X` and `Y` define a status `"FOO"`, which you want to map to EncoreUI's
+     * `"WARNING"`. You can declare this  mapping with
+     * `rxStatusMappings.addGlobal({ 'FOO': 'WARNING' })`. But your API `Z` also
+     * returns a `"FOO"` status, which you need mapped to EncoreUI's
+     * `"ERROR"` status.
+     *
+     * You _could_ do a transformation in your product to convert the `"FOO"`
+     * from `Z` into something else, or you can make use of
+     * `rxStatusMappings.addAPI()`, as follows:
+     *
+     * <pre>
+     * rxStatusMappings.addAPI('z', { 'FOO': 'ERROR' });
+     * </pre>
+     *
+     * Then in your template code, you would use `rx-status-column` as:
+     *
+     * <pre>
+     * <td rx-status-column status="{{ status }}" api="z"></td>
+     * </pre>
+     *
+     * This will tell EncoreUI that it should first check if the passed in
+     * `status` was defined separately for an api `"z"`, and if so, to use that
+     * mapping. If `status` can't be found in the mappings defined for `"z"`,
+     * then it will fall back to the mappings you defined in your `.addGlobal()`
+     * call.
+     *
+     * @param {String} apiName This is api name of the mapping
+     * @param {String} mapping This is mapping with keys and values
+     */
+    rxStatusMappings.addAPI = function (apiName, mapping) {
+        var api = apiMappings[apiName] || {};
+        _.assignInWith(api, mapping, upperCaseCallback);
+        apiMappings[apiName] = api;
+    };
+
+    var buildMapFunc = function (mapToString) {
+        return function (statusString, api) {
+            var obj = {};
+            if (_.isString(statusString)) {
+                obj[statusString] = mapToString;
+            } else if (_.isArray(statusString)) {
+                _.each(statusString, function (str) {
+                    obj[str] = mapToString;
+                });
+            }
+
+            if (api) {
+                rxStatusMappings.addAPI(api, obj);
+            } else {
+                rxStatusMappings.addGlobal(obj);
+            }
+        };
+    };
+
+    // All four of these map a string, or an array of strings,
+    // to the corresponding internal status (Active/Warning/Error/Info)
+    // Each can optionally take a string as the second parameter, indictating
+    // which api the mapping belongs to
+    rxStatusMappings.mapToActive = buildMapFunc('ACTIVE');
+    rxStatusMappings.mapToWarning = buildMapFunc('WARNING');
+    rxStatusMappings.mapToError = buildMapFunc('ERROR');
+    rxStatusMappings.mapToInfo = buildMapFunc('INFO');
+    rxStatusMappings.mapToPending = buildMapFunc('PENDING');
+    rxStatusMappings.mapToDisabled = buildMapFunc('DISABLED');
+
+    /**
+     * @ngdoc function
+     * @name rxStatusMappings.getInternalMapping
+     * @methodOf utilities.service:rxStatusMappings
+     * @description
+     *
+     * `rxStatusMappings` defines a `getInternalMapping(statusString, api)` method,
+     * which the framework uses to map a provided `status` string based on the
+     * mapping rules from all the methods above. It's intended for internal use,
+     * but there's nothing stopping you from using it if you find a need.
+     *
+     * If you ask it to map a string that is not registered for a mapping, it will
+     * return back that same string.
+     *
+     * @param {String} statusString This is status string based on mapping rules
+     * @param {String} api This is an api based on mapping rules
+     */
+    rxStatusMappings.getInternalMapping = function (statusString, api) {
+        if (_.has(apiMappings, api) && _.has(apiMappings[api], statusString)) {
+            return apiMappings[api][statusString];
+        }
+
+        var mapped = globalMappings[statusString];
+
+        return mapped ? mapped : statusString;
+    };
+
+    return rxStatusMappings;
+});
+
+angular.module('encore.ui.utilities')
+/**
+ * @deprecated This item will be removed in EncoreUI 4.0.0
+ * @ngdoc service
+ * @name utilities.service:rxStatusTags
+ * @description
+ * This provider is primarily used for applications to specify custom status
+ * tags, for use with the `status` attributes of `rx-page` and of breadcrumb
+ * objects.
+ *
+ * It also contains `getTag` and `hasTag` run time (vs. config time) methods, but
+ * these should rarely, if ever, be needed outside of the framework.
+ */
+.provider('rxStatusTags', function () {
+    console.warn(
+        'DEPRECATED: rxStatusTags will be removed in EncoreUI 4.0.0'
+    );
+
+    var allTags = {
+        alpha: {
+            class: 'alpha-status',
+            text: 'Alpha'
+        },
+        beta: {
+            class: 'beta-status',
+            text: 'Beta'
+        },
+    };
+    // Takes an object with `key`, `text` and `class` attributes,
+    // and adds it to to the existing set of status values
+    this.addStatus = function (config) {
+        allTags[config.key] = {
+            text: config.text,
+            'class': config['class']
+        };
+    };
+
+    this.$get = function () {
+        return {
+            // Given a status tag key, return the `text` and `class` specified
+            // for the tag
+            getTag: function (key) {
+                if (_.has(allTags, key)) {
+                    return allTags[key];
+                }
+                return { class: '', text: '' };
+            },
+
+            hasTag: function (key) {
+                return _.has(allTags, key);
+            }
+        };
+    };
+});
+
+angular.module('encore.ui.utilities')
+
+/**
+ * @ngdoc filter
+ * @name utilities.filter:rxTime
+ * @description
+ *
+ * Converts dateString to standard Time format
+ *
+ *
+ * <pre>
+ * 2015-09-17T19:37:17Z → 2:37PM (UTC-05:00)
+ * 2015-09-17T19:37:17Z, long → 2:37PM (UTC-05:00)
+ * 2015-09-17T19:37:17Z, short → 14:37-05:00
+ * </pre>
+ **/
+.filter('rxTime', ["rxMomentFormats", function (rxMomentFormats) {
+    return function (dateString, param) {
+        var date = moment(dateString);
+        if (date.isValid()) {
+            if (_.has(rxMomentFormats.time, param)) {
+                return date.format(rxMomentFormats.time[param]);
+            } else {
+                return date.format(rxMomentFormats.time['long']);
+            }
+        } else {
+            return dateString;
+        }
+    };
+}]);
+
+angular.module('encore.ui.utilities')
+/**
+ * @ngdoc service
+ * @name utilities.service:rxTimePickerUtil
+ *
+ * @description
+ * Utility service used by {@link elements.directive:rxTimePicker rxTimePicker}.
+ */
+.factory('rxTimePickerUtil', function () {
+    /**
+     * @ngdoc property
+     * @propertyOf utilities.service:rxTimePickerUtil
+     * @name modelFormat
+     * @description formatting mask for Time model/data values
+     */
+    var modelFormat = 'HH:mmZ';
+
+    /**
+     * @ngdoc property
+     * @propertyOf utilities.service:rxTimePickerUtil
+     * @name viewFormat
+     * @description formatting mask for Time view/display values
+     */
+    var viewFormat = 'HH:mm (UTCZZ)';
+
+    /**
+     * @ngdoc method
+     * @methodOf utilities.service:rxTimePickerUtil
+     * @name parseUtcOffset
+     * @param {String} stringValue string containing UTC offset
+     * @return {String} UTC Offset value
+     *
+     * @description parse offset value from given string, if present
+     *
+     * **NOTE:** Logic in this function must match the logic in
+     * the page object.
+     */
+    function parseUtcOffset (stringValue) {
+        var regex = /([-+]\d{2}:?\d{2})/;
+        var matched = stringValue.match(regex);
+        return (matched ? matched[0] : '');
+    }//parseUtcOffset()
+
+    /**
+     * @ngdoc method
+     * @methodOf utilities.service:rxTimePickerUtil
+     * @name modelToObject
+     * @param {String} stringValue time in `HH:mmZ` format
+     * @return {Object} parsed data object
+     *
+     * @description
+     * Parse the model value to fetch hour, minutes, period, and offset
+     * to populate the picker form with appropriate values.
+     */
+    function modelToObject (stringValue) {
+        var momentValue = moment(stringValue, modelFormat);
+        var offset = parseUtcOffset(stringValue);
+        var parsed = {
+            hour: '',
+            minutes: '',
+            period: 'AM',
+            offset: (_.isEmpty(offset) ? '+0000' : offset)
+        };
+
+        if (!_.isEmpty(offset)) {
+            momentValue.utcOffset(offset);
+        }
+
+        if (momentValue.isValid()) {
+            parsed.hour = momentValue.format('h');
+            parsed.minutes = momentValue.format('mm');
+            parsed.period = momentValue.format('A');
+        }
+
+        return parsed;
+    }//modelToObject()
+
+    return {
+        parseUtcOffset: parseUtcOffset,
+        modelToObject: modelToObject,
+        modelFormat: modelFormat,
+        viewFormat: viewFormat,
+    };
+});//rxTimePickerUtil
+
+(function () {
+    angular
+        .module('encore.ui.utilities')
+        .filter('rxTitleize', rxTitleizeFilter)
+        .filter('titleize', titleizeFilter);
+
+    /**
+     * @ngdoc filter
+     * @name utilities.filter:rxTitleize
+     * @description
+     * Convert a string to title case, stripping out underscores and capitalizing words.
+     *
+     * Credit where it's due: https://github.com/epeli/underscore.string/blob/master/titleize.js
+     *
+     * @param {String} inputString The string to convert
+     * @returns {String} The titleized version of the string
+     *
+     * @example
+     * Both examples result in a string of `"A Simple String"`.
+     * <pre>
+     * {{ 'a simple_STRING' | rxTitleize }}
+     * </pre>
+     *
+     * <pre>
+     * $filter('rxTitleize')('a simple_STRING');
+     * </pre>
+     */
+    function rxTitleizeFilter () {
+        return function (inputString) {
+            return inputString
+                .toLowerCase()
+                .replace(/_/g, ' ')
+                .replace(/(?:^|\s)\S/g, function (character) {
+                    return character.toUpperCase();
+                });
+        };
+    };
+
+    /**
+     * @deprecated
+     * Please use rxTitleize instead. This filter will be removed in EncoreUI 4.0.0'
+     * @ngdoc filter
+     * @name utilities.filter:titleize
+     * @requires utilities.filter:rxTitleize
+     */
+    function titleizeFilter () {
+        return function (inputString) {
+            console.warn(
+                'DEPRECATED: titleize - Please use rxTitleize. ' +
+                'titleize will be removed in EncoreUI 4.0.0'
+            );
+            return rxTitleizeFilter()(inputString);
+        };
+    };
+})();
+
+angular.module('encore.ui.utilities')
+/**
+ * @ngdoc directive
+ * @name utilities.directive:rxToggle
+ * @restrict A
+ * @description
+ *
+ * Adds a 'click' listener to an element that, when fired, toggles the boolean
+ * scope property defined
+ *
+ * @param {String} rxToggle Boolean property to toggle true/false state
+ */
+.directive('rxToggle', function () {
+    return {
+        restrict: 'A',
+        link: function ($scope, el, attrs) {
+            var propToToggle = attrs.rxToggle;
+
+            el.on('click', function () {
+                $scope.$apply(function () {
+                    // we use $scope.$eval to allow for nested properties
+                    // e.g. '$parent.propertyName'
+                    // this allows us to switch back between true/false for any value
+                    $scope.$eval(propToToggle + ' = !' + propToToggle);
+                });
+            });
+        }
+    };
+});
+
+angular.module('encore.ui.utilities')
+/**
+ * @ngdoc service
+ * @name utilities.service:rxTokenInterceptor
+ * @description
+ * Simple $http injector which will intercept http request and inject the
+ * Rackspace Identity's token into every http request.
+ *
+ * @requires utilities.service:rxSession
+ *
+ * @example
+ * <pre>
+ * angular.module('encoreApp', ['encore.ui'])
+ *     .config(function ($httpProvider) {
+ *         $httpProvider.interceptors.push('rxTokenInterceptor');
+ *     });
+ * </pre>
+ */
+.provider('rxTokenInterceptor', function () {
+    var exclusionList = this.exclusionList = [ 'rackcdn.com' ];
+
+    this.$get = ["rxSession", "$document", function (rxSession, $document) {
+        var url = $document[0].createElement('a');
+        return {
+            request: function (config) {
+                // Don't add the X-Auth-Token if the request URL matches
+                // something in exclusionList
+                // We're specifically looking at hostnames, so we have to
+                // do the `createElement('a')` trick to turn the config.url
+                // into something with a `.hostname`
+                url.href = config.url;
+                var exclude = _.some(exclusionList, function (item) {
+                    if (_.includes(url.hostname, item)) {
+                        return true;
+                    }
+                });
+
+                if (!exclude) {
+                    config.headers['X-Auth-Token'] = rxSession.getTokenId();
+                }
+
+                return config;
+            }
+        };
+    }];
+});
+
+angular.module('encore.ui.utilities')
+/**
+ * @ngdoc service
+ * @name utilities.service:rxUnauthorizedInterceptor
+ * @description
+ * Simple injector which will intercept HTTP responses. If a HTTP 401 response error code is returned,
+ * the ui redirects to `/login`.
+ *
+ * @requires $q
+ * @requires @window
+ * @requires utilities.service:rxSession
+ *
+ * @example
+ * <pre>
+ * angular.module('encoreApp', ['encore.ui'])
+ *     .config(function ($httpProvider) {
+ *         $httpProvider.interceptors.push('rxUnauthorizedInterceptor');
+ *     });
+ * </pre>
+ */
+.factory('rxUnauthorizedInterceptor', ["$q", "$window", "rxSession", function ($q, $window, rxSession) {
+    var svc = {
+        redirectPath: function () {
+            // This brings in the entire relative URI (including the path
+            // specified in a <base /> tag), along with query params as a
+            // string.
+            // e.g https://www.google.com/search?q=woody+wood+pecker
+            // window.location.pathname = /search?q=woody+wood+pecker
+            return $window.location.pathname;
+        },
+        redirect: function (loginPath) {
+            loginPath = loginPath ? loginPath : '/login?redirect=';
+            $window.location = loginPath + encodeURIComponent(svc.redirectPath());
+        },
+        responseError: function (response) {
+            if (response.status === 401) {
+                rxSession.logout(); // Logs out user by removing token
+                svc.redirect();
+            }
+
+            return $q.reject(response);
+        }
+    };
+
+    return svc;
+}]);
+
+angular.module('encore.ui.utilities')
+/**
+ * @ngdoc filter
+ * @name utilities.filter:rxUnsafeRemoveHTML
+ * @description
+ * Given a string, it removes all HTML tags from the string, using the
+ * browser's own parsing engine. Any content inside of tags will be kept.
+ *
+ * **NOTE:** You must only use this with **trusted text**. See this
+ * {@link http://stackoverflow.com/a/5002618 StackOverflow} answer for more details.
+ *
+ * @param {String} htmlString The string to remove HTML from **trusted text**
+ * @returns {String} Cleaned string
+ */
+.filter('rxUnsafeRemoveHTML', ["$document", function ($document) {
+    return function (htmlString) {
+        // protect against null, which can crash some browsers
+        if (_.isEmpty(htmlString)) {
+            htmlString = '';
+        }
+
+        var div = $document[0].createElement('div');
+        div.innerHTML = htmlString;
+        return div.textContent || div.innerText || '';
+    };
+}]);
+
+angular.module('encore.ui.utilities')
+/**
+ * @ngdoc service
+ * @name utilities.service:rxUrlUtils
+ * @description
+ *
+ * Set of utility functions to break apart/compare URLs.
+ */
+.service('rxUrlUtils', ["$location", "rxEnvironmentUrlFilter", "$interpolate", "$route", "$document", function ($location, rxEnvironmentUrlFilter, $interpolate, $route, $document) {
+    var urlParser = $document[0].createElement('a');
+    // remove any preceding # and / from the URL for cleaner comparison
+    this.stripLeadingChars = function (url) {
+        // http://regexr.com/39coc
+        var leadingChars = /^((?:\/|#)+)/;
+
+        return url.replace(leadingChars, '');
+    };
+
+    // remove any trailing /'s from the URL
+    this.stripTrailingSlash = function (url) {
+        // Match a forward slash / at the end of the string ($)
+        var trailingSlash = /\/$/;
+
+        return url.replace(trailingSlash, '');
+    };
+
+    // Given a URL, split it on '/' and return all the non-empty components
+    this.getChunks = function (url) {
+        if (!_.isString(url)) {
+            return [''];
+        }
+
+        return _.compact(url.split('/'));
+    };
+
+    // Get the current path. Knows how to work with the `base` tag
+    this.getFullPath = function () {
+        var base = $document.find('base');
+        var basePath = '';
+
+        if (base.length > 0) {
+            basePath = base[0].getAttribute('href');
+
+            // remove trailing '/' if present
+            basePath = this.stripTrailingSlash(basePath);
+        }
+
+        return basePath + $location.path();
+    };
+
+    // get the current path, adding the <base> path if neeeded
+    //
+    // @example
+    // if the current page url is 'http://localhost:9000/encore-ui/#/overviewPage#bookmark?book=harry%20potter'
+    // and the page contains a <base href="encore-ui"> tag
+    // getCurrentPath() would return '/encore-ui/overviewPage'
+    this.getCurrentPathChunks = function () {
+        var fullPath = this.stripLeadingChars(this.getFullPath());
+
+        return this.getChunks(fullPath);
+    };
+
+    // get the url defined in the route by removing the hash tag, leading slashes and query string
+    // e.g. '/#/my/url?param=1' -> 'my/url'
+    this.getItemUrl = function (item) {
+        if (!_.isString(item.url)) {
+            return undefined;
+        }
+
+        // remove query string
+        var itemUrl = item.url.split('?')[0];
+        itemUrl = this.stripLeadingChars(itemUrl);
+
+        return itemUrl;
+    };
+
+    // For a given route item, grab its defined URL, and see
+    // if it matches the currentPathChunks
+    this.isActive = function (item, currentPathChunks) {
+        var itemUrlChunks = this.getChunks(this.getItemUrl(item));
+        var numChunks = itemUrlChunks.length;
+
+        // check against the path and the hash
+        // (in case the difference is the 'hash' like on the encore-ui demo page)
+        var pathMatches = this.matchesSubChunks(currentPathChunks, itemUrlChunks, numChunks);
+        if (!pathMatches) {
+            pathMatches = this.matchesSubChunks(this.getChunks($location.hash()), itemUrlChunks, numChunks);
+        }
+
+        // if current item not active, check if any children are active
+        // This requires that `isActive` was called on all the children beforehand
+        if (!pathMatches && item.children) {
+            pathMatches = _.some(item.children, 'active');
+        }
+
+        return pathMatches;
+    };
+
+    // Given a URL string, interpolate it with $route.current.pathParams
+    // If the optional `extraContext` is passed in, then the URL will be interpolated
+    // with those values as well, with `extraContext` values taking precedence
+    this.buildUrl = function (url, extraContext) {
+        // sometimes links don't have URLs defined, so we need to exit before $interpolate throws an error
+        if (_.isUndefined(url)) {
+            return url;
+        }
+
+        // run the href through rxEnvironmentUrl in case it's defined as such
+        // remove in EncoreUI 4.0.0
+        url = rxEnvironmentUrlFilter(url);
+
+        if ($route.current) {
+            // convert any nested expressions to defined route params
+            var finalContext = _.defaults(extraContext || {}, $route.current.pathParams);
+            url = $interpolate(url)(finalContext);
+        }
+
+        return url;
+    };
+
+    // Given two sets of chunks, check if the first `numChunks` of `firstChunks`
+    // matches all of `subChunks`
+    this.matchesSubChunks = function (firstChunks, subChunks, numChunks) {
+        return _.isEqual(firstChunks.slice(0, numChunks), subChunks);
+    };
+
+    // Given a URL string, parse all the different pieces of it
+    this.parseUrl = function (url) {
+        urlParser.href = url;
+        return _.pick(urlParser, ['protocol', 'hostname', 'port', 'pathname', 'search', 'hash', 'host']);
+    };
+}])
+/**
+ * @deprecated
+ * Please use rxUrlUtils instead. This item will be removed on the 4.0.0 release.
+ * @ngdoc service
+ * @name utilities.service:urlUtils
+ * @requires utilities.service:rxUrlUtils
+ */
+.service('urlUtils', ["rxUrlUtils", function (rxUrlUtils) {
+    console.warn(
+        'DEPRECATED: urlUtils - Please use rxUrlUtils. ' +
+        'urlUtils will be removed in EncoreUI 4.0.0'
+    );
+    return rxUrlUtils;
+}]);
+
+angular.module('encore.ui.utilities')
+/**
+ * @ngdoc parameters
+ * @name utilities.constant:rxUtcOffsets
+ *
+ * @description
+ * List of known UTC Offset Values
+ * See https://en.wikipedia.org/wiki/List_of_UTC_time_offsets
+ *
+ * Utility service used by {@link elements.directive:rxTimePicker rxTimePicker}.
+ */
+.constant('rxUtcOffsets', [
+    '-12:00',
+    '-11:00',
+    '-10:00',
+    '-09:30',
+    '-09:00',
+    '-08:00',
+    '-07:00',
+    '-06:00',
+    '-05:00',
+    '-04:30',
+    '-04:00',
+    '-03:30',
+    '-03:00',
+    '-02:00',
+    '-01:00',
+    '+00:00',
+    '+01:00',
+    '+02:00',
+    '+03:00',
+    '+03:30',
+    '+04:00',
+    '+04:30',
+    '+05:00',
+    '+05:30',
+    '+05:45',
+    '+06:00',
+    '+06:30',
+    '+07:00',
+    '+08:00',
+    '+08:30',
+    '+08:45',
+    '+09:00',
+    '+09:30',
+    '+10:00',
+    '+10:30',
+    '+11:00',
+    '+12:00',
+    '+12:45',
+    '+13:00',
+    '+14:00',
+])
+
+/**
+ * @deprecated
+ * Please use rxUtcOffsets instead. This item will be removed on the 4.0.0 release.
+ * @ngdoc parameters
+ * @name utilities.constant:UtcOffsets
+ * @requires utilities.constant:rxUtcOffsets
+ */
+.service('UtcOffsets', ["rxUtcOffsets", function (rxUtcOffsets) {
+    console.warn (
+        'DEPRECATED: UtcOffsets - Please use rxUtcOffsets. ' +
+        'UtcOffsets will be removed in EncoreUI 4.0.0'
+    );
+    return rxUtcOffsets;
+}]);
+
+angular.module('encore.ui.utilities')
+/**
+ * @deprecated This item will be removed in EncoreUI 4.0.0
+ * @ngdoc service
+ * @name utilities.service:rxVisibility
+ * @deprecated
+ * This service is deprecated and will be removed in EncoreUI 4.0.0
+ * @description
+ * Provides an interface for adding new `visibility` methods for nav menus.  Methods added via `addMethod` should
+ * have a `function (scope, args)` interface.
+ *
+ * When you do:
+ * <pre>
+ * visibility: [ "someMethodName", { foo: 1, bar: 2} ]
+ * </pre>
+ * in a nav menu definition, the (optional) object will be passed to your method as the
+ * second argument `args`, i.e.:
+ * <pre>
+ * function (scope, args) {}
+ * </pre>
+ */
+.factory('rxVisibility', function () {
+    console.warn(
+        'DEPRECATED: rxVisibility will be removed in EncoreUI 4.0.0'
+    );
+
+    var methods = {};
+
+    var addMethod = function (methodName, method) {
+        methods[methodName] = method;
+    };
+
+    var getMethod = function (methodName) {
+        return methods[methodName];
+    };
+
+    var hasMethod = function (methodName) {
+        return _.has(methods, methodName);
+    };
+
+    /* This is a convenience wrapper around `addMethod`, for
+     * objects that define both `name` and `method` properties
+     */
+    var addVisibilityObj = function (obj) {
+        addMethod(obj.name, obj.method);
+    };
+
+    return {
+        addMethod: addMethod,
+        getMethod: getMethod,
+        hasMethod: hasMethod,
+        addVisibilityObj: addVisibilityObj
+
+    };
+});
+
+angular.module('encore.ui.utilities')
+/**
+ * @deprecated This item will be removed in EncoreUI 4.0.0
+ * @ngdoc service
+ * @name utilities.service:rxVisibilityPathParams
+ * @deprecated
+ * This service is deprecated and will be removed in EncoreUI 4.0.0
+ * @description
+ * Returns an object with `name` and `method` params that can
+ * be passed to
+ * [rxVisibility.addMethod()](https://github.com/rackerlabs/encore-ui/blob/master/src/utilities/rxVisibility
+ * /scripts/rxVisibility.js#L22).
+ * We register this by default, as it's used by the nav menu we keep in
+ * {@link utilities.service:routesCdnPath routesCdnPath}.
+ *
+ * The method is used to check if `{param: 'someParamName'}` is present in the current route.
+ * Use it as:
+ * <pre>
+ * visibility: [ 'rxPathParams', { param: 'userName' } ]
+ * </pre>
+ */
+.factory('rxVisibilityPathParams', ["$routeParams", function ($routeParams) {
+    console.warn(
+        'DEPRECATED: rxVisibilityPathParams will be removed in EncoreUI 4.0.0'
+    );
+
+    var pathParams = {
+        name: 'rxPathParams',
+        method: function (scope, args) {
+            return !_.isUndefined($routeParams[args.param]);
+        }
+    };
+
+    return pathParams;
+}]);
+
+(function () {
+    angular
+        .module('encore.ui.utilities')
+        .filter('rxXor', rxXorFilter)
+        .filter('xor', xorFilter);
+
+    /**
+     * @ngdoc filter
+     * @name utilities.filter:rxXor
+     * @description
+     * Returns the exclusive or of two arrays.
+     *
+     * @param {Array} array The first input array
+     * @param {Array} excluded The second input array
+     * @returns {Array} - A new array of the unique elements in each array.
+     */
+    function rxXorFilter () {
+        return function () {
+            return _.xor.apply(_, arguments);
+        };
+    }//rxXorFilter
+
+    /**
+     * @deprecated
+     * Use rxXor instead. This filter will be removed on the 4.0.0 release.
+     * @ngdoc filter
+     * @name utilities.filter:xor
+     * @requires utilities.filter:rxXor
+     */
+    function xorFilter () {
+        return function (a, b) {
+            console.warn(
+                'DEPRECATED: xor - Please use rxXor. ' +
+                'xor will be removed in EncoreUI 4.0.0'
+            );
+            return rxXorFilter()(a, b);
+        };
+    }//xorFilter
+})();
+
+angular.module('encore.ui.utilities')
+/**
+ * @deprecated
+ * Please use rxSession instead. This item will be removed on the 4.0.0 release.
+ * @ngdoc service
+ * @name utilities.service:Session
+ * @requires utilities.service:rxSession
+ */
+.factory('Session', ["rxSession", function (rxSession) {
+    console.warn(
+        'DEPRECATED: Session - Please use rxSession. ' +
+        'Session will be removed in EncoreUI 4.0.0'
+    );
+    return rxSession;
+}]);
+
+angular.module('encore.ui.elements')
+/**
+ * @ngdoc directive
+ * @name elements.directive:rxSpinner
+ * @restrict A
+ * @scope
+ * @description
+ * Renders a spinner animation on the provided element given the 'toggle' attribute is truthy
+ *
+ * @param {String} size Controls the size of the spinner.  The options are default (no size specified),
+ * mini, small, large and extra-large
+ * @param {Boolean} toggle When true, the spinner will display
+ * @param {Boolean} rxSpinner When present, adds an extra class to the spinner depicting the color
+ */
+.directive('rxSpinner', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            toggle: '=',
+            rxSpinner: '@',
+            size: '@'
+        },
+        link: function (scope, element) {
+            scope.$watch('toggle', function (value) {
+                var size = scope.size ? scope.size : '';
+                var type = scope.rxSpinner ? scope.rxSpinner : '';
+                if (value) {
+                    element.prepend('<div class="rx-spinner ' + type + ' ' + size + '"></div> ');
+                } else {
+                    element.find('div').remove();
+                }
+            });
+        }
+    };
+});
+
+angular.module('encore.ui.utilities')
+/**
+ * @deprecated This service will be removed in EncoreUI 4.0.0
  * @ngdoc service
  * @name utilities.service:StatusUtil
  * @description
@@ -10269,15 +11031,18 @@ angular.module('encore.ui.utilities')
  * @example
  * <pre>
  * $rootScope.$on('$routeChangeSuccess', function () {
- *     Status.setScope(); // no input results in $rootScope being used
- *     Status.setScope($rootScope); // forcibly set $rootScope as the scope to be used
+ *     rxStatus.setScope(); // no input results in $rootScope being used
+ *     rxStatus.setScope($rootScope); // forcibly set $rootScope as the scope to be used
  * });
  * </pre>
  */
-.service('StatusUtil', ["$route", "$rootScope", "Status", function ($route, $rootScope, Status) {
+.service('StatusUtil', ["$route", "$rootScope", "rxStatus", function ($route, $rootScope, rxStatus) {
+    console.warn(
+        'DEPRECATED: StatusUtil will be removed in EncoreUI 4.0.0'
+    );
     return {
         setupScope: function (scope) {
-            Status.setScope(scope || $rootScope);
+            rxStatus.setScope(scope || $rootScope);
         }
     };
 }]);
@@ -10630,7 +11395,7 @@ angular.module('encore.ui.elements')
 angular.module('encore.ui.elements')
 /**
  * @ngdoc directive
- * @name rxFloatingHeader.directive:rxFloatingHeader
+ * @name elements.directive:rxFloatingHeader
  * @restrict A
  * @description
  *
@@ -10951,7 +11716,7 @@ angular.module('encore.ui.elements')
  * 2. This is then passed to `orderBy`, to perform column sorting with `rxSortableColumn`.
  * 3. The sorted results are then passed to `Paginate:pager`, where `Paginate` is a filter from the
  * `rxPaginate` module, and `pager` is a variable on your scope created like
- * `$scope.pager = PageTracking.createInstance();`.
+ * `$scope.pager = rxPageTracker.createInstance();`.
  *
  * This `pager` is responsible for tracking pagination state (i.e. "which page are we on", "how many
  * items per page", "total number of items tracked", etc.
@@ -10982,7 +11747,7 @@ angular.module('encore.ui.elements')
  *
  * This applies to both UI-based pagination and API-based pagination.
  *
- * *NOTE*: If `itemsPerPage` is explicitly specified in the `opts` you pass to `PageTracking.createInstance()`,
+ * *NOTE*: If `itemsPerPage` is explicitly specified in the `opts` you pass to `rxPageTracker.createInstance()`,
  * then that pager instance will load using the `itemsPerPage` you specified, and _not_ the globally persisted value.
  *
  * *NOTE*: If you don't want a specific pager to have its `itemsPerPage` persisted to other pagers,
@@ -11065,14 +11830,14 @@ angular.module('encore.ui.elements')
  *  `<rx-paginate>` will watch the variables for changes, and will call `getItems()` for updates whenever
  *  the values change.
  *
- * *Note:* If using `<rx-select-filter>` in the table, the `available` option passed to the `SelectFilter`
+ * *Note:* If using `<rx-select-filter>` in the table, the `available` option passed to the `rxSelectFilter`
  * constructor **must** be provided and include every property.  This is because the filter cannot reliably
  * determine all available options from a paginated API.
  *
- * You will still create a `PageTracking` instance on your scope, just like in UI-based pagination:
+ * You will still create a `rxPageTracker` instance on your scope, just like in UI-based pagination:
  *
  * <pre>
- * $scope.pagedServers = PageTracking.createInstance();
+ * $scope.pagedServers = rxPageTracker.createInstance();
  * </pre>
  *
  * ## getItems()
@@ -11406,7 +12171,7 @@ angular.module('encore.ui.elements')
  *
  * @param {Object} pageTracking
  * This is the page tracking service instance to be used for this directive.
- * See {@link utilities.service:PageTracking}
+ * See {@link utilities.service:rxPageTracker rxPageTracker}
  * @param {Number} numberOfPages
  * This is the maximum number of pages that the page object will display at a
  * time.
@@ -11417,7 +12182,7 @@ angular.module('encore.ui.elements')
  * The model for the table filter input, if any. This directive will watch that
  * model for changes, and request new results from the paginated API, on change
  * @param {Object=} selections
- * The `selected` property of a SelectFilter instance, if one is being used.
+ * The `selected` property of a rxSelectFilter instance, if one is being used.
  * This directive will watch the filter's selections, and request new results
  * from the paginated API, on change
  * @param {Object=} sortColumn
@@ -11431,7 +12196,7 @@ angular.module('encore.ui.elements')
  * @param {String=} errorMessage
  * An error message that should be displayed if a call to the request fails
  */
-.directive('rxPaginate', ["$q", "$compile", "debounce", "PageTracking", "rxPromiseNotifications", function ($q, $compile, debounce, PageTracking, rxPromiseNotifications) {
+.directive('rxPaginate', ["$q", "$compile", "debounce", "rxPromiseNotifications", function ($q, $compile, debounce, rxPromiseNotifications) {
     return {
         templateUrl: 'templates/rxPaginate.html',
         replace: true,
@@ -11593,11 +12358,11 @@ angular.module('encore.ui.elements')
  * hierarchy validation enforces this relationship.
  *
  * ## rxSelectFilter
- * Uses an instance of `SelectFilter` to create a set of `<rx-multi-select>`'s
+ * Uses an instance of `rxSelectFilter` to create a set of `<rx-multi-select>`'s
  * that modify the instance object.
  * <pre>
  * // In the controller
- * $scope.filter = SelectFilter.create({
+ * $scope.filter = rxSelectFilter.create({
  *   // options...
  * });
  * </pre>
@@ -11610,7 +12375,7 @@ angular.module('encore.ui.elements')
  * </rx-form-section>
  * </pre>
  *
- * @param {Object} filter - An instance of SelectFilter
+ * @param {Object} filter An instance of rxSelectFilter
  *
  */
 .directive('rxSelectFilter', ["rxNestedElement", function (rxNestedElement) {
@@ -11633,13 +12398,13 @@ angular.module('encore.ui.elements')
  * Renders a clickable link in a table heading which will sort the table by
  * the referenced property in ascending or descending order.
  *
- * @param {String} displayText - The text to be displayed in the link
- * @param {Function} sortMethod - The sort function to be called when the link is
+ * @param {String} displayText The text to be displayed in the link
+ * @param {Function} sortMethod The sort function to be called when the link is
  * clicked
- * @param {String} sortProperty - The property on the array to sort by when the
+ * @param {String} sortProperty The property on the array to sort by when the
  * link is clicked.
- * @param {Object} predicate - The current property the collection is sorted by.
- * @param {Boolean} reverse - Indicates whether the collection should sort the
+ * @param {Object} predicate The current property the collection is sorted by.
+ * @param {Boolean} reverse Indicates whether the collection should sort the
  * array in reverse order.
  */
 .directive('rxSortableColumn', function () {
@@ -11680,7 +12445,7 @@ angular.module('encore.ui.elements')
  * internally you will be receiving a number of different statuses from your
  * APIs, and will need to map them to these six statuses.
  *
- * The example in the [demo](../#/components/rxStatusColumn) shows
+ * The example in the [demo](../#/elements/Tables#status-column) shows
  * a typical use of this directive, such as:
  *
  * <pre>
@@ -11774,10 +12539,10 @@ angular.module('encore.ui.elements')
  * <th rx-status-header></th>
  * </pre>
  * Note that status columns are sortable with
- * [rxSortableColumn](../#/elements/Tables#sortable-column), just like any
+ * {@link elements.directive:rxSortableColumn rxSortableColumn}, just like any
  * other column. The demo below shows an example of this.
  *
- * One thing to note about the [demo](../#/elements/Tables#sortable-column):
+ * One thing to note about the [demo](../#/elements/Tables#status-column):
  * The `<th>` is defined as:
  *
  * <pre>
@@ -11806,7 +12571,7 @@ angular.module('encore.ui.elements')
 angular.module('encore.ui.elements')
 /**
  * @ngdoc directive
- * @name rxTags.directive:rxTags
+ * @name elements.directive:rxTags
  * @description
  *
  * Like native form components, this directive uses `ng-model` to store
@@ -11846,8 +12611,8 @@ angular.module('encore.ui.elements')
  *
  * This component can be disabled via the `disabled` attribute or `ng-disabled`
  * directive.
- * @param {Array} options - The list of available tags.
- * @param {String=} [key=undefined] - Determines a value of the tag object to
+ * @param {Array} options The list of available tags.
+ * @param {String=} key Determines a value of the tag object to
  * use when binding an option to the model.
  * If not provided, the tag object is used.
  */
@@ -11912,12 +12677,12 @@ angular.module('encore.ui.elements')
 
             if (!_.isEmpty(attrs.key)) {
                 ngModelCtrl.$parsers.push(function ($viewValue) {
-                    return _.pluck($viewValue, attrs.key);
+                    return _.map($viewValue, attrs.key);
                 });
 
                 ngModelCtrl.$formatters.push(function ($modelValue) {
                     return scope.options.filter(function (option) {
-                        return _.contains($modelValue, option[attrs.key]);
+                        return _.includes($modelValue, option[attrs.key]);
                     });
                 });
             }
@@ -11931,59 +12696,21 @@ angular.module('encore.ui.elements')
 
 angular.module('encore.ui.utilities')
 /**
- * @ngdoc filter
- * @name utilities.filter:titleize
- * @description
- * Convert a string to title case, stripping out underscores and capitalizing words.
- *
- * Credit where it's due: https://github.com/epeli/underscore.string/blob/master/titleize.js
- *
- * @param {String} inputString - The string to convert
- * @returns {String} The titleized version of the string
- *
- * @example
- * Both examples result in a string of `"A Simple String"`.
- * <pre>
- * {{ 'a simple_STRING' | titleize }}
- * </pre>
- *
- * <pre>
- * $filter('titleize')('a simple_STRING');
- * </pre>
- */
-.filter('titleize', function () {
-    return function (inputString) {
-        return inputString
-            .toLowerCase()
-            .replace(/_/g, ' ')
-            .replace(/(?:^|\s)\S/g, function (character) {
-                return character.toUpperCase();
-            });
-    };
-});
-
-angular.module('encore.ui.utilities')
-/**
+ * @deprecated
+ * Please use rxTokenInterceptor instead. This item will be removed on the 4.0.0 release.
  * @ngdoc service
  * @name utilities.service:TokenInterceptor
  * @description
- * Simple $http injector which will intercept http request and inject the
- * Rackspace Identity's token into every http request.
- *
- * @requires rxSession.service:Session
- *
- * @example
- * <pre>
- * angular.module('encoreApp', ['encore.ui'])
- *     .config(function ($httpProvider) {
- *         $httpProvider.interceptors.push('TokenInterceptor');
- *     });
- * </pre>
+ * Please use {@link utilities.service:rxTokenInterceptor rxTokenInterceptor} instead.
  */
 .provider('TokenInterceptor', function () {
     var exclusionList = this.exclusionList = [ 'rackcdn.com' ];
 
-    this.$get = ["Session", "$document", function (Session, $document) {
+    this.$get = ["rxSession", "$document", function (rxSession, $document) {
+        console.warn (
+            'DEPRECATED: TokenInterceptor - Please use rxTokenInterceptor. ' +
+            'TokenInterceptor will be removed in EncoreUI 4.0.0'
+        );
         var url = $document[0].createElement('a');
         return {
             request: function (config) {
@@ -11994,13 +12721,13 @@ angular.module('encore.ui.utilities')
                 // into something with a `.hostname`
                 url.href = config.url;
                 var exclude = _.some(exclusionList, function (item) {
-                    if (_.contains(url.hostname, item)) {
+                    if (_.includes(url.hostname, item)) {
                         return true;
                     }
                 });
 
                 if (!exclude) {
-                    config.headers['X-Auth-Token'] = Session.getTokenId();
+                    config.headers['X-Auth-Token'] = rxSession.getTokenId();
                 }
 
                 return config;
@@ -12011,7 +12738,7 @@ angular.module('encore.ui.utilities')
 
 /**
  * @ngdoc overview
- * @name typeahead
+ * @name elements.directive:typeahead
  * @description
  * # typeahead Component
  *
@@ -12029,7 +12756,7 @@ angular.module('encore.ui.utilities')
  * receives focus.  This list is still filtered according to the input's value,
  * except when the input is empty.  In that case, all the options are shown.
  * To use this feature, add the `allowEmpty` parameter to the `filter` filter
- * in the `typeahead` attribute.  See the [demo](../#/elements/typeahead)
+ * in the `typeahead` attribute.  See the [demo](../#/elements/Typeahead)
  * for an example.
  *
  */
@@ -12085,253 +12812,19 @@ angular.module('encore.ui.elements')
 
 angular.module('encore.ui.utilities')
 /**
+ * @deprecated
+ * Please use rxUnauthorizedInterceptor instead. This item will be removed on the 4.0.0 release.
  * @ngdoc service
  * @name utilities.service:UnauthorizedInterceptor
- * @description
- * Simple injector which will intercept HTTP responses. If a HTTP 401 response error code is returned,
- * the ui redirects to `/login`.
- *
- * @requires $q
- * @requires @window
- * @requires utilities.service:Session
- *
- * @example
- * <pre>
- * angular.module('encoreApp', ['encore.ui'])
- *     .config(function ($httpProvider) {
- *         $httpProvider.interceptors.push('UnauthorizedInterceptor');
- *     });
- * </pre>
+ * @requires utilities.service:rxUnauthorizedInterceptor
  */
-.factory('UnauthorizedInterceptor', ["$q", "$window", "Session", function ($q, $window, Session) {
-    var svc = {
-        redirectPath: function () {
-            // This brings in the entire relative URI (including the path
-            // specified in a <base /> tag), along with query params as a
-            // string.
-            // e.g https://www.google.com/search?q=woody+wood+pecker
-            // window.location.pathname = /search?q=woody+wood+pecker
-            return $window.location.pathname;
-        },
-        redirect: function (loginPath) {
-            loginPath = loginPath ? loginPath : '/login?redirect=';
-            $window.location = loginPath + encodeURIComponent(svc.redirectPath());
-        },
-        responseError: function (response) {
-            if (response.status === 401) {
-                Session.logout(); // Logs out user by removing token
-                svc.redirect();
-            }
-
-            return $q.reject(response);
-        }
-    };
-
-    return svc;
+.service('UnauthorizedInterceptor', ["rxUnauthorizedInterceptor", function (rxUnauthorizedInterceptor) {
+    console.warn (
+        'DEPRECATED: UnauthorizedInterceptor - Please use rxUnauthorizedInterceptor. ' +
+        'UnauthorizedInterceptor will be removed in EncoreUI 4.0.0'
+    );
+    return rxUnauthorizedInterceptor;
 }]);
-
-angular.module('encore.ui.utilities')
-/**
- * @ngdoc service
- * @name utilities.service:urlUtils
- * @description
- *
- * Set of utility functions to break apart/compare URLs.
- */
-.service('urlUtils', ["$location", "rxEnvironmentUrlFilter", "$interpolate", "$route", "$document", function ($location, rxEnvironmentUrlFilter, $interpolate, $route, $document) {
-    var urlParser = $document[0].createElement('a');
-    // remove any preceding # and / from the URL for cleaner comparison
-    this.stripLeadingChars = function (url) {
-        // http://regexr.com/39coc
-        var leadingChars = /^((?:\/|#)+)/;
-
-        return url.replace(leadingChars, '');
-    };
-
-    // remove any trailing /'s from the URL
-    this.stripTrailingSlash = function (url) {
-        // Match a forward slash / at the end of the string ($)
-        var trailingSlash = /\/$/;
-
-        return url.replace(trailingSlash, '');
-    };
-
-    // Given a URL, split it on '/' and return all the non-empty components
-    this.getChunks = function (url) {
-        if (!_.isString(url)) {
-            return [''];
-        }
-
-        return _.compact(url.split('/'));
-    };
-
-    // Get the current path. Knows how to work with the `base` tag
-    this.getFullPath = function () {
-        var base = $document.find('base');
-        var basePath = '';
-
-        if (base.length > 0) {
-            basePath = base[0].getAttribute('href');
-
-            // remove trailing '/' if present
-            basePath = this.stripTrailingSlash(basePath);
-        }
-
-        return basePath + $location.path();
-    };
-
-    // get the current path, adding the <base> path if neeeded
-    //
-    // @example
-    // if the current page url is 'http://localhost:9000/encore-ui/#/overviewPage#bookmark?book=harry%20potter'
-    // and the page contains a <base href="encore-ui"> tag
-    // getCurrentPath() would return '/encore-ui/overviewPage'
-    this.getCurrentPathChunks = function () {
-        var fullPath = this.stripLeadingChars(this.getFullPath());
-
-        return this.getChunks(fullPath);
-    };
-
-    // get the url defined in the route by removing the hash tag, leading slashes and query string
-    // e.g. '/#/my/url?param=1' -> 'my/url'
-    this.getItemUrl = function (item) {
-        if (!_.isString(item.url)) {
-            return undefined;
-        }
-
-        // remove query string
-        var itemUrl = item.url.split('?')[0];
-        itemUrl = this.stripLeadingChars(itemUrl);
-
-        return itemUrl;
-    };
-
-    // For a given route item, grab its defined URL, and see
-    // if it matches the currentPathChunks
-    this.isActive = function (item, currentPathChunks) {
-        var itemUrlChunks = this.getChunks(this.getItemUrl(item));
-        var numChunks = itemUrlChunks.length;
-
-        // check against the path and the hash
-        // (in case the difference is the 'hash' like on the encore-ui demo page)
-        var pathMatches = this.matchesSubChunks(currentPathChunks, itemUrlChunks, numChunks);
-        if (!pathMatches) {
-            pathMatches = this.matchesSubChunks(this.getChunks($location.hash()), itemUrlChunks, numChunks);
-        }
-
-        // if current item not active, check if any children are active
-        // This requires that `isActive` was called on all the children beforehand
-        if (!pathMatches && item.children) {
-            pathMatches = _.any(item.children, 'active');
-        }
-
-        return pathMatches;
-    };
-
-    // Given a URL string, interpolate it with $route.current.pathParams
-    // If the optional `extraContext` is passed in, then the URL will be interpolated
-    // with those values as well, with `extraContext` values taking precedence
-    this.buildUrl = function (url, extraContext) {
-        // sometimes links don't have URLs defined, so we need to exit before $interpolate throws an error
-        if (_.isUndefined(url)) {
-            return url;
-        }
-
-        // run the href through rxEnvironmentUrl in case it's defined as such
-        url = rxEnvironmentUrlFilter(url);
-
-        if ($route.current) {
-            // convert any nested expressions to defined route params
-            var finalContext = _.defaults(extraContext || {}, $route.current.pathParams);
-            url = $interpolate(url)(finalContext);
-        }
-
-        return url;
-    };
-
-    // Given two sets of chunks, check if the first `numChunks` of `firstChunks`
-    // matches all of `subChunks`
-    this.matchesSubChunks = function (firstChunks, subChunks, numChunks) {
-        return _.isEqual(firstChunks.slice(0, numChunks), subChunks);
-    };
-
-    // Given a URL string, parse all the different pieces of it
-    this.parseUrl = function (url) {
-        urlParser.href = url;
-        return _.pick(urlParser, ['protocol', 'hostname', 'port', 'pathname', 'search', 'hash', 'host']);
-    };
-}]);
-
-angular.module('encore.ui.utilities')
-/**
- * @ngdoc parameters
- * @name utilities.constant:UtcOffsets
- *
- * @description
- * List of known UTC Offset Values
- * See https://en.wikipedia.org/wiki/List_of_UTC_time_offsets
- *
- * Utility service used by {@link elements.directive:rxTimePicker rxTimePicker}.
- */
-.constant('UtcOffsets', [
-    '-12:00',
-    '-11:00',
-    '-10:00',
-    '-09:30',
-    '-09:00',
-    '-08:00',
-    '-07:00',
-    '-06:00',
-    '-05:00',
-    '-04:30',
-    '-04:00',
-    '-03:30',
-    '-03:00',
-    '-02:00',
-    '-01:00',
-    '+00:00',
-    '+01:00',
-    '+02:00',
-    '+03:00',
-    '+03:30',
-    '+04:00',
-    '+04:30',
-    '+05:00',
-    '+05:30',
-    '+05:45',
-    '+06:00',
-    '+06:30',
-    '+07:00',
-    '+08:00',
-    '+08:30',
-    '+08:45',
-    '+09:00',
-    '+09:30',
-    '+10:00',
-    '+10:30',
-    '+11:00',
-    '+12:00',
-    '+12:45',
-    '+13:00',
-    '+14:00',
-]);
-
-angular.module('encore.ui.utilities')
-/**
- * @ngdoc filter
- * @name utilities.filter:xor
- * @description
- * Returns the exclusive or of two arrays.
- *
- * @param {Array} array The first input array
- * @param {Array} excluded The second input array
- * @returns {Array} - A new array of the unique elements in each array.
- */
-.filter('xor', function () {
-    return function () {
-        return _.xor.apply(_, arguments);
-    };
-});
 
 angular.module("templates/rxAccountInfo.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxAccountInfo.html",
@@ -12405,12 +12898,12 @@ angular.module("templates/rxSearchBox.html", []).run(["$templateCache", function
 
 angular.module("templates/rxSelectOption.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxSelectOption.html",
-    "<li class=\"rx-select-option\"><label><input rx-checkbox ng-model=\"isSelected\" ng-click=\"toggle(!isSelected)\"> <span ng-if=\"!transclusion\">{{value | titleize}}</span> <span ng-transclude></span></label></li>");
+    "<li class=\"rx-select-option\"><label><input rx-checkbox ng-model=\"isSelected\" ng-click=\"toggle(!isSelected)\"> <span ng-if=\"!transclusion\">{{value | rxTitleize}}</span> <span ng-transclude></span></label></li>");
 }]);
 
 angular.module("templates/rxTimePicker.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxTimePicker.html",
-    "<div class=\"rxTimePicker wrapper\"><div class=\"control\" ng-click=\"togglePopup()\"><input type=\"text\" data-time=\"{{modelValue}}\" class=\"displayValue\" tabindex=\"-1\" ng-model=\"displayValue\"><div class=\"overlay\"><i class=\"icon fa fa-fw fa-clock-o\"></i></div></div><div class=\"popup\" ng-show=\"isPickerVisible\"><form rx-form name=\"timePickerForm\"><rx-form-section><rx-field><rx-field-content><rx-input><input type=\"text\" name=\"hour\" class=\"hour\" maxlength=\"2\" autocomplete=\"off\" ng-required=\"true\" ng-pattern=\"/^(1[012]|0?[1-9])$/\" ng-model=\"hour\"><rx-infix>:</rx-infix><input type=\"text\" name=\"minutes\" class=\"minutes\" maxlength=\"2\" autocomplete=\"off\" ng-required=\"true\" ng-pattern=\"/^[0-5][0-9]$/\" ng-model=\"minutes\"><rx-suffix><select rx-select name=\"period\" class=\"period\" ng-model=\"period\"><option value=\"AM\">AM</option><option value=\"PM\">PM</option></select></rx-suffix><rx-suffix class=\"offsetWrapper\"><select rx-select name=\"utcOffset\" class=\"utcOffset\" ng-model=\"offset\"><option ng-repeat=\"utcOffset in availableUtcOffsets\" ng-selected=\"{{utcOffset === offset}}\">{{utcOffset}}</option></select></rx-suffix></rx-input><rx-inline-error ng-if=\"timePickerForm.hour.$dirty && !timePickerForm.hour.$valid\">Invalid Hour</rx-inline-error><rx-inline-error ng-if=\"timePickerForm.minutes.$dirty && !timePickerForm.minutes.$valid\">Invalid Minutes</rx-inline-error></rx-field-content></rx-field></rx-form-section><rx-form-section class=\"actions\"><div><rx-button classes=\"done\" default-msg=\"Done\" disable=\"!timePickerForm.$valid\" ng-click=\"submitPopup()\"></rx-button>&nbsp;<rx-button classes=\"cancel\" default-msg=\"Cancel\" ng-click=\"closePopup()\"></rx-button></div></rx-form-section></form></div></div>");
+    "<div class=\"rxTimePicker wrapper\"><div class=\"control\" ng-click=\"togglePopup()\"><input type=\"text\" data-time=\"{{modelValue}}\" class=\"displayValue\" tabindex=\"-1\" ng-model=\"displayValue\"><div class=\"overlay\"><i class=\"icon fa fa-fw fa-clock-o\"></i></div></div><div class=\"popup\" ng-show=\"isPickerVisible\"><form rx-form name=\"timePickerForm\"><rx-form-section><rx-field><rx-field-content><rx-input><input type=\"text\" name=\"hour\" class=\"hour\" maxlength=\"2\" autocomplete=\"off\" ng-required=\"true\" ng-pattern=\"/^(1[012]|0?[1-9])$/\" ng-model=\"hour\"><rx-infix>:</rx-infix><input type=\"text\" name=\"minutes\" class=\"minutes\" maxlength=\"2\" autocomplete=\"off\" ng-required=\"true\" ng-pattern=\"/^[0-5][0-9]$/\" ng-model=\"minutes\"><rx-suffix><select rx-select name=\"period\" class=\"period\" ng-model=\"period\"><option value=\"AM\">AM</option><option value=\"PM\">PM</option></select></rx-suffix><rx-suffix class=\"offsetWrapper\"><select rx-select name=\"utcOffset\" class=\"utcOffset\" ng-model=\"offset\"><option ng-repeat=\"utcOffset in availableUtcOffsets\" ng-selected=\"{{utcOffset === offset}}\">{{utcOffset}}</option></select></rx-suffix></rx-input><rx-inline-error ng-if=\"timePickerForm.hour.$dirty && !timePickerForm.hour.$valid\">Invalid Hour</rx-inline-error><rx-inline-error ng-if=\"timePickerForm.minutes.$dirty && !timePickerForm.minutes.$valid\">Invalid Minutes</rx-inline-error></rx-field-content></rx-field></rx-form-section><rx-form-section class=\"actions\"><div><rx-button classes=\"done\" default-msg=\"Done\" ng-disabled=\"!timePickerForm.$valid\" ng-click=\"submitPopup()\"></rx-button>&nbsp;<rx-button classes=\"cancel\" default-msg=\"Cancel\" ng-click=\"closePopup()\"></rx-button></div></rx-form-section></form></div></div>");
 }]);
 
 angular.module("templates/rxToggleSwitch.html", []).run(["$templateCache", function($templateCache) {
@@ -12451,6 +12944,11 @@ angular.module("templates/rxNotification.html", []).run(["$templateCache", funct
 angular.module("templates/rxNotifications.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxNotifications.html",
     "<div class=\"rx-notifications\" ng-show=\"messages.length > 0\"><div ng-repeat=\"message in messages\" class=\"rx-notification animate-fade notification-{{message.type}}\" ng-class=\"{'notification-loading': message.loading}\" rx-spinner toggle=\"message.loading\" ng-init=\"loading = message.loading\"><span class=\"notification-text\" ng-bind-html=\"message.text\"></span> <button ng-click=\"dismiss(message)\" class=\"notification-dismiss btn-link\" ng-if=\"!message.loading\">&times; <span class=\"visually-hidden\">Dismiss Message</span></button></div></div>");
+}]);
+
+angular.module("templates/rxProgressbar.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/rxProgressbar.html",
+    "<div class=\"rxProgressbar\" ng-class=\"{'rxProgressbar--striped': percent < 100}\"><div class=\"rxProgressbar__value\" ng-style=\"{width: percent + '%'}\" ng-transclude></div></div>");
 }]);
 
 angular.module("templates/rxAccountSearch.html", []).run(["$templateCache", function($templateCache) {
@@ -12515,12 +13013,12 @@ angular.module("templates/rxBulkSelectMessage.html", []).run(["$templateCache", 
 
 angular.module("templates/rxPaginate.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxPaginate.html",
-    "<div class=\"rx-paginate\"><div class=\"pagination\" layout=\"row\" layout-wrap layout-align=\"justify top\"><div flex=\"50\" flex-order=\"2\" flex-gt-md=\"20\" flex-order-gt-md=\"1\" flex-gt-lg=\"35\" layout=\"row\"><a class=\"back-to-top\" tabindex=\"0\" ng-click=\"scrollToTop()\">Back to top</a><div hide show-gt-lg>Showing {{ pageTracking | PaginatedItemsSummary}} items</div></div><div flex=\"100\" flex-order=\"1\" flex-gt-md=\"40\" flex-order-gt-md=\"2\" flex-gt-lg=\"35\"><div class=\"page-links\" layout=\"row\" layout-align=\"center\"><div ng-class=\"{disabled: pageTracking.isFirstPage()}\" class=\"pagination-first\"><a hide show-gt-lg ng-click=\"goToFirstPage()\" ng-hide=\"pageTracking.isFirstPage()\">First</a></div><div ng-class=\"{disabled: pageTracking.isFirstPage()}\" class=\"pagination-prev\"><a ng-click=\"goToPrevPage()\" ng-hide=\"pageTracking.isFirstPage()\">« Prev</a></div><div ng-repeat=\"n in pageTracking | Page\" ng-class=\"{active: pageTracking.isPage(n), 'page-number-last': pageTracking.isPageNTheLastPage(n)}\" class=\"pagination-page\"><a ng-click=\"goToPage(n)\">{{n + 1}}</a></div><div ng-class=\"{disabled: pageTracking.isLastPage() || pageTracking.isEmpty()}\" class=\"pagination-next\"><a ng-click=\"goToNextPage()\" ng-hide=\"pageTracking.isLastPage() || pageTracking.isEmpty()\">Next »</a></div><div ng-class=\"{disabled: pageTracking.isLastPage()}\" class=\"pagination-last\"><a hide show-gt-lg ng-click=\"goToLastPage()\" ng-hide=\"pageTracking.isLastPage()\">Last</a></div></div></div><div flex=\"50\" flex-order=\"3\" flex-gt-md=\"40\" flex-order-gt-md=\"3\" flex-gt-lg=\"30\"><div class=\"pagination-per-page\" layout=\"row\" layout-align=\"right\"><div>Show</div><div ng-repeat=\"i in pageTracking.itemSizeList\"><button ng-disabled=\"pageTracking.isItemsPerPage(i)\" ng-click=\"pageTracking.setItemsPerPage(i)\">{{ i }}</button></div></div></div></div></div>");
+    "<div class=\"rx-paginate\"><div class=\"pagination\" layout=\"row\" layout-wrap layout-align=\"justify top\"><div flex=\"50\" flex-order=\"2\" flex-gt-md=\"20\" flex-order-gt-md=\"1\" flex-gt-lg=\"35\" layout=\"row\"><a class=\"back-to-top\" tabindex=\"0\" ng-click=\"scrollToTop()\">Back to top</a><div hide show-gt-lg>Showing {{ pageTracking | PaginatedItemsSummary}} items</div></div><div flex=\"100\" flex-order=\"1\" flex-gt-md=\"40\" flex-order-gt-md=\"2\" flex-gt-lg=\"35\"><div class=\"page-links\" layout=\"row\" layout-align=\"center\"><div ng-class=\"{disabled: pageTracking.isFirstPage()}\" class=\"pagination-first\"><a hide show-gt-lg ng-click=\"goToFirstPage()\" ng-hide=\"pageTracking.isFirstPage()\">First</a></div><div ng-class=\"{disabled: pageTracking.isFirstPage()}\" class=\"pagination-prev\"><a ng-click=\"goToPrevPage()\" ng-hide=\"pageTracking.isFirstPage()\">« Prev</a></div><div ng-repeat=\"n in pageTracking | rxPager\" ng-class=\"{active: pageTracking.isPage(n), 'page-number-last': pageTracking.isPageNTheLastPage(n)}\" class=\"pagination-page\"><a ng-click=\"goToPage(n)\">{{n + 1}}</a></div><div ng-class=\"{disabled: pageTracking.isLastPage() || pageTracking.isEmpty()}\" class=\"pagination-next\"><a ng-click=\"goToNextPage()\" ng-hide=\"pageTracking.isLastPage() || pageTracking.isEmpty()\">Next »</a></div><div ng-class=\"{disabled: pageTracking.isLastPage()}\" class=\"pagination-last\"><a hide show-gt-lg ng-click=\"goToLastPage()\" ng-hide=\"pageTracking.isLastPage()\">Last</a></div></div></div><div flex=\"50\" flex-order=\"3\" flex-gt-md=\"40\" flex-order-gt-md=\"3\" flex-gt-lg=\"30\"><div class=\"pagination-per-page\" layout=\"row\" layout-align=\"right\"><div>Show</div><div ng-repeat=\"i in pageTracking.itemSizeList\"><button ng-disabled=\"pageTracking.isItemsPerPage(i)\" ng-click=\"pageTracking.setItemsPerPage(i)\">{{ i }}</button></div></div></div></div></div>");
 }]);
 
 angular.module("templates/rxSelectFilter.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxSelectFilter.html",
-    "<rx-field class=\"select-wrapper {{prop}}-filter\" ng-repeat=\"prop in filter.properties\"><rx-field-name>{{ prop | titleize }}</rx-field-name><rx-field-content><rx-input><rx-multi-select ng-model=\"filter.selected[prop]\" options=\"filter.available[prop]\"></rx-multi-select></rx-input></rx-field-content></rx-field>");
+    "<rx-field class=\"select-wrapper {{prop}}-filter\" ng-repeat=\"prop in filter.properties\"><rx-field-name>{{ prop | rxTitleize }}</rx-field-name><rx-field-content><rx-input><rx-multi-select ng-model=\"filter.selected[prop]\" options=\"filter.available[prop]\"></rx-multi-select></rx-input></rx-field-content></rx-field>");
 }]);
 
 angular.module("templates/rxSortableColumn.html", []).run(["$templateCache", function($templateCache) {
@@ -12535,5 +13033,5 @@ angular.module("templates/rxStatusColumn.html", []).run(["$templateCache", funct
 
 angular.module("templates/rxTags.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxTags.html",
-    "<div class=\"rx-tags\" ng-click=\"focusInput($event)\"><div class=\"tag\" ng-repeat=\"tag in tags track by tag.text\" ng-keydown=\"removeIfBackspace($event, tag)\" tabindex=\"{{ disabled ? '' : 0 }}\"><i class=\"fa fa-tag\"></i> <span class=\"text\">{{tag.text}}</span> <span class=\"category\">({{tag.category}})</span> <i class=\"fa fa-times\" ng-click=\"remove(tag)\"></i></div><input type=\"text\" placeholder=\"{{ disabled ? '' : 'Enter a tag' }}\" ng-model=\"newTag\" ng-keydown=\"focusTag($event, newTag)\" ng-disabled=\"disabled\" typeahead=\"tag as tag.text for tag in options | xor:tags | filter:{text: $viewValue}\" typeahead-on-select=\"add(newTag)\"></div>");
+    "<div class=\"rx-tags\" ng-click=\"focusInput($event)\"><div class=\"tag\" ng-repeat=\"tag in tags track by tag.text\" ng-keydown=\"removeIfBackspace($event, tag)\" tabindex=\"{{ disabled ? '' : 0 }}\"><i class=\"fa fa-tag\"></i> <span class=\"text\">{{tag.text}}</span> <span class=\"category\">({{tag.category}})</span> <i class=\"fa fa-times\" ng-click=\"remove(tag)\"></i></div><input type=\"text\" placeholder=\"{{ disabled ? '' : 'Enter a tag' }}\" ng-model=\"newTag\" ng-keydown=\"focusTag($event, newTag)\" ng-disabled=\"disabled\" typeahead=\"tag as tag.text for tag in options | rxXor:tags | filter:{text: $viewValue}\" typeahead-on-select=\"add(newTag)\"></div>");
 }]);
