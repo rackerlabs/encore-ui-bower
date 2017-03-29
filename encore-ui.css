@@ -665,6 +665,589 @@ body:hover .visually-hidden button {
   font-size: 1.1em;
   color: #757575;
 }
+/* DEPRECATED: Use standard 'transition' property instead. Will be removed in EncoreUI 4 */
+/* DEPRECATED: Use standard 'transition' property instead. Will be removed in EncoreUI 4 */
+/* DEPRECATED: Use standard 'transition' property instead. Will be removed in EncoreUI 4 */
+/* DEPRECATED: Use standard 'transition' property instead. Will be removed in EncoreUI 4 */
+.account-users {
+  box-sizing: border-box;
+}
+.rx-app {
+  min-height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.rx-app .rx-app-content {
+  background-color: #f5f5f5;
+  flex: 1 1 0;
+}
+.rx-app .rx-app-menu {
+  flex: 0 0 300px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 300;
+  background: #212121;
+  line-height: 1.2;
+  padding-bottom: 10em;
+  position: relative;
+}
+.rx-app .rx-app-menu .site-title,
+.rx-app .rx-app-menu .nav-section-title {
+  margin: 0;
+  font-size: inherit;
+}
+.rx-app .site-branding {
+  border-top: 1px solid #0d74d1;
+  border-bottom: 1px solid #0d74d1;
+  padding: 5px 20px;
+  overflow: hidden;
+  background: #0d47a1;
+  position: relative;
+}
+.rx-app .site-branding .site-title {
+  float: left;
+}
+.rx-app .site-branding .site-options {
+  float: right;
+  font-size: 0.8em;
+  margin-top: 1px;
+}
+.rx-app .site-branding .site-options .site-option {
+  color: #bbdefb;
+  display: inline-block;
+  margin-left: 1em;
+}
+.rx-app .site-branding .site-options .site-option:hover,
+.rx-app .site-branding .site-options .site-option:focus {
+  color: #ffffff;
+}
+.rx-app .site-branding .collapsible-toggle {
+  position: absolute;
+  text-align: center;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 2em;
+  border-left: 1px solid #093272;
+}
+.rx-app .site-branding .collapsible-toggle:hover {
+  background: #115cd0;
+}
+.rx-app .site-branding .double-chevron {
+  font-size: 20px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+.rx-app .site-branding .double-chevron::before {
+  color: #bbdefb;
+  content: "\00bb";
+}
+.rx-app .site-branding .double-chevron.double-chevron-left::before {
+  content: "\00ab";
+}
+.rx-app .site-branding .double-chevron:hover .rx-app .site-branding .double-chevron::before {
+  color: #ffffff;
+}
+.rx-app.collapsible .site-branding {
+  padding-right: calc(2em + 20px);
+}
+.rx-app.collapsed .rx-app-menu {
+  flex: 0 0 25px;
+  padding-bottom: 0;
+  position: relative;
+}
+.rx-app.collapsed .site-branding,
+.rx-app.collapsed .collapsible-toggle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  padding: 0;
+  width: 100%;
+}
+.rx-app.collapsed .site-title,
+.rx-app.collapsed .site-options,
+.rx-app.collapsed .rx-app-nav,
+.rx-app.collapsed .rx-app-help {
+  display: none;
+}
+.rx-app.collapsed .page-body > .rx-notifications {
+  left: 25px;
+}
+.rx-app.embedded .page-body > .rx-notifications {
+  left: 0;
+}
+.rx-app.warning-bar {
+  position: absolute;
+  margin-top: 3em;
+  width: 100%;
+}
+.rx-app.warning-bar.preprod .rx-app-menu {
+  background: #d32f2f;
+}
+.rx-app.warning-bar.preprod .rx-app-nav-item .item-link {
+  background: #d32f2f;
+  border-top: 1px solid #f44336;
+  border-bottom: 1px solid #ab2424;
+}
+.rx-app.warning-bar.preprod .rx-app-nav-item .item-link:hover,
+.rx-app.warning-bar.preprod .rx-app-nav-item .item-link:focus {
+  background: #b34f4f;
+  border-top: 1px solid #ab2424;
+  border-bottom: 1px solid #ab2424;
+}
+.rx-app.warning-bar.preprod .rx-app-nav-item.active:not(.has-children) > .item-link {
+  border-color: transparent;
+  background: #ffc107;
+  color: #000000;
+}
+.rx-app.warning-bar.preprod .rx-app-nav-item.active:not(.has-children) > .item-link:after {
+  right: -6px;
+  border-left-color: #ffc107;
+}
+.rx-app.warning-bar.preprod .rx-app-nav-item.active.has-children > .item-link {
+  border-top-color: #f44336;
+}
+.rx-app.warning-bar.preprod .rx-app-nav-item.active.has-children > .item-link:before {
+  background: #f44336;
+}
+.rx-app.warning-bar.preprod .rx-app-nav-item.active.has-children > .item-link .item-content {
+  border-bottom: 1px solid #000000;
+}
+.rx-app.warning-bar.preprod .rx-app-nav-item .item-content {
+  background: #f44336;
+}
+.rx-app .rx-app-nav {
+  clear: both;
+}
+.rx-app .rx-app-nav .nav-section {
+  padding-left: 5px;
+}
+.rx-app .rx-app-nav .nav-section-title {
+  padding: 5px 15px;
+  font-size: 13px;
+}
+.rx-app .rx-app-nav .nav-section-all {
+  background: #2e7d32;
+  border-top: 1px solid #4caf51;
+}
+.rx-app .rx-app-nav .nav-section-highlight {
+  background: #3391ff;
+  border-top: 1px solid #66acff;
+}
+.rx-app .rx-app-nav .nav-section-no-title {
+  background: transparent;
+  padding: 0;
+  margin: 0;
+}
+.rx-app .rx-app-nav .nav-section-no-title > .nav-section-title {
+  display: none;
+}
+.rx-app .rx-app-nav-item {
+  clear: both;
+}
+.rx-app .rx-app-nav-item .item-link {
+  background: #212121;
+  border-top: 1px solid #333333;
+  border-bottom: 1px solid #000000;
+  padding: 10px 4em 10px 15px;
+  display: block;
+  color: #ffffff;
+  text-decoration: none;
+  transition: background 0.2s;
+  position: relative;
+}
+.rx-app .rx-app-nav-item .item-link:hover,
+.rx-app .rx-app-nav-item .item-link:focus {
+  background: #333333;
+  border-top: 1px solid #424242;
+  border-bottom: 1px solid #000000;
+}
+.rx-app .rx-app-nav-item .item-link:before,
+.rx-app .rx-app-nav-item .item-link:after {
+  content: "";
+  position: absolute;
+}
+.rx-app .rx-app-nav-item .item-link:after {
+  transition: all 0.2s;
+}
+.rx-app .rx-app-nav-item:not(.has-children) > .item-link:after {
+  right: 0;
+  top: 0;
+  border: transparent solid;
+  border-width: calc(5px + 1em) 6px;
+  border-right: 0;
+}
+.rx-app .rx-app-nav-item.active:not(.has-children) > .item-link {
+  border-color: transparent;
+  background: #0d74d1;
+}
+.rx-app .rx-app-nav-item.active:not(.has-children) > .item-link:after {
+  right: -6px;
+  border-left-color: #0d74d1;
+}
+.rx-app .rx-app-nav-item.has-children > .item-link:after {
+  font-size: 2em;
+  content: "\00bb";
+  -webkit-transform: rotate(90deg) scaleX(1);
+  transform: rotate(90deg) scaleX(1);
+  top: 50%;
+  line-height: 0;
+  right: 0.45em;
+}
+.rx-app .rx-app-nav-item.active.has-children > .item-link {
+  border-top-color: #424242;
+  border-bottom-width: 0;
+}
+.rx-app .rx-app-nav-item.active.has-children > .item-link:before {
+  width: 3em;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: #333333;
+}
+.rx-app .rx-app-nav-item.active.has-children > .item-link:after {
+  -webkit-transform: rotate(90deg) scaleX(-1);
+  transform: rotate(90deg) scaleX(-1);
+}
+.rx-app .rx-app-nav-item.active.has-children > .item-link .item-content {
+  border-bottom: 1px solid #000000;
+}
+.rx-app .rx-app-nav-item .item-content {
+  background: #333333;
+  padding: 10px;
+}
+.rx-app .rx-app-nav-item .item-directive:not(.ng-hide) + .item-children {
+  margin-top: 10px;
+}
+.rx-app .rx-app-nav-item .item-children {
+  padding: 10px;
+  background: #424242;
+}
+.rx-app .rx-app-nav-item .child-header {
+  margin-bottom: 1em;
+}
+.rx-app .rx-app-nav-item .current-search {
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #9e9e9e;
+  font-size: 10px;
+  display: block;
+}
+.rx-app .rx-app-nav-item .current-result {
+  color: #d8d8d8;
+  font-size: 18px;
+}
+.rx-app .rx-app-nav-item .field-select select {
+  background: #404140;
+  border: 1px solid #3a3a3a;
+}
+.rx-app .rx-app-nav-item .field-select:before {
+  background: #404140;
+}
+.rx-app .rx-app-nav-item .field-select:after {
+  right: 10px;
+  top: 5px;
+}
+.rx-app .rx-app-nav-item .account-users {
+  float: right;
+  width: 50%;
+}
+.rx-app .rx-app-nav-item .account-users .rxSelect {
+  background: #404140;
+  color: #d5d5d3;
+}
+.rx-app .rx-app-nav-item .account-users .rxSelect .fake-select {
+  border-color: #3a3a3a;
+}
+.rx-app .rx-app-nav-item .account-users .rxSelect .fake-select .select-trigger {
+  background: #404140;
+}
+.rx-app .rx-app-nav-level-2 .item-link {
+  background: #616161;
+  border-top-color: #757575;
+  border-bottom-color: #424242;
+  font-size: 13px;
+}
+.rx-app .rx-app-nav-level-2 .item-link:hover,
+.rx-app .rx-app-nav-level-2 .item-link:focus {
+  background: #424242;
+  border-top: 1px solid #757575;
+  border-bottom: 1px solid #424242;
+}
+.rx-app .rx-app-nav-level-2 .active:not(.has-children) > .item-link {
+  margin-right: -10px;
+}
+.rx-app .rx-app-nav-level-2 .active.has-children > .item-link {
+  background: #212121;
+  border-color: transparent;
+}
+.rx-app .rx-app-nav-level-2 .item-content {
+  background: #212121;
+  padding: 0 0 4px 4px;
+}
+.rx-app .rx-app-nav-level-2 .item-children {
+  padding: 0;
+}
+.rx-app .rx-app-nav-level-3 .item-link {
+  background: #333333;
+  border-color: transparent;
+  padding: 5px 15px;
+}
+.rx-app .rx-app-nav-level-3 .item-link:hover,
+.rx-app .rx-app-nav-level-3 .item-link:focus {
+  background: #424242;
+  border-color: transparent;
+}
+.rx-app .rx-app-nav-level-3 .rx-app-nav-item:first-child {
+  border-top: 3px solid #333333;
+}
+.rx-app .rx-app-nav-level-3 .rx-app-nav-item .item-link:after {
+  border-top-width: 1em;
+  border-bottom-width: 1em;
+}
+.rx-app .rx-app-search {
+  position: relative;
+  font-size: 14px;
+  color: #bdbdbd;
+}
+.rx-app .rx-app-search fieldset {
+  position: relative;
+}
+.rx-app .rx-app-search ::-webkit-input-placeholder {
+  font-style: italic;
+  text-overflow: ellipsis;
+}
+.rx-app .rx-app-search ::-moz-placeholder {
+  font-style: italic;
+  text-overflow: ellipsis;
+}
+.rx-app .rx-app-search :-ms-input-placeholder {
+  font-style: italic;
+  text-overflow: ellipsis;
+}
+.rx-app .rx-app-search .search-input {
+  box-sizing: border-box;
+  background: #424242;
+  border: 0;
+  width: 100%;
+  padding: 9px;
+  padding-right: 30px;
+  margin: 0;
+}
+.rx-app .rx-app-search .search-input.ng-invalid:focus {
+  outline-color: #d32f2f;
+}
+.rx-app .rx-app-search .search-action {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 100%;
+  background: url("images/magnifying-glass.png") no-repeat 50% 50%;
+  border: 0;
+  opacity: 0.2;
+}
+.rx-app .rx-app-search .search-option {
+  margin-top: 10px;
+}
+.rx-app .rx-app-help {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 300px;
+  background: #333333;
+  border-top: 1px solid #424242;
+  line-height: 3em;
+  padding-bottom: 1px;
+  font-size: 0.8em;
+  text-shadow: 1px 1px 0px rgba(26, 26, 26, 0.2);
+}
+.rx-app .rx-app-help .rx-feedback .modal-link {
+  background: url("images/icon-feedback.png") no-repeat 20px calc(50% + 1px);
+  vertical-align: middle;
+  color: #ffc107;
+  padding: 0 21px 0 41px;
+  float: right;
+}
+.rx-app .page-header {
+  background: linear-gradient(to bottom, #e7e7e7 0%, #d6d6d6 100%);
+  border-bottom: 1px solid #bbbbbb;
+}
+.rx-app .page-body {
+  padding: 20px 30px 50px;
+  clear: both;
+}
+.rx-app .page-body .page-titles {
+  float: left;
+}
+.rx-app .page-body .page-titles .page-title {
+  margin: 0;
+  position: relative;
+  word-break: break-all;
+}
+.rx-app .page-body .page-titles .page-subtitle {
+  margin-top: 0;
+  word-break: break-all;
+}
+.rx-app .page-body > .rx-notifications {
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  left: 300px;
+  right: 0px;
+  opacity: 0.95;
+}
+.rx-app .page-body .page-actions {
+  float: right;
+  margin: 0 0 2em 2em;
+}
+.warning-bar.rx-notifications {
+  position: fixed;
+  z-index: 3;
+  width: 100%;
+  margin-bottom: 0;
+}
+.status-tag.alpha-status,
+.status-tag.beta-status {
+  margin-left: 10px;
+  text-transform: uppercase;
+  font-size: 9px;
+  border: 1px solid;
+  padding: 1px 2px;
+  border-radius: 2px;
+  top: 9px;
+  color: #0d47a1;
+}
+/*
+ * rxOptionTable
+ */
+.rx-option-table {
+  width: auto;
+  min-width: 39em;
+}
+.rx-option-table td:not(.empty-message) {
+  padding: 0;
+}
+.rx-option-table .fillWrapper {
+  box-sizing: border-box;
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+.rx-option-table .fillWrapper label {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 5px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.rx-option-table .fillWrapper label .alignWrapper {
+  flex: 1 1 auto;
+}
+.rx-option-table .fillWrapper rx-help-text {
+  margin: 0;
+}
+.rx-option-table input[disabled] {
+  cursor: not-allowed;
+}
+.rx-option-table .disabled label {
+  cursor: default;
+  color: #9e9e9e;
+}
+.rx-option-table .option-table-input {
+  text-align: center;
+  line-height: 0;
+}
+.rx-option-table .current td {
+  color: #2e7d32;
+}
+.rx-option-table .selected td {
+  background: rgba(200, 230, 201, 0.3);
+  border-color: #c8e6c9;
+  border-style: double;
+}
+.rx-option-table thead tr th:first-child {
+  width: 16px;
+}
+/*
+ * rxAccountInfo
+ */
+.rx-account-info .info-panel {
+  overflow: hidden;
+}
+.rx-account-info .account-info-wrapper {
+  float: left;
+  margin-right: 5em;
+}
+.rx-account-info .account-info-label {
+  color: #757575;
+}
+.rx-account-info .account-info-data {
+  color: #757575;
+  font-size: 26px;
+}
+.rx-account-info .account-info-data img {
+  height: 35px;
+  margin-right: 5px;
+}
+/*
+ * rxAccountInfoBanner
+ */
+.rx-page .account-info-banner {
+  clear: both;
+  background: #ffffff;
+  width: 100%;
+  border-top: 1px solid;
+  border-color: #bdbdbd;
+}
+.rx-page ul.account-info-text {
+  padding: 5px 50px 5px 12px;
+  overflow: hidden;
+}
+.rx-page ul.account-info-text li {
+  float: left;
+  padding-right: 40px;
+}
+.rx-page ul.account-info-text li .label {
+  color: #757575;
+  font-size: 9px;
+}
+.rx-page ul.account-info-text li .account-data {
+  font-size: 18px;
+  font-weight: 300;
+}
+.rx-page ul.account-info-text li .account-data .rxSelect {
+  width: 140px;
+  font-size: 13px;
+}
+.rx-page ul.account-info-text li .msg-warn {
+  color: #d32f2f;
+}
+.rx-page ul.account-info-text li .msg-info {
+  color: #d14904;
+}
+.rx-page ul.account-info-text li.badges {
+  float: right;
+  padding: 0;
+}
+.rx-page ul.account-info-text li.badges .account-info-badge .tooltip {
+  width: 150px;
+}
+.rx-page ul.account-info-text li.badges .account-info-badge img {
+  width: 35px;
+  float: left;
+  margin: 5px 2px;
+}
+.rx-page ul.account-info-badges {
+  overflow: hidden;
+}
 .action-menu-container {
   position: relative;
   width: 15px;
@@ -714,6 +1297,66 @@ body:hover .visually-hidden button {
 }
 .action-list {
   float: right;
+}
+.rx-breadcrumbs {
+  overflow: hidden;
+  border-style: solid;
+  border-color: #eeeeee;
+  float: left;
+}
+.rx-breadcrumbs .breadcrumb {
+  float: left;
+}
+.rx-breadcrumbs .breadcrumb .breadcrumb-name {
+  padding: 0.6em 1em 0.6em 2em;
+  font-size: 0.9em;
+  display: block;
+  color: #424242;
+  position: relative;
+  text-decoration: none;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  background: #d8d8d8;
+}
+.rx-breadcrumbs .breadcrumb .breadcrumb-name.last {
+  background: transparent;
+}
+.rx-breadcrumbs .breadcrumb a::after,
+.rx-breadcrumbs .breadcrumb a::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  margin-top: -1.2em;
+  border: 0 solid transparent;
+  border-width: 1.2em 0 1.2em 9px;
+  right: -9px;
+}
+.rx-breadcrumbs .breadcrumb a::after {
+  /* TODO add in border gradient to match nav background */
+  border-left-color: #d8d8d8;
+  z-index: 2;
+}
+.rx-breadcrumbs .breadcrumb a::before {
+  border-left-color: #bdbdbd;
+  right: -10px;
+  z-index: 1;
+}
+.rx-breadcrumbs .breadcrumb .first {
+  padding-left: 1em;
+  background: #bdbdbd;
+}
+.rx-breadcrumbs .breadcrumb .first::after {
+  border-left-color: #bdbdbd;
+}
+.rx-breadcrumbs .breadcrumb a:hover {
+  background: #ffffff;
+}
+.rx-breadcrumbs .breadcrumb a:hover::after {
+  border-left-color: #ffffff;
+}
+.rx-breadcrumbs .status-tag.alpha-status,
+.rx-breadcrumbs .status-tag.beta-status {
+  margin-left: 6px;
+  position: static;
 }
 /*
  * rxButton
@@ -1803,10 +2446,6 @@ table.rxCopyTable rx-copy:hover .rxCopy__action {
     order: 1;
   }
 }
-/* DEPRECATED: Use standard 'transition' property instead. Will be removed in EncoreUI 4 */
-/* DEPRECATED: Use standard 'transition' property instead. Will be removed in EncoreUI 4 */
-/* DEPRECATED: Use standard 'transition' property instead. Will be removed in EncoreUI 4 */
-/* DEPRECATED: Use standard 'transition' property instead. Will be removed in EncoreUI 4 */
 /*
  * Layout
  */
@@ -5101,6 +5740,10 @@ rx-field-name .wrapper .required-symbol {
 [rx-form] rx-form-section rx-field rx-field-content rx-input rx-toggle-switch[disabled] + label {
   color: #9e9e9e;
 }
+[rx-form] rx-form-section rx-field rx-field-content rx-input .rx-option-table {
+  table-layout: fixed;
+  width: 100%;
+}
 [rx-form] rx-form-section rx-field rx-field-content rx-input .counted-input-wrapper {
   flex: 1 0;
 }
@@ -5425,7 +6068,6 @@ rx-search-box .rxSearchBox-wrapper .rxSearchBox-clear .rxSearchBox-clear-icon {
   border-radius: 0;
   min-width: 60px;
   height: 26px;
-  /* Inverse Theme - [ALPHA] */
 }
 .rxSelect.rx-disabled {
   color: #9e9e9e;
@@ -5510,54 +6152,6 @@ rx-search-box .rxSearchBox-wrapper .rxSearchBox-clear .rxSearchBox-clear-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.rx-inverse .rxSelect {
-  color: #bdbdbd;
-  background: #212121;
-}
-.rx-inverse .rxSelect.rx-disabled {
-  background: #212121;
-  color: #757575;
-}
-.rx-inverse .rxSelect select {
-  background: #212121;
-}
-.rx-inverse .rxSelect select:-moz-focusring {
-  color: transparent;
-  text-shadow: 0 0 0 #bdbdbd;
-}
-.rx-inverse .rxSelect select + .fake-select {
-  border-color: #bdbdbd;
-}
-.rx-inverse .rxSelect select.ng-invalid.ng-dirty + .fake-select {
-  border-color: #ec515f;
-}
-.rx-inverse .rxSelect select.ng-invalid.ng-dirty + .fake-select .select-trigger {
-  background: #212121;
-  color: #ec515f;
-}
-.rx-inverse .rxSelect select.ng-invalid.ng-dirty[disabled] + .fake-select {
-  border-color: #616161;
-}
-.rx-inverse .rxSelect select.ng-invalid.ng-dirty[disabled] + .fake-select .select-trigger {
-  background: #212121;
-  border-left-color: #616161;
-  color: #757575;
-}
-.rx-inverse .rxSelect select[disabled] + .fake-select {
-  border-color: #616161;
-}
-.rx-inverse .rxSelect select[disabled] + .fake-select .select-trigger {
-  background: #212121;
-  border-left-color: #616161;
-  color: #757575;
-}
-.rx-inverse .rxSelect .fake-select {
-  border-color: #bdbdbd;
-}
-.rx-inverse .rxSelect .fake-select .select-trigger {
-  background: #212121;
-  color: #bdbdbd;
 }
 rx-time-picker {
   box-sizing: border-box;
