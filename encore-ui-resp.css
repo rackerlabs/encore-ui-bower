@@ -5988,64 +5988,7 @@ rx-metadata rx-copy {
   margin-bottom: 1.5em;
 }
 .rx-notifications .rx-notification {
-  clear: both;
-  font-weight: 800;
-  font-size: 1.2em;
-  padding: 10px 50px;
   margin-bottom: 2px;
-  position: relative;
-  background: no-repeat 18px 50%;
-  background-size: 20px 20px;
-}
-.rx-notifications .rx-notification .button {
-  font-weight: normal;
-  margin-bottom: 0;
-}
-.rx-notifications .rx-notification a {
-  text-decoration: underline;
-}
-.rx-notifications .rx-notification.notification-success {
-  background-color: #c8e6c9;
-  background-image: url("images/green-checkmark-circled.svg");
-  color: #333333;
-}
-.rx-notifications .rx-notification.notification-success a {
-  color: #333333;
-}
-.rx-notifications .rx-notification.notification-info {
-  background-color: #bbdefb;
-  background-image: url("images/info-circled.svg");
-  color: #333333;
-}
-.rx-notifications .rx-notification.notification-info a {
-  color: #333333;
-}
-.rx-notifications .rx-notification.notification-warning {
-  background-color: #ffecb3;
-  background-image: url("images/warning-triangle.svg");
-  color: #333333;
-}
-.rx-notifications .rx-notification.notification-warning a {
-  color: #333333;
-}
-.rx-notifications .rx-notification.notification-error {
-  background-color: #d32f2f;
-  background-image: url("images/error-stop.svg");
-  color: #ffffff;
-}
-.rx-notifications .rx-notification.notification-error a {
-  color: #ffffff;
-}
-.rx-notifications .rx-notification.notification-loading {
-  background-image: none;
-}
-.rx-notifications .rx-notification.notification-loading .rx-spinner {
-  position: absolute;
-  left: 19px;
-  top: 50%;
-  margin-top: -9px;
-  border-bottom-color: #333333;
-  border-right-color: #333333;
 }
 .rx-notifications .notification-dismiss {
   position: absolute;
@@ -6053,18 +5996,57 @@ rx-metadata rx-copy {
   top: 0;
   height: 100%;
   padding: 0 15px;
-  content: "\00D7";
-  opacity: 0.75;
-  color: #333333;
+  color: inherit;
 }
 .rx-notifications .notification-dismiss:hover,
 .rx-notifications .notification-dismiss:focus {
-  opacity: 1;
   text-decoration: none;
 }
-.rx-notifications .notification-error .notification-dismiss {
-  opacity: 1;
+.rx-notification {
+  font-size: 1.2em;
+  padding: 10px;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+.rx-notification .button {
+  margin-bottom: 0;
+}
+.rx-notification a {
+  color: inherit;
+  font-weight: 800;
+  text-decoration: underline;
+}
+.rx-notification .notification-icon {
+  margin-right: 8px;
+  font-size: 1.3em;
+}
+.rx-notification.notification-success {
+  background-color: #2e7d32;
   color: #ffffff;
+}
+.rx-notification.notification-info {
+  background-color: #bbdefb;
+  color: #000000;
+}
+.rx-notification.notification-warning {
+  background-color: #ffd740;
+  color: #000000;
+}
+.rx-notification.notification-error {
+  background-color: #d32f2f;
+  color: #ffffff;
+}
+.rx-notification.notification-loading .notification-icon {
+  display: none;
+}
+.rx-notification.notification-loading [rx-spinner] {
+  margin-right: 6px;
+}
+.rx-notification.notification-loading .rx-spinner {
+  border-bottom-color: #333333;
+  border-right-color: #333333;
+  height: 16px;
+  width: 16px;
 }
 .animate-fade.ng-enter,
 .animate-fade.ng-leave {

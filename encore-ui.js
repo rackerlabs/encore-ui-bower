@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
  *
- * Version: 5.0.0-0 - 2017-03-29
+ * Version: 4.1.0-0 - 2017-04-26
  * License: Apache-2.0
  */
 angular.module('encore.ui', [
@@ -2604,7 +2604,12 @@ angular.module('encore.ui.elements')
  * @param {Expression=} [ngDisabled=false]
  * If the expression evaluates truthy, then the link for opening the modal will
  * be disabled.
- *
+ * @param {String=} [controller='rxModalCtrl']
+ * Identifies the controller name to use for modal functionality. At minimum, 
+ * the controller should implement `submit()` and `cancel()` for use by the modal 
+ * footer. Use this attribute if you need advanced behavior of the modal. 
+ * Currently used in wizard-like modals and multi-view modals.
+ * 
  * @example
  * <pre>
  * <rx-modal-action
@@ -2869,7 +2874,8 @@ angular.module('encore.ui.elements')
 .directive('rxNotification', ["rxNotify", function (rxNotify) {
     return {
         scope: {
-            type: '@'
+            type: '@', 
+            loading: '='   
         },
         transclude: true,
         restrict: 'E',
@@ -9872,12 +9878,12 @@ angular.module("templates/rxModalFooters.html", []).run(["$templateCache", funct
 
 angular.module("templates/rxNotification.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxNotification.html",
-    "<div class=\"rx-notifications\"><div class=\"rx-notification notification-{{type}}\"><span class=\"notification-text\" ng-transclude></span></div></div>");
+    "<div class=\"rx-notification notification-{{type}}\" ng-class=\"{'notification-loading': loading === true}\"><span class=\"notification-icon\" ng-switch=\"type\"><i class=\"fa fa-exclamation-circle\" ng-switch-when=\"error\"></i> <i class=\"fa fa-exclamation-triangle\" ng-switch-when=\"warning\"></i> <i class=\"fa fa-info-circle\" ng-switch-when=\"info\"></i> <i class=\"fa fa-check-circle\" ng-switch-when=\"success\"></i></span> <span class=\"notification-text\" ng-transclude></span></div>");
 }]);
 
 angular.module("templates/rxNotifications.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/rxNotifications.html",
-    "<div class=\"rx-notifications\" ng-show=\"messages.length > 0\"><div ng-repeat=\"message in messages\" class=\"rx-notification animate-fade notification-{{message.type}}\" ng-class=\"{'notification-loading': message.loading}\" rx-spinner toggle=\"message.loading\" ng-init=\"loading = message.loading\"><span class=\"notification-text\" ng-bind-html=\"message.text\"></span> <button ng-click=\"dismiss(message)\" class=\"notification-dismiss btn-link\" ng-if=\"!message.loading\">&times; <span class=\"visually-hidden\">Dismiss Message</span></button></div></div>");
+    "<div class=\"rx-notifications\" ng-show=\"messages.length > 0\"><rx-notification ng-init=\"loading = message.loading\" ng-repeat=\"message in messages\" type=\"{{message.type}}\" loading=\"message.loading\" class=\"animate-fade\"><span rx-spinner toggle=\"message.loading\"></span> <span class=\"notification-text\" ng-bind-html=\"message.text\"></span> <button ng-click=\"dismiss(message)\" class=\"notification-dismiss btn-link\" ng-if=\"!message.loading\">&times; <span class=\"visually-hidden\">Dismiss Message</span></button></rx-notification></div>");
 }]);
 
 angular.module("templates/rxProgressbar.html", []).run(["$templateCache", function($templateCache) {
