@@ -5990,21 +5990,9 @@ rx-metadata rx-copy {
 .rx-notifications .rx-notification {
   margin-bottom: 2px;
 }
-.rx-notifications .notification-dismiss {
-  position: absolute;
-  right: 0;
-  top: 0;
-  height: 100%;
-  padding: 0 15px;
-  color: inherit;
-}
-.rx-notifications .notification-dismiss:hover,
-.rx-notifications .notification-dismiss:focus {
-  text-decoration: none;
-}
 .rx-notification {
+  display: flex;
   font-size: 1.2em;
-  padding: 10px;
   margin-bottom: 1.5rem;
   position: relative;
 }
@@ -6016,9 +6004,49 @@ rx-metadata rx-copy {
   font-weight: 800;
   text-decoration: underline;
 }
+.rx-notification .notification-text {
+  align-items: center;
+  display: flex;
+  flex-grow: 1;
+  order: 2;
+  padding: 10px;
+}
 .rx-notification .notification-icon {
-  margin-right: 8px;
+  align-items: center;
+  color: inherit;
+  display: flex;
+  flex-basis: 40px;
+  flex-shrink: 0;
   font-size: 1.3em;
+  justify-content: center;
+  order: 1;
+  width: 40px;
+}
+.rx-notification .notification-icon ~ .notification-text {
+  padding-left: 0;
+}
+.rx-notification .notification-dismiss {
+  align-items: center;
+  color: inherit;
+  display: flex;
+  flex-basis: 40px;
+  flex-shrink: 0;
+  justify-content: center;
+  order: 3;
+  width: 40px;
+}
+.rx-notification .notification-dismiss:hover,
+.rx-notification .notification-dismiss:focus {
+  text-decoration: none;
+}
+.rx-notification .notification-dismiss ~ .notification-text {
+  padding-right: 0;
+}
+.rx-notification .rx-spinner {
+  border-bottom-color: #333333;
+  border-right-color: #333333;
+  height: 16px;
+  width: 16px;
 }
 .rx-notification.notification-success {
   background-color: #2e7d32;
@@ -6035,18 +6063,6 @@ rx-metadata rx-copy {
 .rx-notification.notification-error {
   background-color: #d32f2f;
   color: #ffffff;
-}
-.rx-notification.notification-loading .notification-icon {
-  display: none;
-}
-.rx-notification.notification-loading [rx-spinner] {
-  margin-right: 6px;
-}
-.rx-notification.notification-loading .rx-spinner {
-  border-bottom-color: #333333;
-  border-right-color: #333333;
-  height: 16px;
-  width: 16px;
 }
 .animate-fade.ng-enter,
 .animate-fade.ng-leave {
