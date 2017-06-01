@@ -2,7 +2,7 @@
  * EncoreUI
  * https://github.com/rackerlabs/encore-ui
  *
- * Version: 4.1.1 - 2017-05-08
+ * Version: 4.2.0 - 2017-06-01
  * License: Apache-2.0
  */
 angular.module('encore.ui', [
@@ -1521,7 +1521,9 @@ angular.module('encore.ui.elements')
  */
 .directive('rxInlineError', function () {
     return {
-        restrict: 'E'
+        restrict: 'E',
+        transclude: true,
+        template: '<i class="fa fa-exclamation-circle"></i><span ng-transclude></span>'
     };
 });
 
